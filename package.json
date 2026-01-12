@@ -5,11 +5,11 @@
   "author": "MOTIF UI | Turksat e-Government Application Development",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/motif-ui/react-ui.git"
+    "url": "git+https://github.com/motif-ui/motifreact.git"
   },
-  "homepage": "https://github.com/motif-ui/react-ui#readme",
+  "homepage": "https://github.com/motif-ui/motifreact#readme",
   "bugs": {
-    "url": "https://github.com/motif-ui/react-ui/issues"
+    "url": "https://github.com/motif-ui/motifreact/issues"
   },
   "license": "ISC",
   "main": "index.js",
