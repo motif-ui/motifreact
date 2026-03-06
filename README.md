@@ -106,7 +106,7 @@ This will generate ESM and CommonJS builds in the `/dist` folder.
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
+We welcome contributions! Please see our [Contributing Guidelines](.github/CONTRIBUTING.md) for details on:
 
 - Branch naming conventions
 - Commit message format
