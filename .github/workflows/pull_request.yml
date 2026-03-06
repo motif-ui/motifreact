@@ -31,5 +31,7 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
+          buildScriptName: 'build:storybook'
+          storybookBuildDir: 'storybook-static/'
           zip: true
           skip: "dependabot/**"
