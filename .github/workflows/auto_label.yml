@@ -1,0 +1,38 @@
+name: Auto Label
+
+on:
+  issues:
+    types: [opened, reopened]
+  pull_request:
+    types: [opened, reopened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  auto_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply triage label
+        uses: actions/github-script@v7
+        env:
+          CORE_TEAM: ${{ vars.CORE_TEAM }}
+        with:
+          script: |
+            const coreTeam = (process.env.CORE_TEAM || '').split(',').map(n => n.trim());
+            const isActorInternal = coreTeam.includes(context.actor);
+
+            const issueNumber =
+              context.eventName === 'pull_request'
+                ? context.payload.pull_request.number
+                : context.payload.issue.number;
+
+            const triageLabel = isActorInternal ? 'internal' : 'needs triage';
+            core.info(`Applying triage label: ${triageLabel}`);
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: [triageLabel],
+            });

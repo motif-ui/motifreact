@@ -1,0 +1,67 @@
+@use "@styles" as *;
+
+// name, gap, padding
+$sizes: (("xs", "4x", "8x"), ("sm", "6x", "12x"), ("md", "8x", "16x"), ("lg", "10x", "20x"));
+
+.Root {
+  display: flex;
+  flex-direction: column;
+
+  &.inFormField {
+    min-width: var(--base-sizing-256x);
+  }
+
+  .dragArea {
+    @include transition(border-color);
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    border-radius: var(--base-radius-sm);
+    background-color: var(--theme-color-surface-base-base2);
+    box-sizing: border-box;
+
+    .infoText {
+      color: var(--base-colors-gray-gray-500);
+      @include font("body", "sm");
+    }
+
+    &:hover,
+    &.onDrag {
+      &:not(.disabled) {
+        cursor: pointer;
+        border-style: dashed;
+        border-color: var(--theme-color-text-primary-default);
+      }
+    }
+
+    &.flatBottom {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &.error {
+      border-color: var(--theme-color-surface-danger-default);
+    }
+
+    &.success {
+      border-color: var(--theme-color-border-success-default);
+    }
+
+    &.disabled {
+      border-color: var(--theme-color-border-light-disabled);
+      .infoText {
+        color: var(--theme-color-text-base-disabled-light);
+      }
+    }
+  }
+}
+
+@each $name, $gap, $padding in $sizes {
+  .#{$name} {
+    .dragArea {
+      padding: var(--base-sizing-#{$padding});
+      gap: var(--base-sizing-#{$gap});
+    }
+  }
+}

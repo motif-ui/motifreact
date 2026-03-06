@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Badge should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root primary top-right"
+  >
+    <button />
+  </div>
+</div>
+`;

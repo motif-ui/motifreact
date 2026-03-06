@@ -1,0 +1,120 @@
+@use "@styles" as *;
+
+//size, horizontalPadding, verticalPadding, textSize, pointerSize
+$sizes: (
+  ("xs", "4x", "2x", "xxs", "6x"),
+  ("sm", "8x", "4x", "xs", "8x"),
+  ("md", "12x", "6x", "sm", "10x"),
+  ("lg", "16x", "8x", "md", "12x")
+);
+
+//position, flexDirection, alignArrow, rotation, transformOrigin, trianglePosition
+$positions: (
+  ("top", column-reverse, center, 180deg, bottom left, bottom),
+  ("bottom", column, center, 0deg, top left, top),
+  ("right", row, center, -90deg, top left, left),
+  ("left", row-reverse, center, 90deg, top right, right),
+  ("topRight", column-reverse, flex-end, 180deg, right bottom, bottom),
+  ("topLeft", column-reverse, flex-start, 180deg, left bottom, bottom),
+  ("bottomRight", column, flex-end, 0deg, right top, top),
+  ("bottomLeft", column, flex-start, 0deg, left top, top)
+);
+
+.Root {
+  @include pop-default(1);
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  width: max-content;
+  text-wrap: auto;
+  will-change: transform;
+  box-sizing: border-box;
+
+  &.visible {
+    @include pop-in;
+  }
+
+  .triangle {
+    box-sizing: border-box;
+  }
+
+  .textWrapper {
+    border-radius: var(--theme-sizing-radius-default);
+    display: flex;
+    flex-direction: column;
+
+    .title,
+    .text {
+      overflow-wrap: break-word;
+      white-space: pre-line;
+    }
+  }
+
+  @each $size, $paddingH, $paddingV, $textSize, $pointerSize in $sizes {
+    &.#{$size} {
+      .textWrapper {
+        padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+
+        .title {
+          @include font("base", $textSize, "600");
+        }
+        .text {
+          @include font("body", $textSize);
+        }
+      }
+
+      .triangle {
+        width: var(--base-sizing-#{$pointerSize});
+        height: var(--base-sizing-#{$pointerSize});
+        border-left: calc(var(--base-sizing-#{$pointerSize}) / 2) solid transparent;
+        border-right: calc(var(--base-sizing-#{$pointerSize}) / 2) solid transparent;
+        border-bottom: var(--base-sizing-#{$pointerSize}) solid var(--theme-color-surface-base-base3);
+        margin: 0 var(--base-sizing-#{$pointerSize});
+      }
+    }
+  }
+
+  @each $position, $flexDir, $alignArrow, $rotate, $transformOrigin, $trianglePos in $positions {
+    &.#{$position} {
+      flex-direction: $flexDir;
+      transform-origin: $transformOrigin;
+
+      .triangle {
+        align-self: $alignArrow;
+        transform: rotate($rotate);
+        @if ($trianglePos != "top" and $trianglePos != "bottom") {
+          margin: 0;
+        }
+      }
+    }
+  }
+  &.light {
+    .textWrapper {
+      background-color: var(--theme-color-surface-base-base3);
+      .title {
+        color: var(--theme-color-text-base-title);
+      }
+      .text {
+        color: var(--theme-color-text-base-subtitle);
+      }
+    }
+    .triangle {
+      border-bottom-color: var(--theme-color-surface-base-base3);
+    }
+  }
+
+  &.dark {
+    .textWrapper {
+      background-color: var(--theme-color-text-secondary-active);
+      .title {
+        color: var(--theme-color-semantic-base-white);
+      }
+      .text {
+        color: var(--theme-color-text-base-text-light);
+      }
+    }
+    .triangle {
+      border-bottom-color: var(--theme-color-text-secondary-active);
+    }
+  }
+}

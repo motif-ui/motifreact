@@ -1,0 +1,79 @@
+@use "@styles" as *;
+
+$sizes: (("sm", "1x", "6x"), ("md", "2x", "12x"), ("lg", "4x", "18x"));
+
+.Root {
+  &::before {
+    box-sizing: border-box;
+    border-color: var(--theme-color-surface-base-base6);
+    position: absolute;
+    content: "";
+  }
+
+  &.horizontal {
+    min-width: 100%;
+    position: relative;
+    &::before {
+      width: 100%;
+    }
+    &.solid::before {
+      border-top-style: solid;
+    }
+    &.dashed::before {
+      border-top-style: dashed;
+    }
+    &.dotted::before {
+      border-top-style: dotted;
+    }
+  }
+
+  &.vertical {
+    min-height: 100%;
+    position: relative;
+    justify-content: center;
+    &::before {
+      height: 100%;
+    }
+    &.solid::before {
+      border-left-style: solid;
+    }
+    &.dashed::before {
+      border-left-style: dashed;
+    }
+    &.dotted::before {
+      border-left-style: dotted;
+    }
+  }
+
+  @each $size, $thickness, $gap in $sizes {
+    $alignPosition: calc(var(--base-sizing-#{$thickness}) / 2);
+    $borderWidth: var(--base-sizing-#{$thickness});
+
+    &.#{$size} {
+      &.horizontal {
+        height: $borderWidth;
+        &::before {
+          border-top-width: $borderWidth;
+          top: calc(50% - $alignPosition);
+        }
+      }
+      &.vertical {
+        width: $borderWidth;
+        &::before {
+          border-left-width: $borderWidth;
+          left: calc(50% - $alignPosition);
+        }
+      }
+    }
+
+    &.gap-#{$size} {
+      &.horizontal {
+        margin-block: var(--base-sizing-#{$gap});
+      }
+
+      &.vertical {
+        margin-inline: var(--base-sizing-#{$gap});
+      }
+    }
+  }
+}

@@ -1,0 +1,104 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - name: Generate bot app token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.RELEASER_ID }}
+          private-key: ${{ secrets.RELEASER_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ steps.generate_token.outputs.token }}
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-node-deps
+
+      - name: Get bot user ID
+        id: bot-user-id
+        run: |
+          echo "user-id=$(gh api "/users/${{ steps.generate_token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Bump package.json version
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          VERSION="${TAG#v}"
+          npm version "$VERSION" --no-git-tag-version
+        env:
+          HUSKY: 0
+
+      - name: Update CHANGELOG.md
+        env:
+          RELEASE_BODY: ${{ github.event.release.body }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          REPO_URL="https://github.com/${REPO}"
+
+          # Transform (#NUMBER) → linked PR reference
+          BODY=$(echo "${RELEASE_BODY}" | sed -E "s|\(#([0-9]+)\)|([#\1](${REPO_URL}/pull/\1))|g")
+          # Transform @username → linked GitHub profile
+          BODY=$(echo "${BODY}" | sed -E "s|@([a-zA-Z0-9_-]+)|[@\1](https://github.com/\1)|g")
+
+          # Find previous tag for full changelog link
+          PREV_TAG=$(git tag --sort=-version:refname | grep -E '^v[0-9]' | sed -n '2p')
+
+          {
+            echo "# [${RELEASE_TAG}](${REPO_URL}/releases/tag/${RELEASE_TAG}) (${DATE})"
+            echo ""
+            echo "${BODY}"
+            if [ -n "${PREV_TAG}" ]; then
+              echo ""
+              echo "[Full Changelog](${REPO_URL}/compare/${PREV_TAG}...${RELEASE_TAG})"
+            fi
+            echo ""
+          } > /tmp/entry.md
+
+          if [ -f CHANGELOG.md ]; then
+            cat /tmp/entry.md CHANGELOG.md > /tmp/changelog.md
+            mv /tmp/changelog.md CHANGELOG.md
+          else
+            mv /tmp/entry.md CHANGELOG.md
+          fi
+
+      - name: Commit version bump
+        run: |
+          git config user.name "${{ steps.generate_token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.bot-user-id.outputs.user-id }}+${{ steps.generate_token.outputs.app-slug }}[bot]@users.noreply.github.com"
+          git add package.json package-lock.json CHANGELOG.md
+          git commit -m "chore(release): ${{ github.event.release.tag_name }} [skip ci]"
+          git push
+        env:
+          HUSKY: 0
+
+      - name: Build
+        run: npm run build:lib
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+
+      - name: Deploy Storybook
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          preCommands: npm run build:storybook
+          command: pages deploy ./storybook-static --project-name=motif-storybook

@@ -1,0 +1,408 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as DesignTokenNamingDiagram from "../../components/DesignTokenNamingDiagram/DesignTokenNamingDiagram.stories.tsx";
+import TokenTransformation from "../../components/TokenTransformation/TokenTransformation.tsx";
+import styles from "./designTokens.module.scss";
+
+<Meta title="Design/Design Tokens" />
+
+# Design Tokens
+
+The Motif UI is built using **Design Tokens** - basically a naming convention of colors, typography, spacing, and other
+design elements. Values defined by designers in Figma are reflected easily to the code.
+
+## What Are Design Tokens?
+
+Design tokens are abstract design values (like colors or spacing) that act as the source of truth for a design system.
+They are not CSS variables themselves, but can be transformed into CSS variables for use in web applications. Design
+tokens enable:
+
+- **Design Consistency**: The same design values are applied uniformly across the entire application.
+- **Theme Management**: Different themes can be easily applied.
+- **Figma-to-Code Alignment**: Design changes in design tools flow into code reliably through token synchronization.
+- **Simplified Maintenance**: All design values are centralized, making changes easier, safer, and more scalable.
+
+## Naming Convention
+
+Design tokens follow a structured naming pattern to ensure consistency and clarity. These patterns are generally similar
+across design systems, though they may vary slightly from library to library. Below is the naming convention used in
+Motif UI:
+
+<div style={{ minWidth: "320px", overflowX: "auto" }}>
+  <Canvas of={DesignTokenNamingDiagram.Primary} layout="fullscreen" className="no-border" sourceState="none" />
+</div>
+
+Each token branches itself after each section. While color tokens have their own sub-sections, typography tokens have theirs, and so on. These possible breakdowns, samples and other related documentation are stated below.
+
+```
+--[NAMESPACE]-[TYPE]-[CATEGORY]-[FAMILY]-[STATE]
+      |          |       │          │        │
+      |          |       │          │        └─ default, hover, active, 500, ...
+      |          |       │          └─ primary, secondary, success, warning, ...
+      |          |       └─ text, surface, border, ...
+      |          └─ color, typography, sizing, ...
+      └─ theme, base, typograpy
+```
+
+**Some samples from available design tokens are stated below:**
+
+- `theme.color.semantic.primary.primary-500`
+- `theme.color.text.base.title`
+- `typography.heading.heading1.font.size`
+- `theme.elevation.elevation2.blur`
+- `base.sizing.16x`
+- `theme.sizing.radius.default`
+
+## Tokens to CSS Variables
+
+Design tokens are great for design tools like Figma, but they must be converted into platform-specific formats to be
+used in code. For the web, the most common and widely accepted format is CSS variables, and Motif UI follows this approach.
+
+In Motif UI, raw design tokens are transformed into CSS variables whose names follow standard CSS variable naming
+conventions. The variable names closely resemble the original token names, with only minor syntax adjustments:
+
+<TokenTransformation 
+  tokenName="theme.color.semantic.primary.primary-500"
+  cssVariable="--theme-color-semantic-primary-primary-500"
+/>
+<br />
+
+<TokenTransformation 
+  tokenName="typography.body.md.font.size"
+  cssVariable="--typography-body-md-font-size"
+/>
+
+## Transformation
+
+The process called **transformation** is basically the journey of the design tokens, from the design into the usable
+code. There are a lot way of doing this. Our way and the tools we use are stated below:
+
+- **Figma:** The source of truth. Where all of our design lays and where the tokens are kept
+- **Style Dictionary:** A very popular tool to use converting design tokens to work in any environment.
+- **CSS Variables:** The way of styling the elements, what the design tokens turn into.
+
+### 1. Define and Set
+
+This is the step where the designers create their fancy designs in Figma and tie those designs values to design tokens.
+
+### 2. Export
+
+The tokens are exported from Figma as a JSON file which will be the input for the next step.
+
+```json
+// design-tokens.tokens.json
+{
+  "theme": {
+    "color": {
+      "semantic": {
+        "primary": {
+          "default": {
+            "value": "{base.colors.purple.purple-500}", "type": "color"
+          }
+        }
+      }
+    }
+  },
+  "base": {
+    "colors": {
+      "purple": {
+        "purple-500": {
+          "value": "#8b5cf6", "type": "color"
+        }
+      }
+    }
+  }
+}
+```
+
+### 3. Convert
+
+This is the phase where Style Dictionary jumps in. The exported JSON file is converted into css variables.
+
+```css
+--base-colors-purple-purple-500: #8b5cf6;
+--theme-color-semantic-primary-default: var(--base-colors-purple-purple-500);
+--typography-body-md-font-size: 1rem;
+--base-sizing-16x: 1rem;
+```
+
+### 4. Use
+
+Those processes create the necessary css variables. Those variables are used to style Motif UI components. When a theme
+file is created/imported with those variables, they are ready to use in the components. A theme file is a combination of
+css variables and some necessary styling. Detailed steps for the theme creation can be found in
+
+<a href="../?path=/docs/customization-theming--docs">**Customization/Theming**</a> section.
+
+##### Theme File
+
+```css
+/* Sample theme css file: sample-theme.css */
+:root {
+  --base-colors-purple-purple-500: #8b5cf6;
+  --theme-color-semantic-primary-default: var(--base-colors-purple-purple-500);
+  --typography-body-md-font-size: 1rem;
+  --base-sizing-16x: 1rem;
+}
+
+* { /* global styles */ }
+body { /* body styles */ }
+```
+
+##### Importing theme file
+
+```tsx
+// In your app entry point
+import "path/to/sample-theme.css";
+```
+
+##### Using variables
+
+```css
+.button {
+  /* Using the CSS variable */
+  background-color: var(--theme-color-semantic-primary-default);
+  padding: var(--base-sizing-12x) var(--base-sizing-16x);
+  border-radius: var(--theme-sizing-radius-default);
+}
+```
+
+## Tokens
+
+### 🎨 Colors
+
+Color tokens are used hierarchically. **Base colors** are independent of any theming changes. **Semantic colors** are
+derived from base colors, and they change with the theme. Highest level colors are the ones that are used by the
+components and derived from the semantic colors.
+
+**--base-colors-**<i className={styles.tokenFamily}>[color]</i>**-**<i className={styles.tokenState}>[color-tone]</i>
+
+<i className={styles.tokenFamily}>color:</i> `white` `black` `bluetheme` `gray` `lightgray` `darkgray` `purple` `blue` `red` `green` `yellow` `redflag`
+<br />
+<i className={styles.tokenState}>color-tone:</i> `50` `100` `200` `300` `400` `500` `600` `700` `800` `900` `overlay10` `overlay15` `overlay20` `overlay25`
+`overlay40` `overlay50` `overlay75` `overlay90`
+
+**--theme-color-semantic-**<i className={styles.tokenFamily}>[variant]</i>**-**<i className={styles.tokenState}>[variant-tone]</i>
+
+<i className={styles.tokenFamily}>variant:</i> `primary` `secondary` `success` `warning` `danger` `info` `neutral` `accent`
+<br />
+<i className={styles.tokenState}>variant-tone:</i> `default` `50` `100` `200` `300` `400` `500` `600` `700` `800` `900`
+
+**--theme-color-**<i className={styles.tokenCategory}>[type]</i>**-**<i className={styles.tokenFamily}>[variant]</i>**-**<i className={styles.tokenState}>[state]</i>
+
+<i className={styles.tokenCategory}>type:</i> `border` `surface` `text`
+<br />
+<i className={styles.tokenFamily}>variant:</i> `primary` `secondary` `success` `warning` `danger` `info` `neutral` `accent`
+<br />
+<i className={styles.tokenState}>state:</i> `default` `hover` `active` `disabled`
+
+```css
+--base-colors-purple-purple-100: #d1c6e1ff;
+--theme-color-semantic-danger-danger-900: #5d0000ff;
+--theme-color-border-danger-active: #9d0000ff;
+--theme-color-surface-info-hover: #3178beff;
+```
+
+### 📝 Typography
+
+Typography tokens control font size, weight, line height, and spacing. Use these to ensure consistent text rendering.
+
+#### Headings
+
+Bold text for titles and headers:
+Heading tokens define the font size, weight, and spacing for all major headings, ensuring a clear visual hierarchy and consistent typography across the UI.
+
+**--typography-heading-**<i className={styles.tokenFamily}>[size]</i>**-**<i className={styles.tokenState}>[property]</i>
+
+<i className={styles.tokenFamily}>size:</i> `heading1` `heading2` `heading3` `heading4` `heading5` `heading6`
+<br />
+<i className={styles.tokenState}>property:</i> `font-size` `font-weight` `line-height` `letter-spacing`
+
+```css
+--typography-heading-heading3-font-size: 1.75rem
+--typography-heading-heading3-font-weight: 700
+--typography-heading-heading3-line-height: 2.25rem
+```
+
+#### Body Text
+
+Regular content text:
+Body tokens define the font size, weight, and spacing for paragraphs and standard text, ensuring readability and consistency throughout the UI.
+
+**--typography-body-**<i className={styles.tokenFamily}>[size]</i>**-**<i className={styles.tokenState}>[property]</i>
+
+<i className={styles.tokenFamily}>size:</i> `xxs` `xs` `sm` `md` `lg`
+<br />
+<i className={styles.tokenState}>property:</i> `font-size` `font-weight` `line-height` `letter-spacing`
+
+```css
+--typography-body-md-font-size: 1rem
+--typography-body-md-font-weight: 400
+--typography-body-md-line-height: 1.375rem
+```
+
+#### Display Text
+
+Large, attention-grabbing text:
+Display tokens are used for prominent, eye-catching headings or numbers, providing strong visual emphasis in landing pages, hero sections, or key metrics.
+
+**--typography-display-**<i className={styles.tokenFamily}>[size]</i>**-**<i className={styles.tokenState}>[property]</i>
+
+<i className={styles.tokenFamily}>size:</i> `sm` `md` `lg`
+<br />
+<i className={styles.tokenState}>property:</i> `font-size` `font-weight` `line-height` `letter-spacing`
+
+```css
+--typography-display-lg-font-size: 3.5rem
+--typography-display-lg-font-weight: 400
+--typography-display-lg-line-height: 4rem
+```
+
+### 📏 Spacing
+
+Consistent spacing scale for margins, padding, and gaps. These values are multiples of a base unit defined by your theme.
+
+**--base-sizing-**<i className={styles.tokenState}>[scale]</i>
+
+<i className={styles.tokenState}>scale:</i> `no-space` `1x` `2x` `4x` `6x` `8x` `10x` `12x` `14x` `16x` `18x` `20x` `24x` `28x` `32x` `36x` `40x` `48x` `56x` `64x` `80x` `96x` `128x` `160x` `190x` `256x` `320x` `512x`
+
+```css
+--base-sizing-8x: 0.5rem
+--base-sizing-16x: 1rem
+--base-sizing-24x: 1.5rem
+--base-sizing-48x: 3rem
+```
+
+### 🎯 Elevation
+
+Box shadow tokens that create visual depth and hierarchy. Each elevation type has multiple properties (x, y, blur, spread, color).
+
+**--theme-elevation-**<i className={styles.tokenFamily}>[type]</i>**-**<i className={styles.tokenState}>[property]</i>
+
+<i className={styles.tokenFamily}>type:</i> `elevation1` `elevation2` `elevation3` `elevation4` `elevation5` `elevation6` `focusring` `focusring-white`
+<br />
+<i className={styles.tokenState}>property:</i> `x` `y` `blur` `spread` `color`
+
+```css
+--theme-elevation-elevation2-x: 0
+--theme-elevation-elevation2-y: 0.25rem
+--theme-elevation-elevation2-blur: 0.375rem
+--theme-elevation-elevation2-spread: 0.125rem
+```
+
+#### Elevation Types
+
+- **elevation[1-6]**: Increasing depth from 1 (least shadow) to 6 (most shadow), used for cards, dialogs, modals, and other layered UI elements.
+- **focusring**: Used for keyboard focus indicators.
+- **focusring-white**: Used for focus indicators on dark backgrounds.
+
+### 🔲 Breakpoints
+
+Responsive design tokens for breakpoints, container widths, and grid gutters. **Note:** These values are theme-specific.
+
+#### Breakpoints
+
+Media query values:
+Breakpoint values used to define responsive design thresholds. These tokens help adapt layouts and components to different screen sizes.
+
+**--theme-grid-breakpoint-**<i className={styles.tokenFamily}>[size]</i>
+
+<i className={styles.tokenFamily}>size:</i> `sm` `md` `lg` `xl`
+
+```css
+--theme-grid-breakpoint-sm: 36rem
+--theme-grid-breakpoint-md: 48rem
+--theme-grid-breakpoint-lg: 62rem
+--theme-grid-breakpoint-xl: 75rem
+```
+
+#### Container Widths
+
+Library-level thresholds that define the maximum width of containers. These values are used to resize components and layouts, ensuring a consistent and responsive design across different screen sizes.
+
+**--theme-grid-container-**<i className={styles.tokenFamily}>[size]</i>
+
+<i className={styles.tokenFamily}>size:</i> `sm` `md` `lg` `xl`
+
+```css
+--theme-grid-container-sm: 33.75rem
+--theme-grid-container-md: 45rem
+--theme-grid-container-lg: 60rem
+--theme-grid-container-xl: 71.25rem
+```
+
+#### Grid Gutter
+
+Spacing between grid columns:
+Defines the horizontal space (gutter) between columns in a grid layout, ensuring consistent spacing in responsive designs.
+
+```css
+--theme-grid-gutter-gutter: 1.5rem
+```
+
+### 🔘 Border Radius
+
+Border radius tokens for rounded corners. **Note:** These values are theme-specific.
+
+**--theme-sizing-radius-**<i className={styles.tokenState}>[style]</i>
+
+<i className={styles.tokenState}>style:</i> `default` `round`
+
+```css
+--theme-sizing-radius-default: 0.25rem    /* Standard rounded corners */
+--theme-sizing-radius-round: 62.4375rem   /* Fully rounded (pills, circles) */
+```
+
+### 🌫️ Opacity
+
+Opacity tokens for transparency levels. **Note:** These values are theme-specific.
+
+**--theme-opacity-alpha-**<i className={styles.tokenState}>[level]</i>
+
+<i className={styles.tokenState}>level:</i> `0` `25` `50` `75` `100`
+
+```css
+--theme-opacity-alpha-0: 0
+--theme-opacity-alpha-25: 1.5625rem
+--theme-opacity-alpha-50: 3.125rem
+--theme-opacity-alpha-100: 6.25rem
+```
+
+## Common Patterns
+
+Here are some frequently used token combinations for common UI elements:
+
+```css
+/* Button styling */
+.button {
+  background-color: var(--theme-color-semantic-primary-default);
+  color: var(--theme-color-text-primary-default);
+  padding: var(--base-sizing-12x) var(--base-sizing-16x);
+  border-radius: var(--theme-sizing-radius-default);
+  font-size: var(--typography-body-md-font-size);
+}
+
+/* Card styling */
+.card {
+  padding: var(--base-sizing-24x);
+  border-radius: var(--theme-sizing-radius-default);
+  box-shadow:
+    var(--theme-elevation-elevation2-x)
+    var(--theme-elevation-elevation2-y)
+    var(--theme-elevation-elevation2-blur)
+    var(--theme-elevation-elevation2-spread)
+    var(--theme-elevation-elevation2-color);
+}
+
+/* Responsive layout */
+.container {
+  max-width: var(--theme-grid-container-lg);
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-24x);
+}
+
+@media (min-width: 72px) {
+  .container {
+    padding: var(--base-sizing-32x);
+  }
+}
+```

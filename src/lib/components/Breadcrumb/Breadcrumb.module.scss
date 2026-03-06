@@ -1,0 +1,45 @@
+@use "@styles" as *;
+
+.Root {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--base-sizing-8x) var(--base-sizing-8x) var(--base-sizing-8x) 0;
+    @include font;
+
+    .collapsed {
+      color: var(--theme-color-text-base-disabled);
+    }
+
+    .label {
+      color: var(--theme-color-text-base-title);
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--theme-color-text-primary-default);
+    }
+
+    a:hover {
+      color: var(--theme-color-text-primary-active);
+    }
+
+    .right-icon {
+      margin-left: var(--base-sizing-8x);
+      color: var(--theme-color-text-base-caption-light);
+      font-size: var(--base-sizing-14x);
+    }
+  }
+
+  .homepage-icon {
+    color: var(--theme-color-text-primary-default);
+    margin-right: var(--base-sizing-8x);
+  }
+}

@@ -1,0 +1,45 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - title: '⚠️ Breaking Changes'
+    labels:
+      - 'release:major'
+  - title: '🚀 Features'
+    labels:
+      - 'release:minor'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'release:patch'
+
+autolabeler:
+  - label: 'release:major'
+    title:
+      - '/^[a-z]+(\([a-z0-9\/_-]+\))?!: .+/'
+  - label: 'release:minor'
+    title:
+      - '/^feat(\([a-z0-9\/_-]+\))?: .+/'
+      - '/^perf(\([a-z0-9\/_-]+\))?: .+/'
+  - label: 'release:patch'
+    title:
+      - '/^fix(\([a-z0-9\/_-]+\))?: .+/'
+      - '/^revert(\([a-z0-9\/_-]+\))?: .+/'
+
+version-resolver:
+  major:
+    labels:
+      - 'release:major'
+  minor:
+    labels:
+      - 'release:minor'
+  patch:
+    labels:
+      - 'release:patch'
+
+template: |
+  $CHANGES
+
+change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
+change-title-escapes: '\<*_&'
+
+no-changes-template: 'No notable changes in this release.'

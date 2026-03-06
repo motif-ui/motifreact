@@ -1,0 +1,219 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Form/Validation" />
+
+# Form Validation
+
+The Form component offers a powerful built-in validation system. Validations may be applied using the `validations` prop.
+Validation rules are defined as an array of functions or predefined validation constants. When the form is submitted,
+each field's validation functions are executed. If any validation fails, the form will not submit, and the corresponding
+error messages will be displayed next to the fields.
+
+<br />
+
+## Validation Object
+
+Form is flexible in terms of validation rules. Each validation rule is defined as an object with the following structure:
+
+```tsx
+type InputValidation = {
+  errorMessage: string; // Message displayed when validation fails
+  validate: (value: InputValue) => boolean; // Function that performs the validation
+}
+```
+
+Here is an example of a simple custom validator which prevents the users sending a value which includes some dangerous numbers:
+
+```tsx
+const customValidation: (dangerousNumbers: number[]) => InputValidation = dangerousNumbers => ({
+  errorMessage: `Input should not include dangerous numbers of ${dangerousNumbers.toString()}`,
+  validate: value => {
+    const validated = !value?.split("").some(char => dangerousNumbers.some(dangerous => dangerous === parseInt(char)));
+    return validated;
+  },
+});
+
+//...
+
+<Form.Field name="input" validations={[Validations.customValidation([1, 3, 5])]}>
+  <InputText />
+</Form.Field>
+```
+
+## Built-in Validations
+
+In addition to custom validations, Form provides several built-in and common validation rules to simplify the validation
+process. Those validation rules are available in the `Validations` object. Here are some of the commonly used built-in
+validations:
+
+### Required
+
+```jsx
+<Form.Field name="username" validations={[Validations.Required]}>
+  <InputText />
+</Form.Field>
+```
+
+### Min Length
+
+```jsx
+<Form.Field name="password" validations={[Validations.MinLength(8)]}>
+  <InputPassword />
+</Form.Field>
+```
+
+### Max Length
+
+```jsx
+<Form.Field name="bio" validations={[Validations.MaxLength(500)]}>
+  <Textarea />
+</Form.Field>
+```
+
+### Min
+
+```jsx
+<Form.Field name="age" validations={[Validations.Min(18)]}>
+  <InputText />
+</Form.Field>
+```
+
+### Max
+
+```jsx
+<Form.Field name="quantity" validations={[Validations.Max(100)]}>
+  <InputText />
+</Form.Field>
+```
+
+### Email
+
+```jsx
+<Form.Field name="email" validations={[Validations.EMAIL]}>
+  <InputText />
+</Form.Field>
+```
+
+### TCKN
+
+```jsx
+<Form.Field name="identityNumber" validations={[Validations.TCKN]}>
+  <InputText />
+</Form.Field>
+```
+
+### IBAN
+
+```jsx
+<Form.Field name="bankAccount" validations={[Validations.IBAN]}>
+  <InputText />
+</Form.Field>
+```
+
+### Required Uploaded File
+
+```jsx
+<Form.Field name="document" validations={[Validations.RequiredUploadedFile]}>
+  <UploadInput />
+</Form.Field>
+```
+
+### Required Array Items
+
+```jsx
+<Form.Field name="pinCode" validations={[Validations.RequiredArrayItems([0, 1, 2])]}>
+  <PinCode>
+    <PinCodeItem />
+    <PinCodeItem />
+    <PinCodeItem />
+  </PinCode>
+</Form.Field>
+```
+
+### At Least N
+
+```jsx
+<Form.FieldGroup name="interests" groupValidations={[Validations.AtLeastN(2)]}>
+  <Checkbox name="sports" label="Sports" />
+  <Checkbox name="music" label="Music" />
+  <Checkbox name="reading" label="Reading" />
+</Form.FieldGroup>
+```
+
+### URL
+
+```jsx
+<Form.Field name="url" validations={[Validations.URL]}>
+  <InputText />
+</Form.Field>
+```
+
+### IP Address
+
+```jsx
+<Form.Field name="ip" validations={[Validations.IP_ADDRESS]}>
+  <InputText />
+</Form.Field>
+```
+
+### Phone
+
+```jsx
+<Form.Field name="phone" validations={[Validations.PHONE_1]}>
+  <InputText />
+</Form.Field>
+```
+
+### Required All Group Items
+
+```jsx
+<Form onSubmit={() => {}}>
+  <Form.Field
+    name="address"
+    label="Address Information"
+    validations={[Validations.RequiredAllGroupItems]}
+  >
+    <div style={{ display: "flex", gap: 12 }}>
+      <InputText name="city" placeholder="City" />
+      <InputText name="district" placeholder="District" />
+      <InputText name="postalCode" placeholder="Postal Code" />
+    </div>
+  </Form.Field>
+</Form>
+```
+
+### Upload Item Sync Validation
+
+```jsx
+<Form onSubmit={() => {}}>
+  <Form.Field
+    name="documents"
+    label="Upload Documents"
+    helperText="Please upload at least one valid document"
+    validations={[Validations.UploadItemSyncValidation]}
+  >
+    <UploadInput />
+  </Form.Field>
+</Form>
+```
+
+## Multiple Validations
+
+You can add multiple validation rules to a field. Those may include a combination of built-in and custom validations.
+
+```jsx
+<Form.Field
+  name="username"
+  validations={[
+    Validations.Required,
+    Validations.MinLength(3),
+    Validations.MaxLength(20),
+    {
+      errorMessage: "Only letters and numbers allowed",
+      validate: (value) => /^[a-zA-Z0-9]+$/.test(value)
+    }
+  ]}
+>
+  <InputText />
+</Form.Field>
+```

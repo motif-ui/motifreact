@@ -1,0 +1,21 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as HookStories from "./hooks.stories.tsx";
+
+<Meta title="Hooks/Info" />
+
+# Hooks
+
+Motif UI provides a collection of custom React hooks to simplify common UI patterns and behaviors. These hooks are designed to work seamlessly with Motif UI components and can be used independently in your React applications.
+
+## TypeScript Support
+
+All hooks are written in TypeScript and include full type definitions. You'll get autocomplete and type checking out of the box.
+
+```tsx
+// Generic type support
+const ref = useOutsideClick<HTMLDivElement>(() => {});
+
+// Full type inference
+const { width, height } = useScreenSize(); // width and height are numbers
+const { visible, show, hide } = useToggle(); // All properly typed
+```

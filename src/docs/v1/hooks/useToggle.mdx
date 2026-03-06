@@ -1,0 +1,127 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as hooks from "./hooks.stories.tsx";
+
+<Meta title="Hooks/useToggle" />
+
+# useToggle
+
+Manages visibility states with optional animation support.
+
+## Basic Usage
+
+```jsx
+import { useToggle } from "@motif-ui/react";
+
+const Sidebar = () => {
+  const { visible, show, hide, toggle } = useToggle(false);
+
+  return (
+    <>
+      <button onClick={toggle}>Toggle Sidebar</button>
+      {visible && <div>Sidebar content</div>}
+    </>
+  );
+};
+```
+
+## With Animation
+
+```jsx
+import { useToggle } from "@motif-ui/react";
+
+const AnimatedModal = () => {
+  const { visible, toggleState, show, hide } = useToggle(false, 300);
+
+  return (
+    <>
+      <button onClick={show}>Open Modal</button>
+      {(visible || toggleState) && (
+        <div className={toggleState === "hiding" ? "fade-out" : "fade-in"}>
+          Modal content
+          <button onClick={hide}>Close</button>
+        </div>
+      )}
+    </>
+  );
+};
+```
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>initialVisible</code></td>
+      <td><code>boolean</code></td>
+      <td>No</td>
+      <td><code>false</code></td>
+      <td>Initial visibility state</td>
+    </tr>
+    <tr>
+      <td><code>toggleTime</code></td>
+      <td><code>number</code></td>
+      <td>No</td>
+      <td><code>undefined</code></td>
+      <td>Animation duration in milliseconds</td>
+    </tr>
+  </tbody>
+</table>
+
+## Return Value
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>object</code></td>
+      <td>
+        <code>
+          {"{"} <br />
+          &nbsp;&nbsp;visible: boolean;<br />
+          &nbsp;&nbsp;toggleState?: "showing" | "hiding";<br />
+          &nbsp;&nbsp;show: () =&gt; void;<br />
+          &nbsp;&nbsp;hide: () =&gt; void;<br />
+          &nbsp;&nbsp;toggle: (forceShow?: boolean) =&gt; void;<br />
+          {"}"}
+        </code>
+      </td>
+      <td>
+        The object returned by <code>useToggle</code>, containing current state and control methods.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Animation Pattern
+
+When `toggleTime` is provided:
+
+1. `show()` sets `toggleState` to `"showing"` and `visible` to `true`
+2. After `toggleTime` ms, `toggleState` becomes `undefined`
+3. `hide()` sets `toggleState` to `"hiding"` and `visible` to `false`
+4. After `toggleTime` ms, `toggleState` becomes `undefined`
+
+This allows you to:
+
+- Keep the element mounted during hide animation
+- Apply different CSS classes based on `toggleState`
+- Control when to unmount the element
+
+## Example
+
+<Canvas of={hooks.UseToggleExample} />

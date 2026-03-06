@@ -1,0 +1,62 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/CSS Modules" />
+
+# CSS Modules
+
+Since Motif UI components are built using CSS Modules, you can easily customize the styles of individual components
+without affecting the global styles. CSS Modules scope the styles locally to the component, allowing for safe and
+modular styling.
+
+In order to allow using CSS modules in the components, Motif UI exposes a `className` prop on all components. This prop
+accepts a string that represents the CSS class name(s) you want to apply to the component.
+
+## How to Customize with CSS Modules
+
+To customize a component using CSS Modules, follow these steps:
+
+1. **Identify the Component**: Determine which Motif UI component you want to customize.
+
+2. **Create a Custom CSS Module**: Create a new CSS file (e.g.,`CustomButton.module.css`) to define your custom styles in.
+
+```css
+/* CustomButton.module.css */
+.customButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.customButton:hover {
+  background-color: #45a049;
+}
+```
+
+3. **Import and Apply the Styles**: In your React component, import the CSS module and apply the styles to the Motif UI component using the `className` prop.
+
+```jsx
+import { Button } from "@motif-ui/react";
+import styles from "./CustomButton.module.css";
+const CustomButton = () => {
+  return <Button label="Custom Button" className={styles.customButton} />;
+};
+export default CustomButton;
+```
+
+4. **Use the Customized Component**: Now you can use your customized component in your application.
+
+```jsx
+import CustomButton from "./CustomButton";
+const App = () => {
+  return (
+    <div>
+      <CustomButton />
+    </div>
+  );
+};
+export default App;
+```
+
+By following these steps, you can easily customize Motif UI components using CSS Modules, ensuring that your styles are scoped and do not interfere with other components or global styles.

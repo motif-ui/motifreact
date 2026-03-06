@@ -1,0 +1,220 @@
+@use "@styles" as *;
+
+$sizes: (
+  // size, buttonPadding, buttonPaddingL, buttonGap, itemPaddingV, itemPaddingH, itemGap
+  ("xs", "4x", "10x", "6x", "6x", "14x", "8x"),
+  ("sm", "6x", "12x", "6x", "8x", "16x", "8x"),
+  ("md", "8x", "16x", "8x", "10x", "20x", "10x"),
+  ("lg", "10x", "20x", "8x", "12x", "24x", "10x")
+);
+$states: "hover", "active", "disabled";
+$variants: ("primary", "secondary", "info", "success", "warning", "danger");
+@mixin caret-tip($position) {
+  &:after,
+  &:before {
+    border: solid transparent;
+    content: " ";
+    position: absolute;
+    pointer-events: none;
+    bottom: 100%;
+  }
+  &:before {
+    #{$position}: var(--base-sizing-12x);
+    border-bottom-color: var(--theme-color-surface-base-base7);
+    border-width: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
+  }
+  &:after {
+    #{$position}: var(--base-sizing-14x);
+    border-bottom-color: var(--theme-color-surface-base-bg-light);
+    border-width: 0 var(--base-sizing-4x) var(--base-sizing-8x) var(--base-sizing-4x);
+  }
+}
+
+@mixin overflowCaret($dir) {
+  @if $dir == right {
+    right: 0;
+  } @else {
+    left: 0;
+  }
+
+  &.callout {
+    @include caret-tip($dir);
+    margin-top: var(--base-sizing-10x);
+  }
+
+  &.withGap {
+    margin-top: var(--base-sizing-10x);
+  }
+
+  &.spacing {
+    margin-top: 0;
+  }
+}
+
+.Root {
+  position: relative;
+  display: inline-flex;
+}
+
+// =============================================================================
+// Dropdown Button
+// =============================================================================
+.Button {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  border-radius: var(--theme-sizing-radius-default);
+  align-items: center;
+  border: none;
+  word-break: break-word;
+  width: max-content;
+  @include transition(background color);
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:focus-visible {
+    border: solid var(--base-sizing-1x) var(--theme-color-surface-base-bg-light);
+    outline: solid var(--base-sizing-4x) var(--theme-color-border-primary-focus);
+  }
+
+  .Button-DropdownIcon {
+    @include transition(rotate);
+    .open & {
+      rotate: 180deg;
+    }
+  }
+
+  .pill & {
+    border-radius: var(--theme-sizing-radius-round);
+  }
+
+  .textOnly & {
+    background: transparent;
+    color: var(--theme-color-text-base-subtitle);
+
+    &:hover,
+    &:active {
+      color: var(--theme-color-text-base-text-dark);
+    }
+    &:disabled {
+      color: var(--theme-color-text-base-disabled);
+    }
+  }
+
+  @each $variant in $variants {
+    $color: if($variant == "secondary", "light", $variant);
+    .solid.#{$variant} & {
+      background-color: var(--theme-color-surface-#{$color}-default);
+      color: if(
+        $variant == "secondary" or $variant == "warning",
+        var(--theme-color-text-base-title),
+        var(--theme-color-text-base-global-light)
+      );
+
+      @each $state in $states {
+        &:#{$state} {
+          background-color: var(--theme-color-surface-#{$color}-#{$state});
+          @if ($variant == "secondary") {
+            color: var(--theme-color-text-light-#{$state});
+          }
+          @if ($variant == "warning" and $state == "disabled") {
+            color: var(--theme-color-text-base-default-overlay50);
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// Dropdown Menu
+// =============================================================================
+.Menu {
+  list-style: none;
+  padding: 0;
+  position: absolute;
+  top: 100%;
+  z-index: 1;
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  background-color: var(--theme-color-surface-base-global-light);
+  @include shadow(6);
+
+  &:not(.leftOverflow) {
+    @include overflowCaret(right);
+  }
+  &.leftOverflow {
+    @include overflowCaret(left);
+  }
+}
+
+// =============================================================================
+// Dropdown Menu Item
+// =============================================================================
+.MenuItem {
+  @include transition(color background-color);
+  color: var(--theme-color-text-base-subtitle);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+
+  li:first-child & {
+    border-top-left-radius: var(--theme-sizing-radius-default);
+    border-top-right-radius: var(--theme-sizing-radius-default);
+  }
+  li:last-child & {
+    border-bottom-left-radius: var(--theme-sizing-radius-default);
+    border-bottom-right-radius: var(--theme-sizing-radius-default);
+  }
+  li:not(:last-child) & {
+    border-bottom: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+  }
+
+  &.MenuItem_disabled,
+  &.MenuItem_header {
+    pointer-events: none;
+    color: var(--theme-color-text-base-caption-light);
+  }
+
+  &.MenuItem_clickable {
+    cursor: pointer;
+    &:hover {
+      background: var(--theme-color-surface-base-base4);
+      color: var(--theme-color-text-base-text-dark);
+    }
+  }
+
+  .MenuItem-Icon:first-child:last-child {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+// =============================================================================
+// COMMON
+// =============================================================================
+@each $size, $buttonPad, $buttonPadL, $buttonGap, $itemPadV, $itemPadH, $itemGap in $sizes {
+  .#{$size} {
+    .Button {
+      padding: var(--base-sizing-#{$buttonPad})
+        var(--base-sizing-#{$buttonPad})
+        var(--base-sizing-#{$buttonPad})
+        var(--base-sizing-#{$buttonPadL});
+      gap: var(--base-sizing-#{$buttonGap});
+      @include font("base", $size, "500");
+    }
+    .MenuItem {
+      padding: var(--base-sizing-#{$itemPadV}) var(--base-sizing-#{$itemPadH});
+      gap: var(--base-sizing-#{$itemGap});
+      &.MenuItem_clickable {
+        @include font("body", $size);
+      }
+      &.MenuItem_header {
+        @include font("base", $size, "500");
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Button should render with only required props 1`] = `
+<div>
+  <button
+    class="Root primary solid md"
+    type="button"
+  >
+    <span>
+      test
+    </span>
+  </button>
+</div>
+`;

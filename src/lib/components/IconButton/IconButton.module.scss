@@ -1,0 +1,63 @@
+@use "@styles" as *;
+
+$variants: "primary", "secondary", "info", "success", "warning", "danger";
+$states: "hover", "active", "disabled";
+$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
+
+.Root {
+  border: 0;
+  background: none;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  @include transition(color);
+  &:not(:disabled):hover {
+    cursor: pointer;
+  }
+}
+
+.strong {
+  & {
+    color: var(--theme-color-text-base-global-dark);
+  }
+  &:hover {
+    color: var(--theme-color-text-base-dark-overlay75);
+  }
+  &:active {
+    color: var(--theme-color-text-base-global-dark);
+  }
+  &:disabled {
+    color: var(--theme-color-text-base-dark-overlay25);
+  }
+}
+
+.negative {
+  & {
+    color: var(--theme-color-text-base-global-light);
+  }
+  &:hover {
+    color: var(--theme-color-text-base-light-overlay75);
+  }
+  &:active {
+    color: var(--theme-color-text-base-global-light);
+  }
+  &:disabled {
+    color: var(--theme-color-text-base-light-overly50);
+  }
+}
+
+@each $name, $fontSize in $sizes {
+  .#{$name} {
+    font-size: var(--base-sizing-#{$fontSize});
+  }
+}
+
+@each $variant in $variants {
+  .#{$variant} {
+    color: var(--theme-color-text-#{$variant}-default);
+    @each $state in $states {
+      &:#{$state} {
+        color: var(--theme-color-text-#{$variant}-#{$state});
+      }
+    }
+  }
+}

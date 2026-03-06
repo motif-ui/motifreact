@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`RadioGroup should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root vertical md"
+  >
+    <div
+      class="Root md"
+      data-testid="radioItem"
+    >
+      <input
+        class="radio"
+        id="_r_0_"
+        name="language"
+        type="radio"
+        value="html"
+      />
+      <label
+        class="label"
+        for="_r_0_"
+      >
+        HTML
+      </label>
+    </div>
+    <div
+      class="Root md"
+      data-testid="radioItem"
+    >
+      <input
+        class="radio"
+        id="_r_1_"
+        name="language"
+        type="radio"
+        value="css"
+      />
+      <label
+        class="label"
+        for="_r_1_"
+      >
+        CSS
+      </label>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,37 @@
+@use "@styles" as *;
+
+$sizes: (
+  //size, gapItemsHorizontal, gapItemsVertical, paddingVInFormField
+  ("xs", "20x", "12x", "4x"),
+  ("sm", "24x", "16x", "6x"),
+  ("md", "28x", "20x", "8x"),
+  ("lg", "32x", "24x", "10x")
+);
+
+.Root {
+  display: flex;
+  align-items: flex-start;
+  min-width: var(--base-sizing-128x);
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+@each $name, $gapItemsH, $gapItemsV, $paddingVInFormField in $sizes {
+  .#{$name} {
+    &.vertical {
+      gap: var(--base-sizing-#{$gapItemsV});
+    }
+    &.horizontal {
+      gap: var(--base-sizing-#{$gapItemsH});
+    }
+    &.inFormField {
+      padding: var(--base-sizing-#{$paddingVInFormField}) 0;
+    }
+  }
+}

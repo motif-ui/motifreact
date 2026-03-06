@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ButtonGroup should render with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+  />
+</div>
+`;

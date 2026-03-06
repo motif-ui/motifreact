@@ -1,0 +1,243 @@
+import { Meta, Primary, Controls } from "@storybook/addon-docs/blocks";
+import Grid from "./Grid.stories";
+import GridComponent from "./Grid";
+import Row from "./components/Row";
+import Col from "./components/Col";
+
+<Meta of={Grid} />
+
+`<Grid>` is used to provide an easy placement for items in the page. It is mainly based well accepted standards of
+Bootstrap, and it's grid system. It basically divides the container into **12** equal pieces. It is possible to tell
+`<Grid>` the number of columns to contain, considering the container size.
+
+Page size aliases alongside with the container sizes are:
+
+<table style={{textAlign: "center"}}>
+  <thead>
+    <tr>
+      <th>Alias</th><th>Page Width</th><th>Container Width</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**xl**</td><td>>= 1200px</td><td>1140px</td>
+    </tr>
+    <tr>
+      <td>**lg**</td><td>>= 992px</td><td>960px</td>
+    </tr>
+    <tr>
+      <td>**md**</td><td>>= 768px</td><td>720px</td>
+    </tr>
+    <tr>
+      <td>**sm**</td><td>>= 576px</td><td>540px</td>
+    </tr>
+    <tr>
+      <td>**xs**</td><td>< 576px</td><td>auto</td>
+    </tr>
+  </tbody>
+</table>
+
+The **minimum** supported width of the `<Grid>` is **420px** even if the width below 576px is considered as `xs`.
+Most of the contents below 420px might still look good, but it isn't `<Grid>`'s responsibility.
+
+`<Grid>` itself is a pretty simple component which only accepts `<Grid.Row>` as children. In order to correctly place the
+content, it provides two additional components to help:
+
+<br />
+### `<Grid.Row>`
+
+**Row** is the wrapper for those 12 columns mentioned above. It (literally) provides a row container which only
+allows `<Grid.Col>` as children.
+
+Alignment of the content can be set using `<Grid.Row>` in case all 12 columns are not filled.
+
+```tsx
+<Grid.Row justifyCols="center">...</Grid.Row>
+```
+
+<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC" } }}>
+  <Row justifyCols="center">
+    <Col size={2}>My content</Col>
+  </Row>
+</GridComponent>
+
+By default, given Cols are disributed evenly if there is no size given. But it is also possible to distribute the Cols
+depending on their content. **colsAuto** is used for this.
+
+```tsx
+<Grid.Row colsAuto>...</Grid.Row>
+```
+
+<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
+  <Row colsAuto>
+    <Col>My short content</Col>
+    <Col>My medium medium content</Col>
+    <Col>My long long long long long long content</Col>
+  </Row>
+</GridComponent>
+
+<br />
+### `<Grid.Col>`
+
+The most important component in the grid system is `<Grid.Col>`. This component is the container of the real content.
+**size** prop can be used in order to set the number of columns that needs to be filled. It is basically the width of
+the content in terms of columns.
+
+```tsx
+<Grid.Col size={3}>Three column content</Grid.Col>
+<Grid.Col size={6}>Six column content</Grid.Col>
+```
+
+<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
+  <Row>
+    <Col size={3}>Three column content</Col>
+    <Col size={6}>Six column content</Col>
+  </Row>
+</GridComponent>
+
+<br />
+`<Grid.Col>` is highly customizable. There are 4 different size aliases that may change the number of columns to be covered.
+
+Each size prop sets the number of columns for the related minimum width and above. Bigger size prop always overrides the
+smaller ones. For example when `md={6}` and `sm={12}`, there will be 12 columns if page is **sm** or wider. If page is
+wider then the **md** size, then there will be 6 columns.
+
+Please refer to the example below. If the page is **md**, then the columns should be distributed as 6-6. If the page is
+smaller and refers to the size of **sm**, then the content should fill all 12 columns. If the page is smaller than **sm**,
+then the content should be distributed as 4-8.
+
+In order to check this example, you may want resize you browser to change the width of the container.
+
+```tsx
+<Grid.Col size={4} md={6} sm={12}>My content</Grid.Col>
+<Grid.Col size={8} md={6} sm={12}>Your content</Grid.Col>
+```
+
+<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
+  <Row>
+    <Col size={4} md={6} sm={12}>My content</Col>
+    <Col size={8} md={6} sm={12}>Your content</Col>
+  </Row>
+</GridComponent>
+
+All size props are optional. `<Grid.Col>` fills the remaining space if no size props are given.
+
+```tsx
+<Grid.Col size={4}>My content</Grid.Col>
+<Grid.Col>I am filling it!</Grid.Col>
+```
+
+<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
+  <Row>
+    <Col size={4}>My content</Col>
+    <Col>I am filling it!</Col>
+  </Row>
+</GridComponent>
+
+<br />
+### A Complete Example
+
+```tsx
+<Grid>
+  <Grid.Row>
+    <Grid.Col sm={6} lg={8}>small-6 large-8</Grid.Col>
+    <Grid.Col lg={4} size={6}><div>large-4 size-6</div></Grid.Col>
+  </Grid.Row>
+  <Grid.Row justifyCols="center">
+    <Grid.Col size={3}>size-3 (row centered)</Grid.Col>
+    <Grid.Col size={3}>size-3 (row centered)</Grid.Col>
+  </Grid.Row>
+  <Grid.Row colsAuto>
+    <Grid.Col>this row</Grid.Col>
+    <Grid.Col>has **colsAuto** prop</Grid.Col>
+    <Grid.Col>enabled, so cols have width of their content</Grid.Col>
+  </Grid.Row>
+  <Grid.Row>
+    <Grid.Col>this cols</Grid.Col>
+    <Grid.Col>don't have</Grid.Col>
+    <Grid.Col>any size props</Grid.Col>
+  </Grid.Row>
+  <Grid.Row>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+  </Grid.Row>
+  <Grid.Row>
+    <Grid.Col size={2} md={4}>size-2 md-4</Grid.Col>
+    <Grid.Col size={2} md={4}>size-2 md-4</Grid.Col>
+    <Grid.Col size={2} md={4}>size-2 md-4</Grid.Col>
+    <Grid.Col size={2} md={4}>size-2 md-4</Grid.Col>
+    <Grid.Col size={2} md={4}>size-2 md-4</Grid.Col>
+    <Grid.Col size={2} md={4}>size-2 md-4</Grid.Col>
+  </Grid.Row>
+  <Grid.Row>
+    <Grid.Col size={2}>size-2</Grid.Col>
+    <Grid.Col size={2}>size-2</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+    <Grid.Col size={1}>size-1</Grid.Col>
+  </Grid.Row>
+</Grid>
+```
+
+<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 }, alignItems: "center" }}>
+  <Row>
+    <Col sm={6} lg={8}>small-6 large-8</Col>
+    <Col lg={4} size={6}><div>large-4 size-6</div></Col>
+  </Row>
+  <Row justifyCols="center">
+    <Col size={3}>size-3 (row centered)</Col>
+    <Col size={3}>size-3 (row centered)</Col>
+  </Row>
+  <Row colsAuto>
+    <Col>this row</Col>
+    <Col>has **colsAuto** prop</Col>
+    <Col>enabled, so cols have width of their content</Col>
+  </Row>
+  <Row>
+    <Col>this cols</Col>
+    <Col>don't have</Col>
+    <Col>any size props</Col>
+  </Row>
+  <Row>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+  </Row>
+  <Row>
+    <Col size={2} md={4}>size-2 md-4</Col>
+    <Col size={2} md={4}>size-2 md-4</Col>
+    <Col size={2} md={4}>size-2 md-4</Col>
+    <Col size={2} md={4}>size-2 md-4</Col>
+    <Col size={2} md={4}>size-2 md-4</Col>
+    <Col size={2} md={4}>size-2 md-4</Col>
+  </Row>
+  <Row>
+    <Col size={2}>size-2</Col>
+    <Col size={2}>size-2</Col>
+    <Col size={1}>size-1</Col>
+    <Col size={1}>size-1</Col>
+  </Row>
+</GridComponent>

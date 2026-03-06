@@ -1,0 +1,132 @@
+@use "sass:map";
+@use "@styles" as *;
+@use "../Motif/Pickers/pickerValues";
+
+$sizes: (
+  // size, pickerGap, minWidthDropdown, inputWidth
+  ("xs", "8x", "96x", "120x"),
+  ("sm", "16x", "128x", "160x"),
+  ("md", "24x", "160x", "160x"),
+  ("lg", "32x", "190x", "190x")
+);
+
+@each $size, $pickerGap, $minWidthDropdown, $inputWidth in $sizes {
+  .#{$size} {
+    gap: map.get(pickerValues.$size, $size, "gapV");
+
+    .selectionBar {
+      padding-bottom: map.get(pickerValues.$size, $size, "gapV");
+      > div:first-child {
+        min-width: var(--base-sizing-#{$minWidthDropdown});
+      }
+      > div:not(:first-child) {
+        width: var(--base-sizing-#{$inputWidth});
+      }
+    }
+
+    .datePickers {
+      gap: calc(var(--base-sizing-#{$pickerGap}));
+      transform: translateX(calc(-50% - var(--base-sizing-#{$pickerGap}) / 2 + var(--base-sizing-1x)));
+
+      &.slideLeft {
+        transform: translateX(calc(-100% - var(--base-sizing-#{$pickerGap}) + var(--base-sizing-3x)));
+      }
+      &.slideRight {
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+.rangeSelector {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.datePickers {
+  display: flex;
+
+  &.slideLeft,
+  &.slideRight {
+    @include transition(transform);
+    & > div > div:first-child button {
+      display: none;
+    }
+  }
+
+  .isInRange {
+    position: relative;
+    transition: none;
+
+    &:after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      background-color: var(--theme-color-surface-primary-negative);
+      top: 0;
+      bottom: 0;
+    }
+
+    // leftmost items
+    &:nth-of-type(7n + 1):after {
+      left: 0;
+      right: calc(-1 * var(--base-sizing-2x));
+    }
+
+    // middle items
+    &:not(:nth-of-type(7n)):not(:nth-of-type(7n + 1)):after {
+      left: calc(-1 * var(--base-sizing-2x));
+      right: calc(-1 * var(--base-sizing-2x));
+    }
+
+    // rightmost items
+    &:nth-of-type(7n):after {
+      right: 0;
+      left: calc(-1 * var(--base-sizing-2x));
+    }
+
+    &.isSelected {
+      &.toLeft {
+        border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
+        &:after {
+          right: 0;
+        }
+      }
+      &.toRight {
+        border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
+        &:after {
+          left: 0;
+        }
+      }
+    }
+
+    &:not(.isSelected) {
+      background-color: transparent;
+    }
+
+    // last item in range
+    &:not(:has(+ .isInRange)):after {
+      border-top-right-radius: var(--theme-sizing-radius-default);
+      border-bottom-right-radius: var(--theme-sizing-radius-default);
+    }
+  }
+
+  // first item in range
+  :not(.isInRange) + .isInRange:after {
+    border-top-left-radius: var(--theme-sizing-radius-default);
+    border-bottom-left-radius: var(--theme-sizing-radius-default);
+  }
+}
+
+.selectionBar {
+  border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
+  text-align: right;
+
+  > div:first-child {
+    float: left;
+  }
+  > div:last-child {
+    margin-left: var(--base-sizing-2x);
+  }
+}

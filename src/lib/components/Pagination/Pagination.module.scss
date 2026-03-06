@@ -1,0 +1,78 @@
+@use "@styles" as *;
+
+$paginationSizes: (
+  //sizeName, size, gap
+  ("sm", "32x", "6x"),
+  ("md", "40x", "8x"),
+  ("lg", "48x", "10x")
+);
+
+.Root {
+  display: inline-flex;
+}
+
+.pageItem {
+  border: solid var(--base-sizing-1x) transparent;
+  border-radius: var(--theme-sizing-radius-default);
+  background: none;
+  color: var(--theme-color-text-base-title-light);
+  cursor: pointer;
+
+  &.arrowIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+      color: var(--theme-color-text-base-title-light);
+    }
+    &:disabled {
+      pointer-events: none;
+      span {
+        color: var(--theme-color-text-secondary-disabled);
+      }
+    }
+  }
+
+  &:hover {
+    background: var(--theme-color-surface-light-default);
+  }
+  &.active {
+    color: white;
+    pointer-events: none;
+    background: var(--theme-color-surface-primary-default);
+  }
+  @include focus-ring;
+}
+
+.separator {
+  color: var(--theme-color-text-base-caption);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:before {
+    content: "...";
+  }
+}
+
+@each $name, $size, $gap in $paginationSizes {
+  .#{$name} {
+    padding: var(--base-sizing-#{$gap});
+    gap: var(--base-sizing-#{$gap});
+
+    .pageItem {
+      height: var(--base-sizing-#{$size});
+      @include font("base", $name, "500");
+      &.arrowIcon {
+        width: var(--base-sizing-#{$size});
+      }
+      &:not(.arrowIcon) {
+        min-width: var(--base-sizing-#{$size});
+      }
+    }
+
+    .separator {
+      width: var(--base-sizing-#{$size});
+      height: var(--base-sizing-#{$size});
+    }
+  }
+}

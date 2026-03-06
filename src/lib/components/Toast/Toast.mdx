@@ -1,0 +1,31 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import * as Toast from "./Toast.stories";
+
+<Meta of={Toast} />
+
+## How to Show?
+
+In order to show a toast, `useToast()` hook should be called. The returned object includes `toasts` object which is
+necessary to be put inside the render section. The returned object also has the necessary methods to show the toast.
+Please refer to the example below:
+
+```tsx
+const Home = () => {
+
+  const opts: ToastParamProps = { position: "topLeft", title: "Be Happy...", icon: "check" };
+
+  const toast = useToast();
+
+  return (
+    <>
+      // With Options
+      <Button variant="success" onClick={() => toast.success("Toast content", opts)} label="Success" />
+
+      // Without Options
+      <Button variant="warning" onClick={() => toast.warning("Toast content")} label="Warning" />
+
+      {toast.toasts}   //❗This is important and necessary to show the toasts in the page properly.
+    </>
+  );
+};
+```

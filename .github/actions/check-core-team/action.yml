@@ -1,0 +1,34 @@
+name: Check Core Team Membership
+description: Outputs whether the current GitHub actor is a core team member.
+
+inputs:
+  core-team:
+    description: 'Comma-separated list of core team member usernames (from vars.CORE_TEAM)'
+    required: true
+
+outputs:
+  is-internal:
+    description: "'true' if actor is in core team, 'false' otherwise"
+    value: ${{ steps.check.outputs.is-internal }}
+
+runs:
+  using: composite
+  steps:
+    - name: Check membership
+      id: check
+      shell: bash
+      env:
+        CORE_TEAM_INPUT: ${{ inputs.core-team }}
+      run: |
+        ACTOR="$GITHUB_ACTOR"
+        IS_INTERNAL="false"
+        while IFS=',' read -ra members; do
+          for member in "${members[@]}"; do
+            trimmed=$(echo "$member" | xargs)
+            if [ "$trimmed" = "$ACTOR" ]; then
+              IS_INTERNAL="true"
+            fi
+          done
+        done <<< "$CORE_TEAM_INPUT"
+        echo "is-internal=$IS_INTERNAL" >> "$GITHUB_OUTPUT"
+        echo "Actor: $ACTOR | Internal: $IS_INTERNAL"

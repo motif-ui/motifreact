@@ -1,0 +1,116 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Integrations/Next.js" />
+
+# Usage with Next.js
+
+This guide will walk you through setting up Motif UI in a Next.js project from scratch.
+
+## Installation
+
+In order to include Motif UI in your Next.js project, you should install Motif UI and the required Inter font package:
+
+```bash
+npm install @motif-ui/react @fontsource/inter
+```
+
+> **Note:** It is recommended to use fontsource for the easiest font inclusion and this guide uses fontsource in the examples. Please refer to [Customization/Fonts](?path=/docs/customization-fonts--docs) section for other methods to use.
+
+## Setup
+
+### App Router Setup (Next.js 13+)
+
+The children section in your `app/layout.tsx` should be wrapped with `MotifProvider`:
+
+```jsx
+
+import { MotifProvider } from "@motif-ui/react"
+import "@motif-ui/react/themes/default-theme.css"
+import "@fontsource/inter"
+import "./globals.css"
+
+export default function RootLayout({
+  children,""
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html>
+      <body>
+        <MotifProvider>
+            {children}
+        </MotifProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+> **Note:** Make sure to import the theme CSS before your global styles to allow proper style cascading moreover for more ways to load themes and explore advanced customization options, visit the [Theming](?path=/docs/customization-theming--docs) section.
+
+### Pages Router Setup (Next.js 12 and below)
+
+In your `pages/_app.jsx` (or `_app.tsx`), wrap your application with the `MotifProvider`:
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+import "@motif-ui/react/themes/default-theme.css";
+import "@fontsource/inter";
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <MotifProvider>
+      <Component {...pageProps} />
+    </MotifProvider>
+  );
+}
+
+export default MyApp;
+```
+
+## Usage
+
+Now you can start using Motif UI components in your pages. Here's a simple example:
+
+```jsx
+import { Text, Textarea } from "@motif-ui/react";
+
+export default function Home() {
+  return (
+    <div>
+      <Text variant="h2" text="Motif UI Test" />
+      <Textarea
+        size="lg"
+        value="Hello Motif UI is ready to serve you!"
+        maxLength={100}
+        placeholder="Type something..."
+        success
+      />
+    </div>
+  );
+};
+```
+
+## Next Steps
+
+- Explore available components in the **Components** section
+- Learn about **Theming** to customize the look and feel
+- Check out **Design Tokens** for advanced customization
+
+## Troubleshooting
+
+### Components Have No Styling
+
+If your components appear unstyled, make sure you've imported the theme CSS in the correct location:
+
+**App Router:** Import in `app/layout.jsx`
+
+```jsx
+import "@motif-ui/react/themes/default-theme.css"
+```
+
+**Pages Router:** Import in `pages/_app.jsx`
+
+```jsx
+import "@motif-ui/react/themes/default-theme.css"
+```

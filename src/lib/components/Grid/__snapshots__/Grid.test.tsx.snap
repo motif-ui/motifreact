@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Grid should render with only required props 1`] = `
+<div>
+  <div
+    class="Root"
+  >
+    <div
+      class="row start"
+      data-testid="grid-row"
+    >
+      <div
+        class="colBase"
+        data-testid="col-container"
+      >
+        <div
+          class="col"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

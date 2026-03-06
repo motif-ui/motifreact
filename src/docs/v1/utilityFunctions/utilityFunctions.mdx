@@ -1,0 +1,446 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Utility/Utility Functions" />
+
+# Utility Functions
+
+Like many projects, ours also includes a collection of utility functions developed to simplify common tasks throughout
+the codebase. Several of these utilities may be useful to other developers as well, so we have made selected ones
+available for external use. All utilities are written in TypeScript to ensure full type safety.
+
+This document provides detailed explanations and usage guidelines for the project’s utility functions.
+
+<br />
+
+## Common
+
+<br />
+
+### compareByDiffWithFlooringValues
+
+Compares two numbers by their floored difference against a threshold value.
+
+#### API
+
+```typescript
+compareByDiffWithFlooringValues = (n1: number, n2: number, diffValue: number) => boolean
+```
+
+#### Usage
+
+```typescript
+compareByDiffWithFlooringValues(10.7, 5.3, 4); // true (floor(10.7) - floor(5.3) = 10 - 5 = 5 > 4)
+compareByDiffWithFlooringValues(10.2, 5.8, 4); // false (floor(10.2) - floor(5.8) = 10 - 5 = 5, not > 4)
+compareByDiffWithFlooringValues(10.9, 6.1, 5); // false (floor(10.9) - floor(6.1) = 10 - 6 = 4, not > 5)
+```
+
+<br />
+
+## Date
+
+<br />
+
+### areEqualDates
+
+Compares two dates to determine if they represent the same calendar day (year, month, and day).
+
+#### API
+
+```typescript
+areEqualDates = (d1?: Date, d2?: Date) => boolean
+```
+
+#### Usage
+
+```typescript
+const date1 = new Date(2024, 0, 15, 10, 30); // Jan 15, 2024, 10:30
+const date2 = new Date(2024, 0, 15, 18, 45); // Jan 15, 2024, 18:45
+const date3 = new Date(2024, 0, 16, 10, 30); // Jan 16, 2024, 10:30
+
+DateUtils.areEqualDates(date1, date2); // true (same day, different times)
+DateUtils.areEqualDates(date1, date3); // false (different days)
+DateUtils.areEqualDates(date1, undefined); // false
+```
+
+### areEqualMonths
+
+Compares two dates to determine if they represent the same month.
+
+#### API
+
+```typescript
+areEqualMonths = (d1?: Date, d2?: Date) => boolean
+```
+
+#### Usage
+
+```typescript
+const date1 = new Date(2024, 0, 15); // January 15, 2024
+const date2 = new Date(2024, 0, 25); // January 25, 2024
+const date3 = new Date(2024, 1, 15); // February 15, 2024
+
+DateUtils.areEqualMonths(date1, date2); // true
+DateUtils.areEqualMonths(date1, date3); // false
+```
+
+### getTodayTimeless
+
+Returns today's date with time set to 00:00:00.000 (midnight).
+
+#### API
+
+```typescript
+getTodayTimeless = () => Date
+```
+
+#### Usage
+
+```typescript
+const today = DateUtils.getTodayTimeless();
+// If today is Jan 15, 2024, 14:30:45
+// Result: Jan 15, 2024, 00:00:00.000
+```
+
+### getDateTimeless
+
+Returns a copy of the provided date with time set to 00:00:00.000 (midnight).
+
+#### API
+
+```typescript
+getDateTimeless = (date?: Date) => Date | undefined
+```
+
+#### Usage
+
+```typescript
+const dateWithTime = new Date(2024, 0, 15, 14, 30, 45); // Jan 15, 2024, 14:30:45
+const dateWithoutTime = DateUtils.getDateTimeless(dateWithTime);
+// Result: Jan 15, 2024, 00:00:00.000
+
+DateUtils.getDateTimeless(undefined); // undefined
+```
+
+### getDateWithTime
+
+Creates a new date by combining a date with a specific time.
+
+#### API
+
+```typescript
+getDateWithTime = (date: Date | undefined, time?: Time) => Date | undefined
+```
+
+#### Usage
+
+```typescript
+const date = new Date(2024, 0, 15); // Jan 15, 2024
+const time = { hours: 14, minutes: 30, seconds: 45 };
+
+const dateWithTime = DateUtils.getDateWithTime(date, time);
+// Result: Jan 15, 2024, 14:30:45.000
+
+// With partial time (defaults: hours=0, minutes=0, seconds=0)
+const timePartial = { hours: 10 };
+DateUtils.getDateWithTime(date, timePartial);
+// Result: Jan 15, 2024, 10:00:00.000
+```
+
+### getDateOfNextMonth
+
+Returns the first day of the next month.
+
+#### API
+
+```typescript
+getDateOfNextMonth = (date?: Date) => Date
+```
+
+#### Usage
+
+```typescript
+const currentDate = new Date(2024, 0, 15); // January 15, 2024
+const nextMonth = DateUtils.getDateOfNextMonth(currentDate);
+// Result: February 1, 2024, 00:00:00.000
+
+// Without parameter (uses today)
+const nextMonthFromToday = DateUtils.getDateOfNextMonth();
+```
+
+### getDateOfPrevMonth
+
+Returns the first day of the previous month.
+
+#### API
+
+```typescript
+getDateOfPrevMonth = (date?: Date) => Date
+```
+
+#### Usage
+
+```typescript
+const currentDate = new Date(2024, 1, 15); // February 15, 2024
+const prevMonth = DateUtils.getDateOfPrevMonth(currentDate);
+// Result: January 1, 2024, 00:00:00.000
+```
+
+### getNumberOfDaysInMonth
+
+Returns the number of days in a specific month.
+
+#### API
+
+```typescript
+getNumberOfDaysInMonth = (year: number, month: number) => number
+```
+
+#### Usage
+
+```typescript
+DateUtils.getNumberOfDaysInMonth(2024, 0); // 31 (January)
+DateUtils.getNumberOfDaysInMonth(2024, 1); // 29 (February 2024 - leap year)
+DateUtils.getNumberOfDaysInMonth(2023, 1); // 28 (February 2023 - not leap year)
+DateUtils.getNumberOfDaysInMonth(2024, 3); // 30 (April)
+```
+
+### isInTheMonth
+
+Checks if a date falls within the same month and year as another date.
+
+#### API
+
+```typescript
+isInTheMonth = (date: Date, dateOfTheMonthToCheck: Date) => boolean
+```
+
+#### Usage
+
+```typescript
+const dateToCheck = new Date(2024, 0, 15); // January 15, 2024
+const referenceDate = new Date(2024, 0, 1); // January 1, 2024
+
+DateUtils.isInTheMonth(dateToCheck, referenceDate); // true
+```
+
+<br />
+
+## Test
+
+<br />
+
+### expectToThrow
+
+A helper function that suppresses console.error output when testing if a function throws an error in Jest test environment.
+
+#### API
+
+```typescript
+expectToThrow = (func: () => unknown, error?: JestToErrorArg) => void
+```
+
+#### Parameters
+
+- **func**: `() => unknown` - The function to test that is expected to throw an error
+- **error**: `JestToErrorArg` (optional) - Expected error type or message
+
+#### Example Usage
+
+```typescript
+describe("MyComponent", () => {
+  it("should throw an error when invalid props are passed", () => {
+    expectToThrow(
+      () => validateProps({ invalid: true }),
+      "Invalid props provided"
+    );
+  });
+
+  it("should throw any error", () => {
+    expectToThrow(() => someFunction());
+  });
+});
+```
+
+<br />
+
+## Theming
+
+<br />
+
+### convertThemeToCSSVariables
+
+A function that converts nested JavaScript theme objects into flat CSS variables (custom properties).
+
+#### API
+
+```typescript
+convertThemeToCSSVariables = (
+  themeObj: Record<string, unknown>,
+  prefix?: string
+) => Record<string, string>
+```
+
+#### Parameters
+
+- **themeObj**: `Record<string, unknown>` - The theme object to convert
+- **prefix**: `string` (optional, default: `"--theme"`) - Prefix for CSS variables
+
+#### Return Value
+
+A flat object containing CSS variable names and values.
+
+#### Example Usage
+
+```typescript
+const theme = {
+  colors: {
+    primary: {
+      default: "#007bff",
+      hover: "#0056b3",
+      active: "#004085"
+    },
+    secondary: "#6c757d"
+  },
+  spacing: {
+    small: "8px",
+    medium: "16px",
+    large: "24px"
+  },
+  fontSize: {
+    body: {
+      small: 14,
+      medium: 16,
+      large: 18
+    },
+  },
+};
+
+const cssVars = convertThemeToCSSVariables(theme);
+
+// Result:
+// {
+//   '--theme-colors-primary-default': '#007bff',
+//   '--theme-colors-primary-hover': '#0056b3',
+//   '--theme-colors-primary-active': '#004085',
+//   '--theme-colors-secondary': '#6c757d',
+//   '--theme-spacing-small': '8px',
+//   '--theme-spacing-medium': '16px',
+//   '--theme-spacing-large': '24px',
+//   '--theme-font-size-body-small': '14',
+//   '--theme-font-size-body-medium': '16',
+//   '--theme-font-size-body-large': '18'
+// }
+```
+
+#### Custom Prefix Usage
+
+```typescript
+const cssVars = convertThemeToCSSVariables(theme, "--my-app");
+
+// Result:
+// {
+//   '--my-app-colors-primary-default': '#007bff',
+//   '--my-app-colors-primary-hover': '#0056b3',
+//   ...
+// }
+```
+
+### sanitizeModuleClasses
+
+A utility function that helps in sanitizing and combining class names based on CSS module styles to prevent generating undefined class names. Unlike `sanitizeModuleRootClasses`, this function doesn't include a root class and doesn't handle global classes separately.
+
+#### API
+
+```typescript
+sanitizeModuleClasses = (
+  cssModule: Readonly<Record<string, string>>,
+  ...moduleKeys: (string | false | undefined | (string | false | undefined)[])[]
+) => string | undefined
+```
+
+#### Parameters
+
+- **cssModule**: `Readonly<Record<string, string>>` - CSS module object
+- **moduleKeys**: `(string | false | undefined | (string | false | undefined)[])[]` - Rest parameter of class names that may include strings, booleans, undefined or arrays of these types
+
+#### Return Value
+
+A sanitized string of class names, ensuring no undefined or empty values are included. Returns `undefined` if result is empty.
+
+#### Usage
+
+```typescript
+const MyComponent = ({ shape, size, icon, iconPosition }) => {
+  const classNames = sanitizeModuleClasses(
+    styles,
+    "shape",
+    "size",
+    true && "pill",
+    icon && iconPosition && `icon-${iconPosition}`
+  );
+
+  return <div className={classNames}>Content</div>;
+};
+```
+
+<br />
+
+## Styling
+
+<br />
+
+### rgbToHex
+
+Converts RGB color values to hexadecimal format.
+
+#### API
+
+```typescript
+rgbToHex = (r: number, g: number, b: number) => string
+```
+
+#### Parameters
+
+- **r**: `number` - Red channel (0-255)
+- **g**: `number` - Green channel (0-255)
+- **b**: `number` - Blue channel (0-255)
+
+#### Return Value
+
+A hex color string in the format `#RRGGBB`.
+
+#### Usage
+
+```typescript
+rgbToHex(34, 139, 34); // '#228B22'
+rgbToHex(255, 255, 255); // '#FFFFFF'
+```
+
+### isBright
+
+Determines if a color is bright based on its RGB values using relative luminance calculation.
+
+#### API
+
+```typescript
+isBright = (r: number, g: number, b: number, threshold?: number) => boolean
+```
+
+#### Parameters
+
+- **r**: `number` - Red channel (0-255)
+- **g**: `number` - Green channel (0-255)
+- **b**: `number` - Blue channel (0-255)
+- **threshold**: `number` - Threshold value (0-100)
+
+#### Return Value
+
+Returns `true` if the color is bright (luminance > threshold or 0.85), otherwise `false`.
+
+#### Usage
+
+```typescript
+isBright(255, 255, 255); // true (white - very bright)
+isBright(255, 255, 0); // true (yellow - bright)
+isBright(0, 0, 255); // false (blue - not bright enough)
+```

@@ -1,0 +1,13 @@
+name: Setup Node Dependencies with Cache
+description: Setting up node and cache mechanism
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node & Cache
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24.11.0
+        cache: 'npm'
+    - name: Install deps
+      run: npm ci
+      shell: bash

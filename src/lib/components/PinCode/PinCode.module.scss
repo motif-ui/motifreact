@@ -1,0 +1,66 @@
+@use "@styles" as *;
+
+$sizes: (
+  //size, padding, inputSize, gap
+  ("xs", "4x", "18x", "4x"),
+  ("sm", "6x", "20x", "8x"),
+  ("md", "8x", "22x", "12x"),
+  ("lg", "10x", "24x", "16x")
+);
+
+@each $size, $padding, $inputSize, $gap in $sizes {
+  .#{$size} {
+    gap: var(--base-sizing-#{$gap});
+    .input {
+      @include font("body", $size);
+      width: var(--base-sizing-#{$inputSize});
+      height: var(--base-sizing-#{$inputSize});
+      padding: var(--base-sizing-#{$padding});
+    }
+  }
+}
+
+.Root {
+  display: inline-flex;
+  vertical-align: top;
+
+  &.success .input {
+    border-color: var(--theme-color-border-success-default);
+  }
+
+  &.circle .input {
+    border-radius: var(--theme-sizing-radius-round);
+  }
+
+  &.error .input {
+    border-color: var(--theme-color-border-danger-default);
+  }
+}
+
+// =============================================================================
+// Sub Component: PinCodeItemHOC
+// =============================================================================
+
+.input {
+  text-align: center;
+  background-color: var(--theme-color-surface-base-bg-light);
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  box-sizing: content-box;
+  border-radius: var(--theme-sizing-radius-default);
+  color: var(--theme-color-text-base-title);
+  @include focus-ring;
+
+  &:disabled,
+  :read-only {
+    border-color: var(--theme-color-border-light-disabled);
+    color: var(--theme-color-text-base-disabled);
+    background-color: var(--theme-color-surface-base-base1);
+    pointer-events: none;
+  }
+
+  &.item_space {
+    background: none !important;
+    border: none !important;
+    pointer-events: none;
+  }
+}

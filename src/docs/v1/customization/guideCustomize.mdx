@@ -1,0 +1,178 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/Guide" />
+
+# Customization Guide
+
+By designing Motif UI with flexibility in mind, we have made it possible to customize various aspects of the components to
+better fit your project's design requirements. This guide will walk you through the different methods available for
+customizing Motif UI components.
+
+In order to meet every project's unique needs, Motif UI offers multiple customization options. There are three main
+topics covered in this guide.
+
+<br />
+
+## Global Library Customization
+
+This section covers customization methods that affect the entire library and all components within it.
+
+### 1. Theme change
+
+The easiest way to change the overall look and feel of Motif UI components is by switching themes. Motif UI provides several
+predefined themes in `@motif-ui/react/themes` that can be easily integrated into your project.
+
+To change the theme, simply import the desired theme's CSS file into your main application file instead of the default
+theme. For example, to use `papyrus` theme, you would do the following in the main layout file of your project:
+
+```jsx
+import "@motif-ui/react/themes/papyrus.css";
+```
+
+### 2. Styleless usage
+
+Motif UI components are designed to be style-agnostic by default. This means that if you prefer to use your own styles,
+you can do so by not importing any theme CSS files. This allows you to have complete control over the styling of the
+components.
+
+Just remove any theme imports from your project, and the components will render without any predefined styles. You can then
+apply your own CSS or styling solutions as needed.
+
+```jsx
+//import "@motif-ui/react/themes/default-theme.css"; -> should be removed
+```
+
+### 3. Theme prop in MotifProvider
+
+MotifProvider provides a React-way of customizing Motif UI. The `theme` and `setTheme` props are used to customize the
+desired part of the view. Theme prop exactly matches the css variables in the theme css file. So this approach basically
+overrides the css variable values in the `:root` item but it makes it a lot easier than changing a theme css file
+completely.
+
+```jsx
+<MotifProvider
+  theme={{
+    sizing: {
+      radius: {
+        default: ".5rem",
+      },
+    },
+    color: {
+      surface: {
+        primary: {
+          active: "red",
+          default: "green",
+          disabled: "black",
+          hover: "purple",
+          inverse: "aqua",
+          negative: "cyan",
+        },
+      },
+    },
+  }}
+>
+  {/* your app's children */}
+</MotifProvider>
+```
+
+<br />
+
+## Global Component Customization
+
+Often the theme covers most needs, but a few components still require fine-tuning. In these cases, global component
+customization methods can be applied.
+
+### 1. `componentDefaults` prop in MotifProvider
+
+This approach prevents the need to repeatedly pass the same props to components throughout your application. By
+utilizing the **componentDefaults** prop in the `MotifProvider`, you can set default values for specific component props
+globally.
+
+The example below demonstrates how to set default props for `Button` and `Textarea` components throughout your app:
+
+```jsx
+<MotifProvider
+  componentDefaults={{
+    Button: { pill: true, size: "lg" },
+    Textarea: { maxLength: 300 },
+  }}
+>
+  {/* your app's children */}
+</MotifProvider>
+```
+
+### 2. Using exposed class names
+
+Each component in Motif UI exposes specific class names following the BEM (Block-Element-Modifier) naming convention.
+These class names, documented on each component’s page, can be targeted for global styling adjustments in a global
+css file, allowing to apply custom styles that affect all instances of a particular component across your application.
+
+```css
+.mtf-Button.mtf-Button--info.mtf-Button--solid {
+  background-color: #4caf50; /* Custom green background for info solid buttons */
+  color: #ffffff;
+}
+```
+
+<br />
+
+## Component Level Customization
+
+This section focuses on customization methods that can be applied to individual components, allowing for more granular
+control over their appearance and behavior.
+
+### 1. Using props
+
+Each component provides some props to customize its appearance. This allows to easily adjust aspects on a per-component
+basis. For example, you can adjust the variant, size, etc. of a `<Button>` by passing the appropriate props.
+
+```jsx
+<Button label="Button" variant="outline" size="lg" pill />
+```
+
+### 2. `style` and `className` props
+
+Like a standard React component, Motif UI components accept the `style` and `className` props for inline styles and custom
+CSS classes, respectively. This allows for quick and easy customization of individual components without affecting others.
+
+```jsx
+<Button label="Button" style={{ backgroundColor: "#4caf50" }} className="customClassName" />
+```
+
+### 3. Using exposed class names with custom className
+
+As mentioned in "Global Component Customization" part, each component expose specific class names. And these class names
+can be used in conjunction with custom class names provided via the `className` prop. This allows for more targeted
+styling of individual components while still leveraging the component's inherent class structure.
+
+```css
+/* css file */
+
+.myCustomButton.mtf-Button--solid.mtf-Button--primary {
+  background-color: #4caf50;
+}
+```
+
+```jsx
+<Button label="Button" className="myCustomButton" />
+```
+
+### 4. CSS modules
+
+Using CSS modules instead of static class names is also possible. This method allows for scoped styling, preventing
+class name collisions and ensuring that styles are applied only to the intended components.
+
+```css
+/* MyComponent.module.css */
+
+.myCustomButton {
+  padding: 10px 20px;
+  border: dotted 2px red;
+  background-color: chocolate;
+}
+```
+
+```jsx
+import styles from "./MyComponent.module.css";
+<Button label="Button" className={styles.myCustomButton} />;
+```

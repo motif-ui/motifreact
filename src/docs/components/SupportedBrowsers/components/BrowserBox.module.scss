@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border: 1px solid #00000011;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px #0000000c;
+  text-align: center;
+  gap: 8px;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.version {
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  color: #0177ec !important;
+}
+
+.coverage {
+  font-size: 0.85rem !important;
+  color: #00000099 !important;
+}

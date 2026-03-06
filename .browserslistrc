@@ -1,0 +1,16 @@
+# Desktop
+chrome > 125
+edge > 126
+firefox > 128
+opera > 112
+safari > 17.5
+
+# Mobile
+ios_saf > 17.5
+and_chr > 125
+and_ff > 128
+samsung > 22
+android > 121
+
+# Exclusions
+not dead

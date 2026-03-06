@@ -1,0 +1,114 @@
+@use "@styles" as *;
+
+$sizes: (
+  ("xxs", "4x", "2x", "xs", "14x"),
+  ("xs", "8x", "4x", "sm", "16x"),
+  ("sm", "12x", "6x", "sm", "20x"),
+  ("md", "16x", "8x", "md", "20x"),
+  ("lg", "20x", "10x", "lg", "24x"),
+  ("xl", "24x", "12x", "lg", "24x")
+);
+$states: "hover", "active", "disabled";
+$variants: (
+  // variant, color, textColorOnSurface
+  ("primary", "primary", --theme-color-text-base-global-light),
+  ("secondary", "light", --theme-color-text-light-default),
+  ("info", "info", --theme-color-text-base-global-light),
+  ("success", "success", --theme-color-text-base-global-light),
+  ("warning", "warning", --theme-color-text-base-global-dark),
+  ("danger", "danger", --theme-color-text-base-global-light)
+);
+@mixin textColorOnSurface($variant, $textColor, $state: null) {
+  color: if(
+    $variant == "warning" and $state == "disabled",
+    var(--theme-color-text-base-dark-overlay50),
+    if($variant == "secondary" and $state != null, var(--theme-color-text-light-#{$state}), var($textColor))
+  );
+}
+@mixin stateBackgroundColor($color, $state, $shape) {
+  @if $shape == "solid" {
+    background-color: var(--theme-color-surface-#{$color}-#{$state});
+  } @else {
+    @if $state == "hover" {
+      background-color: var(--theme-color-surface-#{$color}-negative);
+    } @else if $state == "active" {
+      background-color: var(--theme-color-surface-#{$color}-inverse);
+    }
+  }
+}
+
+.Root {
+  border: none;
+  border-radius: var(--theme-sizing-radius-default);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  vertical-align: bottom;
+  white-space: nowrap;
+  @include transition(background-color);
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.pill {
+  border-radius: var(--theme-sizing-radius-round);
+}
+.fluid {
+  width: 100%;
+}
+.icon-left {
+  flex-direction: row;
+}
+.icon-right {
+  flex-direction: row-reverse;
+}
+
+@each $size, $ph, $pv, $fontSize, $iconSize in $sizes {
+  .#{$size} {
+    padding: var(--base-sizing-#{$pv}) var(--base-sizing-#{$ph});
+    gap: var(--base-sizing-#{$pv});
+    @include font("base", $fontSize, "600");
+  }
+}
+
+@each $variant, $color, $textColorOnSurface in $variants {
+  .#{$variant} {
+    &.solid {
+      background-color: var(--theme-color-surface-#{$color}-default);
+      @include textColorOnSurface($variant, $textColorOnSurface);
+      @each $state in $states {
+        &:#{$state} {
+          @include stateBackgroundColor($color, $state, "solid");
+          @include textColorOnSurface($variant, $textColorOnSurface, $state);
+        }
+      }
+    }
+
+    &.outline {
+      background-color: var(--theme-color-surface-base-bg-light);
+      border: solid var(--base-sizing-1x) var(--theme-color-border-#{$color}-default);
+      color: var(--theme-color-text-#{$color}-default);
+      @each $state in $states {
+        &:#{$state} {
+          @include stateBackgroundColor($color, $state, "outline");
+          border-color: var(--theme-color-border-#{$color}-#{$state});
+          color: var(--theme-color-text-#{$color}-#{$state});
+        }
+      }
+    }
+
+    &.textonly {
+      background-color: transparent;
+      color: var(--theme-color-text-#{$color}-default);
+      @each $state in $states {
+        &:#{$state} {
+          @include stateBackgroundColor($color, $state, "textonly");
+          color: var(--theme-color-text-#{$color}-#{$state});
+        }
+      }
+    }
+  }
+}

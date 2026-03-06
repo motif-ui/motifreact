@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AccordionGroup should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="group"
+  >
+    <div
+      class="Root"
+      data-testid="accordionItem"
+    >
+      <button
+        class="header"
+      >
+        <span
+          class="title"
+        >
+          Accordion Title 1
+        </span>
+        <span
+          class="Root lg motifIconsDefault collapseIcon"
+        >
+          keyboard_arrow_down
+        </span>
+      </button>
+      <div
+        class="content"
+      >
+        <div
+          class="contentOverflowContainer"
+        />
+      </div>
+    </div>
+    <div
+      class="Root"
+      data-testid="accordionItem"
+    >
+      <button
+        class="header"
+      >
+        <span
+          class="title"
+        >
+          Accordion Title 2
+        </span>
+        <span
+          class="Root lg motifIconsDefault collapseIcon"
+        >
+          keyboard_arrow_down
+        </span>
+      </button>
+      <div
+        class="content"
+      >
+        <div
+          class="contentOverflowContainer"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

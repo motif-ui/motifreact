@@ -1,0 +1,30 @@
+.mtfDoc-tab {
+  &-header {
+    display: flex;
+    border-bottom: solid 1px #88929bff;
+    margin-bottom: 20px !important;
+    margin-right: 32px;
+  }
+
+  &--button {
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #21272cff;
+    border-bottom: solid 2px transparent;
+    transition: all 0.2s;
+
+    &.active {
+      color: #0083cbff;
+      border-bottom: solid 2px #0083cbff;
+    }
+  }
+}
+
+// For Styling tab in MotifDocs: hides the native TOC list to only show Styling TOC.
+.sbdocs > nav .toc-list:has(+ .toc-list-css-classes) {
+  display: none !important;
+}

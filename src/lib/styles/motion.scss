@@ -1,0 +1,51 @@
+@use "sass:string";
+@use "sass:list";
+@use "sass:map";
+
+$speeds: (
+  "slowest": 1500ms,
+  "slower": 1000ms,
+  "slow": 500ms,
+  "normal": 300ms,
+  "fast": 150ms,
+  "faster": 100ms,
+  "fastest": 50ms
+);
+
+@mixin transition($properties: all, $speed: "normal", $function: cubic-bezier(0.4, 0, 0.2, 1)) {
+  $duration: map.get($speeds, $speed);
+
+  $value: ();
+  @each $property in $properties {
+    @if list.length($value) > 0 {
+      $value: list.append($value, string.unquote(",") #{$property} $duration $function);
+    } @else {
+      $value: list.append($value, #{$property} $duration $function);
+    }
+  }
+  transition: $value;
+}
+
+@mixin pop-default($scale: 0.7, $speed: "normal") {
+  visibility: hidden;
+  opacity: 0;
+  scale: $scale;
+  @include transition(visibility opacity scale, $speed);
+}
+
+@mixin pop-in {
+  visibility: visible;
+  opacity: 1;
+  scale: 1;
+}
+
+@mixin fade-default($speed: "normal") {
+  visibility: hidden;
+  opacity: 0;
+  @include transition(visibility opacity, $speed);
+}
+
+@mixin fade-in {
+  visibility: visible;
+  opacity: 1;
+}

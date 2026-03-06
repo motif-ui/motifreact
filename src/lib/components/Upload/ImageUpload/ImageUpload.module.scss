@@ -1,0 +1,197 @@
+@use "@styles" as *;
+
+$sizes: (("xs", 160x, 6x, 36x, 24x), ("sm", 190x, 8x, 40x, 28x), ("md", 256x, 10x, 44x, 32x), ("lg", 320x, 12x, 48x, 36x));
+
+@each $name, $box, $padding, $fontSize, $iconSize in $sizes {
+  .#{$name} {
+    width: var(--base-sizing-#{$box});
+
+    .dragArea {
+      width: var(--base-sizing-#{$box});
+      height: var(--base-sizing-#{$box});
+      padding: var(--base-sizing-#{$padding});
+    }
+
+    .errorMessage {
+      @include font("body", $name);
+    }
+
+    .icon {
+      width: var(--base-sizing-#{$fontSize});
+      height: var(--base-sizing-#{$fontSize});
+      font-size: var(--base-sizing-#{$iconSize});
+    }
+
+    .addIcon {
+      font-size: var(--base-sizing-#{$fontSize});
+    }
+
+    .dragMessage {
+      @include font("base", $name, "500");
+    }
+  }
+}
+
+.Root {
+  display: flex;
+  flex-direction: column;
+}
+
+.errorMessage {
+  color: var(--theme-color-border-danger-default);
+  margin-top: var(--base-sizing-6x);
+  display: inline-block;
+}
+
+.dragArea {
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  background-color: var(--theme-color-surface-base-base2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--base-sizing-8x);
+  box-sizing: border-box;
+  @include transition(border-color);
+
+  .progress {
+    span {
+      display: block;
+      color: var(--theme-color-text-base-caption);
+      margin-bottom: var(--base-sizing-8x);
+    }
+
+    text-align: center;
+    width: 100%;
+  }
+
+  .dragMessage {
+    color: var(--theme-color-text-base-caption-light);
+  }
+
+  &.dragReady {
+    cursor: pointer;
+    &.onDrag,
+    &:hover {
+      border-style: dashed;
+      border-color: var(--theme-color-text-primary-default);
+    }
+  }
+
+  &.error {
+    color: var(--theme-color-border-danger-default);
+    border-color: var(--theme-color-border-danger-default);
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+    }
+  }
+}
+
+.fileItem {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .icon {
+    background: var(--theme-color-surface-base-base1);
+    border-radius: var(--theme-sizing-radius-default);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content {
+    @include transition(filter);
+    width: 100%;
+    height: 100%;
+    background: var(--theme-color-surface-base-base2);
+
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      background: none;
+    }
+  }
+
+  &:hover {
+    .iconContainer {
+      opacity: 1;
+    }
+
+    .content {
+      filter: brightness(0.5);
+    }
+  }
+
+  .iconContainer {
+    gap: var(--base-sizing-12x);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    display: flex;
+    opacity: 0;
+  }
+}
+
+.previewOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: var(--theme-color-semantic-base-black-overlay75);
+}
+
+.previewContent {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.closeBtn {
+  all: unset;
+  position: fixed;
+  right: var(--base-sizing-8x);
+  top: var(--base-sizing-8x);
+  background-color: var(--theme-color-surface-light-default);
+  border-radius: var(--theme-sizing-radius-round);
+  width: var(--base-sizing-24x);
+  height: var(--base-sizing-24x);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  @include transition(background-color);
+  &:hover {
+    background-color: var(--theme-color-surface-light-hover);
+  }
+  span {
+    color: var(--theme-color-text-base-global-dark);
+    font-size: var(--base-sizing-18x);
+    font-weight: 600;
+  }
+}
+
+.toolbar {
+  position: absolute;
+  bottom: var(--base-sizing-32x);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--base-sizing-72x);
+  background: var(--theme-color-border-secondary-hover);
+  padding: var(--base-sizing-8x) var(--base-sizing-32x);
+  border-radius: var(--base-sizing-32x);
+}

@@ -1,0 +1,75 @@
+@use "@styles" as *;
+
+$leanPositions: ("top", "bottom", "left", "right");
+
+.Root {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--theme-sizing-radius-default);
+
+  &.bordered {
+    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  }
+
+  &.default {
+    background-color: var(--theme-color-surface-base-bg-light);
+  }
+
+  &.solid {
+    background-color: var(--theme-color-surface-base-base2);
+  }
+
+  &.elevated {
+    background-color: var(--theme-color-surface-base-bg-light);
+    @include shadow(3);
+  }
+
+  &:not(.lean-all) {
+    padding: var(--base-sizing-24x);
+  }
+
+  @each $lean in $leanPositions {
+    &.lean-#{$lean} {
+      padding-#{$lean}: 0;
+    }
+  }
+}
+
+.textContent {
+  @include font("body", "md");
+  color: var(--theme-color-text-base-subtitle-light);
+  padding-top: var(--base-sizing-4x);
+  padding-bottom: var(--base-sizing-4x);
+}
+
+// =============================================================================
+// Sub Component: PanelTitle
+// =============================================================================
+
+$titleSizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
+
+.title {
+  color: var(--theme-color-text-base-subtitle);
+  margin-top: var(--base-sizing-12x);
+  margin-bottom: var(--base-sizing-12x);
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .title-icon {
+    margin-right: var(--base-sizing-8x);
+    color: var(--theme-color-text-base-caption);
+    vertical-align: text-top;
+  }
+
+  @each $size, $titleSize in $titleSizes {
+    &.title-#{$size} {
+      @include font("base", $titleSize, "700");
+    }
+  }
+}

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Radio should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-testid="radioItem"
+  >
+    <input
+      class="radio"
+      id="_r_0_"
+      type="radio"
+      value="val"
+    />
+  </div>
+</div>
+`;

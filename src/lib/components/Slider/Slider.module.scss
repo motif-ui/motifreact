@@ -1,0 +1,201 @@
+@use "@styles" as *;
+@use "./sliderValues" as *;
+
+// variant, color, border color, disabled, border disabled
+$colorTypes: (
+  (
+    "secondary",
+    var(--theme-color-surface-base-base7),
+    var(--theme-color-surface-base-base7),
+    var(--theme-color-surface-base-base6),
+    var(--theme-color-surface-base-base6)
+  ),
+  (
+    "warning",
+    var(--theme-color-surface-warning-default),
+    var(--theme-color-surface-warning-default),
+    var(--theme-color-surface-warning-inverse),
+    var(--theme-color-border-warning-disabled)
+  ),
+  (
+    "success",
+    var(--theme-color-surface-success-default),
+    var(--theme-color-surface-success-default),
+    var(--theme-color-surface-success-inverse),
+    var(--theme-color-border-success-disabled)
+  ),
+  (
+    "danger",
+    var(--theme-color-surface-danger-default),
+    var(--theme-color-surface-danger-default),
+    var(--theme-color-surface-danger-inverse),
+    var(--theme-color-border-danger-disabled)
+  ),
+  (
+    "primary",
+    var(--theme-color-surface-primary-default),
+    var(--theme-color-surface-primary-default),
+    var(--theme-color-surface-primary-inverse),
+    var(--theme-color-border-primary-disabled)
+  )
+);
+
+@mixin slider-style-thumb {
+  border-radius: var(--theme-sizing-radius-round);
+  background: var(--theme-color-surface-base-bg-light);
+  box-shadow: 0 var(--base-sizing-1x) var(--base-sizing-2x) var(--base-sizing-1x) var(--base-colors-black-black-overlay15);
+  cursor: pointer;
+  @include transition(transform);
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+@mixin slider-size-thumb($thumbSize, $thumbBorderSize, $thumbHoverSize) {
+  height: var(--base-sizing-#{$thumbSize});
+  width: var(--base-sizing-#{$thumbSize});
+  border: var(--base-sizing-#{$thumbBorderSize}) solid;
+  &:hover {
+    transform: scale(calc(var(--base-sizing-#{$thumbHoverSize}) / var(--base-sizing-#{$thumbSize})));
+  }
+}
+@mixin slider-color-thumb-disabled($borderDisabledColor) {
+  cursor: not-allowed;
+  border-color: $borderDisabledColor;
+}
+
+@each $size, $progressHeight, $thumb, $thumbHover, $thumbBorder, $marginTop, $horizontalPadding in $sizesPositions {
+  .#{$size} {
+    &.Root {
+      min-height: var(--base-sizing-#{$thumbHover});
+      min-width: var(--base-sizing-128x);
+
+      &.inFormField {
+        margin: var(--base-sizing-#{$marginTop}) var(--base-sizing-#{$horizontalPadding}) 0;
+      }
+    }
+    .tooltip {
+      bottom: calc(var(--base-sizing-#{$thumb}) - var(--base-sizing-20x));
+    }
+    .fill,
+    .track,
+    .mRangeContainer::after {
+      height: var(--base-sizing-#{$progressHeight});
+    }
+    .mRangeContainer {
+      min-width: var(--base-sizing-#{$thumb});
+    }
+
+    .mRange {
+      &::-webkit-slider-thumb {
+        @include slider-size-thumb($thumb, $thumbBorder, $thumbHover);
+      }
+      &::-moz-range-thumb {
+        @include slider-size-thumb($thumb, $thumbBorder, $thumbHover);
+      }
+    }
+  }
+}
+
+@each $variant, $color, $borderColor, $disabledColor, $borderDisabledColor in $colorTypes {
+  .#{$variant} {
+    .fill {
+      background: $color;
+    }
+    .mRange {
+      &::-webkit-slider-thumb {
+        border-color: $borderColor;
+      }
+      &::-moz-range-thumb {
+        border-color: $borderColor;
+      }
+    }
+    &.disabled {
+      cursor: not-allowed;
+      .fill {
+        background: $disabledColor;
+      }
+      .mRange {
+        &::-webkit-slider-thumb {
+          @include slider-color-thumb-disabled($borderDisabledColor);
+        }
+        &::-moz-range-thumb {
+          @include slider-color-thumb-disabled($borderDisabledColor);
+        }
+      }
+    }
+  }
+}
+
+.Root {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+}
+
+.mRangeContainer {
+  top: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+.mRange {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  appearance: none;
+  background: transparent;
+  z-index: 1;
+  pointer-events: none;
+  margin: 0;
+
+  &:hover + .tooltip {
+    @include pop-in;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    @include slider-style-thumb;
+  }
+  &::-moz-range-thumb {
+    @include slider-style-thumb;
+  }
+}
+
+.tooltip {
+  @include pop-default;
+  transform-origin: center left;
+  bottom: auto;
+  position: absolute;
+  transform: translateX(-50%) translateY(-100%);
+  background: var(--theme-color-text-secondary-active);
+  padding: var(--base-sizing-4x) var(--base-sizing-8x);
+  border-radius: var(--theme-sizing-radius-default);
+  color: var(--theme-color-text-base-text-light);
+  z-index: 1;
+
+  &::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-1px);
+    border-width: var(--base-sizing-6x);
+    border-style: solid;
+    border-color: var(--theme-color-text-secondary-active) transparent transparent;
+  }
+}
+
+.fill {
+  position: absolute;
+  border-radius: var(--theme-sizing-radius-round);
+}
+
+.track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--theme-color-surface-base-base4);
+  border-radius: var(--theme-sizing-radius-round);
+}

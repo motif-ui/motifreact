@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Avatar should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root md secondary icon"
+    data-testid="avatarItem"
+  >
+    <span
+      class="Root md motifIconsDefault"
+    >
+      person
+    </span>
+  </div>
+</div>
+`;

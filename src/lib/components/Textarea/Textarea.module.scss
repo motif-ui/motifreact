@@ -1,0 +1,89 @@
+@use "@styles" as *;
+
+$sizes: (
+  //size, paddingV, paddingH, counterSize
+  ("xs", "4x", "8x", "xxs"),
+  ("sm", "6x", "12x", "xs"),
+  ("md", "8x", "16x", "sm"),
+  ("lg", "10x", "20x", "sm")
+);
+
+.Root {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.inFormField {
+  min-width: var(--base-sizing-190x);
+}
+
+.disabled {
+  .textArea,
+  .counterArea {
+    color: var(--theme-color-text-base-disabled);
+    border-color: var(--theme-color-border-light-disabled);
+    background-color: var(--theme-color-surface-base-base1);
+  }
+}
+
+.textArea {
+  @include transition(border-color);
+  color: var(--theme-color-text-base-title);
+  background-color: var(--theme-color-surface-base-bg-light);
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  outline: none;
+  resize: none;
+  margin: 0;
+
+  &::placeholder {
+    color: var(--theme-color-text-base-caption);
+  }
+  &:focus {
+    border-color: var(--theme-color-border-primary-default);
+  }
+  .hasCounter & {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .success & {
+    border-color: var(--theme-color-border-success-default);
+  }
+  .error & {
+    border-color: var(--theme-color-border-danger-default);
+  }
+}
+
+.counterArea {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-style: solid;
+  border-color: var(--theme-color-border-light-default);
+  border-width: 0 var(--base-sizing-1x) var(--base-sizing-1x) var(--base-sizing-1x);
+  border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
+  color: var(--theme-color-text-base-caption);
+  background-color: var(--theme-color-surface-base-bg-light);
+
+  .success & {
+    color: var(--theme-color-text-success-default);
+    border-color: var(--theme-color-border-success-default);
+  }
+  .error & {
+    color: var(--theme-color-text-danger-default);
+    border-color: var(--theme-color-border-danger-default);
+  }
+}
+
+@each $size, $paddingV, $paddingH, $counterSize in $sizes {
+  .#{$size} {
+    .textArea {
+      @include font("body", $size);
+      padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+    }
+    .counterArea {
+      @include font("body", $counterSize);
+      padding-right: var(--base-sizing-#{$paddingV});
+    }
+  }
+}

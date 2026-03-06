@@ -1,0 +1,59 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started/Installation" />
+
+# Installation
+
+There are some steps to follow to install and set up Motif UI in your project.
+
+## 1. Download the Core Package
+
+It might be installed via npm or yarn. This will install the necessary core package.
+
+```bash
+npm install @motif-ui/react @fontsource/inter
+```
+
+#### Peer Dependencies
+
+Motif UI requires **react** and **react-dom** to be installed as peer dependencies. Make sure you have the following
+packages installed in your project.
+
+```json
+"peerDependencies": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+},
+```
+
+#### Inter Font
+
+By default, Motif UI uses the `Inter` font. This **should be included** in your project for proper rendering. Since the
+most straightforward way is using FontSource, it is already included in the installation script. If you want to change
+the font or use a different method to include, please refer to
+
+<a href="../?path=/docs/customization-fonts--docs">**Customization/Fonts**</a> section.
+
+## 2. Wrap with `MotifProvider`
+
+The next step is to wrap your application with the `MotifProvider` component to ensure that all Motif UI components
+function correctly.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider>{/* your app's children */}</MotifProvider>;
+```
+
+You are good to go! These two steps will get you started with Motif UI. Do not forget, by default, Motif UI **does not** include any styles.
+
+## 3. Styling
+
+The theme CSS files have to be added to style the components properly. You can do this by importing the CSS file of the
+theme you choose in your main application file. Here is an example of how to import the default theme:
+
+```jsx
+import "@motif-ui/react/themes/default-theme.css";
+```
+
+In order to change the font, please refer to <a href="../?path=/docs/customization-fonts--docs">**Customization/Fonts**</a> section

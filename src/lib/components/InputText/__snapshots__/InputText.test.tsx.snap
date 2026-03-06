@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`InputText should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-testid="inputItem"
+  >
+    <input
+      value=""
+    />
+  </div>
+</div>
+`;

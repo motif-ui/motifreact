@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`BusinessCard should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root neutral center"
+  />
+</div>
+`;

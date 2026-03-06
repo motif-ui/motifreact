@@ -1,0 +1,97 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as hooks from "./hooks.stories.tsx";
+
+<Meta title="Hooks/useTimeout" />
+
+# useTimeout
+
+Advanced timeout management with pause, resume, and clear capabilities.
+
+## Usage
+
+```jsx
+import { useTimeout } from "@motif-ui/react";
+
+const AutoSaveForm = () => {
+  const saveData = () => {
+    console.log("Auto-saving data...");
+  };
+
+  const { start, pause, clear } = useTimeout(saveData, 5000);
+
+  return (
+    <div>
+      <input onFocus={pause} onBlur={start} />
+      <button onClick={start}>Start Auto-save</button>
+      <button onClick={pause}>Pause Auto-save</button>
+      <button onClick={clear}>Cancel Auto-save</button>
+    </div>
+  );
+};
+```
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>callback</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>Yes</td>
+      <td>Function to execute after timeout</td>
+    </tr>
+    <tr>
+      <td><code>delay</code></td>
+      <td><code>number</code></td>
+      <td>Yes</td>
+      <td>Delay in milliseconds</td>
+    </tr>
+  </tbody>
+</table>
+
+## Return Value
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>object</code></td>
+      <td>
+        <code>
+          {"{"} <br />
+          &nbsp;&nbsp;start: () =&gt; void;<br />
+          &nbsp;&nbsp;pause: () =&gt; void;<br />
+          &nbsp;&nbsp;clear: () =&gt; void;<br />
+          {"}"}
+        </code>
+      </td>
+      <td>
+        The object returned from the <code>useTimeout</code> hook containing all timeout control methods.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Features
+
+- **Pause/Resume**: Temporarily pause the timeout without losing progress
+- **Dynamic Callback**: Automatically fires the callback function
+- **Auto-clear**: Automatically clears timeout after execution
+
+## Example
+
+<Canvas of={hooks.UseTimeoutExample} />

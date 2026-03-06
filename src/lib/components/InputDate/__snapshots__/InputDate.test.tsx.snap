@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`InputDate should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root"
+    data-testid="inputDate"
+  >
+    <div
+      class="Root md has-icon-left"
+      data-testid="inputItem"
+    >
+      <span
+        class="Root md motifIconsDefault icon icon-left"
+      >
+        calendar_month
+      </span>
+      <input
+        placeholder="DD/MM/YYYY"
+        readonly=""
+        value=""
+      />
+    </div>
+  </div>
+</div>
+`;

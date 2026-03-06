@@ -1,0 +1,62 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as hooks from "./hooks.stories.tsx";
+
+<Meta title="Hooks/useScreenSize" />
+
+# useScreenSize
+
+Tracks the current window dimensions and updates on resize.
+
+## Usage
+
+```jsx
+import { useScreenSize } from "@motif-ui/react";
+
+const ResponsiveComponent = () => {
+  const { width, height } = useScreenSize();
+
+  return (
+    <div>
+      <p>Window width: {width}px</p>
+      <p>Window height: {height}px</p>
+      {width < 768 && <p>Mobile view</p>}
+    </div>
+  );
+};
+```
+
+## Return Value
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>object</code></td>
+      <td>
+        <code>
+          {"{"} <br />
+          &nbsp;&nbsp;width: number;<br />
+          &nbsp;&nbsp;height: number;<br />
+          {"}"}
+        </code>
+      </td>
+      <td>Object returned by the hook containing the current window dimensions.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Use Cases
+
+- Responsive layout adjustments
+- Conditional rendering based on screen size
+- Dynamic component sizing
+
+## Note
+
+This hook returns `{ width: 0, height: 0 }` during SSR. Make sure to handle this case in your components.

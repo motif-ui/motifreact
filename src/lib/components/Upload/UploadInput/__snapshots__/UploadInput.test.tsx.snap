@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`UploadInput should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-testid="uploadInputItem"
+  >
+    <button
+      class="browseButton"
+      type="button"
+    >
+      <span
+        class="Root md motifIconsDefault"
+      >
+        search
+      </span>
+      Gözat..
+    </button>
+    <div
+      class="labelArea focusable"
+    >
+      <button
+        class="label placeholder roundedEnd"
+        type="button"
+      >
+        Dosya seçin
+      </button>
+      <div
+        class="labelSuffixWrapper"
+      />
+    </div>
+  </div>
+  <input
+    accept="*"
+    hidden=""
+    type="file"
+  />
+</div>
+`;

@@ -1,0 +1,44 @@
+@use "@styles" as *;
+
+$colorTypes: (("secondary", "light"), ("warning", "warning"), ("success", "success"), ("danger", "danger"), ("info", "info"));
+
+.Root {
+  display: flex;
+  padding: var(--base-sizing-10x) var(--base-sizing-20x);
+  align-items: flex-start;
+  gap: var(--base-sizing-10x);
+  border-left: var(--base-sizing-4x) solid;
+  border-radius: 0 var(--base-sizing-4x) var(--base-sizing-4x) 0;
+  opacity: 1;
+  @include transition(opacity);
+  &.hiding {
+    opacity: 0;
+  }
+
+  @each $colorType, $color in $colorTypes {
+    &.#{$colorType} {
+      background-color: var(--theme-color-surface-#{$color}-negative);
+      color: var(--theme-color-text-base-title);
+      border-left-color: var(--theme-color-text-#{$color}-active);
+
+      .title {
+        @include font("base", "lg", "600");
+        letter-spacing: var(--typography-base-lg-600-letter-spacing);
+        color: var(--theme-color-text-#{$color}-active);
+      }
+    }
+  }
+}
+
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--base-sizing-4x);
+  flex: 1 0 0;
+  align-self: center;
+}
+
+.content {
+  @include font("body", "md");
+}

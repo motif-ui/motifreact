@@ -1,0 +1,176 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import Button from "../../../lib/components/Button/Button";
+import * as ColorPaletteStories from "../../components/ColorPalette/colorPalette.stories";
+
+<Meta title="Design/Color Palette" />
+
+# Color Palette
+
+The colors in Motif UI are all set into design tokens, which then converted to `CSS variables` for the components to use.
+
+> **Note:** All color values displayed here originate from the **Default Theme**. Other themes may define different
+> values for the same token names. To explore them, visit the **[Themes](/docs/design-themes--docs)** page.
+
+There are some rules and some best practices to follow for a perfect coloring. Those are stated below:
+
+- **Structure:** Every color comes from a pair of token layers—immutable **base** tokens hold the raw values, while
+  **theme-prefixed** colors representing the colors of different themes.
+- **Expectation:** In standard library usage, theme-prefixed tokens reference the matching base tokens. If required, you
+  may point a theme token to a different color other than the base colors, but components are built with the expectation
+  that the mapping exists.
+- **Tones:** Both base and theme colors are built on top of 10-tone system. Those tones refer to the states in the
+  theme token mappings. So, this is crucial to put all the tones for the color you choose to use.
+  <br />
+
+## Main Color Tokens
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>What is it</th>
+      <th style={{ minWidth: "120px" }}>Does it change?</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`Base`</td>
+      <td>Raw, fixed values</td>
+      <td>❌ Never </td>
+      <td>`--base-colors-green-green-600: #049e4e`</td>
+    </tr>
+    <tr>
+      <td>`Semantic`</td>
+      <td>References to base colors</td>
+      <td>✅ Per theme</td>
+      <td>`--theme-color-semantic-success-success-600: var(--base-colors-green-green-600)`</td>
+    </tr>
+    <tr>
+      <td>`Categorized`</td>
+      <td>References to semantic colors</td>
+      <td>✅ Per theme</td>
+      <td>`--theme-color-surface-success-hover: var(--theme-color-semantic-success-success-600)`</td>
+    </tr>
+  </tbody>
+</table>
+
+> **Rule:** Always use theme-prefixed tokens in components. Base colors are for design system internals.
+
+<br />
+
+## Color Types
+
+Every theme **must** provide a full set of color tokens stated below. At minimum, each theme should define:
+
+- **Primary**: ` --theme-color-semantic-primary-primary-50…900` and surface/text variants
+  (default, hover, active, disabled).
+- **Secondary**: Theme-prefixed accent tokens (often mapped to grayscale base values) for supportive UI elements like ghost buttons, tab indicators, and subtle dividers.
+- **Neutral**: Base family tokens that provide the default canvas—page backgrounds, body text, dividers, and other foundational surfaces that should feel color-agnostic.
+- **Semantic states:** `success / warning / danger / info` families with 50…900 steps for backgrounds and surfaces.
+- **Base overlays:** white / black and overlay levels for scrims, modals and backdrops.
+- **Text tokens:** base text, title, subtitle, caption, disabled, plus `primary / success / warning / danger / info / secondary` text variants.
+- **Surface border tokens:** `light / secondary / primary / success / warning / danger / info ` surfaces and matching border colors for default, hover, active and disabled states.
+
+#### Examples
+
+- `--theme-color-text-primary-default` → Primary text, normal state
+- `--theme-color-surface-danger-hover` → Danger background, hover state
+- `--theme-color-border-secondary-disabled` → Secondary border, disabled state
+
+```css
+.button {
+  background-color: var(--theme-color-semantic-primary-primary-500);
+  color: var(--theme-color-semantic-base-white);
+}
+
+.button:hover {
+  background-color: var(--theme-color-surface-primary-hover);
+}
+
+.button:disabled {
+  background-color: var(--theme-color-surface-light-disabled);
+  color: var(--theme-color-text-base-text-light);
+}
+```
+
+> For theme authors; the full checklist of required semantic families, tones, and overlays lives in the **[Design Tokens](/docs/design-design-tokens--docs)** section.
+
+<br />
+
+### Tonal Steps
+
+Each color family has **10 tones**, from lightest to darkest. Lighter tones are best for backgrounds and the darker
+tones are for texts.
+
+```
+Primary (50 → 900)
+
++----+----+----+----+----+----+----+----+----+----+
+| 50 |100 |200 |300 |400 |500 |600 |700 |800 |900 |
++----+----+----+----+----+----+----+----+----+----+
+Lightest          Default tone (500)          Darkest
+```
+
+### State Variants
+
+Each tone has **6 states** for interactions:
+
+- `default` : Baseline rendering used for idle components
+- `hover` : Applied when the element receives pointer focus
+- `active` : Short-lived pressed state for affirmative feedback
+- `disabled` : Non-interactive appearance with reduced contrast
+- `inverse`: High-contrast variant for dark-on-light vs. light-on-dark swaps
+- `negative`: Optional contrast tone used for inverse overlays or error-on-dark treatments
+
+### Semantic Families
+
+- `primary`: Brand-leading color for the main action or highlight.
+- `secondary`: Supporting emphasis that keeps the focus on the primary action.
+- `success`: Positive confirmations (toasts, badges, status states).
+- `warning`: Cautionary feedback and alerts.
+- `danger`: Errors and destructive affordances.
+- `info`: Neutral informational callouts.
+- `base`: Neutral canvas for backgrounds, body text, and dividers.
+  <br />
+
+## Component Coloring
+
+> Which tokens color this button?
+
+<Canvas of={ColorPaletteStories.Solid} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+
+```
+┌─────────────┐
+│   Primary───│───▸  --theme-color-text-base-global-light
+└──|──────────┘
+   └───▸ --theme-color-surface-primary-default
+
+:hover     →  --theme-color-surface-primary-hover
+:active    →  --theme-color-surface-primary-active
+:disabled  →  --theme-color-surface-primary-disabled & --theme-color-text-base-disabled
+```
+
+> Which tokens color this button?
+
+<Canvas of={ColorPaletteStories.Outline} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+
+```
+┌─────────────┐
+│   Primary───│───▸  --theme-color-text-primary-default
+|──|──────────┘
+|  └───▸   --theme-color-surface-base-bg-light
+|
+└──▸  --theme-color-border-primary-default
+
+:hover     →  --theme-color-border-primary-default & --theme-color-text-primary-hover
+:active    →  --theme-color-border-primary-active & --theme-color-text-primary-active
+:disabled  →  --theme-color-border-primary-disabled & --theme-color-text-primary-disabled
+```
+
+## 🎨 Full Color Palette Reference
+
+This section shows all the available semantic colors in **Default Theme**. Each theme provides its own color values for
+the same token names. If you wish to discover all available themes, please visit **[Design/Themes](/docs/design-themes--docs)** section.
+
+<Canvas of={ColorPaletteStories.Primary} layout="fullscreen" className="no-border" sourceState="none" />

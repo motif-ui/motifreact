@@ -1,0 +1,190 @@
+.container {
+  padding: 0;
+  margin: 0;
+}
+
+.diagramContainer {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+  border-radius: 16px;
+  padding: 48px;
+  margin: 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: fit-content;
+}
+
+.tokensRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: center;
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 #3b82f6;
+}
+
+.tokenPill {
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff !important;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 18px;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  min-width: 60px;
+  flex-shrink: 0;
+  * {
+    color: #fff !important;
+  }
+}
+
+.connectingLines {
+  margin: 0;
+  overflow: visible;
+}
+
+.explanationsRow {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: nowrap;
+  max-width: 900px;
+  margin-top: 0;
+}
+
+.explanation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.numberCircle {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.explanationText {
+  font-size: 14px;
+  text-align: center;
+  max-width: 120px;
+  line-height: 1.5;
+  color: #fff !important;
+  strong {
+    color: #fff !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .diagramContainer {
+    gap: 24px;
+    padding: 40px 32px;
+  }
+  .tokenPill {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  .explanationsRow {
+    gap: 24px;
+    max-width: 100%;
+  }
+  .numberCircle {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .explanationText {
+    font-size: 13px;
+    max-width: 110px;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 768px) {
+  .diagramContainer {
+    padding: 32px 20px;
+    border-radius: 12px;
+    margin: 24px 0;
+    gap: 20px;
+  }
+  .tokensRow {
+    gap: 16px;
+  }
+  .tokenPill {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+  .explanationsRow {
+    gap: 20px;
+  }
+  .explanation {
+    gap: 10px;
+  }
+  .numberCircle {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  }
+  .connectingLines {
+    display: none;
+  }
+  .explanationText {
+    font-size: 12px;
+    max-width: 100px;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .diagramContainer {
+    padding: 24px 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    gap: 16px;
+  }
+  .tokensRow {
+    gap: 8px;
+  }
+  .tokenPill {
+    padding: 6px 8px;
+    font-size: 10px;
+    min-width: 50px;
+  }
+  .connectingLines {
+    display: none;
+  }
+  .explanationsRow {
+    gap: 10px;
+  }
+  .explanation {
+    gap: 8px;
+  }
+  .numberCircle {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  .explanationText {
+    font-size: 10px;
+    max-width: 80px;
+    line-height: 1.3;
+  }
+}

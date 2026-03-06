@@ -1,0 +1,37 @@
+@use "sass:map";
+
+$breakpoints: (
+  "xs": 0,
+  "sm": 36rem,
+  "md": 48rem,
+  "lg": 62rem,
+  "xl": 75rem,
+  "xxl": 87.5rem
+);
+
+@mixin screen-width($direction, $breakpoint1, $breakpoint2: null) {
+  $firstBreakpoint: map.get($breakpoints, $breakpoint1);
+  $secondBreakpoint: map.get($breakpoints, $breakpoint2);
+
+  $queries: (
+    "above": "(min-width: #{$firstBreakpoint})",
+    "below": "(max-width: #{$firstBreakpoint})",
+    "between": "(min-width: #{$firstBreakpoint}) and (max-width: #{$secondBreakpoint})"
+  );
+
+  @media #{map.get($queries, $direction)} {
+    @content;
+  }
+}
+
+@mixin screen-width-breakpoints($sizes) {
+  @each $size in $sizes {
+    @if $size == "xs" {
+      @content ($size);
+    } @else {
+      @media (min-width: #{map.get($breakpoints, $size)}) {
+        @content ($size);
+      }
+    }
+  }
+}

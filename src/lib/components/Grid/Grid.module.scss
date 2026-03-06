@@ -1,0 +1,82 @@
+@use "@styles" as *;
+
+$grid-sizes: ("sm", "md", "lg", "xl");
+$GRIDS: 12;
+@function calculate-grid-flex-width($colIdx) {
+  @return calc(($colIdx / $GRIDS * 100%) - ((1 - $colIdx / $GRIDS) * var(--theme-grid-gutter-gutter)));
+}
+
+.Root {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  gap: var(--theme-grid-gutter-gutter);
+  padding: var(--theme-grid-gutter-gutter);
+
+  &.leanToEdge {
+    padding: 0;
+  }
+
+  &:not(.fluid) {
+    @include screen-width-breakpoints($grid-sizes) using ($size) {
+      max-width: var(--theme-grid-container-#{$size});
+    }
+  }
+}
+
+// ==============================
+// Col
+// ==============================
+.colBase {
+  box-sizing: border-box;
+  min-width: 0;
+  overflow-wrap: break-word;
+  flex: 1 0 0;
+  display: flex;
+  .col {
+    width: 100%;
+  }
+}
+
+@for $i from 1 through $GRIDS {
+  .col-size-#{$i} {
+    flex: 0 0 calculate-grid-flex-width($i);
+  }
+}
+
+@include screen-width-breakpoints($grid-sizes) using ($size) {
+  @for $i from 1 through $GRIDS {
+    .col-#{$size}-#{$i} {
+      flex: 0 0 calculate-grid-flex-width($i);
+    }
+  }
+}
+
+// ==============================
+// Row
+// ==============================
+.row {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--theme-grid-gutter-gutter);
+
+  &.start {
+    justify-content: flex-start;
+  }
+  &.center {
+    justify-content: center;
+  }
+  &.end {
+    justify-content: flex-end;
+  }
+  &.evenly {
+    justify-content: space-evenly;
+  }
+
+  &.colsAuto > * {
+    flex: initial;
+  }
+}

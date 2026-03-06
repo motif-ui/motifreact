@@ -1,0 +1,208 @@
+@use "sass:map";
+@use "@styles" as *;
+
+// variant, bg, border, text
+$variants: (
+  (
+    "primary",
+    var(--theme-color-surface-primary-default),
+    var(--theme-color-border-primary-default),
+    var(--theme-color-text-base-text-light)
+  ),
+  ("light", var(--theme-color-surface-base-bg-light), var(--theme-color-border-light-default), var(--theme-color-text-base-caption)),
+  ("dark", var(--theme-color-surface-secondary-active), var(--theme-color-border-light-default), var(--theme-color-text-base-text-light))
+);
+
+// position, gapPos, edgeMarginPositions
+$positions: (
+  ("top", "bottom", ("top", "left", "right")),
+  ("bottom", "top", ("bottom", "left", "right")),
+  ("right", "left", ("top", "bottom", "right")),
+  ("left", "right", ("top", "bottom", "left")),
+  ("topRight", "bottom", ("top", "left")),
+  ("topLeft", "bottom", ("top", "right")),
+  ("bottomRight", "top", ("bottom", "left")),
+  ("bottomLeft", "top", ("bottom", "right"))
+);
+
+$caretMargin: var(--base-sizing-12x);
+@mixin caret-tip($position, $color, $elevated: false, $borderColor: null) {
+  $shadowBottom: 0 calc(-1 * var(--base-sizing-3x)) var(--base-sizing-2x);
+  $shadowTop: 0 var(--base-sizing-3x) var(--base-sizing-2x);
+  $borderBottom: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
+  $borderTop: var(--base-sizing-10x) var(--base-sizing-6x) 0 var(--base-sizing-6x);
+  $positionBottomBefore: 0 0 auto 0;
+  $positionTopBefore: auto 0 0 0;
+
+  $caretPositions: (
+    "bottom": (
+      shadowPos: $shadowBottom,
+      borderWidth: $borderBottom,
+      caretPosition: bottom,
+      margin: 0 0 0 var(--caret-left, 0),
+      beforePos: $positionBottomBefore,
+      afterPos: var(--base-sizing-2x) 0 auto 0
+    ),
+    "top": (
+      shadowPos: $shadowTop,
+      borderWidth: $borderTop,
+      caretPosition: top,
+      margin: 0 0 0 var(--caret-left, 0),
+      beforePos: $positionTopBefore,
+      afterPos: auto 0 var(--base-sizing-2x) 0
+    ),
+    "left": (
+      shadowPos: var(--base-sizing-3x) var(--base-sizing-1x) var(--base-sizing-2x),
+      borderWidth: var(--base-sizing-6x) 0 var(--base-sizing-6x) var(--base-sizing-10x),
+      caretPosition: left,
+      margin: var(--caret-top) 0 0 0,
+      beforePos: 0 0 0 auto,
+      afterPos: 0 var(--base-sizing-2x) 0 auto
+    ),
+    "right": (
+      shadowPos: calc(-1 * var(--base-sizing-3x)) var(--base-sizing-1x) var(--base-sizing-2x),
+      borderWidth: var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x) 0,
+      caretPosition: right,
+      margin: var(--caret-top) 0 0 0,
+      beforePos: 0 auto 0 0,
+      afterPos: 0 0 0 var(--base-sizing-2x)
+    ),
+    "bottomLeft": (
+      shadowPos: $shadowBottom,
+      borderWidth: $borderBottom,
+      caretPosition: bottom,
+      margin: 0 0 0 $caretMargin,
+      beforePos: $positionBottomBefore,
+      afterPos: var(--base-sizing-2x) 0 auto 0
+    ),
+    "bottomRight": (
+      shadowPos: $shadowBottom,
+      borderWidth: $borderBottom,
+      caretPosition: bottom,
+      margin: 0 $caretMargin 0 auto,
+      beforePos: $positionBottomBefore,
+      afterPos: var(--base-sizing-2x) 0 auto 0
+    ),
+    "topLeft": (
+      shadowPos: $shadowTop,
+      borderWidth: $borderTop,
+      caretPosition: top,
+      margin: 0 0 0 $caretMargin,
+      beforePos: $positionTopBefore,
+      afterPos: auto 0 var(--base-sizing-2x) 0
+    ),
+    "topRight": (
+      shadowPos: $shadowTop,
+      borderWidth: $borderTop,
+      caretPosition: top,
+      margin: 0 $caretMargin 0 auto,
+      beforePos: $positionTopBefore,
+      afterPos: auto 0 var(--base-sizing-2x) 0
+    )
+  );
+  $values: map.get($caretPositions, $position);
+
+  .popover {
+    &:before {
+      border-width: map.get($values, "borderWidth");
+      border-#{map.get($values, "caretPosition")}-color: if($borderColor, $borderColor, $color);
+      inset: map.get($values, "beforePos");
+      margin: map.get($values, "margin");
+
+      @if $elevated {
+        filter: drop-shadow(#{map.get($values, "shadowPos")} #0000001a);
+      }
+    }
+
+    @if $borderColor {
+      &:after {
+        border-width: map.get($values, "borderWidth");
+        border-#{map.get($values, "caretPosition")}-color: $color;
+        margin: map.get($values, "margin");
+        inset: map.get($values, "afterPos");
+      }
+    }
+  }
+}
+
+.Root {
+  z-index: 1;
+  box-sizing: border-box;
+  position: absolute;
+  display: flex; // DO NOT REMOVE: this prevents borders get cut off when popover overflows
+  @include fade-default;
+}
+
+.visible {
+  @include fade-in();
+}
+
+.popover {
+  width: max-content;
+  border-radius: var(--theme-sizing-radius-default);
+  overflow: hidden;
+  .justText & {
+    padding: var(--base-sizing-10x);
+  }
+}
+
+.elevated {
+  @include drop-shadow(2);
+}
+
+.withGap .popover:before {
+  content: "";
+  position: absolute;
+  width: $caretMargin;
+  height: $caretMargin;
+  box-sizing: border-box;
+}
+
+.noSpace:before {
+  content: initial;
+}
+
+.callout .popover {
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    width: $caretMargin;
+    height: $caretMargin;
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: transparent;
+  }
+}
+
+@each $position, $gapPosition, $edgeMarginPositions in $positions {
+  .#{$position} {
+    @each $variant, $bgColor, $borderColor, $textColor in $variants {
+      &.#{$variant} {
+        &.callout {
+          padding-#{$gapPosition}: $caretMargin;
+
+          &.elevated {
+            @include caret-tip($position, $bgColor, true);
+          }
+          &:not(.elevated) {
+            @include caret-tip($position, $bgColor, false, $borderColor);
+          }
+        }
+        &:not(.elevated) .popover {
+          border: solid var(--base-sizing-1x) $borderColor;
+        }
+        .popover {
+          background-color: $bgColor;
+          color: $textColor;
+          @each $edgePos in $edgeMarginPositions {
+            margin-#{$edgePos}: var(--base-sizing-4x);
+          }
+        }
+        &.withGap {
+          padding-#{$gapPosition}: $caretMargin;
+        }
+      }
+    }
+  }
+}

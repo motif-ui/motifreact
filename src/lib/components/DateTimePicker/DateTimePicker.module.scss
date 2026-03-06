@@ -1,0 +1,103 @@
+@use "sass:map";
+@use "@styles" as *;
+@use "../Motif/Pickers/pickerValues";
+
+$sizes: (
+  // size, monthLabelSize, tabPaddingV, tabPaddingH, timePeriodSize, timePeriodMarginBottom
+  ("xs", "heading5", "6x", "12x", "xxs", "0"),
+  ("sm", "heading4", "8x", "16x", "xs", "2x"),
+  ("md", "heading3", "10x", "20x", "sm", "2x"),
+  ("lg", "heading2", "12x", "24x", "md", "0")
+);
+
+.dateTimePickerContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.infoDate {
+  display: flex;
+  flex: 1;
+  gap: var(--base-sizing-4x);
+  align-items: baseline;
+  span {
+    color: var(--theme-color-text-base-caption-light);
+  }
+  &.active span {
+    color: var(--theme-color-text-primary-default);
+  }
+}
+
+.infoTime {
+  color: var(--theme-color-text-base-caption-light);
+  &.active {
+    color: var(--theme-color-text-primary-default);
+  }
+}
+
+.infoTimePeriod {
+  color: var(--theme-color-text-base-disabled-light);
+}
+
+.tabItemContainer {
+  display: flex;
+
+  .tabItem {
+    flex: 1;
+    cursor: pointer;
+    appearance: unset;
+    background: none;
+    border: none;
+    border-bottom: solid var(--base-sizing-2x) var(--theme-color-surface-base-base6);
+
+    .icon {
+      color: var(--theme-color-text-base-caption-light);
+      @include transition(color);
+    }
+
+    @include transition(border-bottom-color);
+
+    &.active {
+      border-bottom-color: var(--theme-color-border-primary-default);
+      .icon {
+        color: var(--theme-color-text-primary-default);
+      }
+    }
+
+    &:not(.active):hover {
+      border-bottom-color: var(--theme-color-surface-base-base7);
+      .icon {
+        color: var(--theme-color-text-base-caption);
+      }
+    }
+  }
+}
+
+@each $size, $monthLabelSize, $tabPaddingV, $tabPaddingH, $timePeriodSize, $timePeriodMarginBottom in $sizes {
+  .#{$size} {
+    gap: map.get(pickerValues.$size, $size, "gapV");
+
+    .infoMonthDay {
+      @include font("heading", $monthLabelSize);
+    }
+    .infoDate .infoYear,
+    .infoTime {
+      @include font("base", $size, "700");
+    }
+    .infoTimePeriod {
+      @include font("base", $timePeriodSize, "500");
+      margin-left: var(--base-sizing-2x);
+    }
+    .tabItemContainer .tabItem {
+      padding: var(--base-sizing-#{$tabPaddingV}) var(--base-sizing-#{$tabPaddingH});
+    }
+    .timePicker {
+      margin: calc(-1 * map.get(pickerValues.$size, $size, "gapV")) 0;
+    }
+  }
+}

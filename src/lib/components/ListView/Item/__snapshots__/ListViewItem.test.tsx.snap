@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ListView.Item should render with only required props 1`] = `
+<div>
+  <li
+    class="listItem"
+    data-testid="listViewItem"
+  >
+    <div
+      class="baseContent"
+    >
+      <div
+        class="centerContent"
+      >
+        <span
+          class="title"
+        >
+          Test Item
+        </span>
+      </div>
+    </div>
+  </li>
+</div>
+`;

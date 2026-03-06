@@ -1,0 +1,12 @@
+.Root {
+  position: relative;
+  display: inline-grid;
+
+  .datePicker {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 1;
+    margin-top: var(--base-sizing-2x);
+  }
+}

@@ -1,0 +1,14 @@
+@use "@styles" as *;
+
+.Root {
+  position: relative;
+  display: inline-grid;
+
+  .timePicker {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 1;
+    margin-top: var(--base-sizing-2x);
+  }
+}

@@ -1,0 +1,141 @@
+@use "@styles" as *;
+
+$theme: (
+  // theme, bg, titleColor, subTitleColor, controlButtonHoverColor, controlButtonColor, indicatorBgColor, indicatorActiveBgColor, indicatorHoverBgColor
+  (
+      "light",
+      --theme-color-surface-base-base1,
+      --theme-color-semantic-base-black,
+      --theme-color-text-light-active,
+      --theme-color-semantic-base-black-overlay50,
+      --theme-color-text-base-caption,
+      --theme-elevation-elevation5-shadow,
+      --theme-color-surface-base-bg-dark,
+      --theme-color-semantic-base-black-overlay40
+    ),
+  (
+    "dark",
+    --theme-color-surface-base-bg-dark,
+    --theme-color-semantic-base-white,
+    --theme-color-semantic-base-white-overlay75,
+    --theme-color-surface-base-light-overlay25,
+    --theme-color-semantic-base-white,
+    --theme-color-semantic-base-white-overlay25,
+    --theme-color-semantic-base-white,
+    --theme-color-semantic-base-white-overlay50
+  )
+);
+
+.Root {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+@each $theme, $bg, $titleColor, $subtitleColor, $ctrlHoverColor, $ctrlColor, $indBgColor, $indActiveBgColor, $indHoverBgColor in $theme {
+  .#{$theme} {
+    background: var($bg);
+    .title {
+      color: var($titleColor);
+    }
+    .subtitle {
+      color: var($subtitleColor);
+    }
+    .prev,
+    .next {
+      color: var($ctrlColor);
+      &:hover {
+        color: var($ctrlHoverColor);
+      }
+    }
+    .indicators li {
+      background-color: var($indBgColor);
+      &.active {
+        background-color: var($indActiveBgColor);
+      }
+      &:hover {
+        background-color: var($indHoverBgColor);
+      }
+    }
+  }
+}
+
+.next {
+  position: absolute;
+  top: calc(50% - var(--base-sizing-20x));
+  right: var(--base-sizing-40x);
+}
+
+.prev {
+  position: absolute;
+  top: calc(50% - var(--base-sizing-20x));
+  transform: rotate(180deg);
+  left: var(--base-sizing-40x);
+}
+
+.track {
+  display: flex;
+  height: 100%;
+  @include transition(transform, "slow");
+  will-change: transform;
+
+  .item {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .text {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: var(--base-sizing-48x);
+      padding: var(--base-sizing-20x) var(--base-sizing-12x);
+      @include flex-center(column);
+      text-align: center;
+
+      .title {
+        @include font("heading", "heading5");
+      }
+      .subtitle {
+        @include font("body", "md");
+        margin-top: var(--base-sizing-4x);
+      }
+    }
+  }
+}
+
+.indicators {
+  all: unset;
+  @include flex-center();
+  gap: var(--base-sizing-6x);
+  list-style: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--base-sizing-16x);
+
+  li {
+    cursor: pointer;
+    @include transition(background-color);
+  }
+
+  &.dot li {
+    width: var(--base-sizing-12x);
+    height: var(--base-sizing-12x);
+    border-radius: var(--theme-sizing-radius-round);
+    margin: var(--base-sizing-10x);
+  }
+
+  &.line li {
+    width: var(--base-sizing-32x);
+    height: var(--base-sizing-4x);
+    margin: var(--base-sizing-10x) 0;
+  }
+}

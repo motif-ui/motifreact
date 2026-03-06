@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Select should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-testid="selectItem"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="listbox"
+      class="input"
+      role="combobox"
+      tabindex="0"
+    >
+      <div
+        class="inputTextAndItemsContainer"
+      >
+        <input
+          class="inputText"
+          placeholder="Lütfen seçiniz"
+          readonly=""
+          value=""
+        />
+      </div>
+      <div
+        class="rightContainer"
+      >
+        <span
+          class="Root md motifIconsDefault iconRight arrowDown"
+        >
+          arrow_drop_down
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,214 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started/MotifProvider" />
+
+# MotifProvider
+
+`MotifProvider` is the root context provider that wraps your entire application. It manages the global library configuration such as:
+
+- Base icon class used for icon fonts/SVGs
+- Default prop values for all components
+- Global font variable/class name
+- Application language
+- Theme
+
+> **Note:** All of these values can be accessed anywhere within your app using the `useMotifContext()` hook.
+
+## Usage
+
+In its simplest form, it's enough to wrap your application once with the MotifProvider. It should be placed inside your main `App` component's file. For example, if you are using Next.js, typically it should be your `layout.tsx` file.
+
+> **Note:** Please refer to _Integrations_ section for more details.
+
+Below, there is a simple example of how to use it. Each prop also has its own default value. So, they may only be used if it is necessary.
+
+> **Note:** Each prop also has its set functions. So it would be possible to update those props afterwards.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+function App() {
+  return (
+    <MotifProvider
+      locale="tr"
+      baseIconClass="motif-icons"
+      font="motif-font"
+      theme={theme} >
+     {/* your app's children */ }
+    </MotifProvider>
+  );
+}
+```
+
+## Props
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Type</th>
+      <th>Setter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>baseIconClass</code></td>
+      <td>string</td>
+      <td>`setBaseIconClass()`</td>
+      <td>Base class for all icons</td>
+      <td>"motif-icons"</td>
+    </tr>
+        <tr>
+      <td><code>componentDefaults</code></td>
+      <td>ComponentDefaults</td>
+      <td>`setComponentDefaults()`</td>
+      <td>Global default props per component</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td><code>font</code></td>
+      <td>string</td>
+      <td>`setFont()`</td>
+      <td>Global font variable</td>
+      <td><i>undefined</i></td>
+    </tr>
+    <tr>
+      <td><code>locale</code></td>
+      <td>"tr" | "en"</td>
+      <td>`setLocale()`</td>
+      <td>Application language</td>
+      <td>"tr"</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td>Theme</td>
+      <td>`setTheme()`</td>
+      <td>Theme object to style the library</td>
+      <td><i>undefined</i></td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+### baseIconClass
+
+Sets the base css class used for icons. This prop is responsible for holding the css class name of the font icon that is imported. By setting this value, each icon related component will only required the icon name and icon class name will not be required explicitly for `Icon` and `IconButton` components.
+
+Default value is `motif-icons` and this prop might be updated via `setBaseIconClass` function.
+
+> **Note:** More detail can be found in [Icons section](?path=/docs/icons-icons--docs)
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider baseIconClass="my-icons">
+ {/* your app's children */ }
+</MotifProvider>
+```
+
+### componentDefaults
+
+Allows defining **global default props** for components. It is used to keep the consistency between the same components throughout the app, without setting the same props over and over again. This prop might be updated via `setComponentDefaults` function.
+
+The example below demonstrates how to set default props for `Button` and `Popover` components throughout your app:
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+const componentDefaults = {
+  Button: { variant: "primary", size: "md" },
+  Popover: { spacing: "withGap" },
+};
+
+<MotifProvider componentDefaults={componentDefaults}>
+ {/* your app's children */ }
+</MotifProvider>
+```
+
+### font
+
+Applies a global font family name to the application root. This prop tells the application to use that font family. It is not importing the font itself. The font family used here should be imported independently. More information can be found in the [Fonts section](?path=/docs/customization-fonts--docs).
+
+> This prop might be updated via `setFont` function.
+
+Here's an example:
+
+```jsx
+import "@fontsource/orbitron";
+```
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider font="'Orbitron', sans-serif">
+  {/* your app's children */ }
+</MotifProvider>
+```
+
+### locale
+
+Defines the language of the application.It basically changes language of the predefined text values inside the components. It can also be set using `setLocale` function. Here's an expamle:
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider locale="en">
+  {/* your app's children */ }
+</MotifProvider>
+```
+
+### theme
+
+The theme prop is used to change styling values that refers to the css variables in theme css files. Although it is not a preferred way, the whole style of the app might be change using this prop. It's basically the other way of using a theme css file. `setTheme` function can also be used to change this value after the library is initialized.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+const theme = {
+  sizing: {
+    radius: {
+      default: ".5rem"
+    }
+  },
+  color: {
+    surface: {
+      primary: {
+        active: "red", default: "green", hover: "purple"
+      }
+    }
+  }
+}
+
+<MotifProvider theme={theme}>
+ {/* your app's children */ }
+</MotifProvider>;
+```
+
+You can find more detailed information [here](?path=/docs/design-themes--docs).
+
+## Using the Context
+
+Props might be read and consumed from any component wrapped with `MotifProvider` at the top, using the `useMotifContext()` hook. This allows you to both access and update the values from any component within your app:
+
+```tsx
+import { useMotifContext } from "@motif-ui/react";
+
+const Component = () => {
+  const { locale, baseIconClass, font, theme, componentDefaults, setLocale, setBaseIconClass, setFont, setTheme, setComponentDefaults } = useMotifContext();
+
+  return (
+    <div>
+      <p>Locale: {locale}</p>
+      <p>Icon Class: {baseIconClass}</p>
+      <p>Font: {font}</p>
+
+      <button onClick={() => setLocale("en")}>Switch to English</button>
+      <button onClick={() => setBaseIconClass("icons-2")}>Change Icon Class</button>
+      <button onClick={() => setFont("Roboto")}>Change Font</button>
+    </div>
+  );
+};
+```

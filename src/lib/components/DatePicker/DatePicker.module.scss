@@ -1,0 +1,287 @@
+@use "@styles" as *;
+@use "sass:map";
+@use "../Motif/Pickers/pickerValues";
+
+$sizes: (
+  //size, itemSize, headerButtonPaddingH, daysRowGap, daysColGap, monthYearGapV, monthGapH, yearGapH, $monthYearButtonW
+  ("xs", "24x", "4x", "4x", "2x", "20x", "20x", "2x", "44x"),
+  ("sm", "32x", "6x", "8x", "4x", "24x", "32x", "12x", "52x"),
+  ("md", "40x", "8x", "12x", "6x", "28x", "40x", "24x", "56x"),
+  ("lg", "48x", "10x", "16x", "8x", "32x", "48x", "28x", "72x")
+);
+
+.dateSelector {
+  display: flex;
+  flex-direction: column;
+
+  &.fluid {
+    .weekDays {
+      align-items: center;
+      justify-items: center;
+    }
+    .days {
+      flex: 1;
+      align-items: center;
+      justify-items: center;
+    }
+    .monthSelector,
+    .yearSelector {
+      justify-content: space-evenly;
+    }
+  }
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  .arrowButton {
+    border-radius: var(--theme-sizing-radius-round);
+    background-color: var(--theme-color-surface-base-base1);
+    display: flex;
+    border: solid var(--base-sizing-1x) transparent;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    @include transition(background-color border-color);
+    color: var(--theme-color-text-base-subtitle);
+
+    &:first-child {
+      grid-column: 1;
+      justify-self: start;
+    }
+    &:last-child {
+      grid-column: 3;
+      justify-self: end;
+    }
+
+    &:hover {
+      background-color: var(--theme-color-surface-base-base2);
+      border-color: var(--theme-color-border-light-disabled);
+    }
+  }
+
+  .headerMonthYearButtonContainer {
+    grid-column: 2;
+    justify-self: center;
+    display: flex;
+    gap: var(--base-sizing-2x);
+
+    button {
+      all: unset;
+      color: var(--theme-color-text-base-subtitle);
+      background-color: var(--theme-color-surface-base-bg-light);
+      border-radius: var(--base-radius-sm);
+      @include transition(background-color);
+
+      &:not(:disabled) {
+        cursor: pointer;
+        &:hover {
+          background-color: var(--theme-color-surface-base-base1);
+        }
+      }
+    }
+  }
+}
+
+.daySelector {
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  width: 100%;
+  height: var(--base-sizing-1x);
+  margin: 0;
+  border: 0;
+  border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
+}
+
+.weekDays {
+  display: grid;
+  grid-template-areas: "x x x x x x x";
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--theme-color-text-base-caption);
+  }
+}
+
+.days {
+  display: grid;
+  grid-template-areas: "x x x x x x x";
+  overflow: hidden;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: var(--theme-color-text-base-subtitle);
+    background-color: var(--theme-color-surface-base-bg-light);
+    border-radius: var(--theme-sizing-radius-default);
+    border: none;
+    @include transition(background-color);
+    @include focus-ring;
+
+    &:hover {
+      background-color: var(--theme-color-surface-base-base1);
+    }
+
+    &:disabled {
+      color: var(--theme-color-text-base-disabled-light);
+      pointer-events: none;
+    }
+
+    &.today {
+      background-color: var(--theme-color-surface-base-bg-light);
+      color: var(--theme-color-text-primary-default);
+      border: solid var(--base-sizing-1x) var(--theme-color-border-primary-default);
+    }
+
+    &.selected {
+      background-color: var(--theme-color-surface-primary-default);
+      color: var(--theme-color-text-base-text-light);
+      position: relative;
+
+      &.toLeft,
+      &.toRight {
+        &:after {
+          position: absolute;
+          z-index: -1;
+          content: "";
+          background-color: var(--theme-color-surface-primary-negative);
+          top: 0;
+          bottom: 0;
+        }
+      }
+
+      &.toLeft {
+        &,
+        &:after {
+          border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
+        }
+        &:after {
+          right: 0;
+          left: calc(-1 * var(--base-sizing-2x));
+        }
+      }
+
+      &.toRight {
+        &,
+        &:after {
+          border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
+        }
+        &:after {
+          left: 0;
+          right: calc(-1 * var(--base-sizing-2x));
+        }
+      }
+    }
+
+    &.partiallySelected {
+      background-color: transparent;
+      position: relative;
+      &:after {
+        content: "";
+        background-color: var(--theme-color-surface-primary-negative);
+        position: absolute;
+        left: calc(-1 * var(--base-sizing-2x));
+        right: calc(-1 * var(--base-sizing-2x));
+        top: 0;
+        bottom: 0;
+        z-index: -1;
+      }
+    }
+  }
+}
+
+.monthSelector,
+.yearSelector {
+  display: grid;
+  justify-content: center;
+
+  button {
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    color: var(--theme-color-text-base-subtitle);
+    background-color: var(--theme-color-surface-base-bg-light);
+    border-radius: var(--base-radius-sm);
+    border: none;
+    @include focus-ring;
+    @include transition(background-color);
+
+    &:hover {
+      background-color: var(--theme-color-surface-base-base1);
+    }
+
+    &.selected {
+      background-color: var(--theme-color-surface-primary-default);
+      color: var(--theme-color-text-base-text-light);
+    }
+  }
+}
+
+.monthSelector {
+  grid-template-areas: "x x x";
+}
+.yearSelector {
+  grid-template-areas: "x x x x";
+}
+
+@each $size, $itemSize, $headerButtonPaddingH, $daysRowGap, $daysColGap, $monthYearGapV, $monthGapH, $yearGapH, $monthYearButtonW in $sizes
+{
+  .#{$size} {
+    &.daySelector,
+    &.dateSelector {
+      gap: map.get(pickerValues.$size, $size, "gapV");
+    }
+
+    .header {
+      height: var(--base-sizing-#{$itemSize});
+      .arrowButton {
+        width: var(--base-sizing-#{$itemSize});
+        height: var(--base-sizing-#{$itemSize});
+      }
+      .headerMonthYearButtonContainer button {
+        padding: 0 var(--base-sizing-#{$headerButtonPaddingH});
+        @include font("base", $size, "700");
+      }
+    }
+
+    .days,
+    .weekDays {
+      grid-row-gap: var(--base-sizing-#{$daysRowGap});
+      column-gap: var(--base-sizing-#{$daysColGap});
+    }
+
+    .weekDays span,
+    .days button {
+      width: var(--base-sizing-#{$itemSize});
+      height: var(--base-sizing-#{$itemSize});
+      @include font("base", $size, "700");
+    }
+
+    .monthSelector,
+    .yearSelector {
+      margin: map.get(pickerValues.$size, $size, "gapV") 0;
+      grid-row-gap: var(--base-sizing-#{$monthYearGapV});
+      button {
+        width: var(--base-sizing-#{$monthYearButtonW});
+        height: var(--base-sizing-#{$itemSize});
+        @include font("base", $size, "700");
+      }
+    }
+    .monthSelector {
+      grid-column-gap: var(--base-sizing-#{$monthGapH});
+    }
+    .yearSelector {
+      grid-column-gap: var(--base-sizing-#{$yearGapH});
+    }
+  }
+}

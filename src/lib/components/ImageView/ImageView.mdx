@@ -1,0 +1,8 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import * as ImageView from "./ImageView.stories.tsx";
+
+<Meta of={ImageView} />
+
+## Placeholder
+
+Placeholder is enabled by default. In order to render it properly, image container size must be provided before the image is requested. This might be done by setting width-height property together or one of them with aspectRatio property. Then, the placeholder will be visible until the image is loaded.

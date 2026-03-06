@@ -1,0 +1,51 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/Theming" />
+
+# Theming
+
+One of the all around UI customization method for Motif UI is theming. By default, Motif UI is used without any styling.
+As mentioned in the **Getting Started** section, at least, the default theme should be imported to style the components.
+
+If you want to customize the component with your own theme, you should create one.
+
+- Theming provides a customization on top of design token that are converted into certain css variables. These variables
+  are responsible for changing colors, dimensions, etc.
+- Required design tokens for theming are listed in `Design > Design Tokens` section.
+- There are 2 ways to change these design tokens for your own theme:
+  - By using our design system in Figma
+  - By directly changing the css variables in the css file
+
+### Using Figma
+
+Motif UI design system in Figma provides the set of design tokens that are used for theming. You can simply change those
+tokens and export them. After design tokens json file is created, Motif UI source code should be cloned, the script
+below should be executed and then your theme css file will be ready to use.
+
+```npm
+npm run build:theme <path-to-tokens-json> <theme-name> <output-folder-path>
+```
+
+### Change CSS Variables in CSS File
+
+There are several predefined themes available in the themes/ folder. If you’d like to create your own by making small
+adjustments to an existing theme, the easiest approach is to modify the CSS variables in the corresponding theme’s CSS
+file.
+
+<br />
+
+### Theme Prop in MotifProvider
+
+Another way of customizing Motif UI is by using the `theme` and `setTheme` props in MotifProvider. Comparing with creating a
+whole new theme css file, this approach is **not a preferred way** of theming, but it is useful for small adjustments.
+
+```jsx
+<MotifProvider theme={
+  sizing: {
+    radius: {
+      default: ".5rem"
+    }
+  }}>
+  {/* your app's children */}
+</MotifProvider>
+```

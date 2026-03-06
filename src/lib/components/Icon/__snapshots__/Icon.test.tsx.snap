@@ -1,0 +1,2731 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Icon should be rendered with only required props 1`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    account_circle
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 1`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    motif_ui
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 2`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    accessibility
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 3`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    accessible
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 4`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    accessible_forward
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 5`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    account_balance
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 6`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    account_balance_wallet
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 7`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    account_balance_wallet_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 8`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    account_circle
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 9`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    add
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 10`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    add_box
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 11`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    add_box_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 12`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    add_circle
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 13`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    add_circle_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 14`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    alarm
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 15`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    alarm_add
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 16`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    alternate_email
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 17`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    apartment
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 18`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_back
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 19`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_back_ios_new
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 20`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_downward
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 21`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_drop_down
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 22`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_drop_up
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 23`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_forward
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 24`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_forward_ios
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 25`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_insert
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 26`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_left_alt
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 27`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_right_alt
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 28`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    arrow_upward
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 29`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    article
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 30`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    assignment
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 31`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    assignment_ind
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 32`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    assist_walker
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 33`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    attach_file
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 34`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    autorenew
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 35`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    backspace
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 36`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    backup
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 37`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    balance
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 38`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    bar_chart
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 39`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    blind
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 40`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    block
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 41`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    bookmark
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 42`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    bookmark_manager
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 43`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    bookmark_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 44`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    border_all
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 45`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    cached
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 46`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    calendar_month
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 47`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    calendar_today
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 48`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    call
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 49`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    call_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 50`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    cancel
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 51`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    cancel_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 52`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    cardiology
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 53`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    cases
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 54`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    chat
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 55`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    chat_bubble
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 56`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    check
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 57`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    check_circle
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 58`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    check_circle_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 59`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    checklist
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 60`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    chevron_left
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 61`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    chevron_right
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 62`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    chips
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 63`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    close
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 64`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    cloud_done
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 65`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    cloud_download
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 66`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    collapse_content
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 67`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    collections_bookmark
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 68`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    compare_arrows
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 69`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    contact_page
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 70`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    contact_support
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 71`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    content_copy
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 72`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    content_cut
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 73`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    content_paste
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 74`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    contract
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 75`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    contract_edit
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 76`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    copy_all
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 77`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    create_new_folder
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 78`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    credit_card
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 79`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    crop_free
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 80`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    dashboard
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 81`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    delete
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 82`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    delete_forever
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 83`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    delete_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 84`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    density_medium
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 85`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    description
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 86`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    device_hub
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 87`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    device_reset
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 88`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    devices
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 89`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    dictionary
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 90`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    directions_car
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 91`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    diversity_3
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 92`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    do_not_disturb_on
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 93`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    domain
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 94`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    done_all
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 95`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    download
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 96`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    download_2
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 97`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    downloading
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 98`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    draft
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 99`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    drive_folder_upload
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 100`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    edit_document
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 101`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    emoji_flags
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 102`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    emoji_flags_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 103`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    encrypted
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 104`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    error
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 105`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    error_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 106`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    event
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 107`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    event_available
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 108`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    event_busy
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 109`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    expand_all
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 110`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    expand_content
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 111`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    extension
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 112`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    external
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 113`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    fact_check
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 114`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    factory
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 115`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    favorite
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 116`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    feature_search
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 117`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    feed
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 118`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    feedback
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 119`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    file_copy
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 120`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    file_present
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 121`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    filter
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 122`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    filter_alt
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 123`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    filter_alt_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 124`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    filter_list
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 125`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    filter_list_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 126`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    filter_none
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 127`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    finance
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 128`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    fingerprint
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 129`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    flash_on
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 130`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    folder
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 131`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    folder_copy
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 132`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    folder_managed
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 133`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    folder_open
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 134`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    folder_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 135`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    folder_shared
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 136`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    format_quote
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 137`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    forum
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 138`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    grade
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 139`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    group
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 140`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    group_add
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 141`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    groups
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 142`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    handshake
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 143`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    handyman
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 144`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    heap_snapshot_large
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 145`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    hearing
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 146`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    hearing_disabled
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 147`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    help
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 148`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    help_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 149`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    home
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 150`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    home_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 151`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    how_to_reg
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 152`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    imagesmode
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 153`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    indeterminate_check_box
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 154`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    info
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 155`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    info_i
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 156`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    info_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 157`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    insert_chart
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 158`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    inventory
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 159`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    ios_share
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 160`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    keyboard
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 161`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    keyboard_alt
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 162`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    keyboard_arrow_down
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 163`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    keyboard_arrow_up
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 164`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    keyboard_voice
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 165`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    label
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 166`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    label_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 167`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    language
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 168`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    library_books
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 169`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    link
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 170`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    link_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 171`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    list_alt
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 172`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    lists
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 173`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    local_library
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 174`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    local_mall
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 175`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    location_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 176`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    location_on
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 177`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    location_on_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 178`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    lock
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 179`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    lock_open
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 180`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    logout
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 181`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    mail
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 182`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    mail_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 183`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    map
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 184`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    mode_cool
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 185`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    mode_heat
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 186`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    more_horiz
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 187`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    more_time
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 188`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    more_vert
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 189`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    moving
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 190`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    nature
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 191`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    near_me
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 192`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    nest_eco_leaf
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 193`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    note
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 194`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    note_add
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 195`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    notifications
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 196`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    notifications_active
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 197`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    notifications_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 198`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    palette
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 199`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    passkey
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 200`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    payments
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 201`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    person
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 202`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    person_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 203`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    phone_iphone
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 204`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    photo
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 205`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    photo_camera
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 206`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    photo_camera_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 207`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    picture_as_pdf
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 208`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    pie_chart
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 209`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    plagiarism
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 210`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    podcasts
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 211`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    priority_high
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 212`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    privacy_tip
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 213`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    prompt_suggestion
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 214`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    psychiatry
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 215`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    push_pin
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 216`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    push_pin_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 217`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    question_mark
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 218`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    receipt
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 219`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    receipt_long
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 220`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    remove
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 221`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    reply
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 222`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    schedule
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 223`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    schedule_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 224`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    school
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 225`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    search
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 226`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    send
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 227`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    send_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 228`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    sentiment_dissatisfied
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 229`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    sentiment_satisfied
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 230`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    settings
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 231`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    settings_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 232`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    share
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 233`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    shield
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 234`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    shield_lock
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 235`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    signpost
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 236`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    sim_card
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 237`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    sim_card_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 238`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    speed
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 239`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    stethoscope
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 240`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    store
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 241`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    supervisor_account
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 242`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    table_rows
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 243`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    task
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 244`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    task_alt
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 245`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    thumb_down
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 246`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    thumb_up
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 247`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    topic
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 248`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    touch_app
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 249`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    trophy
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 250`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    undo
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 251`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    upload
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 252`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    upload_2
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 253`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    upload_file
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 254`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    verified_user
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 255`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    videocam
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 256`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    videocam_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 257`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    visibility
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 258`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    visibility_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 259`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    volume_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 260`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    volume_up
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 261`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    volunteer_activism
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 262`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    vpn_key
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 263`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    vpn_key_off
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 264`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    warning
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 265`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    warning_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 266`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    water_drop
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 267`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    waves
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 268`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    wb_sunny
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 269`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    work
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 270`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    work_outline
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 271`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    zoom_in
+  </span>
+</div>
+`;
+
+exports[`Icon should render all icons in motifIcons set 272`] = `
+<div>
+  <span
+    class="Root md mtf-ui-icons"
+  >
+    zoom_out
+  </span>
+</div>
+`;

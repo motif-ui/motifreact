@@ -1,0 +1,40 @@
+.container {
+  padding: 0 1rem 1rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--theme-color-surface-base-bg-light);
+}
+
+.progressCircleContainer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.cardsContainer > * {
+  max-width: 290px;
+  box-sizing: border-box;
+}
+
+.flexHorizontal1Rem {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.flexVertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexVerticalHalfRem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.verticalPaddingNone {
+  padding-top: 0;
+  padding-bottom: 0;
+}

@@ -1,0 +1,60 @@
+@use "@styles" as *;
+@use "sass:string";
+@use "sass:list";
+
+$variants: ("primary", "secondary", "info", "success", "warning", "danger");
+$positions: ("top-left", "top-right", "bottom-left", "bottom-right");
+
+@mixin position($position) {
+  $positions: string.split($position, "-");
+  $vertical: list.nth($positions, 1);
+  $horizontal: list.nth($positions, 2);
+
+  #{$vertical}: 0;
+  #{$horizontal}: 0;
+  transform: translateX(if($horizontal == "left", -50%, 50%)) translateY(if($vertical == "top", -75%, 75%));
+}
+
+.Root {
+  width: fit-content;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+.badge {
+  @include font("body", "xs");
+  border-radius: var(--theme-sizing-radius-round);
+  border: solid var(--base-sizing-2x) var(--theme-color-surface-base-global-light);
+  padding: var(--base-sizing-4x);
+  min-width: var(--base-sizing-28x);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+  //noinspection CssInvalidPropertyValue
+  text-wrap: nowrap;
+
+  .dot & {
+    padding: 0;
+    width: var(--base-sizing-12x);
+    height: var(--base-sizing-12x);
+    min-width: var(--base-sizing-12x);
+    min-height: var(--base-sizing-12x);
+  }
+
+  @each $variant in $variants {
+    .#{$variant} & {
+      background-color: if($variant == "secondary", var(--theme-color-surface-base-base7), var(--theme-color-surface-#{$variant}-default));
+      color: if($variant == "warning", var(--theme-color-text-base-global-dark), var(--theme-color-text-base-global-light));
+    }
+  }
+
+  @each $position in $positions {
+    .#{$position} & {
+      @include position($position);
+    }
+  }
+}

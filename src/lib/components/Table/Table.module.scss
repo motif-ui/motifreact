@@ -1,0 +1,287 @@
+@use "@styles" as *;
+
+$rowColorVariants: "primary", "secondary", "light", "success", "danger", "warning", "info";
+
+.Root {
+  display: table;
+  &.distributeColsEvenly table {
+    table-layout: fixed;
+  }
+  &.fluid {
+    &,
+    table {
+      width: 100%;
+    }
+  }
+
+  table {
+    text-align: left;
+    border-spacing: 0;
+  }
+
+  thead,
+  tfoot {
+    &.transparent {
+      background-color: transparent;
+    }
+    &.solid {
+      background-color: var(--theme-color-surface-light-default);
+    }
+    &.opposite {
+      background-color: var(--theme-color-surface-secondary-default);
+      th {
+        color: var(--theme-color-text-base-global-light);
+        .thContent .sortButton {
+          color: var(--theme-color-text-base-global-light);
+        }
+      }
+    }
+  }
+
+  thead {
+    tr.trColumnFilters th {
+      padding: var(--base-sizing-8x);
+      .thFilterContent {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    th {
+      color: var(--theme-color-text-base-title);
+      @include font("base", "sm", "700");
+      overflow: hidden;
+
+      .thContent {
+        display: inline-flex;
+        gap: var(--base-sizing-8x);
+
+        .sortButton {
+          color: var(--theme-color-text-base-title);
+        }
+      }
+    }
+  }
+
+  tbody {
+    td {
+      color: var(--theme-color-text-base-title);
+      @include font("body", "sm");
+      word-wrap: break-word;
+      word-break: break-all;
+      hyphens: auto;
+    }
+    &.striped {
+      tr:nth-child(even) {
+        background-color: var(--theme-color-surface-base-base2);
+      }
+    }
+
+    tr.selected {
+      @include transition(background-color);
+      background-color: var(--theme-color-surface-primary-negative);
+    }
+  }
+
+  tr {
+    &.loading,
+    &.emptyData {
+      pointer-events: none;
+    }
+    &.headerRow th {
+      padding: 0;
+    }
+  }
+
+  td,
+  th {
+    padding: var(--base-sizing-12x) var(--base-sizing-8x);
+
+    &.selectable {
+      text-align: center;
+      width: var(--base-sizing-32x);
+    }
+  }
+
+  tfoot {
+    th {
+      color: var(--theme-color-text-base-title);
+      @include font("base", "sm", "700");
+      overflow: hidden;
+
+      &.customFooter {
+        padding: 0;
+      }
+
+      &[colspan] {
+        text-align: right;
+      }
+    }
+  }
+
+  &.hoverable tbody tr:hover {
+    background-color: var(--theme-color-surface-light-default);
+  }
+}
+
+@each $variant in $rowColorVariants {
+  .#{$variant} {
+    background-color: var(--theme-color-surface-#{$variant}-negative);
+  }
+}
+
+.bordered {
+  &.cellBorders {
+    td,
+    th {
+      border-color: var(--theme-color-border-light-default);
+      border-style: solid;
+      border-width: 0 var(--base-sizing-1x) var(--base-sizing-1x) 0;
+      &:first-child {
+        border-left-width: var(--base-sizing-1x);
+      }
+    }
+
+    tbody tr:first-child td {
+      border-top-left-radius: var(--theme-sizing-radius-default);
+      border-top-right-radius: var(--theme-sizing-radius-default);
+      border-top-width: var(--base-sizing-1x);
+    }
+    thead tr:first-child th {
+      border-top-width: var(--base-sizing-1x);
+      &:first-child {
+        border-top-left-radius: var(--theme-sizing-radius-default);
+      }
+      &:last-child {
+        border-top-right-radius: var(--theme-sizing-radius-default);
+      }
+    }
+
+    tbody:not(:has(+ tfoot)) tr:last-child td,
+    tfoot tr:last-child th {
+      &:first-child {
+        border-bottom-left-radius: var(--theme-sizing-radius-default);
+      }
+      &:last-child {
+        border-bottom-right-radius: var(--theme-sizing-radius-default);
+      }
+    }
+
+    // custom footer
+    tfoot tr:nth-child(2) th {
+      padding: 0;
+    }
+
+    thead + tbody tr:first-child td {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-top-width: 0;
+    }
+
+    // Body with footer
+    tbody:has(+ tfoot) {
+      tr:last-child td {
+        border-radius: 0 !important;
+      }
+    }
+
+    thead,
+    tfoot {
+      &.opposite {
+        th {
+          border-top-color: var(--theme-color-surface-secondary-default);
+          &:first-child {
+            border-left-color: var(--theme-color-surface-secondary-default);
+          }
+          &:last-child {
+            border-right-color: var(--theme-color-surface-secondary-default);
+          }
+        }
+      }
+    }
+  }
+
+  &.rowBorders {
+    table {
+      border-collapse: collapse;
+    }
+    tr {
+      border-bottom: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+      &:first-child {
+        border-top: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+      }
+    }
+  }
+}
+
+.titleSection {
+  margin-bottom: var(--base-sizing-8x);
+  span {
+    display: block;
+    padding: var(--base-sizing-4x) var(--base-sizing-8x);
+  }
+}
+
+.title {
+  color: var(--theme-color-text-base-title);
+  @include font("base", "lg", "600");
+}
+
+.subtitle {
+  color: var(--theme-color-text-base-subtitle);
+  @include font("base", "md", "500");
+}
+
+.headerRowContent {
+  display: flex;
+  gap: var(--base-sizing-8x);
+  align-items: center;
+}
+
+.header {
+  flex: 1;
+  padding: var(--base-sizing-10x) var(--base-sizing-8x);
+  @include font("base", "lg", "600");
+}
+
+.filterInput {
+  flex-shrink: 0;
+  margin: var(--base-sizing-8x) var(--base-sizing-8x) var(--base-sizing-8x) auto;
+}
+
+.footerForNumbers {
+  padding: var(--base-sizing-8x) var(--base-sizing-12x);
+  align-items: center;
+  display: flex;
+
+  &.hasPagination-center {
+    justify-content: center;
+  }
+  &.hasPagination-right {
+    justify-content: flex-end;
+  }
+
+  &.hasNumbers {
+    &.hasPagination-left {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+    &.hasPagination-center {
+      .totalRecordsLabel {
+        flex: 1;
+      }
+    }
+    &.hasPagination-right {
+      justify-content: space-between;
+    }
+  }
+
+  .totalRecordsLabel {
+    color: var(--theme-color-text-base-title);
+    @include font("body", "sm");
+  }
+}
+
+.pagination {
+  display: flex;
+}

@@ -1,0 +1,106 @@
+@use "@styles" as *;
+
+$dataview-sizes: ("xs", "sm", "md", "lg", "xl");
+
+.Root {
+  display: grid;
+  column-gap: var(--base-sizing-32x);
+
+  &.leftAlign .item .value {
+    text-align: left;
+  }
+
+  &.centerAlign .item .value {
+    text-align: center;
+  }
+
+  &.rightAlign .item .value {
+    text-align: right;
+  }
+
+  &.horizontal .item {
+    flex-direction: row;
+  }
+  &.vertical {
+    .item {
+      flex-direction: column;
+      .title {
+        width: initial;
+      }
+    }
+    &:not(.solid) .item {
+      .title {
+        padding-bottom: var(--base-sizing-2x);
+      }
+      .value {
+        padding-top: var(--base-sizing-2x);
+      }
+    }
+  }
+}
+
+.solid {
+  .item .title {
+    background: var(--theme-color-surface-base-base2);
+  }
+  &:not(.bordered) .item {
+    margin-bottom: var(--base-sizing-2x);
+  }
+}
+
+.item {
+  display: flex;
+
+  $colorVariants: "primary", "info", "success", "warning", "danger";
+  @each $variant in $colorVariants {
+    &.#{$variant} {
+      background-color: var(--theme-color-surface-#{$variant}-inverse);
+    }
+  }
+
+  .title,
+  .value {
+    @include font("body", "md");
+  }
+
+  .title {
+    width: 30%;
+    color: var(--theme-color-text-base-caption);
+    display: inline-flex;
+    gap: var(--base-sizing-10x);
+    padding: var(--base-sizing-10x) var(--base-sizing-20x);
+    overflow-wrap: break-word;
+  }
+  .value {
+    flex: 1;
+    color: var(--theme-color-text-base-title);
+    padding: var(--base-sizing-10x) var(--base-sizing-20x);
+    overflow: hidden;
+    overflow-wrap: break-word;
+  }
+  .icon {
+    color: var(--theme-color-text-base-caption);
+  }
+}
+
+@mixin dataview-cols($breakpoint) {
+  @for $i from 1 through 4 {
+    .Root.#{$breakpoint}-#{$i} {
+      grid-template-columns: repeat(#{$i}, 1fr);
+      &.bordered .item:not(:nth-last-child(-n + #{$i})) {
+        border-bottom: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+      }
+      &.stripe {
+        @for $j from 1 through $i {
+          .item:nth-child(#{2 * $i}n + #{$j}) {
+            background-color: var(--theme-color-surface-base-base2);
+          }
+        }
+      }
+    }
+  }
+}
+
+@include screen-width-breakpoints($dataview-sizes) using ($breakpoint) {
+  @include dataview-cols($breakpoint);
+}

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Checkbox should render with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-testid="checkbox"
+  >
+    <input
+      class="input"
+      id="_r_0_"
+      type="checkbox"
+    />
+  </div>
+</div>
+`;

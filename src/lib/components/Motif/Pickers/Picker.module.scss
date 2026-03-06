@@ -1,0 +1,62 @@
+@use "sass:map";
+@use "@styles" as *;
+@use "./pickerValues";
+
+// size, padding
+$sizesPicker: (("xs", "4x"), ("sm", "8x"), ("md", "12x"), ("lg", "16x"));
+
+@each $name, $padding in $sizesPicker {
+  .#{$name} {
+    &:not(.wide) {
+      min-width: map.get(pickerValues.$size, $name, "width");
+      max-width: map.get(pickerValues.$size, $name, "width");
+    }
+    &.wide {
+      min-width: calc(map.get(pickerValues.$size, $name, "width") * 2);
+      max-width: calc(map.get(pickerValues.$size, $name, "width") * 2);
+    }
+    padding: var(--base-sizing-#{$padding});
+    gap: map.get(pickerValues.$size, $name, "gapV");
+
+    .actions {
+      padding-top: map.get(pickerValues.$size, $name, "gapV");
+      gap: map.get(pickerValues.$size, $name, "gapV");
+    }
+  }
+}
+
+.Root {
+  display: inline-flex;
+  flex-direction: column;
+  border-radius: var(--theme-sizing-radius-default);
+  box-sizing: border-box;
+
+  &.shadow {
+    background: var(--theme-color-surface-base-bg-light);
+    @include shadow;
+  }
+
+  &.borderless {
+    background: var(--theme-color-surface-base-bg-light);
+  }
+
+  &.bordered {
+    background: var(--theme-color-surface-base-bg-light);
+    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  }
+
+  &.fluid {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  border-top: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
+  &.actionsSpread {
+    justify-content: space-between;
+  }
+}

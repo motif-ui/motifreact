@@ -1,0 +1,83 @@
+@use "@styles" as *;
+
+$sizes: (/* size, fontSize, padding */ ("xs", "xxs", "2x"), ("sm", "xs", "4x"), ("md", "sm", "6x"), ("lg", "md", "8x"));
+$variants: (
+  /* variant, color, colorSolid, colorCloseIconSolid */ ("primary", "primary", base-global-light, base-light-overlay75),
+  ("secondary", "light", light-default, light-disabled),
+  ("info", "info", base-global-light, base-light-overlay75),
+  ("success", "success", base-global-light, base-light-overlay75),
+  ("warning", "warning", base-global-dark, base-dark-overlay40),
+  ("danger", "danger", base-global-light, base-light-overlay75)
+);
+
+.Root {
+  display: inline-flex;
+  vertical-align: bottom;
+  box-sizing: content-box;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: var(--theme-sizing-radius-default);
+}
+
+.pill {
+  border-radius: var(--theme-sizing-radius-round);
+}
+
+@each $size, $fontSize, $padding in $sizes {
+  .#{$size} {
+    min-width: var(--typography-body-#{$fontSize}-line-height);
+    padding: var(--base-sizing-#{$padding});
+    .label {
+      @include font("body", $fontSize);
+      margin: 0 var(--base-sizing-#{$padding});
+    }
+    .icon-left {
+      margin-right: var(--base-sizing-2x);
+    }
+    .icon-close {
+      margin-left: var(--base-sizing-2x);
+    }
+  }
+}
+
+@each $variant, $color, $colorSolid, $colorCloseIconSolid in $variants {
+  .#{$variant} {
+    &.solid {
+      background-color: var(--theme-color-surface-#{$color}-default);
+      color: var(--theme-color-text-#{$colorSolid});
+      &.closable {
+        @include transition(background-color color);
+        .icon-close {
+          color: var(--theme-color-text-#{$colorCloseIconSolid});
+        }
+        &:hover {
+          background-color: var(--theme-color-surface-#{$color}-hover);
+          &,
+          .icon-close {
+            color: if($variant == "secondary", var(--theme-color-text-light-hover), var(--theme-color-text-#{$colorSolid}));
+          }
+        }
+      }
+    }
+
+    &.outline {
+      border: solid var(--base-sizing-1x) var(--theme-color-border-#{$color}-default);
+      color: if($variant == "warning", var(--theme-color-text-warning-hover), var(--theme-color-text-#{$color}-default));
+
+      &.closable {
+        @include transition(color border-color);
+        .icon-close {
+          color: var(--theme-color-text-#{$color}-disabled);
+        }
+        &:hover {
+          border-color: var(--theme-color-border-#{$color}-hover);
+          &,
+          .icon-close {
+            color: if($variant == "warning", var(--theme-color-text-warning-active), var(--theme-color-text-#{$color}-hover));
+          }
+        }
+      }
+    }
+  }
+}

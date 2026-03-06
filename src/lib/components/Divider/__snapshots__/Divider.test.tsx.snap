@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Divider should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root md horizontal gap-md solid"
+    data-testid="dividerItem"
+  />
+</div>
+`;

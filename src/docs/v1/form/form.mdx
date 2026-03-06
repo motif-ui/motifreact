@@ -1,0 +1,222 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as FormOrientation from "../../components/FormOrientation/FormOrientation.stories.tsx";
+
+<Meta title="Form/Form" />
+
+# Form
+
+`<Form>` is a special component which depends on and is needed for a couple of other components. There are some rules to
+properly use it.
+
+## Guide
+
+The main difference of `<Form>` and `<form>` is that `<Form>` doesn't have props like **method** or **action**.
+It executes the validation process and returns the values of the form items in **onSubmit** callback.
+This approach leaves the submitting logic to the user.
+
+<Canvas of={FormOrientation.GuideForm} layout="fullscreen" sourceState="shown" />
+
+Under the hood, `<Form>` keeps the state for all the form items and provides necessary props and methods to them by
+form context. Each custom input registers itself to the form context and updates the values in the form state when it
+changes. Submit event triggers the validation process and the state of the form is updated. All types of input
+components may be used with `<Form>`, with a slightly different approach. In order to make the submitting and the
+validation logic work, there are so-called **"controlled"** components available to wrap the input components. Those
+mediator components are responsible for the communication between the inputs and the form.
+
+> ℹ️ **IMPORTANT :** This page provides the general rules and imported points for the **Form** component. In order to
+> access more technical stuff like props and advanced usage, please refer to each component's documentation page.
+> **[Form ↗](?path=/docs/components-form--docs)** , **[FormField ↗](?path=/docs/components-form-form-field--docs)** ,
+> **[FormFieldGroup ↗](?path=/docs/components-form-form-fieldgroup--docs)**
+
+<br />
+
+### `<Form.Field>`
+
+This is the controlling component for the inputs. It provides validation, label and helper text to the wrapped input
+item. Some input oriented props like `readOnly`, `disabled`, `success` may also be given to this component.
+
+### `<Form.FieldGroup>`
+
+It is similiar to Form.Field but is used when more than one input is needed to be grouped together. `readOnly`,
+`disabled` and `success` props are passed to the inputs to affect them all at once.
+
+- `orientation` prop is used to determine which direction the items are rendered. It can be `horizontal` or `vertical`.
+  <br />
+
+## Rules
+
+- All input components **must be** wrapped inside a `<Form.Field>` or `<Form.FieldGroup>` component to be part of the form.
+- Each `<Form.Field>` must have a unique `name` prop _(which should match the one input has, if given)_ to identify the field within the form.
+- Each input inside `<Form.FieldGroup>` should have a unique `name` prop given. **It is mandatory**.
+- Validation rules can be applied to `<Form.Field>` and `<Form.FieldGroup>` using the `validations` prop. ( **[Validation ↗](?path=/docs/form-validation--docs)** )
+- The `onSubmit` prop of `<Form>` is a callback function that receives the form values when the form is submitted.
+- The form state is managed internally by `<Form>`, so direct manipulation of input values **is not recommended**.
+  - `success`, `disabled`, `readOnly`, `size`, `error` props are managed by the form context. Those props given to the input itself will be ignored.
+- Form has builtin submit and reset buttons. There is no need to add extra buttons for those actions.
+- Use the provided methods in the form ref to programmatically control the form (e.g., clearing the form).
+- Form clearing does not affect the upload inputs, since the files might be sent to the server. **They should be cleared manually**.
+  <br />
+
+## Submitting
+
+`onSubmit` callback returns the values of the form items in a single object. The keys of the object are the names of the
+inputs. For those who uses typescript, it is essential to match the personal custom type with the one returned by the
+onSubmit callback.
+
+The type of the returned data object is `FormSubmitData` which is a generic type (that should extend
+**`Record<string, any>`**). Using a generic type here is optional. When necessary, it can be used as follows:
+
+```tsx
+type CustomType = {
+  name: string;
+  age: number;
+  city?: string;
+};
+
+const onSubmit = ({ values }: FormSubmitData<CustomType>) => {
+  console.log(values.name, values.age, values.city);
+};
+
+<Form onSubmit={onSubmit}>
+  <Form.Field name="name" label="Name"><InputText /></Form.Field>
+  <Form.Field name="age" label="Age"><InputText /></Form.Field>
+  <Form.Field name="city" label="City"><InputText /></Form.Field>
+</Form>
+```
+
+It is also possible to use the generic type directly in the `<Form>` itself. Here is an example:
+
+```tsx
+type CustomType = {
+  name: string;
+  age?: number;
+};
+
+<Form<CustomType>
+  onSubmit={data => console.log(data.values.name)}>
+
+  <Form.Field name="name" label="Name"><InputText /></Form.Field>
+  <Form.Field name="age" label="Age"><InputText /></Form.Field>
+</Form>
+```
+
+<br />
+
+## Validation
+
+Form provides a flexible validation system using the `validations` prop available in `<Form.Field>` and
+`<Form.FieldGroup>`. Please refer to **[Validation ↗](?path=/docs/form-validation--docs)** section for detailed information.
+
+<br />
+
+## Ref Object
+
+Form component uses `forwardRef` to expose some methods in addition to the standard ref props, in order to manipulate
+the form programmatically.
+
+```jsx
+import { useRef } from "react";
+
+function MyComponent() {
+  const formRef = useRef(null);
+
+  const clearFormManually = () => {
+    formRef.current?.clearForm();
+  };
+
+  return (
+    <>
+      <Form ref={formRef} onSubmit={handleSubmit}>
+        {/* fields */}
+      </Form>
+
+      <button onClick={clearFormManually}>Clear Form</button>
+    </>
+  );
+}
+```
+
+### FormRefType
+
+A customized reference type **FormRefType** is provided for the typescript users, which includes custom props in
+addition to standard html form props.
+
+- **clearForm()**: Exposed method to clear the form. Since `<Form>` manages the form values internally; `clearForm`
+  function should be used when needed, instead of using the default reset function of the html form,
+
+```tsx
+const formRef = useRef<FormRefType>(null);
+
+//...
+//  formRef.current?.clearForm();
+//...
+
+<Form onSubmit={onSubmit} ref={formRef}>
+  <Form.Field name="name" label="Name">
+    <InputText />
+  </Form.Field>
+</Form>;
+```
+
+<br />
+
+## Orientations
+
+When it comes to the orientation, the Form component offers very robust and flexible solutions. Almost any desired
+orientation variant can be implemented. You can easily put a horizontal radio group inside a vertical form with horizontal labels, or
+create a horizontal form with vertical labels and vertical grouped inputs. The orientation can be controlled at four
+different levels:
+
+### Form
+
+Form level orientation controls how the fields are arranged within the form. There are two main options: vertical and horizontal.
+
+<Canvas of={FormOrientation.Primary} layout="fullscreen" />
+
+### Label
+
+Label orientation controls how labels are positioned relative to their input fields. There are also two main options: vertical and horizontal.
+
+<Canvas of={FormOrientation.LabelOrientationComparison} layout="fullscreen" />
+
+### Group
+
+Group level orientation is used when multiple inputs are grouped together using `<Form.FieldGroup>`. It determines the arrangement of the grouped inputs, either vertically or horizontally.
+
+<Canvas of={FormOrientation.GroupOrientationComparison} layout="fullscreen" />
+
+### Component
+
+Component level orientation refers to the inherent layout of individual input components. Some components like `<RadioGroup>` may have their own orientation settings that affect how they are displayed within the form.
+
+<Canvas of={FormOrientation.RadioGroupOrientationComparison} layout="fullscreen" />
+
+<br />
+
+## Use with `<Grid>`
+
+Using **Form.Field** directly inside **Form** is the easiest way to create a form with the default layout order. There is
+also a layout customization option using the `<Grid>` component inside **Form**.
+
+<Canvas of={FormOrientation.FormWithGrid} layout="fullscreen" sourceState="shown" />
+
+## Troubleshooting
+
+<br />
+
+#### Form not submitting
+
+- Make sure `onSubmit` function is defined correctly
+- Check console for error messages
+- Ensure all required fields are filled
+
+#### Validation not working
+
+- Ensure `validations` prop is spelled correctly
+- Make sure validation function returns boolean
+- Ensure field's `name` prop is unique
+
+#### Field value not updating
+
+- Make sure field component is inside Form.Field
+- Ensure `name` prop is defined correctly

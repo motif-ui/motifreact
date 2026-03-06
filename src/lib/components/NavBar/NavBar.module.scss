@@ -1,0 +1,287 @@
+@use "@styles" as *;
+@use "sass:map";
+
+$variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "success");
+
+.Root {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: var(--base-sizing-16x) var(--base-sizing-32x);
+  gap: var(--base-sizing-16x);
+
+  &.elevated {
+    @include shadow(3);
+  }
+}
+
+// =============================================================================
+// Sub Components
+// =============================================================================
+.hamburger {
+  @include transition(color);
+  display: none;
+}
+
+.logo {
+  height: var(--base-sizing-40x);
+  img {
+    height: 100%;
+  }
+}
+
+// =============================================================================
+// Menu
+// =============================================================================
+.menu {
+  display: flex;
+  gap: var(--base-sizing-8x);
+
+  &,
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+}
+
+.mainMenuContainer {
+  flex: 1;
+}
+
+.subMenu {
+  position: absolute;
+  z-index: 1;
+  background-color: var(--theme-color-surface-base-global-light);
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  @include shadow(4);
+
+  .subMenu {
+    top: calc(-1 * var(--base-sizing-1x));
+  }
+}
+
+.subMenuItem {
+  position: relative;
+
+  &:first-child > a {
+    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+  }
+  &:last-child > a {
+    border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
+  }
+  &:not(:last-child) > a {
+    border-bottom: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+  }
+
+  a {
+    padding: var(--base-sizing-12x) var(--base-sizing-8x);
+    gap: var(--base-sizing-10x);
+    color: var(--theme-color-text-base-subtitle);
+    @include transition(color background-color);
+
+    .label {
+      flex: 1;
+      @include font("body", "sm");
+    }
+
+    &:hover {
+      background-color: var(--theme-color-surface-base-base4);
+      color: var(--theme-color-text-base-text-dark);
+    }
+  }
+}
+
+.menu_left {
+  .menuBarItem > .subMenu {
+    top: calc(100% + var(--base-sizing-20x));
+    right: 0;
+  }
+  .subMenu .subMenu {
+    right: calc(100% + var(--base-sizing-12x));
+  }
+  .subMenuItem a {
+    flex-direction: row-reverse;
+    text-align: right;
+    .dropdown {
+      rotate: 90deg;
+      margin-left: calc(-1 * var(--base-sizing-10x));
+    }
+  }
+}
+
+.menu_right {
+  .menuBarItem > .subMenu {
+    top: calc(100% + var(--base-sizing-20x));
+  }
+  .subMenu .subMenu {
+    left: calc(100% + var(--base-sizing-12x));
+  }
+  .subMenuItem a {
+    justify-items: flex-start;
+    .dropdown {
+      rotate: 270deg;
+      margin-right: calc(-1 * var(--base-sizing-10x));
+    }
+  }
+}
+
+.menuBarItem {
+  position: relative;
+  > a {
+    padding: var(--base-sizing-4x) var(--base-sizing-8x);
+    gap: var(--base-sizing-8x);
+    @include transition(color);
+    .label {
+      @include font("base", "md", "500");
+    }
+  }
+}
+
+// =============================================================================
+// Variants
+// =============================================================================
+@each $variant in $variants {
+  .#{$variant} {
+    background-color: if($variant == "neutral", var(--theme-color-surface-base-base4), var(--theme-color-surface-#{$variant}-default));
+
+    .hamburger,
+    .menuBarItem > a {
+      color: if(
+        $variant == "neutral" or $variant == "warning",
+        var(--theme-color-text-base-subtitle),
+        var(--theme-color-text-base-light-overlay75)
+      );
+    }
+    .hamburger:hover,
+    .menuBarItem > a:hover,
+    .menuBarItem.active > a {
+      color: if(
+        $variant == "neutral" or $variant == "warning",
+        var(--theme-color-text-base-text-dark),
+        var(--theme-color-text-base-global-light)
+      );
+    }
+
+    @include screen-width("below", "sm") {
+      .mainMenu {
+        :has(.subMenu) > a {
+          color: if(
+            $variant == "neutral" or $variant == "warning",
+            var(--theme-color-text-base-text-dark),
+            var(--theme-color-text-base-global-light)
+          );
+        }
+        .menuBarItem > a {
+          border-color: if($variant == "neutral", var(--theme-color-border-light-default), var(--theme-color-surface-base-light-overlay50));
+        }
+        .subMenuItem a {
+          color: if(
+            $variant == "neutral" or $variant == "warning",
+            var(--theme-color-text-base-subtitle),
+            var(--theme-color-text-base-light-overlay75)
+          );
+          &:hover {
+            color: if(
+              $variant == "neutral" or $variant == "warning",
+              var(--theme-color-text-base-text-dark),
+              var(--theme-color-text-base-global-light)
+            );
+            background-color: if(
+              $variant == "neutral",
+              var(--theme-color-surface-light-hover),
+              if($variant == "warning", var(--theme-color-surface-base-light-overlay25), var(--theme-color-surface-base-dark-overlay15))
+            );
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// Responsive
+// =============================================================================
+@include screen-width("below", "sm") {
+  .hamburger {
+    display: block;
+  }
+  .logo {
+    flex: 1;
+  }
+  .searchBox {
+    order: 998;
+    width: 100% !important;
+  }
+
+  .mainMenuContainer {
+    order: 999;
+  }
+
+  .mainMenu {
+    gap: 0;
+    flex-direction: column;
+
+    .menuCollapsed & {
+      display: none;
+    }
+
+    .menuBarItem {
+      > a {
+        border-bottom: solid var(--base-sizing-1x);
+        padding: var(--base-sizing-12x) var(--base-sizing-8x);
+        .label {
+          flex: 1;
+        }
+        .dropdown {
+          @include transition(rotate);
+        }
+      }
+      &:has(.subMenu) > a {
+        border-bottom: none;
+        .dropdown {
+          rotate: 180deg;
+        }
+      }
+    }
+
+    .subMenu {
+      position: initial;
+      background: none;
+      box-shadow: none;
+      border: none;
+      &:after,
+      &:before {
+        display: none;
+      }
+
+      .subMenuItem {
+        a {
+          padding: var(--base-sizing-8x) var(--base-sizing-16x);
+          border-radius: 0;
+          border-width: 0;
+          flex-direction: row;
+          .dropdown {
+            rotate: unset;
+          }
+        }
+        .subMenuItem {
+          a {
+            margin-left: var(--base-sizing-16x);
+          }
+          .subMenuItem a {
+            margin-left: var(--base-sizing-32x);
+          }
+        }
+      }
+    }
+  }
+}

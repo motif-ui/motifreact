@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SliderRange should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root md"
+  >
+    <div
+      class="Root primary md"
+      data-testid="slider"
+    >
+      <div
+        class="track"
+      />
+      <div
+        class="fill"
+        style="display: none;"
+      />
+      <div
+        class="mRangeContainer"
+        style="width: calc(100% + 20px); left: calc(0% - 10px);"
+      >
+        <input
+          class="mRange"
+          max="100"
+          min="0"
+          step="1"
+          type="range"
+          value="0"
+        />
+        <div
+          class="tooltip"
+          style="left: calc(0% + 10px);"
+        >
+          0
+        </div>
+      </div>
+    </div>
+    <div
+      class="Root primary md"
+      data-testid="slider"
+    >
+      <div
+        class="track"
+      />
+      <div
+        class="fill"
+        style="left: 0%; width: 100%;"
+      />
+      <div
+        class="mRangeContainer"
+        style="width: calc(100% + 20px); left: calc(0% - 10px);"
+      >
+        <input
+          class="mRange"
+          max="100"
+          min="0"
+          step="1"
+          type="range"
+          value="100"
+        />
+        <div
+          class="tooltip"
+          style="left: calc(100% - 10px);"
+        >
+          100
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

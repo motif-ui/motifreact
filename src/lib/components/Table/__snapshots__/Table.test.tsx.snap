@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Table should render with only required props 1`] = `
+<div>
+  <div
+    class="Root bordered cellBorders"
+  >
+    <table>
+      <thead
+        class="solid"
+        data-testid="TableHead"
+      >
+        <tr>
+          <th>
+            <div
+              class="thContent"
+            >
+              <span>
+                Test Title
+              </span>
+              <button
+                class="Root sm secondary motifIconsDefault sortButton"
+                data-testid="iconButtonTestId"
+                type="button"
+              >
+                expand_all
+              </button>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        data-testid="TableBody"
+      >
+        <tr>
+          <td>
+            M Test
+          </td>
+        </tr>
+        <tr>
+          <td>
+            A Test
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Z Test
+          </td>
+        </tr>
+      </tbody>
+      <tfoot
+        class="solid"
+        data-testid="TableFooter"
+      />
+    </table>
+    <div
+      class="footerForNumbers hasNumbers"
+      data-testid="FooterForNumbers"
+    >
+      <span
+        class="totalRecordsLabel"
+      >
+        Toplam 3 veri bulunmaktadır.
+      </span>
+    </div>
+  </div>
+</div>
+`;

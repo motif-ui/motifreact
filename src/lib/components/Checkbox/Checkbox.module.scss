@@ -1,0 +1,132 @@
+@use "@styles" as *;
+
+$sizes: (
+  // name, size, gap, paddingV, iconSize, viewBox
+  ("xs", "18x", "6x", "4x", "16", "0 0 23 23"),
+  ("sm", "20x", "8x", "6x", "18", "0 0 23 23"),
+  ("md", "24x", "10x", "8x", "22", "-1 -1 24 24"),
+  ("lg", "28x", "12x", "10x", "24", "-1 -1 24 24")
+);
+$svgPath: '<path d="M9.5501 18L3.8501 12.3L5.2751 10.875L9.5501 15.15L18.7251 5.97504L20.1501 7.40004L9.5501 18Z" fill="currentColor"/>';
+$partialCheckSvgPath: '<line x1="3" y1="12" x2="20" y2="12" stroke-width="2" stroke="currentColor"/>';
+
+@each $name, $size, $gap, $paddingV, $iconSize, $viewBox in $sizes {
+  .#{$name} {
+    gap: var(--base-sizing-#{$gap});
+
+    .label {
+      @include font("base", $name, "500");
+    }
+
+    .input {
+      width: var(--base-sizing-#{$size});
+      height: var(--base-sizing-#{$size});
+      min-width: var(--base-sizing-#{$size});
+      min-height: var(--base-sizing-#{$size});
+      &::before {
+        mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$svgPath}</svg>');
+        content: "";
+        width: var(--base-sizing-#{$iconSize}x);
+        height: var(--base-sizing-#{$iconSize}x);
+        background-color: var(--theme-color-text-base-global-light);
+      }
+    }
+
+    &.partialCheck {
+      .input::before {
+        mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$partialCheckSvgPath}</svg>');
+      }
+    }
+
+    &.inFormField {
+      padding: var(--base-sizing-#{$paddingV}) 0;
+    }
+  }
+}
+
+.Root {
+  display: inline-flex;
+  vertical-align: bottom;
+  align-items: center;
+
+  .input {
+    appearance: none;
+    background: var(--theme-color-surface-base-bg-light);
+    margin: 0; // Not removed via appearance
+    border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+    border-radius: var(--theme-sizing-radius-default);
+    @include transition;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      border-color: var(--theme-color-border-light-hover);
+      background-color: var(--theme-color-surface-base-base2);
+    }
+  }
+
+  .input::before {
+    opacity: 0;
+    @include transition(opacity);
+  }
+
+  .input:checked,
+  &.partialCheck .input {
+    border-color: var(--theme-color-surface-primary-default);
+    background: var(--theme-color-surface-primary-default);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  .input:focus-visible {
+    outline: none;
+    border-color: var(--theme-color-border-primary-default);
+    background-color: var(--theme-color-surface-base-base2);
+  }
+
+  .label {
+    color: var(--theme-color-text-base-title-light);
+  }
+
+  &.disabled {
+    * {
+      pointer-events: none;
+    }
+
+    .label {
+      color: var(--theme-color-text-base-disabled);
+    }
+
+    .input {
+      border-color: var(--theme-color-border-light-disabled);
+    }
+
+    .input:checked,
+    &.partialCheck .input {
+      border-color: var(--theme-color-border-primary-disabled);
+      background: var(--theme-color-surface-primary-disabled);
+    }
+
+    &.success .input:checked,
+    &.success.partialCheck .input {
+      border-color: var(--theme-color-surface-success-disabled);
+      background: var(--theme-color-surface-success-disabled);
+    }
+  }
+  &.success {
+    .input:checked,
+    &.partialCheck .input {
+      border-color: var(--theme-color-surface-success-default);
+      background: var(--theme-color-surface-success-default);
+    }
+  }
+
+  &.error {
+    .input {
+      border-color: var(--theme-color-border-danger-default);
+    }
+  }
+}

@@ -1,0 +1,43 @@
+.container {
+  background: linear-gradient(135deg, #555, #777);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+
+  div:first-child {
+    flex: 1;
+  }
+}
+
+.progressTitle {
+  font-size: 0.9rem !important;
+  margin-bottom: 8px !important;
+  display: block !important;
+}
+
+.progressContainer {
+  position: relative;
+  height: 12px;
+  border-radius: 6px;
+  background: #ffffff40;
+  overflow: hidden;
+}
+
+.progressBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #ffffffee;
+  border-radius: 6px;
+}
+
+.coverage {
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  min-width: fit-content !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}

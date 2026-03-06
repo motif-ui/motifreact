@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`DataView should be rendered with only required props and should have default prop values stated here 1`] = `
+<div
+  class="Root leftAlign bordered horizontal xs-1 sm-1 md-1 lg-1 xl-1"
+>
+  <div
+    class="item"
+  >
+    <span
+      class="title"
+    >
+      Test Content
+    </span>
+    <span
+      class="value"
+    />
+  </div>
+</div>
+`;

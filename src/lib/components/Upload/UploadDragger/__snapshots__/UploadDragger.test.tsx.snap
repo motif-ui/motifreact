@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`UploadDragger should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root"
+  >
+    <div
+      class="dragArea"
+    >
+      <span
+        class="Root md secondary motifIconsDefault dragIcon"
+      >
+        upload_file
+      </span>
+      <span
+        class="dragText"
+      >
+        Dosya yüklemek için bu alana tıklayın veya dosyaları buraya bırakın
+      </span>
+      <span
+        class="dragInfo"
+      >
+        Maksimum 1 dosya yükleyebilirsiniz.
+      </span>
+    </div>
+  </div>
+  <input
+    accept="*"
+    hidden=""
+    type="file"
+  />
+</div>
+`;

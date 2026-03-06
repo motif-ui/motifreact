@@ -1,0 +1,132 @@
+@use "@styles" as *;
+@use "../Motif/Pickers/pickerValues";
+@use "sass:map";
+
+$itemsToShow: 7;
+$sizes: (
+  // size, labelFontSize, timePeriodPaddingV, timePeriodPaddingH, numberWidth, numberHeight, numberGap, stripePaddingV, stripePaddingH, periodGapH, abbrGap
+  ("xs", "heading5", "2x", "4x", "32x", "24x", "2x", "2x", "4x", "8x", "8x"),
+  ("sm", "heading4", "4x", "8x", "40x", "32x", "2x", "3x", "6x", "12x", "12x"),
+  ("md", "heading3", "6x", "12x", "48x", "36x", "2x", "4x", "8x", "12x", "16x"),
+  ("lg", "heading2", "8x", "16x", "56x", "40x", "4x", "6x", "12x", "12x", "24x")
+);
+
+.timeLabel {
+  color: var(--theme-color-text-primary-default);
+  text-align: center;
+}
+
+.periodSelector {
+  display: flex;
+  justify-content: center;
+  border-top: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
+  button {
+    border: none;
+    border-radius: var(--theme-sizing-radius-default);
+    cursor: pointer;
+    user-select: none;
+    background: none;
+    color: var(--theme-color-text-light-disabled);
+    @include transition(color, "fast");
+
+    &:disabled {
+      color: var(--theme-color-text-light-disabled);
+    }
+    &.selected {
+      color: var(--theme-color-text-primary-default);
+    }
+  }
+}
+
+.stripeContainer {
+  display: flex;
+  justify-content: center;
+
+  .timeStripe {
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    @include hiddenScrollbar;
+  }
+
+  button {
+    border: none;
+    color: var(--theme-color-text-base-subtitle);
+    background-color: var(--theme-color-surface-base-global-light);
+    border-radius: var(--base-radius-sm);
+    cursor: pointer;
+    @include transition(background-color, "fast");
+
+    &:hover {
+      background-color: var(--theme-color-surface-base-base1);
+    }
+    &.selected {
+      background-color: var(--theme-color-surface-primary-default);
+      color: var(--theme-color-text-base-global-light);
+    }
+  }
+}
+
+.abbrContainer {
+  display: flex;
+  justify-content: center;
+  background: var(--theme-color-surface-base-base1);
+
+  span {
+    text-align: center;
+    color: var(--theme-color-text-base-caption);
+  }
+}
+
+@each $size, $labelFontSize, $timePeriodPaddingV, $timePeriodPaddingH, $numberWidth, $numberHeight, $numberGap, $stripePaddingV,
+  $stripePaddingH, $periodGapH, $abbrGap in $sizes
+{
+  .#{$size} {
+    .timeLabel {
+      @include font("heading", $labelFontSize);
+      margin-bottom: map.get(pickerValues.$size, $size, "gapV");
+    }
+
+    .periodSelector {
+      padding: map.get(pickerValues.$size, $size, "gapV") 0;
+      gap: var(--base-sizing-#{$periodGapH});
+
+      button {
+        padding: var(--base-sizing-#{$timePeriodPaddingV}) var(--base-sizing-#{$timePeriodPaddingH});
+        @include font("base", $size, "600");
+      }
+    }
+
+    .stripeContainer {
+      max-height: calc(
+        ((var(--base-sizing-#{$numberGap}) + var(--base-sizing-#{$numberHeight})) * $itemsToShow) +
+          var(--base-sizing-#{$numberHeight}) *
+          0.7
+      );
+    }
+
+    .abbrContainer {
+      padding: map.get(pickerValues.$size, $size, "gapV") 0;
+      gap: var(--base-sizing-#{$abbrGap});
+
+      span {
+        width: var(--base-sizing-#{$numberWidth});
+        @include font("base", $size, "500");
+      }
+    }
+
+    .timeStripe {
+      gap: var(--base-sizing-#{$numberGap});
+      padding: var(--base-sizing-#{$stripePaddingV}) var(--base-sizing-#{$stripePaddingH});
+
+      button {
+        width: var(--base-sizing-#{$numberWidth});
+        height: var(--base-sizing-#{$numberHeight});
+        @include font("base", $size, "700");
+      }
+    }
+  }
+}

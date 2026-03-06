@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PinCode should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-testid="pinCode"
+  >
+    <input
+      class="input md"
+      data-testid="pinCodeItem"
+      maxlength="1"
+      type="text"
+      value=""
+    />
+    <input
+      class="input md"
+      data-testid="pinCodeItem"
+      maxlength="1"
+      type="text"
+      value=""
+    />
+  </div>
+</div>
+`;

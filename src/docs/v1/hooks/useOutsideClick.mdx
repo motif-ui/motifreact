@@ -1,0 +1,100 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as hooks from "./hooks.stories.tsx";
+
+<Meta title="Hooks/useOutsideClick" />
+
+# useOutsideClick
+
+Detects clicks outside of a specified element, useful for closing dropdowns, modals, and popovers.
+
+## Usage
+
+```tsx
+import { useOutsideClick } from "@motif-ui/react";
+
+const Dropdown = () => {
+  const [isOpen, setIsOpen] = useState(true);
+  const onOutsideClick = () => {
+    setIsOpen(false);
+  };
+  const dropdownRef = useOutsideClick<HTMLDivElement>(onOutsideClick);
+
+  return (
+    <div ref={dropdownRef}>
+      {isOpen && <div>Dropdown content</div>}
+    </div>
+  );
+};
+```
+
+## With Excluded Refs
+
+You can exclude specific elements from triggering the outside click:
+
+```tsx
+import { useRef } from "react";
+import { useOutsideClick } from "@motif-ui/react";
+
+const Modal = () => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useOutsideClick<HTMLDivElement>(
+    () => console.log("Clicked outside"),
+    [buttonRef] // Button clicks won't trigger the callback
+  );
+
+  return (
+    <>
+      <button ref={buttonRef}>Open Modal</button>
+      <div ref={modalRef}>Modal content</div>
+    </>
+  );
+};
+```
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>callback</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>Yes</td>
+      <td>Function to call when clicking outside</td>
+    </tr>
+    <tr>
+      <td><code>excludedRefs</code></td>
+      <td><code>RefObject&lt;HTMLElement&gt;[]</code></td>
+      <td>No</td>
+      <td>Array of refs to exclude from outside click detection</td>
+    </tr>
+  </tbody>
+</table>
+
+## Return Value
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RefObject&lt;R&gt;</code></td>
+      <td>A ref to attach to the target element</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+<Canvas of={hooks.UseOutsideClickExample} />

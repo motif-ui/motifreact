@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Textarea should render with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+  >
+    <textarea
+      class="textArea"
+      data-testid="textareaItem"
+      rows="4"
+    />
+  </div>
+</div>
+`;

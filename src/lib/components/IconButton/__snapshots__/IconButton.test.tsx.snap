@@ -1,0 +1,3277 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`IconButton should be rendered with only required props 1`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    account_circle
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 1`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    motif_ui
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 2`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    accessibility
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 3`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    accessible
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 4`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    accessible_forward
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 5`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    account_balance
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 6`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    account_balance_wallet
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 7`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    account_balance_wallet_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 8`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    account_circle
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 9`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    add
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 10`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    add_box
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 11`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    add_box_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 12`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    add_circle
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 13`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    add_circle_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 14`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    alarm
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 15`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    alarm_add
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 16`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    alternate_email
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 17`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    apartment
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 18`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_back
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 19`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_back_ios_new
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 20`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_downward
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 21`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_drop_down
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 22`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_drop_up
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 23`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_forward
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 24`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_forward_ios
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 25`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_insert
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 26`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_left_alt
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 27`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_right_alt
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 28`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    arrow_upward
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 29`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    article
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 30`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    assignment
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 31`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    assignment_ind
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 32`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    assist_walker
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 33`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    attach_file
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 34`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    autorenew
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 35`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    backspace
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 36`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    backup
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 37`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    balance
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 38`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    bar_chart
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 39`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    blind
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 40`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    block
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 41`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    bookmark
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 42`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    bookmark_manager
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 43`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    bookmark_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 44`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    border_all
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 45`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    cached
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 46`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    calendar_month
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 47`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    calendar_today
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 48`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    call
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 49`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    call_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 50`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    cancel
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 51`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    cancel_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 52`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    cardiology
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 53`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    cases
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 54`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    chat
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 55`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    chat_bubble
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 56`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    check
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 57`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    check_circle
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 58`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    check_circle_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 59`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    checklist
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 60`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    chevron_left
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 61`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    chevron_right
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 62`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    chips
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 63`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    close
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 64`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    cloud_done
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 65`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    cloud_download
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 66`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    collapse_content
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 67`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    collections_bookmark
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 68`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    compare_arrows
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 69`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    contact_page
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 70`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    contact_support
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 71`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    content_copy
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 72`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    content_cut
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 73`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    content_paste
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 74`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    contract
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 75`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    contract_edit
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 76`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    copy_all
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 77`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    create_new_folder
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 78`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    credit_card
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 79`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    crop_free
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 80`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    dashboard
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 81`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    delete
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 82`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    delete_forever
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 83`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    delete_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 84`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    density_medium
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 85`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    description
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 86`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    device_hub
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 87`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    device_reset
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 88`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    devices
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 89`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    dictionary
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 90`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    directions_car
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 91`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    diversity_3
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 92`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    do_not_disturb_on
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 93`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    domain
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 94`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    done_all
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 95`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    download
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 96`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    download_2
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 97`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    downloading
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 98`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    draft
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 99`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    drive_folder_upload
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 100`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    edit_document
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 101`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    emoji_flags
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 102`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    emoji_flags_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 103`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    encrypted
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 104`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    error
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 105`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    error_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 106`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    event
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 107`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    event_available
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 108`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    event_busy
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 109`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    expand_all
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 110`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    expand_content
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 111`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    extension
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 112`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    external
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 113`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    fact_check
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 114`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    factory
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 115`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    favorite
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 116`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    feature_search
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 117`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    feed
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 118`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    feedback
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 119`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    file_copy
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 120`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    file_present
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 121`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    filter
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 122`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    filter_alt
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 123`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    filter_alt_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 124`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    filter_list
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 125`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    filter_list_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 126`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    filter_none
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 127`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    finance
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 128`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    fingerprint
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 129`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    flash_on
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 130`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    folder
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 131`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    folder_copy
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 132`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    folder_managed
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 133`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    folder_open
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 134`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    folder_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 135`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    folder_shared
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 136`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    format_quote
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 137`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    forum
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 138`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    grade
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 139`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    group
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 140`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    group_add
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 141`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    groups
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 142`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    handshake
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 143`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    handyman
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 144`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    heap_snapshot_large
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 145`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    hearing
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 146`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    hearing_disabled
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 147`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    help
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 148`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    help_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 149`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    home
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 150`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    home_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 151`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    how_to_reg
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 152`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    imagesmode
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 153`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    indeterminate_check_box
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 154`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    info
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 155`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    info_i
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 156`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    info_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 157`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    insert_chart
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 158`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    inventory
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 159`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    ios_share
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 160`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    keyboard
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 161`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    keyboard_alt
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 162`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    keyboard_arrow_down
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 163`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    keyboard_arrow_up
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 164`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    keyboard_voice
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 165`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    label
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 166`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    label_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 167`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    language
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 168`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    library_books
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 169`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    link
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 170`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    link_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 171`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    list_alt
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 172`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    lists
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 173`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    local_library
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 174`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    local_mall
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 175`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    location_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 176`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    location_on
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 177`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    location_on_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 178`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    lock
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 179`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    lock_open
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 180`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    logout
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 181`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    mail
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 182`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    mail_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 183`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    map
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 184`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    mode_cool
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 185`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    mode_heat
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 186`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    more_horiz
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 187`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    more_time
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 188`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    more_vert
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 189`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    moving
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 190`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    nature
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 191`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    near_me
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 192`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    nest_eco_leaf
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 193`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    note
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 194`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    note_add
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 195`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    notifications
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 196`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    notifications_active
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 197`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    notifications_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 198`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    palette
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 199`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    passkey
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 200`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    payments
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 201`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    person
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 202`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    person_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 203`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    phone_iphone
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 204`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    photo
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 205`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    photo_camera
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 206`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    photo_camera_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 207`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    picture_as_pdf
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 208`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    pie_chart
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 209`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    plagiarism
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 210`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    podcasts
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 211`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    priority_high
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 212`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    privacy_tip
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 213`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    prompt_suggestion
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 214`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    psychiatry
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 215`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    push_pin
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 216`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    push_pin_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 217`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    question_mark
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 218`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    receipt
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 219`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    receipt_long
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 220`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    remove
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 221`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    reply
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 222`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    schedule
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 223`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    schedule_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 224`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    school
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 225`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    search
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 226`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    send
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 227`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    send_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 228`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    sentiment_dissatisfied
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 229`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    sentiment_satisfied
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 230`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    settings
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 231`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    settings_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 232`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    share
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 233`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    shield
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 234`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    shield_lock
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 235`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    signpost
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 236`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    sim_card
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 237`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    sim_card_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 238`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    speed
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 239`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    stethoscope
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 240`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    store
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 241`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    supervisor_account
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 242`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    table_rows
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 243`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    task
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 244`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    task_alt
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 245`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    thumb_down
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 246`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    thumb_up
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 247`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    topic
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 248`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    touch_app
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 249`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    trophy
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 250`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    undo
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 251`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    upload
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 252`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    upload_2
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 253`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    upload_file
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 254`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    verified_user
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 255`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    videocam
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 256`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    videocam_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 257`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    visibility
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 258`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    visibility_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 259`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    volume_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 260`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    volume_up
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 261`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    volunteer_activism
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 262`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    vpn_key
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 263`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    vpn_key_off
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 264`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    warning
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 265`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    warning_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 266`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    water_drop
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 267`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    waves
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 268`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    wb_sunny
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 269`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    work
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 270`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    work_outline
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 271`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    zoom_in
+  </button>
+</div>
+`;
+
+exports[`IconButton should render all icons in motifIcons set 272`] = `
+<div>
+  <button
+    class="Root md secondary mtf-ui-icons"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    zoom_out
+  </button>
+</div>
+`;

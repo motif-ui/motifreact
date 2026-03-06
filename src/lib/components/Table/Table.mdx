@@ -1,0 +1,171 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as Table from "./Table.stories";
+
+<Meta of={Table} />
+
+# Guide
+
+`<Table>` is used as an all-in-one component to display data in a tabular format. It provides a simple and easy way to
+create a table with the desired features.
+
+## Basic Use
+
+In order to create a simple table, only **data** and **columns** props are needed.
+
+Each column property uses **dataKey**
+property to access the data in the given **data** array. If **dataKey** is not provided, the whole row object is used.
+This approach is used, either to retrieve the data only consisting of strings or to provide the data prop for the custom
+render function.
+
+Please note that, **dataKey** property supports to access nested properties. So you can always use a notation like
+`user.name` to access the nested properties.
+
+<Canvas of={Table.BasicUse} />
+
+## Data Changes
+
+By default, `<Table>` is designed to only reflect UI the initial data changes in the data prop. If the data is initially
+null or empty, the first data change in the data prop will be reflected in the table. This approach is designed to
+reduce the possbile performance issues.
+
+In addition to this, sometimes the data needs to be changed after the initial render. If there is such scenario,
+**reflectDataChanges** prop should be set to true. By setting this prop, whenever the data prop is changed, the table
+will re-render with the new data.
+
+## Custom Render
+
+Each column may have a custom render function to show the data in the cell. This function gets the data of the row and
+returns the JSX to be rendered in the cell. Custom render function should be provided to the **render** prop in the
+column object.
+
+If the **dataKey** is provided, the data of the row with given key is passed to the render function. If not, the whole row object is passed.
+
+<Canvas of={Table.CustomRender} />
+
+## Sorting
+
+Providing **sorting** prop will enable sorting for the given column. Just giving an empty object will provide a
+very simple, ascending sort using the given primitive value in the cell.
+
+<Canvas of={Table.Sorting} />
+
+#### Descending
+
+Property **desc** in the sorting object may be set to true to set the default sorting order descending.
+
+```tsx
+const data: { name: string; surname: string }[] = []; // ...data array;
+
+const columns = [
+  { title: "Name", dataKey: "name", sorting: { desc: true } },
+  { title: "Surname", dataKey: "surname" },
+];
+
+<Table columns={columns} data={data} />;
+```
+
+#### Custom Sort
+
+A custom sorting function may be provided to the **customSort** property in the sorting object. This function should
+return a number to compare the given values. Similar to custom rendering, if the **dataKey** is provided, the data of
+the row with given key is passed to this function. If not, the whole row object is passed.
+
+Example below sorts the names by the last character of the name:
+
+<Canvas of={Table.SortingCustom} />
+
+## Header
+
+Simple text header or a more complex header as ReactNode may be provided to the **header** property.
+
+<Canvas of={Table.Header} />
+
+## Title and Subtitle
+
+Optionally, add a table **title** and **subtitle** to provide context or description above your table.
+These fields accept only plain **string** and are visually separated at the top.
+
+<Canvas of={Table.TitleAndSubtitle} />
+
+## Footer
+
+Footer section of the table might be used in two different ways. A custom footer which is placed at the bottom of the
+table might be used for general purposes. This footer might be provided in the **footer** property of the table as a
+render function.
+
+Also, each column may have a footer to provide column-specific information. This type of footer should be provided in
+the **footer** property of the column object. There ready to use footer types. **sum** sums all the values in the column,
+**avg** calculates the average of the values in the column, **title** shows the title of the column in the footer.
+**sum** and **avg** types are only available for numeric columns.
+
+In order to provide a custom footer for the column, the **render** function may be used. If **type** is provided, render
+function will get the result of the type calculation as the argument to use while rendering.
+
+**title** property is used to provide a title for the rendered footer cell. This given text is placed to the previous
+column. If the title is provided, the footer cells before the column will be merged and the title will be right-aligned
+in it.
+
+#### General Footer
+
+<Canvas of={Table.Footer} />
+
+#### Footer for the Columns
+
+<Canvas of={Table.FooterForColumns} />
+
+## Filtering
+
+There are two ways to provide filtering feature:
+
+- **filterableTable** prop enables a text input on top of the table to filter the data. This option searches for the given query in all columns.
+
+- Other option is to provide the **filter** prop in each column item which gives more flexibility to search the given queries only in the data of the related column.
+
+All the filtering queries may work together. If both **filterableTable** and **filter** prop in columns are provided, the queries are combined with an AND operation. This is also the same for the queries for different columns.
+
+**Important note:** Filtering only works for the columns which have a string-searchable data in it. This means, the data in the row object should point to a searchable primitive data type. For example, if the data to use in a custom render function it only searches the text content of the render output.
+
+<Canvas of={Table.Filtering} />
+
+## Selection
+
+In order to select the rows in the table, **selectable** prop should be true. This prop enables the selection feature
+and renders a checkbox for the header colunn and the rows. When a row is selected or deselected, the callback given in
+the **onSelect** prop is fired. This callback will return an object with the current row and all the selected rows in
+the table.
+
+When some rows are desired to be selected by default, **selectionKey** prop may be used. This key should refer to the value in the row data which indicates whether the row is selected.
+
+<Canvas of={Table.Selection} />
+
+## Pagination
+
+Pagination feature is enabled with the **pagination** prop. This prop should be an object with the following properties:
+
+- **rowsPerPage**: Number of rows to show in a single page. This is required.
+- **position**: Position of the pagination component. This would be "left" | "center | "right".
+
+<Canvas of={Table.Pagination} />
+
+## Row Numbers
+
+Row or sequence numbers may be added in two different ways. One is using the **showFixedRowNumbers** prop which ties the
+row numbers to the row of the table, not the data itself. This is something similar to the row numbers in Excel or
+Google Sheets. Those numbers would stay in the same position even if the data is sorted or filtered. 1 would always be
+rendered in the first row.
+
+Other option is to put an item into the **columns** prop with the special and reserved **dataKey** of "**#**". This would inform
+the table that this column is specifically designed for the row number. This time, the row numbers will be assigned to
+each row of the data, considering the initial order. The row numbers will change and be moved with the data row
+itself when the data is sorted or filtered. This special item may also behave like a normal column item so it is
+possible to change the title, add sorting or filtering, etc.
+
+<Canvas of={Table.RowNumbers} />
+
+## Row Coloring
+
+Each row may be colored with a user defined coloring rule. `rowColorCallback` prop is used to provide a function which
+will be called for each row. This function should return a string which is the color variant defined in **RowColor**
+type.
+
+<Canvas of={Table.RowColoring} />

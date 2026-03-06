@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Form should be rendered with only required props and items 1`] = `
+<div>
+  <form
+    class="Root md vertical verticalLabels"
+  >
+    <div
+      class="fields"
+    >
+      <div
+        class="Root md verticalForm verticalLabel"
+        data-testid="formField"
+      >
+        <div
+          class="inputContainer"
+        >
+          <div
+            class="Root md inFormField"
+            data-testid="inputItem"
+          >
+            <input
+              name="inputName"
+              value=""
+            />
+          </div>
+          <span
+            class="helper"
+          />
+        </div>
+      </div>
+      <div
+        class="Root md verticalForm verticalLabel"
+        data-testid="formField"
+      >
+        <div
+          class="inputContainer"
+        >
+          <div
+            class="Root md inFormField"
+            data-testid="inputItem"
+          >
+            <input
+              name="inputName2"
+              value=""
+            />
+          </div>
+          <span
+            class="helper"
+          />
+        </div>
+      </div>
+      <div
+        class="submitArea submitArea_align_right"
+      >
+        <button
+          class="Root primary solid md"
+          type="submit"
+        >
+          <span>
+            Gönder
+          </span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;

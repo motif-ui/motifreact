@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Tooltip should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <button
+    class="Root primary solid md"
+    type="button"
+  >
+    <span>
+      Test Button
+    </span>
+  </button>
+</div>
+`;

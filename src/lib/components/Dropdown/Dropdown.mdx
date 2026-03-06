@@ -1,0 +1,20 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import * as Dropdown from "./Dropdown.stories";
+
+<Meta of={Dropdown} />
+
+### Items Props in Action
+
+```jsx
+<Dropdown
+  label="Dropdown Menu"
+  items={[
+    { header: "This Is A Header" },
+    { label: "Item With Icon", icon: "home" },
+    { label: "Item With Action", action: () => alert("Item Clicked") },
+    { label: "Item Disabled", icon: "home", disabled: true },
+    { label: "Item With Colored Icon", icon: "check_circle", iconColor: "red" },
+    { icon: "check_circle", iconColor: "green" },
+  ]}
+/>
+```

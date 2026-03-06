@@ -1,0 +1,69 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started/Element Access" />
+
+# Element Access
+
+The Element Access feature provides direct access to the root DOM element of each component through React refs. This allows you to manipulate, query, or interact with the underlying HTML element when needed.
+
+## Overview
+
+This is particularly useful for:
+
+- Accessing native DOM methods
+- Focusing elements programmatically
+- Measuring element dimensions
+- Scrolling to specific elements
+- Implementing custom animations
+
+## Ref Usage
+
+All components accept a `ref` prop that references their root DOM element. The type of the referenced element varies by component (HTMLDivElement, HTMLButtonElement, etc.).
+
+```tsx
+import { useRef } from "react";
+import { Button } from "@motif-ui/react";
+
+const MyComponent = () => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const handleClick = () => {
+    // Access the native DOM element
+    if (buttonRef.current) {
+      buttonRef.current.focus();
+      console.log("Button width:", buttonRef.current.offsetWidth);
+    }
+  };
+
+  return (
+    <>
+      <Button
+        ref={buttonRef}
+        label="Focus Me"
+        variant="primary"
+      />
+      <Button
+        label="Focus Previous Button"
+        onClick={handleClick}
+        variant="secondary"
+      />
+    </>
+  );
+};
+```
+
+## Best Practices
+
+1. **Use refs sparingly**: Only use refs when you need direct DOM access. Most interactions should be handled through props and state.
+
+2. **Check for null**: Always check if the ref.current exists before accessing it, as it may be null during the initial render.
+
+3. **Avoid overriding styles**: When manipulating styles through refs, prefer using CSS classes and state management over direct style manipulation.
+
+4. **Clean up effects**: If you set up listeners or intervals using refs, make sure to clean them up in useEffect cleanup functions.
+
+## Notes
+
+- The ref is forwarded using React's `forwardRef` pattern internally
+- For composite components (like `Form`), the ref may expose custom methods instead of a DOM element
+- SVG-based components (like `ProgressCircle`) use `SVGSVGElement` as their ref type instead of HTML elements

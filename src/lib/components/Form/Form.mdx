@@ -1,0 +1,138 @@
+import { Meta, Primary, Controls, Title } from "@storybook/addon-docs/blocks";
+import * as Form from "./Form.stories";
+import { Validations } from "./validation/validations";
+import { getStaticPropNames } from "../../../utils/utils";
+
+<Meta of={Form} />
+
+### Validation
+
+Validations are managed by `<Form.Field>`, `<Form.FieldGroup>`. There are some predefined validation rules under **Validations** class such as required, min, max, e-mail, etc:
+
+<ul>
+  {getStaticPropNames(Validations).map(name => (
+    <li>{name}</li>
+  ))}
+</ul>
+
+There is always a possibility to use a custom validator. Each validation is simply a type which consists of a validate function and an error message:
+
+```js
+{
+    validate: (value?: string) => boolean;
+    errorMessage: string;
+    requiredValidation?: boolean; //adds asterisk to the label
+}
+```
+
+#### Custom Validation
+
+Here is an example of a simple custom validator which prevents the users sending a value which includes some dangerous numbers:
+
+```tsx
+  const customValidation: (dangerousNumbers: number[]) => InputValidation =
+    dangerousNumbers => ({
+      errorMessage: `Input should not include dangerous numbers of ${dangerousNumbers.toString()}`,
+      validate: value => {
+        const validated = !value?.split("").some(char => dangerousNumbers.some(dangerous => dangerous === parseInt(char)));
+        return validated;
+      },
+    }
+);
+
+//...
+
+<Form.Field name="input" validations={[Validations.customValidation([1, 3, 5])]}>
+  <InputText />
+</Form.Field>
+```
+
+### Submitted Value Types
+
+`onSubmit` callback returns the values of the form items in a single object. The keys of the object are the names of the
+inputs. For those who uses typescript, it is essential to match the personal custom type with the one returned by the
+onSubmit callback.
+
+The type of the returned data object is `FormSubmitData` which is a generic type (that should extend
+**`Record<string, any>`**). Using a generic type here is optional. When necessary, it can be used as follows:
+
+```tsx
+type CustomType = {
+  name: string;
+  age: number;
+  city?: string;
+};
+
+const onSubmit = ({ values }: FormSubmitData<CustomType>) => {
+  console.log(values.name);
+  console.log(values.age);
+  console.log(values.city);
+};
+
+<Form onSubmit={onSubmit}>
+  <Form.Field name="name" label="Name"><InputText /></Form.Field>
+  <Form.Field name="age" label="Age"><InputText /></Form.Field>
+  <Form.Field name="city" label="City"><InputText /></Form.Field>
+</Form>
+```
+
+It is also possible to use the generic type directly in the `<Form>` itself. Here is an example:
+
+```tsx
+type CustomType = {
+  name: string;
+  age?: number;
+};
+
+<Form<CustomType>
+  onSubmit={data => console.log(data.values.name)}>
+
+  <Form.Field name="name" label="Name"><InputText /></Form.Field>
+  <Form.Field name="age" label="Age"><InputText /></Form.Field>
+</Form>
+```
+
+### Use with `<Grid>`
+
+Using **Form.Field** directly inside **Form** is the easiest way to create a form with the default layout order. There is
+also a layout customization option using the `<Grid>` component inside **Form**.
+
+```tsx
+<Form>
+
+  <Grid fluid>
+    <Row>
+      <Col size={3}>
+        <Form.Field name="name" label="Name">
+          <InputText />
+        </Form.Field>
+      </Col>
+      <Col size={3}>
+        <Form.Field name="surname" label="Surname">
+          <InputText />
+        </Form.Field>
+      </Col>
+      <Col size={3}>
+        <Form.Field name="age" label="Age">
+          <InputText />
+        </Form.Field>
+      </Col>
+    </Row>
+    <Row>
+      <Col size={6}>
+        <Form.Field name="city" label="City">
+          <InputText />
+        </Form.Field>
+      </Col>
+      <Col size={6}>
+        <Form.Field name="country" label="Coutry">
+          <InputText />
+        </Form.Field>
+      </Col>
+    </Row>
+  </Grid>
+
+</Form>
+```
+
+> **Note:** For more please refer to [Form](?path=/docs/form-form--docs)

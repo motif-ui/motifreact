@@ -1,0 +1,187 @@
+@use "@styles" as *;
+
+// size, gap, paddingV, paddingH, labelMinWidth
+$sizes: (
+  ("xs", "4x", "4x", "10x", "128x"),
+  ("sm", "6x", "6x", "12x", "128x"),
+  ("md", "8x", "8x", "16x", "160x"),
+  ("lg", "8x", "10x", "20x", "190x")
+);
+
+.Root {
+  display: flex;
+  border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  background: var(--theme-color-surface-base-bg-light);
+
+  &.inFormField {
+    min-width: var(--base-sizing-256x);
+  }
+
+  &.disabled {
+    background: var(--theme-color-surface-base-base1);
+    border-color: var(--theme-color-border-light-disabled);
+    .label {
+      color: var(--theme-color-text-base-disabled);
+    }
+  }
+
+  &.error {
+    &,
+    .browseButton,
+    .uploadButton {
+      border-color: var(--theme-color-surface-danger-default) !important;
+    }
+  }
+
+  &.success {
+    &,
+    .browseButton,
+    .uploadButton {
+      border-color: var(--theme-color-border-success-default) !important;
+    }
+  }
+
+  > button {
+    margin: calc(-1 * var(--base-sizing-1x));
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--theme-color-surface-light-default);
+    border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+    &,
+    & > * {
+      @include transition;
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--theme-color-border-primary-default);
+    }
+
+    &:disabled {
+      pointer-events: none;
+      cursor: default;
+      border-color: var(--theme-color-border-light-disabled);
+      background: var(--theme-color-surface-light-disabled);
+      &,
+      span {
+        color: var(--theme-color-text-base-disabled);
+      }
+    }
+  }
+}
+
+.browseButton {
+  border-top-left-radius: var(--theme-sizing-radius-default);
+  border-bottom-left-radius: var(--theme-sizing-radius-default);
+  &:hover {
+    background: var(--theme-color-surface-light-hover);
+    border-color: var(--theme-color-border-light-hover);
+    &,
+    span {
+      color: var(--theme-color-text-base-title);
+    }
+  }
+  &,
+  span {
+    color: var(--theme-color-text-base-subtitle-light);
+  }
+}
+
+.uploadButton {
+  border-top-right-radius: var(--theme-sizing-radius-default);
+  border-bottom-right-radius: var(--theme-sizing-radius-default);
+  &:hover {
+    background: var(--theme-color-surface-primary-default);
+    border-color: var(--theme-color-surface-primary-default);
+    &,
+    span {
+      color: var(--theme-color-text-base-global-light);
+    }
+  }
+  &,
+  span {
+    color: var(--theme-color-text-base-title);
+  }
+}
+
+.labelArea {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+
+  .label {
+    color: var(--theme-color-text-base-title);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: calc(-1 * var(--base-sizing-1x)) 0;
+    text-align: left;
+    align-self: stretch;
+    flex: 1;
+    background: transparent;
+    border: solid var(--base-sizing-1x) transparent;
+    &.roundedEnd {
+      border-top-right-radius: var(--theme-sizing-radius-default);
+      border-bottom-right-radius: var(--theme-sizing-radius-default);
+      margin: calc(-1 * var(--base-sizing-1x)) calc(-1 * var(--base-sizing-1x)) calc(-1 * var(--base-sizing-1x)) 0;
+    }
+    &.placeholder {
+      color: var(--theme-color-text-base-caption-light);
+    }
+    &:disabled {
+      pointer-events: none;
+    }
+    &:hover {
+      border-color: var(--theme-color-border-light-hover);
+    }
+  }
+
+  .labelSuffixWrapper {
+    position: absolute;
+    display: flex;
+    background: none;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: var(--theme-sizing-radius-default);
+    border: solid var(--base-sizing-1x) transparent;
+    @include transition(color);
+  }
+
+  .progress {
+    flex: 1;
+    align-self: center;
+    margin: 0 var(--base-sizing-16x);
+  }
+}
+
+@each $size, $gap, $paddingV, $paddingH, $labelMinWidth in $sizes {
+  .#{$size} {
+    > button {
+      padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+      gap: var(--base-sizing-#{$gap});
+      @include font("base", $size, "500");
+    }
+    .label {
+      @include font("body", $size);
+      min-width: var(--base-sizing-#{$labelMinWidth});
+      padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+      &.hasSuffix {
+        padding-right: calc(3 * var(--base-sizing-#{$paddingH}));
+      }
+      &.hasSuffixes {
+        padding-right: calc(5 * var(--base-sizing-#{$paddingH}));
+      }
+    }
+    .labelSuffixWrapper {
+      right: var(--base-sizing-#{$paddingH});
+      gap: var(--base-sizing-#{$paddingV});
+    }
+    .progress {
+      margin: 0 var(--base-sizing-#{$paddingH});
+    }
+  }
+}

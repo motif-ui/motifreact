@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MenuList should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root solid"
+  >
+    <ul
+      class="mainMenu"
+    >
+      <li
+        class="menuItemContainer"
+      >
+        <a
+          class="menuItem expanded mainMenuItem"
+        >
+          <span
+            class="Root md mtf-ui-icons"
+          >
+            home
+          </span>
+          <span
+            class="label"
+          >
+            Home
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

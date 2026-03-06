@@ -1,0 +1,21 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/Style Dictionary" />
+
+# Style Dictionary
+
+[Style Dictionary](https://styledictionary.com) is a build system that allows you to define styles once and use them
+across different platforms. It helps maintain consistency in design by transforming design tokens into
+platform-specific formats. So, if you want to use the same design in another platform (like iOS, Android, or web), Style
+Dictionary makes it easy to do so.
+
+We use Style Dictionary to convert the design tokens defined in our Figma design system into **css variables** that can be
+used in Motif UI.
+
+The command below generates the css variables from the design tokens for Motif UI:
+
+```bash
+npm run build:tokens
+```
+
+This process is important because it is one of the most important steps to create a theme.

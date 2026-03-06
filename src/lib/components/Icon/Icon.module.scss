@@ -1,0 +1,42 @@
+@use "@styles" as *;
+
+$variants: "primary", "secondary", "info", "success", "warning", "danger";
+$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
+
+.Root {
+  display: inline-flex;
+  vertical-align: middle;
+  user-select: none;
+
+  span,
+  i {
+    font-size: inherit;
+  }
+}
+
+@each $variant in $variants {
+  .#{$variant} {
+    color: var(--theme-color-text-#{$variant}-default);
+  }
+}
+
+@each $size, $fontSize in $sizes {
+  .#{$size} {
+    font-size: var(--base-sizing-#{$fontSize});
+
+    svg {
+      width: var(--base-sizing-#{$fontSize});
+      height: var(--base-sizing-#{$fontSize});
+    }
+  }
+}
+
+.stroke svg {
+  stroke: currentColor;
+  fill: transparent;
+}
+
+.fill svg {
+  fill: currentColor;
+  stroke: transparent;
+}

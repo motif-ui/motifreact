@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Switch should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root md"
+  >
+    <input
+      data-testid="switchItem"
+      id="_r_0_"
+      type="checkbox"
+    />
+    <span
+      class="slider"
+      data-testid="switchSliderItem"
+    />
+  </div>
+</div>
+`;

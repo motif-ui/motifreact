@@ -1,0 +1,157 @@
+@use "@styles" as *;
+
+$listItemSizes: (("sm", "xs", "2x", "16x", "8x", "24x"), ("md", "sm", "2x", "16x", "12x", "32x"), ("lg", "md", "4x", "20x", "16x", "40x"));
+@each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize in $listItemSizes {
+  .#{$size} {
+    .baseContent {
+      gap: var(--base-sizing-#{$spaceH});
+      padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$spaceH});
+    }
+    .leftContent,
+    .image img {
+      width: var(--base-sizing-#{$avatarSize});
+      height: var(--base-sizing-#{$avatarSize});
+    }
+    .abbr {
+      @include font("base", $size, "600");
+    }
+    .centerContent {
+      gap: var(--base-sizing-#{$gap});
+    }
+    .alternateText {
+      @include font("body", $alternateTextS);
+    }
+    .title {
+      @include font("base", $size, "500");
+    }
+    .description {
+      @include font("body", $size);
+    }
+  }
+}
+
+.Root {
+  padding: 0;
+  list-style: none;
+}
+
+// =============================================================================
+// List Item
+// =============================================================================
+
+.listItem {
+  list-style: none;
+  padding: 0;
+  &.divider:not(:last-child) {
+    border-bottom: var(--base-sizing-1x) solid var(--theme-color-border-secondary-default);
+  }
+
+  &.link,
+  &.button {
+    .baseContent {
+      cursor: pointer;
+      text-decoration: none;
+      @include focus-ring;
+      @include transition(background-color);
+    }
+    &:hover .baseContent {
+      background-color: var(--theme-color-surface-base-base2);
+    }
+  }
+}
+
+.centerContent > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.multiLine .centerContent > span {
+  overflow: visible;
+  white-space: normal;
+  text-overflow: clip;
+}
+
+.baseContent {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  background-color: var(--theme-color-surface-base-global-light);
+  overflow: hidden;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  .iconRight {
+    color: var(--theme-color-text-secondary-disabled);
+  }
+  .icon {
+    color: var(--theme-color-surface-base-base6);
+  }
+  .image {
+    filter: grayscale(100%);
+    opacity: 0.6;
+  }
+  span {
+    color: var(--theme-color-text-base-disabled-light);
+  }
+  .avatar.abbr {
+    background-color: var(--theme-color-surface-base-base6);
+  }
+}
+
+// =============================================================================
+// Left Content
+// =============================================================================
+
+.leftContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.icon {
+  color: var(--theme-color-text-secondary-default);
+}
+
+.abbr {
+  color: var(--theme-color-text-secondary-default);
+  text-transform: uppercase;
+}
+
+.avatar {
+  border-radius: var(--theme-sizing-radius-round);
+  &.icon,
+  &.image {
+    background-color: var(--theme-color-surface-base-base5);
+  }
+  &.abbr {
+    background-color: var(--theme-color-surface-base-base7);
+    color: var(--theme-color-text-base-text-light);
+  }
+}
+
+// =============================================================================
+// Center Content
+// =============================================================================
+
+.centerContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.alternateText {
+  color: var(--theme-color-text-base-caption-light);
+}
+
+.title {
+  color: var(--theme-color-text-base-title-light);
+}
+
+.description {
+  color: var(--theme-color-text-base-subtitle-light);
+}

@@ -1,0 +1,94 @@
+@use "@styles" as *;
+
+$colors: "primary", "success", "danger", "warning", "info";
+// size, height, fontSize
+$sizes: (("xs", "2x", "xs"), ("sm", "4x", "sm"), ("md", "6x", "md"), ("lg", "8x", "lg"), ("xl", "12x", "lg"));
+
+.Root {
+  text-align: center;
+
+  .bar {
+    position: relative;
+    background: var(--theme-color-surface-base-base5);
+    border-radius: var(--theme-sizing-radius-round);
+
+    &::before {
+      content: "";
+      position: absolute;
+      border-radius: var(--theme-sizing-radius-round);
+      top: 0;
+      left: 0;
+      height: 100%;
+      @include transition(width, "slow", ease-in-out);
+      width: calc(var(--percentage, 0) * 1%);
+    }
+  }
+
+  .text {
+    display: inline-block;
+    color: var(--theme-color-text-base-subtitle-light);
+    margin-top: var(--base-sizing-4x);
+  }
+
+  @each $size, $height, $fontSize in $sizes {
+    &.#{$size} {
+      .bar {
+        height: var(--base-sizing-#{$height});
+      }
+
+      .text {
+        @include font("base", $fontSize, "500");
+      }
+    }
+  }
+
+  @each $color in $colors {
+    &.#{$color} .bar::before {
+      background: var(--theme-color-surface-#{$color}-default);
+    }
+  }
+
+  &.secondary .bar::before {
+    background: var(--theme-color-surface-base-base7);
+  }
+
+  &.indeterminate {
+    .bar::before {
+      animation: progress-animation 1.2s cubic-bezier(0.5, 0.1, 0.9, 1) forwards infinite;
+    }
+
+    @keyframes progress-animation {
+      0% {
+        left: 0;
+        width: 0;
+      }
+      50% {
+        left: 50%;
+        width: 50%;
+      }
+      100% {
+        left: 100%;
+        width: 0;
+      }
+    }
+  }
+
+  &.countdown {
+    .bar::before {
+      animation: countdown var(--countdown-duration) linear forwards;
+    }
+
+    &.paused .bar::before {
+      animation-play-state: paused;
+    }
+
+    @keyframes countdown {
+      0% {
+        width: 100%;
+      }
+      100% {
+        width: 0;
+      }
+    }
+  }
+}

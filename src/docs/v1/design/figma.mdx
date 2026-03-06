@@ -1,0 +1,68 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import styles from "../../components/Figma/figma.module.scss";
+import Button from "../../../lib/components/Button/Button";
+import * as Figma from "../../components/Figma/figma.stories";
+
+<Meta title="Design/Figma" />
+
+# Figma
+
+Motif UI is built on top of design tokens to keep consistency between design and code. This allows us to keep our design
+platform independent, making it easier to scale and maintain. Since it is easy to design in Figma, we decided to use it as
+the source of truth for our tokens.
+
+<Canvas of={Figma.FigmaImg} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+
+> **Access the Figma file:** [Motif UI Design System](https://www.figma.com/file/your-figma-id) (Read-only access)
+
+## Why Figma?
+
+We chose Figma as our design system platform because it offers:
+
+- **Real-time Collaboration**: Designers and developers can work together simultaneously, reviewing and discussing components in real-time
+- **Single Source of Truth**: All design decisions, tokens, and components live in one centralized location
+- **Version Control**: Track changes, maintain component history, and roll back when needed
+- **Developer Handoff**: Built-in inspect tools provide exact CSS values, measurements, and exportable assets
+- **Token Sync**: Design tokens can be exported to be synced with the codebase
+- **Component Variants**: Manage multiple states, sizes, and themes within a single component file
+- **Accessibility Tools**: Built-in color contrast checkers and accessibility features ensure inclusive design
+
+## Component Library
+
+All Motif UI components are designed in Figma with full fidelity to the implemented code. Here's an example of how the **Button** component is structured:
+
+<Canvas of={Figma.FigmaInspect} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+> **Note:**  Each component variant in Figma corresponds to a prop combination in the React component. For example, `variant="primary"` and `size="lg"` match the Primary/Large variant in Figma.
+
+## Design Tokens
+
+Design tokens are the foundation of our design system. They ensure consistency across all platforms and make it easy to maintain and scale the design system. Instead of hardcoding values like colors, spacing, or font sizes throughout the codebase, we use tokens that can be updated centrally.
+
+> **Note:** For a complete reference of all available design tokens and their usage in code, see the [Design Tokens](/docs/design-design-tokens--docs) documentation.
+
+<br />
+
+### Exporting Tokens
+
+Once design tokens are created and maintained in Figma, they need to be exported and transformed into code that developers can use. This
+process ensures that design and code stay perfectly in sync.
+
+<Canvas of={Figma.FigmaDesignToken} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+
+Design tokens are exported from Figma using the **Tokens Studio** plugin as a JSON file. To transform the exported tokens, run the `npm run build:tokens` command (add parameters if needed). This process only generates design tokens, not themes. For theme creation, see the [Theming](/docs/customization-theming--docs) section. As a result, you get a ready-to-use CSS file containing all tokens as CSS variables.
+
+In order to convert your tokens into css variables, the script below should be executed:
+
+```bash
+npm run build:tokens [YOUR_TOKENS_JSON_FILE] [OUTPUT_CSS_FILE]
+```
+
+<br />
+
+## Design-to-Code Workflow
+
+1. **Design**: Designers create and update components in Figma
+2. **Token Export**: Design tokens are exported from Figma to JSON format
+3. **Build Process**: Style Dictionary transforms tokens into CSS variables
+4. **Component Development**: Developers implement components using the generated tokens
+5. **QA**: Visual comparison between Figma designs and implemented components

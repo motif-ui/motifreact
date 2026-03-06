@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Alert should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root secondary"
+  >
+    <span
+      class="Root lg secondary motifIconsDefault"
+    >
+      info
+    </span>
+    <div
+      class="contentBox"
+    >
+      <div
+        class="content"
+      >
+        This is a test message
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,148 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Form/Supported Components" />
+
+# Supported Components
+
+The Form component supports a wide variety of input types stated in this page. In order to see a fully working example
+of a form using these components, please refer to [Components/Form](?path=/docs/components-form--docs) page.
+
+### Checkbox [[↗]](?path=/docs/components-checkbox--docs)
+
+```jsx
+<Form.FieldGroup name="permissions" label="Permissions">
+  <Checkbox name="read" label="Read" />
+  <Checkbox name="write" label="Write" />
+  <Checkbox name="delete" label="Delete" />
+</Form.FieldGroup>
+```
+
+### InputDate [[↗]](?path=/docs/components-inputdate--docs)
+
+```jsx
+<Form.Field name="birthdate" label="Birth Date">
+  <InputDate />
+</Form.Field>
+```
+
+### InputDateTime [[↗]](?path=/docs/components-inputdatetime--docs)
+
+```jsx
+<Form.Field name="eventDateTime" label="Event Date & Time">
+  <InputDateTime />
+</Form.Field>
+```
+
+### InputText [[↗]](?path=/docs/components-inputtext--docs)
+
+```jsx
+<Form.Field name="name" label="Full Name">
+  <InputText />
+</Form.Field>
+```
+
+### InputTime [[↗]](?path=/docs/components-inputtime--docs)
+
+```jsx
+<Form.Field name="appointmentTime" label="Appointment Time">
+  <InputTime />
+</Form.Field>
+```
+
+### InputPassword [[↗]](?path=/docs/components-inputpassword--docs)
+
+```jsx
+<Form.Field name="password" label="Password">
+  <InputPassword />
+</Form.Field>
+```
+
+### PinCode [[↗]](?path=/docs/components-pincode--docs)
+
+```jsx
+<Form.Field name="code" label="Verification Code">
+  <PinCode>
+    <PinCodeItem />
+    <PinCodeItem />
+    <PinCodeItem />
+    <PinCodeItem />
+  </PinCode>
+</Form.Field>
+```
+
+### RadioGroup [[↗]](?path=/docs/components-radiogroup--docs)
+
+```jsx
+<Form.Field name="gender" label="Gender">
+  <RadioGroup name="gender">
+    <Radio value="male" label="Male" />
+    <Radio value="female" label="Female" />
+  </RadioGroup>
+</Form.Field>
+```
+
+### Select [[↗]](?path=/docs/components-select--docs)
+
+```jsx
+<Form.Field name="interests" label="Interests">
+  <Select
+    multiple
+    data={[
+      { label: "Technology", value: "tech" },
+      { label: "Art", value: "art" },
+      { label: "Sports", value: "sports" }
+    ]}
+  />
+</Form.Field>
+```
+
+### Slider [[↗]](?path=/docs/components-slider--docs)
+
+```jsx
+<Form.Field name="volume" label="Volume">
+  <Slider />
+</Form.Field>
+```
+
+### SliderRange [[↗]](?path=/docs/components-slider-range--docs)
+
+```jsx
+<Form.Field name="priceRange" label="Price Range">
+  <SliderRange />
+</Form.Field>
+```
+
+### Switch [[↗]](?path=/docs/components-switch--docs)
+
+```jsx
+<Form.Field name="notifications" label="Enable Notifications">
+  <Switch />
+</Form.Field>
+```
+
+### UploadInput [[↗]](?path=/docs/components-upload-input--docs)
+
+```jsx
+<Form.Field name="avatar" label="Profile Picture">
+  <UploadInput
+    uploadRequest={{
+      url: "/api/upload",
+      method: "POST"
+    }}
+  />
+</Form.Field>
+```
+
+### UploadList [[↗]](?path=/docs/components-upload-list--docs)
+
+```jsx
+<Form.Field name="documents" label="Documents">
+  <UploadList
+    uploadRequest={{
+      url: "/api/upload",
+      method: "POST"
+    }}
+    maxSize={5000000}
+  />
+</Form.Field>
+```

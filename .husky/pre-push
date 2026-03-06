@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if ! npm run test:ci; then
+  echo "❌ Some of the tests have failed"
+  echo "Please fix the failed tests and try again"
+  exit 1
+fi

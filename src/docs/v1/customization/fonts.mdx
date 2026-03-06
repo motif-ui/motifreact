@@ -1,0 +1,104 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/Fonts" />
+
+# Fonts
+
+Motif UI uses "Inter" as the default font for all text elements. This font is chosen for its readability and modern
+appearance. Along with all other customization options, you can change the default font to better suit your project's
+design requirements. In order to change the default font, you need to follow these steps:
+
+## 1. Import the Font
+
+Let's assume that you want to change the default font to `Orbitron`. First, it must be available in your project, either
+by including it in your project's assets or by importing it from a web font service like FontSource or Google Fonts.
+
+#### FontSource
+
+Install the desired font using FontSource. To install a font, run:
+
+```bash
+npm install @fontsource/orbitron
+```
+
+Then, import the font in the root layout of your project:
+
+```jsx
+import "@fontsource/orbitron";
+```
+
+#### Google Fonts
+
+Alternatively, it may be included via Google Fonts CDN by adding the following code in the `<head>` tag of your
+project's HTML
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=orbitron:wght@400;500;600;700&display=swap" rel="stylesheet" />
+```
+
+#### Using @font-face
+
+You are always welcome to use @font-face in your own or theme's css file. You should include all the font faces that
+contain font-weights between 400-700 which are used in Motif UI.
+
+```css
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa25L7W0Q5n-wU.woff2) format("woff2");
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* font-weight: 400, 500, 600, 700 should be included */
+```
+
+## 2. Update the Font Family
+
+Applied font family relies on a css variable `--theme-typography-font-family`. You should change or override this variable with your
+imported new font to change the default font across your application.
+
+There are three main methods to change the default font in Motif UI:
+
+### By Injecting `<style>` Tag
+
+You can inject a `<style>` tag in the `<head>` of your HTML document to override the `--theme-typography-font-family` variable.
+Unless a custom theme of yours is used, this is the preferred method as it ensures that the font is applied before the
+content is rendered, preventing FOUC.
+
+Here's an example:
+
+```jsx
+<style>
+  {`:root{--theme-typography-font-family: 'Orbitron', sans-serif}`}
+</style>
+```
+
+### In a Custom Theme
+
+If you are already using a custom theme you created, the font family may be specified by overriding the
+`--theme-typography-font-family` variable in your custom theme's CSS file.
+
+```css
+:root {
+  --theme-typography-font-family: "Orbitron", sans-serif;
+}
+```
+
+### Using MotifProvider
+
+You can also set the font family directly in the `MotifProvider` by passing the `font` prop. Here's an example:
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider font="'Orbitron', sans-serif">
+  {/* your app's children */ }
+</MotifProvider>
+```
+
+Please be aware that since this method applies the style within the provider, FOUC (Flash of Unstyled Content) may occur
+during the initial load.

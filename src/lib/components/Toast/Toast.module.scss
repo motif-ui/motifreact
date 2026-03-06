@@ -1,0 +1,111 @@
+@use "@styles" as *;
+
+$colorTypes: (("secondary", "light"), ("warning", "warning"), ("success", "success"), ("danger", "danger"), ("info", "info"));
+$positions: (
+  // position, animationIn, animationOut, top, right, bottom, left, transform
+  ("top", slideInTop, slideOutTop, var(--base-sizing-16x), null, null, 50%, translateX(-50%)),
+  ("topRight", slideInRight, slideOutRight, var(--base-sizing-16x), var(--base-sizing-16x), null, null, null),
+  ("topLeft", slideInLeft, slideOutLeft, var(--base-sizing-16x), null, null, var(--base-sizing-16x), null),
+  ("bottom", slideInBottom, slideOutBottom, null, null, var(--base-sizing-16x), 50%, translateX(-50%)),
+  ("bottomRight", slideInRight, slideOutRight, null, var(--base-sizing-16x), var(--base-sizing-16x), null, null),
+  ("bottomLeft", slideInLeft, slideOutLeft, null, null, var(--base-sizing-16x), var(--base-sizing-16x), null)
+);
+$animationKeyframes: (
+  // animation, transform0, transform100, opacity0, $opacity100
+  ("slideInRight", translateX(100%), translateX(0%), 0, 1),
+  ("slideOutRight", translateX(0%), translateX(100%), 1, 0),
+  ("slideInLeft", translateX(-100%), translateX(0%), 0, 1),
+  ("slideOutLeft", translateX(0%), translateX(-100%), 1, 0),
+  ("slideInTop", translateY(-100%), translateY(0%), 0, 1),
+  ("slideOutTop", translateY(0%), translateY(-100%), 1, 0),
+  ("slideInBottom", translateY(100%), translateY(0%), 0, 1),
+  ("slideOutBottom", translateY(0%), translateY(100%), 1, 0)
+);
+@each $animation, $transformZero, $transformHundred, $opacityZero, $opacityHundred in $animationKeyframes {
+  @keyframes #{$animation} {
+    0% {
+      opacity: $opacityZero;
+      transform: $transformZero;
+    }
+    100% {
+      opacity: $opacityHundred;
+      transform: $transformHundred;
+    }
+  }
+}
+
+.Root {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  @include widthOrWidthBelowScreenSize(--theme-grid-breakpoint-sm, --base-sizing-256x, calc(100vw - var(--base-sizing-72x)));
+  padding: var(--base-sizing-10x) var(--base-sizing-20x);
+  gap: var(--base-sizing-10x);
+  border-radius: var(--theme-sizing-radius-default);
+  align-items: flex-start;
+
+  .icon {
+    align-self: center;
+  }
+}
+
+@each $colorType, $color in $colorTypes {
+  .#{$colorType} {
+    color: var(--theme-color-text-base-title);
+    background-color: var(--theme-color-surface-#{$color}-negative);
+    border-left-color: var(--theme-color-text-#{$color}-active);
+
+    .title {
+      color: var(--theme-color-text-#{$color}-active);
+    }
+  }
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-sizing-4x);
+  flex-grow: 1;
+  max-height: 90vh;
+  overflow-y: scroll;
+  @include hiddenScrollbar;
+
+  .content {
+    @include font("body", "md");
+  }
+  .title {
+    @include font("base", "lg", "600");
+  }
+}
+
+.progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.Container {
+  display: flex;
+  flex-direction: column-reverse;
+  row-gap: var(--base-sizing-12x);
+  position: fixed;
+  z-index: 5;
+
+  @each $position, $animationIn, $animationOut, $top, $right, $bottom, $left, $transform in $positions {
+    &.#{$position} {
+      top: $top;
+      right: $right;
+      bottom: $bottom;
+      left: $left;
+      transform: $transform;
+
+      .Root:not(.closing) {
+        animation: $animationIn 0.3s ease-in-out forwards;
+      }
+      .Root.closing {
+        animation: $animationOut 0.3s ease-in-out forwards;
+      }
+    }
+  }
+}

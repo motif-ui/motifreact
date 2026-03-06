@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Dropdown should be rendered with only required props and should have default prop values 1`] = `
+<div
+  class="Root md primary solid"
+  data-testid="Dropdown"
+>
+  <button
+    class="Button"
+    type="button"
+  >
+    <span>
+      Dropdown
+    </span>
+    <span
+      class="Root md motifIconsDefault Button-DropdownIcon"
+    >
+      arrow_drop_down
+    </span>
+  </button>
+</div>
+`;

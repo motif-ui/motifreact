@@ -1,0 +1,20 @@
+$pickerSizes: ("xs", "sm", "md", "lg");
+
+$size: (
+  "xs": (
+    "gapV": var(--base-sizing-4x),
+    "width": var(--base-sizing-190x)
+  ),
+  "sm": (
+    "gapV": var(--base-sizing-8x),
+    "width": var(--base-sizing-266x)
+  ),
+  "md": (
+    "gapV": var(--base-sizing-12x),
+    "width": var(--base-sizing-342x)
+  ),
+  "lg": (
+    "gapV": var(--base-sizing-16x),
+    "width": var(--base-sizing-418x)
+  )
+);

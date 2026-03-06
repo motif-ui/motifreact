@@ -1,0 +1,28 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as MenuList from "./MenuList.stories";
+
+<Meta of={MenuList} />
+
+## Collapsing
+
+MenuList supports horizontal collapsing functionality to optimize space usage in the UI. This functionality is provided
+in two different ways:
+
+1. **Uncontrolled:** Letting the component handle collapsing.
+2. **Controlled:** Controlling collapsing from outside.
+
+### Controlled
+
+In order to control the collapsing from outside, `collapsed` and `onCollapsedChange` props should be used. The
+collapsing state should be stored in a state variable and passed to the **collapsed** prop. The **onCollapsedChange** prop
+should be used to update the state variable when the collapsing state changes.
+
+<Canvas of={MenuList.Controlled} sourceState="shown" />
+
+### Uncontrolled
+
+If the collapsing is to be handled by the component itself, you should set `enableCollapseButton` prop to true. In this
+case, only `default Collapsed` prop is needed. This prop sets the initial collapsing state of the component and the
+component handles the rest.
+
+<Canvas of={MenuList.Uncontrolled} sourceState="shown" />

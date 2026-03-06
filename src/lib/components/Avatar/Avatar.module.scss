@@ -1,0 +1,55 @@
+@use "@styles" as *;
+
+$sizes: (
+  /* name, size, iconSize, fontType, fontSize, fontWeight */ ("xs", "20x", "14x", "base", "xxs", 500),
+  ("sm", "24x", "14x", "base", "xs", 600),
+  ("md", "32x", "20x", "base", "md", 600),
+  ("lg", "40x", "24x", "base", "lg", 600),
+  ("xl", "48x", "36x", "heading", "heading4"),
+  ("xxl", "64x", "48x", "heading", "heading3")
+);
+$variants: ("primary", "secondary", "info", "success", "warning", "danger");
+
+.Root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--theme-sizing-radius-round);
+  color: var(--theme-color-text-base-text-light);
+}
+
+.image {
+  img {
+    z-index: 1;
+    aspect-ratio: 1;
+    width: 100%;
+    &::before {
+      content: "";
+      display: block;
+      padding-top: 100%;
+    }
+  }
+  .imagePlaceholder {
+    position: absolute;
+    z-index: 0;
+  }
+}
+
+@each $name, $size, $iconSize, $fontType, $fontSize, $fontWeight in $sizes {
+  .#{$name} {
+    width: var(--base-sizing-#{$size});
+    height: var(--base-sizing-#{$size});
+    &.letters {
+      @include font($fontType, $fontSize, $fontWeight);
+    }
+    &.icon span {
+      font-size: var(--base-sizing-#{$iconSize});
+    }
+  }
+}
+@each $variant in $variants {
+  .#{$variant} {
+    background-color: if($variant == "secondary", var(--theme-color-surface-base-base7), var(--theme-color-surface-#{$variant}-default));
+  }
+}

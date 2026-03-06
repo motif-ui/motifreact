@@ -1,0 +1,139 @@
+@use "@styles" as *;
+
+$sideSpace: 4rem;
+$sizes: (
+  //sizeName, width
+  ("sm", "320x"),
+  ("md", "480x"),
+  ("lg", "720x")
+);
+
+.Root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background-color: var(--base-colors-black-black-overlay50);
+  display: flex;
+  z-index: 999;
+  @include fade-default;
+
+  &.show {
+    @include fade-in;
+  }
+
+  // Size classes at root level
+  @each $size, $width in $sizes {
+    &.#{$size} .modal {
+      width: var(--base-sizing-#{$width});
+    }
+  }
+
+  // Maximized class at root level
+  &.maximized .modal {
+    width: calc(100% - $sideSpace);
+    height: calc(100% - $sideSpace);
+    max-width: none;
+    max-height: none;
+  }
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  color: black;
+  border-radius: var(--theme-sizing-radius-default);
+  @include shadow(4);
+  height: auto;
+  max-width: calc(100% - $sideSpace);
+  max-height: 100%;
+  overflow: hidden;
+  transform-origin: left top;
+  @include pop-default;
+}
+
+.show .modal {
+  @include pop-in;
+}
+
+.content {
+  padding: var(--base-sizing-16x);
+  min-height: var(--base-sizing-64x);
+  height: 100%;
+  overflow-y: auto;
+
+  .noContentPadding & {
+    padding: 0;
+  }
+
+  &::-webkit-scrollbar {
+    width: var(--base-sizing-8x);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    margin: var(--base-sizing-1x) 0;
+    border-radius: var(--theme-sizing-radius-default);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--base-colors-black-black-overlay25);
+    border-radius: var(--theme-sizing-radius-default);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--base-sizing-16x);
+  right: var(--base-sizing-16x);
+}
+
+// =============================================================================
+// Sub Component: Header
+// =============================================================================
+
+.header {
+  display: flex;
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-16x);
+  border-bottom: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+  align-items: flex-start;
+}
+
+.headerContent {
+  flex: 1;
+  gap: var(--base-sizing-4x);
+  word-break: break-word;
+
+  .headerTitle {
+    display: block;
+    color: var(--theme-color-text-base-title);
+    @include font("heading", "heading4");
+  }
+
+  .headerSubtitle {
+    display: block;
+    color: var(--theme-color-text-base-caption);
+    @include font("body", "lg");
+  }
+}
+
+// Modal Actions Styles
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-16x);
+  justify-content: flex-end;
+  flex-shrink: 0;
+  border-top: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+}

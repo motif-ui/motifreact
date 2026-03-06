@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ImageUpload should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+  >
+    <div
+      class="dragArea dragReady"
+    >
+      <span
+        class="Root md secondary motifIconsDefault addIcon"
+      >
+        add
+      </span>
+      <span
+        class="dragMessage"
+      >
+        Choose or drag an image
+      </span>
+    </div>
+  </div>
+  <input
+    accept="image/gif,image/jpeg,image/jpg,image/png,image/bmp,image/x-ms-bmp,image/tiff,image/tiff-fx,image/webp,image/avif,image/heic,image/heif,image/svg+xml"
+    hidden=""
+    type="file"
+  />
+</div>
+`;

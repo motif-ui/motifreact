@@ -1,0 +1,96 @@
+@use "sass:math";
+@use "sass:map";
+@use "@styles" as *;
+
+$colors: "primary", "success", "danger", "warning", "info";
+// size, strokeWidth, radius, fontPerc
+$sizes: (
+  ("xs", "2x", "8x", "xs"),
+  ("sm", "3x", "12x", "xs"),
+  ("md", "4x", "18x", "xs"),
+  ("lg", "4x", "24x", "xs"),
+  ("xl", "6x", "32x", "md")
+);
+
+.Root {
+  @each $size, $strokeWidth, $radius, $fontPerc in $sizes {
+    &.#{$size} {
+      height: calc(var(--base-sizing-#{$radius}) * 2);
+      width: calc(var(--base-sizing-#{$radius}) * 2);
+      $normalizedRadius: calc(var(--base-sizing-#{$radius}) - (var(--base-sizing-#{$strokeWidth}) / 2));
+      $circumferenceWithUnit: calc(#{$normalizedRadius} * 2 * #{math.$pi});
+      $circumference: #{$circumferenceWithUnit};
+      $calculatedOffset: calc(#{$circumference} - ((#{$circumference} * var(--percentage, 0)) / 100));
+
+      circle {
+        cx: var(--base-sizing-#{$radius});
+        cy: var(--base-sizing-#{$radius});
+        r: $normalizedRadius;
+        stroke-width: var(--base-sizing-#{$strokeWidth});
+      }
+
+      .circle {
+        stroke-dashoffset: $calculatedOffset;
+        stroke-dasharray: $circumference $circumference;
+      }
+
+      &.countdown {
+        .circle {
+          animation: countdown-#{$size} var(--countdown-duration) linear forwards;
+        }
+
+        &.paused .circle {
+          animation-play-state: paused;
+        }
+
+        @keyframes countdown-#{$size} {
+          0% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-dashoffset: #{$circumference};
+          }
+        }
+      }
+
+      .text {
+        fill: var(--theme-color-text-base-subtitle-light);
+        font-weight: var(--typography-base-#{$fontPerc}-500-fontWeight);
+        font-size: var(--typography-base-#{$fontPerc}-500-fontSize);
+      }
+    }
+  }
+
+  @each $color in $colors {
+    &.#{$color} .circle {
+      stroke: var(--theme-color-surface-#{$color}-default);
+    }
+  }
+
+  &.secondary .circle {
+    stroke: var(--theme-color-surface-base-base7);
+  }
+
+  .circle {
+    @include transition(stroke-dashoffset, "slow", ease-in-out);
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke-linecap: round;
+  }
+
+  .track {
+    stroke: var(--theme-color-surface-base-base5);
+  }
+
+  &.indeterminate {
+    animation: 1.5s linear infinite svg-animation;
+    @keyframes svg-animation {
+      0% {
+        transform: rotateZ(0deg);
+      }
+      100% {
+        transform: rotateZ(360deg);
+      }
+    }
+  }
+}

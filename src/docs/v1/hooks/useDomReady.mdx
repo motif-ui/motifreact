@@ -1,0 +1,46 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Hooks/useDomReady" />
+
+# useDomReady
+
+A simple hook that returns `true` when the DOM is fully loaded and ready.
+
+## Usage
+
+```jsx
+import { useDomReady } from "@motif-ui/react";
+
+const MyComponent = () => {
+  const domReady = useDomReady();
+
+  if (!domReady) {
+    return <div>Loading...</div>;
+  }
+
+  return <div>DOM is ready!</div>;
+};
+```
+
+## Return Value
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>boolean</code></td>
+      <td>Returns <code>true</code> when the DOM is ready, <code>false</code> otherwise</td>
+    </tr>
+  </tbody>
+</table>
+
+## Use Cases
+
+- Preventing hydration mismatches in SSR applications
+- Ensuring DOM-dependent operations run safely
+- Conditional rendering based on DOM readiness

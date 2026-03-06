@@ -1,0 +1,264 @@
+@use "@styles" as *;
+
+$sizes: (
+  //sizeName, paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, loaderTop, selectedSize, selectedIconSize
+  ("xs", "4x", "8x", "4x", "160x", "18x", 1, "xs", "12x"),
+  ("sm", "6x", "12x", "6x", "190x", "20x", -2, "xs", "16x"),
+  ("md", "8x", "16x", "8x", "190x", "22x", -1, "sm", "18x"),
+  ("lg", "10x", "20x", "10x", "256x", "24x", 0, "md", "20x")
+);
+$selectedItemSizes: (
+  //sizeName, fontSize, iconSize
+  ("xs", "xs", "12x"),
+  ("sm", "xs", "16x"),
+  ("md", "sm", "18x"),
+  ("lg", "md", "20x")
+);
+
+.Root {
+  position: relative;
+  display: inline-block;
+
+  &.expanded .input {
+    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+    .arrowDown {
+      transform: rotate(180deg);
+    }
+  }
+
+  &.inFormField .input {
+    min-width: var(--base-sizing-190x);
+  }
+
+  @include transition(border-color);
+
+  &.error .input {
+    border-color: var(--theme-color-border-danger-default);
+  }
+
+  &.success .input {
+    border-color: var(--theme-color-border-success-default);
+  }
+
+  &.active,
+  &:focus .input {
+    border-color: var(--theme-color-border-primary-default);
+    outline: none;
+  }
+
+  &.disabled .input {
+    border-color: var(--theme-color-border-light-disabled);
+    background-color: var(--theme-color-surface-base-base1);
+    pointer-events: none;
+
+    .inputText {
+      color: var(--theme-color-text-base-disabled);
+    }
+
+    .iconRight {
+      color: var(--theme-color-text-light-disabled);
+    }
+  }
+}
+
+.input {
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  background-color: var(--theme-color-surface-base-bg-light);
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  box-sizing: border-box;
+
+  .inputTextAndItemsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .inputText {
+    all: unset;
+    min-width: 0;
+    flex-grow: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: auto;
+    text-overflow: ellipsis;
+    color: var(--theme-color-text-base-title);
+
+    &::placeholder {
+      color: var(--theme-color-text-base-caption);
+    }
+  }
+
+  .iconLeft {
+    color: var(--theme-color-text-base-caption-light);
+  }
+
+  .iconRight {
+    color: var(--theme-color-text-base-subtitle);
+    @include transition(transform);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-top: none;
+  width: 100%;
+  background-color: var(--theme-color-surface-base-global-light);
+  overflow-y: auto;
+  @include shadow(3);
+
+  &::-webkit-scrollbar {
+    width: var(--base-sizing-8x);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    margin: var(--base-sizing-1x) 0;
+    border-radius: var(--theme-sizing-radius-default);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: var(--theme-sizing-radius-default);
+  }
+
+  li {
+    @include transition(background-color);
+    display: flex;
+
+    &:not(:first-child) {
+      border-top: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
+    }
+
+    &.noData label {
+      color: var(--theme-color-text-base-disabled-light);
+    }
+
+    &.optionGroup label {
+      width: 100%;
+      color: var(--theme-color-text-base-caption-light);
+    }
+
+    &.option {
+      &:hover {
+        background-color: var(--theme-color-surface-light-default);
+      }
+
+      &.selected {
+        label,
+        .iconSelected {
+          color: var(--theme-color-text-primary-default);
+        }
+      }
+
+      input[type="checkbox"],
+      input[type="radio"] {
+        position: absolute;
+        left: 0;
+        opacity: 0;
+      }
+
+      label {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: var(--base-sizing-10x);
+        color: var(--theme-color-text-base-text-dark);
+
+        .labelText {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+}
+
+@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $selectedSize, $selectedIconSize in $sizes {
+  .#{$size} {
+    .input {
+      padding: var(--base-sizing-#{$paddingV}) +
+        var(--base-sizing-#{$paddingV}) +
+        var(--base-sizing-#{$paddingV}) +
+        var(--base-sizing-#{$paddingH});
+
+      gap: var(--base-sizing-#{$gap});
+
+      .inputText {
+        @include font("body", $size);
+      }
+
+      .inputTextAndItemsContainer {
+        gap: var(--base-sizing-#{$gap});
+      }
+    }
+
+    .label {
+      @include font("base", $selectedSize, "500");
+    }
+
+    .closeIcon {
+      font-size: var(--base-sizing-#{$selectedIconSize});
+    }
+
+    .dropdown {
+      max-height: var(--base-sizing-#{$maxDropdownHeight});
+
+      li {
+        &.optionGroup label {
+          padding: var(--base-sizing-#{$paddingV});
+          @include font("base", $size, "500");
+        }
+
+        &.noData,
+        &.option {
+          label {
+            gap: var(--base-sizing-#{$gap});
+            padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+            @include font("body", $size);
+          }
+        }
+      }
+    }
+
+    .rightContainer {
+      width: var(--base-sizing-#{$rightContainerSize});
+      height: var(--base-sizing-#{$rightContainerSize});
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .loader {
+        position: absolute;
+        top: addUnit($loaderTop);
+        right: 0;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// Sub Component: Selected Item
+// =============================================================================
+
+.selectionChip {
+  background-color: var(--theme-color-surface-base-base4);
+  border-radius: var(--theme-sizing-radius-default);
+  padding: var(--base-sizing-1x) var(--base-sizing-8x);
+  display: flex;
+  gap: var(--base-sizing-1x) var(--base-sizing-8x);
+}
+
+.label {
+  color: var(--theme-color-text-base-subtitle);
+}

@@ -1,0 +1,281 @@
+@use "@styles" as *;
+
+$sizes: (
+  sm: var(--base-sizing-256x),
+  md: var(--base-sizing-320x),
+  lg: var(--base-sizing-512x)
+);
+
+// =============================================================================
+// Main Menu
+// =============================================================================
+
+.Root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-sizing-36x);
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--base-sizing-16x);
+  background-color: var(--theme-color-surface-base-bg-light);
+
+  &:not(.collapsed) {
+    @each $size, $value in $sizes {
+      &.#{$size} {
+        width: $value;
+        min-width: $value;
+        max-width: $value;
+      }
+    }
+    .mainMenu {
+      overflow-y: scroll;
+    }
+  }
+}
+
+.mainMenu {
+  &,
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    flex: 1;
+  }
+}
+
+.logoContainer {
+  height: var(--base-sizing-48x);
+  display: flex;
+  align-items: center;
+  gap: var(--base-sizing-10x);
+  justify-content: flex-end;
+}
+
+.logo {
+  padding: var(--base-sizing-4x);
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: left;
+}
+
+.footerText {
+  @include font("body", "xxs");
+  color: var(--theme-color-text-base-caption-light);
+  white-space: nowrap;
+}
+
+.collapsed {
+  width: fit-content;
+
+  .logoContainer {
+    justify-content: center;
+  }
+
+  .subMenu {
+    background-color: var(--theme-color-surface-base-bg-light);
+    &.firstLevel {
+      position: absolute;
+      z-index: 1;
+      left: calc(100% + var(--base-sizing-16x));
+      top: 0;
+      padding: var(--base-sizing-8x);
+      border-top-right-radius: var(--theme-sizing-radius-default);
+      border-bottom-right-radius: var(--theme-sizing-radius-default);
+      border-left: solid var(--base-sizing-2x) var(--theme-color-border-primary-default);
+      @include shadow(3);
+      min-width: var(--base-sizing-128x);
+
+      &:before {
+        content: " ";
+        position: absolute;
+        left: calc(-1 * var(--base-sizing-12x));
+        top: var(--base-sizing-16x);
+        border-top: solid var(--base-sizing-6x) transparent;
+        border-right: solid var(--base-sizing-10x) var(--theme-color-surface-primary-default);
+        border-bottom: solid var(--base-sizing-6x) transparent;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// Sub Menu
+// =============================================================================
+
+.subMenu {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+// =============================================================================
+// Collapse Button
+// =============================================================================
+
+.collapseButton {
+  all: unset;
+  display: flex;
+  width: var(--base-sizing-36x);
+  min-width: var(--base-sizing-36x);
+  height: var(--base-sizing-36x);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--theme-sizing-radius-default);
+  cursor: pointer;
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  @include transition(border-color);
+
+  path {
+    @include transition(fill);
+    fill: var(--theme-color-text-base-caption);
+  }
+
+  &:hover {
+    border-color: var(--theme-color-border-primary-default);
+    path {
+      fill: var(--theme-color-text-primary-default);
+    }
+  }
+}
+
+// =============================================================================
+// Menu Item
+// =============================================================================
+
+.menuItemContainer {
+  position: relative;
+}
+
+.menuItem {
+  display: flex;
+  width: auto;
+  text-decoration: none;
+  align-items: center;
+  padding: var(--base-sizing-12x);
+  gap: var(--base-sizing-8x);
+  user-select: none;
+  color: var(--theme-color-text-base-title-light);
+  @include transition(background-color border-bottom-color color, "fast");
+
+  .label {
+    display: inline-flex;
+    gap: var(--base-sizing-8x);
+    flex: 1;
+    align-items: center;
+  }
+  .arrowIcon {
+    @include transition(transform, "fast");
+  }
+  &.subMenuOpen .arrowIcon {
+    transform: rotate(180deg);
+  }
+  &:not(.disabled, .active):hover {
+    cursor: pointer;
+  }
+  &.active {
+    pointer-events: none;
+  }
+  &.disabled {
+    color: var(--theme-color-text-light-disabled);
+    pointer-events: none;
+  }
+
+  .solid & {
+    border-radius: var(--theme-sizing-radius-default);
+    &:hover {
+      background-color: var(--theme-color-surface-light-default);
+      color: var(--theme-color-border-primary-default);
+    }
+    &.active {
+      background-color: var(--theme-color-surface-primary-default);
+      color: var(--theme-color-text-base-global-light);
+    }
+  }
+  .underline & {
+    border-bottom: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+    &:hover,
+    &.active {
+      border-bottom-color: var(--theme-color-border-primary-default);
+      color: var(--theme-color-text-primary-default);
+    }
+  }
+  .textOnly & {
+    &:hover,
+    &.active {
+      color: var(--theme-color-text-primary-default);
+    }
+  }
+}
+
+.mainMenuItem {
+  @include font;
+}
+
+.subMenuItem {
+  @include font("body", "md");
+
+  &.expanded {
+    padding-left: var(--base-sizing-40x);
+    &.nestedSubMenuItem {
+      padding-left: var(--base-sizing-56x);
+    }
+  }
+  &.collapsed.nestedSubMenuItem {
+    padding-left: var(--base-sizing-40x);
+  }
+}
+
+///////////////
+// DARK PART //
+///////////////
+.dark {
+  background: var(--theme-color-surface-secondary-default);
+  color: var(--theme-color-text-base-global-light);
+
+  .collapseButton {
+    border-color: var(--theme-color-border-light-active);
+    path {
+      fill: var(--theme-color-text-base-global-light);
+    }
+    &:hover {
+      border-color: var(--theme-color-text-primary-disabled);
+      path {
+        fill: var(--theme-color-text-primary-disabled);
+      }
+    }
+  }
+
+  .subMenu {
+    background-color: var(--theme-color-surface-secondary-default);
+  }
+
+  &.solid .menuItem:hover {
+    background-color: var(--theme-color-surface-secondary-hover);
+    color: var(--theme-color-text-base-global-light);
+  }
+  &.underline .menuItem {
+    border-color: var(--theme-color-border-light-active);
+    &:hover,
+    &.active {
+      color: var(--theme-color-text-primary-disabled);
+      border-bottom-color: var(--theme-color-border-primary-default);
+    }
+  }
+  .textOnly .menuItem {
+    &:hover,
+    &.active {
+      color: var(--theme-color-text-primary-disabled);
+    }
+  }
+
+  &.disabled {
+    color: var(--theme-color-text-base-disabled);
+  }
+
+  .footerText {
+    color: var(--theme-color-text-base-disabled-light);
+  }
+}

@@ -1,0 +1,93 @@
+@use "@styles" as *;
+
+.Root {
+  display: flex;
+  flex-direction: column;
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  overflow: hidden;
+
+  .header {
+    @include transition(background-color);
+    background: var(--theme-color-surface-base-base2);
+    border-width: 0;
+    border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    padding: var(--base-sizing-8x) var(--base-sizing-16x);
+    display: flex;
+    flex: 1;
+    gap: var(--base-sizing-6x);
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+
+    .title {
+      color: var(--theme-color-text-base-title);
+      @include font;
+      flex-grow: 1;
+      text-align: left;
+    }
+
+    &:hover {
+      background: var(--theme-color-surface-base-base4);
+    }
+
+    @include focus-ring;
+  }
+
+  .content {
+    display: grid;
+    grid-template-rows: 0fr;
+    @include transition(grid-template-rows);
+    margin-top: calc(-1 * var(--base-sizing-1x));
+
+    .contentOverflowContainer {
+      overflow: hidden;
+      display: grid;
+    }
+
+    .textContent {
+      display: block;
+      padding: var(--base-sizing-16x);
+      @include font("body", "sm");
+      color: var(--theme-color-text-light-default);
+    }
+  }
+
+  .collapseIcon {
+    @include transition(transform);
+    color: var(--theme-color-text-base-text-dark);
+  }
+
+  &.expanded {
+    .content {
+      grid-template-rows: 1fr;
+    }
+    .collapseIcon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+// =============================================================================
+// Relevant Group Component: Accordion Group
+// =============================================================================
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-sizing-8x);
+  overflow: hidden;
+
+  &.group_condensed {
+    gap: 0;
+    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    border-radius: var(--theme-sizing-radius-default);
+    > * {
+      border: none;
+      border-radius: 0;
+      &:not(:last-child) {
+        border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+      }
+    }
+  }
+}

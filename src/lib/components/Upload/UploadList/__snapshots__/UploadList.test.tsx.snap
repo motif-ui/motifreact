@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`UploadList should be rendered with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+  >
+    <div
+      class="dragArea"
+    >
+      <button
+        class="Root primary solid md"
+        type="button"
+      >
+        <span>
+          Gözat..
+        </span>
+      </button>
+      <span
+        class="infoText"
+      >
+        Yüklemek istediğiniz dosyaları buraya bırakın
+      </span>
+    </div>
+  </div>
+  <input
+    accept="*"
+    hidden=""
+    type="file"
+  />
+</div>
+`;

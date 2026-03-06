@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ImageView should be rendered with only required props 1`] = `
+<div>
+  <img
+    class="Root fit placeholder"
+    src="https://picsum.photos/200"
+    style="width: auto; height: auto; object-position: top left;"
+  />
+</div>
+`;

@@ -1,0 +1,109 @@
+@use "@styles" as *;
+
+@mixin colorSpanAndIcon($colorVar) {
+  .tabItem-title,
+  .tabItem-icon {
+    color: var($colorVar);
+  }
+}
+
+.Root {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabHeader {
+  padding-bottom: var(--base-sizing-8x);
+  display: flex;
+}
+
+.left {
+  align-items: flex-start;
+}
+.center {
+  align-items: center;
+}
+.right {
+  align-items: flex-end;
+}
+.fill .tabHeader {
+  min-width: 0;
+  flex-wrap: wrap;
+  .tabItem {
+    flex: 1;
+  }
+}
+
+.solid .tabHeader {
+  gap: var(--base-sizing-4x);
+}
+
+// =============================================================================
+// Sub Component: TabItem
+// =============================================================================
+.tabItem {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  gap: var(--base-sizing-10x);
+  user-select: none;
+  white-space: nowrap;
+  padding: var(--base-sizing-10x) var(--base-sizing-20x);
+  border-bottom: solid var(--base-sizing-2x) var(--theme-color-surface-base-base6);
+  cursor: pointer;
+
+  &:disabled,
+  &.active {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .tabItem-title {
+    @include font;
+  }
+
+  @include focus-ring;
+  @include transition(border-color background-color);
+  * {
+    @include transition(color);
+  }
+
+  .solid & {
+    @include colorSpanAndIcon(--theme-color-text-light-default);
+    background: var(--theme-color-surface-light-default);
+    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+    box-sizing: border-box;
+
+    &:hover {
+      @include colorSpanAndIcon(--theme-color-text-primary-default);
+      border-color: var(--theme-color-border-primary-default);
+    }
+    &.active {
+      @include colorSpanAndIcon(--theme-color-text-base-global-light);
+      background-color: var(--theme-color-surface-primary-default);
+      border: none;
+    }
+    &:disabled {
+      @include colorSpanAndIcon(--theme-color-text-light-disabled);
+    }
+  }
+
+  .underline & {
+    background: var(--theme-color-surface-base-bg-light);
+    @include colorSpanAndIcon(--theme-color-text-base-subtitle-light);
+
+    &:hover {
+      @include colorSpanAndIcon(--theme-color-text-base-title-light);
+      border-bottom-color: var(--theme-color-border-light-hover);
+    }
+    &.active {
+      @include colorSpanAndIcon(--theme-color-text-primary-default);
+      border-bottom-color: var(--theme-color-border-primary-default);
+    }
+    &:disabled {
+      @include colorSpanAndIcon(--theme-color-text-light-disabled);
+    }
+  }
+}

@@ -1,0 +1,194 @@
+@use "@styles" as *;
+
+$variants: (
+  // variant, bgColor, contentTitleColor, contentSubtitleColor, avatarBgColor, avatarTextColor
+  (
+      "secondary",
+      var(--theme-color-surface-base-base3),
+      var(--theme-color-text-base-title),
+      var(--theme-color-text-base-caption),
+      var(--theme-color-surface-primary-default),
+      var(--theme-color-text-base-text-light)
+    ),
+  (
+    "primary",
+    var(--theme-color-surface-primary-default),
+    var(--theme-color-text-base-global-light),
+    var(--theme-color-text-base-global-light),
+    var(--theme-color-surface-base-bg-light),
+    var(--theme-color-text-primary-default)
+  ),
+  (
+    "info",
+    var(--theme-color-surface-info-default),
+    var(--theme-color-text-base-global-light),
+    var(--theme-color-text-base-global-light),
+    var(--theme-color-surface-base-bg-light),
+    var(--theme-color-text-info-default)
+  ),
+  (
+    "success",
+    var(--theme-color-surface-success-default),
+    var(--theme-color-text-base-global-light),
+    var(--theme-color-text-base-global-light),
+    var(--theme-color-surface-base-bg-light),
+    var(--theme-color-text-success-default)
+  ),
+  (
+    "warning",
+    var(--theme-color-surface-warning-default),
+    var(--theme-color-text-base-global-dark),
+    var(--theme-color-text-base-global-dark),
+    var(--theme-color-surface-base-bg-dark),
+    var(--theme-color-text-base-text-light)
+  ),
+  (
+    "danger",
+    var(--theme-color-surface-danger-default),
+    var(--theme-color-text-base-global-light),
+    var(--theme-color-text-base-global-light),
+    var(--theme-color-surface-base-bg-light),
+    var(--theme-color-text-danger-default)
+  )
+);
+
+.Root {
+  border-radius: var(--theme-sizing-radius-default);
+  background: var(--theme-color-surface-base-bg-light);
+  overflow: hidden;
+
+  &.elevated {
+    @include shadow(3);
+  }
+
+  &.outlined {
+    border-style: solid;
+    border-width: var(--base-sizing-1x);
+    border-color: var(--theme-color-border-light-default);
+  }
+}
+
+.header {
+  display: flex;
+
+  &.headerImageAlignRight {
+    flex-direction: row-reverse;
+  }
+
+  .headerContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: var(--base-sizing-16x);
+    gap: var(--base-sizing-16x);
+    min-width: 0;
+  }
+
+  .headerContent {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .headerTitle {
+    color: var(--theme-color-text-base-title);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include font("base", "lg", "700");
+  }
+
+  .headerSubtitle {
+    color: var(--theme-color-text-base-caption);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include font("body", "md");
+  }
+
+  img {
+    border-radius: 0;
+    height: var(--base-sizing-80x) !important;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    border-radius: 0;
+  }
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-16x);
+
+  .contentTitleContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--base-sizing-4x);
+  }
+
+  .contentTitle {
+    color: var(--theme-color-text-base-title);
+    @include font("base", "lg", "700");
+  }
+  .contentSubtitle {
+    color: var(--theme-color-text-base-subtitle-light);
+    @include font("body", "md");
+  }
+  .contentText {
+    margin: 0;
+    @include font("body", "md");
+    color: var(--theme-color-text-base-title);
+  }
+  .contentLink {
+    text-decoration: none;
+    @include font("body", "md");
+    color: var(--theme-color-text-primary-default);
+  }
+}
+
+.actionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-16x);
+  justify-content: flex-end;
+  align-items: center;
+  &:not(:first-child) {
+    border-top: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+  }
+
+  .actionLink {
+    text-decoration: none;
+    display: flex;
+    gap: var(--base-sizing-6x);
+
+    span {
+      color: var(--theme-color-text-primary-default);
+      @include font("body", "md");
+    }
+  }
+}
+
+@each $variant, $bgColor, $titleColor, $subtitleColor, $avatarBgColor, $avatarTextColor in $variants {
+  .#{$variant} {
+    background-color: $bgColor;
+
+    .headerTitle {
+      color: $titleColor;
+    }
+    .headerSubtitle {
+      color: $subtitleColor;
+    }
+    .avatar {
+      background-color: $avatarBgColor;
+      color: $avatarTextColor;
+    }
+  }
+}

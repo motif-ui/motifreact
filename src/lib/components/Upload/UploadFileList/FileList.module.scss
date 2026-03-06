@@ -1,0 +1,96 @@
+@use "@styles" as *;
+
+// name, gap, paddingV, paddingH, labelSize, helperSize
+$sizes: (("sm", "6x", "6x", "12x", "xs", "xxs"), ("md", "8x", "8x", "16x", "sm", "xxs"), ("lg", "10x", "10x", "20x", "md", "xs"));
+
+.Root {
+  border-color: var(--theme-color-border-light-default);
+  border-style: solid;
+  border-width: 0 var(--base-sizing-1x) var(--base-sizing-1x) var(--base-sizing-1x);
+  border-bottom-left-radius: var(--base-radius-sm);
+  border-bottom-right-radius: var(--base-radius-sm);
+  overflow: hidden;
+}
+
+.uploadButtonArea {
+  padding: var(--base-sizing-8x);
+  display: flex;
+  justify-content: flex-end;
+  border-top: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+}
+
+.files {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-sizing-8x);
+  max-height: var(--base-sizing-256x);
+  overflow-y: scroll;
+  background: var(--theme-color-surface-base-bg-light);
+}
+
+.fileRow {
+  @include transition(background);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .icon {
+    @include transition(color);
+  }
+
+  .labelWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-items: stretch;
+
+    .label {
+      color: var(--theme-color-text-base-title);
+    }
+
+    .helperText {
+      color: var(--theme-color-text-secondary-default);
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+
+      &.helperSuccess {
+        color: var(--theme-color-text-success-default);
+      }
+      &.helperError {
+        color: var(--theme-color-text-danger-default);
+      }
+    }
+
+    .progress {
+      margin-top: var(--base-sizing-8x);
+    }
+  }
+
+  &:hover {
+    background: var(--theme-color-surface-base-base2);
+    .icon {
+      &.iconDelete {
+        color: var(--theme-color-text-danger-default);
+      }
+      &.iconRenew {
+        color: var(--theme-color-text-primary-default);
+      }
+    }
+  }
+}
+
+@each $name, $gap, $paddingV, $paddingH, $labelS, $helperS in $sizes {
+  .#{$name} {
+    .fileRow {
+      padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+      gap: var(--base-sizing-#{$gap});
+
+      .label {
+        @include font("base", $labelS, "500");
+      }
+      .helperText {
+        @include font("body", $helperS);
+      }
+    }
+  }
+}

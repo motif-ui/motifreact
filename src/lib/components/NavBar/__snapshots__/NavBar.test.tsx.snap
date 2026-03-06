@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`NavBar should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <nav
+    class="Root neutral menuCollapsed"
+  >
+    <div
+      class="mainMenuContainer"
+    />
+  </nav>
+</div>
+`;

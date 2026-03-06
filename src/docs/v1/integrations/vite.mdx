@@ -1,0 +1,85 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Integrations/Vite" />
+
+# Usage with Vite
+
+Motif UI is fully compatible with both standard **Vite** and **Rolldown-powered Vite** projects. It also supports standard React templates as both **react** and **react-ts**.
+
+This guide will walk you through setting up Motif UI in a Vite React project from scratch.
+
+## Installation
+
+In order to include Motif UI in your Vite project, you should install Motif UI and the required Inter font package:
+
+```bash
+npm install @motif-ui/react @fontsource/inter
+```
+
+> **Note:** It is recommended to use fontsource for the easiest font inclusion and this guide uses fontsource in the examples. Please refer to [Customization/Fonts](?path=/docs/customization-fonts--docs) section for other methods to use.
+
+## Setup
+
+### Wrap Your App with MotifProvider
+
+In your `main.jsx` (or `main.tsx`), wrap your application with the `MotifProvider`:
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { MotifProvider } from "@motif-ui/react";
+import "@motif-ui/react/themes/default-theme.css";
+import "@fontsource/inter";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <MotifProvider>
+      <App />
+    </MotifProvider>
+  </React.StrictMode>,
+);
+```
+
+> **Note:** Make sure to import the theme CSS to allow proper style cascading moreover for more ways to load themes and explore advanced customization options, visit the [Theming](?path=/docs/customization-theming--docs) section.
+
+## Usage
+
+Now you can start using Motif UI components in your application. Here's a simple example in `App.jsx`:
+
+```jsx
+import { Text, Textarea } from "@motif-ui/react";
+
+function App() {
+  return (
+    <div>
+      <Text variant="h2" text="Motif UI Test" />
+      <Textarea
+        size="lg"
+        value="Hello Motif UI is ready to serve you!"
+        maxLength={100}
+        placeholder="Type something..."
+        success
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Next Steps
+
+- Explore available components in the **Components** section
+- Learn about **Theming** to customize the look and feel
+- Check out **Design Tokens** for advanced customization
+
+## Troubleshooting
+
+### Components Have No Styling
+
+If your components appear unstyled, make sure you've imported the theme CSS:
+
+```jsx
+import "@motif-ui/react/themes/default-theme.css"
+```

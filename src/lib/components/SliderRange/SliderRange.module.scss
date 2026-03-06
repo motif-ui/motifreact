@@ -1,0 +1,20 @@
+@use "../Slider/sliderValues" as *;
+
+.Root {
+  position: relative;
+
+  > :last-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+@each $size, $progressHeight, $thumb, $thumbHover, $thumbBorder, $marginTop, $horizontalPadding in $sizesPositions {
+  .#{$size} {
+    &.inFormField {
+      margin: var(--base-sizing-#{$marginTop}) var(--base-sizing-#{$horizontalPadding}) 0;
+    }
+  }
+}

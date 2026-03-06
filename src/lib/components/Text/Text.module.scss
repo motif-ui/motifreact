@@ -1,0 +1,44 @@
+@use "@styles" as *;
+
+$sizes: (
+  ("title1", "56x", "64x", 400, 4),
+  ("title2", "48x", "56x", 400, 3),
+  ("title3", "40x", "48x", 400, 2),
+  ("body1", "18x", "24x", 400, 1.2),
+  ("body2", "16x", "22x", 400, 1),
+  ("body3", "14x", "20x", 400, 0.9),
+  ("body4", "12x", "18x", 400, 0.8),
+  ("body5", "11x", "15x", 400, 0.7),
+  ("h1", "40x", "48x", 600, 1.5),
+  ("h2", "32x", "40x", 600, 1.35),
+  ("h3", "28x", "36x", 600, 1.25),
+  ("h4", "24x", "32x", 600, 1.2),
+  ("h5", "20x", "28x", 600, 1.15),
+  ("h6", "16x", "22x", 600, 1.1),
+  ("p1", "18x", "24x", 400, 1.1),
+  ("p2", "16x", "22x", 400, 1),
+  ("p3", "14x", "20x", 400, 0.9)
+);
+
+@each $type, $fontSize, $lineHeight, $fontWeight, $marginEnd in $sizes {
+  .#{$type} {
+    all: unset;
+    font-size: var(--base-sizing-#{$fontSize});
+    line-height: var(--base-sizing-#{$lineHeight});
+    font-weight: $fontWeight;
+    margin-top: $marginEnd + em;
+    margin-bottom: $marginEnd + em;
+  }
+}
+
+.Root {
+  display: inline-block;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}

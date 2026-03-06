@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Breadcrumb should render with only required props 1`] = `
+<div>
+  <ul
+    class="Root"
+  >
+    <span
+      class="Root md motifIconsDefault homepage-icon"
+    >
+      home
+    </span>
+    <li
+      data-testid="breadcrumb"
+    >
+      <a
+        href="https://www.motif-ui.com"
+      >
+        Ana Sayfa
+      </a>
+      <span
+        class="Root md motifIconsDefault right-icon"
+      >
+        arrow_forward_ios
+      </span>
+    </li>
+    <li
+      data-testid="breadcrumb"
+    >
+      <span
+        class="collapsed"
+      >
+        ...
+      </span>
+      <span
+        class="Root md motifIconsDefault right-icon"
+      >
+        arrow_forward_ios
+      </span>
+    </li>
+    <li
+      data-testid="breadcrumb"
+    >
+      <a
+        href="https://microsoft.com"
+      >
+        Microsoft
+      </a>
+      <span
+        class="Root md motifIconsDefault right-icon"
+      >
+        arrow_forward_ios
+      </span>
+    </li>
+    <li
+      data-testid="breadcrumb"
+    >
+      <span
+        class="label"
+      >
+        Motif
+      </span>
+    </li>
+  </ul>
+</div>
+`;

@@ -1,0 +1,76 @@
+{
+  "compilerOptions": {
+    // Target JavaScript version for emitted code (ES2020 = modern browsers + Node 14+)
+    "target": "es2020",
+    // Specify built-in library definitions to include (DOM, Iterables, and latest ES features)
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    // Type declaration packages to include globally
+    "types": [
+      "jest",
+      "@testing-library/jest-dom",
+      "node"
+    ],
+    // Allow plain .js files to be compiled alongside TypeScript
+    "allowJs": true,
+    // Skip type-checking for declaration (.d.ts) files to speed up builds
+    "skipLibCheck": true,
+    // Enable all strict type-checking options for maximum type safety
+    "strict": true,
+    // Perform only type-checking; do not emit compiled JavaScript output
+    "noEmit": true,
+    // Emit additional JavaScript to ease support for importing CommonJS modules.
+    "esModuleInterop": true,
+    // Module system to use for imports/exports (ESNext enables modern ESM syntax)
+    "module": "ESNext",
+    // How module imports are resolved; "Bundler" is optimized for modern bundlers (TS 5+)
+    "moduleResolution": "bundler",
+    // Allow importing JSON files directly as modules
+    "resolveJsonModule": true,
+    // Treat every file as a module; prevents issues with isolated TS files
+    "isolatedModules": true,
+    // How JSX is preserved
+    "jsx": "react-jsx",
+    // Report errors for variables declared but never used
+    "noUnusedLocals": true,
+    // Integrate with Next.js TypeScript plugin for editor awareness and project hints
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    // Define custom import aliases for cleaner import paths
+    "paths": {
+      "@/components/*": [
+        "./src/lib/components/*"
+      ],
+      "@styles": ["src/lib/styles"],
+      "@styles/*": ["src/lib/styles/*"]
+    },
+    // Keep import/export syntax exactly as written (do not transform)
+    "verbatimModuleSyntax": false,
+    // Report errors for function parameters that are never used
+    "noUnusedParameters": true,
+    // Base directory for resolving non-relative module imports
+    "baseUrl": ".",
+    // Cache build info to make type-checking in editors faster (incremental mode)
+    "incremental": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist"
+  ]
+}

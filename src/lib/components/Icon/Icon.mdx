@@ -1,0 +1,75 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+import * as IconStories from "./Icon.stories";
+
+<Meta of={IconStories} />
+
+## Guide
+
+By default, `<Icon>` is configured to use the default icon set of Motif UI which is a very small set of icons to use.
+Since this icon set is not embedded, it is required include the font family externally to your project like this:
+
+`<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/motif-ui/assets/css/motif-icons.css" />`
+
+Then, you can use the icons below, by their names. No need to set `iconClass` since it is already set as default in the Motif UI context.
+
+<Canvas of={IconStories.DefaultIcons} sourceState="none" />
+
+### Ligature and Class Usage
+
+`<Icon>` supports ligature and class usage by default. If your font icon set uses ligature, you can use the **name** prop
+or pass the icon name as children to render the icon. If your font icon set uses class, you can use the **iconClass**
+prop to render the icon.
+
+### External Icon Fonts
+
+`<Icon>` supports other icon font families around just the same way above. The only difference is that the css class of the new font family should be added in the `iconClass` prop.
+Here is an example:
+
+<Canvas of={IconStories.ExternalFontIcons} sourceState="shown" />
+
+### Global Icon Class
+
+After a while, giving the same **iconClass** to each `<Icon>` will be a pain. There is another option to set
+**iconClass** globally by using `MotifProvider`. By doing this, you will not be required to give **iconClass**
+to each `<Icon>` but only **name** or **iconClass** props.
+
+**⚠️ Warning**: _Since the base icon class changes, you will no longer be able to use the default icon set of Motif UI._
+
+```tsx
+<MotifProvider value={{ baseIconClass: "material-icons" }}>
+  {/* your app */}
+</MotifProvider>
+```
+
+```tsx
+<Icon name="android" />
+```
+
+### SVG Usage
+
+An SVG can also be used as an icon. You should pass the SVG element directly to the `<Icon>` as children. The returning
+html element will be a span containing an SVG. All the styling props of the `<Icon>` will be reflected to the svg as well.
+
+Coloring an SVG may be tricky depending on how the SVG is structured. It should be provided how to colorize the svg,
+with a prop called **svgColorType**.
+
+<Canvas of={IconStories.SvgUsage} sourceState="shown" />
+
+### External Icons
+
+`<Icon>` can also be used to render any external icon. You should pass the icon as children to the `<Icon>`. The returning
+html element will be a span containing the icon. All the styling props of the `<Icon>` will be reflected to the icon as well.
+
+<Canvas of={IconStories.AnyExternalIcon} sourceState="shown" />
+
+### External Icon Libraries
+
+Icon library component suites like Font Awesome might also be used within the `<Icon>`.
+
+```jsx
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons/faEllipsisV";
+
+<Icon variant="warning">
+  <FontAwesomeIcon icon={faEllipsisV} />
+</Icon>
+```

@@ -1,0 +1,22 @@
+import styles from "@/components/DataView/DataView.module.scss";
+import Icon from "@/components/Icon";
+import { sanitizeModuleClasses } from "../../../utils/cssUtils";
+import { DataViewItemProps } from "@/components/DataView/types";
+import { PropsWithRefAndChildren } from "../../types";
+
+const DataViewItem = (props: PropsWithRefAndChildren<DataViewItemProps, HTMLDivElement>) => {
+  const { label, value, icon, variant, style, className, children, ref } = props;
+  const classNames = sanitizeModuleClasses(styles, "item", variant, className);
+
+  return (
+    <div className={classNames} ref={ref} style={style}>
+      <span className={styles.title}>
+        {icon && <Icon name={icon} className={styles.icon} />}
+        {label}
+      </span>
+      {children ? <div className={styles.value}>{children}</div> : <span className={styles.value}>{value}</span>}
+    </div>
+  );
+};
+
+export default DataViewItem;

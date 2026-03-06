@@ -1,0 +1,26 @@
+{
+  "useTabs": false,
+  "trailingComma": "all",
+  "semi": true,
+  "singleQuote": false,
+  "jsxSingleQuote": false,
+  "printWidth": 140,
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": ["*.css", "*.scss"],
+      "options": {
+        "trailingComma": "none"
+      }
+    },
+    {
+      "files": ["*.md", "*.mdx"],
+      "options": {
+        "embeddedLanguageFormatting": "off",
+        "printWidth": 160
+      }
+    }
+  ]
+}
