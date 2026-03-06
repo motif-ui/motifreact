@@ -2,10 +2,9 @@
 
 const Home = () => {
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ margin: "0 auto", padding: 20 }}>
       <h2>Hello Motif UI!</h2>
-      <h4>Lütfen burayı bulmak istediğin gibi bırak 😄</h4>
-      <br />
+      <h4>This is the playground section to try your components...</h4>
     </div>
   );
 };

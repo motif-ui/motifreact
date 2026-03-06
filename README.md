@@ -115,7 +115,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ## License
 
-See [LICENSE](.github/LICENSE.md) file for details.
+See [LICENSE](LICENSE.md) file for details.
 
 ## Support
 

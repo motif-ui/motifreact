@@ -30,11 +30,12 @@ to build consistent, scalable, beautiful interfaces.** We always welcome contrib
 
 ## 🧑‍💻 Development Setup
 
-In order to begin, fork the [repo](https://github.com/motif-ui/motifreact), then clone your fork.
+In order to begin, fork the [repo](https://github.com/motif-ui/motifreact), clone your fork and create a feature branch.
 
 ```bash
 git clone https://github.com/<your-username>/motifreact.git
 cd motifreact
+git checkout -b feature-name
 ```
 
 Install dependencies with npm
