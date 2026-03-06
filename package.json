@@ -43,7 +43,7 @@
     "@rollup/plugin-alias": "6.0.0",
     "@rollup/plugin-commonjs": "29.0.0",
     "@rollup/plugin-node-resolve": "16.0.3",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "12.3.0",
     "@storybook/addon-docs": "10.2.8",
     "@storybook/addon-links": "10.2.8",
