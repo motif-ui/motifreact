@@ -31,8 +31,8 @@
     "lint:staged": "eslint --cache",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
-    "chromatic": "npm run chromatic:cli",
-    "chromatic:cli": "npx chromatic --exit-zero-on-changes --build-script-name build:storybook --storybook-build-dir storybook-static/",
+    "chromatic": "npm run build:storybook && npx chromatic --exit-zero-on-changes -d storybook-static/",
+    "chromatic:cli": "npm run build:storybook && npx chromatic --exit-zero-on-changes -d storybook-static/",
     "type-check": "tsc --noemit",
     "maintanence-check": "npm run lint && npm run type-check && npm run test:ci && npm run build:lib && npm run build:theme-default && npm run build && npm run dev"
   },
