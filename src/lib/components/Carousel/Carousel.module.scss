@@ -113,7 +113,7 @@ $theme: (
 
 .indicators {
   all: unset;
-  @include flex-center();
+  @include flex-center;
   gap: var(--base-sizing-6x);
   list-style: none;
   position: absolute;

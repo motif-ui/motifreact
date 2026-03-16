@@ -3,34 +3,29 @@
 @use "@styles" as *;
 
 $colors: "primary", "success", "danger", "warning", "info";
+
 // size, strokeWidth, radius, fontPerc
-$sizes: (
-  ("xs", "2x", "8x", "xs"),
-  ("sm", "3x", "12x", "xs"),
-  ("md", "4x", "18x", "xs"),
-  ("lg", "4x", "24x", "xs"),
-  ("xl", "6x", "32x", "md")
-);
+$sizes: (("xs", "2x", "8x", "xs"), ("sm", "3x", "12x", "xs"), ("md", "4x", "18x", "xs"), ("lg", "4x", "24x", "xs"), ("xl", "6x", "32x", "md"));
 
 .Root {
   @each $size, $strokeWidth, $radius, $fontPerc in $sizes {
     &.#{$size} {
       height: calc(var(--base-sizing-#{$radius}) * 2);
       width: calc(var(--base-sizing-#{$radius}) * 2);
-      $normalizedRadius: calc(var(--base-sizing-#{$radius}) - (var(--base-sizing-#{$strokeWidth}) / 2));
-      $circumferenceWithUnit: calc(#{$normalizedRadius} * 2 * #{math.$pi});
-      $circumference: #{$circumferenceWithUnit};
-      $calculatedOffset: calc(#{$circumference} - ((#{$circumference} * var(--percentage, 0)) / 100));
+      $normalized-radius: calc(var(--base-sizing-#{$radius}) - (var(--base-sizing-#{$strokeWidth}) / 2));
+      $circumference-with-unit: calc(#{$normalized-radius} * 2 * #{math.$pi});
+      $circumference: #{$circumference-with-unit};
+      $calculated-offset: calc(#{$circumference} - ((#{$circumference} * var(--percentage, 0)) / 100));
 
       circle {
         cx: var(--base-sizing-#{$radius});
         cy: var(--base-sizing-#{$radius});
-        r: $normalizedRadius;
+        r: $normalized-radius;
         stroke-width: var(--base-sizing-#{$strokeWidth});
       }
 
       .circle {
-        stroke-dashoffset: $calculatedOffset;
+        stroke-dashoffset: $calculated-offset;
         stroke-dasharray: $circumference $circumference;
       }
 

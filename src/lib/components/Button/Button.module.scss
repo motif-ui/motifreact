@@ -18,14 +18,14 @@ $variants: (
   ("warning", "warning", --theme-color-text-base-global-dark),
   ("danger", "danger", --theme-color-text-base-global-light)
 );
-@mixin textColorOnSurface($variant, $textColor, $state: null) {
+@mixin text-color-on-surface($variant, $textColor, $state: null) {
   color: if(
     $variant == "warning" and $state == "disabled",
     var(--theme-color-text-base-dark-overlay50),
     if($variant == "secondary" and $state != null, var(--theme-color-text-light-#{$state}), var($textColor))
   );
 }
-@mixin stateBackgroundColor($color, $state, $shape) {
+@mixin state-background-color($color, $state, $shape) {
   @if $shape == "solid" {
     background-color: var(--theme-color-surface-#{$color}-#{$state});
   } @else {
@@ -78,11 +78,11 @@ $variants: (
   .#{$variant} {
     &.solid {
       background-color: var(--theme-color-surface-#{$color}-default);
-      @include textColorOnSurface($variant, $textColorOnSurface);
+      @include text-color-on-surface($variant, $textColorOnSurface);
       @each $state in $states {
         &:#{$state} {
-          @include stateBackgroundColor($color, $state, "solid");
-          @include textColorOnSurface($variant, $textColorOnSurface, $state);
+          @include state-background-color($color, $state, "solid");
+          @include text-color-on-surface($variant, $textColorOnSurface, $state);
         }
       }
     }
@@ -93,7 +93,7 @@ $variants: (
       color: var(--theme-color-text-#{$color}-default);
       @each $state in $states {
         &:#{$state} {
-          @include stateBackgroundColor($color, $state, "outline");
+          @include state-background-color($color, $state, "outline");
           border-color: var(--theme-color-border-#{$color}-#{$state});
           color: var(--theme-color-text-#{$color}-#{$state});
         }
@@ -105,7 +105,7 @@ $variants: (
       color: var(--theme-color-text-#{$color}-default);
       @each $state in $states {
         &:#{$state} {
-          @include stateBackgroundColor($color, $state, "textonly");
+          @include state-background-color($color, $state, "textonly");
           color: var(--theme-color-text-#{$color}-#{$state});
         }
       }

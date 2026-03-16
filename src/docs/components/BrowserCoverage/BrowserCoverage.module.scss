@@ -1,5 +1,5 @@
 .container {
-  background: linear-gradient(135deg, #555, #777);
+  background: linear-gradient(135deg, #555555, #777777);
   color: #ffffff;
   border-radius: 12px;
   padding: 24px 32px;
@@ -39,5 +39,5 @@
   font-size: 2.5rem !important;
   font-weight: 700 !important;
   min-width: fit-content !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  text-shadow: 0 2px 4px rgb(0 0 0 / 10%) !important;
 }

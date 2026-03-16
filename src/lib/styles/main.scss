@@ -7,29 +7,27 @@
 }
 
 @mixin focus-ring() {
-  $focusShadowMain: var(--theme-elevation-focusring-x) var(--theme-elevation-focusring-y) var(--theme-elevation-focusring-blur)
-    var(--theme-elevation-focusring-spread) var(--theme-color-border-primary-focus);
-  $focusShadowWhite: var(--theme-elevation-focusring-white-x) var(--theme-elevation-focusring-white-y)
-    var(--theme-elevation-focusring-white-blur) var(--theme-elevation-focusring-white-spread) var(--theme-elevation-focusring-white-shadow);
+  $focus-shadow-main: var(--theme-elevation-focusring-x) var(--theme-elevation-focusring-y) var(--theme-elevation-focusring-blur) var(--theme-elevation-focusring-spread)
+    var(--theme-color-border-primary-focus);
+  $focus-shadow-white: var(--theme-elevation-focusring-white-x) var(--theme-elevation-focusring-white-y) var(--theme-elevation-focusring-white-blur) var(--theme-elevation-focusring-white-spread)
+    var(--theme-elevation-focusring-white-shadow);
 
   &:focus-visible {
     z-index: 1;
     position: relative;
     outline: none;
-    box-shadow: $focusShadowWhite, $focusShadowMain;
+    box-shadow: $focus-shadow-white, $focus-shadow-main;
   }
 }
 
 @mixin shadow($level: 1) {
-  box-shadow: var(--theme-elevation-elevation#{$level}-x) var(--theme-elevation-elevation#{$level}-y)
-    var(--theme-elevation-elevation#{$level}-blur) var(--theme-elevation-elevation#{$level}-spread)
+  box-shadow: var(--theme-elevation-elevation#{$level}-x) var(--theme-elevation-elevation#{$level}-y) var(--theme-elevation-elevation#{$level}-blur) var(--theme-elevation-elevation#{$level}-spread)
     var(--theme-elevation-elevation#{$level}-shadow);
 }
 
 @mixin drop-shadow($level: 1) {
   filter: drop-shadow(
-    var(--theme-elevation-elevation#{$level}-x) var(--theme-elevation-elevation#{$level}-y) var(--theme-elevation-elevation#{$level}-blur)
-      var(--theme-elevation-elevation#{$level}-shadow)
+    var(--theme-elevation-elevation#{$level}-x) var(--theme-elevation-elevation#{$level}-y) var(--theme-elevation-elevation#{$level}-blur) var(--theme-elevation-elevation#{$level}-shadow)
   );
 }
 
@@ -45,7 +43,7 @@
   }
 }
 
-@mixin hiddenScrollbar {
+@mixin hidden-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
@@ -53,7 +51,7 @@
   -ms-overflow-style: none;
 }
 
-@mixin widthOrWidthBelowScreenSize($maxWidthBreakpoint, $baseWidthVar, $belowThresholdWidth) {
+@mixin width-or-width-below-screen-size($maxWidthBreakpoint, $baseWidthVar, $belowThresholdWidth) {
   width: clamp(var($baseWidthVar), calc((var($maxWidthBreakpoint) - 100vw) * 1000 + var($baseWidthVar)), $belowThresholdWidth);
 }
 
@@ -67,17 +65,16 @@
 }
 
 @function url-encoded-color($color) {
-  $hexEncoded: str-replace($color, "#", "%23"); // Encode the hex color
-  $finalEncoded: str-replace($hexEncoded, ",", "%2C"); // Encode the commas for rgb
-  @return $finalEncoded;
+  $hex-encoded: str-replace($color, "#", "%23"); // Encode the hex color
+  $final-encoded: str-replace($hex-encoded, ",", "%2C"); // Encode the commas for rgb
+  @return $final-encoded;
 }
 
 @function str-replace($text, $search, $replace: "") {
   $string: "#{$text}";
   $index: string.index($string, $search);
   @if $index {
-    @return string.slice($string, 1, $index - 1) + $replace +
-      str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+    @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
   }
   @return $text;
 }
@@ -89,6 +86,6 @@
   @return $number;
 }
 
-@function addUnit($value) {
+@function add-unit($value) {
   @return calc($value * var(--base-sizing-1x));
 }

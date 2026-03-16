@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-$listItemSizes: (("sm", "xs", "2x", "16x", "8x", "24x"), ("md", "sm", "2x", "16x", "12x", "32x"), ("lg", "md", "4x", "20x", "16x", "40x"));
-@each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize in $listItemSizes {
+$list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x"), ("md", "sm", "2x", "16x", "12x", "32x"), ("lg", "md", "4x", "20x", "16x", "40x"));
+@each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize in $list-item-sizes {
   .#{$size} {
     .baseContent {
       gap: var(--base-sizing-#{$spaceH});
