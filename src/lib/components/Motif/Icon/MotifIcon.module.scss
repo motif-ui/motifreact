@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "motif-icons-default";
+  font-family: motif-icons-default;
   src:
     url("./assets/fonts/motif-icons-default.woff2") format("woff2"),
     url("./assets/fonts/motif-icons-default.woff") format("woff"),
@@ -10,7 +10,7 @@
 }
 
 .motifIconsDefault {
-  font-family: "motif-icons-default", serif !important;
+  font-family: motif-icons-default, serif !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -19,128 +19,124 @@
   line-height: 1;
 
   letter-spacing: 0;
-  -webkit-font-feature-settings: "liga";
-  -moz-font-feature-settings: "liga=1";
-  -moz-font-feature-settings: "liga";
   font-feature-settings: "liga";
-  -webkit-font-variant-ligatures: discretionary-ligatures;
   font-variant-ligatures: discretionary-ligatures;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.motif_icon_d_motif_ui:before {
+.motif_icon_d_motif_ui::before {
   content: "\e922";
 }
-.motif_icon_d_undo:before {
+.motif_icon_d_undo::before {
   content: "\e965";
 }
-.motif_icon_d_redo:before {
+.motif_icon_d_redo::before {
   content: "\e966";
 }
-.motif_icon_d_minus:before {
+.motif_icon_d_minus::before {
   content: "\ea0b";
 }
-.motif_icon_d_add:before {
+.motif_icon_d_add::before {
   content: "\e921";
 }
-.motif_icon_d_calendar_expand_horizontal:before {
+.motif_icon_d_calendar_expand_horizontal::before {
   content: "\e920";
 }
-.motif_icon_d_external:before {
+.motif_icon_d_external::before {
   content: "\e91f";
 }
-.motif_icon_d_autorenew:before {
+.motif_icon_d_autorenew::before {
   content: "\e91e";
 }
-.motif_icon_d_cancel_outline:before {
+.motif_icon_d_cancel_outline::before {
   content: "\e918";
 }
-.motif_icon_d_cancel:before {
+.motif_icon_d_cancel::before {
   content: "\e919";
 }
-.motif_icon_d_expand_all:before {
+.motif_icon_d_expand_all::before {
   content: "\e91a";
 }
-.motif_icon_d_keyboard_arrow_up:before {
+.motif_icon_d_keyboard_arrow_up::before {
   content: "\e91b";
 }
-.motif_icon_d_density_medium:before {
+.motif_icon_d_density_medium::before {
   content: "\e91c";
 }
-.motif_icon_d_delete:before {
+.motif_icon_d_delete::before {
   content: "\e91d";
 }
-.motif_icon_d_arrow_back:before {
+.motif_icon_d_arrow_back::before {
   content: "\e90f";
 }
-.motif_icon_d_arrow_drop_down:before {
+.motif_icon_d_arrow_drop_down::before {
   content: "\e90d";
 }
-.motif_icon_d_arrow_forward:before {
+.motif_icon_d_arrow_forward::before {
   content: "\e90e";
 }
-.motif_icon_d_arrow_forward_ios:before {
+.motif_icon_d_arrow_forward_ios::before {
   content: "\e910";
 }
-.motif_icon_d_attach_file:before {
+.motif_icon_d_attach_file::before {
   content: "\e908";
 }
-.motif_icon_d_calendar_month:before {
+.motif_icon_d_calendar_month::before {
   content: "\e90c";
 }
-.motif_icon_d_check:before {
+.motif_icon_d_check::before {
   content: "\e909";
 }
-.motif_icon_d_check_circle:before {
+.motif_icon_d_check_circle::before {
   content: "\e904";
 }
-.motif_icon_d_close:before {
+.motif_icon_d_close::before {
   content: "\e914";
 }
-.motif_icon_d_error:before {
+.motif_icon_d_error::before {
   content: "\e905";
 }
-.motif_icon_d_event:before {
+.motif_icon_d_event::before {
   content: "\e90b";
 }
-.motif_icon_d_home:before {
+.motif_icon_d_home::before {
   content: "\e901";
 }
-.motif_icon_d_imagesmode:before {
+.motif_icon_d_imagesmode::before {
   content: "\e912";
 }
-.motif_icon_d_info:before {
+.motif_icon_d_info::before {
   content: "\e902";
 }
-.motif_icon_d_keyboard_arrow_down:before {
+.motif_icon_d_keyboard_arrow_down::before {
   content: "\e913";
 }
-.motif_icon_d_person:before {
+.motif_icon_d_person::before {
   content: "\e911";
 }
-.motif_icon_d_schedule:before {
+.motif_icon_d_schedule::before {
   content: "\e90a";
 }
-.motif_icon_d_search:before {
+.motif_icon_d_search::before {
   content: "\e906";
 }
-.motif_icon_d_upload_2:before {
+.motif_icon_d_upload_2::before {
   content: "\e903";
 }
-.motif_icon_d_upload_file:before {
+.motif_icon_d_upload_file::before {
   content: "\e907";
 }
-.motif_icon_d_visibility:before {
+.motif_icon_d_visibility::before {
   content: "\e915";
 }
-.motif_icon_d_visibility_off:before {
+.motif_icon_d_visibility_off::before {
   content: "\e916";
 }
-.motif_icon_d_vpn_key:before {
+.motif_icon_d_vpn_key::before {
   content: "\e917";
 }
-.motif_icon_d_warning:before {
+.motif_icon_d_warning::before {
   content: "\e900";
 }

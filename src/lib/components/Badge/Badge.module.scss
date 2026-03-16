@@ -34,7 +34,6 @@ $positions: ("top-left", "top-right", "bottom-left", "bottom-right");
   align-items: center;
   position: absolute;
   z-index: 1;
-  //noinspection CssInvalidPropertyValue
   text-wrap: nowrap;
 
   .dot & {

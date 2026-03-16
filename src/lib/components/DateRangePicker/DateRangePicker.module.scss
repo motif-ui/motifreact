@@ -59,7 +59,7 @@ $sizes: (
     position: relative;
     transition: none;
 
-    &:after {
+    &::after {
       content: "";
       position: absolute;
       z-index: -1;
@@ -69,19 +69,19 @@ $sizes: (
     }
 
     // leftmost items
-    &:nth-of-type(7n + 1):after {
+    &:nth-of-type(7n + 1)::after {
       left: 0;
       right: calc(-1 * var(--base-sizing-2x));
     }
 
     // middle items
-    &:not(:nth-of-type(7n)):not(:nth-of-type(7n + 1)):after {
+    &:not(:nth-of-type(7n), :nth-of-type(7n + 1))::after {
       left: calc(-1 * var(--base-sizing-2x));
       right: calc(-1 * var(--base-sizing-2x));
     }
 
     // rightmost items
-    &:nth-of-type(7n):after {
+    &:nth-of-type(7n)::after {
       right: 0;
       left: calc(-1 * var(--base-sizing-2x));
     }
@@ -89,13 +89,13 @@ $sizes: (
     &.isSelected {
       &.toLeft {
         border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
-        &:after {
+        &::after {
           right: 0;
         }
       }
       &.toRight {
         border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
-        &:after {
+        &::after {
           left: 0;
         }
       }
@@ -106,14 +106,14 @@ $sizes: (
     }
 
     // last item in range
-    &:not(:has(+ .isInRange)):after {
+    &:not(:has(+ .isInRange))::after {
       border-top-right-radius: var(--theme-sizing-radius-default);
       border-bottom-right-radius: var(--theme-sizing-radius-default);
     }
   }
 
   // first item in range
-  :not(.isInRange) + .isInRange:after {
+  :not(.isInRange) + .isInRange::after {
     border-top-left-radius: var(--theme-sizing-radius-default);
     border-bottom-left-radius: var(--theme-sizing-radius-default);
   }

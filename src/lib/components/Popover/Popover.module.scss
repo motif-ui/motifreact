@@ -3,12 +3,7 @@
 
 // variant, bg, border, text
 $variants: (
-  (
-    "primary",
-    var(--theme-color-surface-primary-default),
-    var(--theme-color-border-primary-default),
-    var(--theme-color-text-base-text-light)
-  ),
+  ("primary", var(--theme-color-surface-primary-default), var(--theme-color-border-primary-default), var(--theme-color-text-base-text-light)),
   ("light", var(--theme-color-surface-base-bg-light), var(--theme-color-border-light-default), var(--theme-color-text-base-caption)),
   ("dark", var(--theme-color-surface-secondary-active), var(--theme-color-border-light-default), var(--theme-color-text-base-text-light))
 );
@@ -25,30 +20,30 @@ $positions: (
   ("bottomLeft", "top", ("bottom", "right"))
 );
 
-$caretMargin: var(--base-sizing-12x);
+$caret-margin: var(--base-sizing-12x);
 @mixin caret-tip($position, $color, $elevated: false, $borderColor: null) {
-  $shadowBottom: 0 calc(-1 * var(--base-sizing-3x)) var(--base-sizing-2x);
-  $shadowTop: 0 var(--base-sizing-3x) var(--base-sizing-2x);
-  $borderBottom: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
-  $borderTop: var(--base-sizing-10x) var(--base-sizing-6x) 0 var(--base-sizing-6x);
-  $positionBottomBefore: 0 0 auto 0;
-  $positionTopBefore: auto 0 0 0;
+  $shadow-bottom: 0 calc(-1 * var(--base-sizing-3x)) var(--base-sizing-2x);
+  $shadow-top: 0 var(--base-sizing-3x) var(--base-sizing-2x);
+  $border-bottom: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
+  $border-top: var(--base-sizing-10x) var(--base-sizing-6x) 0 var(--base-sizing-6x);
+  $position-bottom-before: 0 0 auto 0;
+  $position-top-before: auto 0 0 0;
 
-  $caretPositions: (
+  $caret-positions: (
     "bottom": (
-      shadowPos: $shadowBottom,
-      borderWidth: $borderBottom,
+      shadowPos: $shadow-bottom,
+      borderWidth: $border-bottom,
       caretPosition: bottom,
       margin: 0 0 0 var(--caret-left, 0),
-      beforePos: $positionBottomBefore,
+      beforePos: $position-bottom-before,
       afterPos: var(--base-sizing-2x) 0 auto 0
     ),
     "top": (
-      shadowPos: $shadowTop,
-      borderWidth: $borderTop,
+      shadowPos: $shadow-top,
+      borderWidth: $border-top,
       caretPosition: top,
       margin: 0 0 0 var(--caret-left, 0),
-      beforePos: $positionTopBefore,
+      beforePos: $position-top-before,
       afterPos: auto 0 var(--base-sizing-2x) 0
     ),
     "left": (
@@ -68,42 +63,42 @@ $caretMargin: var(--base-sizing-12x);
       afterPos: 0 0 0 var(--base-sizing-2x)
     ),
     "bottomLeft": (
-      shadowPos: $shadowBottom,
-      borderWidth: $borderBottom,
+      shadowPos: $shadow-bottom,
+      borderWidth: $border-bottom,
       caretPosition: bottom,
-      margin: 0 0 0 $caretMargin,
-      beforePos: $positionBottomBefore,
+      margin: 0 0 0 $caret-margin,
+      beforePos: $position-bottom-before,
       afterPos: var(--base-sizing-2x) 0 auto 0
     ),
     "bottomRight": (
-      shadowPos: $shadowBottom,
-      borderWidth: $borderBottom,
+      shadowPos: $shadow-bottom,
+      borderWidth: $border-bottom,
       caretPosition: bottom,
-      margin: 0 $caretMargin 0 auto,
-      beforePos: $positionBottomBefore,
+      margin: 0 $caret-margin 0 auto,
+      beforePos: $position-bottom-before,
       afterPos: var(--base-sizing-2x) 0 auto 0
     ),
     "topLeft": (
-      shadowPos: $shadowTop,
-      borderWidth: $borderTop,
+      shadowPos: $shadow-top,
+      borderWidth: $border-top,
       caretPosition: top,
-      margin: 0 0 0 $caretMargin,
-      beforePos: $positionTopBefore,
+      margin: 0 0 0 $caret-margin,
+      beforePos: $position-top-before,
       afterPos: auto 0 var(--base-sizing-2x) 0
     ),
     "topRight": (
-      shadowPos: $shadowTop,
-      borderWidth: $borderTop,
+      shadowPos: $shadow-top,
+      borderWidth: $border-top,
       caretPosition: top,
-      margin: 0 $caretMargin 0 auto,
-      beforePos: $positionTopBefore,
+      margin: 0 $caret-margin 0 auto,
+      beforePos: $position-top-before,
       afterPos: auto 0 var(--base-sizing-2x) 0
     )
   );
-  $values: map.get($caretPositions, $position);
+  $values: map.get($caret-positions, $position);
 
   .popover {
-    &:before {
+    &::before {
       border-width: map.get($values, "borderWidth");
       border-#{map.get($values, "caretPosition")}-color: if($borderColor, $borderColor, $color);
       inset: map.get($values, "beforePos");
@@ -115,7 +110,7 @@ $caretMargin: var(--base-sizing-12x);
     }
 
     @if $borderColor {
-      &:after {
+      &::after {
         border-width: map.get($values, "borderWidth");
         border-#{map.get($values, "caretPosition")}-color: $color;
         margin: map.get($values, "margin");
@@ -134,7 +129,7 @@ $caretMargin: var(--base-sizing-12x);
 }
 
 .visible {
-  @include fade-in();
+  @include fade-in;
 }
 
 .popover {
@@ -150,25 +145,25 @@ $caretMargin: var(--base-sizing-12x);
   @include drop-shadow(2);
 }
 
-.withGap .popover:before {
+.withGap .popover::before {
   content: "";
   position: absolute;
-  width: $caretMargin;
-  height: $caretMargin;
+  width: $caret-margin;
+  height: $caret-margin;
   box-sizing: border-box;
 }
 
-.noSpace:before {
+.noSpace::before {
   content: initial;
 }
 
 .callout .popover {
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     content: "";
     position: absolute;
-    width: $caretMargin;
-    height: $caretMargin;
+    width: $caret-margin;
+    height: $caret-margin;
     box-sizing: border-box;
     border-style: solid;
     border-color: transparent;
@@ -180,7 +175,7 @@ $caretMargin: var(--base-sizing-12x);
     @each $variant, $bgColor, $borderColor, $textColor in $variants {
       &.#{$variant} {
         &.callout {
-          padding-#{$gapPosition}: $caretMargin;
+          padding-#{$gapPosition}: $caret-margin;
 
           &.elevated {
             @include caret-tip($position, $bgColor, true);
@@ -200,7 +195,7 @@ $caretMargin: var(--base-sizing-12x);
           }
         }
         &.withGap {
-          padding-#{$gapPosition}: $caretMargin;
+          padding-#{$gapPosition}: $caret-margin;
         }
       }
     }

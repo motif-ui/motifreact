@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-$paginationSizes: (
+$pagination-sizes: (
   //sizeName, size, gap
   ("sm", "32x", "6x"),
   ("md", "40x", "8x"),
@@ -49,12 +49,12 @@ $paginationSizes: (
   display: flex;
   align-items: center;
   justify-content: center;
-  &:before {
+  &::before {
     content: "...";
   }
 }
 
-@each $name, $size, $gap in $paginationSizes {
+@each $name, $size, $gap in $pagination-sizes {
   .#{$name} {
     padding: var(--base-sizing-#{$gap});
     gap: var(--base-sizing-#{$gap});

@@ -10,27 +10,27 @@ $sizes: (
 $states: "hover", "active", "disabled";
 $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 @mixin caret-tip($position) {
-  &:after,
-  &:before {
+  &::after,
+  &::before {
     border: solid transparent;
     content: " ";
     position: absolute;
     pointer-events: none;
     bottom: 100%;
   }
-  &:before {
+  &::before {
     #{$position}: var(--base-sizing-12x);
     border-bottom-color: var(--theme-color-surface-base-base7);
     border-width: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
   }
-  &:after {
+  &::after {
     #{$position}: var(--base-sizing-14x);
     border-bottom-color: var(--theme-color-surface-base-bg-light);
     border-width: 0 var(--base-sizing-4x) var(--base-sizing-8x) var(--base-sizing-4x);
   }
 }
 
-@mixin overflowCaret($dir) {
+@mixin overflow-caret($dir) {
   @if $dir == right {
     right: 0;
   } @else {
@@ -66,7 +66,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
   border-radius: var(--theme-sizing-radius-default);
   align-items: center;
   border: none;
-  word-break: break-word;
+  overflow-wrap: break-word;
   width: max-content;
   @include transition(background color);
 
@@ -107,19 +107,15 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
     $color: if($variant == "secondary", "light", $variant);
     .solid.#{$variant} & {
       background-color: var(--theme-color-surface-#{$color}-default);
-      color: if(
-        $variant == "secondary" or $variant == "warning",
-        var(--theme-color-text-base-title),
-        var(--theme-color-text-base-global-light)
-      );
+      color: if($variant == "secondary" or $variant == "warning", var(--theme-color-text-base-title), var(--theme-color-text-base-global-light));
 
       @each $state in $states {
         &:#{$state} {
           background-color: var(--theme-color-surface-#{$color}-#{$state});
-          @if ($variant == "secondary") {
+          @if $variant == "secondary" {
             color: var(--theme-color-text-light-#{$state});
           }
-          @if ($variant == "warning" and $state == "disabled") {
+          @if $variant == "warning" and $state == "disabled" {
             color: var(--theme-color-text-base-default-overlay50);
           }
         }
@@ -143,10 +139,10 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
   @include shadow(6);
 
   &:not(.leftOverflow) {
-    @include overflowCaret(right);
+    @include overflow-caret(right);
   }
   &.leftOverflow {
-    @include overflowCaret(left);
+    @include overflow-caret(left);
   }
 }
 
@@ -199,10 +195,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 @each $size, $buttonPad, $buttonPadL, $buttonGap, $itemPadV, $itemPadH, $itemGap in $sizes {
   .#{$size} {
     .Button {
-      padding: var(--base-sizing-#{$buttonPad})
-        var(--base-sizing-#{$buttonPad})
-        var(--base-sizing-#{$buttonPad})
-        var(--base-sizing-#{$buttonPadL});
+      padding: var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPadL});
       gap: var(--base-sizing-#{$buttonGap});
       @include font("base", $size, "500");
     }

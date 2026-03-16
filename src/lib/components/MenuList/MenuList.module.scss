@@ -87,7 +87,7 @@ $sizes: (
       @include shadow(3);
       min-width: var(--base-sizing-128x);
 
-      &:before {
+      &::before {
         content: " ";
         position: absolute;
         left: calc(-1 * var(--base-sizing-12x));
