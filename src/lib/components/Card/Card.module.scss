@@ -108,7 +108,8 @@ $variants: (
 
   img {
     border-radius: 0;
-    height: var(--base-sizing-80x) !important;
+    min-height: var(--base-sizing-80x);
+    max-height: var(--base-sizing-80x);
   }
 }
 

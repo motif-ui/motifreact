@@ -30,7 +30,7 @@ $sizes: (
     &,
     .browseButton,
     .uploadButton {
-      border-color: var(--theme-color-surface-danger-default) !important;
+      border-color: var(--theme-color-surface-danger-default);
     }
   }
 
@@ -38,7 +38,7 @@ $sizes: (
     &,
     .browseButton,
     .uploadButton {
-      border-color: var(--theme-color-border-success-default) !important;
+      border-color: var(--theme-color-border-success-default);
     }
   }
 

@@ -11,19 +11,6 @@ $sizes: (
 .Root {
   display: flex;
 
-  &.disabled {
-    .label {
-      color: var(--theme-color-text-base-disabled);
-      &:before,
-      &:after {
-        color: inherit !important;
-      }
-    }
-    .helper {
-      color: var(--theme-color-text-base-disabled);
-    }
-  }
-
   &.error {
     &.required .label:before,
     &.required .label:after,
@@ -34,6 +21,19 @@ $sizes: (
 
   &.success .helper {
     color: var(--theme-color-text-success-default);
+  }
+
+  &.disabled {
+    .label {
+      &,
+      &:before,
+      &:after {
+        color: var(--theme-color-text-base-disabled);
+      }
+    }
+    .helper {
+      color: var(--theme-color-text-base-disabled);
+    }
   }
 }
 
