@@ -2,7 +2,7 @@ name: Auto Assign PR to Author
 
 on:
   pull_request_target:
-    types: [opened]
+    types: [opened, reopened]
 
 permissions:
   pull-requests: write
