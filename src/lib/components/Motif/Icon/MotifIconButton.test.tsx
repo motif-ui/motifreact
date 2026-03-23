@@ -60,13 +60,13 @@ describe("MotifIconButton", () => {
   });
 
   it("should render as disabled, both functionally and visually, when the disabled prop is true", () => {
-    const { container } = render(<MotifIconButton name="home" disabled />);
+    const onClickSpy = jest.fn();
+
+    const { container, getByTestId } = render(<MotifIconButton name="home" disabled onClick={onClickSpy} />);
     expect(container.firstChild).toHaveAttribute("disabled");
 
-    const onClickSpy = jest.fn();
-    const { container: onClickContainer } = render(<MotifIconButton name="home" onClick={onClickSpy} />);
-    fireEvent.click(onClickContainer.firstChild as HTMLElement);
-    expect(onClickSpy).toHaveBeenCalled();
+    fireEvent.click(getByTestId("iconButtonTestId"));
+    expect(onClickSpy).not.toHaveBeenCalled();
   });
 
   it("should render a button element as the root element", () => {
@@ -78,10 +78,10 @@ describe("MotifIconButton", () => {
     expect(MotifIconButton.displayName).toBe("IconButton");
   });
 
-  it("should not fire onClick event when disabled", () => {
+  it("should fire onClick event when it is clicked", () => {
     const onClickSpy = jest.fn();
-    const { getByTestId } = render(<MotifIconButton name="home" disabled onClick={onClickSpy} />);
-    fireEvent.click(getByTestId("iconButtonTestId"));
-    expect(onClickSpy).not.toHaveBeenCalled();
+    const { container: onClickContainer } = render(<MotifIconButton name="home" onClick={onClickSpy} />);
+    fireEvent.click(onClickContainer.firstChild as HTMLElement);
+    expect(onClickSpy).toHaveBeenCalled();
   });
 });
