@@ -15,15 +15,15 @@ categories:
 autolabeler:
   - label: 'release:major'
     title:
-      - '/^[a-z]+(\([a-z0-9\/_-]+\))?!: .+/'
+      - '/^[a-z]+(\([a-zA-Z0-9\/_-]+\))?!: .+/'
   - label: 'release:minor'
     title:
-      - '/^feat(\([a-z0-9\/_-]+\))?: .+/'
-      - '/^perf(\([a-z0-9\/_-]+\))?: .+/'
+      - '/^feat(\([a-zA-Z0-9\/_-]+\))?: .+/'
+      - '/^perf(\([a-zA-Z0-9\/_-]+\))?: .+/'
   - label: 'release:patch'
     title:
-      - '/^fix(\([a-z0-9\/_-]+\))?: .+/'
-      - '/^revert(\([a-z0-9\/_-]+\))?: .+/'
+      - '/^fix(\([a-zA-Z0-9\/_-]+\))?: .+/'
+      - '/^revert(\([a-zA-Z0-9\/_-]+\))?: .+/'
 
 version-resolver:
   major:
