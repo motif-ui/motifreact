@@ -66,6 +66,18 @@ $sizes: (("sm", "6x", "6x", "12x", "xs", "xxs"), ("md", "8x", "8x", "16x", "sm",
     }
   }
 
+  &.disabled {
+    .label {
+      color: var(--theme-color-text-base-disabled);
+    }
+    .helperSuccess {
+      color: var(--theme-color-text-success-disabled);
+    }
+    .helperError {
+      color: var(--theme-color-text-danger-disabled);
+    }
+  }
+
   &:hover {
     background: var(--theme-color-surface-base-base2);
     .icon {

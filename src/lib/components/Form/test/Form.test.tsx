@@ -595,7 +595,7 @@ describe("Form", () => {
           validations={
             item.key === "textarea"
               ? undefined
-              : item.key === "uploadInputPF" || item.key === "uploadListOF"
+              : item.key === "uploadInputPF" || item.key === "uploadListOF" || item.key === "uploadDraggerDF"
                 ? [Validations.RequiredUploadedFile]
                 : [Validations.Required]
           }
@@ -626,8 +626,8 @@ describe("Form", () => {
         // Textarea
         expect(getFormField(index)).not.toHaveClass("error");
         expect(getFormField(index)).toHaveTextContent("Helper Text " + element.key);
-      } else if (element.key === "uploadInputPF" || element.key === "uploadListOF") {
-        // UploadList, UploadInput
+      } else if (element.key === "uploadInputPF" || element.key === "uploadListOF" || element.key === "uploadDraggerDF") {
+        // UploadList, UploadInput, UploadDragger
         expect(getFormField(index)).toHaveClass("error");
         expect(getFormField(index)).toHaveTextContent(fileValidationMessage);
       } else if (element.key != "inputCheckboxGroup") {
@@ -655,7 +655,9 @@ describe("Form", () => {
         key={item.key}
         helperText={"Helper Text " + item.key}
         validations={
-          item.key === "uploadInputPF" || item.key === "uploadListOF" ? [Validations.RequiredUploadedFile] : [Validations.Required]
+          item.key === "uploadInputPF" || item.key === "uploadListOF" || item.key === "uploadDraggerDF"
+            ? [Validations.RequiredUploadedFile]
+            : [Validations.Required]
         }
       >
         {item}
@@ -670,7 +672,9 @@ describe("Form", () => {
     items.forEach((element, index) => {
       expect(getFormField(index)).toHaveClass("error");
       expect(getFormField(index)).toHaveTextContent(
-        element.key === "uploadInputPF" || element.key === "uploadListOF" ? fileValidationMessage : validationMessage,
+        element.key === "uploadInputPF" || element.key === "uploadListOF" || element.key === "uploadDraggerDF"
+          ? fileValidationMessage
+          : validationMessage,
       );
     });
 
@@ -688,6 +692,11 @@ describe("Form", () => {
     await act(() =>
       fireEvent.change(screen.getByTestId("uploadInputItem").parentElement?.querySelector("input[type=file]") as Element, {
         target: { files: [MOCK.filePng2mb] },
+      }),
+    );
+    await act(() =>
+      fireEvent.drop(screen.getByTestId("uploadDragger").firstElementChild as Element, {
+        dataTransfer: { files: [MOCK.filePng2mb] },
       }),
     );
     await user.type(screen.getByTestId("textareaItem"), value);
@@ -750,7 +759,7 @@ describe("Form", () => {
     await user.click(button);
   });
 
-  it("should not be rendered as error but show component level error message when required validation property and component level validation is given and form submitted", async () => {
+  it("should be rendered as error and show component level error message when required validation property and component level validation is given and form submitted", async () => {
     const maxSize = 500000;
     const inputHelperText = "Input Helper Text";
     const expectedErrorMessage = "Dosyanızın boyutu maksimum 500 KB olabilir. 'test.gif' dosyanızın boyutu: 1 MB";
@@ -793,7 +802,7 @@ describe("Form", () => {
     await act(() => fireEvent.change(fileInput!, { target: { files: [MOCK.fileGif1mb] } }));
 
     // Upload Item - Errors
-    expect(uploadItem).not.toHaveClass("error");
+    expect(uploadItem).toHaveClass("error");
     expect(getFormField(0)).not.toHaveTextContent(inputHelperText);
     expect(getFormField(0)).toHaveTextContent(MOCK.fileGif1mb.name);
     expect(getFormField(0)).toHaveTextContent(expectedErrorMessage);
