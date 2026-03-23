@@ -16,19 +16,20 @@ runs:
   steps:
     - name: Check membership
       id: check
-      shell: bash
-      env:
-        CORE_TEAM_INPUT: ${{ vars.CORE_TEAM }}
-        PR_AUTHOR: ${{ inputs.pr-author }}
-      run: |
-        IS_INTERNAL="false"
-        while IFS=',' read -ra members; do
-          for member in "${members[@]}"; do
-            trimmed=$(echo "$member" | xargs)
-            if [ "$trimmed" = "$PR_AUTHOR" ]; then
-              IS_INTERNAL="true"
-            fi
-          done
-        done <<< "$CORE_TEAM_INPUT"
-        echo "is-internal=$IS_INTERNAL" >> "$GITHUB_OUTPUT"
-        echo "Actor: $PR_AUTHOR | Internal: $IS_INTERNAL"
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const author = '${{ inputs.pr-author }}';
+          try {
+            const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              username: author,
+            });
+            const isInternal = ['admin', 'maintain'].includes(data.permission);
+            core.info(`Actor: ${author} | Permission: ${data.permission} | Internal: ${isInternal}`);
+            core.setOutput('is-internal', String(isInternal));
+          } catch {
+            core.info(`Actor: ${author} | Access error!`);
+            core.setOutput('is-internal', 'false');
+          }
