@@ -1,4 +1,4 @@
-import "./colorPalette.scss";
+import "./ColorPalette.scss";
 import { capitalizeFirstLetter } from "src/utils/utils";
 import { isBright } from "src/utils/cssUtils";
 import { BASE_COLORS, ColorItemType, COLORS, ColorSectionProps, generateColorData, ColorVariant } from "./colorPaletteHelper";
