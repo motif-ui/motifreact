@@ -11,6 +11,7 @@ import { screen } from "@testing-library/react";
 import Switch from "@/components/Switch";
 import UploadInput from "@/components/Upload/UploadInput";
 import UploadList from "@/components/Upload/UploadList";
+import UploadDragger from "@/components/Upload/UploadDragger";
 import PinCode from "@/components/PinCode";
 import { ReactElement } from "react";
 import { InputCommonProps } from "../../Form/types";
@@ -109,6 +110,7 @@ export const formItems: ReactElement<InputCommonProps>[] = [
   <Switch key="switch" name="switch" />,
   <UploadList {...requiredProps} name="officialFiles" key="uploadListOF" />,
   <UploadInput {...requiredProps} name="personalFiles" key="uploadInputPF" />,
+  <UploadDragger {...requiredProps} name="draggerFiles" key="uploadDraggerDF" />,
   <Textarea key="textarea" name="textarea" />,
   <InputDate key="inputDate" name="inputDate" editable />,
   <PinCode name="pinCode" key="pinCode">

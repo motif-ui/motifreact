@@ -54,7 +54,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     >
       <div className={classes} style={style} ref={ref}>
         <DragArea disabled={disabled || readOnly} error={error} success={success} onChange={changeHandler} onError={onError} />
-        <FileList disabled={disabled || readOnly} />
+        <FileList disabled={disabled} readOnly={readOnly} />
       </div>
     </UploadProvider>
   );

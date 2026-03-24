@@ -3,7 +3,8 @@
 exports[`UploadDragger should be rendered with only required props 1`] = `
 <div>
   <div
-    class="Root"
+    class="Root md"
+    data-testid="uploadDragger"
   >
     <div
       class="dragArea"
