@@ -113,6 +113,12 @@ We welcome contributions! Please see our [Contributing Guidelines](.github/CONTR
 - Pull request process
 - Code style guidelines
 
+Thank you all ❤️ We couldn't make this happen without you:
+
+<a href="https://github.com/motif-ui/motifreact/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=motif-ui/motifreact" alt="Contributors" />
+</a>
+
 ## License
 
 See [LICENSE](LICENSE.md) file for details.
