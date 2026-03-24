@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MotifIconButton should render with only required props 1`] = `
+<div>
+  <button
+    class="Root md secondary motifIconsDefault"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    home
+  </button>
+</div>
+`;
