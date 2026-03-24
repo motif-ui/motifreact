@@ -178,6 +178,7 @@ describe("ImageView", () => {
     });
     await waitFor(() => {
       expect(imgElement.getAttribute("src")).toBe(BROKEN_IMG_SRC);
+      expect(imgElement.style.objectPosition).toBe("center center");
     });
   });
 });

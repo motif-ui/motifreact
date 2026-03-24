@@ -31,6 +31,10 @@ $sizes: (
         color: var(--theme-color-text-base-disabled);
       }
     }
+    &.required .label:before,
+    &.required .label:after {
+      color: var(--theme-color-text-base-disabled);
+    }
     .helper {
       color: var(--theme-color-text-base-disabled);
     }

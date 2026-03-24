@@ -74,8 +74,8 @@ const ImageView = (props: PropsWithRef<ImageViewProps, HTMLImageElement>) => {
     width,
     height,
     aspectRatio,
-    objectPosition: isBroken ? "center center" : `${positionVertical} ${positionHorizontal}`,
     ...style,
+    objectPosition: isBroken ? "center center" : `${positionVertical} ${positionHorizontal}`,
   };
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
