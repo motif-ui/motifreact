@@ -35,6 +35,11 @@ $sizes: (
   &.error .input {
     border-color: var(--theme-color-border-danger-default);
   }
+
+  .input.item_space {
+    background: none;
+    border: none;
+  }
 }
 
 // =============================================================================
@@ -59,8 +64,6 @@ $sizes: (
   }
 
   &.item_space {
-    background: none !important;
-    border: none !important;
     pointer-events: none;
   }
 }
