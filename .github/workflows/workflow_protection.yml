@@ -2,8 +2,7 @@ name: Workflow Protection
 
 on:
   pull_request_target:
-    paths:
-      - '.github/workflows/**'
+    types: [opened, synchronize, reopened]
 
 permissions:
   pull-requests: read
@@ -16,16 +15,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: 'false'
+          fetch-depth: 0
+
+      - name: Get changed workflow files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: .github/workflows/**
 
       - name: Check core team membership
+        if: steps.changed-files.outputs.any_changed == 'true'
         id: team-check
         uses: ./.github/actions/check-core-team
         with:
           pr-author: ${{ github.event.pull_request.user.login }}
 
       - name: Fail if not core team
-        if: steps.team-check.outputs.is-internal != 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' && steps.team-check.outputs.is-internal != 'true'
         run: |
-          echo "❌ Access Denied: $GITHUB_ACTOR is not allowed to change workflow files. Only core team members can do this."
+          echo "❌ Access Denied: Only core team members can modify workflow files."
           exit 1
         shell: bash
+
+      - name: Report Skip
+        if: steps.changed-files.outputs.any_changed == 'false'
+        run: echo "✅ No workflow changes detected. Status reported as Success."
