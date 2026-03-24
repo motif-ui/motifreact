@@ -45,7 +45,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           types: |
-            perf, feat, fix, docs, style, refactor, test, chore, build, ci, revert
+            perf
+            feat
+            fix
+            docs
+            style
+            refactor
+            test
+            chore
+            build
+            ci
+            revert
           requireScope: false
 
       # 4. CHECK INTERNAL ISSUE REFERENCE
