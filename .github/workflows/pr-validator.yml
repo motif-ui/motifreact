@@ -1,0 +1,71 @@
+name: "PR Validator"
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  pull-requests: read
+  contents: read
+
+jobs:
+  validate:
+    name: PR Compliance Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: 'false'
+          fetch-depth: 0
+
+      # 1. IDENTIFY USER ROLE
+      - name: Check core team membership
+        id: team-check
+        uses: ./.github/actions/check-core-team
+        with:
+          pr-author: ${{ github.event.pull_request.user.login }}
+
+      # 2. CHECK FOR WORKFLOW CHANGES
+      - name: Get changed workflow files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: .github/workflows/**
+
+      - name: Security — Block unauthorized workflow changes
+        if: steps.changed-files.outputs.any_changed == 'true' && steps.team-check.outputs.is-internal != 'true'
+        run: |
+          echo "❌ Access Denied: Only core team members can modify workflow files."
+          exit 1
+
+      # 3. LINT PR TITLE
+      - name: Content — Validate PR Title
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            perf
+            feat
+            fix
+            docs
+            style
+            refactor
+            test
+            chore
+            build
+            ci
+            revert
+          requireScope: false
+
+      # 4. CHECK INTERNAL ISSUE REFERENCE
+      - name: Content — Check internal issue reference
+        if: steps.team-check.outputs.is-internal == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prBody = context.payload.pull_request.body || '';
+            const issuePattern = /#EDKUI-\d+/;
+            if (!issuePattern.test(prBody)) {
+              core.setFailed('❌ Core team PRs must include an internal issue reference (e.g., #EDKUI-1288) in the body.');
+            }
