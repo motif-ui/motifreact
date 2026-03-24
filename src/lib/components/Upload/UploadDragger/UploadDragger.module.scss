@@ -1,6 +1,10 @@
 @use "@styles" as *;
 
 .Root {
+  &.inFormField {
+    min-width: var(--base-sizing-256x);
+  }
+
   .dragArea {
     min-height: var(--base-sizing-256x);
     border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
@@ -41,11 +45,33 @@
 
     &.onDrag,
     &:hover {
-      border-style: dashed;
-      border-color: var(--theme-color-text-primary-default);
-      .dragIcon {
-        color: var(--theme-color-text-primary-default);
+      &:not(.disabled) {
+        border-style: dashed;
+        border-color: var(--theme-color-text-primary-default);
+        .dragIcon {
+          color: var(--theme-color-text-primary-default);
+        }
       }
+    }
+
+    &.error {
+      border-color: var(--theme-color-surface-danger-default);
+    }
+
+    &.disabled {
+      cursor: default;
+      border-color: var(--theme-color-border-light-disabled);
+      .dragIcon {
+        color: var(--theme-color-text-base-disabled-light);
+      }
+      .dragText,
+      .dragInfo {
+        color: var(--theme-color-text-base-disabled);
+      }
+    }
+
+    &.success:not(.disabled) {
+      border-color: var(--theme-color-border-success-default);
     }
   }
 }
