@@ -5,6 +5,8 @@ on:
     types:
       - opened
       - edited
+      - synchronize
+      - reopened
 
 jobs:
   main:
@@ -30,5 +32,4 @@ jobs:
             build
             ci
             revert
-
           requireScope: false
