@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-@mixin colorSpanAndIcon($colorVar) {
+@mixin color-span-and-icon($colorVar) {
   .tabItem-title,
   .tabItem-icon {
     color: var($colorVar);
@@ -71,39 +71,39 @@
   }
 
   .solid & {
-    @include colorSpanAndIcon(--theme-color-text-light-default);
+    @include color-span-and-icon(--theme-color-text-light-default);
     background: var(--theme-color-surface-light-default);
     border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
     box-sizing: border-box;
 
     &:hover {
-      @include colorSpanAndIcon(--theme-color-text-primary-default);
+      @include color-span-and-icon(--theme-color-text-primary-default);
       border-color: var(--theme-color-border-primary-default);
     }
     &.active {
-      @include colorSpanAndIcon(--theme-color-text-base-global-light);
+      @include color-span-and-icon(--theme-color-text-base-global-light);
       background-color: var(--theme-color-surface-primary-default);
       border: none;
     }
     &:disabled {
-      @include colorSpanAndIcon(--theme-color-text-light-disabled);
+      @include color-span-and-icon(--theme-color-text-light-disabled);
     }
   }
 
   .underline & {
     background: var(--theme-color-surface-base-bg-light);
-    @include colorSpanAndIcon(--theme-color-text-base-subtitle-light);
+    @include color-span-and-icon(--theme-color-text-base-subtitle-light);
 
     &:hover {
-      @include colorSpanAndIcon(--theme-color-text-base-title-light);
+      @include color-span-and-icon(--theme-color-text-base-title-light);
       border-bottom-color: var(--theme-color-border-light-hover);
     }
     &.active {
-      @include colorSpanAndIcon(--theme-color-text-primary-default);
+      @include color-span-and-icon(--theme-color-text-primary-default);
       border-bottom-color: var(--theme-color-border-primary-default);
     }
     &:disabled {
-      @include colorSpanAndIcon(--theme-color-text-light-disabled);
+      @include color-span-and-icon(--theme-color-text-light-disabled);
     }
   }
 }

@@ -16,9 +16,8 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 }
 
 .strong {
-  & {
-    color: var(--theme-color-text-base-global-dark);
-  }
+  color: var(--theme-color-text-base-global-dark);
+
   &:hover {
     color: var(--theme-color-text-base-dark-overlay75);
   }
@@ -31,9 +30,8 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 }
 
 .negative {
-  & {
-    color: var(--theme-color-text-base-global-light);
-  }
+  color: var(--theme-color-text-base-global-light);
+
   &:hover {
     color: var(--theme-color-text-base-light-overlay75);
   }

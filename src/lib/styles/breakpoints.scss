@@ -10,13 +10,13 @@ $breakpoints: (
 );
 
 @mixin screen-width($direction, $breakpoint1, $breakpoint2: null) {
-  $firstBreakpoint: map.get($breakpoints, $breakpoint1);
-  $secondBreakpoint: map.get($breakpoints, $breakpoint2);
+  $first-breakpoint: map.get($breakpoints, $breakpoint1);
+  $second-breakpoint: map.get($breakpoints, $breakpoint2);
 
   $queries: (
-    "above": "(min-width: #{$firstBreakpoint})",
-    "below": "(max-width: #{$firstBreakpoint})",
-    "between": "(min-width: #{$firstBreakpoint}) and (max-width: #{$secondBreakpoint})"
+    "above": "(min-width: #{$first-breakpoint})",
+    "below": "(max-width: #{$first-breakpoint})",
+    "between": "(min-width: #{$first-breakpoint}) and (max-width: #{$second-breakpoint})"
   );
 
   @media #{map.get($queries, $direction)} {

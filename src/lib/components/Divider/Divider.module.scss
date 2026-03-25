@@ -46,22 +46,22 @@ $sizes: (("sm", "1x", "6x"), ("md", "2x", "12x"), ("lg", "4x", "18x"));
   }
 
   @each $size, $thickness, $gap in $sizes {
-    $alignPosition: calc(var(--base-sizing-#{$thickness}) / 2);
-    $borderWidth: var(--base-sizing-#{$thickness});
+    $align-position: calc(var(--base-sizing-#{$thickness}) / 2);
+    $border-width: var(--base-sizing-#{$thickness});
 
     &.#{$size} {
       &.horizontal {
-        height: $borderWidth;
+        height: $border-width;
         &::before {
-          border-top-width: $borderWidth;
-          top: calc(50% - $alignPosition);
+          border-top-width: $border-width;
+          top: calc(50% - $align-position);
         }
       }
       &.vertical {
-        width: $borderWidth;
+        width: $border-width;
         &::before {
-          border-left-width: $borderWidth;
-          left: calc(50% - $alignPosition);
+          border-left-width: $border-width;
+          left: calc(50% - $align-position);
         }
       }
     }
