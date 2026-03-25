@@ -20,6 +20,7 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs",
     options: {},
   },
+
   webpackFinal: config => {
     if (config.resolve?.alias) {
       config.resolve.alias = {
