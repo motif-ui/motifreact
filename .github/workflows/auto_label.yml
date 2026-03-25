@@ -37,7 +37,6 @@ jobs:
                 : context.payload.issue.number;
 
             const triageLabel = process.env.IS_INTERNAL === 'true' ? 'internal' : 'needs triage';
-            core.info(`Applying triage label: ${triageLabel}`);
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,

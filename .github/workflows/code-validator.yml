@@ -1,31 +1,32 @@
 name: Code Validator
 
 on:
-  workflow_call:
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build
+  validate:
+    name: Validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
           persist-credentials: 'false'
-      - uses: ./.github/actions/setup-node-deps
-      - run: npm run build:lib
 
-  test:
-    name: Lint | Type Check | Run Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: 'false'
-      - uses: ./.github/actions/setup-node-deps
-      - run: |
+      - name: Setup Dependencies
+        uses: ./.github/actions/setup-node-deps
+
+      - name: Build Library
+        run: npm run build:lib
+
+      - name: Run Linters and Tests
+        run: |
           npm run lint
           npm run type-check
           npm run scss-check

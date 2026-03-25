@@ -11,6 +11,7 @@ categories:
   - title: '🐛 Bug Fixes'
     labels:
       - 'release:patch'
+  - title: 'Other Changes'
 
 autolabeler:
   - label: 'release:major'
