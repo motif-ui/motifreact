@@ -12,7 +12,8 @@
     {
       "files": ["*.css", "*.scss"],
       "options": {
-        "trailingComma": "none"
+        "trailingComma": "none",
+        "printWidth": 200
       }
     },
     {

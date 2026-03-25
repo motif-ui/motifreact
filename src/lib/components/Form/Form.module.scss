@@ -62,7 +62,9 @@ $sizes: (
         gap: var(--base-sizing-#{$gapH});
       }
       &.verticalLabels .fields > [data-has-label] ~ .submitArea {
-        padding-top: calc(var(--base-sizing-#{$gapVLabel}) + var(--typography-base-#{$size}-500-line-height));
+        $gap-var: --base-sizing-#{$gapVLabel};
+        $line-height-var: --typography-base-#{$size}-500-line-height;
+        padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
       }
     }
   }

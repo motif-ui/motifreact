@@ -7,8 +7,8 @@ $sizes: (
   ("md", "24x", "10x", "8x", "22", "-1 -1 24 24"),
   ("lg", "28x", "12x", "10x", "24", "-1 -1 24 24")
 );
-$svgPath: '<path d="M9.5501 18L3.8501 12.3L5.2751 10.875L9.5501 15.15L18.7251 5.97504L20.1501 7.40004L9.5501 18Z" fill="currentColor"/>';
-$partialCheckSvgPath: '<line x1="3" y1="12" x2="20" y2="12" stroke-width="2" stroke="currentColor"/>';
+$svg-path: '<path d="M9.5501 18L3.8501 12.3L5.2751 10.875L9.5501 15.15L18.7251 5.97504L20.1501 7.40004L9.5501 18Z" fill="currentColor"/>';
+$partial-check-svg-path: '<line x1="3" y1="12" x2="20" y2="12" stroke-width="2" stroke="currentColor"/>';
 
 @each $name, $size, $gap, $paddingV, $iconSize, $viewBox in $sizes {
   .#{$name} {
@@ -24,7 +24,7 @@ $partialCheckSvgPath: '<line x1="3" y1="12" x2="20" y2="12" stroke-width="2" str
       min-width: var(--base-sizing-#{$size});
       min-height: var(--base-sizing-#{$size});
       &::before {
-        mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$svgPath}</svg>');
+        mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$svg-path}</svg>');
         content: "";
         width: var(--base-sizing-#{$iconSize}x);
         height: var(--base-sizing-#{$iconSize}x);
@@ -34,7 +34,7 @@ $partialCheckSvgPath: '<line x1="3" y1="12" x2="20" y2="12" stroke-width="2" str
 
     &.partialCheck {
       .input::before {
-        mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$partialCheckSvgPath}</svg>');
+        mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$partial-check-svg-path}</svg>');
       }
     }
 

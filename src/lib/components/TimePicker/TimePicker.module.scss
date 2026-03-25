@@ -2,7 +2,7 @@
 @use "../Motif/Pickers/pickerValues";
 @use "sass:map";
 
-$itemsToShow: 7;
+$items-to-show: 7;
 $sizes: (
   // size, labelFontSize, timePeriodPaddingV, timePeriodPaddingH, numberWidth, numberHeight, numberGap, stripePaddingV, stripePaddingH, periodGapH, abbrGap
   ("xs", "heading5", "2x", "4x", "32x", "24x", "2x", "2x", "4x", "8x", "8x"),
@@ -49,7 +49,7 @@ $sizes: (
     flex-direction: column;
     overflow-y: auto;
 
-    @include hiddenScrollbar;
+    @include hidden-scrollbar;
   }
 
   button {
@@ -81,9 +81,7 @@ $sizes: (
   }
 }
 
-@each $size, $labelFontSize, $timePeriodPaddingV, $timePeriodPaddingH, $numberWidth, $numberHeight, $numberGap, $stripePaddingV,
-  $stripePaddingH, $periodGapH, $abbrGap in $sizes
-{
+@each $size, $labelFontSize, $timePeriodPaddingV, $timePeriodPaddingH, $numberWidth, $numberHeight, $numberGap, $stripePaddingV, $stripePaddingH, $periodGapH, $abbrGap in $sizes {
   .#{$size} {
     .timeLabel {
       @include font("heading", $labelFontSize);
@@ -101,11 +99,7 @@ $sizes: (
     }
 
     .stripeContainer {
-      max-height: calc(
-        ((var(--base-sizing-#{$numberGap}) + var(--base-sizing-#{$numberHeight})) * $itemsToShow) +
-          var(--base-sizing-#{$numberHeight}) *
-          0.7
-      );
+      max-height: calc(((var(--base-sizing-#{$numberGap}) + var(--base-sizing-#{$numberHeight})) * $items-to-show) + var(--base-sizing-#{$numberHeight}) * 0.7);
     }
 
     .abbrContainer {

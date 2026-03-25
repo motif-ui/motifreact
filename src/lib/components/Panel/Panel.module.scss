@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-$leanPositions: ("top", "bottom", "left", "right");
+$lean-positions: ("top", "bottom", "left", "right");
 
 .Root {
   display: flex;
@@ -28,7 +28,7 @@ $leanPositions: ("top", "bottom", "left", "right");
     padding: var(--base-sizing-24x);
   }
 
-  @each $lean in $leanPositions {
+  @each $lean in $lean-positions {
     &.lean-#{$lean} {
       padding-#{$lean}: 0;
     }
@@ -46,7 +46,7 @@ $leanPositions: ("top", "bottom", "left", "right");
 // Sub Component: PanelTitle
 // =============================================================================
 
-$titleSizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
+$title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
 
 .title {
   color: var(--theme-color-text-base-subtitle);
@@ -67,9 +67,9 @@ $titleSizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
     vertical-align: text-top;
   }
 
-  @each $size, $titleSize in $titleSizes {
+  @each $size, $title-size in $title-sizes {
     &.title-#{$size} {
-      @include font("base", $titleSize, "700");
+      @include font("base", $title-size, "700");
     }
   }
 }

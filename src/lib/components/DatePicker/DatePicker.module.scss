@@ -16,13 +16,11 @@ $sizes: (
 
   &.fluid {
     .weekDays {
-      align-items: center;
-      justify-items: center;
+      place-items: center;
     }
     .days {
       flex: 1;
-      align-items: center;
-      justify-items: center;
+      place-items: center;
     }
     .monthSelector,
     .yearSelector {
@@ -149,7 +147,7 @@ $sizes: (
 
       &.toLeft,
       &.toRight {
-        &:after {
+        &::after {
           position: absolute;
           z-index: -1;
           content: "";
@@ -161,10 +159,10 @@ $sizes: (
 
       &.toLeft {
         &,
-        &:after {
+        &::after {
           border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
         }
-        &:after {
+        &::after {
           right: 0;
           left: calc(-1 * var(--base-sizing-2x));
         }
@@ -172,10 +170,10 @@ $sizes: (
 
       &.toRight {
         &,
-        &:after {
+        &::after {
           border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
         }
-        &:after {
+        &::after {
           left: 0;
           right: calc(-1 * var(--base-sizing-2x));
         }
@@ -185,14 +183,11 @@ $sizes: (
     &.partiallySelected {
       background-color: transparent;
       position: relative;
-      &:after {
+      &::after {
         content: "";
         background-color: var(--theme-color-surface-primary-negative);
         position: absolute;
-        left: calc(-1 * var(--base-sizing-2x));
-        right: calc(-1 * var(--base-sizing-2x));
-        top: 0;
-        bottom: 0;
+        inset: 0 calc(-1 * var(--base-sizing-2x));
         z-index: -1;
       }
     }
@@ -234,8 +229,7 @@ $sizes: (
   grid-template-areas: "x x x x";
 }
 
-@each $size, $itemSize, $headerButtonPaddingH, $daysRowGap, $daysColGap, $monthYearGapV, $monthGapH, $yearGapH, $monthYearButtonW in $sizes
-{
+@each $size, $itemSize, $headerButtonPaddingH, $daysRowGap, $daysColGap, $monthYearGapV, $monthGapH, $yearGapH, $monthYearButtonW in $sizes {
   .#{$size} {
     &.daySelector,
     &.dateSelector {
@@ -256,8 +250,7 @@ $sizes: (
 
     .days,
     .weekDays {
-      grid-row-gap: var(--base-sizing-#{$daysRowGap});
-      column-gap: var(--base-sizing-#{$daysColGap});
+      gap: var(--base-sizing-#{$daysRowGap}) var(--base-sizing-#{$daysColGap});
     }
 
     .weekDays span,
@@ -270,7 +263,7 @@ $sizes: (
     .monthSelector,
     .yearSelector {
       margin: map.get(pickerValues.$size, $size, "gapV") 0;
-      grid-row-gap: var(--base-sizing-#{$monthYearGapV});
+      row-gap: var(--base-sizing-#{$monthYearGapV});
       button {
         width: var(--base-sizing-#{$monthYearButtonW});
         height: var(--base-sizing-#{$itemSize});
@@ -278,10 +271,10 @@ $sizes: (
       }
     }
     .monthSelector {
-      grid-column-gap: var(--base-sizing-#{$monthGapH});
+      column-gap: var(--base-sizing-#{$monthGapH});
     }
     .yearSelector {
-      grid-column-gap: var(--base-sizing-#{$yearGapH});
+      column-gap: var(--base-sizing-#{$yearGapH});
     }
   }
 }
