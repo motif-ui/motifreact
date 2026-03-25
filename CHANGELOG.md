@@ -1,3 +1,11 @@
+# [v0.1.1](https://github.com/motif-ui/motifreact/releases/tag/v0.1.1) (2026-03-25)
+
+## 🐛 Bug Fixes
+
+- fix: delete noScroll class and generated-classnames.json file ([#23](https://github.com/motif-ui/motifreact/pull/23)) [@hatesalp](https://github.com/hatesalp)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.1.0...v0.1.1)
+
 # [v0.1.0](https://github.com/motif-ui/motifreact/releases/tag/v0.1.0) (2026-03-25)
 
 ## 🚀 Features
