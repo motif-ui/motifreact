@@ -420,7 +420,7 @@ describe("Table", () => {
             title: "Name",
             dataKey: "name",
             sorting: {
-              customSort: (a, b) => (a as string)[(a as string).length - 1].localeCompare((b as string)[(b as string).length - 1]),
+              customSort: (a, b) => (typeof a === "string" && typeof b === "string" ? a.at(-1)!.localeCompare(b.at(-1)!) : 0),
             },
           },
         ]}

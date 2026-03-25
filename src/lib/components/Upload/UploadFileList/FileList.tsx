@@ -8,9 +8,10 @@ import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 
 type Props = {
   disabled?: boolean;
+  readOnly?: boolean;
 };
 
-const FileList = ({ disabled }: Props) => {
+const FileList = ({ disabled, readOnly }: Props) => {
   const { selectedFiles, size } = useContext(UploadContext);
 
   const classes = sanitizeModuleRootClasses(styles, undefined, [size]);
@@ -20,7 +21,7 @@ const FileList = ({ disabled }: Props) => {
       <div className={classes}>
         <div className={styles.files} data-testid="uploadFileList">
           {selectedFiles.map(file => (
-            <FileListRow file={file} disabled={disabled} key={file.id} />
+            <FileListRow file={file} disabled={disabled} readOnly={readOnly} key={file.id} />
           ))}
         </div>
         {!disabled && <UploadButtonArea />}

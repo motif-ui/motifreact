@@ -74,8 +74,8 @@ const ImageView = (props: PropsWithRef<ImageViewProps, HTMLImageElement>) => {
     width,
     height,
     aspectRatio,
-    objectPosition: `${positionVertical} ${positionHorizontal}`,
     ...style,
+    objectPosition: isBroken ? "center center" : `${positionVertical} ${positionHorizontal}`,
   };
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
@@ -83,7 +83,6 @@ const ImageView = (props: PropsWithRef<ImageViewProps, HTMLImageElement>) => {
     loading && "placeholder",
     bordered && "bordered",
     solid && "solid",
-    isBroken && "error",
   ]);
 
   return <img src={src} alt={alt} className={classNames} style={innerStyle} ref={imageViewRef} />;

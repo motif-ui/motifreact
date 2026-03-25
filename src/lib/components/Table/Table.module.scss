@@ -181,7 +181,7 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
     // Body with footer
     tbody:has(+ tfoot) {
       tr:last-child td {
-        border-radius: 0 !important;
+        border-radius: 0;
       }
     }
 

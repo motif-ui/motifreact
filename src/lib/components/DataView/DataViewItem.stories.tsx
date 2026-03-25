@@ -46,3 +46,13 @@ export const Primary: Story = {
     </DataView>
   ),
 };
+export const WithChildren: Story = {
+  render: args => (
+    <DataView rowVariant="solid">
+      <DataView.Item {...args}>
+        <Button label="Button" size="xs" />
+      </DataView.Item>
+      <DataView.Item {...args} />
+    </DataView>
+  ),
+};

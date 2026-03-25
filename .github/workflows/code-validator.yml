@@ -1,4 +1,4 @@
-name: Node CI Pipeline
+name: Code Validator
 
 on:
   workflow_call:
@@ -18,7 +18,7 @@ jobs:
       - run: npm run build:lib
 
   test:
-    name: Lint & Unit Tests
+    name: Lint | Type Check | Run Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
