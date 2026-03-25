@@ -2,10 +2,6 @@
 @use "sass:meta";
 @use "sass:string";
 
-.noScroll {
-  overflow: hidden;
-}
-
 @mixin focus-ring() {
   $focusShadowMain: var(--theme-elevation-focusring-x) var(--theme-elevation-focusring-y) var(--theme-elevation-focusring-blur)
     var(--theme-elevation-focusring-spread) var(--theme-color-border-primary-focus);
