@@ -1,4 +1,4 @@
-name: CI
+name: UI
 
 on:
   pull_request_target:
@@ -9,21 +9,18 @@ permissions:
   pull-requests: read
 
 jobs:
-  validate:
-    name: Validate
-    uses: ./.github/workflows/code-validator.yml
-
   chromatic:
     name: Chromatic
-    needs: validate
     runs-on: ubuntu-latest
     environment: development
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: 'false'
 
       - uses: ./.github/actions/setup-node-deps
