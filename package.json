@@ -23,7 +23,7 @@
     "test:update": "npm run test:ci -- -u",
     "test:ci": "jest --ci",
     "build:lib": "rollup -c",
-    "build:storybook": "storybook build --stats-json",
+    "build:storybook": "storybook build",
     "build:tokens": "node src/scripts/buildToken",
     "build:theme": "node src/scripts/buildTheme",
     "build:theme-default": "npm run build:theme src/lib/styles/tokens/design-tokens.tokens.json default-theme src/lib/styles/themes",
