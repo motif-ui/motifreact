@@ -35,7 +35,6 @@ const config: StorybookConfig = {
       type: "asset/source",
     });
 
-    // Find the rule for CSS Modules and update getLocalIdent
     return applyCustomCSSModuleNaming(config, { rootDir: process.cwd() });
   },
 
