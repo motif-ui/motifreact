@@ -13,19 +13,6 @@ categories:
       - 'release:patch'
   - title: 'Other Changes'
 
-autolabeler:
-  - label: 'release:major'
-    title:
-      - '/^[a-z]+(\([a-zA-Z0-9\/_-]+\))?!: .+/'
-  - label: 'release:minor'
-    title:
-      - '/^feat(\([a-zA-Z0-9\/_-]+\))?: .+/'
-      - '/^perf(\([a-zA-Z0-9\/_-]+\))?: .+/'
-  - label: 'release:patch'
-    title:
-      - '/^fix(\([a-zA-Z0-9\/_-]+\))?: .+/'
-      - '/^revert(\([a-zA-Z0-9\/_-]+\))?: .+/'
-
 version-resolver:
   major:
     labels:
