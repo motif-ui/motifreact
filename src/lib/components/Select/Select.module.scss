@@ -179,7 +179,7 @@ $sizes: (
 @each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $selectedSize, $selectedIconSize in $sizes {
   .#{$size} {
     .input {
-      padding: calc((3 * var(--base-sizing-#{$paddingV})) + var(--base-sizing-#{$paddingH}));
+      padding: var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingH});
 
       gap: var(--base-sizing-#{$gap});
 
