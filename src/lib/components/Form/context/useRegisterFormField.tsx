@@ -12,7 +12,7 @@ import { InputValue, ItemRegisterType, UseRegisterFormFieldType } from "@/compon
  * @returns The props of the input with the form context values if it is inside a form or the props as it is if it is standalone.
  * */
 export const useRegisterFormField: UseRegisterFormFieldType = registerProps => {
-  const { dontRegister, defaultValidations, defaultValue, props, valueStateSetter, nonClearable } = registerProps;
+  const { dontRegister, defaultValidations, defaultValue, props, valueStateSetter, nonClearable, suppressSelfErrorDisplay } = registerProps;
   const { name, value = defaultValue, disabled, readOnly, success, size = "md", error, onError, onChange } = props;
 
   const fieldContext = useFormField();
@@ -50,6 +50,7 @@ export const useRegisterFormField: UseRegisterFormFieldType = registerProps => {
         nonClearable,
         ...(!nonClearable && valueStateSetter && { clearValueCallback: () => valueStateSetter(defaultValue) }),
         errorSetter: fieldContext.setFieldError,
+        selfErrorSetter: fieldContext.setSelfError,
       };
 
       if (groupName) {
@@ -87,7 +88,7 @@ export const useRegisterFormField: UseRegisterFormFieldType = registerProps => {
   const onFormFieldSelfError = useCallback(
     (errors: string[]) => {
       if (shouldRegister) {
-        formContext.notifyFormForFieldSelfError(name ?? fieldContext.fieldName, errors);
+        formContext.notifyFormForFieldSelfError(name ?? fieldContext.fieldName, errors, suppressSelfErrorDisplay);
       }
       onError?.(errors);
     },

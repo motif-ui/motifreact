@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
 import { useRef, useState } from "react";
 import Form from "@/components/Form/Form";
 import InputText from "@/components/InputText";
@@ -12,6 +12,7 @@ import Radio from "@/components/Radio";
 import { FormRefType, FormSubmitData, InputSize, Orientation } from "../../Form/types";
 import UploadInput from "@/components/Upload/UploadInput";
 import UploadList from "@/components/Upload/UploadList";
+import UploadDragger from "@/components/Upload/UploadDragger";
 import Grid from "@/components/Grid";
 import Row from "@/components/Grid/components/Row";
 import Col from "@/components/Grid/components/Col";
@@ -803,7 +804,7 @@ describe("Form", () => {
 
     // Upload Item - Errors
     expect(uploadItem).toHaveClass("error");
-    expect(getFormField(0)).not.toHaveTextContent(inputHelperText);
+    expect(getFormField(0)).toHaveTextContent(inputHelperText);
     expect(getFormField(0)).toHaveTextContent(MOCK.fileGif1mb.name);
     expect(getFormField(0)).toHaveTextContent(expectedErrorMessage);
 
@@ -1026,6 +1027,58 @@ describe("Form", () => {
       },
       expect.anything(),
     );
+  });
+
+  it("should mark form as invalid when a field has self-error and mark as valid when the error is resolved", async () => {
+    const submittedValues: FormSubmitData[] = [];
+    const handleSubmit = (data: FormSubmitData) => {
+      submittedValues.push(data);
+    };
+
+    render(
+      <Form onSubmit={handleSubmit} dontClearOnSubmit>
+        <Form.Field name="listFiles" helperText="Upload list file">
+          <UploadList {...requiredProps} name="listFiles" maxSize={1000000} />
+        </Form.Field>
+        <Form.Field name="draggerFiles" helperText="Upload dragger file">
+          <UploadDragger {...requiredProps} name="draggerFiles" maxSize={1000000} />
+        </Form.Field>
+      </Form>,
+    );
+
+    const user = userEvent.setup();
+    const button = screen.getByText("Gönder");
+
+    await user.click(button);
+    expect(submittedValues[0].isValid).toBe(true);
+
+    await act(() =>
+      fireEvent.drop(screen.getAllByText("Gözat..")[0].parentElement as Element, { dataTransfer: { files: [MOCK.filePng2mb] } }),
+    );
+    await act(() =>
+      fireEvent.drop(screen.getByTestId("uploadDragger").firstElementChild as Element, { dataTransfer: { files: [MOCK.filePng2mb] } }),
+    );
+
+    await waitFor(() => {
+      expect(getFormField(0)).toHaveClass("error");
+      expect(getFormField(1)).toHaveClass("error");
+    });
+
+    await user.click(button);
+    expect(submittedValues[1].isValid).toBe(false);
+
+    const deleteButtons = screen.queryAllByText("delete");
+    for (const deleteBtn of deleteButtons) {
+      await user.click(deleteBtn);
+    }
+
+    await waitFor(() => {
+      expect(getFormField(0)).not.toHaveClass("error");
+      expect(getFormField(1)).not.toHaveClass("error");
+    });
+
+    await user.click(button);
+    expect(submittedValues[2].isValid).toBe(true);
   });
 
   it("should render the form items and the submit area aligned regardless of the label availability when formAlignment is horizontal", () => {

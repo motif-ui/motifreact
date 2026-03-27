@@ -52,6 +52,7 @@ type UseRegisterFormFieldInputProps = {
   defaultValidations?: InputValidation[];
   dontRegister?: boolean; // This is sometimes required if there is a nested input usage and the children inputs should not be registered
   nonClearable?: boolean;
+  suppressSelfErrorDisplay?: boolean;
   // eslint-disable-next-line
   valueStateSetter?: Dispatch<SetStateAction<any>>;
 };
@@ -93,7 +94,7 @@ export type FormStateRefProps = {
 // Props that are provided to the fields via FieldContext
 export type FormContextType<T> = {
   notifyFormForFieldValueChange: (name: string, groupName: string | undefined, value?: InputValue) => void;
-  notifyFormForFieldSelfError: (name: string, errors: string[]) => void;
+  notifyFormForFieldSelfError: (name: string, errors: string[], suppressDisplay?: boolean) => void;
   registerSingleField: (fieldInfo: ItemRegisterType, validations?: InputValidation[]) => void;
   registerGroupFieldItem: (groupInfo: ItemRegisterType, fieldInfo: ItemRegisterType, validations?: InputValidation[]) => void;
   unregisterSingleField: (name: string) => void;
@@ -127,6 +128,8 @@ export type ItemRegisterType = {
   clearValueCallback?: () => void;
   // This is used to set the error to the field from the form context.
   errorSetter?: (error?: string) => void;
+  // This is used to set the self-error flag without showing the error message in the FormField helper.
+  selfErrorSetter?: (hasSelfError: boolean) => void;
 };
 
 // The type of the fields object in FormStateProps
@@ -137,9 +140,11 @@ export type FormFieldInfo = {
   readOnly?: boolean;
   success?: boolean;
   nonClearable?: boolean;
+  hasSelfError?: boolean;
   groupInputs?: FieldsObject;
   clearValueCallback?: () => void;
   errorSetter?: (error?: string) => void;
+  selfErrorSetter?: (hasSelfError: boolean) => void;
 };
 
 /////////////////////////////////////////
@@ -155,6 +160,7 @@ export type FormFieldProps = {
   readOnly?: boolean;
   success?: boolean;
   setFieldError?: (error?: string) => void;
+  setSelfError?: (hasSelfError: boolean) => void;
   error?: boolean;
 };
 
