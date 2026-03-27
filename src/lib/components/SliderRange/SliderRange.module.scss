@@ -11,7 +11,7 @@
   }
 }
 
-@each $size, $progressHeight, $thumb, $thumbHover, $thumbBorder, $marginTop, $horizontalPadding in $sizesPositions {
+@each $size, $progressHeight, $thumb, $thumbHover, $thumbBorder, $marginTop, $horizontalPadding in $sizes-positions {
   .#{$size} {
     &.inFormField {
       margin: var(--base-sizing-#{$marginTop}) var(--base-sizing-#{$horizontalPadding}) 0;

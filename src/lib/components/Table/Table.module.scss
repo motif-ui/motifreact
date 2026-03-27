@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-$rowColorVariants: "primary", "secondary", "light", "success", "danger", "warning", "info";
+$row-color-variants: "primary", "secondary", "light", "success", "danger", "warning", "info";
 
 .Root {
   display: table;
@@ -67,7 +67,7 @@ $rowColorVariants: "primary", "secondary", "light", "success", "danger", "warnin
     td {
       color: var(--theme-color-text-base-title);
       @include font("body", "sm");
-      word-wrap: break-word;
+      overflow-wrap: break-word;
       word-break: break-all;
       hyphens: auto;
     }
@@ -124,7 +124,7 @@ $rowColorVariants: "primary", "secondary", "light", "success", "danger", "warnin
   }
 }
 
-@each $variant in $rowColorVariants {
+@each $variant in $row-color-variants {
   .#{$variant} {
     background-color: var(--theme-color-surface-#{$variant}-negative);
   }

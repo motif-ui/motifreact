@@ -1,6 +1,6 @@
 {
   "name": "@motif-ui/react",
-  "version": "0.0.4",
+  "version": "0.1.1",
   "description": "A React UI library created by public sector developers",
   "author": "MOTIF UI | Turksat e-Government Application Development",
   "homepage": "https://github.com/motif-ui/motifreact#readme",
@@ -23,7 +23,7 @@
     "test:update": "npm run test:ci -- -u",
     "test:ci": "jest --ci",
     "build:lib": "rollup -c",
-    "build:storybook": "storybook build --stats-json",
+    "build:storybook": "storybook build",
     "build:tokens": "node src/scripts/buildToken",
     "build:theme": "node src/scripts/buildTheme",
     "build:theme-default": "npm run build:theme src/lib/styles/tokens/design-tokens.tokens.json default-theme src/lib/styles/themes",
@@ -32,6 +32,7 @@
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "type-check": "tsc --noemit",
+    "scss-check": "npx stylelint '**/*.scss'",
     "maintanence-check": "npm run lint && npm run type-check && npm run test:ci && npm run build:lib && npm run build:theme-default && npm run build && npm run dev"
   },
   "devDependencies": {
@@ -77,6 +78,9 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-styler": "^2.0.0",
     "sass": "1.97.3",
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-no-unsupported-browser-features": "^8.1.1",
     "storybook": "10.2.17",
     "style-dictionary": "5.3.3",
     "typescript": "5.9.3",

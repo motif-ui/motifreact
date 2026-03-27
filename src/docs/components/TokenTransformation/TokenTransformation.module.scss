@@ -37,7 +37,7 @@
   display: block;
   padding: 0.75rem 1rem;
   background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
   white-space: pre-line;
   overflow-x: auto;
   max-width: 100%;
@@ -51,7 +51,7 @@
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     padding: 1rem;
     gap: 1.2rem;
@@ -65,7 +65,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .container {
     flex-direction: column;
     align-items: stretch;

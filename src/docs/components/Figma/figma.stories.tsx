@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import Button from "../../../lib/components/Button/Button";
-import styles from "./figma.module.scss";
+import styles from "./Figma.module.scss";
 
 const meta: Meta = {
   title: "_Hidden/Figma",

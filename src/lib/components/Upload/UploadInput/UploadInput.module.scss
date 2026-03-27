@@ -1,12 +1,7 @@
 @use "@styles" as *;
 
 // size, gap, paddingV, paddingH, labelMinWidth
-$sizes: (
-  ("xs", "4x", "4x", "10x", "128x"),
-  ("sm", "6x", "6x", "12x", "128x"),
-  ("md", "8x", "8x", "16x", "160x"),
-  ("lg", "8x", "10x", "20x", "190x")
-);
+$sizes: (("xs", "4x", "4x", "10x", "128x"), ("sm", "6x", "6x", "12x", "128x"), ("md", "8x", "8x", "16x", "160x"), ("lg", "8x", "10x", "20x", "190x"));
 
 .Root {
   display: flex;
