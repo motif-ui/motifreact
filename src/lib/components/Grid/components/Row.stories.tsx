@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import Grid from "@/components/Grid/Grid";
 
 const meta: Meta<typeof Grid.Row> = {
-  title: "Components/Grid/Grid.Row",
+  title: "Components/Grid/Row",
   component: Grid.Row,
   argTypes: {
     justifyCols: { table: { defaultValue: { summary: "start" } } },
