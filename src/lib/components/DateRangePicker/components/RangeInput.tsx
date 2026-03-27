@@ -16,12 +16,17 @@ const dateFormat: DateFormat = {
   monthFormat: "MM",
   yearFormat: "YYYY",
 };
+// TODO: Should the date format be fixed like this, or will MMM / MMMM be supported?
+// In order to handle this properly, the `locale` parameter should be added to the dependency array
+// and updated within `parseData`. After this update, the validity of the month value should be checked.
+// Please check code below, unless it is problem to solve this issue in this task.
 
 type Props = {
   index: 0 | 1;
 };
 
 const RangeInput = (props: Props) => {
+  const { locale } = useContext(DateRangePickerContext);
   const { index } = props;
   const { size, dateCouple, onDateChange, setDateCouple, getDaysOfMonth, months, setMonths } = useContext(DateRangePickerContext);
   const uniqueName = useId();
@@ -29,16 +34,16 @@ const RangeInput = (props: Props) => {
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
-    setValue(formatDate(dateCouple[index], dateFormat));
-  }, [dateCouple, index]);
+    setValue(formatDate(dateCouple[index], dateFormat, locale));
+  }, [dateCouple, index, locale]);
 
   const ref = useOutsideClick<HTMLInputElement>(() => {
-    setValue(formatDate(dateCouple[index], dateFormat));
+    setValue(formatDate(dateCouple[index], dateFormat, locale));
   });
 
   const onChange = useCallback(
     (value: InputValue) => {
-      const date = parseDate(value as string, dateFormat);
+      const date = parseDate(value as string, dateFormat, locale);
       if (!date) {
         setValue(value as string);
         return;

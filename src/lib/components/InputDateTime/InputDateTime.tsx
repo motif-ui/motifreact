@@ -85,7 +85,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
 
   const outsideClickHandler = useCallback(() => {
     setPickerVisible(false);
-    const parsedDate = parseDateTime(typedValue, format, !!secondsEnabled);
+    const parsedDate = parseDateTime(typedValue, format, !!secondsEnabled, locale);
     !parsedDate && setTypedValue(formatDateTime(itemValue, format, !!secondsEnabled, timeFormat, locale));
   }, [format, itemValue, secondsEnabled, typedValue, timeFormat, locale]);
 
@@ -125,7 +125,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
       const typedValue = e as string;
       setTypedValue(typedValue);
 
-      const parsedDate = parseDateTime(typedValue, format, !!secondsEnabled);
+      const parsedDate = parseDateTime(typedValue, format, !!secondsEnabled, locale);
       parsedDate && applyChanges(parsedDate);
     },
     [applyChanges, format, secondsEnabled],
