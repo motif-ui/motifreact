@@ -194,6 +194,12 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
       });
     });
 
+    Object.values(formStateRef.current.fields).forEach(field => {
+      if (field?.hasSelfError) {
+        isValid = false;
+      }
+    });
+
     return { isValid, values: sanitizedValues };
   }, [_sanitizeValuesForDisabledItems]);
 
@@ -210,7 +216,12 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
     formStateRef.current.values[nameToUpdate] = groupName
       ? { ...(formStateRef.current.values[nameToUpdate] as object), [name]: value }
       : value;
-    formStateRef.current.fields[nameToUpdate]?.errorSetter?.(undefined);
+    const field = formStateRef.current.fields[nameToUpdate];
+    if (field) {
+      field.errorSetter?.(undefined);
+      field.hasSelfError = false;
+      field.selfErrorSetter?.(false);
+    }
   }, []);
 
   /**
@@ -219,10 +230,15 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
    * @param {string} name - name of the input
    * @param {string[]} errors - list of errors to pass to the form
    */
-  const notifyFormForFieldSelfError = useCallback((name: string, errors: string[]) => {
-    if (errors.length) {
-      const errorToShow = errors.join("\n");
-      formStateRef.current.fields[name]?.errorSetter?.(errorToShow);
+  const notifyFormForFieldSelfError = useCallback((name: string, errors: string[], suppressDisplay?: boolean) => {
+    const field = formStateRef.current.fields[name];
+    if (field) {
+      const hasError = errors.length > 0;
+      field.hasSelfError = hasError;
+      field.selfErrorSetter?.(hasError);
+      if (hasError && !suppressDisplay) {
+        field.errorSetter?.(errors.join("\n"));
+      }
     }
   }, []);
 

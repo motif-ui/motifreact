@@ -34,6 +34,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     props,
     defaultValue: [],
     nonClearable: true,
+    suppressSelfErrorDisplay: true,
   });
 
   const changeHandler = useCallback(
