@@ -5,18 +5,24 @@ import userEvent from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
 import { defaultDateFormat } from "../Motif/Pickers/types";
 import { formatDateTime } from "./helper";
-import { TimePickerLocale } from "../TimePicker/types";
 import { formatDate } from "../InputDate/helper";
 import { TimeFormat } from "../Motif/Pickers/types";
 import { LOCALE_DATE_TIME_TR_TR } from "@/components/DateTimePicker/locale/tr_TR";
 import { DateUtils } from "../../../utils/dateUtils";
+import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
+import { LOCALE_DATE_TIME_EN_GB } from "@/components/DateTimePicker/locale/en_GB";
 
 describe(InputDateTime, () => {
   const today = new Date();
   const dateValue = new Date(today.getFullYear(), today.getMonth(), 12);
   const sizes: InputSize[] = ["xs", "sm", "md", "lg"];
 
-  const createDateTimeString = (dateTime: Date | undefined, secondsEnabled: boolean, timeFormat: TimeFormat, locale: TimePickerLocale) => {
+  const createDateTimeString = (
+    dateTime: Date | undefined,
+    secondsEnabled: boolean,
+    timeFormat: TimeFormat,
+    locale: DateTimePickerLocale,
+  ) => {
     return formatDateTime(dateTime, defaultDateFormat, secondsEnabled, timeFormat, locale);
   };
 
@@ -79,6 +85,37 @@ describe(InputDateTime, () => {
   it("should display the date as given dateFormat in format prop", () => {
     const { getByPlaceholderText } = renderExt(<InputDateTime dateFormat={{ order: ["year", "month", "day"] }} />);
     expect(getByPlaceholderText("YYYY/MM/DD __:__")).toBeInTheDocument();
+  });
+
+  it("should display the months as given dateFormat in format prop", () => {
+    const { rerender } = render(
+      <InputDateTime
+        value={new Date(2025, 1, 2)}
+        dateFormat={{
+          order: ["day", "month", "year"],
+          delimiter: " ",
+          yearFormat: "YY",
+          monthFormat: "MMM",
+        }}
+        locale={LOCALE_DATE_TIME_EN_GB}
+      />,
+    );
+    expect(screen.queryByDisplayValue("02 Feb 25 00:00")).toBeInTheDocument();
+
+    rerender(
+      <InputDateTime
+        value={new Date(2025, 1, 2)}
+        dateFormat={{
+          order: ["day", "month", "year"],
+          delimiter: " ",
+          yearFormat: "YY",
+          monthFormat: "MMMM",
+        }}
+        locale={LOCALE_DATE_TIME_EN_GB}
+      />,
+    );
+
+    expect(screen.queryByDisplayValue("02 February 25 00:00")).toBeInTheDocument();
   });
 
   it("should display the placeholder given in placeholder prop", () => {

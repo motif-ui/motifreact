@@ -5,6 +5,7 @@ import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
+import { LOCALE_DATE_EN_GB } from "@/components/DatePicker/locale/en_GB";
 
 describe("InputDate", () => {
   const testDate = new Date(2025, 1, 15);
@@ -59,6 +60,40 @@ describe("InputDate", () => {
       />,
     );
     expect(screen.queryByDisplayValue("*25-*2-*2")).toBeInTheDocument();
+  });
+
+  it("should display the months as given format in format prop", () => {
+    const { rerender } = render(
+      <InputDate
+        value={new Date(2025, 1, 2)}
+        format={{
+          order: ["year", "month", "day"],
+          prefix: ["*", "*", "*"],
+          delimiter: "-",
+          dayFormat: "D",
+          monthFormat: "MMM",
+          yearFormat: "YY",
+        }}
+        locale={LOCALE_DATE_EN_GB}
+      />,
+    );
+    expect(screen.queryByDisplayValue("*25-*Feb-*2")).toBeInTheDocument();
+
+    rerender(
+      <InputDate
+        value={new Date(2025, 1, 2)}
+        format={{
+          order: ["year", "month", "day"],
+          prefix: ["*", "*", "*"],
+          delimiter: "-",
+          dayFormat: "D",
+          monthFormat: "MMMM",
+          yearFormat: "YY",
+        }}
+        locale={LOCALE_DATE_EN_GB}
+      />,
+    );
+    expect(screen.queryByDisplayValue("*25-*February-*2")).toBeInTheDocument();
   });
 
   it("should let typing value to date input when editable prop is set true", async () => {
