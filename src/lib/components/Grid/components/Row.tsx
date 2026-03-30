@@ -20,5 +20,5 @@ const Row = (props: PropsWithRef<RowProps, HTMLDivElement>) => {
   );
 };
 
-Row.displayName = "Row";
+Row.displayName = "Grid.Row";
 export default Row;
