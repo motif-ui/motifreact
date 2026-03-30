@@ -318,7 +318,7 @@ describe("ImageUpload", () => {
 
     const zoomedInScale = parseFloat(previewImage.style.scale);
 
-    await userEvent.click(screen.getAllByText("remove")[0]);
+    await userEvent.click(screen.getAllByText("minus")[0]);
 
     await waitFor(() => {
       const zoomedOutScale = parseFloat(previewImage.style.scale);
@@ -332,7 +332,7 @@ describe("ImageUpload", () => {
     await userEvent.click(screen.getAllByText("add")[0]);
     await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(previewInitialScale * 1.25));
 
-    const zoomOutButton = screen.getAllByText("remove")[0];
+    const zoomOutButton = screen.getAllByText("minus")[0];
     await userEvent.click(zoomOutButton);
     await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(previewInitialScale));
     await userEvent.click(zoomOutButton);
@@ -362,7 +362,7 @@ describe("ImageUpload", () => {
     const { previewImage } = await simulateImageUploadAndPreviewClick();
 
     const zoomInButton = screen.getAllByText("add")[0];
-    const zoomOutButton = screen.getAllByText("remove")[0];
+    const zoomOutButton = screen.getAllByText("minus")[0];
 
     // Zoom in to max
     while (!zoomInButton.hasAttribute("disabled")) {
@@ -387,7 +387,7 @@ describe("ImageUpload", () => {
 
     await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(1));
 
-    const zoomOutButton = screen.getAllByText("remove")[0];
+    const zoomOutButton = screen.getAllByText("minus")[0];
     const zoomInButton = screen.getAllByText("add")[0];
 
     expect(zoomOutButton).toBeDisabled();
