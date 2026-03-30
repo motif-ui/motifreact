@@ -1,0 +1,116 @@
+name: "PR Validator"
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  validate:
+    name: PR Compliance Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: 'false'
+          fetch-depth: 0
+
+      # 1. IDENTIFY USER ROLE
+      - name: Check core team membership
+        id: team-check
+        uses: ./.github/actions/check-core-team
+        with:
+          pr-author: ${{ github.event.pull_request.user.login }}
+
+      # 2. CHECK FOR WORKFLOW CHANGES
+      - name: Get changed workflow files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: .github/workflows/**
+
+      - name: Security — Block unauthorized workflow changes
+        if: steps.changed-files.outputs.any_changed == 'true' && steps.team-check.outputs.is-internal != 'true'
+        run: |
+          echo "❌ Access Denied: Only core team members can modify workflow files."
+          exit 1
+
+      # 3. LINT PR TITLE
+      - name: Validate PR title
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            perf
+            feat
+            fix
+            docs
+            style
+            refactor
+            test
+            chore
+            build
+            ci
+            revert
+          requireScope: false
+
+      # 4. SYNC RELEASE LABELS
+      - name: Sync release labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const MAJOR_PATTERN = /^[a-z]+(\(.+\))?!:/;
+            const TYPE_PATTERN = /^([a-z]+)/;
+            const MAPPING = { feat: "minor", perf: "minor", fix: "patch", revert: "patch" };
+
+            const type = title.match(TYPE_PATTERN)?.[1];
+            const target = MAJOR_PATTERN.test(title) ? "release:major" : (MAPPING[type] && `release:${MAPPING[type]}`);
+
+            const { data: labels } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number
+            });
+
+            for (const label of labels) {
+              if (label.name.startsWith("release:") && label.name !== target) {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.pull_request.number,
+                  name: label.name
+                });
+              }
+            }
+
+            if (target && !labels.find(l => l.name === target)) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: [target]
+              });
+            }
+
+      # 5. CHECK INTERNAL ISSUE REFERENCE
+      - name: Check internal issue reference
+        if: steps.team-check.outputs.is-internal == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prBody = context.payload.pull_request.body || '';
+            const issuePattern = /#EDKUI-\d+/;
+            if (!issuePattern.test(prBody)) {
+              core.setFailed('❌ Core team PRs must include an internal issue reference (e.g., #EDKUI-1288) in the body.');
+            }

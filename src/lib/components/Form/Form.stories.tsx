@@ -13,6 +13,7 @@ import RadioGroup from "@/components/RadioGroup";
 import Radio from "@/components/Radio";
 import UploadInput from "@/components/Upload/UploadInput";
 import UploadList from "@/components/Upload/UploadList";
+import UploadDragger from "@/components/Upload/UploadDragger";
 import PinCodeItem from "@/components/PinCode/components/PinCodeItem";
 import PinCode from "@/components/PinCode";
 import InputDate from "@/components/InputDate";
@@ -172,6 +173,18 @@ export const Primary: Story = {
           uploadRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
           deleteRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
           maxSize={1000000}
+        />
+      </Form.Field>
+
+      <Form.Field
+        name="uploadDraggerDoc"
+        label="Dragger Document"
+        helperText="Upload via drag & drop"
+        validations={[Validations.RequiredUploadedFile]}
+      >
+        <UploadDragger
+          uploadRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          deleteRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
         />
       </Form.Field>
 

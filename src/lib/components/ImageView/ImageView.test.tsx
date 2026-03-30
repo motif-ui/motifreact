@@ -177,8 +177,8 @@ describe("ImageView", () => {
       imgElement.dispatchEvent(new Event("error"));
     });
     await waitFor(() => {
-      expect(imgElement).toHaveClass("error");
+      expect(imgElement.getAttribute("src")).toBe(BROKEN_IMG_SRC);
+      expect(imgElement.style.objectPosition).toBe("center center");
     });
-    expect(imgElement.getAttribute("src")).toBe(BROKEN_IMG_SRC);
   });
 });

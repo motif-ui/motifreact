@@ -14,6 +14,46 @@ describe("UploadDragger", () => {
     expect(renderExt(<UploadDragger {...requiredProps} />).container).toMatchSnapshot();
   });
 
+  it("should display error when error prop is true", () => {
+    const { getDragArea } = renderExt(<UploadDragger {...requiredProps} error />);
+    expect(getDragArea()).toHaveClass("error");
+  });
+
+  it("should display success when success prop is true", () => {
+    const { getDragArea } = renderExt(<UploadDragger {...requiredProps} success />);
+    expect(getDragArea()).toHaveClass("success");
+  });
+
+  it("should be rendered as disabled when disabled prop is true", async () => {
+    const handleChange = jest.fn();
+    const { getDragArea } = renderExt(<UploadDragger {...requiredProps} disabled onChange={handleChange} />);
+    expect(getDragArea()).toHaveClass("disabled");
+    await simulateDrop(getDragArea(), [MOCK.filePng2mb]);
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
+  it("should be rendered as disabled when readOnly prop is true", async () => {
+    const handleChange = jest.fn();
+    const { getDragArea } = renderExt(<UploadDragger {...requiredProps} readOnly onChange={handleChange} />);
+    expect(getDragArea()).toHaveClass("disabled");
+    await simulateDrop(getDragArea(), [MOCK.filePng2mb]);
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
+  it("should keep error styling after file is added", async () => {
+    const { getDragArea, getInput } = renderExt(<UploadDragger {...requiredProps} error autoUpload={false} />);
+    expect(getDragArea()).toHaveClass("error");
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getDragArea()).toHaveClass("error");
+  });
+
+  it("should keep success styling after file is added", async () => {
+    const { getDragArea, getInput } = renderExt(<UploadDragger {...requiredProps} success autoUpload={false} />);
+    expect(getDragArea()).toHaveClass("success");
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getDragArea()).toHaveClass("success");
+  });
+
   it("should only accept files of the given file types with accept prop", async () => {
     const xhrSpy = mockXHRs();
     const accept: string[] = ["application/pdf"];

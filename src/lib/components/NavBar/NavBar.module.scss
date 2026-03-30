@@ -155,46 +155,26 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 
     .hamburger,
     .menuBarItem > a {
-      color: if(
-        $variant == "neutral" or $variant == "warning",
-        var(--theme-color-text-base-subtitle),
-        var(--theme-color-text-base-light-overlay75)
-      );
+      color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-subtitle), var(--theme-color-text-base-light-overlay75));
     }
     .hamburger:hover,
     .menuBarItem > a:hover,
     .menuBarItem.active > a {
-      color: if(
-        $variant == "neutral" or $variant == "warning",
-        var(--theme-color-text-base-text-dark),
-        var(--theme-color-text-base-global-light)
-      );
+      color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-text-dark), var(--theme-color-text-base-global-light));
     }
 
     @include screen-width("below", "sm") {
       .mainMenu {
         :has(.subMenu) > a {
-          color: if(
-            $variant == "neutral" or $variant == "warning",
-            var(--theme-color-text-base-text-dark),
-            var(--theme-color-text-base-global-light)
-          );
+          color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-text-dark), var(--theme-color-text-base-global-light));
         }
         .menuBarItem > a {
           border-color: if($variant == "neutral", var(--theme-color-border-light-default), var(--theme-color-surface-base-light-overlay50));
         }
         .subMenuItem a {
-          color: if(
-            $variant == "neutral" or $variant == "warning",
-            var(--theme-color-text-base-subtitle),
-            var(--theme-color-text-base-light-overlay75)
-          );
+          color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-subtitle), var(--theme-color-text-base-light-overlay75));
           &:hover {
-            color: if(
-              $variant == "neutral" or $variant == "warning",
-              var(--theme-color-text-base-text-dark),
-              var(--theme-color-text-base-global-light)
-            );
+            color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-text-dark), var(--theme-color-text-base-global-light));
             background-color: if(
               $variant == "neutral",
               var(--theme-color-surface-light-hover),
@@ -219,7 +199,7 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
   }
   .searchBox {
     order: 998;
-    width: 100% !important;
+    width: 100%;
   }
 
   .mainMenuContainer {
@@ -258,8 +238,8 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
       background: none;
       box-shadow: none;
       border: none;
-      &:after,
-      &:before {
+      &::after,
+      &::before {
         display: none;
       }
 

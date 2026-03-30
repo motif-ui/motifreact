@@ -44,15 +44,15 @@ $sizes: (("xs", "4x", "8x"), ("sm", "6x", "12x"), ("md", "8x", "16x"), ("lg", "1
       border-color: var(--theme-color-surface-danger-default);
     }
 
-    &.success {
-      border-color: var(--theme-color-border-success-default);
-    }
-
     &.disabled {
       border-color: var(--theme-color-border-light-disabled);
       .infoText {
         color: var(--theme-color-text-base-disabled-light);
       }
+    }
+
+    &.success:not(.disabled) {
+      border-color: var(--theme-color-border-success-default);
     }
   }
 }

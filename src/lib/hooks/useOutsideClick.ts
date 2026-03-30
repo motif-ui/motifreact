@@ -2,12 +2,14 @@
 import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
 
-const useOutsideClick = <R = unknown>(callback: () => void, excludedRefs?: RefObject<HTMLElement | null>[]) => {
+const useOutsideClick = <R = unknown>(
+  callback: (event: MouseEvent | TouchEvent) => void,
+  excludedRefs?: RefObject<HTMLElement | null>[],
+) => {
   const ref = useRef<R>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      event.preventDefault();
       const htmlRef = ref as unknown as RefObject<HTMLElement | null>;
       const clickedEl = event.target as Node;
       if (
@@ -15,7 +17,7 @@ const useOutsideClick = <R = unknown>(callback: () => void, excludedRefs?: RefOb
         !htmlRef.current.contains(clickedEl) &&
         !excludedRefs?.some(excludedRef => excludedRef.current?.contains(clickedEl))
       ) {
-        callback();
+        callback(event);
       }
     };
 

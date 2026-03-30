@@ -129,8 +129,8 @@ export const SortingCustom: Story = {
   <Table
   data={data}
   columns={[
-    { title: "Name", dataKey: "name", sorting: { 
-        customSort: (a: string, b: string) => a[a.length - 1].localeCompare(b[b.length - 1]) 
+    { title: "Name", dataKey: "name", sorting: {
+        customSort: (a, b) => (typeof a === "string" && typeof b === "string" ? a.at(-1)!.localeCompare(b.at(-1)!) : 0)
       }
     },
     { title: "Surname", dataKey: "surname" }
@@ -152,7 +152,7 @@ export const SortingCustom: Story = {
         {
           title: "Name",
           dataKey: "name",
-          sorting: { customSort: (a, b) => (a as string)[(a as string).length - 1].localeCompare((b as string)[(b as string).length - 1]) },
+          sorting: { customSort: (a, b) => (typeof a === "string" && typeof b === "string" ? a.at(-1)!.localeCompare(b.at(-1)!) : 0) },
         },
         { title: "Surname", dataKey: "surname" },
       ]}

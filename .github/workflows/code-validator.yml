@@ -1,0 +1,33 @@
+name: Code Validator
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: 'false'
+
+      - name: Setup Dependencies
+        uses: ./.github/actions/setup-node-deps
+
+      - name: Build Library
+        run: npm run build:lib
+
+      - name: Run Linters and Tests
+        run: |
+          npm run lint
+          npm run type-check
+          npm run scss-check
+          npm run test:ci

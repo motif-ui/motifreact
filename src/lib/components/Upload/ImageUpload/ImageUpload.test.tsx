@@ -1,4 +1,4 @@
-import { act, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { simulateDrop, simulateChooseFiles, renderExtUploadFileList } from "@/components/Upload/testHelper";
 import { MESSAGE } from "@/components/Upload/constants";
 import ImageUpload from "@/components/Upload/ImageUpload/ImageUpload";
@@ -53,6 +53,11 @@ describe("ImageUpload", () => {
 
   const resetWindowSize = () => mockWindowSize(originalInnerWidth, originalInnerHeight);
 
+  const getTransformScale = (el: HTMLElement) => {
+    const match = el.style.transform.match(/scale\(([^)]+)\)/);
+    return match ? parseFloat(match[1]) : NaN;
+  };
+
   const renderExt = (ui: ReactElement) => {
     const result = renderExtUploadFileList(ui);
     return {
@@ -84,11 +89,21 @@ describe("ImageUpload", () => {
     const previewImage = screen.queryByAltText("Image Preview")!;
     await waitFor(() => expect(previewImage).toBeInTheDocument());
 
-    const previewInitialScale = parseFloat(previewImage.style.scale);
+    const previewInitialScale = getTransformScale(previewImage);
+
+    const getButton = (name: string) => screen.getAllByText(name)[0];
+    const zoomInButton = getButton("add");
+    const zoomOutButton = getButton("remove");
+    const rotateLeftButton = getButton("undo");
+    const rotateRightButton = getButton("redo");
 
     return {
       previewImage,
       previewInitialScale,
+      zoomInButton,
+      zoomOutButton,
+      rotateLeftButton,
+      rotateRightButton,
     };
   };
 
@@ -307,36 +322,35 @@ describe("ImageUpload", () => {
   });
 
   it("should allow zooming in/out on preview", async () => {
-    const { previewImage, previewInitialScale } = await simulateImageUploadAndPreviewClick();
+    const { previewImage, previewInitialScale, zoomInButton, zoomOutButton } = await simulateImageUploadAndPreviewClick();
 
-    await userEvent.click(screen.getAllByText("add")[0]);
+    await userEvent.click(zoomInButton);
 
     await waitFor(() => {
-      const zoomedInScale = parseFloat(previewImage.style.scale);
+      const zoomedInScale = getTransformScale(previewImage);
       expect(zoomedInScale).toBeGreaterThan(previewInitialScale);
     });
 
-    const zoomedInScale = parseFloat(previewImage.style.scale);
+    const zoomedInScale = getTransformScale(previewImage);
 
-    await userEvent.click(screen.getAllByText("minus")[0]);
+    await userEvent.click(zoomOutButton);
 
     await waitFor(() => {
-      const zoomedOutScale = parseFloat(previewImage.style.scale);
+      const zoomedOutScale = getTransformScale(previewImage);
       expect(zoomedOutScale).toBeLessThan(zoomedInScale);
     });
   });
 
   it("should change preview scale by 1.25x on each zoom click", async () => {
-    const { previewImage, previewInitialScale } = await simulateImageUploadAndPreviewClick();
+    const { previewImage, previewInitialScale, zoomInButton, zoomOutButton } = await simulateImageUploadAndPreviewClick();
 
-    await userEvent.click(screen.getAllByText("add")[0]);
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(previewInitialScale * 1.25));
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(previewInitialScale * 1.25));
 
-    const zoomOutButton = screen.getAllByText("minus")[0];
     await userEvent.click(zoomOutButton);
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(previewInitialScale));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(previewInitialScale));
     await userEvent.click(zoomOutButton);
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(previewInitialScale * 0.8));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(previewInitialScale * 0.8));
   });
 
   it("should render initial preview image without exceeding the browser size", async () => {
@@ -345,95 +359,240 @@ describe("ImageUpload", () => {
 
     // Image larger than browser
     mockImageLoad(previewImage, 2000, 1000);
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(1));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(1));
 
     // Image smaller than browser
     mockImageLoad(previewImage, 500, 400);
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(1));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(1));
 
     // Image with different aspect ratio (tests smaller fit ratio)
     mockImageLoad(previewImage, 4000, 1000);
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(1));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(1));
 
     resetWindowSize();
   });
 
-  it('should constrain preview zoom between 0.5x and 2x browser size when preview natural size is within these limits"', async () => {
-    const { previewImage } = await simulateImageUploadAndPreviewClick();
-
-    const zoomInButton = screen.getAllByText("add")[0];
-    const zoomOutButton = screen.getAllByText("minus")[0];
+  it("should constrain preview zoom between 0.5x and 2x browser size when preview natural size is within these limits", async () => {
+    const { previewImage, zoomInButton, zoomOutButton } = await simulateImageUploadAndPreviewClick();
 
     // Zoom in to max
     while (!zoomInButton.hasAttribute("disabled")) {
       await userEvent.click(zoomInButton);
     }
     expect(zoomInButton).toBeDisabled();
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(2));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(2));
 
     // Zoom out to min
     while (!zoomOutButton.hasAttribute("disabled")) {
       await userEvent.click(zoomOutButton);
     }
     expect(zoomOutButton).toBeDisabled();
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(0.5));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(0.5));
   });
 
   it("should disable zoom out and render the preview at natural size for images smaller than min zoom threshold (0.5x)", async () => {
     mockWindowSize(1000, 800);
-    const { previewImage } = await simulateImageUploadAndPreviewClick();
+    const { previewImage, zoomInButton, zoomOutButton } = await simulateImageUploadAndPreviewClick();
 
     mockImageLoad(previewImage, 200, 160);
 
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(1));
-
-    const zoomOutButton = screen.getAllByText("minus")[0];
-    const zoomInButton = screen.getAllByText("add")[0];
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(1));
 
     expect(zoomOutButton).toBeDisabled();
     expect(zoomInButton).not.toBeDisabled();
 
     await userEvent.click(zoomInButton);
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBeGreaterThan(1));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBeGreaterThan(1));
 
     resetWindowSize();
   });
 
   it("should extend preview zoom in limit to preview natural size when it's size is bigger than 2x browser size", async () => {
     mockWindowSize(1000, 800);
-    const { previewImage } = await simulateImageUploadAndPreviewClick();
+    const { previewImage, zoomInButton } = await simulateImageUploadAndPreviewClick();
 
     mockImageLoad(previewImage, 4000, 3200);
 
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(1));
-
-    const zoomInButton = screen.getAllByText("add")[0];
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(1));
 
     // Zoom in to max (limited to natural size = 4x cssScale)
     while (!zoomInButton.hasAttribute("disabled")) {
       await userEvent.click(zoomInButton);
     }
-    await waitFor(() => expect(parseFloat(previewImage.style.scale)).toBe(4));
+    await waitFor(() => expect(getTransformScale(previewImage)).toBe(4));
 
     resetWindowSize();
   });
 
   it("should rotate image to the direction of the rotation button that is clicked on preview", async () => {
-    const { previewImage } = await simulateImageUploadAndPreviewClick();
+    const { previewImage, rotateLeftButton, rotateRightButton } = await simulateImageUploadAndPreviewClick();
 
     // Right button
-    await userEvent.click(screen.getAllByText("redo")[0]);
+    await userEvent.click(rotateRightButton);
 
     await waitFor(() => {
       expect(previewImage.style.transform).toContain("rotate(90deg)");
     });
 
     // Left button
-    await userEvent.click(screen.getAllByText("undo")[0]);
+    await userEvent.click(rotateLeftButton);
 
     await waitFor(() => {
       expect(previewImage.style.transform).toContain("rotate(0deg)");
     });
+  });
+
+  it("should keep the same scale when rotated while zoomed in", async () => {
+    mockWindowSize(1000, 800);
+    const { previewImage, zoomInButton, rotateRightButton } = await simulateImageUploadAndPreviewClick();
+    mockImageLoad(previewImage, 2000, 1000);
+
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(previewImage.style.transform).toContain("scale(1.25)"));
+
+    await userEvent.click(rotateRightButton);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("rotate(90deg)");
+      expect(previewImage.style.transform).toContain("scale(1.25)");
+    });
+
+    resetWindowSize();
+  });
+
+  it("should clamp drag position to new boundaries when rotated while zoomed and dragged", async () => {
+    mockWindowSize(1000, 800);
+    const { previewImage, zoomInButton, rotateRightButton } = await simulateImageUploadAndPreviewClick();
+    mockImageLoad(previewImage, 2000, 1000);
+
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(previewImage.style.transform).toContain("scale(1.25)"));
+
+    fireEvent.mouseDown(previewImage, { clientX: 500, clientY: 400 });
+    fireEvent.mouseMove(window, { clientX: 5000, clientY: 400 });
+    fireEvent.mouseUp(window);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("translate(125px, 0px)");
+    });
+
+    await userEvent.click(rotateRightButton);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("rotate(90deg)");
+      expect(previewImage.style.transform).toContain("translate(0px, 0px)");
+    });
+
+    resetWindowSize();
+  });
+
+  it("should allow dragging the image when zoomed image exceeds browser size via mouse", async () => {
+    mockWindowSize(1000, 800);
+    const { previewImage, zoomInButton } = await simulateImageUploadAndPreviewClick();
+    mockImageLoad(previewImage, 2000, 1000);
+
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(previewImage.style.transform).toContain("scale(1.25)"));
+
+    fireEvent.mouseDown(previewImage, { clientX: 500, clientY: 400 });
+    fireEvent.mouseMove(window, { clientX: 550, clientY: 400 });
+    fireEvent.mouseUp(window);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("translate(50px,");
+    });
+
+    resetWindowSize();
+  });
+
+  it("should not allow dragging the image when not zoomed in", async () => {
+    const { previewImage } = await simulateImageUploadAndPreviewClick();
+
+    fireEvent.mouseDown(previewImage, { clientX: 500, clientY: 400 });
+    fireEvent.mouseMove(window, { clientX: 600, clientY: 500 });
+    fireEvent.mouseUp(window);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("translate(0px, 0px)");
+    });
+  });
+
+  it("should not allow dragging when zoomed but image still fits in browser", async () => {
+    mockWindowSize(1000, 800);
+    const { previewImage, zoomInButton } = await simulateImageUploadAndPreviewClick();
+    mockImageLoad(previewImage, 200, 160);
+
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(getTransformScale(previewImage)).toBeGreaterThan(1));
+
+    fireEvent.mouseDown(previewImage, { clientX: 500, clientY: 400 });
+    fireEvent.mouseMove(window, { clientX: 600, clientY: 500 });
+    fireEvent.mouseUp(window);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("translate(0px, 0px)");
+    });
+
+    resetWindowSize();
+  });
+
+  it("should allow dragging the image when zoomed image exceeds browser size via touch", async () => {
+    mockWindowSize(1000, 800);
+    const { previewImage, zoomInButton } = await simulateImageUploadAndPreviewClick();
+    mockImageLoad(previewImage, 2000, 1000);
+
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(previewImage.style.transform).toContain("scale(1.25)"));
+
+    fireEvent.touchStart(previewImage, { touches: [{ clientX: 500, clientY: 400 }] });
+    fireEvent.touchMove(window, { touches: [{ clientX: 550, clientY: 400 }] });
+    fireEvent.touchEnd(window);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("translate(50px,");
+    });
+
+    resetWindowSize();
+  });
+
+  it("should clamp drag position to image boundaries", async () => {
+    mockWindowSize(1000, 800);
+    const { previewImage, zoomInButton } = await simulateImageUploadAndPreviewClick();
+    mockImageLoad(previewImage, 2000, 1000);
+
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(previewImage.style.transform).toContain("scale(1.25)"));
+
+    fireEvent.mouseDown(previewImage, { clientX: 500, clientY: 400 });
+    fireEvent.mouseMove(window, { clientX: 5000, clientY: 5000 });
+    fireEvent.mouseUp(window);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("translate(125px, 0px)");
+    });
+
+    resetWindowSize();
+  });
+
+  it("should reset position when zoomed image no longer exceeds browser size", async () => {
+    mockWindowSize(1000, 800);
+    const { previewImage, zoomInButton, zoomOutButton } = await simulateImageUploadAndPreviewClick();
+    mockImageLoad(previewImage, 2000, 1000);
+
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(previewImage.style.transform).toContain("scale(1.25)"));
+
+    fireEvent.mouseDown(previewImage, { clientX: 500, clientY: 400 });
+    fireEvent.mouseMove(window, { clientX: 550, clientY: 400 });
+    fireEvent.mouseUp(window);
+
+    await userEvent.click(zoomOutButton);
+
+    await waitFor(() => {
+      expect(previewImage.style.transform).toContain("translate(0px, 0px)");
+    });
+
+    resetWindowSize();
   });
 
   it("should close preview when close button on the preview is clicked", async () => {
@@ -452,6 +611,26 @@ describe("ImageUpload", () => {
     await waitFor(() => {
       expect(previewImage).not.toBeInTheDocument();
     });
+  });
+
+  it("should not close preview when drag ends outside the image", async () => {
+    mockWindowSize(1000, 800);
+    const { previewImage, zoomInButton } = await simulateImageUploadAndPreviewClick();
+    mockImageLoad(previewImage, 2000, 1000);
+
+    await userEvent.click(zoomInButton);
+    await waitFor(() => expect(previewImage.style.transform).toContain("scale(1.25)"));
+
+    fireEvent.mouseDown(previewImage, { clientX: 500, clientY: 400 });
+    fireEvent.mouseMove(window, { clientX: 550, clientY: 400 });
+    fireEvent.mouseUp(window);
+
+    await waitFor(() => {
+      expect(previewImage).toBeInTheDocument();
+      expect(previewImage.style.transform).toContain("translate(50px,");
+    });
+
+    resetWindowSize();
   });
 
   it("should not allow image upload when any of the url props in uploadRequest or deleteRequest not available", async () => {
