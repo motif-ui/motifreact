@@ -128,7 +128,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
       const parsedDate = parseDateTime(typedValue, format, !!secondsEnabled, locale);
       parsedDate && applyChanges(parsedDate);
     },
-    [applyChanges, format, secondsEnabled],
+    [applyChanges, format, secondsEnabled, locale],
   );
   const classNames = sanitizeModuleRootClasses(styles, className);
 

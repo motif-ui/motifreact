@@ -56,7 +56,7 @@ export class DateUtils {
     return formatValid && dayValue >= 1 && dayValue <= 31;
   };
 
-  static isValidMonth = (month: string, locale: DatePickerLocale | undefined, monthFormat?: "MM" | "M" | "MMM" | "MMMM") => {
+  static isValidMonth = (month: string, locale: DatePickerLocale, monthFormat?: "MM" | "M" | "MMM" | "MMMM") => {
     switch (monthFormat) {
       case "MM":
         return /^\d{2}$/.test(month) && parseInt(month, 10) >= 1 && parseInt(month, 10) <= 12;
@@ -65,15 +65,11 @@ export class DateUtils {
         return /^\d{1,2}$/.test(month) && parseInt(month, 10) >= 1 && parseInt(month, 10) <= 12;
 
       case "MMM": {
-        const shortMonths =
-          locale?.monthsShort ?? Array.from({ length: 12 }, (_, i) => new Date(2000, i).toLocaleString("default", { month: "short" }));
-        return shortMonths.includes(month);
+        return locale.monthsShort.includes(month);
       }
 
       case "MMMM": {
-        const longMonths =
-          locale?.months ?? Array.from({ length: 12 }, (_, i) => new Date(2000, i).toLocaleString("default", { month: "long" }));
-        return longMonths.includes(month);
+        return locale.months.includes(month);
       }
 
       default:

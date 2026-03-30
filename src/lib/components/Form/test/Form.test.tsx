@@ -43,6 +43,7 @@ import { DateUtils } from "../../../../utils/dateUtils";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
+import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
 
 describe("Form", () => {
   it("should be rendered with only required props and items", () => {
@@ -356,8 +357,8 @@ describe("Form", () => {
     // Input Date
     const newDateValue = new Date(2024, 1, 21);
     await user.type(
-      screen.getByDisplayValue(formatDate(DateUtils.getTodayTimeless(), defaultDateFormat)),
-      formatDate(newDateValue, defaultDateFormat),
+      screen.getByDisplayValue(formatDate(DateUtils.getTodayTimeless(), defaultDateFormat, LOCALE_DATE_TR_TR)),
+      formatDate(newDateValue, defaultDateFormat, LOCALE_DATE_TR_TR),
     );
 
     // Switch
@@ -430,7 +431,7 @@ describe("Form", () => {
     // Input Date
     const newDateValue = new Date(2024, 1, 21);
     expect(inputItems[7].children[1]).toHaveAttribute("readOnly");
-    await user.type(inputItems[7].lastElementChild!, formatDate(newDateValue, defaultDateFormat));
+    await user.type(inputItems[7].lastElementChild!, formatDate(newDateValue, defaultDateFormat, LOCALE_DATE_TR_TR));
 
     // Pin Code
     expect(screen.getAllByTestId("pinCodeItem")[0]).toHaveAttribute("readonly");

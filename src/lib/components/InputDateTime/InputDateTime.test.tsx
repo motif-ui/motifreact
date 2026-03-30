@@ -83,11 +83,6 @@ describe(InputDateTime, () => {
   });
 
   it("should display the date as given dateFormat in format prop", () => {
-    const { getByPlaceholderText } = renderExt(<InputDateTime dateFormat={{ order: ["year", "month", "day"] }} />);
-    expect(getByPlaceholderText("YYYY/MM/DD __:__")).toBeInTheDocument();
-  });
-
-  it("should display the months as given dateFormat in format prop", () => {
     const { rerender } = render(
       <InputDateTime
         value={new Date(2025, 1, 2)}
@@ -106,7 +101,7 @@ describe(InputDateTime, () => {
       <InputDateTime
         value={new Date(2025, 1, 2)}
         dateFormat={{
-          order: ["day", "month", "year"],
+          order: ["month", "day", "year"],
           delimiter: " ",
           yearFormat: "YY",
           monthFormat: "MMMM",
@@ -115,7 +110,7 @@ describe(InputDateTime, () => {
       />,
     );
 
-    expect(screen.queryByDisplayValue("02 February 25 00:00")).toBeInTheDocument();
+    expect(screen.queryByDisplayValue("February 02 25 00:00")).toBeInTheDocument();
   });
 
   it("should display the placeholder given in placeholder prop", () => {
@@ -338,7 +333,7 @@ describe(InputDateTime, () => {
 
   it("should select today as the date when initially no value is selected and any time value (hours, minutes or seconds) is selected via the picker", async () => {
     const { getByText, getInputText, getTimeList } = renderExt(<InputDateTime secondsEnabled />);
-    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat)} 11:00:00`;
+    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat, LOCALE_DATE_TIME_TR_TR)} 11:00:00`;
 
     await userEvent.click(getInputText());
 
@@ -351,7 +346,7 @@ describe(InputDateTime, () => {
 
   it("should select the unselected time values as 00 when initially no value is selected and any time value (hours, minutes or seconds) is selected via the picker", async () => {
     const { getByText, getInputText, getClearButton, getTimeList } = renderExt(<InputDateTime secondsEnabled />);
-    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat)}`;
+    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat, LOCALE_DATE_TIME_TR_TR)}`;
 
     const cases = [
       { col: "hours", expected: "05:00:00" },

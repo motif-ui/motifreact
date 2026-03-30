@@ -16,10 +16,6 @@ const dateFormat: DateFormat = {
   monthFormat: "MM",
   yearFormat: "YYYY",
 };
-// TODO: Should the date format be fixed like this, or will MMM / MMMM be supported?
-// In order to handle this properly, the `locale` parameter should be added to the dependency array
-// and updated within `parseData`. After this update, the validity of the month value should be checked.
-// Please check code below, unless it is problem to solve this issue in this task.
 
 type Props = {
   index: 0 | 1;

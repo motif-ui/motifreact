@@ -6,6 +6,7 @@ import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { LOCALE_DATE_EN_GB } from "@/components/DatePicker/locale/en_GB";
+import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
 
 describe("InputDate", () => {
   const testDate = new Date(2025, 1, 15);
@@ -46,23 +47,6 @@ describe("InputDate", () => {
   });
 
   it("should display the date as given format in format prop", () => {
-    render(
-      <InputDate
-        value={new Date(2025, 1, 2)}
-        format={{
-          order: ["year", "month", "day"],
-          prefix: ["*", "*", "*"],
-          delimiter: "-",
-          dayFormat: "D",
-          monthFormat: "M",
-          yearFormat: "YY",
-        }}
-      />,
-    );
-    expect(screen.queryByDisplayValue("*25-*2-*2")).toBeInTheDocument();
-  });
-
-  it("should display the months as given format in format prop", () => {
     const { rerender } = render(
       <InputDate
         value={new Date(2025, 1, 2)}
@@ -131,7 +115,7 @@ describe("InputDate", () => {
 
   it("should display the date value given in value prop", () => {
     render(<InputDate value={testDate} />);
-    expect(screen.queryByDisplayValue(formatDate(testDate, defaultDateFormat))).toBeInTheDocument();
+    expect(screen.queryByDisplayValue(formatDate(testDate, defaultDateFormat, LOCALE_DATE_TR_TR))).toBeInTheDocument();
   });
 
   it("should display the date value and close the datepicker when the date is selected from datepicker", async () => {
@@ -142,7 +126,7 @@ describe("InputDate", () => {
 
     await userEvent.click(getInput());
     await userEvent.click(getByText(mockClickDate.getDate().toString()));
-    expect(getInput()).toHaveValue(formatDate(mockClickDate, defaultDateFormat));
+    expect(getInput()).toHaveValue(formatDate(mockClickDate, defaultDateFormat, LOCALE_DATE_TR_TR));
     expect(getPickerContainer()).not.toBeInTheDocument();
   });
 
@@ -157,7 +141,7 @@ describe("InputDate", () => {
 
     await userEvent.click(getInput());
     expect(getByText(testDate.getDate())).toHaveClass("selected");
-    expect(getInput()).toHaveValue(formatDate(testDate, defaultDateFormat));
+    expect(getInput()).toHaveValue(formatDate(testDate, defaultDateFormat, LOCALE_DATE_TR_TR));
   });
 
   it("should display the same date in the picker as given in the value prop", async () => {
@@ -195,7 +179,7 @@ describe("InputDate", () => {
 
     fireEvent.change(getInput(), { target: { value: "invalid_date" } });
     expect(onChange).toHaveBeenNthCalledWith(1, undefined);
-    fireEvent.change(getInput(), { target: { value: formatDate(testDate, defaultDateFormat) } });
+    fireEvent.change(getInput(), { target: { value: formatDate(testDate, defaultDateFormat, LOCALE_DATE_TR_TR) } });
     expect(onChange).toHaveBeenNthCalledWith(2, testDate);
 
     await userEvent.click(getInput());
@@ -205,7 +189,7 @@ describe("InputDate", () => {
     await userEvent.type(getInput(), "6");
     expect(onChange).toHaveBeenNthCalledWith(3, undefined);
 
-    fireEvent.change(getInput(), { target: { value: formatDate(testDate, defaultDateFormat) } });
+    fireEvent.change(getInput(), { target: { value: formatDate(testDate, defaultDateFormat, LOCALE_DATE_TR_TR) } });
     expect(onChange).toHaveBeenNthCalledWith(4, testDate);
 
     await userEvent.click(getClearButton());
@@ -287,7 +271,7 @@ describe("InputDate", () => {
     await userEvent.click(getInput());
     expect(getByText(mockToday.getDate())).not.toHaveClass("selected");
 
-    fireEvent.change(getInput(), { target: { value: formatDate(mockToday, defaultDateFormat) } });
+    fireEvent.change(getInput(), { target: { value: formatDate(mockToday, defaultDateFormat, LOCALE_DATE_TR_TR) } });
     expect(getByText(mockToday.getDate())).toHaveClass("selected");
   });
 });

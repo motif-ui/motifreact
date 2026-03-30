@@ -2,9 +2,7 @@ import { DateFormat } from "../Motif/Pickers/types";
 import { formatDate, parseDate } from "@/components/InputDate/helper";
 import { formatTime, parseTime } from "@/components/InputTime/helper";
 import { TimeFormat } from "../Motif/Pickers/types";
-import { TimePickerLocale } from "../TimePicker/types";
 import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
-import { DatePickerLocale } from "@/components/DatePicker/types";
 
 export const formatDateTime = (
   dateTime: Date | undefined,
@@ -13,9 +11,7 @@ export const formatDateTime = (
   timeFormat: TimeFormat,
   locale: DateTimePickerLocale,
 ) => {
-  const dateLocale: DatePickerLocale = locale;
-  const timeLocale: TimePickerLocale = locale;
-  const formattedDate = formatDate(dateTime, dateFormat, dateLocale);
+  const formattedDate = formatDate(dateTime, dateFormat, locale);
   if (!formattedDate) return "";
 
   const formattedTime = formatTime(
@@ -23,12 +19,12 @@ export const formatDateTime = (
     false,
     secondsEnabled,
     timeFormat,
-    timeLocale,
+    locale,
   );
   return `${formattedDate} ${formattedTime}`.trim();
 };
 
-export const parseDateTime = (dateTimeString: string, format: DateFormat, secondsEnabled: boolean, locale: DatePickerLocale) => {
+export const parseDateTime = (dateTimeString: string, format: DateFormat, secondsEnabled: boolean, locale: DateTimePickerLocale) => {
   const [dateString, timeString] = dateTimeString.split(" ");
 
   const date = parseDate(dateString, format, locale);

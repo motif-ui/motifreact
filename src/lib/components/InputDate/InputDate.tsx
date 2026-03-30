@@ -43,7 +43,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
       setItemValue(date);
       setTypedValue(formatDate(date, format, locale));
     },
-    [format],
+    [format, locale],
   );
 
   const { size, error, readOnly, success, disabled, onFormFieldValueUpdate, name } = useRegisterFormField({
@@ -66,7 +66,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     setTypedValue(formatDate(value as Date, format, locale));
     setIsValueValid(!!value);
     onFormFieldValueUpdate?.(value as Date);
-  }, [format, onFormFieldValueUpdate, value]);
+  }, [format, locale, onFormFieldValueUpdate, value]);
 
   const applyChanges = useCallback(
     (date?: Date) => {
@@ -89,7 +89,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
         applyChanges(validatedDate);
       }
     },
-    [applyChanges, format, isValueValid, itemValue],
+    [applyChanges, format, isValueValid, itemValue, locale],
   );
 
   const dateChangeHandler = useCallback(
@@ -99,7 +99,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
       setIsValueValid(true);
       setPickerVisible(false);
     },
-    [applyChanges, format],
+    [applyChanges, format, locale],
   );
 
   const clearClickHandler = useCallback(() => {

@@ -47,7 +47,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
       const date2 = formatDate(end, format, locale);
       return date1 || date2 ? `${date1 || datePlaceholder} ${RANGE_ARROW} ${date2 || datePlaceholder}`.trim() : "";
     },
-    [datePlaceholder, format],
+    [datePlaceholder, format, locale],
   );
 
   const { visible, show, hide } = useToggle(false);

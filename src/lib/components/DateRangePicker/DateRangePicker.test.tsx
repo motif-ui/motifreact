@@ -128,16 +128,16 @@ describe("DateRangePicker", () => {
     const chosenDay = getByText(`${LOCALE_DATE_RANGE_TR_TR.last} ${dropdownDays[0]} ${LOCALE_DATE_RANGE_TR_TR.days}`);
     await userEvent.click(chosenDay);
 
-    expect(getFirstInput().value).toBe(formatDate(new Date(year, month, today.getDate() - 6), defaultDateFormat));
-    expect(getSecondInput().value).toBe(formatDate(today, defaultDateFormat));
+    expect(getFirstInput().value).toBe(formatDate(new Date(year, month, today.getDate() - 6), defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(getSecondInput().value).toBe(formatDate(today, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
   });
 
   it("should render 2 text inputs to type start and end dates", () => {
     const mockStartDate = new Date(year, month, 1);
     const mockEndDate = new Date(year, month, 18);
     const { getFirstInput, getSecondInput } = renderExt(<DateRangePicker value={[mockStartDate, mockEndDate]} />);
-    expect(getFirstInput().value).toBe(formatDate(mockStartDate, defaultDateFormat));
-    expect(getSecondInput().value).toBe(formatDate(mockEndDate, defaultDateFormat));
+    expect(getFirstInput().value).toBe(formatDate(mockStartDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(getSecondInput().value).toBe(formatDate(mockEndDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
   });
 
   it("should select a single day in one of the pickers visible when a date is typed in the correct format in the first text input", async () => {
@@ -146,8 +146,8 @@ describe("DateRangePicker", () => {
     const { rerender, getFirstInput, getFirstPicker } = renderExt(<DateRangePicker />);
 
     const startInput = getFirstInput();
-    await userEvent.type(startInput, formatDate(mockFirstDate, defaultDateFormat));
-    expect(startInput.value).toBe(formatDate(mockFirstDate, defaultDateFormat));
+    await userEvent.type(startInput, formatDate(mockFirstDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(startInput.value).toBe(formatDate(mockFirstDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
 
     const firstPicker = getFirstPicker();
     const targetButton = firstPicker.querySelector(`[data-date="${mockFirstDate.getTime()}"]`);
@@ -157,8 +157,8 @@ describe("DateRangePicker", () => {
     rerender(<DateRangePicker />);
     const mockSecondDate = new Date(year - 1, month, 10);
     await userEvent.clear(startInput);
-    await userEvent.type(startInput, formatDate(mockSecondDate, defaultDateFormat));
-    expect(startInput.value).toBe(formatDate(mockSecondDate, defaultDateFormat));
+    await userEvent.type(startInput, formatDate(mockSecondDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(startInput.value).toBe(formatDate(mockSecondDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
 
     const targetButtonSecond = firstPicker.querySelector(`[data-date="${mockSecondDate.getTime()}"]`);
     expect(targetButtonSecond).toHaveClass("selected");
@@ -170,8 +170,8 @@ describe("DateRangePicker", () => {
     const { rerender, getSecondInput, getSecondPicker } = renderExt(<DateRangePicker />);
 
     const endInput = getSecondInput();
-    await userEvent.type(endInput, formatDate(mockFutureDate, defaultDateFormat));
-    expect(endInput.value).toBe(formatDate(mockFutureDate, defaultDateFormat));
+    await userEvent.type(endInput, formatDate(mockFutureDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(endInput.value).toBe(formatDate(mockFutureDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
 
     const secondPicker = getSecondPicker();
     const targetButton = secondPicker.querySelector(`[data-date="${mockFutureDate.getTime()}"]`);
@@ -181,8 +181,8 @@ describe("DateRangePicker", () => {
     rerender(<DateRangePicker />);
     const mockPastDate = new Date(year - 5, month, 10);
     await userEvent.clear(endInput);
-    await userEvent.type(endInput, formatDate(mockPastDate, defaultDateFormat));
-    expect(endInput.value).toBe(formatDate(mockPastDate, defaultDateFormat));
+    await userEvent.type(endInput, formatDate(mockPastDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(endInput.value).toBe(formatDate(mockPastDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
 
     const targetButtonSecond = secondPicker.querySelector(`[data-date="${mockPastDate.getTime()}"]`);
     expect(targetButtonSecond).toHaveClass("selected");
@@ -194,14 +194,14 @@ describe("DateRangePicker", () => {
     const { getFirstInput, getSecondInput } = renderExt(<DateRangePicker />);
 
     const firstInput = getFirstInput();
-    await userEvent.type(firstInput, formatDate(mockBiggerDate, defaultDateFormat));
-    expect(firstInput.value).toBe(formatDate(mockBiggerDate, defaultDateFormat));
+    await userEvent.type(firstInput, formatDate(mockBiggerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(firstInput.value).toBe(formatDate(mockBiggerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
 
     const secondInput = getSecondInput();
-    await userEvent.type(secondInput, formatDate(mockLowerDate, defaultDateFormat));
+    await userEvent.type(secondInput, formatDate(mockLowerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
 
-    expect(firstInput.value).toBe(formatDate(mockLowerDate, defaultDateFormat));
-    expect(secondInput.value).toBe(formatDate(mockBiggerDate, defaultDateFormat));
+    expect(firstInput.value).toBe(formatDate(mockLowerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(secondInput.value).toBe(formatDate(mockBiggerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
   });
 
   it("should reorder the dates in the text inputs when a date more than the in the second picker is typed into the first picker", async () => {
@@ -210,14 +210,14 @@ describe("DateRangePicker", () => {
     const { getFirstInput, getSecondInput } = renderExt(<DateRangePicker />);
 
     const secondInput = getSecondInput();
-    await userEvent.type(secondInput, formatDate(mockLowerDate, defaultDateFormat));
-    expect(secondInput.value).toBe(formatDate(mockLowerDate, defaultDateFormat));
+    await userEvent.type(secondInput, formatDate(mockLowerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(secondInput.value).toBe(formatDate(mockLowerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
 
     const firstInput = getFirstInput();
-    await userEvent.type(firstInput, formatDate(mockBiggerDate, defaultDateFormat));
+    await userEvent.type(firstInput, formatDate(mockBiggerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
 
-    expect(firstInput.value).toBe(formatDate(mockLowerDate, defaultDateFormat));
-    expect(secondInput.value).toBe(formatDate(mockBiggerDate, defaultDateFormat));
+    expect(firstInput.value).toBe(formatDate(mockLowerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
+    expect(secondInput.value).toBe(formatDate(mockBiggerDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
   });
 
   it("should render the current month in the first picker and the next month in the second picker when the value prop is not given", () => {
@@ -324,7 +324,7 @@ describe("DateRangePicker", () => {
 
     const endDateButton = getFirstPicker().querySelector(`[data-date="${mockClickedDate.getTime()}"]`) as HTMLButtonElement;
     await userEvent.click(endDateButton);
-    expect(getFirstInput().value).toBe(formatDate(mockClickedDate, defaultDateFormat));
+    expect(getFirstInput().value).toBe(formatDate(mockClickedDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR));
     expect(getSecondInput().value).toBe("");
   });
 

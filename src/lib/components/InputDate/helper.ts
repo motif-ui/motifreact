@@ -11,7 +11,7 @@ type DateParts = {
 /**
  * Formats a Date object according to the specified format
  */
-export const formatDate = (date: Date | undefined, format: DateFormat, locale?: DatePickerLocale) => {
+export const formatDate = (date: Date | undefined, format: DateFormat, locale: DatePickerLocale) => {
   if (!date) return "";
   const { order, delimiter, dayFormat, monthFormat, yearFormat, prefix = [] } = format;
 
@@ -21,9 +21,8 @@ export const formatDate = (date: Date | undefined, format: DateFormat, locale?: 
     return dayFormat === "DD" ? dayString.padStart(2, "0") : dayString;
   };
 
-  const formatMonth = (month: number): string => {
-    const monthIndex = month;
-    const monthNumber = month + 1;
+  const formatMonth = (monthIndex: number): string => {
+    const monthNumber = monthIndex + 1;
 
     switch (monthFormat) {
       case "M":
@@ -31,9 +30,9 @@ export const formatDate = (date: Date | undefined, format: DateFormat, locale?: 
       case "MM":
         return monthNumber.toString().padStart(2, "0");
       case "MMM":
-        return locale?.monthsShort[monthIndex] ?? new Date(2000, monthIndex).toLocaleString("default", { month: "short" });
+        return locale.monthsShort[monthIndex];
       case "MMMM":
-        return locale?.months[monthIndex] ?? new Date(2000, monthIndex).toLocaleString("default", { month: "long" });
+        return locale.months[monthIndex];
       default:
         return monthNumber.toString();
     }
@@ -64,7 +63,7 @@ export const formatDate = (date: Date | undefined, format: DateFormat, locale?: 
 /**
  * Validates and parses a date string according to the specified format and returns a Date object
  */
-export const parseDate = (dateString: string, format: DateFormat, locale?: DatePickerLocale): Date | undefined => {
+export const parseDate = (dateString: string, format: DateFormat, locale: DatePickerLocale): Date | undefined => {
   const { order, delimiter, dayFormat, monthFormat, yearFormat, prefix = [] } = format;
 
   // Extract and validate string parts
@@ -119,15 +118,8 @@ export const parseDate = (dateString: string, format: DateFormat, locale?: DateP
 
   const parseMonth = (value: string): number => {
     if (monthFormat === "MMM" || monthFormat === "MMMM") {
-      const months = monthFormat === "MMM" ? locale?.monthsShort : locale?.months;
-
-      if (months) {
-        return months.indexOf(value) + 1;
-      }
-
-      const monthType = monthFormat === "MMM" ? "short" : "long";
-      const fallbackMonths = Array.from({ length: 12 }, (_, i) => new Date(2000, i).toLocaleString("default", { month: monthType }));
-      return fallbackMonths.indexOf(value) + 1;
+      const months = monthFormat === "MMM" ? locale.monthsShort : locale.months;
+      return months.indexOf(value) + 1;
     }
     return parseInt(value, 10);
   };

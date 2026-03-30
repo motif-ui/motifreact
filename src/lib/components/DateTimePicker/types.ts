@@ -66,4 +66,4 @@ export type DateTimePickerProviderProps = {
   onClearClick?: () => void;
 };
 
-export type DateTimePickerLocale = {} & DatePickerLocale & TimePickerLocale;
+export type DateTimePickerLocale = DatePickerLocale & TimePickerLocale;
