@@ -10,6 +10,8 @@ import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
 
 describe("InputDate", () => {
   const testDate = new Date(2025, 1, 15);
+  const formatDateWithDefaultFormatAndTR = (mockStartDate: Date) => formatDate(mockStartDate, defaultDateFormat, LOCALE_DATE_TR_TR);
+
   const renderExt = (ui: ReactNode) => {
     const result = render(ui);
 
@@ -115,7 +117,7 @@ describe("InputDate", () => {
 
   it("should display the date value given in value prop", () => {
     render(<InputDate value={testDate} />);
-    expect(screen.queryByDisplayValue(formatDate(testDate, defaultDateFormat, LOCALE_DATE_TR_TR))).toBeInTheDocument();
+    expect(screen.queryByDisplayValue(formatDateWithDefaultFormatAndTR(testDate))).toBeInTheDocument();
   });
 
   it("should display the date value and close the datepicker when the date is selected from datepicker", async () => {
@@ -126,7 +128,7 @@ describe("InputDate", () => {
 
     await userEvent.click(getInput());
     await userEvent.click(getByText(mockClickDate.getDate().toString()));
-    expect(getInput()).toHaveValue(formatDate(mockClickDate, defaultDateFormat, LOCALE_DATE_TR_TR));
+    expect(getInput()).toHaveValue(formatDateWithDefaultFormatAndTR(mockClickDate));
     expect(getPickerContainer()).not.toBeInTheDocument();
   });
 
@@ -141,7 +143,7 @@ describe("InputDate", () => {
 
     await userEvent.click(getInput());
     expect(getByText(testDate.getDate())).toHaveClass("selected");
-    expect(getInput()).toHaveValue(formatDate(testDate, defaultDateFormat, LOCALE_DATE_TR_TR));
+    expect(getInput()).toHaveValue(formatDateWithDefaultFormatAndTR(testDate));
   });
 
   it("should display the same date in the picker as given in the value prop", async () => {
@@ -179,7 +181,7 @@ describe("InputDate", () => {
 
     fireEvent.change(getInput(), { target: { value: "invalid_date" } });
     expect(onChange).toHaveBeenNthCalledWith(1, undefined);
-    fireEvent.change(getInput(), { target: { value: formatDate(testDate, defaultDateFormat, LOCALE_DATE_TR_TR) } });
+    fireEvent.change(getInput(), { target: { value: formatDateWithDefaultFormatAndTR(testDate) } });
     expect(onChange).toHaveBeenNthCalledWith(2, testDate);
 
     await userEvent.click(getInput());
@@ -189,7 +191,7 @@ describe("InputDate", () => {
     await userEvent.type(getInput(), "6");
     expect(onChange).toHaveBeenNthCalledWith(3, undefined);
 
-    fireEvent.change(getInput(), { target: { value: formatDate(testDate, defaultDateFormat, LOCALE_DATE_TR_TR) } });
+    fireEvent.change(getInput(), { target: { value: formatDateWithDefaultFormatAndTR(testDate) } });
     expect(onChange).toHaveBeenNthCalledWith(4, testDate);
 
     await userEvent.click(getClearButton());
@@ -271,7 +273,7 @@ describe("InputDate", () => {
     await userEvent.click(getInput());
     expect(getByText(mockToday.getDate())).not.toHaveClass("selected");
 
-    fireEvent.change(getInput(), { target: { value: formatDate(mockToday, defaultDateFormat, LOCALE_DATE_TR_TR) } });
+    fireEvent.change(getInput(), { target: { value: formatDateWithDefaultFormatAndTR(mockToday) } });
     expect(getByText(mockToday.getDate())).toHaveClass("selected");
   });
 });
