@@ -34,7 +34,6 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
     props,
     defaultValue: [],
     nonClearable: true,
-    suppressSelfErrorDisplay: true,
   });
 
   const changeHandler = useCallback(

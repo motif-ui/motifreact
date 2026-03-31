@@ -21,11 +21,8 @@ const FormField = (props: PropsWithRef<FormFieldProps, HTMLDivElement>) => {
   );
   const { size, formOrientation, labelOrientation } = formContext;
   const [error, setError] = useState<string>();
-  const [hasSelfError, setHasSelfError] = useState(false);
 
   const isRequired = validations?.some(validation => validation.requiredValidation);
-  const hasError = !!(error || hasSelfError);
-
   const classNames = useMemo(
     () =>
       sanitizeModuleRootClasses(styles, className, [
@@ -33,9 +30,9 @@ const FormField = (props: PropsWithRef<FormFieldProps, HTMLDivElement>) => {
         formOrientation + "Form",
         labelOrientation + "Label",
         isRequired && "required",
-        hasError ? "error" : disabled || readOnly ? "disabled" : success && "success",
+        error ? "error" : disabled || readOnly ? "disabled" : success && "success",
       ]),
-    [className, disabled, hasError, formOrientation, isRequired, labelOrientation, readOnly, size, success],
+    [className, disabled, error, formOrientation, isRequired, labelOrientation, readOnly, size, success],
   );
 
   return (
@@ -46,8 +43,7 @@ const FormField = (props: PropsWithRef<FormFieldProps, HTMLDivElement>) => {
       readOnly={readOnly}
       success={success}
       setFieldError={setError}
-      setSelfError={setHasSelfError}
-      error={hasError}
+      error={!!error}
     >
       <div className={classNames} ref={ref} data-testid="formField" {...(label && { "data-has-label": "" })} style={style}>
         {label && <span className={styles.label}>{label}</span>}
