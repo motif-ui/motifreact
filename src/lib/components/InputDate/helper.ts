@@ -1,5 +1,6 @@
 import { DateFormat } from "../Motif/Pickers/types";
 import { DateUtils } from "../../../utils/dateUtils";
+import { DatePickerLocale } from "@/components/DatePicker/types";
 
 type DateParts = {
   day?: string;
@@ -10,7 +11,7 @@ type DateParts = {
 /**
  * Formats a Date object according to the specified format
  */
-export const formatDate = (date: Date | undefined, format: DateFormat) => {
+export const formatDate = (date: Date | undefined, format: DateFormat, locale: DatePickerLocale) => {
   if (!date) return "";
   const { order, delimiter, dayFormat, monthFormat, yearFormat, prefix = [] } = format;
 
@@ -20,9 +21,21 @@ export const formatDate = (date: Date | undefined, format: DateFormat) => {
     return dayFormat === "DD" ? dayString.padStart(2, "0") : dayString;
   };
 
-  const formatMonth = (month: number): string => {
-    const monthString = (month + 1).toString();
-    return monthFormat === "MM" ? monthString.padStart(2, "0") : monthString;
+  const formatMonth = (monthIndex: number): string => {
+    const monthNumber = monthIndex + 1;
+
+    switch (monthFormat) {
+      case "M":
+        return monthNumber.toString();
+      case "MM":
+        return monthNumber.toString().padStart(2, "0");
+      case "MMM":
+        return locale.monthsShort[monthIndex];
+      case "MMMM":
+        return locale.months[monthIndex];
+      default:
+        return monthNumber.toString();
+    }
   };
 
   const formatYear = (year: number): string => {
@@ -50,7 +63,7 @@ export const formatDate = (date: Date | undefined, format: DateFormat) => {
 /**
  * Validates and parses a date string according to the specified format and returns a Date object
  */
-export const parseDate = (dateString: string, format: DateFormat): Date | undefined => {
+export const parseDate = (dateString: string, format: DateFormat, locale: DatePickerLocale): Date | undefined => {
   const { order, delimiter, dayFormat, monthFormat, yearFormat, prefix = [] } = format;
 
   // Extract and validate string parts
@@ -91,7 +104,7 @@ export const parseDate = (dateString: string, format: DateFormat): Date | undefi
       case "day":
         return DateUtils.isValidDay(value, dayFormat);
       case "month":
-        return DateUtils.isValidMonth(value, monthFormat);
+        return DateUtils.isValidMonth(value, locale, monthFormat);
       case "year":
         return DateUtils.isValidYear(value, yearFormat);
       default:
@@ -103,10 +116,18 @@ export const parseDate = (dateString: string, format: DateFormat): Date | undefi
     return undefined;
   }
 
+  const parseMonth = (value: string): number => {
+    if (monthFormat === "MMM" || monthFormat === "MMMM") {
+      const months = monthFormat === "MMM" ? locale.monthsShort : locale.months;
+      return months.indexOf(value) + 1;
+    }
+    return parseInt(value, 10);
+  };
+
   // Parse numeric values
   const year = parseInt(dateValues.year ?? "", 10);
   const fullYear = yearFormat === "YY" ? 2000 + year : year;
-  const month = parseInt(dateValues.month ?? "", 10);
+  const month = parseMonth(dateValues.month ?? "");
   const day = parseInt(dateValues.day ?? "", 10);
 
   // Create and validate date

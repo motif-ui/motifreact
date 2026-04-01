@@ -1,6 +1,7 @@
-import { DaysOfWeek, PickerPropsCommon, TimeFormat } from "../Motif/Pickers/types";
-import { Time, TimePeriod } from "../TimePicker/types";
+import { PickerPropsCommon, TimeFormat } from "../Motif/Pickers/types";
+import { Time, TimePeriod, TimePickerLocale } from "../TimePicker/types";
 import { Size4SM } from "../../types";
+import { DatePickerLocale } from "@/components/DatePicker/types";
 
 export type ActiveTab = "date" | "time";
 
@@ -65,14 +66,4 @@ export type DateTimePickerProviderProps = {
   onClearClick?: () => void;
 };
 
-export type DateTimePickerLocale = {
-  months: string[];
-  monthsShort: string[];
-  weekDays: string[];
-  firstDayOfWeek: DaysOfWeek;
-  hoursAbbr: string;
-  minutesAbbr: string;
-  secondsAbbr: string;
-  am: string;
-  pm: string;
-};
+export type DateTimePickerLocale = DatePickerLocale & TimePickerLocale;

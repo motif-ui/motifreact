@@ -22,6 +22,7 @@ type Props = {
 };
 
 const RangeInput = (props: Props) => {
+  const { locale } = useContext(DateRangePickerContext);
   const { index } = props;
   const { size, dateCouple, onDateChange, setDateCouple, getDaysOfMonth, months, setMonths } = useContext(DateRangePickerContext);
   const uniqueName = useId();
@@ -29,16 +30,16 @@ const RangeInput = (props: Props) => {
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
-    setValue(formatDate(dateCouple[index], dateFormat));
-  }, [dateCouple, index]);
+    setValue(formatDate(dateCouple[index], dateFormat, locale));
+  }, [dateCouple, index, locale]);
 
   const ref = useOutsideClick<HTMLInputElement>(() => {
-    setValue(formatDate(dateCouple[index], dateFormat));
+    setValue(formatDate(dateCouple[index], dateFormat, locale));
   });
 
   const onChange = useCallback(
     (value: InputValue) => {
-      const date = parseDate(value as string, dateFormat);
+      const date = parseDate(value as string, dateFormat, locale);
       if (!date) {
         setValue(value as string);
         return;
