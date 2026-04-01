@@ -1,7 +1,8 @@
-import { DaysOfWeek, PickerPropsCommon } from "../Motif/Pickers/types";
+import { PickerPropsCommon } from "../Motif/Pickers/types";
 import { Size4SM } from "../../types";
 import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
 import { Dispatch, SetStateAction } from "react";
+import { DatePickerLocale } from "@/components/DatePicker/types";
 
 export type DateRangePickerProps = {
   value?: (Date | undefined)[];
@@ -67,15 +68,11 @@ export type DateRangePickerContextProps = {
 };
 
 export type DateRangePickerLocale = {
-  months: string[];
-  monthsShort: string[];
-  weekDays: string[];
-  firstDayOfWeek: DaysOfWeek;
   today: string;
   last: string;
   days: string;
   choose: string;
-};
+} & DatePickerLocale;
 
 export const datePickerContextDefaultValues: DateRangePickerContextProps = {
   locale: LOCALE_DATE_RANGE_TR_TR,

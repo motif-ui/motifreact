@@ -5,18 +5,24 @@ import userEvent from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
 import { defaultDateFormat } from "../Motif/Pickers/types";
 import { formatDateTime } from "./helper";
-import { TimePickerLocale } from "../TimePicker/types";
 import { formatDate } from "../InputDate/helper";
 import { TimeFormat } from "../Motif/Pickers/types";
 import { LOCALE_DATE_TIME_TR_TR } from "@/components/DateTimePicker/locale/tr_TR";
 import { DateUtils } from "../../../utils/dateUtils";
+import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
+import { LOCALE_DATE_TIME_EN_GB } from "@/components/DateTimePicker/locale/en_GB";
 
 describe(InputDateTime, () => {
   const today = new Date();
   const dateValue = new Date(today.getFullYear(), today.getMonth(), 12);
   const sizes: InputSize[] = ["xs", "sm", "md", "lg"];
 
-  const createDateTimeString = (dateTime: Date | undefined, secondsEnabled: boolean, timeFormat: TimeFormat, locale: TimePickerLocale) => {
+  const createDateTimeString = (
+    dateTime: Date | undefined,
+    secondsEnabled: boolean,
+    timeFormat: TimeFormat,
+    locale: DateTimePickerLocale,
+  ) => {
     return formatDateTime(dateTime, defaultDateFormat, secondsEnabled, timeFormat, locale);
   };
 
@@ -77,8 +83,34 @@ describe(InputDateTime, () => {
   });
 
   it("should display the date as given dateFormat in format prop", () => {
-    const { getByPlaceholderText } = renderExt(<InputDateTime dateFormat={{ order: ["year", "month", "day"] }} />);
-    expect(getByPlaceholderText("YYYY/MM/DD __:__")).toBeInTheDocument();
+    const { rerender } = render(
+      <InputDateTime
+        value={new Date(2025, 1, 2)}
+        dateFormat={{
+          order: ["day", "month", "year"],
+          delimiter: " ",
+          yearFormat: "YY",
+          monthFormat: "MMM",
+        }}
+        locale={LOCALE_DATE_TIME_EN_GB}
+      />,
+    );
+    expect(screen.queryByDisplayValue("02 Feb 25 00:00")).toBeInTheDocument();
+
+    rerender(
+      <InputDateTime
+        value={new Date(2025, 1, 2)}
+        dateFormat={{
+          order: ["month", "day", "year"],
+          delimiter: " ",
+          yearFormat: "YY",
+          monthFormat: "MMMM",
+        }}
+        locale={LOCALE_DATE_TIME_EN_GB}
+      />,
+    );
+
+    expect(screen.queryByDisplayValue("February 02 25 00:00")).toBeInTheDocument();
   });
 
   it("should display the placeholder given in placeholder prop", () => {
@@ -301,7 +333,7 @@ describe(InputDateTime, () => {
 
   it("should select today as the date when initially no value is selected and any time value (hours, minutes or seconds) is selected via the picker", async () => {
     const { getByText, getInputText, getTimeList } = renderExt(<InputDateTime secondsEnabled />);
-    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat)} 11:00:00`;
+    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat, LOCALE_DATE_TIME_TR_TR)} 11:00:00`;
 
     await userEvent.click(getInputText());
 
@@ -314,7 +346,7 @@ describe(InputDateTime, () => {
 
   it("should select the unselected time values as 00 when initially no value is selected and any time value (hours, minutes or seconds) is selected via the picker", async () => {
     const { getByText, getInputText, getClearButton, getTimeList } = renderExt(<InputDateTime secondsEnabled />);
-    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat)}`;
+    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat, LOCALE_DATE_TIME_TR_TR)}`;
 
     const cases = [
       { col: "hours", expected: "05:00:00" },

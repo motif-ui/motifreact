@@ -43,11 +43,11 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   const formatRangeString = useCallback(
     (dates: MaybeDateRange) => {
       const [start, end] = orderDatesAndPutTimes(dates || []);
-      const date1 = formatDate(start, format);
-      const date2 = formatDate(end, format);
+      const date1 = formatDate(start, format, locale);
+      const date2 = formatDate(end, format, locale);
       return date1 || date2 ? `${date1 || datePlaceholder} ${RANGE_ARROW} ${date2 || datePlaceholder}`.trim() : "";
     },
-    [datePlaceholder, format],
+    [datePlaceholder, format, locale],
   );
 
   const { visible, show, hide } = useToggle(false);
