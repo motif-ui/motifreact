@@ -182,21 +182,29 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
     let isValid = true;
 
     const sanitizedValues = _sanitizeValuesForDisabledItems();
+    const { validationRules, fields, values } = formStateRef.current;
 
-    Object.keys(formStateRef.current.validationRules).forEach(name => {
-      formStateRef.current.validationRules[name]?.every(validation => {
-        if (!formStateRef.current.fields[name]?.disabled && !validation.validate(formStateRef.current.values[name])) {
+    for (const name of Object.keys(validationRules)) {
+      const rules = validationRules[name] || [];
+      for (const validation of rules) {
+        if (!fields[name]?.disabled && !validation.validate(values[name])) {
           isValid = false;
-          formStateRef.current.fields[name]?.errorSetter?.(validation.errorMessage);
-          return false;
+          fields[name]?.errorSetter?.(validation.errorMessage);
+          break;
         }
-        return true;
-      });
-    });
+      }
+    }
+
+    // 3. Final check for self-reported errors from components
+    if (isValid) {
+      const hasAnySelfError = Object.values(fields).some(field => field?.hasInternalError);
+      if (hasAnySelfError) {
+        isValid = false;
+      }
+    }
 
     return { isValid, values: sanitizedValues };
   }, [_sanitizeValuesForDisabledItems]);
-
   /**
    * This callback is used in the inputs the lift the value state up to the form by updating the form state. It also
    * removes the error state of the input if it has any
@@ -210,7 +218,11 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
     formStateRef.current.values[nameToUpdate] = groupName
       ? { ...(formStateRef.current.values[nameToUpdate] as object), [name]: value }
       : value;
-    formStateRef.current.fields[nameToUpdate]?.errorSetter?.(undefined);
+    const field = formStateRef.current.fields[nameToUpdate];
+    if (field) {
+      field.errorSetter?.(undefined);
+      field.hasInternalError = undefined;
+    }
   }, []);
 
   /**
@@ -220,9 +232,10 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
    * @param {string[]} errors - list of errors to pass to the form
    */
   const notifyFormForFieldSelfError = useCallback((name: string, errors: string[]) => {
-    if (errors.length) {
-      const errorToShow = errors.join("\n");
-      formStateRef.current.fields[name]?.errorSetter?.(errorToShow);
+    const field = formStateRef.current.fields[name];
+    if (field && errors.length) {
+      field.hasInternalError = true;
+      field.errorSetter?.("Lütfen bu alandaki hatayı giderin.");
     }
   }, []);
 

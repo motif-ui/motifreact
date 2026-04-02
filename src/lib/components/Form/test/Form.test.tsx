@@ -711,7 +711,7 @@ describe("Form", () => {
   it("should be rendered as error and show component level message when required validation property and component level validation is given and form submitted", async () => {
     const maxSize = 1000000;
     const input1HelperText = "Input 1 Helper Text";
-    const expectedErrorMessage = "Dosyanızın boyutu maksimum 1 MB olabilir. 'test.png' dosyanızın boyutu: 2 MB";
+    const expectedErrorMessage = "Lütfen bu alandaki hatayı giderin.";
 
     const handleSubmit = (data: FormSubmitData) => {
       const submitValues = data.values;

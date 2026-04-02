@@ -140,6 +140,7 @@ export type FormFieldInfo = {
   groupInputs?: FieldsObject;
   clearValueCallback?: () => void;
   errorSetter?: (error?: string) => void;
+  hasInternalError?: boolean;
 };
 
 /////////////////////////////////////////

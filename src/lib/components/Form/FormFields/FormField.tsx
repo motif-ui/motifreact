@@ -23,7 +23,6 @@ const FormField = (props: PropsWithRef<FormFieldProps, HTMLDivElement>) => {
   const [error, setError] = useState<string>();
 
   const isRequired = validations?.some(validation => validation.requiredValidation);
-
   const classNames = useMemo(
     () =>
       sanitizeModuleRootClasses(styles, className, [
