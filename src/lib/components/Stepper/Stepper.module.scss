@@ -1,0 +1,628 @@
+@use "@styles" as *;
+
+$variants: ("primary", "secondary", "success", "warning", "error");
+$types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
+
+@mixin step-elements {
+  .stepDot,
+  .stepNumber,
+  .stepIcon {
+    @content;
+  }
+}
+
+@mixin connector-variant-colors {
+  @each $variant in $variants {
+    $token: if($variant == "error", "danger", $variant);
+
+    .item.#{$variant}.completed,
+    .item.#{$variant}.active {
+      &:not(:first-child) .stepHeader::before {
+        background-color: var(--theme-color-surface-#{$token}-default);
+      }
+    }
+
+    .item:has(+ .item.#{$variant}.completed),
+    .item:has(+ .item.#{$variant}.active) {
+      & .stepHeader::after {
+        background-color: var(--theme-color-surface-#{$token}-default);
+      }
+    }
+  }
+}
+
+// ─── Layout ───────────────────────────────────────────────────────────────────
+
+.Root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-sizing-16x);
+}
+
+.stepList {
+  display: flex;
+  width: 100%;
+  gap: var(--base-sizing-24x);
+}
+
+.stepCount {
+  @include font("base", "sm", "500");
+  color: var(--theme-color-text-base-caption);
+}
+
+.stepCountActive {
+  color: var(--stepper-count-color);
+}
+
+.stepCountVertical {
+  text-align: center;
+}
+
+.stepCountHorizontal {
+  align-self: flex-end;
+  margin-bottom: calc(-1 * var(--base-sizing-8x));
+}
+
+.stepContent {
+  padding: var(--base-sizing-16x);
+  color: var(--theme-color-text-base-subtitle);
+}
+
+// ─── Item ─────────────────────────────────────────────────────────────────────
+
+.item {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.stepIndicator {
+  position: relative;
+  z-index: 1;
+
+  .stepDot,
+  .stepNumber,
+  .stepIcon {
+    transition: background-color 0.2s ease;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  align-self: stretch;
+
+  &::after {
+    content: "";
+    position: absolute;
+    background-color: var(--theme-color-border-light-default);
+  }
+}
+
+.item:last-child .stepHeader::after {
+  display: none;
+}
+
+.item-vertical .stepHeader {
+  flex-direction: column;
+  align-items: center;
+
+  .content {
+    margin: 0;
+    margin-top: var(--base-sizing-8x);
+    text-align: center;
+  }
+}
+
+.item-horizontal .stepHeader {
+  flex-direction: row;
+  justify-content: flex-start;
+
+  .content {
+    margin: 0;
+    margin-left: var(--base-sizing-8x);
+    text-align: left;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  color: var(--theme-color-text-base-subtitle);
+}
+
+.title {
+  @include font("base", "sm", "500");
+}
+
+.stepDot,
+.stepNumber {
+  @include flex-center();
+}
+
+.dotStatusIcon {
+  position: absolute;
+  font-size: 22px;
+  z-index: 2;
+  pointer-events: none;
+  color: var(--theme-color-text-danger-default);
+
+  .vertical & {
+    left: calc(var(--base-sizing-12x) / 2);
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .horizontal & {
+    top: calc(var(--base-sizing-12x) / 2);
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@each $variant in $variants {
+  $token: if($variant == "error", "danger", $variant);
+
+  .item.#{$variant}.completed .dotStatusIcon {
+    color: var(--theme-color-text-#{$token}-default);
+  }
+}
+
+// ─── Vertical ────────────────────────────────────────────────────────────────
+
+.Root.vertical {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: var(--base-sizing-8x);
+  align-items: start;
+
+  .stepList {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .stepContent {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+.vertical .stepList {
+  flex-direction: column;
+  width: auto;
+}
+
+.vertical.itemOrientation-vertical .stepList {
+  gap: calc(var(--base-sizing-24x) * 2);
+}
+
+.vertical {
+  .stepHeader {
+    flex-direction: row;
+  }
+
+  .item {
+    flex-direction: row;
+  }
+
+  .content {
+    margin-left: var(--base-sizing-8x);
+  }
+
+  .item-vertical {
+    justify-content: center;
+
+    .stepHeader {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .content {
+      margin-left: 0;
+      margin-top: var(--base-sizing-8x);
+      text-align: center;
+    }
+  }
+}
+
+// ─── Horizontal ──────────────────────────────────────────────────────────────
+
+.horizontal .stepList {
+  flex-direction: row;
+}
+
+.horizontal.itemOrientation-horizontal .stepList,
+.horizontal.itemOrientation-vertical .stepList {
+  gap: calc(var(--base-sizing-24x) * 4);
+}
+
+.horizontal {
+  .stepHeader {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .item-horizontal .stepHeader {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .item {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    min-height: unset;
+  }
+
+  .content {
+    margin-top: var(--base-sizing-8x);
+    text-align: center;
+  }
+}
+
+// ─── Variant + status ────────────────────────────────────────────────────────
+
+@each $variant in $variants {
+  $token: if($variant == "error", "danger", $variant);
+
+  .item.#{$variant} {
+    @include step-elements {
+      box-sizing: border-box;
+      border-radius: var(--base-radius-pill);
+      background-color: var(--theme-color-surface-base-base7);
+    }
+
+    .stepDot {
+      background-color: var(--theme-color-surface-base-base7);
+    }
+
+    .stepNumber {
+      @include font("base", "xxs", "700");
+      @include flex-center();
+      color: var(--theme-color-text-base-global-light);
+    }
+
+    .stepIcon {
+      @include flex-center();
+      width: 100%;
+      height: 100%;
+      color: var(--theme-color-text-base-global-light);
+    }
+
+    .title {
+      color: var(--theme-color-text-base-caption);
+    }
+
+    &.active,
+    &.completed {
+      @include step-elements {
+        box-sizing: border-box;
+        border-radius: var(--base-radius-pill);
+        background-color: var(--theme-color-surface-#{$token}-default);
+      }
+
+      .stepIcon {
+        font-size: var(--base-sizing-24x);
+      }
+
+      .stepNumber,
+      .stepIcon {
+        color: var(--theme-color-text-base-global-light);
+      }
+    }
+
+    &.active {
+      @include step-elements {
+        background-color: var(--theme-color-surface-#{$token}-active);
+      }
+
+      outline: none;
+
+      .title {
+        color: var(--theme-color-text-#{$token}-active);
+      }
+
+      .stepDot,
+      .stepNumber,
+      .stepIcon {
+        outline: var(--base-sizing-4x) solid var(--theme-color-border-#{$token}-focus, var(--theme-color-border-#{$token}-disabled));
+      }
+    }
+
+    &.completed {
+      .title {
+        color: if($variant == "secondary", var(--theme-color-text-#{$token}-hover), var(--theme-color-text-#{$token}-default));
+      }
+
+      &.clickable:hover {
+        @include step-elements {
+          background-color: var(--theme-color-surface-#{$token}-hover);
+        }
+      }
+
+      &.clickable:focus {
+        outline: none;
+
+        .stepDot,
+        .stepNumber,
+        .stepIcon {
+          outline: var(--base-sizing-4x) solid var(--theme-color-border-#{$token}-focus, var(--theme-color-border-#{$token}-disabled));
+        }
+      }
+    }
+
+    &.upcoming.clickable:hover {
+      @include step-elements {
+        background-color: var(--theme-color-surface-base-base6);
+      }
+    }
+
+    &.disabled {
+      pointer-events: none;
+
+      @include step-elements {
+        background-color: var(--theme-color-surface-base-base7);
+      }
+
+      .stepNumber,
+      .stepIcon {
+        color: var(--theme-color-text-base-global-light);
+      }
+    }
+  }
+}
+
+// ─── Dot type ────────────────────────────────────────────────────────────────
+
+.dot .item.completed,
+.dot .item.statusError {
+  .stepDot {
+    display: none;
+  }
+}
+
+// ─── None type ───────────────────────────────────────────────────────────────
+
+.none {
+  &.vertical {
+    &,
+    &.itemOrientation-vertical {
+      .stepList {
+        gap: var(--base-sizing-24x);
+      }
+    }
+
+    .item {
+      justify-content: center;
+    }
+
+    .content {
+      text-align: center;
+    }
+
+    .item:not(:first-child) .stepHeader::before {
+      content: none;
+    }
+
+    .item .stepHeader::after {
+      width: var(--base-sizing-1x);
+      top: calc(100% + var(--base-sizing-4x));
+      bottom: calc(-1 * (var(--base-sizing-16x) + var(--base-sizing-4x)));
+      left: calc(50% - var(--base-sizing-1x) / 2);
+    }
+  }
+
+  &.horizontal {
+    &,
+    &.itemOrientation-horizontal,
+    &.itemOrientation-vertical {
+      .stepList {
+        width: fit-content;
+        gap: var(--base-sizing-24x);
+      }
+    }
+
+    .item {
+      flex: 0 0 auto;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .stepHeader {
+      flex-direction: row;
+      align-items: center;
+      padding: 0 var(--base-sizing-8x);
+    }
+
+    .content {
+      margin-top: 0;
+    }
+
+    .item:not(:first-child) .stepHeader::before {
+      content: none;
+    }
+
+    .item .stepHeader::after {
+      height: var(--base-sizing-1x);
+      left: 100%;
+      right: calc(-1 * var(--base-sizing-24x));
+      top: calc(50% - var(--base-sizing-1x) / 2);
+    }
+  }
+
+  @each $variant in $variants {
+    $token: if($variant == "error", "danger", $variant);
+
+    .item.#{$variant}.completed {
+      & .stepHeader::after {
+        background-color: var(--theme-color-surface-#{$token}-default);
+      }
+    }
+  }
+}
+
+// ─── Type-based sizing + connector positioning ────────────────────────────────
+
+@each $type, $size in $types {
+  $stepSize: var(--base-sizing-#{$size});
+  $connectorOffset: calc($stepSize / 2 - var(--base-sizing-1x) / 2);
+
+  .#{$type} {
+    .stepIndicator {
+      width: $stepSize;
+      height: $stepSize;
+      flex-shrink: 0;
+    }
+
+    .stepDot,
+    .stepNumber {
+      width: $stepSize;
+      height: $stepSize;
+    }
+
+    @if $type == "number" {
+      .item.completed .stepIcon,
+      .item.active .stepIcon,
+      .item.error .stepIcon {
+        font-size: var(--base-sizing-16x);
+      }
+    }
+
+    &.vertical {
+      .item {
+        min-height: calc($stepSize + 2 * var(--base-sizing-16x));
+      }
+
+      .item:not(:first-child) .stepHeader::before {
+        content: "";
+        position: absolute;
+        background-color: var(--theme-color-border-light-default);
+        width: var(--base-sizing-1x);
+        top: 0;
+        height: calc(50% - $stepSize / 2 - var(--base-sizing-8x));
+        left: $connectorOffset;
+      }
+
+      .item .stepHeader::after {
+        width: var(--base-sizing-1x);
+        top: calc(50% + $stepSize / 2 + var(--base-sizing-8x));
+        bottom: calc(-1 * var(--base-sizing-24x));
+        left: $connectorOffset;
+      }
+
+      .item.item-vertical {
+        min-height: unset;
+
+        &:not(:first-child) .stepHeader::before {
+          content: none;
+        }
+
+        & .stepHeader::after {
+          width: var(--base-sizing-1x);
+          left: calc(50% - var(--base-sizing-1x) / 2);
+          top: calc(100% + var(--base-sizing-8x));
+          bottom: calc(-1 * var(--base-sizing-24x) * 2 + var(--base-sizing-8x));
+        }
+      }
+
+      @include connector-variant-colors;
+
+      &.connectorAlign-start {
+        .item:not(:first-child) .stepHeader::before {
+          left: 0;
+        }
+        .item .stepHeader::after {
+          left: 0;
+        }
+      }
+
+      &.connectorAlign-end {
+        .item:not(:first-child) .stepHeader::before {
+          left: calc($stepSize - var(--base-sizing-1x));
+        }
+        .item .stepHeader::after {
+          left: calc($stepSize - var(--base-sizing-1x));
+        }
+      }
+    }
+
+    &.horizontal {
+      .item:not(:first-child) .stepHeader::before {
+        content: "";
+        position: absolute;
+        background-color: var(--theme-color-border-light-default);
+        height: var(--base-sizing-1x);
+        left: 0;
+        width: calc(50% - $stepSize / 2 - var(--base-sizing-8x));
+        top: $connectorOffset;
+      }
+
+      .item .stepHeader::after {
+        height: var(--base-sizing-1x);
+        left: calc(50% + $stepSize / 2 + var(--base-sizing-8x));
+        right: calc(-1 * var(--base-sizing-24x));
+        top: $connectorOffset;
+      }
+
+      .item.item-horizontal,
+      .item.item-vertical {
+        flex: 0 0 auto;
+      }
+
+      // indicator at left edge — connector covers only the gap, ::after disabled
+      .item.item-horizontal {
+        & .stepHeader::after {
+          content: none;
+        }
+
+        &:not(:first-child) .stepHeader::before {
+          left: calc(-1 * var(--base-sizing-24x) * 4 + var(--base-sizing-8x));
+          width: calc(var(--base-sizing-24x) * 4 - 2 * var(--base-sizing-8x));
+          top: calc(50% - var(--base-sizing-1x) / 2);
+        }
+      }
+
+      // indicator centered — ::before covers left half, ::after covers right half into gap
+      .item.item-vertical {
+        & .stepHeader::after {
+          left: calc(50% + $stepSize / 2 + var(--base-sizing-8x));
+          right: calc(-1 * var(--base-sizing-24x) * 4);
+          top: $connectorOffset;
+        }
+
+        &:not(:first-child) .stepHeader::before {
+          left: 0;
+          width: calc(50% - $stepSize / 2 - var(--base-sizing-8x));
+          top: $connectorOffset;
+        }
+      }
+
+      @include connector-variant-colors;
+
+      &.connectorAlign-start {
+        .item:not(:first-child) .stepHeader::before {
+          top: 0;
+        }
+        .item .stepHeader::after {
+          top: 0;
+        }
+      }
+
+      &.connectorAlign-end {
+        .item:not(:first-child) .stepHeader::before {
+          top: calc($stepSize - var(--base-sizing-1x));
+        }
+        .item .stepHeader::after {
+          top: calc($stepSize - var(--base-sizing-1x));
+        }
+      }
+    }
+  }
+}
