@@ -50,6 +50,7 @@ import { TabDefaultableProps } from "../../components/Tab/types";
 import { TableDefaultableProps } from "../../components/Table/types";
 import { TextDefaultableProps } from "../../components/Text/types";
 import { TextareaDefaultableProps } from "../../components/Textarea/types";
+import { StepperDefaultableProps } from "../../components/Stepper/types";
 import { TimePickerDefaultableProps } from "../../components/TimePicker/types";
 import { ToastDefaultableProps } from "../../components/Toast/types";
 import { TooltipDefaultableProps } from "../../components/Tooltip/types";
@@ -109,6 +110,7 @@ export type ComponentDefaultableProps = {
   Slider?: SliderDefaultableProps;
   SliderRange?: SliderRangeDefaultableProps;
   //  Skeleton?: SkeletonDefaultableProps;
+  Stepper?: StepperDefaultableProps;
   Switch?: SwitchDefaultableProps;
   Tab?: TabDefaultableProps;
   Table?: TableDefaultableProps;
