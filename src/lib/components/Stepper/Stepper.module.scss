@@ -143,7 +143,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
 .stepDot,
 .stepNumber {
-  @include flex-center();
+  @include flex-center;
 }
 
 .dotStatusIcon {
@@ -284,12 +284,12 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
     .stepNumber {
       @include font("base", "xxs", "700");
-      @include flex-center();
+      @include flex-center;
       color: var(--theme-color-text-base-global-light);
     }
 
     .stepIcon {
-      @include flex-center();
+      @include flex-center;
       width: 100%;
       height: 100%;
       color: var(--theme-color-text-base-global-light);
@@ -471,20 +471,20 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 // ─── Type-based sizing + connector positioning ────────────────────────────────
 
 @each $type, $size in $types {
-  $stepSize: var(--base-sizing-#{$size});
-  $connectorOffset: calc($stepSize / 2 - var(--base-sizing-1x) / 2);
+  $step-size: var(--base-sizing-#{$size});
+  $connector-offset: calc($step-size / 2 - var(--base-sizing-1x) / 2);
 
   .#{$type} {
     .stepIndicator {
-      width: $stepSize;
-      height: $stepSize;
+      width: $step-size;
+      height: $step-size;
       flex-shrink: 0;
     }
 
     .stepDot,
     .stepNumber {
-      width: $stepSize;
-      height: $stepSize;
+      width: $step-size;
+      height: $step-size;
     }
 
     @if $type == "number" {
@@ -497,7 +497,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
     &.vertical {
       .item {
-        min-height: calc($stepSize + 2 * var(--base-sizing-16x));
+        min-height: calc($step-size + 2 * var(--base-sizing-16x));
       }
 
       .item:not(:first-child) .stepHeader::before {
@@ -506,15 +506,15 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
         background-color: var(--theme-color-border-light-default);
         width: var(--base-sizing-1x);
         top: 0;
-        height: calc(50% - $stepSize / 2 - var(--base-sizing-8x));
-        left: $connectorOffset;
+        height: calc(50% - $step-size / 2 - var(--base-sizing-8x));
+        left: $connector-offset;
       }
 
       .item .stepHeader::after {
         width: var(--base-sizing-1x);
-        top: calc(50% + $stepSize / 2 + var(--base-sizing-8x));
+        top: calc(50% + $step-size / 2 + var(--base-sizing-8x));
         bottom: calc(-1 * var(--base-sizing-24x));
-        left: $connectorOffset;
+        left: $connector-offset;
       }
 
       .item.item-vertical {
@@ -545,10 +545,10 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
       &.connectorAlign-end {
         .item:not(:first-child) .stepHeader::before {
-          left: calc($stepSize - var(--base-sizing-1x));
+          left: calc($step-size - var(--base-sizing-1x));
         }
         .item .stepHeader::after {
-          left: calc($stepSize - var(--base-sizing-1x));
+          left: calc($step-size - var(--base-sizing-1x));
         }
       }
     }
@@ -560,15 +560,15 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
         background-color: var(--theme-color-border-light-default);
         height: var(--base-sizing-1x);
         left: 0;
-        width: calc(50% - $stepSize / 2 - var(--base-sizing-8x));
-        top: $connectorOffset;
+        width: calc(50% - $step-size / 2 - var(--base-sizing-8x));
+        top: $connector-offset;
       }
 
       .item .stepHeader::after {
         height: var(--base-sizing-1x);
-        left: calc(50% + $stepSize / 2 + var(--base-sizing-8x));
+        left: calc(50% + $step-size / 2 + var(--base-sizing-8x));
         right: calc(-1 * var(--base-sizing-24x));
-        top: $connectorOffset;
+        top: $connector-offset;
       }
 
       .item.item-horizontal,
@@ -592,15 +592,15 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
       // indicator centered — ::before covers left half, ::after covers right half into gap
       .item.item-vertical {
         & .stepHeader::after {
-          left: calc(50% + $stepSize / 2 + var(--base-sizing-8x));
+          left: calc(50% + $step-size / 2 + var(--base-sizing-8x));
           right: calc(-1 * var(--base-sizing-24x) * 4);
-          top: $connectorOffset;
+          top: $connector-offset;
         }
 
         &:not(:first-child) .stepHeader::before {
           left: 0;
-          width: calc(50% - $stepSize / 2 - var(--base-sizing-8x));
-          top: $connectorOffset;
+          width: calc(50% - $step-size / 2 - var(--base-sizing-8x));
+          top: $connector-offset;
         }
       }
 
@@ -617,10 +617,10 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
       &.connectorAlign-end {
         .item:not(:first-child) .stepHeader::before {
-          top: calc($stepSize - var(--base-sizing-1x));
+          top: calc($step-size - var(--base-sizing-1x));
         }
         .item .stepHeader::after {
-          top: calc($stepSize - var(--base-sizing-1x));
+          top: calc($step-size - var(--base-sizing-1x));
         }
       }
     }
