@@ -15,9 +15,11 @@ export type DataViewDefaultableProps = {
   orientation?: "horizontal" | "vertical";
 };
 
+import type { ReactElement } from "react";
+
 export type DataViewItemProps = {
   label: string;
   value?: string | number;
-  icon?: string;
+  icon?: string | ReactElement;
   variant?: "primary" | "info" | "success" | "warning" | "danger";
 };

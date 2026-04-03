@@ -141,6 +141,16 @@ describe("DataView", () => {
     expect(container.firstChild).toHaveClass("horizontal");
   });
 
+  it("should render icon component when icon prop is given as a component in DataView.Item", () => {
+    const IconComponent = () => <span data-testid="custom-icon">icon-svg</span>;
+    const { getByTestId } = render(
+      <DataView>
+        <DataView.Item label="Name" icon={<IconComponent />} />
+      </DataView>,
+    );
+    expect(getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
   it("should render the children of DataView.Item", () => {
     const { getByText } = render(
       <DataView>

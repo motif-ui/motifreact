@@ -9,6 +9,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     imagePosition: { table: { defaultValue: { summary: "left" } } },
     variant: { table: { defaultValue: { summary: "secondary" } } },
+    icon: { description: "Icon name (string) or a custom icon component (ReactElement), e.g. `<FontAwesomeIcon />`" },
   },
   args: {
     title: "Card Header Title",

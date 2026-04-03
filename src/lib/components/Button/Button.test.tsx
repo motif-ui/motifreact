@@ -57,6 +57,12 @@ describe("Button", () => {
     expect(screen.queryByText("home")).toBeInTheDocument();
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    const IconComponent = () => <span data-testid="custom-icon">icon-svg</span>;
+    render(<Button icon={<IconComponent />} />);
+    expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
   it("should contain both the icon and the label when both props are set", () => {
     render(<Button icon="check" label="test label" />);
     expect(screen.getByText("check")).toBeInTheDocument();

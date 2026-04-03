@@ -12,7 +12,8 @@ const Button = memo((props: Props) => {
 
   return (
     <button className={`${styles.button} ${styles[`button__${type}`]}`} type="button" disabled={disabled} onClick={action}>
-      {icon && <Icon name={icon} className={styles.icon} />} {label}
+      {icon && (typeof icon === "string" ? <Icon name={icon} className={styles.icon} /> : <span className={styles.icon}>{icon}</span>)}{" "}
+      {label}
     </button>
   );
 });

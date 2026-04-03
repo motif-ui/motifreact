@@ -11,6 +11,7 @@ const meta: Meta<typeof Button> = {
     shape: { table: { defaultValue: { summary: "solid" } } },
     iconPosition: { table: { defaultValue: { summary: "left" } } },
     onClick: { action: "clicked" },
+    icon: { description: "Icon name (string) or a custom icon component (ReactElement), e.g. `<FontAwesomeIcon />`" },
   },
   args: {
     label: "Button",

@@ -13,6 +13,12 @@ describe("Chip", () => {
     expect(screen.getByText("test")).toBeDefined();
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    const IconComponent = () => <span data-testid="custom-icon">icon-svg</span>;
+    render(<Chip label="test" icon={<IconComponent />} />);
+    expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
   it("should be removed when close icon is clicked", () => {
     const { container } = render(<Chip label="test" closable />);
     expect(screen.getByTestId("iconButtonTestId")).toBeDefined();

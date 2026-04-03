@@ -2,11 +2,11 @@ import styles from "../Card.module.scss";
 import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
-import type { MouseEvent } from "react";
+import { type MouseEvent, ReactElement } from "react";
 import ImageView from "@/components/ImageView";
 
 type Props = {
-  icon?: string;
+  icon?: string | ReactElement;
   avatarText?: string;
   title?: string;
   subtitle?: string;

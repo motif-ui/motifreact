@@ -10,6 +10,7 @@ const meta: Meta<typeof Chip> = {
     shape: { table: { defaultValue: { summary: "solid" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     pill: { table: { defaultValue: { summary: "true" } } },
+    icon: { description: "Icon name (string) or a custom icon component (ReactElement), e.g. `<FontAwesomeIcon />`" },
   },
   args: {
     label: "Chips",

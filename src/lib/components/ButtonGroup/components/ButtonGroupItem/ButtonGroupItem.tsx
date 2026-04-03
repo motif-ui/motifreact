@@ -1,13 +1,13 @@
 "use client";
 
-import { MouseEventHandler, PropsWithChildren, useContext, useEffect } from "react";
+import { MouseEventHandler, PropsWithChildren, ReactElement, useContext, useEffect } from "react";
 import Button from "../Button/Button";
 import { ButtonGroupItemNumberOfChildrenContext } from "./ButtonGroupItemProvider";
 import ButtonWithDropdown from "../Button/ButtonWithDropdown";
 
 export type ButtonGroupItemProps = {
   label?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   disabled?: boolean;
   action?: MouseEventHandler<HTMLButtonElement>;
 };

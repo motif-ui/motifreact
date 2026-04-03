@@ -129,6 +129,17 @@ describe("ButtonGroup.Item", () => {
     expect(getByText("folder")).toBeInTheDocument();
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    const IconComponent = () => <span data-testid="custom-icon">icon-svg</span>;
+    const { getByTestId } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item" icon={<IconComponent />} />
+      </ButtonGroup>,
+    );
+
+    expect(getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
   it("should render the label given in the label prop", () => {
     const { getByText } = render(
       <ButtonGroup>

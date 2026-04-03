@@ -62,6 +62,12 @@ describe("Card", () => {
     expect(screen.getByText("folder")).toBeInTheDocument();
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    const IconComponent = () => <span data-testid="custom-icon">icon-svg</span>;
+    render(<Card icon={<IconComponent />} />);
+    expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
   it("should render avatar text when avatarText is set", () => {
     render(<Card avatarText="AB" />);
     expect(screen.getByText("AB")).toBeInTheDocument();
@@ -142,6 +148,12 @@ describe("Card", () => {
   it("should render the icon given in the 'icon' property of the contentActionLink", () => {
     render(<Card contentActionLink={{ text: "Motif Link", href: "https://motif-ui.com/", icon: "arrow_forward" }} />);
     expect(screen.getByText("arrow_forward")).toBeInTheDocument();
+  });
+
+  it("should render icon component when contentActionLink icon prop is given as a component", () => {
+    const IconComponent = () => <span data-testid="custom-action-icon">icon-svg</span>;
+    render(<Card contentActionLink={{ text: "Motif Link", href: "https://motif-ui.com/", icon: <IconComponent /> }} />);
+    expect(screen.getByTestId("custom-action-icon")).toBeInTheDocument();
   });
 
   it("should render action button in the content part and trigger the given action when actionButton prop is set", () => {

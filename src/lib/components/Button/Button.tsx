@@ -31,13 +31,18 @@ const Button = (props: PropsWithRef<ButtonProps, HTMLButtonElement>) => {
     size,
     pill && "pill",
     fluid && "fluid",
-    icon && `icon-${iconPosition}`,
+    !!icon && `icon-${iconPosition}`,
   ]);
 
   return (
     (icon || label) && (
       <button className={classNames} onClick={onClick} {...(disabled && { disabled })} type={htmlType} ref={ref} style={style}>
-        {icon && <Icon name={icon} className={styles.icon} size={size} />}
+        {icon &&
+          (typeof icon === "string" ? (
+            <Icon name={icon} className={styles.icon} size={size} />
+          ) : (
+            <span className={styles.icon}>{icon}</span>
+          ))}
         {label && <span>{label}</span>}
       </button>
     )

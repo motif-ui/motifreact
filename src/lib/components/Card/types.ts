@@ -7,7 +7,7 @@ export type CardProps = {
   title?: string;
   subtitle?: string;
   avatarText?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   image?: string;
   action?: { icon: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   contentTitle?: string;
@@ -17,7 +17,7 @@ export type CardProps = {
   contentLink?: { text: string; href: string; targetBlank?: boolean };
   contentActionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   contentAlternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
-  contentActionLink?: { text: string; href: string; icon?: string; targetBlank?: boolean };
+  contentActionLink?: { text: string; href: string; icon?: string | ReactElement; targetBlank?: boolean };
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
 } & CardDefaultableProps;
 

@@ -1,8 +1,9 @@
 import { Size4SM } from "../../types";
+import type { ReactElement } from "react";
 
 export type ChipProps = {
   label: string;
-  icon?: string;
+  icon?: string | ReactElement;
   variant?: ChipVariant;
   closable?: boolean;
   onClose?: () => void;

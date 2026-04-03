@@ -11,7 +11,7 @@ const DataViewItem = (props: PropsWithRefAndChildren<DataViewItemProps, HTMLDivE
   return (
     <div className={classNames} ref={ref} style={style}>
       <span className={styles.title}>
-        {icon && <Icon name={icon} className={styles.icon} />}
+        {icon && (typeof icon === "string" ? <Icon name={icon} className={styles.icon} /> : <span className={styles.icon}>{icon}</span>)}
         {label}
       </span>
       {children ? <div className={styles.value}>{children}</div> : <span className={styles.value}>{value}</span>}

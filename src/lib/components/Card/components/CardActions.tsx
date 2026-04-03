@@ -10,7 +10,7 @@ import { IconButtonProps } from "../../IconButton/types";
 type Props = {
   actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   alternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
-  actionLink?: { text: string; href: string; icon?: string; targetBlank?: boolean };
+  actionLink?: { text: string; href: string; icon?: string | ReactElement; targetBlank?: boolean };
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
 };
 
@@ -30,7 +30,8 @@ const CardActions = (props: Props) => {
         {actionLink && (
           <a href={actionLink.href} {...(actionLink.targetBlank && { target: "_blank" })} className={styles.actionLink}>
             <span>{actionLink.text}</span>
-            {actionLink.icon && <Icon name={actionLink.icon} size="md" variant="primary" />}
+            {actionLink.icon &&
+              (typeof actionLink.icon === "string" ? <Icon name={actionLink.icon} size="md" variant="primary" /> : actionLink.icon)}
           </a>
         )}
       </div>
