@@ -14,6 +14,11 @@ describe("Avatar", () => {
     expect(render(<Avatar icon="info" />).getByText("info")).toBeInTheDocument();
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    render(<Avatar icon={<span data-testid="custom-icon">★</span>} />);
+    expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
   it("should display image when image is set", () => {
     render(<Avatar image="https://picsum.photos/200" />);
     expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/200");

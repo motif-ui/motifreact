@@ -52,7 +52,7 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
   return (
     <div className={classNames} style={style} ref={ref} data-testid="accordionItem">
       <button className={styles.header} onClick={toggleAccordion}>
-        {icon && <Icon size="lg" name={icon} />}
+        {icon && (typeof icon === "string" ? <Icon size="lg" name={icon} /> : icon)}
         <span className={styles.title}>{title}</span>
         <MotifIcon className={styles.collapseIcon} size="lg" name="keyboard_arrow_down" />
       </button>

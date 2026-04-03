@@ -40,6 +40,11 @@ describe("Accordion", () => {
     expect(screen.getByText("home")).toBeInTheDocument();
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    render(<Accordion title="Accordion Title" icon={<span data-testid="custom-icon">★</span>} />);
+    expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
   it("should trigger the event given in the onToggle prop when toggled", () => {
     const handleToggle = jest.fn();
     const { container } = render(<Accordion title="Accordion Title" onToggle={handleToggle} />);

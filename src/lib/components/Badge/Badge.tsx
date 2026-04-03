@@ -19,7 +19,19 @@ const Badge = (props: PropsWithRefAndChildren<BadgeProps, HTMLDivElement>) => {
     ref,
   } = usePropsWithThemeDefaults("Badge", props);
 
-  const contentToRender = icon ? <Icon name={icon} size="xxs" /> : content ? max > 0 && Number(content) > max ? max + "+" : content : null;
+  const contentToRender = icon ? (
+    typeof icon === "string" ? (
+      <Icon name={icon} size="xxs" />
+    ) : (
+      icon
+    )
+  ) : content ? (
+    max > 0 && Number(content) > max ? (
+      max + "+"
+    ) : (
+      content
+    )
+  ) : null;
   const classNames = sanitizeModuleRootClasses(styles, className, [variant, align, dot && "dot"]);
 
   return (
