@@ -14,6 +14,7 @@ import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import InputText from "../InputText";
 import { MotifIcon, MotifIconButton } from "../Motif/Icon";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
 
 const pickerSizeMap = {
   xs: "xs",
@@ -24,7 +25,7 @@ const pickerSizeMap = {
 
 const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDate", p);
-  const { editable, pill, value, onChange, ref, style, className } = props;
+  const { editable, pill, value, onChange, ref, style, className, locale = LOCALE_DATE_TR_TR } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
 
   const placeholder = useMemo(
@@ -34,15 +35,15 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
 
   const [pickerVisible, setPickerVisible] = useState(false);
   const [itemValue, setItemValue] = useState<Date | undefined>(value as Date);
-  const [typedValue, setTypedValue] = useState<string>(formatDate(itemValue, format));
+  const [typedValue, setTypedValue] = useState<string>(formatDate(itemValue, format, locale));
   const [isValueValid, setIsValueValid] = useState(!!value);
 
   const valueStateSetter = useCallback(
     (date?: Date) => {
       setItemValue(date);
-      setTypedValue(formatDate(date, format));
+      setTypedValue(formatDate(date, format, locale));
     },
-    [format],
+    [format, locale],
   );
 
   const { size, error, readOnly, success, disabled, onFormFieldValueUpdate, name } = useRegisterFormField({
@@ -62,10 +63,10 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
 
   useEffect(() => {
     setItemValue(value as Date);
-    setTypedValue(formatDate(value as Date, format));
+    setTypedValue(formatDate(value as Date, format, locale));
     setIsValueValid(!!value);
     onFormFieldValueUpdate?.(value as Date);
-  }, [format, onFormFieldValueUpdate, value]);
+  }, [format, locale, onFormFieldValueUpdate, value]);
 
   const applyChanges = useCallback(
     (date?: Date) => {
@@ -82,23 +83,23 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
       setTypedValue(typedValue);
 
       // if there is a change in validation status
-      const validatedDate = parseDate(typedValue, format);
+      const validatedDate = parseDate(typedValue, format, locale);
       if (isValueValid !== !!validatedDate || (!!validatedDate && itemValue?.getTime() !== validatedDate.getTime())) {
         setIsValueValid(!!validatedDate);
         applyChanges(validatedDate);
       }
     },
-    [applyChanges, format, isValueValid, itemValue],
+    [applyChanges, format, isValueValid, itemValue, locale],
   );
 
   const dateChangeHandler = useCallback(
     (date?: Date) => {
       applyChanges(date);
-      setTypedValue(formatDate(date, format));
+      setTypedValue(formatDate(date, format, locale));
       setIsValueValid(true);
       setPickerVisible(false);
     },
-    [applyChanges, format],
+    [applyChanges, format, locale],
   );
 
   const clearClickHandler = useCallback(() => {

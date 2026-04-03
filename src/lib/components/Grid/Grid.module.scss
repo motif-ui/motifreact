@@ -1,9 +1,9 @@
 @use "@styles" as *;
 
 $grid-sizes: ("sm", "md", "lg", "xl");
-$GRIDS: 12;
+$grids: 12;
 @function calculate-grid-flex-width($colIdx) {
-  @return calc(($colIdx / $GRIDS * 100%) - ((1 - $colIdx / $GRIDS) * var(--theme-grid-gutter-gutter)));
+  @return calc(($colIdx / $grids * 100%) - ((1 - $colIdx / $grids) * var(--theme-grid-gutter-gutter)));
 }
 
 .Root {
@@ -40,14 +40,14 @@ $GRIDS: 12;
   }
 }
 
-@for $i from 1 through $GRIDS {
+@for $i from 1 through $grids {
   .col-size-#{$i} {
     flex: 0 0 calculate-grid-flex-width($i);
   }
 }
 
 @include screen-width-breakpoints($grid-sizes) using ($size) {
-  @for $i from 1 through $GRIDS {
+  @for $i from 1 through $grids {
     .col-#{$size}-#{$i} {
       flex: 0 0 calculate-grid-flex-width($i);
     }

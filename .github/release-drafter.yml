@@ -11,19 +11,7 @@ categories:
   - title: '🐛 Bug Fixes'
     labels:
       - 'release:patch'
-
-autolabeler:
-  - label: 'release:major'
-    title:
-      - '/^[a-z]+(\([a-z0-9\/_-]+\))?!: .+/'
-  - label: 'release:minor'
-    title:
-      - '/^feat(\([a-z0-9\/_-]+\))?: .+/'
-      - '/^perf(\([a-z0-9\/_-]+\))?: .+/'
-  - label: 'release:patch'
-    title:
-      - '/^fix(\([a-z0-9\/_-]+\))?: .+/'
-      - '/^revert(\([a-z0-9\/_-]+\))?: .+/'
+  - title: 'Other Changes'
 
 version-resolver:
   major:

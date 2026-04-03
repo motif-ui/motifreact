@@ -1,4 +1,5 @@
 import { Time } from "@/components/TimePicker/types";
+import { DatePickerLocale } from "@/components/DatePicker/types";
 
 export class DateUtils {
   static areEqualDates = (d1?: Date, d2?: Date) => {
@@ -55,10 +56,25 @@ export class DateUtils {
     return formatValid && dayValue >= 1 && dayValue <= 31;
   };
 
-  static isValidMonth = (month: string, monthFormat?: "MM" | "M") => {
-    const monthValue = parseInt(month, 10);
-    const formatValid = monthFormat === "MM" ? /^\d{2}$/.test(month) : /^\d{1,2}$/.test(month);
-    return formatValid && monthValue >= 1 && monthValue <= 12;
+  static isValidMonth = (month: string, locale: DatePickerLocale, monthFormat?: "MM" | "M" | "MMM" | "MMMM") => {
+    switch (monthFormat) {
+      case "MM":
+        return /^\d{2}$/.test(month) && parseInt(month, 10) >= 1 && parseInt(month, 10) <= 12;
+
+      case "M":
+        return /^\d{1,2}$/.test(month) && parseInt(month, 10) >= 1 && parseInt(month, 10) <= 12;
+
+      case "MMM": {
+        return locale.monthsShort.includes(month);
+      }
+
+      case "MMMM": {
+        return locale.months.includes(month);
+      }
+
+      default:
+        return /^\d{1,2}$/.test(month) && parseInt(month, 10) >= 1 && parseInt(month, 10) <= 12;
+    }
   };
 
   static isValidYear = (year: string, yearFormat?: "YYYY" | "YY") => {

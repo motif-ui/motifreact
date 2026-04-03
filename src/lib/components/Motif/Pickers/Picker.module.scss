@@ -3,9 +3,9 @@
 @use "./pickerValues";
 
 // size, padding
-$sizesPicker: (("xs", "4x"), ("sm", "8x"), ("md", "12x"), ("lg", "16x"));
+$sizes-picker: (("xs", "4x"), ("sm", "8x"), ("md", "12x"), ("lg", "16x"));
 
-@each $name, $padding in $sizesPicker {
+@each $name, $padding in $sizes-picker {
   .#{$name} {
     &:not(.wide) {
       min-width: map.get(pickerValues.$size, $name, "width");

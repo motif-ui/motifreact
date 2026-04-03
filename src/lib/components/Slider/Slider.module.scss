@@ -2,42 +2,12 @@
 @use "./sliderValues" as *;
 
 // variant, color, border color, disabled, border disabled
-$colorTypes: (
-  (
-    "secondary",
-    var(--theme-color-surface-base-base7),
-    var(--theme-color-surface-base-base7),
-    var(--theme-color-surface-base-base6),
-    var(--theme-color-surface-base-base6)
-  ),
-  (
-    "warning",
-    var(--theme-color-surface-warning-default),
-    var(--theme-color-surface-warning-default),
-    var(--theme-color-surface-warning-inverse),
-    var(--theme-color-border-warning-disabled)
-  ),
-  (
-    "success",
-    var(--theme-color-surface-success-default),
-    var(--theme-color-surface-success-default),
-    var(--theme-color-surface-success-inverse),
-    var(--theme-color-border-success-disabled)
-  ),
-  (
-    "danger",
-    var(--theme-color-surface-danger-default),
-    var(--theme-color-surface-danger-default),
-    var(--theme-color-surface-danger-inverse),
-    var(--theme-color-border-danger-disabled)
-  ),
-  (
-    "primary",
-    var(--theme-color-surface-primary-default),
-    var(--theme-color-surface-primary-default),
-    var(--theme-color-surface-primary-inverse),
-    var(--theme-color-border-primary-disabled)
-  )
+$color-types: (
+  ("secondary", var(--theme-color-surface-base-base7), var(--theme-color-surface-base-base7), var(--theme-color-surface-base-base6), var(--theme-color-surface-base-base6)),
+  ("warning", var(--theme-color-surface-warning-default), var(--theme-color-surface-warning-default), var(--theme-color-surface-warning-inverse), var(--theme-color-border-warning-disabled)),
+  ("success", var(--theme-color-surface-success-default), var(--theme-color-surface-success-default), var(--theme-color-surface-success-inverse), var(--theme-color-border-success-disabled)),
+  ("danger", var(--theme-color-surface-danger-default), var(--theme-color-surface-danger-default), var(--theme-color-surface-danger-inverse), var(--theme-color-border-danger-disabled)),
+  ("primary", var(--theme-color-surface-primary-default), var(--theme-color-surface-primary-default), var(--theme-color-surface-primary-inverse), var(--theme-color-border-primary-disabled))
 );
 
 @mixin slider-style-thumb {
@@ -62,7 +32,7 @@ $colorTypes: (
   border-color: $borderDisabledColor;
 }
 
-@each $size, $progressHeight, $thumb, $thumbHover, $thumbBorder, $marginTop, $horizontalPadding in $sizesPositions {
+@each $size, $progressHeight, $thumb, $thumbHover, $thumbBorder, $marginTop, $horizontalPadding in $sizes-positions {
   .#{$size} {
     &.Root {
       min-height: var(--base-sizing-#{$thumbHover});
@@ -95,7 +65,7 @@ $colorTypes: (
   }
 }
 
-@each $variant, $color, $borderColor, $disabledColor, $borderDisabledColor in $colorTypes {
+@each $variant, $color, $borderColor, $disabledColor, $borderDisabledColor in $color-types {
   .#{$variant} {
     .fill {
       background: $color;
@@ -140,10 +110,7 @@ $colorTypes: (
 
 .mRange {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  inset: 0;
   appearance: none;
   background: transparent;
   z-index: 1;
@@ -155,7 +122,7 @@ $colorTypes: (
   }
 
   &::-webkit-slider-thumb {
-    -webkit-appearance: none;
+    appearance: none;
     @include slider-style-thumb;
   }
   &::-moz-range-thumb {

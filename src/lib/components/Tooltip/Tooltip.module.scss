@@ -1,14 +1,9 @@
 @use "@styles" as *;
 
-//size, horizontalPadding, verticalPadding, textSize, pointerSize
-$sizes: (
-  ("xs", "4x", "2x", "xxs", "6x"),
-  ("sm", "8x", "4x", "xs", "8x"),
-  ("md", "12x", "6x", "sm", "10x"),
-  ("lg", "16x", "8x", "md", "12x")
-);
+// size, horizontalPadding, verticalPadding, textSize, pointerSize
+$sizes: (("xs", "4x", "2x", "xxs", "6x"), ("sm", "8x", "4x", "xs", "8x"), ("md", "12x", "6x", "sm", "10x"), ("lg", "16x", "8x", "md", "12x"));
 
-//position, flexDirection, alignArrow, rotation, transformOrigin, trianglePosition
+// position, flexDirection, alignArrow, rotation, transformOrigin, trianglePosition
 $positions: (
   ("top", column-reverse, center, 180deg, bottom left, bottom),
   ("bottom", column, center, 0deg, top left, top),
@@ -82,7 +77,7 @@ $positions: (
       .triangle {
         align-self: $alignArrow;
         transform: rotate($rotate);
-        @if ($trianglePos != "top" and $trianglePos != "bottom") {
+        @if $trianglePos != "top" and $trianglePos != "bottom" {
           margin: 0;
         }
       }

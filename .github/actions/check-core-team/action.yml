@@ -26,8 +26,8 @@ runs:
               repo: context.repo.repo,
               username: author,
             });
-            const isInternal = ['admin', 'maintain'].includes(data.permission);
-            core.info(`Actor: ${author} | Permission: ${data.permission} | Internal: ${isInternal}`);
+            const isInternal = ['admin', 'maintain'].includes(data.role_name);
+            core.info(`Actor: ${author} | Role: ${data.role_name} | Internal: ${isInternal}`);
             core.setOutput('is-internal', String(isInternal));
           } catch {
             core.info(`Actor: ${author} | Access error!`);

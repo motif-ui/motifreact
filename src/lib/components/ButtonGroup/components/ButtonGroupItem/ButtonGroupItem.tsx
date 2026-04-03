@@ -23,5 +23,5 @@ const ButtonGroupItem = (props: PropsWithChildren<ButtonGroupItemProps>) => {
   return !hasParentGroupItem && props.children ? <ButtonWithDropdown {...props} /> : <Button type="single" {...props} />;
 };
 
-ButtonGroupItem.displayName = "ButtonGroupItem";
+ButtonGroupItem.displayName = "ButtonGroup.Item";
 export default ButtonGroupItem;

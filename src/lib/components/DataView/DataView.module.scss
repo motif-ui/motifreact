@@ -51,8 +51,8 @@ $dataview-sizes: ("xs", "sm", "md", "lg", "xl");
 .item {
   display: flex;
 
-  $colorVariants: "primary", "info", "success", "warning", "danger";
-  @each $variant in $colorVariants {
+  $color-variants: "primary", "info", "success", "warning", "danger";
+  @each $variant in $color-variants {
     &.#{$variant} {
       background-color: var(--theme-color-surface-#{$variant}-inverse);
     }

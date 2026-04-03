@@ -1,8 +1,8 @@
 @use "@styles" as *;
 
-//size, horizontalPadding, verticalPadding, iconPadding
+// size, horizontalPadding, verticalPadding, iconPadding
 $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8x", "22x"), ("lg", "20x", "10x", "24x"));
-$iconPositions: ("left", "right");
+$icon-positions: ("left", "right");
 
 .Root {
   position: relative;
@@ -94,16 +94,14 @@ $iconPositions: ("left", "right");
         padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
       }
 
-      @each $iconPos in $iconPositions {
+      @each $iconPos in $icon-positions {
         &.has-icon-#{$iconPos} {
           .icon {
             margin-#{$iconPos}: var(--base-sizing-#{$paddingH});
           }
 
           input {
-            padding-#{$iconPos}: calc(
-              var(--base-sizing-#{$iconPadding}) + var(--base-sizing-#{$paddingH}) + var(--base-sizing-#{$paddingV})
-            );
+            padding-#{$iconPos}: calc(var(--base-sizing-#{$iconPadding}) + var(--base-sizing-#{$paddingH}) + var(--base-sizing-#{$paddingV}));
           }
         }
       }

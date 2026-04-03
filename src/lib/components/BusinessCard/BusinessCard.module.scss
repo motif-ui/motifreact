@@ -1,19 +1,10 @@
 @use "@styles" as *;
 
-$variants: (
-  ("neutral", "light"),
-  ("primary", "primary"),
-  ("secondary", "secondary"),
-  ("info", "info"),
-  ("success", "success"),
-  ("danger", "danger"),
-  ("warning", "warning")
-);
+$variants: (("neutral", "light"), ("primary", "primary"), ("secondary", "secondary"), ("info", "info"), ("success", "success"), ("danger", "danger"), ("warning", "warning"));
 
 .Root {
   display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  flex-flow: column nowrap;
   border-radius: var(--theme-sizing-radius-default);
   padding: var(--base-sizing-16x);
   gap: var(--base-sizing-16x);
@@ -94,13 +85,14 @@ $variants: (
         background-color: var(--theme-color-surface-#{$name}-hover);
       }
 
-      @if ($variant != "neutral") {
+      @if $variant != "neutral" {
         .title,
         .description,
         .link,
         .icon,
         .iconButton {
-          color: var(--theme-color-text-base-global-#{if($variant == "warning", "dark", "light")});
+          $tone: if($variant == "warning", "dark", "light");
+          color: var(--theme-color-text-base-global-#{$tone});
         }
       } @else {
         .icon {

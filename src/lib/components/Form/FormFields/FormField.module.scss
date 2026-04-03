@@ -11,22 +11,9 @@ $sizes: (
 .Root {
   display: flex;
 
-  &.disabled {
-    .label {
-      color: var(--theme-color-text-base-disabled);
-      &:before,
-      &:after {
-        color: inherit !important;
-      }
-    }
-    .helper {
-      color: var(--theme-color-text-base-disabled);
-    }
-  }
-
   &.error {
-    &.required .label:before,
-    &.required .label:after,
+    &.required .label::before,
+    &.required .label::after,
     .helper {
       color: var(--theme-color-text-danger-default);
     }
@@ -35,13 +22,30 @@ $sizes: (
   &.success .helper {
     color: var(--theme-color-text-success-default);
   }
+
+  &.disabled {
+    .label {
+      &,
+      &::before,
+      &::after {
+        color: var(--theme-color-text-base-disabled);
+      }
+    }
+    &.required .label::before,
+    &.required .label::after {
+      color: var(--theme-color-text-base-disabled);
+    }
+    .helper {
+      color: var(--theme-color-text-base-disabled);
+    }
+  }
 }
 
 .label {
   color: var(--theme-color-text-base-title-light);
   .required & {
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       color: var(--theme-color-text-base-caption);
       padding: 0 var(--base-sizing-2x);
     }
@@ -77,14 +81,14 @@ $sizes: (
 
 .horizontalLabel {
   align-items: flex-start;
-  &.required .label:before {
+  &.required .label::before {
     content: "*";
   }
 }
 
 .verticalLabel {
   flex-direction: column;
-  &.required .label:after {
+  &.required .label::after {
     content: "*";
   }
 }
@@ -100,12 +104,14 @@ $sizes: (
   .#{$size} {
     &.verticalLabel {
       gap: var(--base-sizing-#{$gapVLabel});
-      &.required .label:after {
+      &.required .label::after {
         font-weight: var(--typography-base-#{$size}-700-font-weight);
       }
       &.horizontalForm:not(:has(> .label)) {
         @at-root :has(.label) > & {
-          padding-top: calc(var(--base-sizing-#{$gapVLabel}) + var(--typography-base-#{$size}-500-line-height));
+          $gap-var: --base-sizing-#{$gapVLabel};
+          $line-height-var: --typography-base-#{$size}-500-line-height;
+          padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
         }
       }
     }
@@ -119,7 +125,7 @@ $sizes: (
       .label {
         margin-top: var(--base-sizing-#{$marginTopHLabel});
       }
-      &.required .label:before {
+      &.required .label::before {
         font-weight: var(--typography-base-#{$size}-700-font-weight);
       }
     }

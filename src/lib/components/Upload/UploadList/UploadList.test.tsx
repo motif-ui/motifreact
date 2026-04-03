@@ -45,6 +45,31 @@ describe("UploadList", () => {
     expect(getDragArea()).toHaveClass("success");
   });
 
+  it("should keep error styling after file is added", async () => {
+    const { getDragArea, getInput } = renderExt(<UploadList {...requiredProps} error autoUpload={false} />);
+    expect(getDragArea()).toHaveClass("error");
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getDragArea()).toHaveClass("error");
+  });
+
+  it("should keep success styling after file is added", async () => {
+    const { getDragArea, getInput } = renderExt(<UploadList {...requiredProps} success autoUpload={false} />);
+    expect(getDragArea()).toHaveClass("success");
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getDragArea()).toHaveClass("success");
+  });
+
+  it("should be rendered as disabled when readOnly prop is true", async () => {
+    const { getDragArea, getBrowseButton, getInput, getDeleteButton, getFileItemFirst } = renderExt(
+      <UploadList {...requiredProps} readOnly autoUpload={false} />,
+    );
+    expect(getDragArea()).toHaveClass("disabled");
+    expect(getBrowseButton()).toBeDisabled();
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getFileItemFirst()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+  });
+
   it("should be rendered as disabled when disabled prop is true", async () => {
     const handleChange = (val?: InputValue) => {
       const files = val as FileType[];

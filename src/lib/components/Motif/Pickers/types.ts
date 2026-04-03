@@ -15,7 +15,7 @@ export type DateFormat = {
   prefix?: string[];
   delimiter?: string;
   dayFormat?: "DD" | "D";
-  monthFormat?: "MM" | "M";
+  monthFormat?: "M" | "MM" | "MMM" | "MMMM";
   yearFormat?: "YYYY" | "YY";
 };
 

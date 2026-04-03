@@ -1,26 +1,26 @@
-name: Pull Request
+name: UI
 
 on:
   pull_request_target:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
   pull-requests: read
 
 jobs:
-  ci:
-    uses: ./.github/workflows/ci-node.yml
-
   chromatic:
-    name: Run Chromatic
+    name: Chromatic
     runs-on: ubuntu-latest
     environment: development
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: 'false'
 
       - uses: ./.github/actions/setup-node-deps

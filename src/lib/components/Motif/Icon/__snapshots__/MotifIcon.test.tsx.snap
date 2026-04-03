@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MotifIcon should render with only required props 1`] = `
+<div>
+  <span
+    class="Root md motifIconsDefault"
+  >
+    home
+  </span>
+</div>
+`;

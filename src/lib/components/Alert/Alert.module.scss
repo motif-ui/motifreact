@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-$colorTypes: (("secondary", "light"), ("warning", "warning"), ("success", "success"), ("danger", "danger"), ("info", "info"));
+$color-types: (("secondary", "light"), ("warning", "warning"), ("success", "success"), ("danger", "danger"), ("info", "info"));
 
 .Root {
   display: flex;
@@ -15,7 +15,7 @@ $colorTypes: (("secondary", "light"), ("warning", "warning"), ("success", "succe
     opacity: 0;
   }
 
-  @each $colorType, $color in $colorTypes {
+  @each $colorType, $color in $color-types {
     &.#{$colorType} {
       background-color: var(--theme-color-surface-#{$color}-negative);
       color: var(--theme-color-text-base-title);

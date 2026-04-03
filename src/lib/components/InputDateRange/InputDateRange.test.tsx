@@ -6,6 +6,8 @@ import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
+import { LOCALE_DATE_RANGE_EN_GB } from "@/components/DateRangePicker/locale/en_GB";
+import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
 
 describe("InputDateRange", () => {
   const user = userEvent.setup();
@@ -13,8 +15,8 @@ describe("InputDateRange", () => {
   const placeholder = "__ / __ / ____"; // default formata göre "DD/MM/YYYY"
 
   const createDateRangeString = (inputDate1: Date | undefined, inputDate2: Date | undefined) => {
-    const date1 = formatDate(inputDate1, defaultDateFormat);
-    const date2 = formatDate(inputDate2, defaultDateFormat);
+    const date1 = formatDate(inputDate1, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR);
+    const date2 = formatDate(inputDate2, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR);
     return `${date1} ${RANGE_ARROW} ${date2}`.trim();
   };
 
@@ -47,20 +49,37 @@ describe("InputDateRange", () => {
   });
 
   it("should display the dates as given format in format prop with an arrow between them", () => {
-    render(
+    const { rerender } = render(
       <InputDateRange
-        value={testDateArr}
+        value={[new Date(2025, 1, 12), new Date(2025, 1, 21)]}
         format={{
           order: ["year", "month", "day"],
           prefix: ["*", "*", "*"],
           delimiter: "-",
           dayFormat: "D",
-          monthFormat: "M",
+          monthFormat: "MMM",
           yearFormat: "YY",
         }}
+        locale={LOCALE_DATE_RANGE_EN_GB}
       />,
     );
-    expect(screen.queryByDisplayValue(`*25-*5-*12 ${RANGE_ARROW} *25-*5-*21`)).toBeInTheDocument();
+    expect(screen.queryByDisplayValue(`*25-*Feb-*12 ${RANGE_ARROW} *25-*Feb-*21`)).toBeInTheDocument();
+
+    rerender(
+      <InputDateRange
+        value={[new Date(2025, 1, 12), new Date(2025, 1, 21)]}
+        format={{
+          order: ["year", "month", "day"],
+          prefix: ["*", "*", "*"],
+          delimiter: "-",
+          dayFormat: "D",
+          monthFormat: "MMMM",
+          yearFormat: "YY",
+        }}
+        locale={LOCALE_DATE_RANGE_EN_GB}
+      />,
+    );
+    expect(screen.queryByDisplayValue(`*25-*February-*12 ${RANGE_ARROW} *25-*February-*21`)).toBeInTheDocument();
   });
 
   it("should display the placeholder given in placeholder prop", () => {

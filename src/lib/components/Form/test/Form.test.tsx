@@ -43,6 +43,7 @@ import { DateUtils } from "../../../../utils/dateUtils";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
+import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
 
 describe("Form", () => {
   it("should be rendered with only required props and items", () => {
@@ -356,8 +357,8 @@ describe("Form", () => {
     // Input Date
     const newDateValue = new Date(2024, 1, 21);
     await user.type(
-      screen.getByDisplayValue(formatDate(DateUtils.getTodayTimeless(), defaultDateFormat)),
-      formatDate(newDateValue, defaultDateFormat),
+      screen.getByDisplayValue(formatDate(DateUtils.getTodayTimeless(), defaultDateFormat, LOCALE_DATE_TR_TR)),
+      formatDate(newDateValue, defaultDateFormat, LOCALE_DATE_TR_TR),
     );
 
     // Switch
@@ -430,7 +431,7 @@ describe("Form", () => {
     // Input Date
     const newDateValue = new Date(2024, 1, 21);
     expect(inputItems[7].children[1]).toHaveAttribute("readOnly");
-    await user.type(inputItems[7].lastElementChild!, formatDate(newDateValue, defaultDateFormat));
+    await user.type(inputItems[7].lastElementChild!, formatDate(newDateValue, defaultDateFormat, LOCALE_DATE_TR_TR));
 
     // Pin Code
     expect(screen.getAllByTestId("pinCodeItem")[0]).toHaveAttribute("readonly");
@@ -595,7 +596,7 @@ describe("Form", () => {
           validations={
             item.key === "textarea"
               ? undefined
-              : item.key === "uploadInputPF" || item.key === "uploadListOF"
+              : item.key === "uploadInputPF" || item.key === "uploadListOF" || item.key === "uploadDraggerDF"
                 ? [Validations.RequiredUploadedFile]
                 : [Validations.Required]
           }
@@ -626,8 +627,8 @@ describe("Form", () => {
         // Textarea
         expect(getFormField(index)).not.toHaveClass("error");
         expect(getFormField(index)).toHaveTextContent("Helper Text " + element.key);
-      } else if (element.key === "uploadInputPF" || element.key === "uploadListOF") {
-        // UploadList, UploadInput
+      } else if (element.key === "uploadInputPF" || element.key === "uploadListOF" || element.key === "uploadDraggerDF") {
+        // UploadList, UploadInput, UploadDragger
         expect(getFormField(index)).toHaveClass("error");
         expect(getFormField(index)).toHaveTextContent(fileValidationMessage);
       } else if (element.key != "inputCheckboxGroup") {
@@ -655,7 +656,9 @@ describe("Form", () => {
         key={item.key}
         helperText={"Helper Text " + item.key}
         validations={
-          item.key === "uploadInputPF" || item.key === "uploadListOF" ? [Validations.RequiredUploadedFile] : [Validations.Required]
+          item.key === "uploadInputPF" || item.key === "uploadListOF" || item.key === "uploadDraggerDF"
+            ? [Validations.RequiredUploadedFile]
+            : [Validations.Required]
         }
       >
         {item}
@@ -670,7 +673,9 @@ describe("Form", () => {
     items.forEach((element, index) => {
       expect(getFormField(index)).toHaveClass("error");
       expect(getFormField(index)).toHaveTextContent(
-        element.key === "uploadInputPF" || element.key === "uploadListOF" ? fileValidationMessage : validationMessage,
+        element.key === "uploadInputPF" || element.key === "uploadListOF" || element.key === "uploadDraggerDF"
+          ? fileValidationMessage
+          : validationMessage,
       );
     });
 
@@ -690,6 +695,11 @@ describe("Form", () => {
         target: { files: [MOCK.filePng2mb] },
       }),
     );
+    await act(() =>
+      fireEvent.drop(screen.getByTestId("uploadDragger").firstElementChild as Element, {
+        dataTransfer: { files: [MOCK.filePng2mb] },
+      }),
+    );
     await user.type(screen.getByTestId("textareaItem"), value);
 
     items.forEach((element, index) => {
@@ -701,13 +711,13 @@ describe("Form", () => {
   it("should be rendered as error and show component level message when required validation property and component level validation is given and form submitted", async () => {
     const maxSize = 1000000;
     const input1HelperText = "Input 1 Helper Text";
-    const expectedErrorMessage = "Dosyanızın boyutu maksimum 1 MB olabilir. 'test.png' dosyanızın boyutu: 2 MB";
+    const expectedErrorMessage = "Lütfen bu alandaki hatayı giderin.";
 
     const handleSubmit = (data: FormSubmitData) => {
       const submitValues = data.values;
 
-      const { personalFiles } = submitValues;
-      const submittedFiles = personalFiles ? (submitValues.personalFiles as FileType[]) : [];
+      const { files } = submitValues;
+      const submittedFiles = files ? (submitValues.files as FileType[]) : [];
       if (submittedFiles.length) {
         const submittedFile = submittedFiles[0];
         expect(submittedFile.status).toBe(STATUS.CHECK_FAIL);
@@ -719,8 +729,8 @@ describe("Form", () => {
 
     render(
       <Form onSubmit={handleSubmit}>
-        <Form.Field name="personalFiles" helperText={input1HelperText}>
-          <UploadInput {...requiredProps} name="personalFiles" maxSize={maxSize} />
+        <Form.Field name="files" helperText={input1HelperText}>
+          <UploadInput {...requiredProps} name="files" maxSize={maxSize} />
         </Form.Field>
       </Form>,
     );
@@ -750,17 +760,16 @@ describe("Form", () => {
     await user.click(button);
   });
 
-  it("should not be rendered as error but show component level error message when required validation property and component level validation is given and form submitted", async () => {
+  it("should be rendered as error and show component level error message when required validation property and component level validation is given and form submitted", async () => {
     const maxSize = 500000;
     const inputHelperText = "Input Helper Text";
     const expectedErrorMessage = "Dosyanızın boyutu maksimum 500 KB olabilir. 'test.gif' dosyanızın boyutu: 1 MB";
 
     const handleSubmit = (data: FormSubmitData) => {
       const submitValues = data.values;
-
-      if (submitValues.personalFiles) {
-        const officialFiles = submitValues.officialFiles as FileType[];
-        const submittedFile = officialFiles[0];
+      if (submitValues.length) {
+        const files = submitValues.files as FileType[];
+        const submittedFile = files[0];
         expect(submittedFile.status).toBe(STATUS.CHECK_FAIL);
         expect(submittedFile.file.size).toBe(MOCK.fileGif1mb.size);
         expect(submittedFile.file.name).toBe(MOCK.fileGif1mb.name);
@@ -770,8 +779,8 @@ describe("Form", () => {
 
     render(
       <Form onSubmit={handleSubmit}>
-        <Form.Field name="officialFiles" helperText={inputHelperText}>
-          <UploadList {...requiredProps} name="officialFiles" maxSize={maxSize} />
+        <Form.Field name="files" helperText={inputHelperText}>
+          <UploadList {...requiredProps} name="files" maxSize={maxSize} />
         </Form.Field>
       </Form>,
     );
@@ -793,7 +802,7 @@ describe("Form", () => {
     await act(() => fireEvent.change(fileInput!, { target: { files: [MOCK.fileGif1mb] } }));
 
     // Upload Item - Errors
-    expect(uploadItem).not.toHaveClass("error");
+    expect(uploadItem).toHaveClass("error");
     expect(getFormField(0)).not.toHaveTextContent(inputHelperText);
     expect(getFormField(0)).toHaveTextContent(MOCK.fileGif1mb.name);
     expect(getFormField(0)).toHaveTextContent(expectedErrorMessage);

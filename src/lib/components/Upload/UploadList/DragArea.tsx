@@ -42,7 +42,8 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
     "dragArea",
     hovered && "onDrag",
     !noFiles && "flatBottom",
-    isDisabled ? "disabled" : noFiles && (error ? "error" : success && "success"),
+    isDisabled && "disabled",
+    error ? "error" : success && "success",
   );
 
   const selectedFilesEqualityString = selectedFiles

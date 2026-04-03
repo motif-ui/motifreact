@@ -4,7 +4,7 @@
   background: linear-gradient(135deg, #e6f0ff 0%, #fff0f5 100%);
   border: 2px solid #bccfee;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
 
   .heroHeader {
     display: flex;
@@ -108,7 +108,7 @@
         padding: 4px;
         border: 2px solid #8b5cf6;
         border-radius: 6px;
-        background: rgba(139, 92, 246, 0.05);
+        background: rgb(139 92 246 / 5%);
 
         &::after {
           content: "Selected";

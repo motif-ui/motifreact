@@ -7,13 +7,6 @@ $sizes: (
   ("md", "8x", "16x", "8x", "190x", "22x", -1, "sm", "18x"),
   ("lg", "10x", "20x", "10x", "256x", "24x", 0, "md", "20x")
 );
-$selectedItemSizes: (
-  //sizeName, fontSize, iconSize
-  ("xs", "xs", "12x"),
-  ("sm", "xs", "16x"),
-  ("md", "sm", "18x"),
-  ("lg", "md", "20x")
-);
 
 .Root {
   position: relative;
@@ -128,7 +121,7 @@ $selectedItemSizes: (
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: #cccccc;
     border-radius: var(--theme-sizing-radius-default);
   }
 
@@ -186,10 +179,7 @@ $selectedItemSizes: (
 @each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $selectedSize, $selectedIconSize in $sizes {
   .#{$size} {
     .input {
-      padding: var(--base-sizing-#{$paddingV}) +
-        var(--base-sizing-#{$paddingV}) +
-        var(--base-sizing-#{$paddingV}) +
-        var(--base-sizing-#{$paddingH});
+      padding: var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingH});
 
       gap: var(--base-sizing-#{$gap});
 
@@ -240,7 +230,7 @@ $selectedItemSizes: (
 
       .loader {
         position: absolute;
-        top: addUnit($loaderTop);
+        top: add-unit($loaderTop);
         right: 0;
       }
     }
