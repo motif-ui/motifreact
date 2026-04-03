@@ -51,7 +51,11 @@ const Breadcrumb = (props: PropsWithRef<BreadcrumbProps, HTMLUListElement>) => {
       <ul className={classNames} ref={ref} style={style}>
         {itemsToRender.length > 0 &&
           (homeIcon ? (
-            <Icon name={homeIcon} className={styles["homepage-icon"]} />
+            typeof homeIcon === "string" ? (
+              <Icon name={homeIcon} className={styles["homepage-icon"]} />
+            ) : (
+              <span className={styles["homepage-icon"]}>{homeIcon}</span>
+            )
           ) : (
             <MotifIcon name="home" className={styles["homepage-icon"]} />
           ))}

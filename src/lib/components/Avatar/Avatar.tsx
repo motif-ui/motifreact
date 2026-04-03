@@ -22,7 +22,11 @@ const Avatar = (props: PropsWithRef<AvatarProps, HTMLDivElement>) => {
       ) : letters ? (
         <span>{letters.toUpperCase().substring(0, size === "xs" || size === "sm" ? 1 : 2)}</span>
       ) : icon ? (
-        <Icon name={icon} />
+        typeof icon === "string" ? (
+          <Icon name={icon} />
+        ) : (
+          icon
+        )
       ) : (
         <MotifIcon name="person" />
       )}

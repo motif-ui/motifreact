@@ -6,6 +6,7 @@ const meta: Meta<typeof Accordion> = {
   component: Accordion,
   argTypes: {
     expanded: { table: { defaultValue: { summary: "false" } } },
+    icon: { description: "Icon name (string) or a custom icon component (ReactElement), e.g. `<FontAwesomeIcon />`" },
   },
   args: {
     text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae fermentum arcu, vitae dignissim quam. Suspendisse eu nisi

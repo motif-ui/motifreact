@@ -84,6 +84,15 @@ describe("Badge", () => {
     expect(getByTestId(container, "badgeItem").textContent).not.toBe(testContent);
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    const { container } = render(
+      <Badge icon={<span data-testid="custom-icon">★</span>}>
+        <button />
+      </Badge>,
+    );
+    expect(getByTestId(container, "badgeItem").querySelector("[data-testid='custom-icon']")).toBeInTheDocument();
+  });
+
   it("should render no text content when the dot is true", () => {
     const { container } = render(
       <Badge content="test" dot>
