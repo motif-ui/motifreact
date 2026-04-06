@@ -60,12 +60,6 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
 .stepCountHorizontal {
   align-self: flex-end;
-  margin-bottom: calc(-1 * var(--base-sizing-8x));
-}
-
-.stepContent {
-  padding: var(--base-sizing-16x);
-  color: var(--theme-color-text-base-subtitle);
 }
 
 // ─── Item ─────────────────────────────────────────────────────────────────────
@@ -80,9 +74,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   position: relative;
   z-index: 1;
 
-  .stepDot,
-  .stepNumber,
-  .stepIcon {
+  @include step-elements {
     transition: background-color 0.2s ease;
   }
 }
@@ -148,22 +140,13 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
 .dotStatusIcon {
   position: absolute;
-  font-size: 22px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: var(--base-sizing-22x);
   z-index: 2;
   pointer-events: none;
   color: var(--theme-color-text-danger-default);
-
-  .vertical & {
-    left: calc(var(--base-sizing-12x) / 2);
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .horizontal & {
-    top: calc(var(--base-sizing-12x) / 2);
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 }
 
 @each $variant in $variants {
@@ -175,6 +158,10 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 }
 
 // ─── Vertical ────────────────────────────────────────────────────────────────
+
+.Root.horizontal:has(.stepCountHorizontal) {
+  width: fit-content;
+}
 
 .Root.vertical {
   display: grid;
@@ -193,16 +180,15 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   }
 }
 
-.vertical .stepList {
-  flex-direction: column;
-  width: auto;
-}
-
-.vertical.itemOrientation-vertical .stepList {
-  gap: calc(var(--base-sizing-24x) * 2);
-}
-
 .vertical {
+  .stepList {
+    flex-direction: column;
+    width: auto;
+  }
+
+  &.itemOrientation-vertical .stepList {
+    gap: calc(var(--base-sizing-24x) * 2);
+  }
   .stepHeader {
     flex-direction: row;
   }
@@ -233,16 +219,15 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
 // ─── Horizontal ──────────────────────────────────────────────────────────────
 
-.horizontal .stepList {
-  flex-direction: row;
-}
-
-.horizontal.itemOrientation-horizontal .stepList,
-.horizontal.itemOrientation-vertical .stepList {
-  gap: calc(var(--base-sizing-24x) * 4);
-}
-
 .horizontal {
+  .stepList {
+    flex-direction: row;
+  }
+
+  &.itemOrientation-horizontal .stepList,
+  &.itemOrientation-vertical .stepList {
+    gap: calc(var(--base-sizing-24x) * 4);
+  }
   .stepHeader {
     flex-direction: column;
     align-items: center;
@@ -328,9 +313,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
         color: var(--theme-color-text-#{$token}-active);
       }
 
-      .stepDot,
-      .stepNumber,
-      .stepIcon {
+      @include step-elements {
         outline: var(--base-sizing-4x) solid var(--theme-color-border-#{$token}-focus, var(--theme-color-border-#{$token}-disabled));
       }
     }
@@ -349,9 +332,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
       &.clickable:focus {
         outline: none;
 
-        .stepDot,
-        .stepNumber,
-        .stepIcon {
+        @include step-elements {
           outline: var(--base-sizing-4x) solid var(--theme-color-border-#{$token}-focus, var(--theme-color-border-#{$token}-disabled));
         }
       }
@@ -380,22 +361,31 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
 // ─── Dot type ────────────────────────────────────────────────────────────────
 
-.dot .item.completed,
-.dot .item.statusError {
-  .stepDot {
-    display: none;
+.dot {
+  .item {
+    &.completed,
+    &.statusError {
+      .stepDot {
+        display: none;
+      }
+    }
   }
 }
 
 // ─── None type ───────────────────────────────────────────────────────────────
 
 .none {
+  .item-vertical .stepHeader .content {
+    margin-top: 0;
+  }
+
+  .item-horizontal .stepHeader .content {
+    margin-left: 0;
+  }
+
   &.vertical {
-    &,
-    &.itemOrientation-vertical {
-      .stepList {
-        gap: var(--base-sizing-24x);
-      }
+    .stepList {
+      gap: calc(var(--base-sizing-24x) * 2);
     }
 
     .item {
@@ -412,8 +402,8 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
     .item .stepHeader::after {
       width: var(--base-sizing-1x);
-      top: calc(100% + var(--base-sizing-4x));
-      bottom: calc(-1 * (var(--base-sizing-16x) + var(--base-sizing-4x)));
+      top: 100%;
+      bottom: calc(-1 * var(--base-sizing-24x) * 2);
       left: calc(50% - var(--base-sizing-1x) / 2);
     }
   }
@@ -488,10 +478,14 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
     }
 
     @if $type == "number" {
-      .item.completed .stepIcon,
-      .item.active .stepIcon,
-      .item.error .stepIcon {
-        font-size: var(--base-sizing-16x);
+      .item {
+        &.completed,
+        &.active,
+        &.error {
+          .stepIcon {
+            font-size: var(--base-sizing-16x);
+          }
+        }
       }
     }
 
@@ -517,38 +511,54 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
         left: $connector-offset;
       }
 
-      .item.item-vertical {
-        min-height: unset;
-
-        &:not(:first-child) .stepHeader::before {
-          content: none;
+      .item {
+        &.item-horizontal {
+          min-height: calc($step-size + 2 * var(--base-sizing-12x));
         }
 
-        & .stepHeader::after {
-          width: var(--base-sizing-1x);
-          left: calc(50% - var(--base-sizing-1x) / 2);
-          top: calc(100% + var(--base-sizing-8x));
-          bottom: calc(-1 * var(--base-sizing-24x) * 2 + var(--base-sizing-8x));
+        &.item-vertical {
+          min-height: unset;
+
+          &:not(:first-child) .stepHeader::before {
+            content: none;
+          }
+
+          .stepHeader::after {
+            width: var(--base-sizing-1x);
+            left: calc(50% - var(--base-sizing-1x) / 2);
+            top: calc(100% + var(--base-sizing-8x));
+            bottom: calc(-1 * var(--base-sizing-24x) * 2 + var(--base-sizing-8x));
+          }
         }
       }
 
       @include connector-variant-colors;
 
       &.connectorAlign-start {
-        .item:not(:first-child) .stepHeader::before {
-          left: 0;
-        }
-        .item .stepHeader::after {
-          left: 0;
+        .item {
+          &:not(:first-child) .stepHeader::before {
+            left: 0;
+          }
+          .stepHeader::after {
+            left: 0;
+          }
+          &.item-vertical .stepHeader::after {
+            left: calc(50% - $step-size / 2);
+          }
         }
       }
 
       &.connectorAlign-end {
-        .item:not(:first-child) .stepHeader::before {
-          left: calc($step-size - var(--base-sizing-1x));
-        }
-        .item .stepHeader::after {
-          left: calc($step-size - var(--base-sizing-1x));
+        .item {
+          &:not(:first-child) .stepHeader::before {
+            left: calc($step-size - var(--base-sizing-1x));
+          }
+          .stepHeader::after {
+            left: calc($step-size - var(--base-sizing-1x));
+          }
+          &.item-vertical .stepHeader::after {
+            left: calc(50% + $step-size / 2 - var(--base-sizing-1x));
+          }
         }
       }
     }
@@ -571,56 +581,62 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
         top: $connector-offset;
       }
 
-      .item.item-horizontal,
-      .item.item-vertical {
-        flex: 0 0 auto;
-      }
-
-      // indicator at left edge — connector covers only the gap, ::after disabled
-      .item.item-horizontal {
-        & .stepHeader::after {
-          content: none;
+      .item {
+        &.item-horizontal,
+        &.item-vertical {
+          flex: 0 0 auto;
         }
 
-        &:not(:first-child) .stepHeader::before {
-          left: calc(-1 * var(--base-sizing-24x) * 4 + var(--base-sizing-8x));
-          width: calc(var(--base-sizing-24x) * 4 - 2 * var(--base-sizing-8x));
-          top: calc(50% - var(--base-sizing-1x) / 2);
-        }
-      }
+        // indicator at left edge — connector covers only the gap, ::after disabled
+        &.item-horizontal {
+          .stepHeader::after {
+            content: none;
+          }
 
-      // indicator centered — ::before covers left half, ::after covers right half into gap
-      .item.item-vertical {
-        & .stepHeader::after {
-          left: calc(50% + $step-size / 2 + var(--base-sizing-8x));
-          right: calc(-1 * var(--base-sizing-24x) * 4);
-          top: $connector-offset;
+          &:not(:first-child) .stepHeader::before {
+            left: calc(-1 * var(--base-sizing-24x) * 4 + var(--base-sizing-8x));
+            width: calc(var(--base-sizing-24x) * 4 - 2 * var(--base-sizing-8x));
+            top: calc(50% - var(--base-sizing-1x) / 2);
+          }
         }
 
-        &:not(:first-child) .stepHeader::before {
-          left: 0;
-          width: calc(50% - $step-size / 2 - var(--base-sizing-8x));
-          top: $connector-offset;
+        // indicator centered — ::before covers left half, ::after covers right half into gap
+        &.item-vertical {
+          .stepHeader::after {
+            left: calc(50% + $step-size / 2 + var(--base-sizing-8x));
+            right: calc(-1 * var(--base-sizing-24x) * 4);
+            top: $connector-offset;
+          }
+
+          &:not(:first-child) .stepHeader::before {
+            left: 0;
+            width: calc(50% - $step-size / 2 - var(--base-sizing-8x));
+            top: $connector-offset;
+          }
         }
       }
 
       @include connector-variant-colors;
 
       &.connectorAlign-start {
-        .item:not(:first-child) .stepHeader::before {
-          top: 0;
-        }
-        .item .stepHeader::after {
-          top: 0;
+        .item {
+          &:not(:first-child) .stepHeader::before {
+            top: 0;
+          }
+          .stepHeader::after {
+            top: 0;
+          }
         }
       }
 
       &.connectorAlign-end {
-        .item:not(:first-child) .stepHeader::before {
-          top: calc($step-size - var(--base-sizing-1x));
-        }
-        .item .stepHeader::after {
-          top: calc($step-size - var(--base-sizing-1x));
+        .item {
+          &:not(:first-child) .stepHeader::before {
+            top: calc($step-size - var(--base-sizing-1x));
+          }
+          .stepHeader::after {
+            top: calc($step-size - var(--base-sizing-1x));
+          }
         }
       }
     }

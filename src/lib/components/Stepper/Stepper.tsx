@@ -1,6 +1,6 @@
 "use client";
 
-import { CSSProperties } from "react";
+import { CSSProperties, Children, cloneElement, isValidElement, useCallback } from "react";
 import styles from "./Stepper.module.scss";
 import { PropsWithRefAndChildren } from "../../types";
 import { StepperProps } from "./types";
@@ -8,7 +8,6 @@ import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaul
 import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import StepperItem from "./components/StepperItem";
 import StepperPanel from "./components/StepperPanel";
-import { StepperContext } from "./StepperContext";
 
 const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) => {
   const {
@@ -38,7 +37,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   const countToken = activeVariant === "error" ? "danger" : activeVariant;
   const countClass = sanitizeModuleClasses(styles, "stepCount", orientation === "vertical" ? "stepCountVertical" : "stepCountHorizontal");
 
-  const counter = showCount && (
+  const counterSpan = showCount && (
     <span className={countClass}>
       <span className={styles.stepCountActive}>{activeStep + 1}</span>
       {" / "}
@@ -46,31 +45,44 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
     </span>
   );
 
+  const handleStepClick = useCallback(
+    (idx: number) => {
+      onStepClick?.(idx);
+    },
+    [onStepClick],
+  );
+
+  const panels = Children.map(children, child => {
+    if (isValidElement<{ index: number }>(child)) {
+      return cloneElement(child, { isActive: child.props.index === activeStep } as object);
+    }
+    return child;
+  });
+
   return (
-    <StepperContext.Provider value={{ activeStep }}>
-      <div
-        ref={ref}
-        style={{ ...style, "--stepper-count-color": `var(--theme-color-text-${countToken}-default)` } as CSSProperties}
-        className={classNames}
-      >
-        {counter}
-        <div className={styles.stepList}>
-          {items.map((item, idx) => (
-            <StepperItem
-              key={idx}
-              {...item}
-              variant={item.variant ?? variant}
-              status={item.error ? "error" : idx < activeStep ? "completed" : idx === activeStep ? "active" : "upcoming"}
-              stepType={stepType}
-              index={idx}
-              itemOrientation={itemOrientation}
-              onStepClick={onStepClick && (idx < activeStep || idx === activeStep + 1) ? () => onStepClick(idx) : undefined}
-            />
-          ))}
-        </div>
-        {children}
+    <div
+      ref={ref}
+      style={{ ...style, "--stepper-count-color": `var(--theme-color-text-${countToken}-default)` } as CSSProperties}
+      className={classNames}
+    >
+      {counterSpan}
+      <div className={styles.stepList}>
+        {items.map((item, idx) => (
+          <StepperItem
+            key={idx}
+            {...item}
+            variant={item.variant ?? variant}
+            status={item.error ? "error" : idx < activeStep ? "completed" : idx === activeStep ? "active" : "upcoming"}
+            stepType={stepType}
+            index={idx}
+            itemOrientation={itemOrientation}
+            onStepClick={onStepClick ? handleStepClick : undefined}
+            isClickable={!!onStepClick && !item.disabled && (idx < activeStep || idx === activeStep + 1)}
+          />
+        ))}
       </div>
-    </StepperContext.Provider>
+      {panels}
+    </div>
   );
 };
 

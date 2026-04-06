@@ -1,21 +1,35 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import Icon from "../../Icon";
 import styles from "../Stepper.module.scss";
-import { StepperItemOrientation, StepperItemProps, StepperItemStatus, StepperStepType } from "../types";
+import { StepperItemProps, StepperItemStatus, StepperStepType } from "../types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
 type Props = Omit<StepperItemProps, "error"> & {
   stepType: StepperStepType;
   index: number;
   status: StepperItemStatus;
-  itemOrientation?: StepperItemOrientation;
-  onStepClick?: () => void;
+  itemOrientation?: "vertical" | "horizontal";
+  onStepClick?: (index: number) => void;
+  isClickable?: boolean;
 };
 
 const StepperItem = memo((props: Props) => {
-  const { title, icon = "motif_ui", variant = "primary", disabled, stepType, index, status, itemOrientation, onStepClick } = props;
+  const {
+    title,
+    icon = "motif_ui",
+    variant = "primary",
+    disabled,
+    stepType,
+    index,
+    status,
+    itemOrientation,
+    onStepClick,
+    isClickable,
+  } = props;
 
-  const isClickable = !!onStepClick && !disabled;
+  const handleClick = useCallback(() => {
+    onStepClick?.(index);
+  }, [onStepClick, index]);
 
   const itemClasses = sanitizeModuleClasses(
     styles,
@@ -42,11 +56,15 @@ const StepperItem = memo((props: Props) => {
     );
 
   return (
-    <div className={itemClasses} tabIndex={isClickable ? 0 : undefined} onClick={isClickable ? onStepClick : undefined}>
+    <div className={itemClasses} tabIndex={isClickable ? 0 : undefined} onClick={isClickable ? handleClick : undefined}>
       <div className={styles.stepHeader}>
-        {stepType !== "none" && <div className={styles.stepIndicator}>{renderStep()}</div>}
-        {stepType === "dot" && (status === "completed" || status === "error") && (
-          <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
+        {stepType !== "none" && (
+          <div className={styles.stepIndicator}>
+            {renderStep()}
+            {stepType === "dot" && (status === "completed" || status === "error") && (
+              <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
+            )}
+          </div>
         )}
         <div className={styles.content}>
           <span className={styles.title}>{title}</span>

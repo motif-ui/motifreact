@@ -10,18 +10,25 @@ export type StepperItemProps = {
   disabled?: boolean;
 };
 
-export type StepperItemOrientation = "vertical" | "horizontal";
-
-export type StepperConnectorAlign = "start" | "center" | "end";
-
 export type StepperDefaultableProps = {
   variant?: StepperVariant;
   stepType?: StepperStepType;
-  itemOrientation?: StepperItemOrientation;
-  connectorAlign?: StepperConnectorAlign;
+  itemOrientation?: "vertical" | "horizontal";
+  connectorAlign?: "start" | "center" | "end";
 };
 
 type StepperBaseProps = {
+  /**
+   * ```
+   * {
+   *   title?: string;
+   *   icon?: string;
+   *   variant?: "primary" | "secondary" | "success" | "warning" | "error";
+   *   error?: boolean;
+   *   disabled?: boolean;
+   * }[]
+   * ```
+   */
   items: StepperItemProps[];
   activeStep?: number;
   showCount?: boolean;

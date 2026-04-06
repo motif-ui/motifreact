@@ -1,17 +1,14 @@
-import { PropsWithChildren, useContext } from "react";
-import { StepperContext } from "../StepperContext";
+import { memo, PropsWithChildren } from "react";
 import styles from "../Stepper.module.scss";
 
 type Props = {
   index: number;
+  isActive?: boolean;
 };
 
-const StepperPanel = (props: PropsWithChildren<Props>) => {
-  const { index, children } = props;
-  const { activeStep } = useContext(StepperContext);
-
-  return index === activeStep ? <div className={styles.stepContent}>{children}</div> : null;
-};
+const StepperPanel = memo(({ isActive, children }: PropsWithChildren<Props>) => {
+  return isActive ? <div className={styles.stepContent}>{children}</div> : null;
+});
 
 StepperPanel.displayName = "StepperPanel";
 export default StepperPanel;
