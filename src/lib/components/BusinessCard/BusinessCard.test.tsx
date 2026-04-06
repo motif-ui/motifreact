@@ -27,6 +27,12 @@ describe("BusinessCard", () => {
     expect(getByText("folder")).toBeInTheDocument();
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    const IconComponent = () => <span data-testid="custom-icon">icon-svg</span>;
+    const { getByTestId } = render(<BusinessCard icon={<IconComponent />} />);
+    expect(getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
   it("should render an anchor with the props given in the link prop", () => {
     const { getByText } = render(<BusinessCard link={{ text: "my link", href: "https://motif-ui.com", targetBlank: true }} />);
     const anchor = getByText("my link");
