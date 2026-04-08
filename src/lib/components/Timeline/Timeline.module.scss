@@ -58,6 +58,7 @@ $variants: (
 .Root {
   display: flex;
   height: min-content;
+  width: fit-content;
 }
 
 .item {
