@@ -1,5 +1,5 @@
 import BusinessCard from "@/components/BusinessCard/BusinessCard";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 describe("BusinessCard", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {
@@ -22,15 +22,13 @@ describe("BusinessCard", () => {
     expect(getByText("description")).toBeInTheDocument();
   });
 
-  it("should render the main icon given in the icon prop", () => {
+  it("should display the icon given in the icon prop", () => {
     const { getByText } = render(<BusinessCard icon="folder" />);
     expect(getByText("folder")).toBeInTheDocument();
-  });
 
-  it("should render icon component when icon prop is given as a component", () => {
-    const IconComponent = () => <span data-testid="custom-icon">icon-svg</span>;
-    const { getByTestId } = render(<BusinessCard icon={<IconComponent />} />);
-    expect(getByTestId("custom-icon")).toBeInTheDocument();
+    const IconComponent = () => <span>icon-svg</span>;
+    render(<BusinessCard icon={<IconComponent />} />);
+    expect(screen.getByText("icon-svg")).toBeInTheDocument();
   });
 
   it("should render an anchor with the props given in the link prop", () => {

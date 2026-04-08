@@ -38,7 +38,7 @@ const BusinessCard = (props: PropsWithRef<BusinessCardProps, HTMLDivElement>) =>
   return (
     <div className={classNames} ref={ref} onClick={onClick} style={style}>
       {image && <Avatar image={image} size="xxl" />}
-      {icon && (typeof icon === "string" ? <Icon name={icon} className={styles.icon} /> : icon)}
+      {typeof icon === "string" ? <Icon name={icon} className={styles.icon} /> : icon}
       {title && <span className={styles.title}>{title}</span>}
       {description && <span className={styles.description}>{description}</span>}
       {link && (
