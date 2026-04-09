@@ -1,10 +1,8 @@
-import { ReactNode } from "react";
-
 export type TimelineVariant = "primary" | "danger" | "success" | "warning" | "light" | "secondary";
 export type TimelineMarkerType = "dot" | "number" | "icon";
 
 export type TimelineItemProps = {
-  title?: ReactNode;
+  title?: string;
   content?: string;
   icon?: string;
   variant?: TimelineVariant;
@@ -22,7 +20,7 @@ export type TimelineProps = {
   /**
    * ```
    * {
-   *   title?: ReactNode;
+   *   title?: string;
    *   content?: string;
    *   icon?: string;
    *   variant?: string;

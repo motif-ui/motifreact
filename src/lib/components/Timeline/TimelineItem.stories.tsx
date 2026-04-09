@@ -1,32 +1,28 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
+import TimelineItem from "@/components/Timeline/TimelineItem";
+import Timeline from "@/components/Timeline/Timeline";
 
-import Timeline from "./Timeline";
-import { TimelineItemProps, TimelineMarkerType } from "./types";
-
-type StoryArgs = TimelineItemProps & { markerType: TimelineMarkerType };
-
-const meta: Meta<StoryArgs> = {
+const meta: Meta<typeof TimelineItem> = {
   title: "Components/Timeline/Item",
+  component: TimelineItem,
   argTypes: {
-    title: { table: { type: { summary: "ReactNode" } } },
-    variant: {
-      control: "select",
-      options: ["primary", "danger", "success", "warning", "light", "secondary"],
-    },
+    appearance: { table: { defaultValue: { summary: "filled" } } },
     icon: { table: { defaultValue: { summary: "motif_ui" } } },
-    appearance: { control: "radio", options: ["filled", "outlined"], table: { defaultValue: { summary: "filled" } } },
+    variant: { table: { defaultValue: { summary: "[parent variant]" } } },
+    order: { table: { disable: true } },
+    markerType: { table: { disable: true } },
   },
   args: {
     title: "Ordered",
     content: "08/03/2026 09:00",
-    icon: "motif_ui",
+    icon: "receipt",
     variant: "success",
-    appearance: "outlined",
   },
-  render: args => <Timeline markerType="icon" textAlign="center" items={[args]} />,
 };
 
 export default meta;
-type Story = StoryObj<StoryArgs>;
+type Story = StoryObj<typeof TimelineItem>;
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  render: args => <Timeline markerType="icon" textAlign="center" items={[args, args]} />,
+};
