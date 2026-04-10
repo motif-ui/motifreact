@@ -8,6 +8,7 @@ const meta: Meta<typeof Avatar> = {
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
     variant: { table: { defaultValue: { summary: "secondary" } } },
+    icon: { description: "Icon name (string) or a custom icon component (ReactElement), e.g. `<FontAwesomeIcon />`" },
   },
   args: { letters: "AV" },
 };

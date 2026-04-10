@@ -10,8 +10,11 @@ describe("Avatar", () => {
     expect(render(<Avatar letters="test" />).getByText("TE")).toBeInTheDocument();
   });
 
-  it("should render icon when icon is set", () => {
+  it("should display the icon given in the icon prop", () => {
     expect(render(<Avatar icon="info" />).getByText("info")).toBeInTheDocument();
+
+    render(<Avatar icon={<span>★</span>} />);
+    expect(screen.getByText("★")).toBeInTheDocument();
   });
 
   it("should display image when image is set", () => {

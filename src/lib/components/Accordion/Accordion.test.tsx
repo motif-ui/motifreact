@@ -38,6 +38,9 @@ describe("Accordion", () => {
   it("should display the icon given in the icon prop", () => {
     render(<Accordion title="Accordion Title" icon="home" />);
     expect(screen.getByText("home")).toBeInTheDocument();
+
+    render(<Accordion title="Accordion Title" icon={<span>★</span>} />);
+    expect(screen.getByText("★")).toBeInTheDocument();
   });
 
   it("should trigger the event given in the onToggle prop when toggled", () => {

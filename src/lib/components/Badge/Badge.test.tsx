@@ -84,6 +84,15 @@ describe("Badge", () => {
     expect(getByTestId(container, "badgeItem").textContent).not.toBe(testContent);
   });
 
+  it("should render icon component when icon prop is given as a component", () => {
+    render(
+      <Badge icon={<span>★</span>}>
+        <button />
+      </Badge>,
+    );
+    expect(screen.getByText("★")).toBeInTheDocument();
+  });
+
   it("should render no text content when the dot is true", () => {
     const { container } = render(
       <Badge content="test" dot>
