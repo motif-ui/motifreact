@@ -1,7 +1,7 @@
-name: "PR Validator"
+name: PR Validator
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, edited, reopened, synchronize]
 
 concurrency:
@@ -31,20 +31,7 @@ jobs:
         with:
           pr-author: ${{ github.event.pull_request.user.login }}
 
-      # 2. CHECK FOR WORKFLOW CHANGES
-      - name: Get changed workflow files
-        id: changed-files
-        uses: tj-actions/changed-files@v44
-        with:
-          files: .github/workflows/**
-
-      - name: Security — Block unauthorized workflow changes
-        if: steps.changed-files.outputs.any_changed == 'true' && steps.team-check.outputs.is-internal != 'true'
-        run: |
-          echo "❌ Access Denied: Only core team members can modify workflow files."
-          exit 1
-
-      # 3. LINT PR TITLE
+      # 2. LINT PR TITLE
       - name: Validate PR title
         uses: amannn/action-semantic-pull-request@v5
         env:
@@ -64,7 +51,7 @@ jobs:
             revert
           requireScope: false
 
-      # 4. SYNC RELEASE LABELS
+      # 3. SYNC RELEASE LABELS
       - name: Sync release labels
         uses: actions/github-script@v7
         with:
@@ -103,7 +90,7 @@ jobs:
               });
             }
 
-      # 5. CHECK INTERNAL ISSUE REFERENCE
+      # 4. CHECK INTERNAL ISSUE REFERENCE
       - name: Check internal issue reference
         if: steps.team-check.outputs.is-internal == 'true'
         uses: actions/github-script@v7
