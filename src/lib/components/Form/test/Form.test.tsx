@@ -711,13 +711,13 @@ describe("Form", () => {
   it("should be rendered as error and show component level message when required validation property and component level validation is given and form submitted", async () => {
     const maxSize = 1000000;
     const input1HelperText = "Input 1 Helper Text";
-    const expectedErrorMessage = "Dosyanızın boyutu maksimum 1 MB olabilir. 'test.png' dosyanızın boyutu: 2 MB";
+    const expectedErrorMessage = "Lütfen bu alandaki hatayı giderin.";
 
     const handleSubmit = (data: FormSubmitData) => {
       const submitValues = data.values;
 
-      const { personalFiles } = submitValues;
-      const submittedFiles = personalFiles ? (submitValues.personalFiles as FileType[]) : [];
+      const { files } = submitValues;
+      const submittedFiles = files ? (submitValues.files as FileType[]) : [];
       if (submittedFiles.length) {
         const submittedFile = submittedFiles[0];
         expect(submittedFile.status).toBe(STATUS.CHECK_FAIL);
@@ -729,8 +729,8 @@ describe("Form", () => {
 
     render(
       <Form onSubmit={handleSubmit}>
-        <Form.Field name="personalFiles" helperText={input1HelperText}>
-          <UploadInput {...requiredProps} name="personalFiles" maxSize={maxSize} />
+        <Form.Field name="files" helperText={input1HelperText}>
+          <UploadInput {...requiredProps} name="files" maxSize={maxSize} />
         </Form.Field>
       </Form>,
     );
@@ -767,10 +767,9 @@ describe("Form", () => {
 
     const handleSubmit = (data: FormSubmitData) => {
       const submitValues = data.values;
-
-      if (submitValues.personalFiles) {
-        const officialFiles = submitValues.officialFiles as FileType[];
-        const submittedFile = officialFiles[0];
+      if (submitValues.length) {
+        const files = submitValues.files as FileType[];
+        const submittedFile = files[0];
         expect(submittedFile.status).toBe(STATUS.CHECK_FAIL);
         expect(submittedFile.file.size).toBe(MOCK.fileGif1mb.size);
         expect(submittedFile.file.name).toBe(MOCK.fileGif1mb.name);
@@ -780,8 +779,8 @@ describe("Form", () => {
 
     render(
       <Form onSubmit={handleSubmit}>
-        <Form.Field name="officialFiles" helperText={inputHelperText}>
-          <UploadList {...requiredProps} name="officialFiles" maxSize={maxSize} />
+        <Form.Field name="files" helperText={inputHelperText}>
+          <UploadList {...requiredProps} name="files" maxSize={maxSize} />
         </Form.Field>
       </Form>,
     );
