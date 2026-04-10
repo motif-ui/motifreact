@@ -1,21 +1,17 @@
 @use "@styles" as *;
 
-.Root {
-  &.inFormField {
-    min-width: var(--base-sizing-256x);
-  }
+// name, gap, padding, fontPerc, infoFontPerc, width, height
+$sizes: (("xs", "6x", "28x", "xs", "xxs", 256px, 160px), ("sm", "6x", "28x", "sm", "xs", 320px, 176px), ("md", "6x", "28x", "md", "sm", 360px, 190px), ("lg", "8x", "32x", "lg", "md", 400px, 216px));
 
+.Root {
   .dragArea {
-    min-height: var(--base-sizing-256x);
     border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
     border-radius: var(--theme-sizing-radius-default);
     background-color: var(--theme-color-surface-base-base2);
-    padding: var(--base-sizing-32x);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: var(--base-sizing-8x);
     cursor: pointer;
     box-sizing: border-box;
     @include transition(border-color);
@@ -26,16 +22,21 @@
       @include transition(color);
     }
 
+    .dragTextGroup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--base-sizing-4x);
+    }
+
     .dragText {
       color: var(--theme-color-text-base-subtitle);
       text-align: center;
-      @include font("base", "lg", "500");
     }
 
     .dragInfo {
       color: var(--theme-color-text-base-caption);
       text-align: center;
-      @include font("body", "sm");
     }
 
     &.flatBottom {
@@ -73,5 +74,30 @@
     &.success:not(.disabled) {
       border-color: var(--theme-color-border-success-default);
     }
+  }
+}
+
+@each $name, $gap, $padding, $fontPerc, $infoFontPerc, $width, $height in $sizes {
+  .#{$name} {
+    .dragArea {
+      gap: var(--base-sizing-#{$gap});
+      padding: var(--base-sizing-#{$padding});
+      min-width: $width;
+      height: $height;
+
+      .dragText {
+        @include font("base", $fontPerc, "500");
+      }
+
+      .dragInfo {
+        @include font("body", $infoFontPerc);
+      }
+    }
+  }
+}
+
+.lg {
+  .dragArea {
+    min-height: 216px;
   }
 }

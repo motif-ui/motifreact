@@ -12,6 +12,7 @@ const meta: Meta<typeof UploadDragger> = {
     accept: { table: { defaultValue: { summary: MIME_TYPES.ALL } } },
     maxFile: { table: { defaultValue: { summary: "1" } } },
     autoUpload: { table: { defaultValue: { summary: "true" } } },
+    size: { control: "select", options: ["xs", "sm", "md", "lg"] },
   },
   args: {
     uploadRequest: { url, method, headers: [{ key: "mtf", value: "ui" }] },
