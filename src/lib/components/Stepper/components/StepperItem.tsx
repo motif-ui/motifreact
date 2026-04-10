@@ -1,19 +1,10 @@
 import { memo, useCallback } from "react";
 import Icon from "../../Icon";
 import styles from "../Stepper.module.scss";
-import { StepperItemProps, StepperItemStatus, StepperStepType } from "../types";
+import { StepperItemComponentProps } from "../types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
-type Props = Omit<StepperItemProps, "error"> & {
-  stepType: StepperStepType;
-  index: number;
-  status: StepperItemStatus;
-  itemOrientation?: "vertical" | "horizontal";
-  onStepClick?: (index: number) => void;
-  isClickable?: boolean;
-};
-
-const StepperItem = memo((props: Props) => {
+const StepperItem = memo((props: StepperItemComponentProps) => {
   const {
     title,
     icon = "motif_ui",
@@ -35,8 +26,7 @@ const StepperItem = memo((props: Props) => {
     styles,
     "item",
     variant,
-    status,
-    status === "error" && "statusError",
+    status === "error" ? "statusError" : status,
     disabled && "disabled",
     isClickable && "clickable",
     itemOrientation && `item-${itemOrientation}`,

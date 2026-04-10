@@ -38,3 +38,12 @@ type StepperBaseProps = {
 export type StepperProps = StepperBaseProps & {
   orientation?: "vertical" | "horizontal";
 };
+
+export type StepperItemComponentProps = Omit<StepperItemProps, "error"> & {
+  stepType: StepperStepType;
+  index: number;
+  status: StepperItemStatus;
+  itemOrientation?: "vertical" | "horizontal";
+  onStepClick?: (index: number) => void;
+  isClickable?: boolean;
+};

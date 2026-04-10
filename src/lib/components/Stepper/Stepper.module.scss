@@ -3,6 +3,16 @@
 $variants: ("primary", "secondary", "success", "warning", "error");
 $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
+@function token($variant) {
+  @return if($variant == "error", "danger", $variant);
+}
+
+@mixin connector-track {
+  content: "";
+  position: absolute;
+  background-color: var(--theme-color-border-light-default);
+}
+
 @mixin step-elements {
   .stepDot,
   .stepNumber,
@@ -13,7 +23,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
 @mixin connector-variant-colors {
   @each $variant in $variants {
-    $token: if($variant == "error", "danger", $variant);
+    $token: token($variant);
 
     .item.#{$variant}.completed,
     .item.#{$variant}.active {
@@ -24,7 +34,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
     .item:has(+ .item.#{$variant}.completed),
     .item:has(+ .item.#{$variant}.active) {
-      & .stepHeader::after {
+      .stepHeader::after {
         background-color: var(--theme-color-surface-#{$token}-default);
       }
     }
@@ -48,18 +58,18 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 .stepCount {
   @include font("base", "sm", "500");
   color: var(--theme-color-text-base-caption);
+
+  &.stepCountVertical {
+    text-align: center;
+  }
+
+  &.stepCountHorizontal {
+    align-self: flex-end;
+  }
 }
 
 .stepCountActive {
   color: var(--stepper-count-color);
-}
-
-.stepCountVertical {
-  text-align: center;
-}
-
-.stepCountHorizontal {
-  align-self: flex-end;
 }
 
 // ─── Item ─────────────────────────────────────────────────────────────────────
@@ -91,9 +101,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   align-self: stretch;
 
   &::after {
-    content: "";
-    position: absolute;
-    background-color: var(--theme-color-border-light-default);
+    @include connector-track;
   }
 }
 
@@ -150,20 +158,16 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 }
 
 @each $variant in $variants {
-  $token: if($variant == "error", "danger", $variant);
+  $token: token($variant);
 
   .item.#{$variant}.completed .dotStatusIcon {
     color: var(--theme-color-text-#{$token}-default);
   }
 }
 
-// ─── Vertical ────────────────────────────────────────────────────────────────
+// ─── Orientation ─────────────────────────────────────────────────────────────
 
-.Root.horizontal:has(.stepCountHorizontal) {
-  width: fit-content;
-}
-
-.Root.vertical {
+.vertical {
   display: grid;
   grid-template-columns: auto 1fr;
   row-gap: var(--base-sizing-8x);
@@ -172,23 +176,19 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   .stepList {
     grid-column: 1;
     grid-row: 2;
+    flex-direction: column;
+    width: auto;
   }
 
   .stepContent {
     grid-column: 2;
     grid-row: 2;
   }
-}
-
-.vertical {
-  .stepList {
-    flex-direction: column;
-    width: auto;
-  }
 
   &.itemOrientation-vertical .stepList {
     gap: calc(var(--base-sizing-24x) * 2);
   }
+
   .stepHeader {
     flex-direction: row;
   }
@@ -220,6 +220,9 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 // ─── Horizontal ──────────────────────────────────────────────────────────────
 
 .horizontal {
+  &:has(.stepCountHorizontal) {
+    width: fit-content;
+  }
   .stepList {
     flex-direction: row;
   }
@@ -254,12 +257,12 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 // ─── Variant + status ────────────────────────────────────────────────────────
 
 @each $variant in $variants {
-  $token: if($variant == "error", "danger", $variant);
+  $token: token($variant);
 
   .item.#{$variant} {
     @include step-elements {
       box-sizing: border-box;
-      border-radius: var(--base-radius-pill);
+      border-radius: var(--theme-sizing-radius-round);
       background-color: var(--theme-color-surface-base-base7);
     }
 
@@ -269,7 +272,6 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
     .stepNumber {
       @include font("base", "xxs", "700");
-      @include flex-center;
       color: var(--theme-color-text-base-global-light);
     }
 
@@ -287,26 +289,15 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
     &.active,
     &.completed {
       @include step-elements {
-        box-sizing: border-box;
-        border-radius: var(--base-radius-pill);
         background-color: var(--theme-color-surface-#{$token}-default);
       }
 
       .stepIcon {
         font-size: var(--base-sizing-24x);
       }
-
-      .stepNumber,
-      .stepIcon {
-        color: var(--theme-color-text-base-global-light);
-      }
     }
 
     &.active {
-      @include step-elements {
-        background-color: var(--theme-color-surface-#{$token}-active);
-      }
-
       outline: none;
 
       .title {
@@ -314,6 +305,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
       }
 
       @include step-elements {
+        background-color: var(--theme-color-surface-#{$token}-active);
         outline: var(--base-sizing-4x) solid var(--theme-color-border-#{$token}-focus, var(--theme-color-border-#{$token}-disabled));
       }
     }
@@ -359,7 +351,19 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   }
 }
 
-// ─── Dot type ────────────────────────────────────────────────────────────────
+// ─── Status: error ───────────────────────────────────────────────────────────
+
+.item.statusError {
+  @include step-elements {
+    background-color: var(--theme-color-surface-danger-default);
+  }
+
+  .title {
+    color: var(--theme-color-text-danger-default);
+  }
+}
+
+// ─── Type overrides ──────────────────────────────────────────────────────────
 
 .dot {
   .item {
@@ -372,15 +376,24 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   }
 }
 
+.number {
+  .item {
+    &.completed,
+    &.active,
+    &.error {
+      .stepIcon {
+        font-size: var(--base-sizing-16x);
+      }
+    }
+  }
+}
+
 // ─── None type ───────────────────────────────────────────────────────────────
 
 .none {
-  .item-vertical .stepHeader .content {
-    margin-top: 0;
-  }
-
+  .item-vertical .stepHeader .content,
   .item-horizontal .stepHeader .content {
-    margin-left: 0;
+    margin: 0;
   }
 
   &.vertical {
@@ -390,21 +403,21 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
     .item {
       justify-content: center;
+
+      &:not(:first-child) .stepHeader::before {
+        content: none;
+      }
+
+      .stepHeader::after {
+        width: var(--base-sizing-1x);
+        top: 100%;
+        bottom: calc(-1 * var(--base-sizing-24x) * 2);
+        left: calc(50% - var(--base-sizing-1x) / 2);
+      }
     }
 
     .content {
       text-align: center;
-    }
-
-    .item:not(:first-child) .stepHeader::before {
-      content: none;
-    }
-
-    .item .stepHeader::after {
-      width: var(--base-sizing-1x);
-      top: 100%;
-      bottom: calc(-1 * var(--base-sizing-24x) * 2);
-      left: calc(50% - var(--base-sizing-1x) / 2);
     }
   }
 
@@ -423,6 +436,17 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
       flex-direction: row;
       justify-content: center;
       align-items: center;
+
+      &:not(:first-child) .stepHeader::before {
+        content: none;
+      }
+
+      .stepHeader::after {
+        height: var(--base-sizing-1x);
+        left: 100%;
+        right: calc(-1 * var(--base-sizing-24x));
+        top: calc(50% - var(--base-sizing-1x) / 2);
+      }
     }
 
     .stepHeader {
@@ -434,31 +458,18 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
     .content {
       margin-top: 0;
     }
-
-    .item:not(:first-child) .stepHeader::before {
-      content: none;
-    }
-
-    .item .stepHeader::after {
-      height: var(--base-sizing-1x);
-      left: 100%;
-      right: calc(-1 * var(--base-sizing-24x));
-      top: calc(50% - var(--base-sizing-1x) / 2);
-    }
   }
 
   @each $variant in $variants {
-    $token: if($variant == "error", "danger", $variant);
+    $token: token($variant);
 
     .item.#{$variant}.completed {
-      & .stepHeader::after {
+      .stepHeader::after {
         background-color: var(--theme-color-surface-#{$token}-default);
       }
     }
   }
 }
-
-// ─── Type-based sizing + connector positioning ────────────────────────────────
 
 @each $type, $size in $types {
   $step-size: var(--base-sizing-#{$size});
@@ -477,41 +488,27 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
       height: $step-size;
     }
 
-    @if $type == "number" {
-      .item {
-        &.completed,
-        &.active,
-        &.error {
-          .stepIcon {
-            font-size: var(--base-sizing-16x);
-          }
-        }
-      }
-    }
+    @include connector-variant-colors;
 
     &.vertical {
       .item {
         min-height: calc($step-size + 2 * var(--base-sizing-16x));
-      }
 
-      .item:not(:first-child) .stepHeader::before {
-        content: "";
-        position: absolute;
-        background-color: var(--theme-color-border-light-default);
-        width: var(--base-sizing-1x);
-        top: 0;
-        height: calc(50% - $step-size / 2 - var(--base-sizing-8x));
-        left: $connector-offset;
-      }
+        &:not(:first-child) .stepHeader::before {
+          @include connector-track;
+          width: var(--base-sizing-1x);
+          top: 0;
+          height: calc(50% - $step-size / 2 - var(--base-sizing-8x));
+          left: $connector-offset;
+        }
 
-      .item .stepHeader::after {
-        width: var(--base-sizing-1x);
-        top: calc(50% + $step-size / 2 + var(--base-sizing-8x));
-        bottom: calc(-1 * var(--base-sizing-24x));
-        left: $connector-offset;
-      }
+        .stepHeader::after {
+          width: var(--base-sizing-1x);
+          top: calc(50% + $step-size / 2 + var(--base-sizing-8x));
+          bottom: calc(-1 * var(--base-sizing-24x));
+          left: $connector-offset;
+        }
 
-      .item {
         &.item-horizontal {
           min-height: calc($step-size + 2 * var(--base-sizing-12x));
         }
@@ -532,13 +529,9 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
         }
       }
 
-      @include connector-variant-colors;
-
       &.connectorAlign-start {
         .item {
-          &:not(:first-child) .stepHeader::before {
-            left: 0;
-          }
+          &:not(:first-child) .stepHeader::before,
           .stepHeader::after {
             left: 0;
           }
@@ -550,9 +543,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
       &.connectorAlign-end {
         .item {
-          &:not(:first-child) .stepHeader::before {
-            left: calc($step-size - var(--base-sizing-1x));
-          }
+          &:not(:first-child) .stepHeader::before,
           .stepHeader::after {
             left: calc($step-size - var(--base-sizing-1x));
           }
@@ -564,30 +555,27 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
     }
 
     &.horizontal {
-      .item:not(:first-child) .stepHeader::before {
-        content: "";
-        position: absolute;
-        background-color: var(--theme-color-border-light-default);
-        height: var(--base-sizing-1x);
-        left: 0;
-        width: calc(50% - $step-size / 2 - var(--base-sizing-8x));
-        top: $connector-offset;
-      }
-
-      .item .stepHeader::after {
-        height: var(--base-sizing-1x);
-        left: calc(50% + $step-size / 2 + var(--base-sizing-8x));
-        right: calc(-1 * var(--base-sizing-24x));
-        top: $connector-offset;
-      }
-
       .item {
+        &:not(:first-child) .stepHeader::before {
+          @include connector-track;
+          height: var(--base-sizing-1x);
+          left: 0;
+          width: calc(50% - $step-size / 2 - var(--base-sizing-8x));
+          top: $connector-offset;
+        }
+
+        .stepHeader::after {
+          height: var(--base-sizing-1x);
+          left: calc(50% + $step-size / 2 + var(--base-sizing-8x));
+          right: calc(-1 * var(--base-sizing-24x));
+          top: $connector-offset;
+        }
+
         &.item-horizontal,
         &.item-vertical {
           flex: 0 0 auto;
         }
 
-        // indicator at left edge — connector covers only the gap, ::after disabled
         &.item-horizontal {
           .stepHeader::after {
             content: none;
@@ -600,7 +588,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
           }
         }
 
-        // indicator centered — ::before covers left half, ::after covers right half into gap
+        // centered indicator
         &.item-vertical {
           .stepHeader::after {
             left: calc(50% + $step-size / 2 + var(--base-sizing-8x));
@@ -616,13 +604,9 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
         }
       }
 
-      @include connector-variant-colors;
-
       &.connectorAlign-start {
         .item {
-          &:not(:first-child) .stepHeader::before {
-            top: 0;
-          }
+          &:not(:first-child) .stepHeader::before,
           .stepHeader::after {
             top: 0;
           }
@@ -631,9 +615,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
       &.connectorAlign-end {
         .item {
-          &:not(:first-child) .stepHeader::before {
-            top: calc($step-size - var(--base-sizing-1x));
-          }
+          &:not(:first-child) .stepHeader::before,
           .stepHeader::after {
             top: calc($step-size - var(--base-sizing-1x));
           }
