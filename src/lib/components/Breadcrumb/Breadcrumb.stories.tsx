@@ -12,10 +12,10 @@ const meta: Meta<typeof Breadcrumb> = {
   },
   args: {
     items: [
-      { label: "Ana Sayfa", path: "https://www.motif-ui.com" },
-      { label: "Kurumlar", path: "https://www.motif-ui.com" },
-      { label: "Google", path: "https://google.com" },
-      { label: "Microsoft", path: "https://microsoft.com" },
+      { label: "Main Page", path: "https://www.motif-ui.com" },
+      { label: "Second Page", path: "https://www.motif-ui.com" },
+      { label: "Third Page", path: "https://www.motif-ui.com" },
+      { label: "Fourth Page", path: "https://www.motif-ui.com" },
       { label: "MotifUI", path: "https://www.motif-ui.com" },
     ],
   },

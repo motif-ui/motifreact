@@ -53,8 +53,6 @@ export const isNotAvailable = (value: unknown) =>
  */
 export const camelToKebab = (str: string) => str.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 
-export const compareByDiffWithFlooringValues = (n1: number, n2: number, diffValue: number) => Math.floor(n1) - Math.floor(n2) > diffValue;
-
 /** Check if value is a plain object */
 export const isObj = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null;
 

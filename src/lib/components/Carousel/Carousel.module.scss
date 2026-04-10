@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 $theme: (
-  // theme, bg, titleColor, subTitleColor, controlButtonHoverColor, controlButtonColor, indicatorBgColor, indicatorActiveBgColor, indicatorHoverBgColor
+  // theme, background, titleColor, subTitleColor, controlButtonHoverColor, controlButtonColor, indicatorBgColor, indicatorActiveBgColor, indicatorHoverBgColor
   (
       "light",
       --theme-color-surface-base-base1,
@@ -32,9 +32,9 @@ $theme: (
   overflow: hidden;
 }
 
-@each $theme, $bg, $titleColor, $subtitleColor, $ctrlHoverColor, $ctrlColor, $indBgColor, $indActiveBgColor, $indHoverBgColor in $theme {
+@each $theme, $background, $titleColor, $subtitleColor, $controlButtonHoverColor, $controlButtonColor, $indicatorBgColor, $indicatorActiveBgColor, $indicatorHoverBgColor in $theme {
   .#{$theme} {
-    background: var($bg);
+    background: var($background);
     .title {
       color: var($titleColor);
     }
@@ -43,18 +43,18 @@ $theme: (
     }
     .prev,
     .next {
-      color: var($ctrlColor);
+      color: var($controlButtonColor);
       &:hover {
-        color: var($ctrlHoverColor);
+        color: var($controlButtonHoverColor);
       }
     }
     .indicators li {
-      background-color: var($indBgColor);
+      background-color: var($indicatorBgColor);
       &.active {
-        background-color: var($indActiveBgColor);
+        background-color: var($indicatorActiveBgColor);
       }
       &:hover {
-        background-color: var($indHoverBgColor);
+        background-color: var($indicatorHoverBgColor);
       }
     }
   }

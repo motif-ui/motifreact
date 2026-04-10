@@ -9,7 +9,7 @@ const meta: Meta<typeof DateRangePicker> = {
   argTypes: {
     variant: { table: { defaultValue: { summary: "borderless" } } },
     size: { table: { defaultValue: { summary: "md" } } },
-    locale: { table: { defaultValue: { summary: "tr_TR" } } },
+    locale: { table: { defaultValue: { summary: "LOCALE_DATE_RANGE_TR_TR" } } },
   },
   args: {
     variant: "shadow",

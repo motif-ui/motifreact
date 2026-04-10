@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-$dataview-sizes: ("xs", "sm", "md", "lg", "xl");
+$data-view-sizes: ("xs", "sm", "md", "lg", "xl");
 
 .Root {
   display: grid;
@@ -83,7 +83,7 @@ $dataview-sizes: ("xs", "sm", "md", "lg", "xl");
   }
 }
 
-@mixin dataview-cols($breakpoint) {
+@mixin data-view-cols($breakpoint) {
   @for $i from 1 through 4 {
     .Root.#{$breakpoint}-#{$i} {
       grid-template-columns: repeat(#{$i}, 1fr);
@@ -101,6 +101,6 @@ $dataview-sizes: ("xs", "sm", "md", "lg", "xl");
   }
 }
 
-@include screen-width-breakpoints($dataview-sizes) using ($breakpoint) {
-  @include dataview-cols($breakpoint);
+@include screen-width-breakpoints($data-view-sizes) using ($breakpoint) {
+  @include data-view-cols($breakpoint);
 }

@@ -1,16 +1,3 @@
-import { act } from "@testing-library/react";
-
-export const setWidthForTest = (width: number) => {
-  Object.defineProperty(window, "innerWidth", {
-    writable: true,
-    configurable: true,
-    value: width,
-  });
-  act(() => {
-    window.dispatchEvent(new Event("resize"));
-  });
-};
-
 type JestToErrorArg = Parameters<jest.Matchers<unknown, () => unknown>["toThrow"]>[0];
 /**
  *
