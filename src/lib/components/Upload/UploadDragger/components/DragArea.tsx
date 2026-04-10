@@ -24,7 +24,6 @@ const DragArea = (props: Props) => {
     uploadProps: { maxSize, maxFile },
     addNewFiles,
     browse,
-    size,
   } = useContext(UploadContext);
 
   const isFirstRun = useRef(true);
@@ -93,7 +92,7 @@ const DragArea = (props: Props) => {
       onDrop={handleDrop}
       {...(!isDisabled && { onClick: browse })}
     >
-      <MotifIcon name="upload_file" variant="secondary" className={styles.dragIcon} size={size} />
+      <MotifIcon name="upload_file" variant="secondary" className={styles.dragIcon} />
       <div className={styles.dragTextGroup}>
         <span className={styles.dragText}>{MESSAGE.PLEASE_CLICK_OR_DROP}</span>
         <span className={styles.dragInfo}>{infoMessage}</span>
