@@ -11,7 +11,7 @@ type Props = {
 
 export const FileButton = memo(({ file }: Props) => {
   const { removeFiles, reUpload, abort, size } = useContext(UploadContext);
-  const iconSize = size === "sm" ? "xs" : size === "lg" ? "md" : "sm";
+  const iconSize = size === "xs" ? "xxs" : size === "sm" ? "xs" : size === "lg" ? "md" : "sm";
 
   return (
     <>

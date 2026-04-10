@@ -15,7 +15,7 @@ type Props = {
 
 export const FileListRow = memo(({ file, disabled, readOnly }: Props) => {
   const { size } = useContext(UploadContext);
-  const iconSize = size === "sm" ? "md" : size === "lg" ? "xl" : "lg";
+  const iconSize = size === "xs" ? "sm" : size === "sm" ? "md" : size === "lg" ? "xl" : "lg";
 
   const classes = sanitizeModuleClasses(styles, "fileRow", disabled && "disabled");
 
