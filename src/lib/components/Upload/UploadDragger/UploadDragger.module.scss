@@ -1,7 +1,12 @@
 @use "@styles" as *;
 
 // name, gap, padding, fontPerc, infoFontPerc, width, height
-$sizes: (("xs", "6x", "28x", "xs", "xxs", 256px, 160px), ("sm", "6x", "28x", "sm", "xs", 320px, 176px), ("md", "6x", "28x", "md", "sm", 360px, 190px), ("lg", "8x", "32x", "lg", "md", 400px, 216px));
+$sizes: (
+  ("xs", "6x", "28x", "xs", "xxs", "256x", "160x"),
+  ("sm", "6x", "28x", "sm", "xs", "320x", "176x"),
+  ("md", "6x", "28x", "md", "sm", "360x", "190x"),
+  ("lg", "8x", "32x", "lg", "md", "400x", "216x")
+);
 
 .Root {
   .dragArea {
@@ -82,8 +87,8 @@ $sizes: (("xs", "6x", "28x", "xs", "xxs", 256px, 160px), ("sm", "6x", "28x", "sm
     .dragArea {
       gap: var(--base-sizing-#{$gap});
       padding: var(--base-sizing-#{$padding});
-      min-width: $width;
-      height: $height;
+      width: var(--base-sizing-#{$width});
+      height: var(--base-sizing-#{$height});
 
       .dragText {
         @include font("base", $fontPerc, "500");
@@ -93,11 +98,12 @@ $sizes: (("xs", "6x", "28x", "xs", "xxs", 256px, 160px), ("sm", "6x", "28x", "sm
         @include font("body", $infoFontPerc);
       }
     }
-  }
-}
 
-.lg {
-  .dragArea {
-    min-height: 216px;
+    &.inFormField {
+      .dragArea {
+        min-width: var(--base-sizing-#{$width});
+        width: 100%;
+      }
+    }
   }
 }
