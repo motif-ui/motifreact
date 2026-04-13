@@ -26,6 +26,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.motif_icon_d_remove::before {
+  content: "\e923";
+}
 .motif_icon_d_motif_ui::before {
   content: "\e922";
 }
@@ -34,9 +37,6 @@
 }
 .motif_icon_d_redo::before {
   content: "\e966";
-}
-.motif_icon_d_minus::before {
-  content: "\ea0b";
 }
 .motif_icon_d_add::before {
   content: "\e921";
