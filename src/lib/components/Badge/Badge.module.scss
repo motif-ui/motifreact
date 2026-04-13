@@ -24,6 +24,10 @@ $positions: ("top-left", "top-right", "bottom-left", "bottom-right");
 
 .icon {
   font-size: var(--base-sizing-16x);
+  > svg {
+    width: 1em;
+    height: 1em;
+  }
 }
 
 .badge {

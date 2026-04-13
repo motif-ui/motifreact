@@ -12,6 +12,10 @@ $variants: (("neutral", "light"), ("primary", "primary"), ("secondary", "seconda
 
   .icon {
     font-size: var(--base-sizing-40x);
+    > svg {
+      width: 1em;
+      height: 1em;
+    }
   }
   .title {
     @include font("base", "lg", "700");

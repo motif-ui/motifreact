@@ -1,5 +1,5 @@
 import styles from "./BusinessCard.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../Motif/Icon/components/GlobalIconWrapper";
 import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
 import { PropsWithRef } from "../../types";
@@ -38,7 +38,7 @@ const BusinessCard = (props: PropsWithRef<BusinessCardProps, HTMLDivElement>) =>
   return (
     <div className={classNames} ref={ref} onClick={onClick} style={style}>
       {image && <Avatar image={image} size="xxl" />}
-      {typeof icon === "string" ? <Icon name={icon} className={styles.icon} /> : icon}
+      {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
       {title && <span className={styles.title}>{title}</span>}
       {description && <span className={styles.description}>{description}</span>}
       {link && (

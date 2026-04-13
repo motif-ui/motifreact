@@ -91,6 +91,7 @@ describe("Badge", () => {
       </Badge>,
     );
     expect(screen.getByText("★")).toBeInTheDocument();
+    expect(screen.getByText("★").parentElement).toHaveClass("icon");
   });
 
   it("should render no text content when the dot is true", () => {

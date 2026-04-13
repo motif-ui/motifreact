@@ -7,7 +7,7 @@ const meta: Meta<typeof BusinessCard> = {
   argTypes: {
     position: { table: { defaultValue: { summary: "center" } } },
     variant: { table: { defaultValue: { summary: "secondary" } } },
-    icon: { description: "Icon name (string) or a custom icon component (ReactElement), e.g. `<FontAwesomeIcon />`" },
+    icon: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
     onClick: {
       control: { type: "boolean" },
       mapping: {

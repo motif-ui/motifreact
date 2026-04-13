@@ -42,9 +42,10 @@ describe("Breadcrumb", () => {
   });
 
   it("should render icon component when homeIcon prop is given as a component", () => {
-    const IconComponent = () => <span data-testid="custom-home-icon">home-svg</span>;
+    const IconComponent = () => <span>home-svg</span>;
     render(<Breadcrumb items={testItems} homeIcon={<IconComponent />} />);
-    expect(screen.getByTestId("custom-home-icon")).toBeInTheDocument();
+    expect(screen.getByText("home-svg")).toBeInTheDocument();
+    expect(screen.getByText("home-svg").parentElement).toHaveClass("homepage-icon");
   });
 
   it("should render links to all items  without collapse", () => {

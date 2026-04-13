@@ -7,7 +7,10 @@ const meta: Meta<typeof Breadcrumb> = {
   component: Breadcrumb,
   argTypes: {
     collapsedPosition: { table: { defaultValue: { summary: "left" } } },
-    homeIcon: { table: { defaultValue: { summary: "home" } } },
+    homeIcon: {
+      description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>",
+      table: { defaultValue: { summary: "home" } },
+    },
     maxVisibleItems: { table: { defaultValue: { summary: "3" } } },
   },
   args: {

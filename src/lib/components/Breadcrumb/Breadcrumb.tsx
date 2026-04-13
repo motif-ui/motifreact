@@ -2,7 +2,7 @@
 
 import { PropsWithRef } from "../../types";
 import styles from "./Breadcrumb.module.scss";
-import Icon from "@/components/Icon/Icon";
+import GlobalIconWrapper from "../Motif/Icon/components/GlobalIconWrapper";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { BreadcrumbProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -51,11 +51,7 @@ const Breadcrumb = (props: PropsWithRef<BreadcrumbProps, HTMLUListElement>) => {
       <ul className={classNames} ref={ref} style={style}>
         {itemsToRender.length > 0 &&
           (homeIcon ? (
-            typeof homeIcon === "string" ? (
-              <Icon name={homeIcon} className={styles["homepage-icon"]} />
-            ) : (
-              <span className={styles["homepage-icon"]}>{homeIcon}</span>
-            )
+            <GlobalIconWrapper icon={homeIcon} className={styles["homepage-icon"]} />
           ) : (
             <MotifIcon name="home" className={styles["homepage-icon"]} />
           ))}

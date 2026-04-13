@@ -18,7 +18,7 @@ const meta: Meta<typeof Badge> = {
     max: { table: { defaultValue: { summary: "999" } } },
     align: { table: { defaultValue: { summary: "top-right" } } },
     children: { control: false },
-    icon: { description: "Icon name (string) or a custom icon component (ReactElement), e.g. `<FontAwesomeIcon />`" },
+    icon: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
   },
   args: {
     content: "badge",

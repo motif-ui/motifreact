@@ -1,5 +1,5 @@
 import styles from "./Avatar.module.scss";
-import Icon from "@/components/Icon/Icon";
+import GlobalIconWrapper from "../Motif/Icon/components/GlobalIconWrapper";
 import { PropsWithRef } from "../../types";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { AvatarProps } from "./types";
@@ -22,11 +22,7 @@ const Avatar = (props: PropsWithRef<AvatarProps, HTMLDivElement>) => {
       ) : letters ? (
         <span>{letters.toUpperCase().substring(0, size === "xs" || size === "sm" ? 1 : 2)}</span>
       ) : icon ? (
-        typeof icon === "string" ? (
-          <Icon name={icon} />
-        ) : (
-          icon
-        )
+        <GlobalIconWrapper icon={icon} />
       ) : (
         <MotifIcon name="person" />
       )}

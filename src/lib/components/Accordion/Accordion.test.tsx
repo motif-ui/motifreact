@@ -41,6 +41,7 @@ describe("Accordion", () => {
 
     render(<Accordion title="Accordion Title" icon={<span>★</span>} />);
     expect(screen.getByText("★")).toBeInTheDocument();
+    expect(screen.getByText("★").parentElement).toHaveClass("icon");
   });
 
   it("should trigger the event given in the onToggle prop when toggled", () => {
