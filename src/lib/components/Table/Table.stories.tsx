@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Table from "./Table";
-import { generateDummyTableData } from "@/components/Table/data/table";
+import { generateDummyTableData } from "../../../docs/data/table";
 import Button from "@/components/Button";
 
 const meta: Meta<typeof Table> = {

@@ -1,4 +1,4 @@
-import { getRandomItemFromArray } from "../../../../utils/utils";
+import { getRandomItemFromArray } from "../../utils/utils";
 import { MOCK } from "./mock";
 
 export const generateDummyTableData = (count: number) => {
