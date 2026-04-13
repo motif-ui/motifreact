@@ -28,7 +28,7 @@ export const AnyContent: Story = {
   render: args => (
     <div style={{ width: 300 }}>
       <Accordion {...args}>
-        <img src="https://picsum.photos/400/200" alt="image" />
+        <img src="https://picsum.photos/seed/motifui/400/200" alt="image" />
       </Accordion>
     </div>
   ),

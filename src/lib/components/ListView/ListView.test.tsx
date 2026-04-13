@@ -31,7 +31,7 @@ describe("ListView", () => {
       <ListView disableAvatars>
         <ListView.Item title="Item 1" icon="folder" />
         <ListView.Item title="Item 2" abbr="test" />
-        <ListView.Item title="Item 3" image="https://picsum.photos/20" />
+        <ListView.Item title="Item 3" image="https://picsum.photos/seed/motifui/20" />
       </ListView>,
     );
 
@@ -71,7 +71,7 @@ describe("ListView", () => {
       <ListView selectable>
         <ListView.Item title="Item 1" icon="folder" id="1" />
         <ListView.Item title="Item 2" abbr="abbr" id="2" />
-        <ListView.Item title="Item 3" image="https://picsum.photos/20" id="3" />
+        <ListView.Item title="Item 3" image="https://picsum.photos/seed/motifui/20" id="3" />
       </ListView>,
     );
 

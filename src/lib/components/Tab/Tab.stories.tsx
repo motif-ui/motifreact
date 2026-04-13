@@ -38,14 +38,14 @@ export const Primary: Story = {
     <Tab {...args}>
       <Tab.Panel id="home">
         <div style={{ display: "flex" }}>
-          <img src="https://picsum.photos/150" alt="tab panel home imade" />
+          <img src="https://picsum.photos/seed/motifui/150" alt="tab panel home imade" />
           <p style={{ marginLeft: 15 }}>{dummyText}</p>
         </div>
       </Tab.Panel>
       <Tab.Panel id="motif_ui">
         <div style={{ display: "flex" }}>
           <p style={{ marginRight: 15 }}>{dummyText}</p>
-          <img src="https://picsum.photos/150" alt="tab panel 3 image" />
+          <img src="https://picsum.photos/seed/motifui/150" alt="tab panel 3 image" />
         </div>
       </Tab.Panel>
       <Tab.Panel id="feed">
