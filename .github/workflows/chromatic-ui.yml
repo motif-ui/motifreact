@@ -1,4 +1,4 @@
-name: Chromatic UI
+name: UI
 
 on:
   pull_request_target:
