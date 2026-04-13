@@ -1,11 +1,11 @@
 @use "@styles" as *;
 
-// name, gap, padding, fontPerc, infoFontPerc, width, height, iconSize
+// name, spacing, padding, infoFontPerc, width, height, iconSize
 $sizes: (
-  ("xs", "6x", "28x", "xs", "xxs", "256x", "160x", "32x"),
-  ("sm", "6x", "28x", "sm", "xs", "320x", "176x", "40x"),
-  ("md", "6x", "28x", "md", "sm", "360x", "190x", "48x"),
-  ("lg", "8x", "32x", "lg", "md", "400x", "216x", "56x")
+  ("xs", "2x", "20x", "xxs", "256x", "160x", "32x"),
+  ("sm", "4x", "24x", "xs", "320x", "176x", "40x"),
+  ("md", "6x", "28x", "sm", "360x", "190x", "48x"),
+  ("lg", "8x", "32x", "md", "400x", "216x", "56x")
 );
 
 .Root {
@@ -30,8 +30,6 @@ $sizes: (
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--base-sizing-4x);
-      padding: var(--base-sizing-4x) var(--base-sizing-8x);
     }
 
     .dragText {
@@ -82,10 +80,10 @@ $sizes: (
   }
 }
 
-@each $name, $gap, $padding, $fontPerc, $infoFontPerc, $width, $height, $iconSize in $sizes {
+@each $name, $spacing, $padding, $infoFontPerc, $width, $height, $iconSize in $sizes {
   .#{$name} {
     .dragArea {
-      gap: var(--base-sizing-#{$gap});
+      gap: var(--base-sizing-#{$spacing});
       padding: var(--base-sizing-#{$padding});
       width: var(--base-sizing-#{$width});
       height: var(--base-sizing-#{$height});
@@ -94,8 +92,13 @@ $sizes: (
         font-size: var(--base-sizing-#{$iconSize});
       }
 
+      .dragTextGroup {
+        gap: var(--base-sizing-#{$spacing});
+        padding: var(--base-sizing-#{$spacing});
+      }
+
       .dragText {
-        @include font("base", $fontPerc, "500");
+        @include font("base", $name, "500");
       }
 
       .dragInfo {
