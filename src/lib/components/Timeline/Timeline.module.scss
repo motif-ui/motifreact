@@ -1,0 +1,310 @@
+@use "@styles" as *;
+
+// variant, fillTextColor
+$variants: (
+  ("primary", "base-global-light"),
+  ("secondary", "base-global-light"),
+  ("success", "base-global-light"),
+  ("warning", "base-text-dark"),
+  ("danger", "base-global-light"),
+  ("light", "light-default")
+);
+
+@mixin connection-line($orientation, $half: false) {
+  content: "";
+  display: block;
+  flex: 1;
+  background-color: var(--theme-color-border-light-default);
+
+  @if $orientation == "vertical" {
+    min-height: if($half, var(--base-sizing-12x), var(--base-sizing-24x));
+    width: var(--base-sizing-1x);
+  } @else if $orientation == "horizontal" {
+    min-width: if($half, var(--base-sizing-12x), var(--base-sizing-24x));
+    height: var(--base-sizing-1x);
+  }
+}
+
+@mixin marker-variant($variant, $fill-text-token, $self: false) {
+  $base: if($self, "&", "");
+  $outlined-disabled: if($self, "&.disabled.outlined", ".item.disabled.outlined");
+  $filled-disabled: if($self, "&.disabled.filled", ".item.disabled.filled");
+
+  #{$base}.outlined .marker span {
+    border-color: var(--theme-color-border-#{$variant}-default);
+    color: var(--theme-color-text-#{$variant}-default);
+  }
+
+  #{$base}.filled .marker span {
+    background-color: var(--theme-color-surface-#{$variant}-default);
+    color: var(--theme-color-text-#{$fill-text-token});
+  }
+
+  #{$outlined-disabled} .marker span {
+    border-color: if($variant == "light", var(--theme-color-border-light-default), if($variant == "secondary", var(--theme-color-surface-base-base7), var(--theme-color-border-#{$variant}-disabled)));
+    color: if($variant == "light", var(--theme-color-text-secondary-disabled), var(--theme-color-text-#{$variant}-disabled));
+  }
+
+  #{$filled-disabled} .marker span {
+    background-color: if($variant == "secondary", var(--theme-color-surface-base-base7), var(--theme-color-surface-#{$variant}-disabled));
+    @if $variant == "warning" {
+      color: var(--theme-color-text-base-dark-overlay25);
+    } @else if $variant == "light" {
+      color: var(--theme-color-text-light-disabled);
+    }
+  }
+}
+
+.Root {
+  display: flex;
+}
+
+.item {
+  display: flex;
+  gap: var(--base-sizing-8x);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-sizing-4x);
+  color: var(--theme-color-text-base-subtitle);
+}
+
+.title {
+  @include font("base", "lg", "600");
+}
+
+.content {
+  @include font("body", "md");
+}
+
+.marker {
+  display: flex;
+  align-items: center;
+
+  > * {
+    display: block;
+    border-radius: var(--theme-sizing-radius-round);
+  }
+
+  .outlined & span {
+    border-width: var(--base-sizing-2x);
+    border-style: solid;
+  }
+
+  .markerDot {
+    width: var(--base-sizing-12x);
+    height: var(--base-sizing-12x);
+  }
+  .markerNumber {
+    width: var(--base-sizing-24x);
+    height: var(--base-sizing-24x);
+    @include font("base", "xxs", "700");
+    @include flex-center;
+  }
+  .markerIcon {
+    width: var(--base-sizing-40x);
+    height: var(--base-sizing-40x);
+    font-size: var(--base-sizing-24x);
+    @include flex-center;
+  }
+}
+
+.vertical {
+  &,
+  .marker {
+    flex-direction: column;
+  }
+
+  .item {
+    padding-left: var(--base-sizing-8x);
+    padding-right: var(--base-sizing-8x);
+  }
+
+  &.before .item {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+  &.after .item {
+    flex-direction: row;
+  }
+  &.alternate .item {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    .marker {
+      grid-column: 2;
+    }
+    .section {
+      grid-column: 3;
+    }
+    &:nth-child(odd) {
+      grid-auto-flow: dense;
+      .section {
+        grid-column: 1;
+        text-align: right;
+      }
+    }
+  }
+
+  &.start {
+    .marker {
+      justify-content: flex-start;
+      &:has(.markerDot) ~ .section {
+        margin-top: calc(-1 * var(--base-sizing-6x));
+      }
+      &:has(.markerIcon) ~ .section {
+        margin-top: var(--base-sizing-8x);
+      }
+    }
+
+    .item:not(:last-child) {
+      .section {
+        justify-content: flex-start;
+        padding-bottom: var(--base-sizing-24x);
+      }
+      .marker::after {
+        @include connection-line("vertical");
+      }
+    }
+  }
+  &.center .item {
+    .section {
+      justify-content: center;
+      padding-top: var(--base-sizing-12x);
+      padding-bottom: var(--base-sizing-12x);
+    }
+    &:last-child .marker::after,
+    &:first-child .marker::before {
+      background-color: transparent;
+    }
+    .marker {
+      justify-content: center;
+      &::after,
+      &::before {
+        @include connection-line("vertical", "half");
+      }
+    }
+  }
+  &.end {
+    .marker {
+      justify-content: flex-end;
+      &:has(.markerDot) ~ .section {
+        margin-bottom: calc(-1 * var(--base-sizing-4x));
+      }
+      &:has(.markerIcon) ~ .section {
+        margin-bottom: var(--base-sizing-8x);
+      }
+    }
+    .item:not(:first-child) {
+      .section {
+        justify-content: flex-end;
+        padding-top: var(--base-sizing-24x);
+      }
+      .marker::before {
+        @include connection-line("vertical");
+      }
+    }
+  }
+}
+
+.horizontal {
+  &,
+  .marker {
+    flex-direction: row;
+  }
+  .item {
+    padding-top: var(--base-sizing-8x);
+    padding-bottom: var(--base-sizing-8x);
+  }
+
+  &.before .item {
+    flex-direction: column-reverse;
+  }
+  &.after .item {
+    flex-direction: column;
+  }
+  &.alternate {
+    display: grid;
+    grid-template-rows: auto auto auto;
+
+    .item {
+      display: grid;
+      grid-row: 1 / -1;
+      /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
+      grid-template-rows: subgrid;
+
+      .marker {
+        grid-row: 2;
+      }
+      .section {
+        grid-row: 3;
+        align-self: start;
+      }
+      &:nth-child(odd) .section {
+        grid-row: 1;
+        align-self: end;
+      }
+    }
+  }
+
+  &.start .item {
+    .marker {
+      justify-content: flex-start;
+    }
+    .section {
+      text-align: left;
+    }
+    &:not(:last-child) {
+      .section {
+        padding-right: var(--base-sizing-24x);
+      }
+      .marker::after {
+        @include connection-line("horizontal");
+      }
+    }
+  }
+  &.center .item {
+    .marker {
+      justify-content: center;
+    }
+    .section {
+      text-align: center;
+      padding-left: var(--base-sizing-12x);
+      padding-right: var(--base-sizing-12x);
+    }
+    &:last-child .marker::after,
+    &:first-child .marker::before {
+      background-color: transparent;
+    }
+    .marker::after,
+    .marker::before {
+      @include connection-line("horizontal", true);
+    }
+  }
+  &.end .item {
+    .marker {
+      justify-content: flex-end;
+    }
+    .section {
+      text-align: right;
+    }
+    &:not(:first-child) {
+      .section {
+        padding-left: var(--base-sizing-24x);
+      }
+      .marker::before {
+        @include connection-line("horizontal");
+      }
+    }
+  }
+}
+
+@each $variant, $fill-text-token in $variants {
+  .#{$variant} {
+    @include marker-variant($variant, $fill-text-token);
+  }
+  .item.#{$variant} {
+    @include marker-variant($variant, $fill-text-token, $self: true);
+  }
+}

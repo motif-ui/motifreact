@@ -51,6 +51,7 @@ export { default as Tab } from "./components/Tab";
 export { default as Table } from "./components/Table";
 export { default as Text } from "./components/Text";
 export { default as Textarea } from "./components/Textarea";
+export { default as Timeline } from "./components/Timeline";
 export { default as TimePicker } from "./components/TimePicker";
 export { useToast as Toast } from "./components/Toast";
 export { default as Tooltip } from "./components/Tooltip";
