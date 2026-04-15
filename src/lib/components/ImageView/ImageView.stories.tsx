@@ -12,7 +12,7 @@ const meta: Meta<typeof ImageView> = {
     height: { table: { defaultValue: { summary: "auto" } } },
   },
   args: {
-    src: "https://picsum.photos/200/300",
+    src: "https://picsum.photos/seed/motifui/200/300",
     width: 200,
     height: 300,
   },
