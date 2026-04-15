@@ -67,7 +67,7 @@ export const HeaderAndContent: Story = {
       {...args}
       title="Card Header Title"
       subtitle="Motif Card Subtitle"
-      avatarText="AB"
+      avatarText="MU"
       action={{ icon: "download", onClick: () => console.log("Action clicked!") }}
       contentText="Motif Card Supporting Text"
       contentTitle="Card Content Title"

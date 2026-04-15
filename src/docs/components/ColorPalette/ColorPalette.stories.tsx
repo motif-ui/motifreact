@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { ColorPalettePage } from "./colorPalettePage";
+import { ColorPalettePage } from "./ColorPalettePage";
 import Button from "../../../lib/components/Button/Button";
 
 const meta: Meta<typeof ColorPalettePage> = {

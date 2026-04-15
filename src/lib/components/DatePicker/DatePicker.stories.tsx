@@ -16,7 +16,7 @@ const meta: Meta<typeof DatePicker> = {
     value: { control: { type: "date" } },
     variant: { table: { defaultValue: { summary: "borderless" } } },
     size: { table: { defaultValue: { summary: "md" } } },
-    locale: { table: { defaultValue: { summary: "Turkish" } } },
+    locale: { table: { defaultValue: { summary: "LOCALE_DATE_TR_TR" } } },
   },
   args: {
     variant: "shadow",
