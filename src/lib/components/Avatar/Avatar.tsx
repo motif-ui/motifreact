@@ -1,5 +1,5 @@
 import styles from "./Avatar.module.scss";
-import GlobalIconWrapper from "../Motif/Icon/components/GlobalIconWrapper";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { PropsWithRef } from "../../types";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { AvatarProps } from "./types";

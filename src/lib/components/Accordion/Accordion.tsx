@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useContext, useEffect } from "react";
 import styles from "./Accordion.module.scss";
-import GlobalIconWrapper from "../Motif/Icon/components/GlobalIconWrapper";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import AccordionGroup, { AccordionGroupContext } from "./AccordionGroup/AccordionGroup";
 import { AccordionProps } from "./types";
 import { PropsWithRefAndChildren } from "../../types";

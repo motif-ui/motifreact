@@ -1,5 +1,6 @@
 import BusinessCard from "@/components/BusinessCard/BusinessCard";
 import { fireEvent, render } from "@testing-library/react";
+import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
 
 describe("BusinessCard", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {
@@ -22,15 +23,7 @@ describe("BusinessCard", () => {
     expect(getByText("description")).toBeInTheDocument();
   });
 
-  it("should display the icon given in the icon prop", () => {
-    const IconComponent = () => <span>icon-svg</span>;
-    const { getByText, rerender } = render(<BusinessCard icon="folder" />);
-    expect(getByText("folder")).toBeInTheDocument();
-
-    rerender(<BusinessCard icon={<IconComponent />} />);
-    expect(getByText("icon-svg")).toBeInTheDocument();
-    expect(getByText("icon-svg").parentElement).toHaveClass("icon");
-  });
+  runIconPropTest(icon => render(<BusinessCard icon={icon} />), "icon");
 
   it("should render an anchor with the props given in the link prop", () => {
     const { getByText } = render(<BusinessCard link={{ text: "my link", href: "https://motif-ui.com", targetBlank: true }} />);

@@ -1,5 +1,5 @@
 import styles from "./BusinessCard.module.scss";
-import GlobalIconWrapper from "../Motif/Icon/components/GlobalIconWrapper";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
 import { PropsWithRef } from "../../types";

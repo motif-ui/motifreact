@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { render, screen } from "@testing-library/react";
+import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
 
 describe("Breadcrumb", () => {
   const testItems = [
@@ -36,17 +37,7 @@ describe("Breadcrumb", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(itemCount + 1);
   });
 
-  it("should display the icon given in homeIcon prop", () => {
-    render(<Breadcrumb items={testItems} homeIcon="folder" />);
-    expect(screen.getByText("folder")).toBeInTheDocument();
-  });
-
-  it("should render icon component when homeIcon prop is given as a component", () => {
-    const IconComponent = () => <span>home-svg</span>;
-    render(<Breadcrumb items={testItems} homeIcon={<IconComponent />} />);
-    expect(screen.getByText("home-svg")).toBeInTheDocument();
-    expect(screen.getByText("home-svg").parentElement).toHaveClass("homepage-icon");
-  });
+  runIconPropTest(icon => render(<Breadcrumb items={testItems} homeIcon={icon} />), "homepage-icon");
 
   it("should render links to all items  without collapse", () => {
     render(<Breadcrumb items={testItems} maxVisibleItems={5} />);

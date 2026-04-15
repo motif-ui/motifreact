@@ -45,10 +45,6 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
     }
     &.icon span {
       font-size: var(--base-sizing-#{$iconSize});
-      > svg {
-        width: 1em;
-        height: 1em;
-      }
     }
   }
 }

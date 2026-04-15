@@ -2,7 +2,7 @@
 
 import { PropsWithRef } from "../../types";
 import styles from "./Breadcrumb.module.scss";
-import GlobalIconWrapper from "../Motif/Icon/components/GlobalIconWrapper";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { BreadcrumbProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";

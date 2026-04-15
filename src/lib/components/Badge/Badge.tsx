@@ -1,5 +1,5 @@
 import styles from "./Badge.module.scss";
-import GlobalIconWrapper from "../Motif/Icon/components/GlobalIconWrapper";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { PropsWithRefAndChildren } from "../../types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { BadgeProps } from "./types";
