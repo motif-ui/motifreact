@@ -9,8 +9,12 @@ import copy from "@rollup-extras/plugin-copy";
 import url from "postcss-url";
 import del from "rollup-plugin-delete";
 import alias from "@rollup/plugin-alias";
+import removeJsxAttributes from "rollup-plugin-jsx-remove-attributes";
 import path from "path";
+import process from "node:process";
 import { fileURLToPath } from "url";
+
+process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,6 +52,9 @@ export default [
     ],
     plugins: [
       peerDepsExternal(),
+      removeJsxAttributes({
+        attributes: ["data-testid"],
+      }),
       alias({
         entries: [
           { find: "@/components", replacement: path.resolve(__dirname, "src/lib/components") },

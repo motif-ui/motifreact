@@ -1,7 +1,7 @@
 import "./ColorPalette.scss";
 import { capitalizeFirstLetter } from "src/utils/utils";
 import { isBright } from "src/utils/cssUtils";
-import { BASE_COLORS, ColorItemType, COLORS, ColorSectionProps, generateColorData, ColorVariant } from "./colorPaletteHelper";
+import { BASE_COLORS, ColorItemType, COLORS, ColorSectionProps, generateColorData, ColorVariant } from "./helper";
 
 const ColorItem = ({ tone, cssVar, hex }: ColorItemType) => {
   const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));

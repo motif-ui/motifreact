@@ -28,10 +28,10 @@ describe("ListView.Item", () => {
   });
 
   it("should display given image on the left side", () => {
-    const { container, queryByRole } = render(<ListView.Item title="Test Item" image="https://picsum.photos/20" />);
+    const { container, queryByRole } = render(<ListView.Item title="Test Item" image="https://picsum.photos/seed/motifui/20" />);
     expect(container.getElementsByClassName("leftContent")).toHaveLength(1);
     expect(queryByRole("img")).toBeInTheDocument();
-    expect(queryByRole("img")).toHaveAttribute("src", "https://picsum.photos/20");
+    expect(queryByRole("img")).toHaveAttribute("src", "https://picsum.photos/seed/motifui/20");
   });
 
   it("should display given abbreviation on the left side", () => {

@@ -17,7 +17,7 @@ const meta: Meta<typeof DateTimePicker> = {
     variant: { table: { defaultValue: { summary: "borderless" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     timeFormat: { table: { defaultValue: { summary: "24h" } } },
-    locale: { table: { defaultValue: { summary: "Turkish" } } },
+    locale: { table: { defaultValue: { summary: "LOCALE_DATE_TIME_TR_TR" } } },
   },
   args: {
     variant: "shadow",

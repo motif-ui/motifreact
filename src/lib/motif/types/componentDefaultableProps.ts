@@ -49,6 +49,7 @@ import { SwitchDefaultableProps } from "../../components/Switch/types";
 import { TabDefaultableProps } from "../../components/Tab/types";
 import { TableDefaultableProps } from "../../components/Table/types";
 import { TextDefaultableProps } from "../../components/Text/types";
+import { TimelineDefaultableProps } from "../../components/Timeline/types";
 import { TextareaDefaultableProps } from "../../components/Textarea/types";
 import { StepperDefaultableProps } from "../../components/Stepper/types";
 import { TimePickerDefaultableProps } from "../../components/TimePicker/types";
@@ -116,6 +117,7 @@ export type ComponentDefaultableProps = {
   Table?: TableDefaultableProps;
   Text?: TextDefaultableProps;
   Textarea?: TextareaDefaultableProps;
+  Timeline?: TimelineDefaultableProps;
   TimePicker?: TimePickerDefaultableProps;
   Toast?: ToastDefaultableProps;
   Tooltip?: TooltipDefaultableProps;
