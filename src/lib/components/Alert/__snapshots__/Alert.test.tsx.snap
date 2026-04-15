@@ -13,11 +13,11 @@ exports[`Alert should be rendered with only required props and should have defau
     <div
       class="contentBox"
     >
-      <div
-        class="content"
+      <span
+        class="message"
       >
         This is a test message
-      </div>
+      </span>
     </div>
   </div>
 </div>
