@@ -4,22 +4,21 @@ import { applyCustomCSSModuleNaming } from "../src/lib/styles/scripts/build";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-
+  typescript: { reactDocgen: "react-docgen-typescript" },
+  features: { interactions: process.env.NODE_ENV === "development" },
   staticDirs: [{ from: "../src/lib/styles/themes", to: "/themes" }],
-
-  core: {
-    disableTelemetry: true,
-  },
+  core: { disableTelemetry: true },
 
   addons:
     process.env.NODE_ENV === "production"
       ? ["@storybook/addon-links", "@storybook/addon-docs"]
-      : ["@storybook/addon-links", "@chromatic-com/storybook", "@storybook/addon-docs"],
+      : ["@storybook/addon-links", "@storybook/addon-docs", "@chromatic-com/storybook"],
 
   framework: {
     name: "@storybook/nextjs",
     options: {},
   },
+
   webpackFinal: config => {
     if (config.resolve?.alias) {
       config.resolve.alias = {
@@ -36,13 +35,6 @@ const config: StorybookConfig = {
 
     // Find the rule for CSS Modules and update getLocalIdent
     return applyCustomCSSModuleNaming(config, { rootDir: process.cwd() });
-  },
-
-  typescript: {
-    reactDocgen: "react-docgen-typescript",
-  },
-  features: {
-    interactions: process.env.NODE_ENV === "development",
   },
 };
 export default config;

@@ -94,10 +94,10 @@ describe("BusinessCard", () => {
   });
 
   it("should render an image retrieved the uri given in the image prop", () => {
-    const { getByTestId } = render(<BusinessCard image="https://picsum.photos/80" />);
+    const { getByTestId } = render(<BusinessCard image="https://picsum.photos/seed/motifui/80" />);
     const avatar = getByTestId("avatarItem");
     expect(avatar).toBeInTheDocument();
-    expect(avatar.getElementsByTagName("img")[0]).toHaveAttribute("src", "https://picsum.photos/80");
+    expect(avatar.getElementsByTagName("img")[0]).toHaveAttribute("src", "https://picsum.photos/seed/motifui/80");
   });
 
   it("should render in the variant given in the variant  prop", () => {

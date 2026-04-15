@@ -2,7 +2,7 @@ import { render, screen, waitFor, act } from "@testing-library/react";
 import ImageView from "./ImageView";
 import { BROKEN_IMG_SRC } from "./constants";
 
-const src = "https://picsum.photos/200";
+const src = "https://picsum.photos/seed/motifui/200";
 
 describe("ImageView", () => {
   it("should be rendered with only required props", () => {

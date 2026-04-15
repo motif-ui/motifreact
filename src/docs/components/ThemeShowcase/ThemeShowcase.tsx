@@ -270,7 +270,7 @@ const ThemeShowcase = () => {
           <Grid.Col size={4}>
             <Text variant="h5" text="Avatars" style={{ marginTop: 0 }} />
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-              <Avatar image="https://picsum.photos/50/50" size="xl" />
+              <Avatar image="https://picsum.photos/seed/motifui/50/50" size="xl" />
               <Avatar icon="folder" size="lg" variant="success" />
               <Avatar letters="AB" size="md" />
               <Avatar letters="C" size="sm" variant="warning" />

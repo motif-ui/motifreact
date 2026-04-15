@@ -20,8 +20,8 @@ describe("Avatar", () => {
   });
 
   it("should display image when image is set", () => {
-    render(<Avatar image="https://picsum.photos/200" />);
-    expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/200");
+    render(<Avatar image="https://picsum.photos/seed/motifui/200" />);
+    expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/seed/motifui/200");
   });
 
   it("should give precedence to letters prop when letters and icon are both set", () => {
@@ -31,20 +31,20 @@ describe("Avatar", () => {
   });
 
   it("should give precedence to image prop when image and icon are both set", () => {
-    render(<Avatar image="https://picsum.photos/200" icon="info" />);
-    expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/200");
+    render(<Avatar image="https://picsum.photos/seed/motifui/200" icon="info" />);
+    expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/seed/motifui/200");
     expect(screen.queryByText("info")).not.toBeInTheDocument();
   });
 
   it("should give precedence to image when letters and image are both set", () => {
-    render(<Avatar image="https://picsum.photos/200" letters="Test" />);
-    expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/200");
+    render(<Avatar image="https://picsum.photos/seed/motifui/200" letters="Test" />);
+    expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/seed/motifui/200");
     expect(screen.queryByText("TE")).not.toBeInTheDocument();
   });
 
   it("should give precedence to image when image, letters and icon are all set", () => {
-    render(<Avatar image="https://picsum.photos/200" letters="Test" icon="info" />);
-    expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/200");
+    render(<Avatar image="https://picsum.photos/seed/motifui/200" letters="Test" icon="info" />);
+    expect(screen.getByRole("img")).toHaveAttribute("src", "https://picsum.photos/seed/motifui/200");
     expect(screen.queryByText("TE")).not.toBeInTheDocument();
     expect(screen.queryByText("info")).not.toBeInTheDocument();
   });

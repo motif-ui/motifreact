@@ -1,9 +1,9 @@
 import { PropsWithChildren, useContext, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import CssClassNames from "../../src/docs/components/CSSDocumentation/components/CssClassNames";
 import { Controls, Description, DocsContext, Primary, Subtitle, Title } from "@storybook/addon-docs/blocks";
 import { MotifDocTabs } from "./MotifDocTabs";
 import { MotifDocContextProps, MotifDocMetaReadyDataProps, MotifDocProps, MotifDocType } from "./types";
+import CSSClassNames from "../../src/docs/components/CSSDocumentation/components/CSSClassNames";
 
 export const MotifDoc = (props: PropsWithChildren<MotifDocProps>) => {
   const { children, mdxFile } = props;
@@ -45,7 +45,7 @@ export const MotifDoc = (props: PropsWithChildren<MotifDocProps>) => {
       </div>
       {!isCompound && activeTab === "styling" && componentName && (
         <>
-          <CssClassNames />
+          <CSSClassNames />
           {docType === "componentMdx" &&
             tocElement &&
             createPortal(
