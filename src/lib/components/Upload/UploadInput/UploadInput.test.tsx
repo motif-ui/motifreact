@@ -7,6 +7,7 @@ import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
 import { mockXHRs } from "../../../../utils/testUtils";
+import { formatBytes, shortenText } from "../../../../utils/utils";
 
 describe("UploadInput", () => {
   const renderExt = (ui: ReactNode) => {
@@ -20,9 +21,9 @@ describe("UploadInput", () => {
 
     const getDeleteButton = () => screen.queryByText("delete") as HTMLButtonElement;
 
-    const getUploadButton = () => screen.queryByText("Yükle") as HTMLButtonElement;
+    const getUploadButton = () => screen.queryByText(mockT("upload.upload")) as HTMLButtonElement;
 
-    const getBrowseButton = () => screen.queryByText("Gözat..") as HTMLButtonElement;
+    const getBrowseButton = () => screen.queryByText(mockT("upload.browse")) as HTMLButtonElement;
 
     const actHoverToErrorIcon = async () => {
       await userEvent.hover(getErrorIcon());
@@ -34,7 +35,9 @@ describe("UploadInput", () => {
 
       await waitFor(() => {
         expect(result.queryByTestId("progressBar")).not.toBeInTheDocument();
-        numberOfFiles && numberOfFiles > 1 && expect(result.queryByText("2 dosya yüklendi")).toBeInTheDocument();
+        numberOfFiles &&
+          numberOfFiles > 1 &&
+          expect(result.getByText(mockT("upload.filesUploaded", { count: numberOfFiles }))).toBeInTheDocument();
         expect(getErrorIcon()).not.toBeInTheDocument();
         expect(getDeleteButton()).toBeInTheDocument();
       });
@@ -96,7 +99,7 @@ describe("UploadInput", () => {
     const { container, getBrowseButton } = renderExt(<UploadInput {...requiredProps} disabled />);
     expect(container.firstElementChild).toHaveClass("disabled");
     expect(getBrowseButton()).toBeDisabled();
-    expect(screen.queryByText("Dosya seçin")).toBeDisabled();
+    expect(screen.queryByText(mockT("upload.selectFile"))).toBeDisabled();
   });
 
   it("should be rendered as readOnly when readOnly prop is true", async () => {
@@ -137,9 +140,7 @@ describe("UploadInput", () => {
     expect(getErrorIcon()).toBeInTheDocument();
 
     await actHoverToErrorIcon();
-    expect(
-      screen.getByText("Sadece 'application/pdf' formatındaki dosyaları yükleyebilirsiniz. Dosyanızın formatı: 'image/png'"),
-    ).toBeInTheDocument();
+    expect(screen.getByText(mockT(MESSAGE.MIME_TYPE, { acceptType: "application/pdf", fileType: "image/png" }))).toBeInTheDocument();
   });
 
   it("should allow the number of files specified by the maxFile prop to be uploaded and not allow more files to be added", async () => {
@@ -165,12 +166,19 @@ describe("UploadInput", () => {
 
   it("should not automatically upload files which is larger (in size) than the maxSize prop", async () => {
     const maxSize = 1000000;
-    const expectedErrorMessage = "Dosyanızın boyutu maksimum 1 MB olabilir. 'test.png' dosyanızın boyutu: 2 MB";
     const { getInput, actHoverToErrorIcon, queryByTestId } = renderExt(<UploadInput {...requiredProps} maxSize={maxSize} />);
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
     expect(queryByTestId("progressBar")).not.toBeInTheDocument();
     await actHoverToErrorIcon();
-    expect(screen.queryByText(expectedErrorMessage)).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        mockT(MESSAGE.MAX_SIZE_ERROR, {
+          maxSize: formatBytes(maxSize),
+          fileName: shortenText(MOCK.filePng2mb.name, 30),
+          fileSize: formatBytes(MOCK.filePng2mb.size),
+        }),
+      ),
+    ).toBeInTheDocument();
   });
 
   it("should render tooltip and pass the size prop to the tooltip when errors are present", async () => {
@@ -183,18 +191,25 @@ describe("UploadInput", () => {
 
   it("should not allow to upload files with file size larger than the maxSize prop when autoUpload is false", async () => {
     const maxSize = 1000000;
-    const expectedErrorMessage = "Dosyanızın boyutu maksimum 1 MB olabilir. 'test.png' dosyanızın boyutu: 2 MB";
     const { getInput, actHoverToErrorIcon, getUploadButton } = renderExt(
       <UploadInput {...requiredProps} maxSize={maxSize} autoUpload={false} />,
     );
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
     expect(getUploadButton()).toBeDisabled();
     await actHoverToErrorIcon();
-    expect(screen.queryByText(expectedErrorMessage)).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        mockT(MESSAGE.MAX_SIZE_ERROR, {
+          maxSize: formatBytes(maxSize),
+          fileName: shortenText(MOCK.filePng2mb.name, 30),
+          fileSize: formatBytes(MOCK.filePng2mb.size),
+        }),
+      ),
+    ).toBeInTheDocument();
   });
 
   it("should override maximum number of files error message when set explicitly", async () => {
-    const defaultErrorMessage = "Maksimum 2 dosya yükleyebilirsiniz";
+    const defaultErrorMessage = mockT(MESSAGE.MAX_FILE, { maxFile: 2 });
     const messages = { maxFileMessage: "Test max file message" };
     const { getInput, actHoverToErrorIcon } = renderExt(
       <UploadInput {...requiredProps} maxFile={2} messages={messages} autoUpload={false} />,
@@ -207,7 +222,11 @@ describe("UploadInput", () => {
 
   it("should override maximum file size error message when set explicitly", async () => {
     const maxSize = 1;
-    const defaultErrorMessage = "Dosyanızın boyutu maksimum 1 MB olabilir. 'test.gif' dosyanızın boyutu: 2 MB";
+    const defaultErrorMessage = mockT(MESSAGE.MAX_SIZE_ERROR, {
+      maxSize: formatBytes(maxSize),
+      fileName: shortenText(MOCK.filePng2mb.name, 30),
+      fileSize: formatBytes(MOCK.filePng2mb.size),
+    });
     const messages = { maxSizeMessage: "Test max size message" };
     const { getInput, actHoverToErrorIcon } = renderExt(
       <UploadInput {...requiredProps} maxSize={maxSize} messages={messages} autoUpload={false} />,
@@ -220,15 +239,14 @@ describe("UploadInput", () => {
 
   it("should override file mime type error message when set explicitly", async () => {
     const accept = ["application/pdf"];
-    const defaultErrorMessage = "Sadece 'application/pdf' formatındaki dosyaları yükleyebilirsiniz. Dosyanızın formatı: 'image/jpeg'";
-    const expectedErrorMessage = "File Type Should Be application/pdf But Got image/jpeg";
+    const defaultErrorMessage = mockT(MESSAGE.MIME_TYPE, { acceptType: accept.toString(), fileType: MOCK.fileJpeg1kb.type });
     const messages = { mimeTypeMessage: "File Type Should Be %acceptType% But Got %fileType%" };
     const { getInput, actHoverToErrorIcon } = renderExt(
       <UploadInput {...requiredProps} accept={accept} messages={messages} autoUpload={false} />,
     );
     await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
     await actHoverToErrorIcon();
-    expect(screen.queryByText(expectedErrorMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages.mimeTypeMessage)).toBeInTheDocument();
     expect(screen.queryByText(defaultErrorMessage)).not.toBeInTheDocument();
   });
 
@@ -243,7 +261,7 @@ describe("UploadInput", () => {
     await actHoverToErrorIcon();
     await waitFor(() => {
       expect(screen.queryByText(messages.uploadFailMessage)).toBeInTheDocument();
-      expect(screen.queryByText(MESSAGE.UPLOAD_ERROR)).not.toBeInTheDocument();
+      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
     });
 
     xhrSpy.mockRestore();
@@ -259,7 +277,7 @@ describe("UploadInput", () => {
     await userEvent.click(getDeleteButton());
     await waitFor(() => {
       expect(getDeleteButton()).not.toBeInTheDocument();
-      expect(queryByText("2 dosya yüklendi")).not.toBeInTheDocument();
+      expect(queryByText(mockT("upload.filesUploaded", { count: 2 }))).not.toBeInTheDocument();
     });
 
     xhrSpy.mockRestore();
@@ -289,7 +307,7 @@ describe("UploadInput", () => {
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
     await waitForUploadFailure();
     await actHoverToErrorIcon();
-    expect(screen.queryByText(MESSAGE.UPLOAD_ERROR)).toBeInTheDocument();
+    expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
     xhrSpy.mockRestore();
   });
 

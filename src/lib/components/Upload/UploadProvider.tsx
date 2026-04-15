@@ -1,7 +1,8 @@
 import { ContextDefaultValues, FileType, UploadContextType, UploadPropsDefault, UploadProviderProps } from "@/components/Upload/types";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
-import { formatBytes, generateUUIDV4 } from "../../../utils/utils";
+import { formatBytes, generateUUIDV4, shortenText } from "../../../utils/utils";
+import { useTranslation } from "react-i18next";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
@@ -9,6 +10,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>([]);
+  const { t } = useTranslation();
 
   const selectedFilesEqualityString = selectedFiles
     .map(f => f.id + f.file.name + f.file.size + f.file.type + f.status + (f.progress || 0) + (f.messages?.join("") || ""))
@@ -39,13 +41,13 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
             : {
                 ...file,
                 status,
-                messages: status === STATUS.SUCCESS ? [] : [messages?.uploadFailMessage || MESSAGE.UPLOAD_ERROR],
+                messages: status === STATUS.SUCCESS ? [] : [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
                 uploaded: status === STATUS.SUCCESS,
               },
         );
       });
     },
-    [messages?.uploadFailMessage],
+    [messages?.uploadFailMessage, t],
   );
 
   const _transferFailed = useCallback(
@@ -57,12 +59,12 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
             : {
                 ...file,
                 status: STATUS.UPLOAD_FAIL,
-                messages: [messages?.uploadFailMessage || MESSAGE.UPLOAD_ERROR],
+                messages: [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
               },
         ),
       );
     },
-    [messages?.uploadFailMessage],
+    [messages?.uploadFailMessage, t],
   );
 
   const _transferAborted = useCallback(
@@ -132,19 +134,22 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     ],
   );
 
-  const _deleteOnTheServerErrorHandler = useCallback((filesToDelete: FileType[]) => {
-    setSelectedFiles(prevState =>
-      prevState.map(file =>
-        filesToDelete.some(f => f.id === file.id)
-          ? {
-              ...file,
-              status: STATUS.DELETE_FAIL,
-              messages: [MESSAGE.DELETE_ERROR],
-            }
-          : file,
-      ),
-    );
-  }, []);
+  const _deleteOnTheServerErrorHandler = useCallback(
+    (filesToDelete: FileType[]) => {
+      setSelectedFiles(prevState =>
+        prevState.map(file =>
+          filesToDelete.some(f => f.id === file.id)
+            ? {
+                ...file,
+                status: STATUS.DELETE_FAIL,
+                messages: [t(MESSAGE.DELETE_ERROR)],
+              }
+            : file,
+        ),
+      );
+    },
+    [t],
+  );
 
   const _deleteFilesFromServer = useCallback(
     (filesToDelete: FileType[]) => {
@@ -227,29 +232,28 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       const maxSizeError =
         maxSize &&
         f.file.size > maxSize &&
-        (messages?.maxSizeMessage ?? MESSAGE.MAX_SIZE_ERROR(f.file.size, maxSize, f.file.name))
-          .replaceAll("%maxSize%", maxSize.toString())
-          .replaceAll("%fileSize%", formatBytes(f.file.size));
+        (messages?.maxSizeMessage ??
+          t(MESSAGE.MAX_SIZE_ERROR, {
+            maxSize: formatBytes(maxSize),
+            fileName: shortenText(f.file.name, 30),
+            fileSize: formatBytes(f.file.size),
+          }));
 
       // Mime Type Check
       const mimeTypeMessage =
         accept &&
         !accept.includes(MIME_TYPES.ALL) &&
         !accept.includes(f.file.type) &&
-        (messages?.mimeTypeMessage ?? MESSAGE.MIME_TYPE)
-          .replaceAll("%acceptType%", accept.toString())
-          .replaceAll("%fileType%", f.file.type);
+        (messages?.mimeTypeMessage ?? t(MESSAGE.MIME_TYPE, { acceptType: accept.toString(), fileType: f.file.type }));
 
       // Max File Check
       const maxFileError =
-        maxFile &&
-        filesIteratedWithoutError >= maxFile &&
-        (messages?.maxFileMessage ?? MESSAGE.MAX_FILE).replaceAll("%maxFile%", maxFile.toString());
+        maxFile && filesIteratedWithoutError >= maxFile && (messages?.maxFileMessage ?? t(MESSAGE.MAX_FILE, { maxFile }));
 
       // Custom Validation
       const { errorMessage: customValidationError, isValid: customValidationValid } = customValidation?.(f.file) || {};
       const customValidationMessage =
-        customValidationValid === false ? customValidationError || MESSAGE.CUSTOM_VALIDATION_ERROR : undefined;
+        customValidationValid === false ? customValidationError || t(MESSAGE.CUSTOM_VALIDATION_ERROR) : undefined;
 
       const errors = [maxSizeError, maxFileError, mimeTypeMessage, customValidationMessage].filter(Boolean) as string[];
 
@@ -274,6 +278,22 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accept, autoUpload, isUploadInput, maxFile, maxSize, messages, selectedFilesEqualityString, uploadV2]);
+
+  // Re-translate stored error messages when locale changes
+  useEffect(() => {
+    setSelectedFiles(prev =>
+      prev.map(f => {
+        if (!f.messages?.length) return f;
+        if (f.status === STATUS.UPLOAD_FAIL) {
+          return { ...f, messages: [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)] };
+        }
+        if (f.status === STATUS.DELETE_FAIL) {
+          return { ...f, messages: [t(MESSAGE.DELETE_ERROR)] };
+        }
+        return f;
+      }),
+    );
+  }, [t, messages]);
 
   const removeFiles = useCallback(
     (filesToRemove: FileType[]) => {

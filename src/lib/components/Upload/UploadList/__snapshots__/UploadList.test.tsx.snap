@@ -19,7 +19,7 @@ exports[`UploadList should be rendered with only required props 1`] = `
       <span
         class="infoText"
       >
-        Yüklemek istediğiniz dosyaları buraya bırakın
+        Yüklemek istediğiniz dosyaları buraya bırakın.
       </span>
     </div>
   </div>

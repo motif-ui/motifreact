@@ -1,6 +1,7 @@
 import styles from "./UploadList.module.scss";
 import Button from "@/components/Button";
 import { useContext, useEffect, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { UploadContext } from "@/components/Upload/UploadProvider";
@@ -24,6 +25,7 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
     browse,
     size,
   } = useContext(UploadContext);
+  const { t } = useTranslation();
 
   const isFirstRun = useRef(true);
 
@@ -80,15 +82,15 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
 
   return (
     <div className={classes} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
-      <Button onClick={browse} disabled={isDisabled} label="Gözat.." variant="primary" shape="solid" size={size} />
+      <Button onClick={browse} disabled={isDisabled} label={t("upload.browse")} variant="primary" shape="solid" size={size} />
       <span className={styles.infoText}>
         {isUploading
-          ? MESSAGE.FILES_BEING_UPLOADED
+          ? t(MESSAGE.FILES_BEING_UPLOADED)
           : hovered && maxFileReached
-            ? MESSAGE.MAX_FILE.replaceAll("%maxFile%", maxFile.toString())
+            ? t(MESSAGE.MAX_FILE, { maxFile })
             : !autoUpload && isWaitingToUpload
-              ? MESSAGE.WAITING_TO_UPLOAD
-              : MESSAGE.PLEASE_DROP}
+              ? t(MESSAGE.WAITING_TO_UPLOAD)
+              : t(MESSAGE.PLEASE_DROP)}
       </span>
     </div>
   );

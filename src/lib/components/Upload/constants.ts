@@ -1,5 +1,3 @@
-import { formatBytes, shortenText } from "../../../utils/utils";
-
 export const STATUS = {
   IDLE: 0, // Validated and ready to upload
   UPLOADING: 1, // Uploading
@@ -11,21 +9,20 @@ export const STATUS = {
 };
 
 export const MESSAGE = {
-  MAX_SIZE_ERROR: (fileSize: number, maxSize: number, fileName: string) =>
-    `Dosyanızın boyutu maksimum ${formatBytes(maxSize)} olabilir. '${shortenText(fileName, 30)}' dosyanızın boyutu: ${formatBytes(fileSize)}`,
-  MAX_FILE: "Maksimum %maxFile% dosya yükleyebilirsiniz",
-  MIME_TYPE: "Sadece '%acceptType%' formatındaki dosyaları yükleyebilirsiniz. Dosyanızın formatı: '%fileType%'",
-  UPLOAD_ERROR: "Dosya karşıya yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.",
-  DELETE_ERROR: "Dosya silinirken bir hata oluştu. Lütfen tekrar deneyiniz.",
-  PLEASE_DROP: "Yüklemek istediğiniz dosyaları buraya bırakın",
-  PLEASE_CLICK_OR_DROP: "Dosya yüklemek için bu alana tıklayın veya dosyaları buraya bırakın",
-  FILES_BEING_UPLOADED: "Dosyalar yükleniyor...",
-  WAITING_TO_UPLOAD: "Yüklemek için bekleniyor...",
-  UPLOAD_SUCCESS: "Dosya başarıyla yüklendi",
-  DRAGGER_MAX_SIZE: (maxSize: number) => `her biri en fazla ${formatBytes(maxSize)} boyutunda`,
-  DRAGGER_MAX_FILE: (maxFile: number) => `maksimum ${maxFile}`,
-  DRAGGER_CAN_UPLOAD_FILES: " dosya yükleyebilirsiniz.",
-  CUSTOM_VALIDATION_ERROR: "Hata oluştu.",
+  MAX_SIZE_ERROR: "upload.message.maxSizeError",
+  MAX_FILE: "upload.message.maxFileError",
+  MIME_TYPE: "upload.message.mimeTypeError",
+  UPLOAD_ERROR: "upload.message.uploadError",
+  DELETE_ERROR: "upload.message.deleteError",
+  PLEASE_DROP: "upload.message.pleaseDrop",
+  PLEASE_CLICK_OR_DROP: "upload.message.pleaseClickOrDrop",
+  FILES_BEING_UPLOADED: "upload.message.filesBeingUploaded",
+  WAITING_TO_UPLOAD: "upload.message.waitingToUpload",
+  UPLOAD_SUCCESS: "upload.message.uploadSuccess",
+  DRAGGER_MAX_SIZE: "upload.message.draggerMaxSize",
+  DRAGGER_MAX_FILE: "upload.message.draggerMaxFile",
+  DRAGGER_CAN_UPLOAD_FILES: "upload.message.draggerCanUploadFiles",
+  CUSTOM_VALIDATION_ERROR: "upload.message.customValidationError",
 };
 
 export const MIME_TYPES = {

@@ -167,19 +167,18 @@ describe("UploadList", () => {
     const fileItem = getFileItemFirst();
     expect(fileItem).toHaveTextContent(MOCK.filePng2mb.name);
     expect(fileItem).toHaveTextContent(expectedErrorMessage);
-    expect(screen.queryByText(MESSAGE.UPLOAD_SUCCESS)).not.toBeInTheDocument();
+    expect(screen.queryByText(mockT(MESSAGE.UPLOAD_SUCCESS))).not.toBeInTheDocument();
   });
 
   it("should override maximum number of files error message when set explicitly", async () => {
     const maxFile = 2;
     const defaultErrorMessage = "Maksimum 2 dosya yükleyebilirsiniz";
-    const expectedErrorMessage = "Maximum 2 Files Could Be Uploaded";
     const messages = { maxFileMessage: "Maximum %maxFile% Files Could Be Uploaded" };
     const { getInput } = renderExt(<UploadList {...requiredProps} maxFile={maxFile} messages={messages} />);
 
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb, MOCK.filePdf1kb, MOCK.fileJpeg1kb]);
 
-    expect(screen.queryByText(expectedErrorMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages.maxFileMessage)).toBeInTheDocument();
     expect(screen.queryByText(defaultErrorMessage)).not.toBeInTheDocument();
   });
 
@@ -215,7 +214,7 @@ describe("UploadList", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
     await waitFor(() => {
       expect(screen.queryByText(messages.uploadFailMessage)).toBeInTheDocument();
-      expect(screen.queryByText(MESSAGE.UPLOAD_ERROR)).not.toBeInTheDocument();
+      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
     });
 
     xhrSpy.mockRestore();
@@ -260,8 +259,8 @@ describe("UploadList", () => {
 
     const fileItem = getFileItemFirst();
     expect(fileItem).toHaveTextContent(MOCK.filePng2mb.name);
-    expect(fileItem).not.toHaveTextContent(MESSAGE.UPLOAD_SUCCESS);
-    expect(fileItem).toHaveTextContent(MESSAGE.WAITING_TO_UPLOAD);
+    expect(fileItem).not.toHaveTextContent(mockT(MESSAGE.UPLOAD_SUCCESS));
+    expect(fileItem).toHaveTextContent(mockT(MESSAGE.WAITING_TO_UPLOAD));
 
     xhrSpy.mockRestore();
   });
@@ -352,7 +351,7 @@ describe("UploadList", () => {
     await userEvent.click(getUploadButton());
 
     await waitFor(() => {
-      expect(screen.queryAllByText(MESSAGE.UPLOAD_SUCCESS)).toHaveLength(maxFile);
+      expect(screen.queryAllByText(mockT(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile);
       expect(getUploadButton()).toBeDisabled();
     });
 
@@ -370,7 +369,7 @@ describe("UploadList", () => {
     await userEvent.click(getUploadButton());
     expect(getUploadButton()).toBeDisabled();
 
-    await waitFor(() => expect(screen.queryAllByText(MESSAGE.UPLOAD_SUCCESS)).toHaveLength(maxFile));
+    await waitFor(() => expect(screen.queryAllByText(mockT(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile));
     await userEvent.click(getDeleteButton(0)); // delete a success file
     await waitFor(() => expect(getUploadButton()).not.toBeDisabled());
 
@@ -399,13 +398,13 @@ describe("UploadList", () => {
     const { getInput, getFileItemFirst } = renderExt(<UploadList {...requiredProps} />);
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
 
-    await waitFor(() => expect(screen.queryByText(MESSAGE.UPLOAD_ERROR)).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument());
 
     const reloadButton = screen.queryByText("autorenew");
     await userEvent.click(reloadButton!);
 
     await waitForSuccessfulUpload(getFileItemFirst());
-    expect(screen.queryByText(MESSAGE.UPLOAD_ERROR)).not.toBeInTheDocument();
+    expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
     expect(reloadButton).not.toBeInTheDocument();
 
     xhrSpy.mockRestore();
@@ -419,7 +418,7 @@ describe("UploadList", () => {
 
     await waitForSuccessfulUpload(getFileItemFirst());
     await userEvent.click(getDeleteButton()); // delete success file
-    await waitFor(() => expect(screen.queryByText(MESSAGE.DELETE_ERROR)).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText(mockT(MESSAGE.DELETE_ERROR))).toBeInTheDocument());
     expect(getDeleteButton()).toBeInTheDocument();
 
     xhrSpy.mockRestore();

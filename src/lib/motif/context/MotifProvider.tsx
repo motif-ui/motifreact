@@ -1,9 +1,10 @@
 "use client";
 
-import { createContext, PropsWithChildren, useContext, useInsertionEffect, useMemo, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useInsertionEffect, useMemo, useState } from "react";
 import { DEFAULT_MOTIF_CONTEXT_VALUES, DEFAULT_LOCALE, MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
 import { ComponentDefaults, MotifContextProps, MotifProviderProps, Locale } from "../types/contextProps";
 import { convertThemeToCSSVariables } from "../helper";
+import i18n from "../../../i18n/config";
 
 const MotifContext = createContext<MotifContextProps>(DEFAULT_MOTIF_CONTEXT_VALUES);
 export const useMotifContext = () => useContext(MotifContext);
@@ -16,6 +17,11 @@ const MotifProvider = (props: PropsWithChildren<MotifProviderProps>) => {
   const [theme, setTheme] = useState(props.theme);
 
   const themeCssVariables = useMemo(() => (theme ? convertThemeToCSSVariables(theme) : {}), [theme]);
+
+  useEffect(() => {
+    void i18n.changeLanguage(locale);
+    // localStorage.setItem("app-language", locale);
+  }, [locale]);
 
   useInsertionEffect(() => {
     const root = document.documentElement;
