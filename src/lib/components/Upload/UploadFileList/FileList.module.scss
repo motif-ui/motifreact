@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 // name, gap, paddingV, paddingH, labelSize, helperSize
-$sizes: (("sm", "6x", "6x", "12x", "xs", "xxs"), ("md", "8x", "8x", "16x", "sm", "xxs"), ("lg", "10x", "10x", "20x", "md", "xs"));
+$sizes: (("xs", "4x", "4x", "8x", "xs", "xxs"), ("sm", "6x", "6x", "12x", "xs", "xxs"), ("md", "8x", "8x", "16x", "sm", "xxs"), ("lg", "10x", "10x", "20x", "md", "xs"));
 
 .Root {
   border-color: var(--theme-color-border-light-default);
