@@ -1,11 +1,11 @@
 import { ReactElement, ReactNode, MouseEvent } from "react";
-import { Size3 } from "../../types";
+import { Size4LG } from "../../types";
 import { LinkProps } from "../Link/types";
 import { ButtonProps } from "../Button/types";
 import { IconButtonProps } from "../IconButton/types";
 
 export type ModalDefaultableProps = {
-  size?: Size3;
+  size?: Size4LG;
   maximizable?: boolean;
   closable?: boolean;
 };

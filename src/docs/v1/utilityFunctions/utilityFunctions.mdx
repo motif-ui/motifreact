@@ -12,30 +12,6 @@ This document provides detailed explanations and usage guidelines for the projec
 
 <br />
 
-## Common
-
-<br />
-
-### compareByDiffWithFlooringValues
-
-Compares two numbers by their floored difference against a threshold value.
-
-#### API
-
-```typescript
-compareByDiffWithFlooringValues = (n1: number, n2: number, diffValue: number) => boolean
-```
-
-#### Usage
-
-```typescript
-compareByDiffWithFlooringValues(10.7, 5.3, 4); // true (floor(10.7) - floor(5.3) = 10 - 5 = 5 > 4)
-compareByDiffWithFlooringValues(10.2, 5.8, 4); // false (floor(10.2) - floor(5.8) = 10 - 5 = 5, not > 4)
-compareByDiffWithFlooringValues(10.9, 6.1, 5); // false (floor(10.9) - floor(6.1) = 10 - 6 = 4, not > 5)
-```
-
-<br />
-
 ## Date
 
 <br />
