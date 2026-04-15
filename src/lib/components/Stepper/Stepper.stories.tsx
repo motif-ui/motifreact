@@ -10,16 +10,10 @@ const meta: Meta<typeof Stepper> = {
   argTypes: {
     stepType: { table: { defaultValue: { summary: "number" } } },
     orientation: { table: { defaultValue: { summary: "horizontal" } } },
+    itemOrientation: { table: { defaultValue: { summary: "vertical" } } },
+    connectorAlign: { table: { defaultValue: { summary: "center" } } },
     variant: { table: { defaultValue: { summary: "primary" } } },
     activeStep: { control: false },
-  },
-  args: {
-    items: [
-      { title: "Account", icon: "person" },
-      { title: "Personal", icon: "info" },
-      { title: "Payment", icon: "credit_card" },
-      { title: "Review", icon: "check_circle" },
-    ],
   },
 };
 
@@ -31,10 +25,18 @@ const StepperStory = (args: ComponentProps<typeof Stepper>) => {
 
   return (
     <Stepper {...args} activeStep={step} onStepClick={setStep}>
-      <Stepper.Panel index={0}>Account step content goes here.</Stepper.Panel>
-      <Stepper.Panel index={1}>Personal info form or content.</Stepper.Panel>
-      <Stepper.Panel index={2}>Payment details content.</Stepper.Panel>
-      <Stepper.Panel index={3}>Review and confirm your details.</Stepper.Panel>
+      <Stepper.Item title="Account" icon="person">
+        Account step content goes here.
+      </Stepper.Item>
+      <Stepper.Item title="Personal" icon="info">
+        Personal info form or content.
+      </Stepper.Item>
+      <Stepper.Item title="Payment" icon="credit_card">
+        Payment details content.
+      </Stepper.Item>
+      <Stepper.Item title="Review" icon="check_circle">
+        Review and confirm your details.
+      </Stepper.Item>
     </Stepper>
   );
 };
@@ -46,27 +48,19 @@ export const Primary: Story = {
       source: {
         transform: formatStoryTransform(
           "Stepper",
-          ["items"],
+          [],
           argsString => `
-const items = [
-  { title: "Account", icon: "person" },
-  { title: "Personal", icon: "info" },
-  { title: "Payment", icon: "credit_card" },
-  { title: "Review", icon: "check_circle" },
-];
-
 const [step, setStep] = useState(0);
 
 return (
   <Stepper
-    items={items}
     activeStep={step}
     onStepClick={setStep}${argsString ? `\n    ${argsString}` : ""}
   >
-    <Stepper.Panel index={0}>Account step content goes here.</Stepper.Panel>
-    <Stepper.Panel index={1}>Personal info form or content.</Stepper.Panel>
-    <Stepper.Panel index={2}>Payment details content.</Stepper.Panel>
-    <Stepper.Panel index={3}>Review and confirm your details.</Stepper.Panel>
+    <Stepper.Item title="Account" icon="person">Account step content goes here.</Stepper.Item>
+    <Stepper.Item title="Personal" icon="info">Personal info form or content.</Stepper.Item>
+    <Stepper.Item title="Payment" icon="credit_card">Payment details content.</Stepper.Item>
+    <Stepper.Item title="Review" icon="check_circle">Review and confirm your details.</Stepper.Item>
   </Stepper>
 );`,
         ),

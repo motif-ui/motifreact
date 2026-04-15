@@ -25,23 +25,14 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   @each $variant in $variants {
     $token: token($variant);
 
-    .item.#{$variant}.completed,
-    .item.#{$variant}.active {
-      &:not(:first-child) .stepHeader::before {
-        background-color: var(--theme-color-surface-#{$token}-default);
-      }
-    }
-
-    .item:has(+ .item.#{$variant}.completed),
-    .item:has(+ .item.#{$variant}.active) {
-      .stepHeader::after {
-        background-color: var(--theme-color-surface-#{$token}-default);
-      }
+    .item.#{$variant}.completed:not(:first-child) .stepHeader::before,
+    .item.#{$variant}.active:not(:first-child) .stepHeader::before,
+    .item:has(+ .item.#{$variant}.completed) .stepHeader::after,
+    .item:has(+ .item.#{$variant}.active) .stepHeader::after {
+      background-color: var(--theme-color-surface-#{$token}-default);
     }
   }
 }
-
-// ─── Layout ───────────────────────────────────────────────────────────────────
 
 .Root {
   display: flex;
@@ -68,11 +59,13 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   }
 }
 
-.stepCountActive {
-  color: var(--stepper-count-color);
-}
+@each $variant in $variants {
+  $token: token($variant);
 
-// ─── Item ─────────────────────────────────────────────────────────────────────
+  .count-#{$variant} .stepCountActive {
+    color: var(--theme-color-text-#{$token}-default);
+  }
+}
 
 .item {
   display: flex;
@@ -85,7 +78,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   z-index: 1;
 
   @include step-elements {
-    transition: background-color 0.2s ease;
+    @include transition(background-color, "fast");
   }
 }
 
@@ -165,8 +158,6 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   }
 }
 
-// ─── Orientation ─────────────────────────────────────────────────────────────
-
 .vertical {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -217,8 +208,6 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   }
 }
 
-// ─── Horizontal ──────────────────────────────────────────────────────────────
-
 .horizontal {
   &:has(.stepCountHorizontal) {
     width: fit-content;
@@ -253,8 +242,6 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
     text-align: center;
   }
 }
-
-// ─── Variant + status ────────────────────────────────────────────────────────
 
 @each $variant in $variants {
   $token: token($variant);
@@ -351,8 +338,6 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   }
 }
 
-// ─── Status: error ───────────────────────────────────────────────────────────
-
 .item.statusError {
   @include step-elements {
     background-color: var(--theme-color-surface-danger-default);
@@ -362,8 +347,6 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
     color: var(--theme-color-text-danger-default);
   }
 }
-
-// ─── Type overrides ──────────────────────────────────────────────────────────
 
 .dot {
   .item {
@@ -390,7 +373,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
 
 // ─── None type ───────────────────────────────────────────────────────────────
 
-.none {
+.text {
   .item-vertical .stepHeader .content,
   .item-horizontal .stepHeader .content {
     margin: 0;

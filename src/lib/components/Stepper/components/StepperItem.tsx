@@ -1,22 +1,17 @@
-import { memo, useCallback } from "react";
+import { PropsWithChildren, memo, useCallback, useContext } from "react";
 import Icon from "../../Icon";
 import styles from "../Stepper.module.scss";
-import { StepperItemComponentProps } from "../types";
+import { StepperContext } from "../StepperContext";
+import { StepperItemProps } from "../types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
-const StepperItem = memo((props: StepperItemComponentProps) => {
-  const {
-    title,
-    icon = "motif_ui",
-    variant = "primary",
-    disabled,
-    stepType,
-    index,
-    status,
-    itemOrientation,
-    onStepClick,
-    isClickable,
-  } = props;
+const StepperItem = memo((props: PropsWithChildren<StepperItemProps>) => {
+  const { index = 0, title, icon = "motif_ui", variant: itemVariant, error, disabled } = props;
+  const { activeStep, variant: contextVariant, stepType, itemOrientation = "horizontal", onStepClick } = useContext(StepperContext);
+
+  const variant = itemVariant ?? contextVariant ?? "primary";
+  const status = error ? "error" : index < activeStep ? "completed" : index === activeStep ? "active" : "upcoming";
+  const clickable = !!onStepClick && !disabled && (index < activeStep || index === activeStep + 1);
 
   const handleClick = useCallback(() => {
     onStepClick?.(index);
@@ -28,13 +23,18 @@ const StepperItem = memo((props: StepperItemComponentProps) => {
     variant,
     status === "error" ? "statusError" : status,
     disabled && "disabled",
-    isClickable && "clickable",
-    itemOrientation && `item-${itemOrientation}`,
+    clickable && "clickable",
+    `item-${itemOrientation}`,
   );
 
   const renderStep = () =>
     stepType === "dot" ? (
-      <span className={styles.stepDot} />
+      <>
+        <span className={styles.stepDot} />
+        {(status === "completed" || status === "error") && (
+          <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
+        )}
+      </>
     ) : status === "completed" ? (
       <Icon name="check" className={styles.stepIcon} />
     ) : status === "error" ? (
@@ -46,16 +46,9 @@ const StepperItem = memo((props: StepperItemComponentProps) => {
     );
 
   return (
-    <div className={itemClasses} tabIndex={isClickable ? 0 : undefined} onClick={isClickable ? handleClick : undefined}>
+    <div className={itemClasses} {...(clickable && { tabIndex: 0, onClick: handleClick })}>
       <div className={styles.stepHeader}>
-        {stepType !== "none" && (
-          <div className={styles.stepIndicator}>
-            {renderStep()}
-            {stepType === "dot" && (status === "completed" || status === "error") && (
-              <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
-            )}
-          </div>
-        )}
+        {stepType !== "text" && <div className={styles.stepIndicator}>{renderStep()}</div>}
         <div className={styles.content}>
           <span className={styles.title}>{title}</span>
         </div>
@@ -64,4 +57,5 @@ const StepperItem = memo((props: StepperItemComponentProps) => {
   );
 });
 
+StepperItem.displayName = "StepperItem";
 export default StepperItem;
