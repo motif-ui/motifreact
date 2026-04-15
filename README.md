@@ -7,7 +7,7 @@ Application Development Department.
 
 🌐 Website 👉 https://motif-ui.com
 
-📄 Documentation 👉 https://storybook.motif-ui.com
+📄 Documentation 👉 https://docs.motif-ui.com
 
 ## Features
 
