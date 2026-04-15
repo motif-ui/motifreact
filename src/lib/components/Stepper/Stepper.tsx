@@ -27,6 +27,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   } = usePropsWithThemeDefaults("Stepper", props);
 
   const stepItems = Children.toArray(children) as ReactElement<StepperItemProps>[];
+  const activeContent = stepItems[activeStep]?.props.children;
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     orientation,
@@ -45,6 +46,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
             <StepperItem key={idx} index={idx} {...item.props} />
           ))}
         </div>
+        {activeContent && <div className={styles.stepContent}>{activeContent}</div>}
       </div>
     </StepperContext>
   );
