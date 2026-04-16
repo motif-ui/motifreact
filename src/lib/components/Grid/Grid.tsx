@@ -8,13 +8,16 @@ import { GridProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import GridContext from "@/components/Grid/GridContext";
+import { useContext } from "react";
 
 const GridComponent = (props: PropsWithRef<GridProps, HTMLDivElement>) => {
   const { fluid, leanToEdge, children, className, style, colProps = {}, ref } = usePropsWithThemeDefaults("Grid", props);
-  const classNames = sanitizeModuleRootClasses(styles, className, [fluid && "fluid", leanToEdge && "leanToEdge"]);
+  const { isNested } = useContext(GridContext);
+  const resolvedLeanToEdge = Boolean(leanToEdge ?? isNested);
+  const classNames = sanitizeModuleRootClasses(styles, className, [fluid && "fluid", resolvedLeanToEdge && "leanToEdge"]);
 
   return (
-    <GridContext value={{ ...colProps }}>
+    <GridContext value={{ ...colProps, isNested: true }}>
       <div className={classNames} style={style} ref={ref}>
         {children}
       </div>

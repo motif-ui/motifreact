@@ -1,5 +1,6 @@
-import { createContext, type CSSProperties } from "react";
+import { createContext } from "react";
+import { StandardProps } from "../../types";
 
-const GridContext = createContext<{ style?: CSSProperties; className?: string }>({});
+const GridContext = createContext<StandardProps & { isNested?: boolean }>({});
 
 export default GridContext;
