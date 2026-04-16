@@ -19,7 +19,6 @@ export type StepperDefaultableProps = {
   stepType?: StepperStepType;
   orientation?: StepperOrientation;
   itemOrientation?: StepperOrientation;
-  connectorAlign?: "start" | "center" | "end";
   showCount?: boolean;
 };
 

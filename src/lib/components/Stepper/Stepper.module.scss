@@ -363,15 +363,13 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
   .item {
     &.completed,
     &.active,
-    &.error {
+    &.statusError {
       .stepIcon {
         font-size: var(--base-sizing-16x);
       }
     }
   }
 }
-
-// ─── None type ───────────────────────────────────────────────────────────────
 
 .text {
   .item-vertical .stepHeader .content,
@@ -511,30 +509,6 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
           }
         }
       }
-
-      &.connectorAlign-start {
-        .item {
-          &:not(:first-child) .stepHeader::before,
-          .stepHeader::after {
-            left: 0;
-          }
-          &.item-vertical .stepHeader::after {
-            left: calc(50% - $step-size / 2);
-          }
-        }
-      }
-
-      &.connectorAlign-end {
-        .item {
-          &:not(:first-child) .stepHeader::before,
-          .stepHeader::after {
-            left: calc($step-size - var(--base-sizing-1x));
-          }
-          &.item-vertical .stepHeader::after {
-            left: calc(50% + $step-size / 2 - var(--base-sizing-1x));
-          }
-        }
-      }
     }
 
     &.horizontal {
@@ -587,16 +561,7 @@ $types: (("dot", "12x"), ("number", "24x"), ("icon", "40x"));
         }
       }
 
-      &.connectorAlign-start {
-        .item {
-          &:not(:first-child) .stepHeader::before,
-          .stepHeader::after {
-            top: 0;
-          }
-        }
-      }
-
-      &.connectorAlign-end {
+      &.itemOrientation-vertical {
         .item {
           &:not(:first-child) .stepHeader::before,
           .stepHeader::after {

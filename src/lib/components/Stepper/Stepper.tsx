@@ -19,7 +19,6 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
     stepType = "number",
     orientation = "horizontal",
     itemOrientation = "vertical",
-    connectorAlign = "center",
     onStepClick,
     className,
     ref,
@@ -33,7 +32,6 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
     orientation,
     stepType,
     `itemOrientation-${itemOrientation}`,
-    `connectorAlign-${connectorAlign}`,
     `count-${variant ?? "primary"}`,
   ]);
 

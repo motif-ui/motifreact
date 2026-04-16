@@ -11,7 +11,6 @@ const meta: Meta<typeof Stepper> = {
     stepType: { table: { defaultValue: { summary: "number" } } },
     orientation: { table: { defaultValue: { summary: "horizontal" } } },
     itemOrientation: { table: { defaultValue: { summary: "vertical" } } },
-    connectorAlign: { table: { defaultValue: { summary: "center" } } },
     variant: { table: { defaultValue: { summary: "primary" } } },
     activeStep: { control: false },
   },
