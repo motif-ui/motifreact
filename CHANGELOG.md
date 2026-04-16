@@ -44,10 +44,9 @@
 
 ## Other Changes
 
-- ci: unnecessary "internal" label  ([#25](https://github.com/motif-ui/motifreact/pull/25)) [@aktasmehmet](https://github.com/aktasmehmet)
+- ci: unnecessary "internal" label ([#25](https://github.com/motif-ui/motifreact/pull/25)) [@aktasmehmet](https://github.com/aktasmehmet)
 - docs: add children usage example to DataView.Item stories ([#18](https://github.com/motif-ui/motifreact/pull/18)) [@hatesalp](https://github.com/hatesalp)
 - docs: rename figma and colorPalette Storybook pages to PascalCase ([#12](https://github.com/motif-ui/motifreact/pull/12)) [@hatesalp](https://github.com/hatesalp)
 - chore: maintanence task ([#8](https://github.com/motif-ui/motifreact/pull/8)) [@hatesalp](https://github.com/hatesalp)
 - test: add MotifIcon and MotifIconButton tests ([#17](https://github.com/motif-ui/motifreact/pull/17)) [@ZehranurC](https://github.com/ZehranurC)
 - refactor: remove important declarations from component SCSS files ([#14](https://github.com/motif-ui/motifreact/pull/14)) [@ZehranurC](https://github.com/ZehranurC)
-

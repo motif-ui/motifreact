@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// name, gap, padding
-$sizes: (("xs", "4x", "8x"), ("sm", "6x", "12x"), ("md", "8x", "16x"), ("lg", "10x", "20x"));
+// name, gap, padding, infoFontPerc
+$sizes: (("xs", "4x", "8x", "xs"), ("sm", "6x", "12x", "sm"), ("md", "8x", "16x", "sm"), ("lg", "10x", "20x", "sm"));
 
 .Root {
   display: flex;
@@ -23,7 +23,6 @@ $sizes: (("xs", "4x", "8x"), ("sm", "6x", "12x"), ("md", "8x", "16x"), ("lg", "1
 
     .infoText {
       color: var(--base-colors-gray-gray-500);
-      @include font("body", "sm");
     }
 
     &:hover,
@@ -57,11 +56,15 @@ $sizes: (("xs", "4x", "8x"), ("sm", "6x", "12x"), ("md", "8x", "16x"), ("lg", "1
   }
 }
 
-@each $name, $gap, $padding in $sizes {
+@each $name, $gap, $padding, $infoFontPerc in $sizes {
   .#{$name} {
     .dragArea {
       padding: var(--base-sizing-#{$padding});
       gap: var(--base-sizing-#{$gap});
+
+      .infoText {
+        @include font("body", $infoFontPerc);
+      }
     }
   }
 }
