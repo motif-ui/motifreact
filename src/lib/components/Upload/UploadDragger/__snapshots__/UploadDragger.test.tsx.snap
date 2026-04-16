@@ -14,16 +14,20 @@ exports[`UploadDragger should be rendered with only required props 1`] = `
       >
         upload_file
       </span>
-      <span
-        class="dragText"
+      <div
+        class="dragTextGroup"
       >
-        Dosya yüklemek için bu alana tıklayın veya dosyaları buraya bırakın.
-      </span>
-      <span
-        class="dragInfo"
-      >
-        Maksimum 1 dosya yükleyebilirsiniz.
-      </span>
+        <span
+          class="dragText"
+        >
+          Dosya yüklemek için bu alana tıklayın veya dosyaları buraya bırakın.
+        </span>
+        <span
+          class="dragInfo"
+        >
+          Maksimum 1 dosya yükleyebilirsiniz.
+        </span>
+      </div>
     </div>
   </div>
   <input

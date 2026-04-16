@@ -88,10 +88,14 @@
   --base-sizing-400x: 25rem;
   --base-sizing-480x: 30rem;
   --base-sizing-720x: 45rem;
+  --base-sizing-960x: 60rem;
   --base-sizing-266x: 16.625rem;
   --base-sizing-342x: 21.375rem;
   --base-sizing-418x: 26.125rem;
   --base-sizing-120x: 7.5rem;
+  --base-sizing-176x: 11rem;
+  --base-sizing-216x: 13.5rem;
+  --base-sizing-360x: 22.5rem;
   --base-radius-xs: 0.125rem;
   --base-radius-sm: 0.25rem;
   --base-radius-md: 0.5rem;

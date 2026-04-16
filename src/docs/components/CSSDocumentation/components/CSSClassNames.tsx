@@ -1,11 +1,11 @@
 import { useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
-import styles from "./CssClassNames.module.scss";
+import styles from "./CSSClassNames.module.scss";
 import { extractClassesFromStyles } from "../generator";
 import { DocsContext } from "@storybook/addon-docs/blocks";
 import { CSFFile, DocsContextProps } from "storybook/internal/types";
 import { ReactRenderer } from "@storybook/nextjs";
 
-const CssClassNames = () => {
+const CSSClassNames = () => {
   const [readyData, setReadyData] = useState<{
     componentName?: string;
     scssPath?: string;
@@ -66,4 +66,4 @@ const CssClassNames = () => {
   );
 };
 
-export default CssClassNames;
+export default CSSClassNames;

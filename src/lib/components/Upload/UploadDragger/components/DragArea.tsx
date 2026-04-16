@@ -95,8 +95,10 @@ const DragArea = (props: Props) => {
       {...(!isDisabled && { onClick: browse })}
     >
       <MotifIcon name="upload_file" variant="secondary" className={styles.dragIcon} />
-      <span className={styles.dragText}>{t(MESSAGE.PLEASE_CLICK_OR_DROP)}</span>
-      <span className={styles.dragInfo}>{infoMessage}</span>
+      <div className={styles.dragTextGroup}>
+        <span className={styles.dragText}>{t(MESSAGE.PLEASE_CLICK_OR_DROP)}</span>
+        <span className={styles.dragInfo}>{infoMessage}</span>
+      </div>
     </div>
   );
 };

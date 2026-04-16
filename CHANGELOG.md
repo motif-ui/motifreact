@@ -1,3 +1,26 @@
+# [v0.2.0](https://github.com/motif-ui/motifreact/releases/tag/v0.2.0) (2026-04-15)
+
+## 🚀 Features
+
+- feat: created timeline component ([#37](https://github.com/motif-ui/motifreact/pull/37)) [@hatesalp](https://github.com/hatesalp)
+
+## 🐛 Bug Fixes
+
+- fix: random picsum images fixed with seed under component specifications ([#41](https://github.com/motif-ui/motifreact/pull/41)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: xl size is added for modal component ([#43](https://github.com/motif-ui/motifreact/pull/43)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: workflow files have been refactored ([#40](https://github.com/motif-ui/motifreact/pull/40)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: add remove icon to motif-icons-default font ([#31](https://github.com/motif-ui/motifreact/pull/31)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: form tests field name based bug fixes ([#30](https://github.com/motif-ui/motifreact/pull/30)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: add self-error support for upload components within formfields ([#27](https://github.com/motif-ui/motifreact/pull/27)) [@hatesalp](https://github.com/hatesalp)
+- fix: date components formats improvements ([#28](https://github.com/motif-ui/motifreact/pull/28)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: display names are changed ([#26](https://github.com/motif-ui/motifreact/pull/26)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+## Other Changes
+
+- chore(build): strip data-testid attributes from production library bundle ([#39](https://github.com/motif-ui/motifreact/pull/39)) [@hatesalp](https://github.com/hatesalp)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.1.1...v0.2.0)
+
 # [v0.1.1](https://github.com/motif-ui/motifreact/releases/tag/v0.1.1) (2026-03-25)
 
 ## 🐛 Bug Fixes
@@ -21,10 +44,9 @@
 
 ## Other Changes
 
-- ci: unnecessary "internal" label  ([#25](https://github.com/motif-ui/motifreact/pull/25)) [@aktasmehmet](https://github.com/aktasmehmet)
+- ci: unnecessary "internal" label ([#25](https://github.com/motif-ui/motifreact/pull/25)) [@aktasmehmet](https://github.com/aktasmehmet)
 - docs: add children usage example to DataView.Item stories ([#18](https://github.com/motif-ui/motifreact/pull/18)) [@hatesalp](https://github.com/hatesalp)
 - docs: rename figma and colorPalette Storybook pages to PascalCase ([#12](https://github.com/motif-ui/motifreact/pull/12)) [@hatesalp](https://github.com/hatesalp)
 - chore: maintanence task ([#8](https://github.com/motif-ui/motifreact/pull/8)) [@hatesalp](https://github.com/hatesalp)
 - test: add MotifIcon and MotifIconButton tests ([#17](https://github.com/motif-ui/motifreact/pull/17)) [@ZehranurC](https://github.com/ZehranurC)
 - refactor: remove important declarations from component SCSS files ([#14](https://github.com/motif-ui/motifreact/pull/14)) [@ZehranurC](https://github.com/ZehranurC)
-

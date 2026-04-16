@@ -1,4 +1,5 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
+import { Size4SM } from "../../../types";
 import { simulateDrop, simulateChooseFiles, renderExtUploadFileList, waitForSuccessfulUpload } from "@/components/Upload/testHelper";
 import { MESSAGE } from "@/components/Upload/constants";
 import UploadDragger from "@/components/Upload/UploadDragger/UploadDragger";
@@ -12,6 +13,15 @@ describe("UploadDragger", () => {
 
   it("should be rendered with only required props", () => {
     expect(renderExt(<UploadDragger {...requiredProps} />).container).toMatchSnapshot();
+  });
+
+  it("should be rendered with the given size in size prop", () => {
+    const sizes: Size4SM[] = ["xs", "sm", "md", "lg"];
+    for (const size of sizes) {
+      const { container } = renderExt(<UploadDragger {...requiredProps} size={size} />);
+      expect(container.firstElementChild).toHaveClass(size);
+      cleanup();
+    }
   });
 
   it("should display error when error prop is true", () => {

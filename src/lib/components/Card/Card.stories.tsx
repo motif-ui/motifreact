@@ -39,7 +39,7 @@ export const Header: Story = {
       subtitle="Motif Card Subtitle"
       imagePosition="right"
       icon="folder"
-      image="https://picsum.photos/100"
+      image="https://picsum.photos/seed/motifui/100"
       action={{ icon: "download", onClick: () => console.log("asd") }}
     />
   ),
@@ -53,7 +53,7 @@ export const Content: Story = {
       contentTitle="Card Content Title"
       contentSubtitle="Card Content Subtitle"
       contentLink={{ text: "Motif Link", href: "https://motif-ui.com/", targetBlank: true }}
-      contentImage="https://picsum.photos/400/200"
+      contentImage="https://picsum.photos/seed/motifui/400/200"
       contentActionButton={{ text: "Action", onClick: () => console.log("Contant action clicked!") }}
       contentAlternateButton={{ text: "Alternate", onClick: () => console.log("Content alternate clicked!") }}
       contentActionLink={{ text: "Motif Link", href: "https://motif-ui.com/", targetBlank: true, icon: "arrow_forward" }}
@@ -67,13 +67,13 @@ export const HeaderAndContent: Story = {
       {...args}
       title="Card Header Title"
       subtitle="Motif Card Subtitle"
-      avatarText="AB"
+      avatarText="MU"
       action={{ icon: "download", onClick: () => console.log("Action clicked!") }}
       contentText="Motif Card Supporting Text"
       contentTitle="Card Content Title"
       contentSubtitle="Card Content Subtitle"
       contentLink={{ text: "Motif Link", href: "https://motif-ui.com/", targetBlank: true }}
-      contentImage="https://picsum.photos/400/200"
+      contentImage="https://picsum.photos/seed/motifui/400/200"
       contentActionButton={{ text: "Action", onClick: () => console.log("Content action clicked!") }}
       contentAlternateButton={{ text: "Alternate", onClick: () => console.log("Content alternate clicked!") }}
       contentActionLink={{ text: "Motif Link", href: "https://motif-ui.com/", targetBlank: true, icon: "arrow_forward" }}
