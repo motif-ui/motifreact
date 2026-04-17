@@ -1,5 +1,5 @@
 import styles from "./Badge.module.scss";
-import Icon from "../Icon/Icon";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { PropsWithRefAndChildren } from "../../types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { BadgeProps } from "./types";
@@ -19,7 +19,15 @@ const Badge = (props: PropsWithRefAndChildren<BadgeProps, HTMLDivElement>) => {
     ref,
   } = usePropsWithThemeDefaults("Badge", props);
 
-  const contentToRender = icon ? <Icon name={icon} size="xxs" /> : content ? max > 0 && Number(content) > max ? max + "+" : content : null;
+  const contentToRender = icon ? (
+    <GlobalIconWrapper icon={icon} className={styles.icon} />
+  ) : content ? (
+    max > 0 && Number(content) > max ? (
+      max + "+"
+    ) : (
+      content
+    )
+  ) : null;
   const classNames = sanitizeModuleRootClasses(styles, className, [variant, align, dot && "dot"]);
 
   return (

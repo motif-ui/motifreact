@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import Accordion from "@/components/Accordion/Accordion";
 import { render, screen, fireEvent } from "@testing-library/react";
+import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
 
 describe("Accordion", () => {
   it("should be rendered with only required props", () => {
@@ -35,10 +36,7 @@ describe("Accordion", () => {
     expect(render(<Accordion title="Accordion Title" expanded />).container.firstChild).toHaveClass("expanded");
   });
 
-  it("should display the icon given in the icon prop", () => {
-    render(<Accordion title="Accordion Title" icon="home" />);
-    expect(screen.getByText("home")).toBeInTheDocument();
-  });
+  runIconPropTest(icon => render(<Accordion title="Accordion Title" icon={icon} />), "icon");
 
   it("should trigger the event given in the onToggle prop when toggled", () => {
     const handleToggle = jest.fn();

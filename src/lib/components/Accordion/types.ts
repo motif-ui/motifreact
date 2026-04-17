@@ -17,7 +17,7 @@ export type AccordionProps = {
   title: string;
   index?: number;
   text?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   onToggle?: () => void;
 } & AccordionDefaultableProps;
 

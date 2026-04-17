@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Avatar from "@/components/Avatar/Avatar";
+import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
 
 describe("Avatar", () => {
   it("should be rendered with only required props", () => {
@@ -10,9 +11,7 @@ describe("Avatar", () => {
     expect(render(<Avatar letters="test" />).getByText("TE")).toBeInTheDocument();
   });
 
-  it("should render icon when icon is set", () => {
-    expect(render(<Avatar icon="info" />).getByText("info")).toBeInTheDocument();
-  });
+  runIconPropTest(icon => render(<Avatar icon={icon} />));
 
   it("should display image when image is set", () => {
     render(<Avatar image="https://picsum.photos/seed/motifui/200" />);

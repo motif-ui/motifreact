@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import Badge from "@/components/Badge/Badge";
 import { getByTestId, render, screen } from "@testing-library/react";
+import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
 
 describe("Badge", () => {
   it("should be rendered with only required props", () => {
@@ -83,6 +84,16 @@ describe("Badge", () => {
     expect(getByTestId(container, "badgeItem").textContent).toBe("check");
     expect(getByTestId(container, "badgeItem").textContent).not.toBe(testContent);
   });
+
+  runIconPropTest(
+    icon =>
+      render(
+        <Badge icon={icon}>
+          <button />
+        </Badge>,
+      ),
+    "icon",
+  );
 
   it("should render no text content when the dot is true", () => {
     const { container } = render(

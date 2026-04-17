@@ -1,0 +1,11 @@
+@use "@styles" as *;
+
+.externalIcon {
+  display: inline-flex;
+  align-items: center;
+
+  > svg {
+    width: 1em;
+    height: 1em;
+  }
+}
