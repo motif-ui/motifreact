@@ -76,7 +76,7 @@ describe("UploadDragger", () => {
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.filePng2mb.name);
     expect(fileItem2).toHaveTextContent(expectedErrorMessage); // Validation failed : File type PNG
-    // expect(fileItem2).toHaveTextContent(mockT("upload.message.mimeTypeError")); // Validation failed : File type PNG
+    expect(fileItem2).toHaveTextContent(mockT(MESSAGE.MIME_TYPE, { acceptType: "application/pdf", fileType: "image/png" })); // Validation failed : File type PNG
     expect(fileItem2.childNodes[1].lastChild).toHaveClass("helperError");
 
     xhrSpy.mockRestore();
