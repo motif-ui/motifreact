@@ -7,6 +7,7 @@ import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 
 const meta: Meta = {
   title: "Chromatic/GlobalIconWrapper",
+  tags: ["!autodocs", "!dev"],
   parameters: { layout: "padded" },
   decorators: [
     Story => (
