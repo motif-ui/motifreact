@@ -1,6 +1,12 @@
 @use "@styles" as *;
 
 $grid-sizes: ("sm", "md", "lg", "xl");
+$gutter-token: (
+  "xs": "gutter-xs",
+  "sm": "gutter-sm",
+  "md": "gutter-md",
+  "lg": "gutter"
+);
 $grids: 12;
 @function calculate-grid-flex-width($colIdx) {
   @return calc(($colIdx / $grids * 100%) - ((1 - $colIdx / $grids) * var(--theme-grid-gutter-gutter)));
@@ -12,8 +18,13 @@ $grids: 12;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  gap: var(--theme-grid-gutter-gutter);
-  padding: var(--theme-grid-gutter-gutter);
+
+  @each $size, $token in $gutter-token {
+    &.gutter-#{$size} {
+      gap: var(--theme-grid-gutter-#{$token});
+      padding: var(--theme-grid-gutter-#{$token});
+    }
+  }
 
   &.leanToEdge {
     padding: 0;
