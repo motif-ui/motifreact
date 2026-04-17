@@ -39,6 +39,6 @@ $color-types: (("secondary", "light"), ("warning", "warning"), ("success", "succ
   align-self: center;
 }
 
-.content {
+.message {
   @include font("body", "md");
 }

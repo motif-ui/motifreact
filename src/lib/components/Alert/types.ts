@@ -1,5 +1,5 @@
 export type AlertProps = {
-  message: string;
+  message?: string;
   title?: string;
 } & AlertDefaultableProps;
 

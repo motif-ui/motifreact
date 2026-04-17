@@ -65,4 +65,13 @@ describe("Alert", () => {
     expect(alertContainer).toHaveClass("info");
     expect(screen.queryByText("info")).toBeInTheDocument();
   });
+
+  it("should render given children as custom content", () => {
+    render(
+      <Alert>
+        <div>Custom Child Content</div>
+      </Alert>,
+    );
+    expect(screen.getByText("Custom Child Content")).toBeInTheDocument();
+  });
 });
