@@ -71,4 +71,18 @@ describe("AccordionGroup", () => {
     expect(accordions[0]).toHaveClass("expanded");
     expect(accordions[1]).not.toHaveClass("expanded");
   });
+
+  it("should remain expanded on mount when expanded prop is true inside a multiExpand=false group", () => {
+    render(
+      <AccordionGroup multiExpand={false}>
+        <Accordion title="Accordion Title 1" index={0} expanded />
+        <Accordion title="Accordion Title 2" index={1} />
+        <Accordion title="Accordion Title 3" index={2} />
+      </AccordionGroup>,
+    );
+    const accordions = screen.getAllByTestId("accordionItem");
+    expect(accordions[0]).toHaveClass("expanded");
+    expect(accordions[1]).not.toHaveClass("expanded");
+    expect(accordions[2]).not.toHaveClass("expanded");
+  });
 });
