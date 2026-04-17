@@ -44,4 +44,4 @@ export const renderExtUploadFileList = (ui: ReactNode) => {
 };
 
 export const waitForSuccessfulUpload = (fileItem: HTMLDivElement) =>
-  waitFor(() => expect(fileItem).toHaveTextContent(MESSAGE.UPLOAD_SUCCESS));
+  waitFor(() => expect(fileItem).toHaveTextContent(mockT(MESSAGE.UPLOAD_SUCCESS)));

@@ -16,7 +16,7 @@ exports[`ImageUpload should be rendered with only required props 1`] = `
       <span
         class="dragMessage"
       >
-        Choose or drag an image
+        Bir resim seçin veya sürükleyin
       </span>
     </div>
   </div>

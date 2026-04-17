@@ -791,7 +791,7 @@ describe("Form", () => {
     // Upload List - Error State 1
     await user.click(button);
 
-    const uploadItem = screen.queryByText(MESSAGE.PLEASE_DROP)?.parentElement;
+    const uploadItem = screen.queryByText(mockT(MESSAGE.PLEASE_DROP))?.parentElement;
     expect(uploadItem).not.toHaveClass("error");
     expect(getFormField(0)).toHaveTextContent(inputHelperText);
 

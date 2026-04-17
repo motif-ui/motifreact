@@ -109,7 +109,7 @@ describe("ImageUpload", () => {
 
   const verifyUploadError = async (getThumbnail: () => HTMLElement | null) => {
     await waitFor(() => {
-      expect(screen.queryByText(MESSAGE.UPLOAD_ERROR)).toBeInTheDocument();
+      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
     });
 
     expect(getThumbnail()).not.toBeInTheDocument();
@@ -233,7 +233,7 @@ describe("ImageUpload", () => {
       expect(getThumbnail()).not.toBeInTheDocument();
     });
 
-    expect(screen.getByText("Choose or drag an image")).toBeInTheDocument();
+    expect(screen.getByText(mockT("upload.message.chooseOrDragImage"))).toBeInTheDocument();
   });
 
   it("should show preview when preview button is clicked", async () => {
@@ -247,7 +247,7 @@ describe("ImageUpload", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 
     await waitFor(() => {
-      expect(screen.queryByText(MESSAGE.UPLOAD_ERROR)).toBeInTheDocument();
+      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
     });
 
     const errorIcon = screen.getByText("imagesmode");
@@ -262,7 +262,7 @@ describe("ImageUpload", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 
     await waitFor(() => {
-      expect(screen.queryByText(MESSAGE.UPLOAD_ERROR)).toBeInTheDocument();
+      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
     });
 
     await userEvent.click(screen.getByText("delete"));
@@ -271,7 +271,7 @@ describe("ImageUpload", () => {
       expect(getThumbnail()).not.toBeInTheDocument();
     });
 
-    expect(screen.getByText("Choose or drag an image")).toBeInTheDocument();
+    expect(screen.getByText(mockT("upload.message.chooseOrDragImage"))).toBeInTheDocument();
 
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 
@@ -311,7 +311,7 @@ describe("ImageUpload", () => {
     await userEvent.click(getDeleteButton());
 
     await waitFor(() => {
-      expect(screen.queryByText(MESSAGE.DELETE_ERROR)).toBeInTheDocument();
+      expect(screen.queryByText(mockT(MESSAGE.DELETE_ERROR))).toBeInTheDocument();
     });
 
     await waitFor(() => {

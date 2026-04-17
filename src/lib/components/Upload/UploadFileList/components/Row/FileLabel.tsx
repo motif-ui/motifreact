@@ -1,6 +1,7 @@
 import styles from "../../FileList.module.scss";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { FileType } from "@/components/Upload/types";
 import { formatBytes, shortenText } from "../../../../../../utils/utils";
 import ProgressBar from "@/components/ProgressBar";
@@ -25,15 +26,16 @@ export const FileLabel = memo(
       "helperText",
       failed ? "helperError" : status === STATUS.SUCCESS && "helperSuccess",
     );
+    const { t } = useTranslation();
 
     return (
       <div className={styles.labelWrapper}>
         <span className={styles.label}>{shortenText(name, 30)}</span>
         <span className={helperClassName}>
           {status === STATUS.IDLE
-            ? MESSAGE.WAITING_TO_UPLOAD
+            ? t(MESSAGE.WAITING_TO_UPLOAD)
             : status === STATUS.SUCCESS
-              ? MESSAGE.UPLOAD_SUCCESS
+              ? t(MESSAGE.UPLOAD_SUCCESS)
               : failed
                 ? messages?.join("\n")
                 : formatBytes(size)}

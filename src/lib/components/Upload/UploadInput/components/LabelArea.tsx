@@ -3,6 +3,7 @@ import { InputState } from "@/components/Upload/types";
 import { STATUS } from "@/components/Upload/constants";
 import { LabelSuffix } from "@/components/Upload/UploadInput/components/LabelSuffix";
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { InputSize } from "../../../Form/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import ProgressBar from "@/components/ProgressBar";
@@ -24,17 +25,18 @@ export const LabelArea = (props: Props) => {
     uploadProps: { autoUpload },
     browse,
   } = useContext(UploadContext);
+  const { t } = useTranslation();
 
   const progress = selectedFiles.filter(f => f.status === STATUS.UPLOADING)[0]?.progress || 0;
   const uploading = selectedFiles.some(f => f.status === STATUS.UPLOADING);
   const noFiles = !selectedFiles.length;
   const text = noFiles
-    ? "Dosya seçin"
+    ? t("upload.selectFile")
     : selectedFiles.length === 1
       ? selectedFiles[0]?.file.name
-      : selectedFiles.length +
-        " dosya " +
-        (selectedFiles.length && selectedFiles.every(f => f.status === STATUS.SUCCESS) ? "yüklendi" : "seçildi");
+      : selectedFiles.length && selectedFiles.every(f => f.status === STATUS.SUCCESS)
+        ? t("upload.filesUploaded", { count: selectedFiles.length })
+        : t("upload.filesSelected", { count: selectedFiles.length });
 
   const aboutToUpload = autoUpload && !!selectedFiles.length && selectedFiles.every(f => f.status === STATUS.IDLE);
 
