@@ -46,9 +46,8 @@ export const Header: Story = {
 };
 
 export const Content: Story = {
-  render: args => (
+  render: () => (
     <Card
-      {...args}
       contentText="Motif Card Supporting Text"
       contentTitle="Card Content Title"
       contentSubtitle="Card Content Subtitle"
