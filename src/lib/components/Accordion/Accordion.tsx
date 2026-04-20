@@ -36,7 +36,7 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
   }, [expanded]);
 
   useEffect(() => {
-    if (groupEnabled && !multiExpand) {
+    if (groupEnabled && !multiExpand && expandedIndex !== undefined) {
       toggle(expandedIndex === index);
     }
   }, [expandedIndex, groupEnabled, index, multiExpand, toggle]);
