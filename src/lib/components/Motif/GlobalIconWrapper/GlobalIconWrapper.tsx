@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import Icon from "../../Icon/Icon";
 import styles from "./GlobalIconWrapper.module.scss";
+import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 
 type GlobalIconWrapperProps = {
   icon: string | ReactElement;
@@ -11,7 +12,7 @@ const GlobalIconWrapper = ({ icon, className }: GlobalIconWrapperProps) =>
   typeof icon === "string" ? (
     <Icon name={icon} className={className} />
   ) : (
-    <span className={`${styles.externalIcon}${className ? ` ${className}` : ""}`}>{icon}</span>
+    <span className={sanitizeModuleRootClasses(styles, className)}>{icon}</span>
   );
 
 export default GlobalIconWrapper;

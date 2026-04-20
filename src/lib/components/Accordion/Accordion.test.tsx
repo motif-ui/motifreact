@@ -36,7 +36,9 @@ describe("Accordion", () => {
     expect(render(<Accordion title="Accordion Title" expanded />).container.firstChild).toHaveClass("expanded");
   });
 
-  runIconPropTest(icon => render(<Accordion title="Accordion Title" icon={icon} />), "icon");
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<Accordion title="Accordion Title" icon={icon} />), "icon");
+  });
 
   it("should trigger the event given in the onToggle prop when toggled", () => {
     const handleToggle = jest.fn();

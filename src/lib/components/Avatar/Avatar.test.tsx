@@ -11,7 +11,9 @@ describe("Avatar", () => {
     expect(render(<Avatar letters="test" />).getByText("TE")).toBeInTheDocument();
   });
 
-  runIconPropTest(icon => render(<Avatar icon={icon} />));
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<Avatar icon={icon} />));
+  });
 
   it("should display image when image is set", () => {
     render(<Avatar image="https://picsum.photos/seed/motifui/200" />);

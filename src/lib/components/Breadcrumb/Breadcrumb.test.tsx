@@ -37,7 +37,9 @@ describe("Breadcrumb", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(itemCount + 1);
   });
 
-  runIconPropTest(icon => render(<Breadcrumb items={testItems} homeIcon={icon} />), "homepage-icon");
+  it("should render the main icon given in the homeIcon prop", () => {
+    runIconPropTest(icon => render(<Breadcrumb items={testItems} homeIcon={icon} />), "homepage-icon");
+  });
 
   it("should render links to all items  without collapse", () => {
     render(<Breadcrumb items={testItems} maxVisibleItems={5} />);

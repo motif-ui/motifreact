@@ -85,15 +85,17 @@ describe("Badge", () => {
     expect(getByTestId(container, "badgeItem").textContent).not.toBe(testContent);
   });
 
-  runIconPropTest(
-    icon =>
-      render(
-        <Badge icon={icon}>
-          <button />
-        </Badge>,
-      ),
-    "icon",
-  );
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(
+      icon =>
+        render(
+          <Badge icon={icon}>
+            <button />
+          </Badge>,
+        ),
+      "icon",
+    );
+  });
 
   it("should render no text content when the dot is true", () => {
     const { container } = render(

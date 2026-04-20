@@ -23,7 +23,9 @@ describe("BusinessCard", () => {
     expect(getByText("description")).toBeInTheDocument();
   });
 
-  runIconPropTest(icon => render(<BusinessCard icon={icon} />), "icon");
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<BusinessCard icon={icon} />), "icon");
+  });
 
   it("should render an anchor with the props given in the link prop", () => {
     const { getByText } = render(<BusinessCard link={{ text: "my link", href: "https://motif-ui.com", targetBlank: true }} />);
