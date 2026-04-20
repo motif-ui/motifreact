@@ -1,15 +1,15 @@
-import { PropsWithChildren, memo, useCallback, useContext } from "react";
+import { useCallback, useContext } from "react";
 import Icon from "../../Icon";
 import styles from "../Stepper.module.scss";
 import { StepperContext } from "../StepperContext";
-import { StepperItemProps } from "../types";
+import { StepperItemInternalProps } from "../types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
-const StepperItem = memo((props: PropsWithChildren<StepperItemProps>) => {
-  const { index = 0, title, icon = "motif_ui", variant: itemVariant, error, disabled } = props;
-  const { activeStep, variant: contextVariant, stepType, itemOrientation = "horizontal", onStepClick } = useContext(StepperContext);
+const StepperItem = (props: StepperItemInternalProps) => {
+  const { index, title, icon = "motif_ui", variant: itemVariant, error, disabled } = props;
+  const { activeStep, variant: contextVariant, stepType, itemOrientation, onStepClick } = useContext(StepperContext);
 
-  const variant = itemVariant ?? contextVariant ?? "primary";
+  const variant = itemVariant ?? contextVariant;
   const status = error ? "error" : index < activeStep ? "completed" : index === activeStep ? "active" : "upcoming";
   const clickable = !!onStepClick && !disabled && (index < activeStep || index === activeStep + 1);
 
@@ -35,27 +35,21 @@ const StepperItem = memo((props: PropsWithChildren<StepperItemProps>) => {
           <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
         )}
       </>
-    ) : status === "completed" ? (
-      <Icon name="check" className={styles.stepIcon} />
-    ) : status === "error" ? (
-      <Icon name="priority_high" className={styles.stepIcon} />
-    ) : stepType === "icon" ? (
-      <Icon name={icon} className={styles.stepIcon} />
+    ) : stepType !== "text" && (status === "completed" || status === "error" || stepType === "icon") ? (
+      <Icon name={status === "completed" ? "check" : status === "error" ? "priority_high" : icon} className={styles.stepIcon} />
     ) : (
-      <span className={styles.stepNumber}>{index + 1}</span>
+      stepType === "number" && <span className={styles.stepNumber}>{index + 1}</span>
     );
 
   return (
     <div className={itemClasses} {...(clickable && { tabIndex: 0, onClick: handleClick })}>
       <div className={styles.stepHeader}>
-        {stepType !== "text" && <div className={styles.stepIndicator}>{renderStep()}</div>}
-        <div className={styles.content}>
-          <span className={styles.title}>{title}</span>
-        </div>
+        <div className={styles.stepIndicator}>{renderStep()}</div>
+        <span className={styles.title}>{title}</span>
       </div>
     </div>
   );
-});
+};
 
 StepperItem.displayName = "StepperItem";
 export default StepperItem;

@@ -1,9 +1,9 @@
 "use client";
 
-import { Children, ReactElement } from "react";
+import { Children, FC, ReactElement, cloneElement } from "react";
 import styles from "./Stepper.module.scss";
 import { PropsWithRefAndChildren } from "../../types";
-import { StepperItemProps, StepperProps } from "./types";
+import { StepperItemInternalProps, StepperItemProps, StepperProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import StepperItem from "./components/StepperItem";
@@ -15,7 +15,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
     children,
     activeStep = 0,
     showCount,
-    variant,
+    variant = "primary",
     stepType = "number",
     orientation = "horizontal",
     itemOrientation = "vertical",
@@ -32,17 +32,15 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
     orientation,
     stepType,
     `itemOrientation-${itemOrientation}`,
-    `count-${variant ?? "primary"}`,
+    `count-${variant}`,
   ]);
 
   return (
-    <StepperContext value={{ activeStep, variant, stepType, itemOrientation, onStepClick }}>
+    <StepperContext value={{ activeStep, count: stepItems.length, variant, stepType, itemOrientation, onStepClick }}>
       <div ref={ref} style={style} className={classNames}>
-        {showCount && <StepperCounter activeStep={activeStep} count={stepItems.length} orientation={orientation} />}
+        {showCount && <StepperCounter activeStep={activeStep} />}
         <div className={styles.stepList}>
-          {stepItems.map((item, idx) => (
-            <StepperItem key={idx} index={idx} {...item.props} />
-          ))}
+          {stepItems.map((item, idx) => cloneElement(item as ReactElement<StepperItemInternalProps>, { key: idx, index: idx }))}
         </div>
         {activeContent && <div className={styles.stepContent}>{activeContent}</div>}
       </div>
@@ -50,6 +48,8 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   );
 };
 
-Stepper.displayName = "Stepper";
-const StepperWithItem = Object.assign(Stepper, { Item: StepperItem });
+const StepperWithItem = Object.assign(Stepper, {
+  displayName: "Stepper",
+  Item: StepperItem as unknown as FC<StepperItemProps>,
+});
 export default StepperWithItem;
