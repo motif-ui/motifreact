@@ -3,7 +3,7 @@ import { InputState } from "@/components/Upload/types";
 import { STATUS } from "@/components/Upload/constants";
 import { LabelSuffix } from "@/components/Upload/UploadInput/components/LabelSuffix";
 import { useContext } from "react";
-import { useTranslation } from "react-i18next";
+import { useMotifContext } from "../../../../motif/context/MotifProvider";
 import { InputSize } from "../../../Form/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import ProgressBar from "@/components/ProgressBar";
@@ -25,7 +25,7 @@ export const LabelArea = (props: Props) => {
     uploadProps: { autoUpload },
     browse,
   } = useContext(UploadContext);
-  const { t } = useTranslation();
+  const { t } = useMotifContext();
 
   const progress = selectedFiles.filter(f => f.status === STATUS.UPLOADING)[0]?.progress || 0;
   const uploading = selectedFiles.some(f => f.status === STATUS.UPLOADING);

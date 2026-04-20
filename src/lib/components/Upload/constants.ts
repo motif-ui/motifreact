@@ -23,7 +23,7 @@ export const MESSAGE = {
   DRAGGER_MAX_FILE: "upload.message.draggerMaxFile",
   DRAGGER_CAN_UPLOAD_FILES: "upload.message.draggerCanUploadFiles",
   CUSTOM_VALIDATION_ERROR: "upload.message.customValidationError",
-};
+} as const;
 
 export const MIME_TYPES = {
   ALL: "*",

@@ -1,7 +1,7 @@
 import styles from "../../FileList.module.scss";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useMotifContext } from "../../../../../motif/context/MotifProvider";
 import { FileType } from "@/components/Upload/types";
 import { formatBytes, shortenText } from "../../../../../../utils/utils";
 import ProgressBar from "@/components/ProgressBar";
@@ -26,7 +26,7 @@ export const FileLabel = memo(
       "helperText",
       failed ? "helperError" : status === STATUS.SUCCESS && "helperSuccess",
     );
-    const { t } = useTranslation();
+    const { t } = useMotifContext();
 
     return (
       <div className={styles.labelWrapper}>

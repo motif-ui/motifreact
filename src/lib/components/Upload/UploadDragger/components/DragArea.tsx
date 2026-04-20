@@ -1,7 +1,7 @@
 import styles from "../UploadDragger.module.scss";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { useContext, useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
+import { useMotifContext } from "../../../../motif/context/MotifProvider";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { capitalizeFirstLetter, formatBytes } from "../../../../../utils/utils";
@@ -26,7 +26,7 @@ const DragArea = (props: Props) => {
     addNewFiles,
     browse,
   } = useContext(UploadContext);
-  const { t } = useTranslation();
+  const { t } = useMotifContext();
 
   const isFirstRun = useRef(true);
 

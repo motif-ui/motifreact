@@ -1,0 +1,34 @@
+{
+  "buttons": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil"
+  },
+  "greeting": "Merhaba, {{name}}!",
+  "message_one": "{{count}} mesaj",
+  "message_other": "{{count}} mesaj",
+  "upload": {
+    "browse": "Gözat..",
+    "upload": "Yükle",
+    "selectFile": "Dosya seçin",
+    "filesSelected": "{{count}} dosya seçildi",
+    "filesUploaded": "{{count}} dosya yüklendi",
+    "message": {
+      "maxSizeError": "Dosyanızın boyutu maksimum {{maxSize}} olabilir. '{{fileName}}' dosyanızın boyutu: {{fileSize}}",
+      "maxFileError": "Maksimum {{maxFile}} dosya yükleyebilirsiniz.",
+      "mimeTypeError": "Sadece '{{acceptType}}' formatındaki dosyaları yükleyebilirsiniz. Dosyanızın formatı: '{{fileType}}'",
+      "uploadError": "Dosya karşıya yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.",
+      "deleteError": "Dosya silinirken bir hata oluştu. Lütfen tekrar deneyiniz.",
+      "pleaseDrop": "Yüklemek istediğiniz dosyaları buraya bırakın.",
+      "pleaseClickOrDrop": "Dosya yüklemek için bu alana tıklayın veya dosyaları buraya bırakın.",
+      "filesBeingUploaded": "Dosyalar yükleniyor...",
+      "waitingToUpload": "Yüklemek için bekleniyor...",
+      "uploadSuccess": "Dosya başarıyla yüklendi.",
+      "draggerMaxSize": "her biri en fazla {{maxSize}} boyutunda",
+      "draggerMaxFile": "maksimum {{maxFile}}",
+      "draggerCanUploadFiles": " dosya yükleyebilirsiniz.",
+      "customValidationError": "Hata oluştu.",
+      "chooseOrDragImage": "Bir resim seçin veya sürükleyin"
+    }
+  }
+}

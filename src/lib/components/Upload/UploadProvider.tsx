@@ -2,7 +2,7 @@ import { ContextDefaultValues, FileType, UploadContextType, UploadPropsDefault, 
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
 import { formatBytes, generateUUIDV4, shortenText } from "../../../utils/utils";
-import { useTranslation } from "react-i18next";
+import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
@@ -10,7 +10,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>([]);
-  const { t } = useTranslation();
+  const { t } = useMotifContext();
 
   const selectedFilesEqualityString = selectedFiles
     .map(f => f.id + f.file.name + f.file.size + f.file.type + f.status + (f.progress || 0) + (f.messages?.join("") || ""))

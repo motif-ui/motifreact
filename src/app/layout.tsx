@@ -5,7 +5,7 @@ import { MotifProvider } from "../lib";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="tr">
+    <html lang="en">
       <head>
         <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />
         <title>Motif UI</title>

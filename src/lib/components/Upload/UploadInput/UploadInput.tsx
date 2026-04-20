@@ -1,7 +1,7 @@
 "use client";
 import styles from "./UploadInput.module.scss";
 import { useCallback, useContext, useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { useMotifContext } from "../../../motif/context/MotifProvider";
 import { InputState, UploadProps } from "../types";
 import { STATUS } from "@/components/Upload/constants";
 import { UploadContext, UploadProvider } from "@/components/Upload/UploadProvider";
@@ -64,7 +64,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
     uploadProps: { autoUpload },
     uploadV2,
   } = useContext(UploadContext);
-  const { t } = useTranslation();
+  const { t } = useMotifContext();
 
   const isDisabled = disabled || readOnly;
 

@@ -1,7 +1,7 @@
 import styles from "./UploadList.module.scss";
 import Button from "@/components/Button";
 import { useContext, useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
+import { useMotifContext } from "../../../motif/context/MotifProvider";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { UploadContext } from "@/components/Upload/UploadProvider";
@@ -25,7 +25,7 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
     browse,
     size,
   } = useContext(UploadContext);
-  const { t } = useTranslation();
+  const { t } = useMotifContext();
 
   const isFirstRun = useRef(true);
 

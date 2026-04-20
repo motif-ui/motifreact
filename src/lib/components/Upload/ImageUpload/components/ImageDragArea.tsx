@@ -1,7 +1,7 @@
 import styles from "../ImageUpload.module.scss";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { useContext } from "react";
-import { useTranslation } from "react-i18next";
+import { useMotifContext } from "../../../../motif/context/MotifProvider";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { UploadContext } from "@/components/Upload/UploadProvider";
@@ -20,7 +20,7 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
     addNewFiles,
     browse,
   } = useContext(UploadContext);
-  const { t } = useTranslation();
+  const { t } = useMotifContext();
   const selectedImage = selectedFiles[0] as FileType | undefined;
   const status = selectedImage?.status;
   const disabled = selectedImage?.uploaded || status === STATUS.CHECK_FAIL;
