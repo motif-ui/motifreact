@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export type StepperVariant = "primary" | "secondary" | "success" | "warning" | "error";
+export type StepperVariant = "primary" | "secondary" | "success" | "warning" | "danger";
 export type StepperStepType = "dot" | "number" | "icon" | "text";
 export type StepperOrientation = "vertical" | "horizontal";
 

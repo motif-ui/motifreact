@@ -28,12 +28,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   const stepItems = Children.toArray(children) as ReactElement<StepperItemProps>[];
   const activeContent = stepItems[activeStep]?.props.children;
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [
-    orientation,
-    stepType,
-    `itemOrientation-${itemOrientation}`,
-    `count-${variant}`,
-  ]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [orientation, stepType, `${itemOrientation}-items`]);
 
   return (
     <StepperContext value={{ activeStep, count: stepItems.length, variant, stepType, itemOrientation, onStepClick }}>

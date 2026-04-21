@@ -17,39 +17,36 @@ const StepperItem = (props: StepperItemInternalProps) => {
     onStepClick?.(index);
   }, [onStepClick, index]);
 
-  const itemClasses = sanitizeModuleClasses(
-    styles,
-    "item",
-    variant,
-    status === "error" ? "statusError" : status,
-    disabled && "disabled",
-    clickable && "clickable",
-    `item-${itemOrientation}`,
-  );
+  const itemClasses = sanitizeModuleClasses(styles, "stepItem", variant, status, disabled && "disabled", clickable && "clickable");
+  const stepHeaderClass = sanitizeModuleClasses(styles, "stepHeader", `item-${itemOrientation}`);
 
   const renderStep = () =>
     stepType === "dot" ? (
       <>
-        <span className={styles.stepDot} />
-        {(status === "completed" || status === "error") && (
+        {status === "completed" || status === "error" ? (
           <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
+        ) : (
+          <span className={`${styles.stepIndicator} ${styles.stepDot}`} />
         )}
       </>
     ) : stepType !== "text" && (status === "completed" || status === "error" || stepType === "icon") ? (
-      <Icon name={status === "completed" ? "check" : status === "error" ? "priority_high" : icon} className={styles.stepIcon} />
+      <Icon
+        name={status === "completed" ? "check" : status === "error" ? "priority_high" : icon}
+        className={`${styles.stepIndicator} ${styles.stepIcon}`}
+      />
     ) : (
-      stepType === "number" && <span className={styles.stepNumber}>{index + 1}</span>
+      stepType === "number" && <span className={`${styles.stepIndicator} ${styles.stepNumber}`}>{index + 1}</span>
     );
 
   return (
-    <div className={itemClasses} {...(clickable && { tabIndex: 0, onClick: handleClick })}>
-      <div className={styles.stepHeader}>
-        <div className={styles.stepIndicator}>{renderStep()}</div>
+    <div className={itemClasses}>
+      <div className={stepHeaderClass} {...(clickable && { tabIndex: 0, onClick: handleClick })}>
+        {stepType !== "text" && renderStep()}
         <span className={styles.title}>{title}</span>
       </div>
     </div>
   );
 };
 
-StepperItem.displayName = "StepperItem";
+StepperItem.displayName = "Stepper.Item";
 export default StepperItem;
