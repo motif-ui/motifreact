@@ -18,6 +18,7 @@ import Col from "@/components/Grid/components/Col";
 import { MOCK } from "../../Upload/mock";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { FileType } from "@/components/Upload/types";
+import { t } from "../../../../utils/testUtils";
 
 import {
   data,
@@ -688,7 +689,7 @@ describe("Form", () => {
     await user.click(screen.queryByText("Item 1")!);
     await user.click(screen.getByTestId("switchItem"));
     await act(() =>
-      fireEvent.drop(screen.getAllByText("Gözat..")[0].parentElement as Element, { dataTransfer: { files: [MOCK.filePng2mb] } }),
+      fireEvent.drop(screen.getAllByText(t("upload.browse"))[0].parentElement as Element, { dataTransfer: { files: [MOCK.filePng2mb] } }),
     );
     await act(() =>
       fireEvent.change(screen.getByTestId("uploadInputItem").parentElement?.querySelector("input[type=file]") as Element, {
@@ -763,7 +764,11 @@ describe("Form", () => {
   it("should be rendered as error and show component level error message when required validation property and component level validation is given and form submitted", async () => {
     const maxSize = 500000;
     const inputHelperText = "Input Helper Text";
-    const expectedErrorMessage = "Dosyanızın boyutu maksimum 500 KB olabilir. 'test.gif' dosyanızın boyutu: 1 MB";
+    const expectedErrorMessage = t(MESSAGE.MAX_SIZE_ERROR, {
+      maxSize: "500 KB",
+      fileName: MOCK.fileGif1mb.name,
+      fileSize: "1 MB",
+    });
 
     const handleSubmit = (data: FormSubmitData) => {
       const submitValues = data.values;
@@ -791,7 +796,7 @@ describe("Form", () => {
     // Upload List - Error State 1
     await user.click(button);
 
-    const uploadItem = screen.queryByText(mockT(MESSAGE.PLEASE_DROP))?.parentElement;
+    const uploadItem = screen.queryByText(t(MESSAGE.PLEASE_DROP))?.parentElement;
     expect(uploadItem).not.toHaveClass("error");
     expect(getFormField(0)).toHaveTextContent(inputHelperText);
 

@@ -1,10 +1,11 @@
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { simulateDrop, simulateChooseFiles, renderExtUploadFileList } from "@/components/Upload/testHelper";
+import { formatBytes, shortenText } from "../../../../utils/utils";
 import { MESSAGE } from "@/components/Upload/constants";
 import ImageUpload from "@/components/Upload/ImageUpload/ImageUpload";
 import { ImageUploadProps } from "@/components/Upload/ImageUpload/types";
 import { MOCK } from "../mock";
-import { mockXHRs } from "../../../../utils/testUtils";
+import { mockXHRs, t } from "../../../../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 import { ReactElement } from "react";
 
@@ -109,7 +110,7 @@ describe("ImageUpload", () => {
 
   const verifyUploadError = async (getThumbnail: () => HTMLElement | null) => {
     await waitFor(() => {
-      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
     });
 
     expect(getThumbnail()).not.toBeInTheDocument();
@@ -135,9 +136,7 @@ describe("ImageUpload", () => {
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
 
     await waitFor(() => {
-      expect(
-        screen.queryByText(/Sadece.*formatındaki dosyaları yükleyebilirsiniz\. Dosyanızın formatı: 'application\/pdf'/),
-      ).toBeInTheDocument();
+      expect(screen.queryByText(/Only.*format files can be uploaded\. Your file format: 'application\/pdf'/)).toBeInTheDocument();
     });
 
     expect(getThumbnail()).not.toBeInTheDocument();
@@ -189,7 +188,11 @@ describe("ImageUpload", () => {
 
   it("should not upload files larger than the size specified in maxSize prop", async () => {
     const maxSize = 500000;
-    const expectedErrorMessage = "Dosyanızın boyutu maksimum 500 KB olabilir. 'test.png' dosyanızın boyutu: 2 MB";
+    const expectedErrorMessage = t(MESSAGE.MAX_SIZE_ERROR, {
+      maxSize: formatBytes(maxSize),
+      fileName: shortenText(MOCK.filePng2mb.name, 30),
+      fileSize: formatBytes(MOCK.filePng2mb.size),
+    });
     const { getInput, getThumbnail } = renderExt(<ImageUpload {...requiredProps} maxSize={maxSize} />);
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
 
@@ -233,7 +236,7 @@ describe("ImageUpload", () => {
       expect(getThumbnail()).not.toBeInTheDocument();
     });
 
-    expect(screen.getByText(mockT("upload.message.chooseOrDragImage"))).toBeInTheDocument();
+    expect(screen.getByText(t("upload.message.chooseOrDragImage"))).toBeInTheDocument();
   });
 
   it("should show preview when preview button is clicked", async () => {
@@ -247,7 +250,7 @@ describe("ImageUpload", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 
     await waitFor(() => {
-      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
     });
 
     const errorIcon = screen.getByText("imagesmode");
@@ -262,7 +265,7 @@ describe("ImageUpload", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 
     await waitFor(() => {
-      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
     });
 
     await userEvent.click(screen.getByText("delete"));
@@ -271,7 +274,7 @@ describe("ImageUpload", () => {
       expect(getThumbnail()).not.toBeInTheDocument();
     });
 
-    expect(screen.getByText(mockT("upload.message.chooseOrDragImage"))).toBeInTheDocument();
+    expect(screen.getByText(t("upload.message.chooseOrDragImage"))).toBeInTheDocument();
 
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 
@@ -311,7 +314,7 @@ describe("ImageUpload", () => {
     await userEvent.click(getDeleteButton());
 
     await waitFor(() => {
-      expect(screen.queryByText(mockT(MESSAGE.DELETE_ERROR))).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument();
     });
 
     await waitFor(() => {
@@ -698,7 +701,7 @@ describe("ImageUpload", () => {
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
 
     expect(screen.queryByText(messages.maxSizeMessage)).toBeInTheDocument();
-    expect(screen.queryByText(/Dosyanızın boyutu maksimum.*olabilir/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/File size must be at most/)).not.toBeInTheDocument();
     expect(getThumbnail()).not.toBeInTheDocument();
   });
 
@@ -709,7 +712,7 @@ describe("ImageUpload", () => {
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
 
     expect(screen.queryByText(messages.mimeTypeMessage)).toBeInTheDocument();
-    expect(screen.queryByText(/Sadece.*formatındaki dosyaları yükleyebilirsiniz/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Only.*format files can be uploaded/)).not.toBeInTheDocument();
     expect(getThumbnail()).not.toBeInTheDocument();
   });
 });

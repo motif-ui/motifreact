@@ -6,7 +6,7 @@ import { MOCK } from "../mock";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
-import { mockXHRs } from "../../../../utils/testUtils";
+import { mockXHRs, t } from "../../../../utils/testUtils";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
 describe("UploadInput", () => {
@@ -21,9 +21,9 @@ describe("UploadInput", () => {
 
     const getDeleteButton = () => screen.queryByText("delete") as HTMLButtonElement;
 
-    const getUploadButton = () => screen.queryByText(mockT("upload.upload")) as HTMLButtonElement;
+    const getUploadButton = () => screen.queryByText(t("upload.upload")) as HTMLButtonElement;
 
-    const getBrowseButton = () => screen.queryByText(mockT("upload.browse")) as HTMLButtonElement;
+    const getBrowseButton = () => screen.queryByText(t("upload.browse")) as HTMLButtonElement;
 
     const actHoverToErrorIcon = async () => {
       await userEvent.hover(getErrorIcon());
@@ -37,7 +37,7 @@ describe("UploadInput", () => {
         expect(result.queryByTestId("progressBar")).not.toBeInTheDocument();
         numberOfFiles &&
           numberOfFiles > 1 &&
-          expect(result.getByText(mockT("upload.filesUploaded", { count: numberOfFiles }))).toBeInTheDocument();
+          expect(result.getByText(t("upload.filesUploaded", { count: numberOfFiles }))).toBeInTheDocument();
         expect(getErrorIcon()).not.toBeInTheDocument();
         expect(getDeleteButton()).toBeInTheDocument();
       });
@@ -99,7 +99,7 @@ describe("UploadInput", () => {
     const { container, getBrowseButton } = renderExt(<UploadInput {...requiredProps} disabled />);
     expect(container.firstElementChild).toHaveClass("disabled");
     expect(getBrowseButton()).toBeDisabled();
-    expect(screen.queryByText(mockT("upload.selectFile"))).toBeDisabled();
+    expect(screen.queryByText(t("upload.selectFile"))).toBeDisabled();
   });
 
   it("should be rendered as readOnly when readOnly prop is true", async () => {
@@ -140,7 +140,7 @@ describe("UploadInput", () => {
     expect(getErrorIcon()).toBeInTheDocument();
 
     await actHoverToErrorIcon();
-    expect(screen.getByText(mockT(MESSAGE.MIME_TYPE, { acceptType: "application/pdf", fileType: "image/png" }))).toBeInTheDocument();
+    expect(screen.getByText(t(MESSAGE.MIME_TYPE, { acceptType: "application/pdf", fileType: "image/png" }))).toBeInTheDocument();
   });
 
   it("should allow the number of files specified by the maxFile prop to be uploaded and not allow more files to be added", async () => {
@@ -172,7 +172,7 @@ describe("UploadInput", () => {
     await actHoverToErrorIcon();
     expect(
       screen.queryByText(
-        mockT(MESSAGE.MAX_SIZE_ERROR, {
+        t(MESSAGE.MAX_SIZE_ERROR, {
           maxSize: formatBytes(maxSize),
           fileName: shortenText(MOCK.filePng2mb.name, 30),
           fileSize: formatBytes(MOCK.filePng2mb.size),
@@ -199,7 +199,7 @@ describe("UploadInput", () => {
     await actHoverToErrorIcon();
     expect(
       screen.queryByText(
-        mockT(MESSAGE.MAX_SIZE_ERROR, {
+        t(MESSAGE.MAX_SIZE_ERROR, {
           maxSize: formatBytes(maxSize),
           fileName: shortenText(MOCK.filePng2mb.name, 30),
           fileSize: formatBytes(MOCK.filePng2mb.size),
@@ -209,7 +209,7 @@ describe("UploadInput", () => {
   });
 
   it("should override maximum number of files error message when set explicitly", async () => {
-    const defaultErrorMessage = mockT(MESSAGE.MAX_FILE, { maxFile: 2 });
+    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: 2 });
     const messages = { maxFileMessage: "Test max file message" };
     const { getInput, actHoverToErrorIcon } = renderExt(
       <UploadInput {...requiredProps} maxFile={2} messages={messages} autoUpload={false} />,
@@ -222,7 +222,7 @@ describe("UploadInput", () => {
 
   it("should override maximum file size error message when set explicitly", async () => {
     const maxSize = 1;
-    const defaultErrorMessage = mockT(MESSAGE.MAX_SIZE_ERROR, {
+    const defaultErrorMessage = t(MESSAGE.MAX_SIZE_ERROR, {
       maxSize: formatBytes(maxSize),
       fileName: shortenText(MOCK.filePng2mb.name, 30),
       fileSize: formatBytes(MOCK.filePng2mb.size),
@@ -239,7 +239,7 @@ describe("UploadInput", () => {
 
   it("should override file mime type error message when set explicitly", async () => {
     const accept = ["application/pdf"];
-    const defaultErrorMessage = mockT(MESSAGE.MIME_TYPE, { acceptType: accept.toString(), fileType: MOCK.fileJpeg1kb.type });
+    const defaultErrorMessage = t(MESSAGE.MIME_TYPE, { acceptType: accept.toString(), fileType: MOCK.fileJpeg1kb.type });
     const messages = { mimeTypeMessage: "File Type Should Be %acceptType% But Got %fileType%" };
     const { getInput, actHoverToErrorIcon } = renderExt(
       <UploadInput {...requiredProps} accept={accept} messages={messages} autoUpload={false} />,
@@ -261,7 +261,7 @@ describe("UploadInput", () => {
     await actHoverToErrorIcon();
     await waitFor(() => {
       expect(screen.queryByText(messages.uploadFailMessage)).toBeInTheDocument();
-      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
     });
 
     xhrSpy.mockRestore();
@@ -277,7 +277,7 @@ describe("UploadInput", () => {
     await userEvent.click(getDeleteButton());
     await waitFor(() => {
       expect(getDeleteButton()).not.toBeInTheDocument();
-      expect(queryByText(mockT("upload.filesUploaded", { count: 2 }))).not.toBeInTheDocument();
+      expect(queryByText(t("upload.filesUploaded", { count: 2 }))).not.toBeInTheDocument();
     });
 
     xhrSpy.mockRestore();
@@ -307,7 +307,7 @@ describe("UploadInput", () => {
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
     await waitForUploadFailure();
     await actHoverToErrorIcon();
-    expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
+    expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
     xhrSpy.mockRestore();
   });
 

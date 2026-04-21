@@ -4,8 +4,9 @@ import { simulateDrop, simulateChooseFiles, renderExtUploadFileList, waitForSucc
 import { MESSAGE } from "@/components/Upload/constants";
 import UploadDragger from "@/components/Upload/UploadDragger/UploadDragger";
 import { MOCK } from "../mock";
-import { mockXHRs } from "../../../../utils/testUtils";
+import { mockXHRs, t } from "../../../../utils/testUtils";
 import { userEvent } from "@testing-library/user-event";
+import { formatBytes, shortenText } from "../../../../utils/utils";
 
 describe("UploadDragger", () => {
   const renderExt = renderExtUploadFileList;
@@ -67,7 +68,7 @@ describe("UploadDragger", () => {
   it("should only accept files of the given file types with accept prop", async () => {
     const xhrSpy = mockXHRs();
     const accept: string[] = ["application/pdf"];
-    const expectedErrorMessage = "Sadece 'application/pdf' formatındaki dosyaları yükleyebilirsiniz. Dosyanızın formatı: 'image/png'";
+    const expectedErrorMessage = t(MESSAGE.MIME_TYPE, { acceptType: "application/pdf", fileType: "image/png" });
     const { getInput, getFileItemFirst, getFileItemLast } = renderExt(<UploadDragger {...requiredProps} accept={accept} maxFile={2} />);
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb, MOCK.filePng2mb]);
     expect(getFileItemFirst()).toHaveTextContent(MOCK.filePdf1kb.name);
@@ -103,14 +104,14 @@ describe("UploadDragger", () => {
   it("should allow uploading as many files as specified with the maxFile prop", async () => {
     const xhrSpy = mockXHRs();
     const maxFile = 1;
-    const expectedErrorMessage = "Maksimum 1 dosya yükleyebilirsiniz";
+    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
     const { getInput, getFileItemFirst, getFileItemLast } = renderExt(<UploadDragger {...requiredProps} maxFile={maxFile} />);
     await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb, MOCK.fileTxt1kb]);
 
     await waitFor(() => {
       const fileItem1 = getFileItemFirst();
       expect(fileItem1).toHaveTextContent(MOCK.fileJpeg1kb.name);
-      expect(fileItem1).toHaveTextContent(mockT(MESSAGE.UPLOAD_SUCCESS));
+      expect(fileItem1).toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
     });
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.fileTxt1kb.name);
@@ -121,19 +122,23 @@ describe("UploadDragger", () => {
 
   it("should not upload files whose file size is larger than given size in maxSize prop", async () => {
     const maxSize = 500000;
-    const expectedErrorMessage = "Dosyanızın boyutu maksimum 500 KB olabilir. 'test.gif' dosyanızın boyutu: 1 MB";
+    const expectedErrorMessage = t(MESSAGE.MAX_SIZE_ERROR, {
+      maxSize: formatBytes(maxSize),
+      fileName: shortenText(MOCK.fileGif1mb.name, 30),
+      fileSize: formatBytes(MOCK.fileGif1mb.size),
+    });
     const { getInput, getFileItemFirst } = renderExt(<UploadDragger {...requiredProps} maxSize={maxSize} />);
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 
     const fileItem = getFileItemFirst();
     expect(fileItem).toHaveTextContent(MOCK.fileGif1mb.name);
     expect(fileItem).toHaveTextContent(expectedErrorMessage);
-    expect(screen.queryByText(mockT(MESSAGE.UPLOAD_SUCCESS))).not.toBeInTheDocument();
+    expect(screen.queryByText(t(MESSAGE.UPLOAD_SUCCESS))).not.toBeInTheDocument();
   });
 
   it("should override maximum number of files error message when set explicitly", async () => {
     const maxFile = 2;
-    const defaultErrorMessage = "Maksimum 2 dosya yükleyebilirsiniz";
+    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
     const messages = { maxFileMessage: "Test Max File Message" };
     const { getInput } = renderExt(<UploadDragger {...requiredProps} maxFile={maxFile} messages={messages} />);
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb, MOCK.filePdf1kb, MOCK.fileGif1mb]);
@@ -144,7 +149,11 @@ describe("UploadDragger", () => {
 
   it("should override maximum file size error message when set explicitly", async () => {
     const maxSize = 1;
-    const defaultErrorMessage = "Dosyanızın boyutu maksimum 1 MB olabilir. 'test.gif' dosyanızın boyutu: 2 MB";
+    const defaultErrorMessage = t(MESSAGE.MAX_SIZE_ERROR, {
+      maxSize: formatBytes(maxSize),
+      fileName: shortenText(MOCK.filePng2mb.name, 30),
+      fileSize: formatBytes(MOCK.filePng2mb.size),
+    });
     const messages = { maxSizeMessage: "Maximum File Size Should Be %maxSize% MB But Got %fileSize%" };
     const { getInput } = renderExt(<UploadDragger {...requiredProps} maxSize={maxSize} messages={messages} />);
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
@@ -154,7 +163,7 @@ describe("UploadDragger", () => {
 
   it("should override file mime type error message when set explicitly", async () => {
     const accept: string[] = ["application/pdf"];
-    const defaultErrorMessage = "Sadece 'application/pdf' formatındaki dosyaları yükleyebilirsiniz. Dosyanızın formatı: 'image/jpeg'";
+    const defaultErrorMessage = t(MESSAGE.MIME_TYPE, { acceptType: "application/pdf", fileType: MOCK.fileJpeg1kb.type });
     const messages = { mimeTypeMessage: "Test Mime Type Message" };
     const { getInput } = renderExt(<UploadDragger {...requiredProps} accept={accept} messages={messages} />);
     await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
@@ -169,7 +178,7 @@ describe("UploadDragger", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
     await waitFor(() => {
       expect(screen.queryByText(messages.uploadFailMessage)).toBeInTheDocument();
-      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
     });
     mockXhr.mockRestore();
   });
@@ -200,8 +209,8 @@ describe("UploadDragger", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
     const fileItem = getFileItemFirst();
     expect(fileItem).toHaveTextContent(MOCK.fileGif1mb.name);
-    expect(fileItem).not.toHaveTextContent(mockT(MESSAGE.UPLOAD_SUCCESS));
-    expect(fileItem).toHaveTextContent(mockT(MESSAGE.WAITING_TO_UPLOAD));
+    expect(fileItem).not.toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
+    expect(fileItem).toHaveTextContent(t(MESSAGE.WAITING_TO_UPLOAD));
   });
 
   it("should allow files to be uploaded manually when autoUpload prop is false", async () => {
@@ -245,7 +254,7 @@ describe("UploadDragger", () => {
 
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.fileGif1mb.name);
-    expect(fileItem2).toHaveTextContent("Maksimum 1 dosya yükleyebilirsiniz");
+    expect(fileItem2).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1 }));
 
     const fileItem1 = getFileItemFirst();
     expect(fileItem1).toHaveTextContent(MOCK.filePng2mb.name);
@@ -266,7 +275,7 @@ describe("UploadDragger", () => {
   it("should show error and prevent uploading for exceeding files when more files than the maxFile prop is dropped and autoUpload is false", async () => {
     const xhrSpy = mockXHRs();
     const maxFile = 1;
-    const expectedErrorMessage = "Maksimum 1 dosya yükleyebilirsiniz";
+    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
     const { getDragArea, getFileList, getUploadButton } = renderExt(
       <UploadDragger {...requiredProps} maxFile={maxFile} autoUpload={false} />,
     );
@@ -280,7 +289,7 @@ describe("UploadDragger", () => {
     expect(fileItem).toHaveTextContent(expectedErrorMessage);
     await userEvent.click(getUploadButton());
     await waitFor(() => {
-      expect(fileItem).not.toHaveTextContent(mockT(MESSAGE.UPLOAD_SUCCESS));
+      expect(fileItem).not.toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
       expect(fileItem).toHaveTextContent(expectedErrorMessage);
     });
     xhrSpy.mockRestore();
@@ -297,7 +306,7 @@ describe("UploadDragger", () => {
     expect(uploadButton).toBeDisabled();
 
     await waitFor(() => {
-      expect(screen.queryAllByText(mockT(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile);
+      expect(screen.queryAllByText(t(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile);
     });
 
     xhrSpy.mockRestore();
@@ -314,7 +323,7 @@ describe("UploadDragger", () => {
     expect(getUploadButton()).toBeDisabled();
 
     await waitFor(async () => {
-      expect(screen.queryAllByText(mockT(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile);
+      expect(screen.queryAllByText(t(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile);
       await userEvent.click(getDeleteButton(1)); // delete a success file
     });
     await waitFor(() => expect(getUploadButton()).not.toBeDisabled());
@@ -346,14 +355,14 @@ describe("UploadDragger", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 
     await waitFor(() => {
-      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
       fireEvent.click(screen.queryByText("autorenew")!);
     });
 
     await waitFor(() => {
       expect(screen.queryByText("autorenew")).not.toBeInTheDocument();
-      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
-      expect(screen.queryByText(mockT(MESSAGE.UPLOAD_SUCCESS))).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_SUCCESS))).toBeInTheDocument();
     });
 
     xhrSpy.mockRestore();
@@ -365,7 +374,7 @@ describe("UploadDragger", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
     await waitFor(() => {
       fireEvent.click(getDeleteButton());
-      expect(screen.queryByText(mockT(MESSAGE.DELETE_ERROR))).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument();
     });
     xhrSpy.mockRestore();
   });
