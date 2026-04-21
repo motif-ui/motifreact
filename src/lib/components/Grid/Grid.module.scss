@@ -1,9 +1,21 @@
 @use "@styles" as *;
 
 $grid-sizes: ("sm", "md", "lg", "xl");
+$gutter-token: (
+  "xs": "gutter-xs",
+  "sm": "gutter-sm",
+  "md": "gutter-md",
+  "lg": "gutter"
+);
 $grids: 12;
 @function calculate-grid-flex-width($colIdx) {
-  @return calc(($colIdx / $grids * 100%) - ((1 - $colIdx / $grids) * var(--theme-grid-gutter-gutter)));
+  @return calc(($colIdx / $grids * 100%) - ((1 - $colIdx / $grids) * var(--grid-gutter)));
+}
+
+@each $size, $token in $gutter-token {
+  .gutter-#{$size} {
+    --grid-gutter: var(--theme-grid-gutter-#{$token});
+  }
 }
 
 .Root {
@@ -12,8 +24,8 @@ $grids: 12;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  gap: var(--theme-grid-gutter-gutter);
-  padding: var(--theme-grid-gutter-gutter);
+  gap: var(--grid-gutter);
+  padding: var(--grid-gutter);
 
   &.leanToEdge {
     padding: 0;
@@ -61,7 +73,7 @@ $grids: 12;
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--theme-grid-gutter-gutter);
+  gap: var(--grid-gutter);
 
   &.start {
     justify-content: flex-start;
