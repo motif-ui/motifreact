@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Avatar from "@/components/Avatar/Avatar";
-import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Avatar", () => {
   it("should be rendered with only required props", () => {

@@ -1,6 +1,6 @@
 import BusinessCard from "@/components/BusinessCard/BusinessCard";
 import { fireEvent, render } from "@testing-library/react";
-import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("BusinessCard", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {

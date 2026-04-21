@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import Accordion from "@/components/Accordion/Accordion";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Accordion", () => {
   it("should be rendered with only required props", () => {

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import Badge from "@/components/Badge/Badge";
 import { getByTestId, render, screen } from "@testing-library/react";
-import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Badge", () => {
   it("should be rendered with only required props", () => {

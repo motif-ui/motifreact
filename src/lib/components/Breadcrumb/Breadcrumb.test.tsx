@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { render, screen } from "@testing-library/react";
-import { runIconPropTest } from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper.test";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Breadcrumb", () => {
   const testItems = [
