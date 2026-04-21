@@ -22,6 +22,10 @@ $positions: ("top-left", "top-right", "bottom-left", "bottom-right");
   vertical-align: middle;
 }
 
+.icon {
+  font-size: var(--base-sizing-16x);
+}
+
 .badge {
   @include font("body", "xs");
   border-radius: var(--theme-sizing-radius-round);
