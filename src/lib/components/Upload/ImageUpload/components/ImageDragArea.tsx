@@ -1,6 +1,7 @@
 import styles from "../ImageUpload.module.scss";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { useContext } from "react";
+import { useMotifContext } from "../../../../motif/context/MotifProvider";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { UploadContext } from "@/components/Upload/UploadProvider";
@@ -19,6 +20,7 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
     addNewFiles,
     browse,
   } = useContext(UploadContext);
+  const { t } = useMotifContext();
   const selectedImage = selectedFiles[0] as FileType | undefined;
   const status = selectedImage?.status;
   const disabled = selectedImage?.uploaded || status === STATUS.CHECK_FAIL;
@@ -32,10 +34,15 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
     selectedImage &&
     capitalizeFirstLetter(
       status === STATUS.CHECK_FAIL
-        ? selectedImage.messages?.[0] || MESSAGE.MAX_SIZE_ERROR(selectedImage.file.size, maxSize!, selectedImage.file.name)
+        ? selectedImage.messages?.[0] ||
+            t(MESSAGE.MAX_SIZE_ERROR, {
+              maxSize: maxSize!,
+              fileName: selectedImage.file.name,
+              fileSize: selectedImage.file.size,
+            })
         : status === STATUS.DELETE_FAIL
-          ? MESSAGE.DELETE_ERROR
-          : MESSAGE.UPLOAD_ERROR,
+          ? t(MESSAGE.DELETE_ERROR)
+          : t(MESSAGE.UPLOAD_ERROR),
     );
   const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL || status === STATUS.DELETE_FAIL;
   const maybeShowThumbnail = status !== undefined;
@@ -62,7 +69,7 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
         ) : (
           <>
             <MotifIcon name="add" variant="secondary" className={styles.addIcon} />
-            <span className={styles.dragMessage}>Choose or drag an image</span>
+            <span className={styles.dragMessage}>{t("upload.message.chooseOrDragImage")}</span>
           </>
         )}
       </div>

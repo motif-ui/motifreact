@@ -5,6 +5,7 @@ import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
 import Form from "@/components/Form";
 import { useEffect, useState } from "react";
+import { t } from "./../../../utils/testUtils";
 
 describe("Select", () => {
   const data: (SelectGroupItem | SelectItem)[] = [
@@ -403,14 +404,14 @@ describe("Select", () => {
     };
     render(<SelectWithValueSetAsynchronously100MsDelay />);
 
-    await userEvent.click(screen.getByText("Gönder"));
+    await userEvent.click(screen.getByText(t("form.submit")));
     expect(screen.queryAllByTestId("formField").at(0)).toHaveClass("error");
 
     await act(async () => {
       await new Promise(resolve => setTimeout(resolve, 100));
     });
 
-    await userEvent.click(screen.getByText("Gönder"));
+    await userEvent.click(screen.getByText(t("form.submit")));
     expect(screen.queryAllByTestId("formField").at(0)).not.toHaveClass("error");
   });
 

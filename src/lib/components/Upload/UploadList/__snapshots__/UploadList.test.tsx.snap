@@ -13,13 +13,13 @@ exports[`UploadList should be rendered with only required props 1`] = `
         type="button"
       >
         <span>
-          Gözat..
+          Browse..
         </span>
       </button>
       <span
         class="infoText"
       >
-        Yüklemek istediğiniz dosyaları buraya bırakın
+        Drop the files you want to upload here
       </span>
     </div>
   </div>
