@@ -1,0 +1,202 @@
+@use "@styles" as *;
+
+$variants: ("primary", "secondary", "success", "warning", "danger");
+$types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("icon", var(--base-sizing-40x)), ("text", var(--base-sizing-18x)));
+
+.Root {
+  gap: var(--base-sizing-16x);
+  padding: var(--base-sizing-4x);
+}
+
+.stepCount {
+  @include font("base", "sm", "500");
+  color: var(--theme-color-text-base-caption);
+}
+
+.stepList {
+  display: flex;
+}
+
+.stepItem {
+  display: flex;
+
+  .stepHeader {
+    display: flex;
+    align-items: center;
+    &.item-vertical {
+      flex-direction: column;
+      gap: var(--base-sizing-4x);
+    }
+    &.item-horizontal {
+      gap: var(--base-sizing-8x);
+    }
+  }
+
+  .stepIndicator {
+    border-radius: var(--theme-sizing-radius-round);
+    background-color: var(--theme-color-surface-base-base7);
+    color: var(--theme-color-text-base-global-light);
+    @include transition(background-color);
+    @include flex-center;
+
+    &.stepNumber {
+      @include font("base", "xxs", "700");
+    }
+  }
+
+  .stepIcon {
+    .icon & {
+      font-size: var(--base-sizing-28x);
+    }
+    .number & {
+      font-size: var(--base-sizing-16x);
+    }
+  }
+
+  .dotStatusIcon {
+    pointer-events: none;
+    font-size: var(--base-sizing-22x);
+    width: var(--base-sizing-12x);
+    height: var(--base-sizing-12x);
+    @include flex-center;
+  }
+
+  .title {
+    color: var(--theme-color-text-base-caption);
+    @include font("base", "sm", "500");
+  }
+
+  &.clickable .stepHeader {
+    cursor: pointer;
+  }
+
+  &.upcoming.clickable:hover .stepIndicator {
+    background-color: var(--theme-color-surface-base-base6);
+  }
+
+  &.error {
+    .stepIndicator {
+      background-color: var(--theme-color-surface-danger-default);
+    }
+    .title,
+    .dotStatusIcon {
+      color: var(--theme-color-text-danger-default);
+    }
+  }
+
+  &.disabled {
+    pointer-events: none;
+    .title,
+    .dotStatusIcon {
+      color: var(--theme-color-text-base-caption);
+    }
+    .stepIndicator {
+      background-color: var(--theme-color-surface-base-base7);
+      color: var(--theme-color-text-base-global-light);
+    }
+  }
+}
+
+.vertical {
+  display: grid;
+  row-gap: var(--base-sizing-8x);
+
+  .stepList {
+    grid-row: 2;
+    flex-direction: column;
+  }
+
+  .stepItem {
+    flex-direction: column;
+
+    &:not(:last-child)::after {
+      content: "";
+      box-sizing: content-box;
+      margin: var(--base-sizing-8x) 0;
+      width: 50%;
+      height: var(--base-sizing-80x);
+      top: 100%;
+      border-right: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    }
+  }
+
+  .stepCount {
+    text-align: center;
+  }
+
+  .stepContent {
+    grid-row: 2;
+  }
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+
+  .stepItem:not(:last-child)::after {
+    content: "";
+    box-sizing: content-box;
+    margin: 0 var(--base-sizing-8x);
+    height: 50%;
+    width: var(--base-sizing-80x);
+    left: 100%;
+    border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  }
+
+  .stepCount {
+    align-self: flex-end;
+  }
+}
+
+@each $type, $size in $types {
+  .#{$type} {
+    .stepIndicator {
+      width: $size;
+      height: $size;
+    }
+  }
+}
+
+@each $variant in $variants {
+  .count-#{$variant} .stepCountActive {
+    color: var(--theme-color-text-#{$variant}-default);
+  }
+
+  .#{$variant}.stepItem:not(.error, .disabled) {
+    .dotStatusIcon {
+      color: var(--theme-color-text-#{$variant}-default);
+    }
+
+    &.active {
+      .title {
+        color: var(--theme-color-text-#{$variant}-active);
+      }
+      .stepIndicator {
+        background-color: var(--theme-color-surface-#{$variant}-active);
+        outline: var(--base-sizing-4x) solid var(--theme-color-border-#{$variant}-focus, var(--theme-color-border-#{$variant}-disabled));
+      }
+    }
+
+    &.completed {
+      .title {
+        color: if($variant == "secondary", var(--theme-color-text-#{$variant}-hover), var(--theme-color-text-#{$variant}-default));
+      }
+      .stepIndicator {
+        background-color: var(--theme-color-surface-#{$variant}-default);
+      }
+      &.clickable .stepHeader:hover {
+        .title {
+          color: var(--theme-color-text-#{$variant}-hover);
+        }
+        .stepIndicator {
+          background-color: var(--theme-color-surface-#{$variant}-hover);
+        }
+      }
+
+      &:not(:last-child)::after {
+        border-color: var(--theme-color-border-#{$variant}-default);
+      }
+    }
+  }
+}
