@@ -7,6 +7,36 @@
   "greeting": "Merhaba, {{name}}!",
   "message_one": "{{count}} mesaj",
   "message_other": "{{count}} mesaj",
+  "form": {
+    "submit": "Gönder",
+    "clear": "Temizle",
+    "fieldError": "Lütfen bu alandaki hatayı giderin."
+  },
+  "select": {
+    "placeholder": "Lütfen seçiniz",
+    "noData": "Veri bulunamadı..."
+  },
+  "table": {
+    "totalSelectedRecords": "Toplam {{total}} veriden {{selected}} tanesi seçildi.",
+    "totalRecords": "Toplam {{total}} veri bulunmaktadır."
+  },
+  "validation": {
+    "required": "Lütfen bu alanı doldurunuz",
+    "requiredUploadedFile": "Lütfen en az bir dosya yükleyiniz",
+    "requiredAllGroupItems": "Lütfen tüm alanları doldurunuz",
+    "uploadItemSync": "Lütfen bu alandaki hatayı gideriniz",
+    "tckn": "Lütfen geçerli bir T.C. kimlik numarası giriniz",
+    "iban": "Lütfen geçerli bir IBAN numarası giriniz",
+    "email": "Lütfen geçerli e-posta adresi giriniz",
+    "url": "Lütfen geçerli bir URL giriniz",
+    "ipAddress": "Lütfen geçerli bir IP adresi giriniz",
+    "phone": "Lütfen geçerli bir telefon numarası giriniz",
+    "minLength": "Bu alan en az {{min}} karakter uzunluğunda olmalıdır",
+    "maxLength": "Bu alan en fazla {{max}} karakter uzunluğunda olmalıdır",
+    "min": "Bu alana en az {{min}} değeri girmelisiniz",
+    "max": "Bu alana en fazla {{max}} değeri girmelisiniz",
+    "atLeastN": "En az {{n}} değer seçmelisiniz"
+  },
   "upload": {
     "browse": "Gözat..",
     "upload": "Yükle",

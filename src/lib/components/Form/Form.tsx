@@ -1,3 +1,5 @@
+"use client";
+
 import { FormProvider } from "./context/FormContext";
 import { FormProps, FormRefType, NameInputValue } from "./types";
 import FormComponent from "./components/FormComponent";
@@ -5,18 +7,20 @@ import FormField from "./FormFields/FormField";
 import FormFieldGroup from "./FormFields/FormFieldGroup";
 import { PropsWithRefAndChildren } from "../../types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider";
 
 const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormProps<T>, FormRefType>) => {
+  const { t } = useMotifContext();
   const {
     children,
     onSubmit,
     size = "md",
     formOrientation = "vertical",
     labelOrientation = "vertical",
-    submitButtonLabel = "Gönder",
+    submitButtonLabel = t("form.submit"),
     buttonPosition = "right",
     enableClearButton,
-    clearButtonLabel = "Temizle",
+    clearButtonLabel = t("form.clear"),
     dontClearOnSubmit,
     title,
     ref,

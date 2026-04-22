@@ -7,6 +7,36 @@
   "greeting": "Hello, {{name}}!",
   "message_one": "{{count}} message",
   "message_other": "{{count}} messages",
+  "form": {
+    "submit": "Submit",
+    "clear": "Clear",
+    "fieldError": "Please fix the error in this field."
+  },
+  "select": {
+    "placeholder": "Please select",
+    "noData": "No data found..."
+  },
+  "table": {
+    "totalSelectedRecords": "{{selected}} of {{total}} records selected.",
+    "totalRecords": "Total {{total}} records available."
+  },
+  "validation": {
+    "required": "Please fill in this field",
+    "requiredUploadedFile": "Please upload at least one file",
+    "requiredAllGroupItems": "Please fill in all fields",
+    "uploadItemSync": "Please fix the error in this field",
+    "tckn": "Please enter a valid Turkish ID number",
+    "iban": "Please enter a valid IBAN number",
+    "email": "Please enter a valid email address",
+    "url": "Please enter a valid URL",
+    "ipAddress": "Please enter a valid IP address",
+    "phone": "Please enter a valid phone number",
+    "minLength": "This field must be at least {{min}} characters long",
+    "maxLength": "This field must be at most {{max}} characters long",
+    "min": "You must enter at least {{min}}",
+    "max": "You must enter at most {{max}}",
+    "atLeastN": "You must select at least {{n}} items"
+  },
   "upload": {
     "browse": "Browse..",
     "upload": "Upload",

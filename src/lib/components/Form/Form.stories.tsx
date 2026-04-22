@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-
 import Form from "@/components/Form";
 import { Validations } from "@/components/Form/validation/validations";
 import InputText from "@/components/InputText";
@@ -21,6 +20,7 @@ import InputTime from "@/components/InputTime";
 import InputDateTime from "@/components/InputDateTime";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
+import { LocaleKey } from "src/i18n/types";
 
 const meta: Meta<typeof Form> = {
   title: "Components/Form",
@@ -203,7 +203,7 @@ export const Primary: Story = {
         helperText="Please choose an age range"
         validations={[
           {
-            errorMessage: "Lütfen 20-80 arasında bir değerler seçiniz",
+            errorMessage: "Please select a value between 20 and 80." as LocaleKey,
             validate: value => {
               if (value === undefined) return false;
               const valueArray = value as number[];
