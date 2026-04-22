@@ -171,11 +171,11 @@ describe("Form", () => {
     await user.type(inputItem1 as Element, value);
     expect(inputItem1).toHaveValue(value);
 
-    await user.click(screen.getByText("Temizle"));
+    await user.click(screen.getByText(t("form.clear")));
     expect(inputItem1).toHaveValue("");
     expect(queryByDisplayValue("input2 value")).not.toBeInTheDocument();
 
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
   });
 
   it("should display clear button label as given in the clearButtonLabel prop", () => {
@@ -202,11 +202,11 @@ describe("Form", () => {
     const user = userEvent.setup();
     const inputItem = screen.getByTestId("inputItem").querySelector("input");
 
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
     expect(inputItem).toHaveValue("inp");
 
     await user.type(inputItem as Element, "ut value");
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
     expect(inputItem).toHaveValue("");
   });
 
@@ -222,11 +222,11 @@ describe("Form", () => {
     const user = userEvent.setup();
     const inputItem = screen.getByTestId("inputItem").querySelector("input");
 
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
     expect(inputItem).toHaveValue("inp");
 
     await user.type(inputItem as Element, "ut value");
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
     expect(inputItem).toHaveValue("input value");
   });
 
@@ -368,7 +368,7 @@ describe("Form", () => {
     // Pin Code
     expect(inputItems[9].getElementsByTagName("input")[0]).toHaveAttribute("disabled");
     await user.type(inputItems[9].getElementsByTagName("input")[0], value);
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
   });
 
   it("should pass success property to the items in FormFieldGroup", () => {
@@ -438,7 +438,7 @@ describe("Form", () => {
     expect(screen.getAllByTestId("pinCodeItem")[0]).toHaveAttribute("readonly");
     await user.type(inputItems[9].getElementsByTagName("input")[0], value);
 
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
   });
 
   it("should submit all form item values when readOnly prop is given", async () => {
@@ -580,12 +580,12 @@ describe("Form", () => {
       </Form>,
     );
     const user = userEvent.setup();
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
   });
 
   it("should render form items in error state when form is submitted and a validation fails", async () => {
-    const validationMessage = "Lütfen bu alanı doldurunuz";
-    const fileValidationMessage = "Lütfen en az bir dosya yükleyiniz";
+    const validationMessage = "Please fill in this field";
+    const fileValidationMessage = "Please upload at least one file";
 
     const items = [
       ...formItems.map(item => (
@@ -621,7 +621,7 @@ describe("Form", () => {
     render(<Form onSubmit={mockFunction}>{items}</Form>);
 
     const user = userEvent.setup();
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
 
     items.forEach((element, index) => {
       if (element.key === "textarea") {
@@ -646,8 +646,8 @@ describe("Form", () => {
   });
 
   it("should remove error conditions after filling in incorrect inputs", async () => {
-    const validationMessage = "Lütfen bu alanı doldurunuz";
-    const fileValidationMessage = "Lütfen en az bir dosya yükleyiniz";
+    const validationMessage = "Please fill in this field";
+    const fileValidationMessage = "Please upload at least one file";
     const value = "Entered Text";
 
     const items = formItems.map(item => (
@@ -669,7 +669,7 @@ describe("Form", () => {
     render(<Form onSubmit={mockFunction}>{items}</Form>);
 
     const user = userEvent.setup();
-    await user.click(screen.getByText("Gönder"));
+    await user.click(screen.getByText(t("form.submit")));
 
     items.forEach((element, index) => {
       expect(getFormField(index)).toHaveClass("error");
@@ -712,7 +712,7 @@ describe("Form", () => {
   it("should be rendered as error and show component level message when required validation property and component level validation is given and form submitted", async () => {
     const maxSize = 1000000;
     const input1HelperText = "Input 1 Helper Text";
-    const expectedErrorMessage = "Lütfen bu alandaki hatayı giderin.";
+    const expectedErrorMessage = "Please fix the error in this field.";
 
     const handleSubmit = (data: FormSubmitData) => {
       const submitValues = data.values;
@@ -737,7 +737,7 @@ describe("Form", () => {
     );
 
     const user = userEvent.setup();
-    const button = screen.getByText("Gönder");
+    const button = screen.getByText(t("form.submit"));
 
     // Upload Input - Error State 1
     await user.click(button);
@@ -791,7 +791,7 @@ describe("Form", () => {
     );
 
     const user = userEvent.setup();
-    const button = screen.getByText("Gönder");
+    const button = screen.getByText(t("form.submit"));
 
     // Upload List - Error State 1
     await user.click(button);
@@ -920,7 +920,7 @@ describe("Form", () => {
     render(<TestComponent />);
 
     const user = userEvent.setup();
-    const submitButton = screen.getByText("Gönder");
+    const submitButton = screen.getByText(t("form.submit"));
 
     await user.click(submitButton);
 
@@ -974,7 +974,7 @@ describe("Form", () => {
     );
 
     const user = userEvent.setup();
-    await user.click(screen.getByText("Temizle"));
+    await user.click(screen.getByText(t("form.clear")));
 
     const emptyVal = "";
     expect(getFormField(0)?.querySelector("input")).toHaveValue(emptyVal);
@@ -1007,7 +1007,7 @@ describe("Form", () => {
 
     render(<TestComponent />);
 
-    await userEvent.click(screen.getByText("Gönder"));
+    await userEvent.click(screen.getByText(t("form.submit")));
     expect(handleSubmit).toHaveBeenCalledWith(
       {
         values: {
@@ -1020,7 +1020,7 @@ describe("Form", () => {
     );
 
     await userEvent.click(screen.getByText("Hide Input"));
-    await userEvent.click(screen.getByText("Gönder"));
+    await userEvent.click(screen.getByText(t("form.submit")));
 
     expect(handleSubmit).toHaveBeenLastCalledWith(
       {
