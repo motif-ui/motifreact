@@ -35,7 +35,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
       <div ref={ref} style={style} className={classNames}>
         {showCount && <StepperCounter activeStep={activeStep} />}
         <div className={styles.stepList}>
-          {stepItems.map((item, idx) => cloneElement(item as ReactElement<StepperItemInternalProps>, { key: idx, index: idx }))}
+          {Children.map(children, (child, idx) => cloneElement(child as ReactElement<StepperItemInternalProps>, { key: idx, index: idx }))}
         </div>
         {activeContent && <div className={styles.stepContent}>{activeContent}</div>}
       </div>
@@ -45,6 +45,6 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
 
 const StepperWithItem = Object.assign(Stepper, {
   displayName: "Stepper",
-  Item: StepperItem as unknown as FC<StepperItemProps>,
+  Item: StepperItem as FC<StepperItemProps>,
 });
 export default StepperWithItem;

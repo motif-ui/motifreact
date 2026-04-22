@@ -12,7 +12,7 @@ const meta: Meta<typeof Stepper> = {
     orientation: { table: { defaultValue: { summary: "horizontal" } } },
     itemOrientation: { table: { defaultValue: { summary: "vertical" } } },
     variant: { table: { defaultValue: { summary: "primary" } } },
-    activeStep: { control: false },
+    activeStep: { control: false, table: { defaultValue: { summary: "0" } } },
   },
 };
 
