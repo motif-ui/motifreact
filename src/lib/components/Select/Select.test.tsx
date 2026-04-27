@@ -404,14 +404,14 @@ describe("Select", () => {
     };
     render(<SelectWithValueSetAsynchronously100MsDelay />);
 
-    await userEvent.click(screen.getByText(t("form.submit")));
+    await userEvent.click(screen.getByText(t("g.submit")));
     expect(screen.queryAllByTestId("formField").at(0)).toHaveClass("error");
 
     await act(async () => {
       await new Promise(resolve => setTimeout(resolve, 100));
     });
 
-    await userEvent.click(screen.getByText(t("form.submit")));
+    await userEvent.click(screen.getByText(t("g.submit")));
     expect(screen.queryAllByTestId("formField").at(0)).not.toHaveClass("error");
   });
 

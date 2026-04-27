@@ -236,7 +236,7 @@ describe("ImageUpload", () => {
       expect(getThumbnail()).not.toBeInTheDocument();
     });
 
-    expect(screen.getByText(t("upload.message.chooseOrDragImage"))).toBeInTheDocument();
+    expect(screen.getByText(t("upload.chooseOrDragImage"))).toBeInTheDocument();
   });
 
   it("should show preview when preview button is clicked", async () => {
@@ -274,7 +274,7 @@ describe("ImageUpload", () => {
       expect(getThumbnail()).not.toBeInTheDocument();
     });
 
-    expect(screen.getByText(t("upload.message.chooseOrDragImage"))).toBeInTheDocument();
+    expect(screen.getByText(t("upload.chooseOrDragImage"))).toBeInTheDocument();
 
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
 

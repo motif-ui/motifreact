@@ -69,7 +69,7 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
         ) : (
           <>
             <MotifIcon name="add" variant="secondary" className={styles.addIcon} />
-            <span className={styles.dragMessage}>{t("upload.message.chooseOrDragImage")}</span>
+            <span className={styles.dragMessage}>{t("upload.chooseOrDragImage")}</span>
           </>
         )}
       </div>

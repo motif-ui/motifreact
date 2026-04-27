@@ -121,13 +121,13 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
     <div ref={ref} className={classNames} style={style} data-testid="uploadInputItem">
       <button className={styles.browseButton} onClick={browse} disabled={isBrowseButtonDisabled} type="button">
         <MotifIcon name="search" size={size} />
-        {t("upload.browse")}
+        {t("g.browse")}
       </button>
       <LabelArea disabled={isDisabled} size={size} errors={errors} inputState={inputState} success={success} error={error} />
       {!autoUpload && !!selectedFiles.length && (
         <button className={styles.uploadButton} disabled={isUploadButtonDisabled} onClick={uploadHandler} type="button">
           <MotifIcon name="upload_2" size={size} />
-          {t("upload.upload")}
+          {t("g.upload")}
         </button>
       )}
     </div>

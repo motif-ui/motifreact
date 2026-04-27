@@ -1,3 +1,5 @@
+import { LocaleKey } from "../../../i18n/types";
+
 export const STATUS = {
   IDLE: 0, // Validated and ready to upload
   UPLOADING: 1, // Uploading
@@ -23,7 +25,7 @@ export const MESSAGE = {
   DRAGGER_MAX_FILE: "upload.message.draggerMaxFile",
   DRAGGER_CAN_UPLOAD_FILES: "upload.message.draggerCanUploadFiles",
   CUSTOM_VALIDATION_ERROR: "upload.message.customValidationError",
-} as const;
+} as unknown as Record<string, LocaleKey>;
 
 export const MIME_TYPES = {
   ALL: "*",

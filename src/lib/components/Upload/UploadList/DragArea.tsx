@@ -82,7 +82,7 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
 
   return (
     <div className={classes} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
-      <Button onClick={browse} disabled={isDisabled} label={t("upload.browse")} variant="primary" shape="solid" size={size} />
+      <Button onClick={browse} disabled={isDisabled} label={t("g.browse")} variant="primary" shape="solid" size={size} />
       <span className={styles.infoText}>
         {isUploading
           ? t(MESSAGE.FILES_BEING_UPLOADED)

@@ -13,7 +13,7 @@ import userEvent from "@testing-library/user-event";
 
 describe("UploadList", () => {
   const renderExt = (ui: ReactNode) => {
-    const getBrowseButton = () => screen.queryByText(t("upload.browse"))?.parentElement as HTMLButtonElement;
+    const getBrowseButton = () => screen.queryByText(t("g.browse"))?.parentElement as HTMLButtonElement;
 
     return {
       ...renderExtUploadFileList(ui),

@@ -21,9 +21,9 @@ describe("UploadInput", () => {
 
     const getDeleteButton = () => screen.queryByText("delete") as HTMLButtonElement;
 
-    const getUploadButton = () => screen.queryByText(t("upload.upload")) as HTMLButtonElement;
+    const getUploadButton = () => screen.queryByText(t("g.upload")) as HTMLButtonElement;
 
-    const getBrowseButton = () => screen.queryByText(t("upload.browse")) as HTMLButtonElement;
+    const getBrowseButton = () => screen.queryByText(t("g.browse")) as HTMLButtonElement;
 
     const actHoverToErrorIcon = async () => {
       await userEvent.hover(getErrorIcon());

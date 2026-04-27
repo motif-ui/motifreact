@@ -28,7 +28,7 @@ export const renderExtUploadFileList = (ui: ReactNode) => {
 
   const getFileItemLast = () => getFileList()?.lastChild as HTMLDivElement;
 
-  const getUploadButton = () => screen.queryByText(t("upload.upload"))?.parentElement as HTMLButtonElement;
+  const getUploadButton = () => screen.queryByText(t("g.upload"))?.parentElement as HTMLButtonElement;
 
   const getDragArea = () => result.container.firstElementChild?.firstChild as Element;
 

@@ -23,7 +23,7 @@ export const UploadButtonArea = () => {
           onClick={() => uploadV2(selectedFiles, true)}
           disabled={!ready}
           size={size}
-          label={t("upload.upload")}
+          label={t("g.upload")}
           variant="success"
           shape="solid"
         />

@@ -1,20 +1,20 @@
 {
-  "buttons": {
+  "g": {
+    "hello_x": "Hello, {{name}}!",
     "save": "Save",
     "cancel": "Cancel",
-    "delete": "Delete"
-  },
-  "greeting": "Hello, {{name}}!",
-  "message_one": "{{count}} message",
-  "message_other": "{{count}} messages",
-  "form": {
+    "delete": "Delete",
     "submit": "Submit",
     "clear": "Clear",
-    "fieldError": "Please fix the error in this field."
+    "browse": "Browse..",
+    "search": "Search...",
+    "upload": "Upload",
+    "selectPlease": "Please select",
+    "noData": "No data found...",
+    "x_message": "{{count}} message"
   },
-  "select": {
-    "placeholder": "Please select",
-    "noData": "No data found..."
+  "form": {
+    "fieldError": "Please fix the error in this field."
   },
   "table": {
     "totalSelectedRecords": "{{selected}} of {{total}} records selected.",
@@ -38,27 +38,26 @@
     "atLeastN": "You must select at least {{n}} items"
   },
   "upload": {
-    "browse": "Browse..",
-    "upload": "Upload",
     "selectFile": "Select file",
     "filesSelected": "{{count}} files selected",
     "filesUploaded": "{{count}} files uploaded",
-    "message": {
-      "maxSizeError": "File size must be at most {{maxSize}}. '{{fileName}}' file size: {{fileSize}}",
-      "maxFileError": "You can upload a maximum of {{maxFile}} files.",
-      "mimeTypeError": "Only '{{acceptType}}' format files can be uploaded. Your file format: '{{fileType}}'",
-      "uploadError": "An error occurred while uploading the file. Please try again.",
-      "deleteError": "An error occurred while deleting the file. Please try again.",
-      "pleaseDrop": "Drop the files you want to upload here",
-      "pleaseClickOrDrop": "Click this area or drop files here to upload.",
-      "filesBeingUploaded": "Files are being uploaded...",
-      "waitingToUpload": "Waiting to upload...",
-      "uploadSuccess": "File uploaded successfully.",
-      "draggerMaxSize": "each up to {{maxSize}} in size",
-      "draggerMaxFile": "maximum {{maxFile}}",
-      "draggerCanUploadFiles": " files can be uploaded.",
-      "customValidationError": "An error occurred.",
-      "chooseOrDragImage": "Choose or drag an image"
-    }
+    "maxSizeError": "File size must be at most {{maxSize}}. '{{fileName}}' file size: {{fileSize}}",
+    "maxFileError": "You can upload a maximum of {{maxFile}} files.",
+    "mimeTypeError": "Only '{{acceptType}}' format files can be uploaded. Your file format: '{{fileType}}'",
+    "uploadError": "An error occurred while uploading the file. Please try again.",
+    "deleteError": "An error occurred while deleting the file. Please try again.",
+    "pleaseDrop": "Drop the files you want to upload here",
+    "pleaseClickOrDrop": "Click this area or drop files here to upload.",
+    "filesBeingUploaded": "Files are being uploaded...",
+    "waitingToUpload": "Waiting to upload...",
+    "uploadSuccess": "File uploaded successfully.",
+    "draggerMaxSize": "each up to {{maxSize}} in size",
+    "draggerMaxFile": "maximum {{maxFile}}",
+    "draggerCanUploadFiles": " files can be uploaded.",
+    "customValidationError": "An error occurred.",
+    "chooseOrDragImage": "Choose or drag an image"
+  },
+  "misc": {
+    "playgroundDescription": "This is the playground section to try your components..."
   }
 }

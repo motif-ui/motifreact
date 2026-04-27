@@ -32,7 +32,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
   const {
     data = [],
     icon,
-    placeholder = t("select.placeholder"),
+    placeholder = t("g.selectPlease"),
     multiple,
     loading,
     filterable,
@@ -202,7 +202,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
             )
           ) : (
             <li className={styles.noData}>
-              <label>{t("select.noData")}</label>
+              <label>{t("g.noData")}</label>
             </li>
           )}
         </ul>

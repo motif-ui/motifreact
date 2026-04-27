@@ -171,11 +171,11 @@ describe("Form", () => {
     await user.type(inputItem1 as Element, value);
     expect(inputItem1).toHaveValue(value);
 
-    await user.click(screen.getByText(t("form.clear")));
+    await user.click(screen.getByText(t("g.clear")));
     expect(inputItem1).toHaveValue("");
     expect(queryByDisplayValue("input2 value")).not.toBeInTheDocument();
 
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
   });
 
   it("should display clear button label as given in the clearButtonLabel prop", () => {
@@ -202,11 +202,11 @@ describe("Form", () => {
     const user = userEvent.setup();
     const inputItem = screen.getByTestId("inputItem").querySelector("input");
 
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
     expect(inputItem).toHaveValue("inp");
 
     await user.type(inputItem as Element, "ut value");
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
     expect(inputItem).toHaveValue("");
   });
 
@@ -222,11 +222,11 @@ describe("Form", () => {
     const user = userEvent.setup();
     const inputItem = screen.getByTestId("inputItem").querySelector("input");
 
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
     expect(inputItem).toHaveValue("inp");
 
     await user.type(inputItem as Element, "ut value");
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
     expect(inputItem).toHaveValue("input value");
   });
 
@@ -368,7 +368,7 @@ describe("Form", () => {
     // Pin Code
     expect(inputItems[9].getElementsByTagName("input")[0]).toHaveAttribute("disabled");
     await user.type(inputItems[9].getElementsByTagName("input")[0], value);
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
   });
 
   it("should pass success property to the items in FormFieldGroup", () => {
@@ -438,7 +438,7 @@ describe("Form", () => {
     expect(screen.getAllByTestId("pinCodeItem")[0]).toHaveAttribute("readonly");
     await user.type(inputItems[9].getElementsByTagName("input")[0], value);
 
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
   });
 
   it("should submit all form item values when readOnly prop is given", async () => {
@@ -580,7 +580,7 @@ describe("Form", () => {
       </Form>,
     );
     const user = userEvent.setup();
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
   });
 
   it("should render form items in error state when form is submitted and a validation fails", async () => {
@@ -621,7 +621,7 @@ describe("Form", () => {
     render(<Form onSubmit={mockFunction}>{items}</Form>);
 
     const user = userEvent.setup();
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
 
     items.forEach((element, index) => {
       if (element.key === "textarea") {
@@ -669,7 +669,7 @@ describe("Form", () => {
     render(<Form onSubmit={mockFunction}>{items}</Form>);
 
     const user = userEvent.setup();
-    await user.click(screen.getByText(t("form.submit")));
+    await user.click(screen.getByText(t("g.submit")));
 
     items.forEach((element, index) => {
       expect(getFormField(index)).toHaveClass("error");
@@ -689,7 +689,7 @@ describe("Form", () => {
     await user.click(screen.queryByText("Item 1")!);
     await user.click(screen.getByTestId("switchItem"));
     await act(() =>
-      fireEvent.drop(screen.getAllByText(t("upload.browse"))[0].parentElement as Element, { dataTransfer: { files: [MOCK.filePng2mb] } }),
+      fireEvent.drop(screen.getAllByText(t("g.browse"))[0].parentElement as Element, { dataTransfer: { files: [MOCK.filePng2mb] } }),
     );
     await act(() =>
       fireEvent.change(screen.getByTestId("uploadInputItem").parentElement?.querySelector("input[type=file]") as Element, {
@@ -737,7 +737,7 @@ describe("Form", () => {
     );
 
     const user = userEvent.setup();
-    const button = screen.getByText(t("form.submit"));
+    const button = screen.getByText(t("g.submit"));
 
     // Upload Input - Error State 1
     await user.click(button);
@@ -791,7 +791,7 @@ describe("Form", () => {
     );
 
     const user = userEvent.setup();
-    const button = screen.getByText(t("form.submit"));
+    const button = screen.getByText(t("g.submit"));
 
     // Upload List - Error State 1
     await user.click(button);
@@ -920,7 +920,7 @@ describe("Form", () => {
     render(<TestComponent />);
 
     const user = userEvent.setup();
-    const submitButton = screen.getByText(t("form.submit"));
+    const submitButton = screen.getByText(t("g.submit"));
 
     await user.click(submitButton);
 
@@ -974,7 +974,7 @@ describe("Form", () => {
     );
 
     const user = userEvent.setup();
-    await user.click(screen.getByText(t("form.clear")));
+    await user.click(screen.getByText(t("g.clear")));
 
     const emptyVal = "";
     expect(getFormField(0)?.querySelector("input")).toHaveValue(emptyVal);
@@ -1007,7 +1007,7 @@ describe("Form", () => {
 
     render(<TestComponent />);
 
-    await userEvent.click(screen.getByText(t("form.submit")));
+    await userEvent.click(screen.getByText(t("g.submit")));
     expect(handleSubmit).toHaveBeenCalledWith(
       {
         values: {
@@ -1020,7 +1020,7 @@ describe("Form", () => {
     );
 
     await userEvent.click(screen.getByText("Hide Input"));
-    await userEvent.click(screen.getByText(t("form.submit")));
+    await userEvent.click(screen.getByText(t("g.submit")));
 
     expect(handleSubmit).toHaveBeenLastCalledWith(
       {
