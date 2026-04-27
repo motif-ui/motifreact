@@ -10,22 +10,22 @@ export const STATUS = {
   DELETE_FAIL: 6, // Delete failed
 };
 
-export const MESSAGE = {
-  MAX_SIZE_ERROR: "upload.message.maxSizeError",
-  MAX_FILE: "upload.message.maxFileError",
-  MIME_TYPE: "upload.message.mimeTypeError",
-  UPLOAD_ERROR: "upload.message.uploadError",
-  DELETE_ERROR: "upload.message.deleteError",
-  PLEASE_DROP: "upload.message.pleaseDrop",
-  PLEASE_CLICK_OR_DROP: "upload.message.pleaseClickOrDrop",
-  FILES_BEING_UPLOADED: "upload.message.filesBeingUploaded",
-  WAITING_TO_UPLOAD: "upload.message.waitingToUpload",
-  UPLOAD_SUCCESS: "upload.message.uploadSuccess",
-  DRAGGER_MAX_SIZE: "upload.message.draggerMaxSize",
-  DRAGGER_MAX_FILE: "upload.message.draggerMaxFile",
-  DRAGGER_CAN_UPLOAD_FILES: "upload.message.draggerCanUploadFiles",
-  CUSTOM_VALIDATION_ERROR: "upload.message.customValidationError",
-} as unknown as Record<string, LocaleKey>;
+export const MESSAGE: Record<string, LocaleKey> = {
+  MAX_SIZE_ERROR: "upload.maxSizeError",
+  MAX_FILE: "upload.maxFileError",
+  MIME_TYPE: "upload.mimeTypeError",
+  UPLOAD_ERROR: "upload.uploadError",
+  DELETE_ERROR: "upload.deleteError",
+  PLEASE_DROP: "upload.pleaseDrop",
+  PLEASE_CLICK_OR_DROP: "upload.pleaseClickOrDrop",
+  FILES_BEING_UPLOADED: "upload.filesBeingUploaded",
+  WAITING_TO_UPLOAD: "upload.waitingToUpload",
+  UPLOAD_SUCCESS: "upload.uploadSuccess",
+  DRAGGER_MAX_SIZE: "upload.draggerMaxSize",
+  DRAGGER_MAX_FILE: "upload.draggerMaxFile",
+  DRAGGER_CAN_UPLOAD_FILES: "upload.draggerCanUploadFiles",
+  CUSTOM_VALIDATION_ERROR: "upload.customValidationError",
+};
 
 export const MIME_TYPES = {
   ALL: "*",
