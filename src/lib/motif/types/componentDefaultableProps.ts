@@ -45,6 +45,7 @@ import { SelectDefaultableProps } from "../../components/Select/types";
 import { SliderDefaultableProps } from "../../components/Slider/types";
 import { SliderRangeDefaultableProps } from "../../components/SliderRange/types";
 // import { SkeletonDefaultableProps } from "../../components/Skeleton/types";
+import { StepperDefaultableProps } from "../../components/Stepper/types";
 import { SwitchDefaultableProps } from "../../components/Switch/types";
 import { TabDefaultableProps } from "../../components/Tab/types";
 import { TableDefaultableProps } from "../../components/Table/types";
@@ -110,6 +111,7 @@ export type ComponentDefaultableProps = {
   Slider?: SliderDefaultableProps;
   SliderRange?: SliderRangeDefaultableProps;
   //  Skeleton?: SkeletonDefaultableProps;
+  Stepper?: StepperDefaultableProps;
   Switch?: SwitchDefaultableProps;
   Tab?: TabDefaultableProps;
   Table?: TableDefaultableProps;

@@ -1,7 +1,9 @@
+import type { ReactElement } from "react";
+
 export type BadgeProps = {
   variant?: "primary" | "secondary" | "success" | "warning" | "danger" | "info";
   content?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   dot?: boolean;
 } & BadgeDefaultableProps;
 
