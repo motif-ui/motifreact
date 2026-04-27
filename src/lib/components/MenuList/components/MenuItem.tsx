@@ -1,4 +1,4 @@
-import { RefObject, MouseEvent } from "react";
+import { MouseEvent } from "react";
 import { useContext, useRef } from "react";
 import styles from "../MenuList.module.scss";
 import Icon from "@/components/Icon";
@@ -23,7 +23,7 @@ const MenuItem = (props: MenuItemCommonProps) => {
   const menuRef = useRef<HTMLLIElement>(null);
   const subMenuRef = useOutsideClick<HTMLDivElement>(() => {
     collapsed && setOpenSubmenus([]);
-  }, [menuRef as RefObject<HTMLElement>]);
+  }, [menuRef]);
 
   const mainMenuItem = level === 0;
   const subMenuItem = level > 0;

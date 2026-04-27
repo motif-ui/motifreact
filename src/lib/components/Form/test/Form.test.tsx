@@ -682,7 +682,7 @@ describe("Form", () => {
 
     await user.type(screen.getAllByTestId("inputItem")[0].firstElementChild!, value);
     await user.type(screen.getByTestId("inputPassword").lastElementChild!, value);
-    await user.type(screen.getByTestId("inputDate").firstElementChild!.children[1] as HTMLInputElement, "12/12/2024");
+    await user.type(screen.getByTestId("inputDate").firstElementChild!.children[1], "12/12/2024");
     await user.type(screen.getAllByTestId("pinCodeItem")[0], value);
     await user.click(screen.getByText("Black"));
     await user.click(screen.queryByRole("combobox")!);

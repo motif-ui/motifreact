@@ -340,7 +340,7 @@ describe("UploadDragger", () => {
     await simulateDrop(getDragArea(), [MOCK.filePng2mb, MOCK.filePdf1kb, MOCK.fileTxt1kb, MOCK.fileGif1mb]);
 
     const uploadButton = getUploadButton();
-    await userEvent.click(uploadButton as Element);
+    await userEvent.click(uploadButton);
     await waitFor(() => expect(uploadButton).toBeDisabled());
     await userEvent.click(getDeleteButton(2));
     expect(uploadButton).toBeDisabled();

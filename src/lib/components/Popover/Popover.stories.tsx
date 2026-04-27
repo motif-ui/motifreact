@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Button from "@/components/Button";
 import Popover from "@/components/Popover";
-import { RefObject, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Avatar from "@/components/Avatar";
 import { usePopover } from "../../hooks";
 import { PopoverProps } from "@/components/Popover/types";
@@ -104,7 +104,7 @@ const { ref, open, toggle } = usePopover(anchorRef);
   render: args => {
     const StoryComponent = () => {
       const anchorRef = useRef<HTMLButtonElement | null>(null);
-      const { ref, open, toggle } = usePopover(anchorRef as RefObject<HTMLElement>);
+      const { ref, open, toggle } = usePopover(anchorRef);
 
       return (
         <div style={containerStyle}>

@@ -393,7 +393,7 @@ describe("UploadList", () => {
     await simulateDrop(getDragArea(), [MOCK.filePng2mb, MOCK.filePdf1kb, MOCK.fileTxt1kb, MOCK.fileJpeg1kb]);
 
     const uploadButton = getUploadButton();
-    await userEvent.click(uploadButton as Element);
+    await userEvent.click(uploadButton);
     await waitFor(() => expect(uploadButton).toBeDisabled());
     await userEvent.click(getDeleteButton(3)); // delete a failed file
     expect(uploadButton).toBeDisabled();

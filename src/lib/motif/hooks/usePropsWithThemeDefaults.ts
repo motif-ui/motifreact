@@ -11,7 +11,7 @@ const usePropsWithThemeDefaults = <K extends keyof ComponentDefaults, U extends 
     !!defaultablePropsOfComponent?.className &&
     !!props.className &&
     `${defaultablePropsOfComponent.className} ${(props as StandardProps).className}`;
-  return { ...defaultablePropsOfComponent, ...props, ...(maybeMergedClassName && { className: maybeMergedClassName }) } as T;
+  return { ...defaultablePropsOfComponent, ...props, ...(maybeMergedClassName && { className: maybeMergedClassName }) };
 };
 
 export default usePropsWithThemeDefaults;

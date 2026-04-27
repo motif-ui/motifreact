@@ -65,7 +65,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     setItemValue(value as Date);
     setTypedValue(formatDate(value as Date, format, locale));
     setIsValueValid(!!value);
-    onFormFieldValueUpdate?.(value as Date);
+    onFormFieldValueUpdate?.(value);
   }, [format, locale, onFormFieldValueUpdate, value]);
 
   const applyChanges = useCallback(

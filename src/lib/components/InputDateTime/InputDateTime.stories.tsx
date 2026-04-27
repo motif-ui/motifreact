@@ -20,7 +20,7 @@ type Story = StoryObj<typeof InputDateTime>;
 
 export const Primary: Story = {
   render: args => {
-    const value = args.value ? new Date(args.value as number) : undefined;
+    const value = args.value ? new Date(args.value) : undefined;
     return <InputDateTime {...args} {...(value && { value })} />;
   },
 };
