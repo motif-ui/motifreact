@@ -1,11 +1,11 @@
-import { useCallback, useContext } from "react";
+import { PropsWithChildren, useCallback, useContext } from "react";
 import Icon from "../../Icon";
 import styles from "../Stepper.module.scss";
 import { StepperContext } from "../StepperContext";
 import { StepperItemInternalProps } from "../types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
-const StepperItem = (props: StepperItemInternalProps) => {
+const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
   const { index, title, icon = "motif_ui", variant: itemVariant, error, disabled } = props;
   const { activeStep, variant: contextVariant, stepType, itemOrientation, onStepClick } = useContext(StepperContext);
 
@@ -48,5 +48,4 @@ const StepperItem = (props: StepperItemInternalProps) => {
   );
 };
 
-StepperItem.displayName = "Stepper.Item";
 export default StepperItem;

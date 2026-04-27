@@ -1,31 +1,29 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import StepperItem from "./components/StepperItem";
 import Stepper from "./Stepper";
 
-const meta: Meta<typeof StepperItem> = {
-  title: "Components/Stepper/Item",
-  component: StepperItem,
+const meta: Meta<typeof Stepper.Item> = {
+  title: "Components/Stepper/Stepper.Item",
+  component: Stepper.Item,
   argTypes: {
     variant: { table: { defaultValue: { summary: "[parent variant]" } } },
     icon: { table: { defaultValue: { summary: "motif_ui" } } },
-    index: { table: { disable: true } },
+    children: { control: "text", table: { type: { summary: "ReactNode" } } },
   },
   args: {
     title: "Step Title",
-    icon: "person",
-    variant: "primary",
+    children: "Step content goes here.",
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof StepperItem>;
+type Story = StoryObj<typeof Stepper.Item>;
 
 export const Primary: Story = {
   render: args => (
-    <Stepper activeStep={1} onStepClick={() => {}}>
-      <Stepper.Item title="Previous" icon="check" />
+    <Stepper activeStep={1} stepType="icon">
+      <Stepper.Item {...args} title={`${args.title} Completed`} />
       <Stepper.Item {...args} />
-      <Stepper.Item title="Next" icon="info" />
+      <Stepper.Item {...args} title={`${args.title} Upcoming`} />
     </Stepper>
   ),
 };

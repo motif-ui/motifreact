@@ -110,6 +110,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
     flex-direction: column;
 
     &:not(:last-child)::after {
+      display: block;
       content: "";
       box-sizing: content-box;
       margin: var(--base-sizing-8x) 0;

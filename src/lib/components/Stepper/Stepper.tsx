@@ -45,6 +45,6 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
 
 const StepperWithItem = Object.assign(Stepper, {
   displayName: "Stepper",
-  Item: StepperItem as FC<StepperItemProps>,
+  Item: Object.assign(StepperItem as FC<StepperItemProps>, { displayName: "Stepper.Item" }),
 });
 export default StepperWithItem;

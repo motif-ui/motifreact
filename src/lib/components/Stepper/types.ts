@@ -1,19 +1,18 @@
-import { ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
 export type StepperVariant = "primary" | "secondary" | "success" | "warning" | "danger";
 export type StepperStepType = "dot" | "number" | "icon" | "text";
 export type StepperOrientation = "vertical" | "horizontal";
 
-export type StepperItemProps = {
+export type StepperItemProps = PropsWithChildren<{
   title?: string;
   icon?: string;
   variant?: StepperVariant;
   error?: boolean;
   disabled?: boolean;
-  children?: ReactNode;
-};
+}>;
 
-export type StepperItemInternalProps = Omit<StepperItemProps, "children"> & {
+export type StepperItemInternalProps = StepperItemProps & {
   index: number;
 };
 
