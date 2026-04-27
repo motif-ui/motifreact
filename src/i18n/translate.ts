@@ -1,4 +1,4 @@
-import { Locale, locales } from "./locales/index";
+import { Locale, locales } from "./locales";
 import { LibraryTranslateFn, LocaleKey } from "./types";
 import { DeepPartial, LocaleShape } from "../lib/types";
 
@@ -24,9 +24,6 @@ export const createTranslator =
   (locale: Locale, localeTexts?: DeepPartial<LocaleShape>): LibraryTranslateFn =>
   (key: LocaleKey, params?: Record<string, unknown>): string => {
     const template =
-      (localeTexts && getNestedValue(localeTexts as Record<string, unknown>, key)) ??
-      getNestedValue(locales[locale] as Record<string, unknown>, key) ??
-      getNestedValue(locales.en as Record<string, unknown>, key) ??
-      key;
+      (localeTexts && getNestedValue(localeTexts, key)) ?? getNestedValue(locales[locale], key) ?? getNestedValue(locales.en, key) ?? key;
     return interpolate(template, params);
   };
