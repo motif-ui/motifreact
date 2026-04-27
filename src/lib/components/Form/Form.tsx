@@ -1,5 +1,3 @@
-"use client";
-
 import { FormProvider } from "./context/FormContext";
 import { FormProps, FormRefType, NameInputValue } from "./types";
 import FormComponent from "./components/FormComponent";
