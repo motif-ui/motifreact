@@ -21,7 +21,7 @@ const smallScreenPositionsMapping: Record<ToastPosition, ToastPosition> = {
 
 export const useToast: () => UseToastProps = () => {
   const [state, dispatch] = useReducer(ToastReducer, { toasts: {} });
-  const themeDefaults = usePropsWithThemeDefaults("Toast", {} as AddToastOptions);
+  const themeDefaults = usePropsWithThemeDefaults("Toast", {});
 
   const addToast = (variant: ToastVariant, content: string, options?: AddToastOptions) => {
     const { position = "topRight", duration = 3000, closable = true, ...rest } = { ...themeDefaults, ...options };
