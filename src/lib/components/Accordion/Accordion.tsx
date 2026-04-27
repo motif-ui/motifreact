@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useContext, useEffect } from "react";
 import styles from "./Accordion.module.scss";
-import Icon from "../Icon/Icon";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import AccordionGroup, { AccordionGroupContext } from "./AccordionGroup/AccordionGroup";
 import { AccordionProps } from "./types";
 import { PropsWithRefAndChildren } from "../../types";
@@ -36,7 +36,7 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
   }, [expanded]);
 
   useEffect(() => {
-    if (groupEnabled && !multiExpand) {
+    if (groupEnabled && !multiExpand && expandedIndex !== undefined) {
       toggle(expandedIndex === index);
     }
   }, [expandedIndex, groupEnabled, index, multiExpand, toggle]);
@@ -52,7 +52,7 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
   return (
     <div className={classNames} style={style} ref={ref} data-testid="accordionItem">
       <button className={styles.header} onClick={toggleAccordion}>
-        {icon && <Icon size="lg" name={icon} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
         <span className={styles.title}>{title}</span>
         <MotifIcon className={styles.collapseIcon} size="lg" name="keyboard_arrow_down" />
       </button>

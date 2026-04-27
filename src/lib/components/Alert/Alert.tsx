@@ -1,4 +1,4 @@
-import { PropsWithRef } from "../../types";
+import { PropsWithRefAndChildren } from "../../types";
 import { AlertProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useToggle } from "../../hooks";
@@ -6,8 +6,18 @@ import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import styles from "@/components/Alert/Alert.module.scss";
 import { MotifIcon, MotifIconButton } from "@/components/Motif/Icon";
 
-const Alert = (props: PropsWithRef<AlertProps, HTMLDivElement>) => {
-  const { variant = "secondary", title, message, hideIcon, closable, ref, className, style } = usePropsWithThemeDefaults("Alert", props);
+const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
+  const {
+    variant = "secondary",
+    title,
+    message,
+    hideIcon,
+    closable,
+    children,
+    ref,
+    className,
+    style,
+  } = usePropsWithThemeDefaults("Alert", props);
 
   const { visible, hide, toggleState } = useToggle(true, 300);
   const classes = sanitizeModuleRootClasses(styles, className, [variant, toggleState]);
@@ -18,8 +28,9 @@ const Alert = (props: PropsWithRef<AlertProps, HTMLDivElement>) => {
       <div className={classes} style={style} ref={ref}>
         {!hideIcon && <MotifIcon name={iconName} variant={variant} size="lg" />}
         <div className={styles.contentBox}>
-          {title && <div className={styles.title}>{title}</div>}
-          <div className={styles.content}>{message}</div>
+          {title && <span className={styles.title}>{title}</span>}
+          {message && <span className={styles.message}>{message}</span>}
+          {children}
         </div>
         {closable && <MotifIconButton name="close" size="lg" onClick={hide} />}
       </div>
