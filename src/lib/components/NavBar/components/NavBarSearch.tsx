@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import InputText from "@/components/InputText";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import styles from "../NavBar.module.scss";
+import { useMotifContext } from "../../../motif/context/MotifProvider";
 
 export type NavBarSearchProps = {
   placeholder?: string;
@@ -10,7 +11,8 @@ export type NavBarSearchProps = {
 };
 
 const NavBarSearch = (props: NavBarSearchProps) => {
-  const { placeholder = "Ara...", onSubmit, pill } = props;
+  const { t } = useMotifContext();
+  const { placeholder = t("g.search"), onSubmit, pill } = props;
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const ref = useRef<HTMLDivElement>(null);

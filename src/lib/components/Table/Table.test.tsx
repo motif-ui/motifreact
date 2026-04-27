@@ -4,6 +4,7 @@ import Table from "@/components/Table/Table";
 import { ReactNode } from "react";
 import { userEvent } from "@testing-library/user-event";
 import { RowColor } from "@/components/Table/types";
+import { t } from "./../../../utils/testUtils";
 
 describe("Table", () => {
   const cols = [{ title: "Test Title", dataKey: "testData", sorting: {} }];
@@ -246,9 +247,9 @@ describe("Table", () => {
     const { getByText, getCheckboxes, getSelectAllCheckbox, getCountText } = renderExt(<Table columns={cols} data={data} selectable />);
     expect(getCountText()).toBeInTheDocument();
     await userEvent.click(getSelectAllCheckbox());
-    expect(screen.getByText("Toplam 3 veriden 3 tanesi seçildi.")).toBeInTheDocument();
+    expect(screen.getByText(t("table.totalSelectedRecords", { total: 3, selected: 3 }))).toBeInTheDocument();
     await userEvent.click(getCheckboxes()[1].firstElementChild as HTMLInputElement);
-    expect(getByText("Toplam 3 veriden 2 tanesi seçildi.")).toBeInTheDocument();
+    expect(getByText(t("table.totalSelectedRecords", { total: 3, selected: 2 }))).toBeInTheDocument();
   });
 
   it("should render the row count section when there is data and then it is filtered to show none", async () => {
@@ -636,14 +637,14 @@ describe("Table", () => {
 
   it("should show total records count when data is provided", () => {
     const { getCountText } = renderExt(<Table columns={cols} data={data} />);
-    expect(getCountText()).toHaveTextContent("Toplam 3 veri bulunmaktadır.");
+    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3 }));
   });
 
   it("should not change total records count when data is filtered", async () => {
     const { getFilterableTableInput, getCountText } = renderExt(<Table columns={cols} data={data} filterableTable />);
-    expect(getCountText()).toHaveTextContent("Toplam 3 veri bulunmaktadır.");
+    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3 }));
     await userEvent.type(getFilterableTableInput(), "M Test");
-    expect(getCountText()).toHaveTextContent("Toplam 3 veri bulunmaktadır.");
+    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3 }));
   });
 
   it("should sort the rows in ascending order when the related header cell is clicked once", async () => {
