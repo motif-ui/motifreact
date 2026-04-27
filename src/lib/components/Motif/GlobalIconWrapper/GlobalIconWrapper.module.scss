@@ -1,0 +1,15 @@
+@use "@styles" as *;
+
+.Root {
+  display: inline-flex;
+  align-items: center;
+
+  > :not(svg) {
+    font-size: 1em;
+  }
+
+  > svg {
+    width: 1em;
+    height: 1em;
+  }
+}
