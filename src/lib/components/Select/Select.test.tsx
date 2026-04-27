@@ -23,8 +23,8 @@ describe("Select", () => {
   });
 
   it("should display placeholder when placeholder prop is set", () => {
-    render(<Select data={data} placeholder="Lütfen seçiniz" />);
-    expect(screen.queryByPlaceholderText("Lütfen seçiniz")).toBeInTheDocument();
+    render(<Select data={data} placeholder={t("select.placeholder")} />);
+    expect(screen.queryByPlaceholderText(t("select.placeholder"))).toBeInTheDocument();
   });
 
   it("should load combobox with given data by data prop", () => {
