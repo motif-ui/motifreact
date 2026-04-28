@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { RowProps } from "./components/Row";
-import { StandardProps, Size4SM } from "../../types";
+import { StandardProps, Size4LG } from "../../types";
 
 export type GridProps = {
   colProps?: StandardProps;
@@ -10,5 +10,5 @@ export type GridProps = {
 export type GridDefaultableProps = {
   fluid?: boolean;
   leanToEdge?: boolean;
-  gutter?: Size4SM;
+  gutter?: Size4LG;
 };

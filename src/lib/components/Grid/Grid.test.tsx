@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Grid } from "../../index";
-import { Size4SM } from "../../types";
+import type { Size4LG } from "../../types";
 describe("Grid", () => {
   it("should render with only required props", () => {
     expect(
@@ -16,7 +16,7 @@ describe("Grid", () => {
   });
 
   it("should be rendered with the given size in gutter prop", () => {
-    const gutterSizes: Size4SM[] = ["xs", "sm", "md", "lg"];
+    const gutterSizes: Size4LG[] = ["sm", "md", "lg", "xl"];
 
     gutterSizes.forEach(size => {
       const { container } = render(
