@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Timeline should be rendered with only required props and should have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root vertical after dot start primary"
+  >
+    <div
+      class="item filled"
+    >
+      <div
+        class="marker"
+      >
+        <span
+          class="markerDot"
+        />
+      </div>
+      <div
+        class="section"
+      >
+        <span
+          class="title"
+        >
+          Step 1
+        </span>
+        <span
+          class="content"
+        >
+          First step content
+        </span>
+      </div>
+    </div>
+    <div
+      class="item filled"
+    >
+      <div
+        class="marker"
+      >
+        <span
+          class="markerDot"
+        />
+      </div>
+      <div
+        class="section"
+      >
+        <span
+          class="title"
+        >
+          Step 2
+        </span>
+        <span
+          class="content"
+        >
+          Second step content
+        </span>
+      </div>
+    </div>
+    <div
+      class="item filled"
+    >
+      <div
+        class="marker"
+      >
+        <span
+          class="markerDot"
+        />
+      </div>
+      <div
+        class="section"
+      >
+        <span
+          class="title"
+        >
+          Step 3
+        </span>
+        <span
+          class="content"
+        >
+          Third step content
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
