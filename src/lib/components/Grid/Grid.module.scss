@@ -17,7 +17,7 @@ $grids: 12;
   @each $gutter-size in $grid-sizes {
     &.gutter-#{$gutter-size} {
       gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
-      padding-inline: var(--theme-grid-gutter-gutter-#{$gutter-size});
+      padding: var(--theme-grid-gutter-gutter-#{$gutter-size});
 
       .row {
         gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
