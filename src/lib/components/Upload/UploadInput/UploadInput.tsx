@@ -1,6 +1,7 @@
 "use client";
 import styles from "./UploadInput.module.scss";
 import { useCallback, useContext, useEffect, useMemo } from "react";
+import { useMotifContext } from "../../../motif/context/MotifProvider";
 import { InputState, UploadProps } from "../types";
 import { STATUS } from "@/components/Upload/constants";
 import { UploadContext, UploadProvider } from "@/components/Upload/UploadProvider";
@@ -63,6 +64,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
     uploadProps: { autoUpload },
     uploadV2,
   } = useContext(UploadContext);
+  const { t } = useMotifContext();
 
   const isDisabled = disabled || readOnly;
 
@@ -119,13 +121,13 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
     <div ref={ref} className={classNames} style={style} data-testid="uploadInputItem">
       <button className={styles.browseButton} onClick={browse} disabled={isBrowseButtonDisabled} type="button">
         <MotifIcon name="search" size={size} />
-        Gözat..
+        {t("g.browse")}
       </button>
       <LabelArea disabled={isDisabled} size={size} errors={errors} inputState={inputState} success={success} error={error} />
       {!autoUpload && !!selectedFiles.length && (
         <button className={styles.uploadButton} disabled={isUploadButtonDisabled} onClick={uploadHandler} type="button">
           <MotifIcon name="upload_2" size={size} />
-          Yükle
+          {t("g.upload")}
         </button>
       )}
     </div>

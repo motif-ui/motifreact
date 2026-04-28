@@ -17,6 +17,7 @@ import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaul
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import ProgressCircle from "@/components/ProgressCircle";
 import { hasOwn, isNotAvailable } from "../../../utils/utils";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider";
 
 const loaderSizeMap = {
   xs: "xs",
@@ -26,11 +27,12 @@ const loaderSizeMap = {
 } as const;
 
 const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
+  const { t } = useMotifContext();
   const props = usePropsWithThemeDefaults("Select", p);
   const {
     data = [],
     icon,
-    placeholder = "Lütfen seçiniz",
+    placeholder = t("g.selectPlease"),
     multiple,
     loading,
     filterable,
@@ -200,7 +202,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
             )
           ) : (
             <li className={styles.noData}>
-              <label>Veri bulunamadı...</label>
+              <label>{t("g.noData")}</label>
             </li>
           )}
         </ul>

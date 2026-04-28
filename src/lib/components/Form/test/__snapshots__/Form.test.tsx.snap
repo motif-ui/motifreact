@@ -58,7 +58,7 @@ exports[`Form should be rendered with only required props and items 1`] = `
           type="submit"
         >
           <span>
-            Gönder
+            Submit
           </span>
         </button>
       </div>

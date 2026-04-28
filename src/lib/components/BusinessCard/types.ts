@@ -1,4 +1,4 @@
-import type { MouseEvent } from "react";
+import type { MouseEvent, ReactElement } from "react";
 
 export type BusinessCardProps = {
   title?: string;
@@ -14,7 +14,7 @@ export type BusinessCardProps = {
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   };
   image?: string;
-  icon?: string;
+  icon?: string | ReactElement;
 } & BusinessCardDefaultableProps;
 
 export type BusinessCardDefaultableProps = {

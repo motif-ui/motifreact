@@ -5,18 +5,20 @@ import FormField from "./FormFields/FormField";
 import FormFieldGroup from "./FormFields/FormFieldGroup";
 import { PropsWithRefAndChildren } from "../../types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider";
 
 const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormProps<T>, FormRefType>) => {
+  const { t } = useMotifContext();
   const {
     children,
     onSubmit,
     size = "md",
     formOrientation = "vertical",
     labelOrientation = "vertical",
-    submitButtonLabel = "Gönder",
+    submitButtonLabel = t("g.submit"),
     buttonPosition = "right",
     enableClearButton,
-    clearButtonLabel = "Temizle",
+    clearButtonLabel = t("g.clear"),
     dontClearOnSubmit,
     title,
     ref,

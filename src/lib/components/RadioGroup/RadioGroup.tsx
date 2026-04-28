@@ -21,8 +21,8 @@ const RadioGroup = (p: PropsWithRef<RadioGroupProps, HTMLDivElement>) => {
   });
 
   useEffect(() => {
-    setSelectedValue(value as string);
-    onFormFieldValueUpdate?.(value as string);
+    setSelectedValue(value);
+    onFormFieldValueUpdate?.(value);
   }, [onFormFieldValueUpdate, value]);
 
   const changeHandler = useCallback(

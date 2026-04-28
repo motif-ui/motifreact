@@ -16,96 +16,103 @@ import {
 import { InputValue } from "../../Form/types";
 import { REGEX_EMAIL, REGEX_IP, REGEX_PHONE_1, REGEX_URL } from "@/components/Form/validation/regexes";
 import { isNotAvailable } from "../../../../utils/utils";
+import { LocaleKey } from "../../../../i18n/types";
 
 export type InputValidation = {
   validate: (value?: InputValue) => boolean;
-  errorMessage: string;
+  errorMessage: LocaleKey;
+  errorParams?: Record<string, unknown>;
   // This property identifies the validation whether the connected field(s) is required or not.
   requiredValidation?: boolean;
 };
 
 export class Validations {
   static Required: InputValidation = {
-    errorMessage: "Lütfen bu alanı doldurunuz",
+    errorMessage: "validation.required",
     validate: checkNullEmpty,
     requiredValidation: true,
   };
 
   static RequiredUploadedFile: InputValidation = {
-    errorMessage: "Lütfen en az bir dosya yükleyiniz",
+    errorMessage: "validation.requiredUploadedFile",
     validate: checkUploadedFilesEmpty,
     requiredValidation: true,
   };
 
   static RequiredArrayItems: (indices: number[]) => InputValidation = indices => ({
-    errorMessage: "Lütfen bu alanı doldurunuz",
+    errorMessage: "validation.required",
     validate: value => checkArrayItemsEmpty(value, indices),
     requiredValidation: true,
   });
 
   static RequiredAllGroupItems: InputValidation = {
-    errorMessage: "Lütfen tüm alanları doldurunuz",
+    errorMessage: "validation.requiredAllGroupItems",
     validate: checkNoPropsEmpty,
     requiredValidation: true,
   };
 
   static UploadItemSyncValidation: InputValidation = {
-    errorMessage: "Lütfen bu alandaki hatayı gideriniz",
+    errorMessage: "validation.uploadItemSync",
     validate: uploadSync,
   };
 
   static TCKN: InputValidation = {
-    errorMessage: "Lütfen geçerli bir T.C. kimlik numarası giriniz",
+    errorMessage: "validation.tckn",
     validate: value => !value || checkTCKN(value),
   };
 
   static IBAN: InputValidation = {
-    errorMessage: "Lütfen geçerli bir IBAN numarası giriniz",
+    errorMessage: "validation.iban",
     validate: value => !value || checkIBAN(value),
   };
 
   static EMAIL: InputValidation = {
-    errorMessage: "Lütfen geçerli e-posta adresi giriniz",
+    errorMessage: "validation.email",
     validate: value => !value || checkRegex(value, REGEX_EMAIL),
   };
 
   static URL: InputValidation = {
-    errorMessage: "Lütfen geçerli bir URL giriniz",
+    errorMessage: "validation.url",
     validate: value => !value || checkRegex(value, REGEX_URL),
   };
 
   static IP_ADDRESS: InputValidation = {
-    errorMessage: "Lütfen geçerli bir IP adresi giriniz",
+    errorMessage: "validation.ipAddress",
     validate: value => !value || checkRegex(value, REGEX_IP),
   };
 
   static PHONE_1: InputValidation = {
-    errorMessage: "Lütfen geçerli bir telefon numarası giriniz",
+    errorMessage: "validation.phone",
     validate: value => !value || checkRegex(value, REGEX_PHONE_1),
   };
 
   static MinLength: (min: number) => InputValidation = min => ({
-    errorMessage: `Bu alan en az ${min} karakter uzunluğunda olmalıdır`,
+    errorMessage: "validation.minLength",
+    errorParams: { min },
     validate: value => isNotAvailable(value) || checkMinLength(value, min),
   });
 
   static MaxLength: (max: number) => InputValidation = max => ({
-    errorMessage: `Bu alan en fazla ${max} karakter uzunluğunda olmalıdır`,
+    errorMessage: "validation.maxLength",
+    errorParams: { max },
     validate: value => isNotAvailable(value) || checkMaxLength(value, max),
   });
 
   static Min: (min: number) => InputValidation = min => ({
-    errorMessage: `Bu alana en az ${min} değeri girmelisiniz`,
+    errorMessage: "validation.min",
+    errorParams: { min },
     validate: value => isNotAvailable(value) || checkMin(value, min),
   });
 
   static Max: (max: number) => InputValidation = max => ({
-    errorMessage: `Bu alana en fazla ${max} değeri girmelisiniz`,
+    errorMessage: "validation.max",
+    errorParams: { max },
     validate: value => isNotAvailable(value) || checkMax(value, max),
   });
 
   static AtLeastN: (n: number) => InputValidation = n => ({
-    errorMessage: `En az ${n} değer seçmelisiniz`,
+    errorMessage: "validation.atLeastN",
+    errorParams: { n },
     validate: value => checkAtLeastNTruthy(value, n),
     requiredValidation: true,
   });
