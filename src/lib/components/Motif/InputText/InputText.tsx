@@ -63,7 +63,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         inputRef.current.value = val;
       }
     },
-    [onChange, uncontrolled],
+    [onChange, setItemValue, uncontrolled],
   );
 
   const changeHandler = useCallback(
