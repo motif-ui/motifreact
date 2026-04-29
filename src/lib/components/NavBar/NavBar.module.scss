@@ -63,6 +63,7 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
   border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
   border-radius: var(--theme-sizing-radius-default);
   @include shadow(4);
+  min-width: 100%;
 
   .subMenu {
     top: calc(-1 * var(--base-sizing-1x));

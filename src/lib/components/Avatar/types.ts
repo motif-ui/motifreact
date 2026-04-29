@@ -1,6 +1,8 @@
+import type { ReactElement } from "react";
+
 export type AvatarProps = {
   image?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   letters?: string;
 } & AvatarDefaultableProps;
 

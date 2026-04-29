@@ -1,9 +1,10 @@
 import styles from "../UploadDragger.module.scss";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { useContext, useEffect, useMemo, useRef } from "react";
+import { useMotifContext } from "../../../../motif/context/MotifProvider";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
-import { capitalizeFirstLetter } from "../../../../../utils/utils";
+import { capitalizeFirstLetter, formatBytes } from "../../../../../utils/utils";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
 import useDeepCompareEffect from "use-deep-compare-effect";
@@ -25,6 +26,7 @@ const DragArea = (props: Props) => {
     addNewFiles,
     browse,
   } = useContext(UploadContext);
+  const { t } = useMotifContext();
 
   const isFirstRun = useRef(true);
 
@@ -47,9 +49,9 @@ const DragArea = (props: Props) => {
   );
 
   const infoMessage = capitalizeFirstLetter(
-    (maxSize ? MESSAGE.DRAGGER_MAX_SIZE(maxSize) + " " : "") +
-      MESSAGE.DRAGGER_MAX_FILE(maxFile <= 0 ? 0 : maxFile) +
-      MESSAGE.DRAGGER_CAN_UPLOAD_FILES,
+    (maxSize ? t(MESSAGE.DRAGGER_MAX_SIZE, { maxSize: formatBytes(maxSize) }) + " " : "") +
+      t(MESSAGE.DRAGGER_MAX_FILE, { maxFile: maxFile <= 0 ? 0 : maxFile }) +
+      t(MESSAGE.DRAGGER_CAN_UPLOAD_FILES),
   );
 
   const selectedFilesEqualityString = selectedFiles
@@ -94,7 +96,7 @@ const DragArea = (props: Props) => {
     >
       <MotifIcon name="upload_file" variant="secondary" className={styles.dragIcon} />
       <div className={styles.dragTextGroup}>
-        <span className={styles.dragText}>{MESSAGE.PLEASE_CLICK_OR_DROP}</span>
+        <span className={styles.dragText}>{t(MESSAGE.PLEASE_CLICK_OR_DROP)}</span>
         <span className={styles.dragInfo}>{infoMessage}</span>
       </div>
     </div>

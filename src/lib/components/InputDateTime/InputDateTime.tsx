@@ -79,8 +79,8 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
   );
 
   useEffect(() => {
-    setTypedValue(formatDateTime(value as Date, format, !!secondsEnabled, timeFormat, locale));
-    setItemValue(value as Date);
+    setTypedValue(formatDateTime(value, format, !!secondsEnabled, timeFormat, locale));
+    setItemValue(value);
   }, [format, secondsEnabled, value, timeFormat, locale]);
 
   const outsideClickHandler = useCallback(() => {

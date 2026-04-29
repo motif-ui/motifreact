@@ -5,6 +5,7 @@ import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
 import Form from "@/components/Form";
 import { useEffect, useState } from "react";
+import { t } from "./../../../utils/testUtils";
 
 describe("Select", () => {
   const data: (SelectGroupItem | SelectItem)[] = [
@@ -22,8 +23,8 @@ describe("Select", () => {
   });
 
   it("should display placeholder when placeholder prop is set", () => {
-    render(<Select data={data} placeholder="Lütfen seçiniz" />);
-    expect(screen.queryByPlaceholderText("Lütfen seçiniz")).toBeInTheDocument();
+    render(<Select data={data} placeholder={t("g.selectPlease")} />);
+    expect(screen.queryByPlaceholderText(t("g.selectPlease"))).toBeInTheDocument();
   });
 
   it("should load combobox with given data by data prop", () => {
@@ -403,14 +404,14 @@ describe("Select", () => {
     };
     render(<SelectWithValueSetAsynchronously100MsDelay />);
 
-    await userEvent.click(screen.getByText("Gönder"));
+    await userEvent.click(screen.getByText(t("g.submit")));
     expect(screen.queryAllByTestId("formField").at(0)).toHaveClass("error");
 
     await act(async () => {
       await new Promise(resolve => setTimeout(resolve, 100));
     });
 
-    await userEvent.click(screen.getByText("Gönder"));
+    await userEvent.click(screen.getByText(t("g.submit")));
     expect(screen.queryAllByTestId("formField").at(0)).not.toHaveClass("error");
   });
 

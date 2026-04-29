@@ -1,4 +1,4 @@
-import { formatBytes, shortenText } from "../../../utils/utils";
+import { LocaleKey } from "../../../i18n/types";
 
 export const STATUS = {
   IDLE: 0, // Validated and ready to upload
@@ -10,22 +10,21 @@ export const STATUS = {
   DELETE_FAIL: 6, // Delete failed
 };
 
-export const MESSAGE = {
-  MAX_SIZE_ERROR: (fileSize: number, maxSize: number, fileName: string) =>
-    `Dosyanızın boyutu maksimum ${formatBytes(maxSize)} olabilir. '${shortenText(fileName, 30)}' dosyanızın boyutu: ${formatBytes(fileSize)}`,
-  MAX_FILE: "Maksimum %maxFile% dosya yükleyebilirsiniz",
-  MIME_TYPE: "Sadece '%acceptType%' formatındaki dosyaları yükleyebilirsiniz. Dosyanızın formatı: '%fileType%'",
-  UPLOAD_ERROR: "Dosya karşıya yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.",
-  DELETE_ERROR: "Dosya silinirken bir hata oluştu. Lütfen tekrar deneyiniz.",
-  PLEASE_DROP: "Yüklemek istediğiniz dosyaları buraya bırakın",
-  PLEASE_CLICK_OR_DROP: "Dosya yüklemek için bu alana tıklayın veya dosyaları buraya bırakın",
-  FILES_BEING_UPLOADED: "Dosyalar yükleniyor...",
-  WAITING_TO_UPLOAD: "Yüklemek için bekleniyor...",
-  UPLOAD_SUCCESS: "Dosya başarıyla yüklendi",
-  DRAGGER_MAX_SIZE: (maxSize: number) => `her biri en fazla ${formatBytes(maxSize)} boyutunda`,
-  DRAGGER_MAX_FILE: (maxFile: number) => `maksimum ${maxFile}`,
-  DRAGGER_CAN_UPLOAD_FILES: " dosya yükleyebilirsiniz.",
-  CUSTOM_VALIDATION_ERROR: "Hata oluştu.",
+export const MESSAGE: Record<string, LocaleKey> = {
+  MAX_SIZE_ERROR: "upload.maxSizeError",
+  MAX_FILE: "upload.maxFileError",
+  MIME_TYPE: "upload.mimeTypeError",
+  UPLOAD_ERROR: "upload.uploadError",
+  DELETE_ERROR: "upload.deleteError",
+  PLEASE_DROP: "upload.pleaseDrop",
+  PLEASE_CLICK_OR_DROP: "upload.pleaseClickOrDrop",
+  FILES_BEING_UPLOADED: "upload.filesBeingUploaded",
+  WAITING_TO_UPLOAD: "upload.waitingToUpload",
+  UPLOAD_SUCCESS: "upload.uploadSuccess",
+  DRAGGER_MAX_SIZE: "upload.draggerMaxSize",
+  DRAGGER_MAX_FILE: "upload.draggerMaxFile",
+  DRAGGER_CAN_UPLOAD_FILES: "upload.draggerCanUploadFiles",
+  CUSTOM_VALIDATION_ERROR: "upload.customValidationError",
 };
 
 export const MIME_TYPES = {

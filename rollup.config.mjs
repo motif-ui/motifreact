@@ -13,6 +13,7 @@ import removeJsxAttributes from "rollup-plugin-jsx-remove-attributes";
 import path from "path";
 import process from "node:process";
 import { fileURLToPath } from "url";
+import json from "@rollup/plugin-json";
 
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
@@ -79,9 +80,10 @@ export default [
           noEmit: false,
           emitDeclarationOnly: true,
         },
-        exclude: ["**/*.test.*", "**/*.spec.*", "**/*.stories.*", ".storybook"],
+        exclude: ["**/*.test.*", "**/*.spec.*", "**/testHelper.*", "**/*.stories.*", ".storybook"],
       }),
       commonjs(),
+      json(),
       styles({
         modules: {
           generateScopedName: generateScopedCssClassName,

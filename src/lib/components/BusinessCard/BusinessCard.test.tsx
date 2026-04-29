@@ -1,5 +1,6 @@
 import BusinessCard from "@/components/BusinessCard/BusinessCard";
 import { fireEvent, render } from "@testing-library/react";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("BusinessCard", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {
@@ -23,8 +24,7 @@ describe("BusinessCard", () => {
   });
 
   it("should render the main icon given in the icon prop", () => {
-    const { getByText } = render(<BusinessCard icon="folder" />);
-    expect(getByText("folder")).toBeInTheDocument();
+    runIconPropTest(icon => render(<BusinessCard icon={icon} />), "icon");
   });
 
   it("should render an anchor with the props given in the link prop", () => {

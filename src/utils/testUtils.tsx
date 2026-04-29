@@ -1,4 +1,34 @@
+import { RenderResult } from "@testing-library/react";
+import { ReactElement } from "react";
+import { createTranslator } from "../i18n/translate";
+
+export const t = createTranslator("en");
+
 type JestToErrorArg = Parameters<jest.Matchers<unknown, () => unknown>["toThrow"]>[0];
+
+export type ComponentWithIconRender = (icon: string | ReactElement) => RenderResult;
+
+export const runIconPropTest = (renderIcon: ComponentWithIconRender, className?: string) => {
+  const iconName = "home";
+
+  const testStringIcon = () => {
+    const { getByText } = renderIcon(iconName);
+    const iconElement = getByText(iconName);
+    expect(iconElement.tagName.toLowerCase()).toBe("span");
+    className && expect(iconElement).toHaveClass(className);
+  };
+
+  const testReactElementIcon = () => {
+    const { getByText } = renderIcon(<span>icon-element</span>);
+    const externalIcon = getByText("icon-element");
+    expect(externalIcon.tagName.toLowerCase()).toBe("span");
+    expect(externalIcon.parentElement).toHaveClass("Root");
+    className && expect(externalIcon.parentElement).toHaveClass(className);
+  };
+
+  testStringIcon();
+  testReactElementIcon();
+};
 /**
  *
  * @author https://github.com/Kashuab

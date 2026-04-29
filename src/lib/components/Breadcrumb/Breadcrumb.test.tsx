@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { render, screen } from "@testing-library/react";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Breadcrumb", () => {
   const testItems = [
@@ -36,9 +37,8 @@ describe("Breadcrumb", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(itemCount + 1);
   });
 
-  it("should display the icon given in homeIcon prop", () => {
-    render(<Breadcrumb items={testItems} homeIcon="folder" />);
-    expect(screen.getByText("folder")).toBeInTheDocument();
+  it("should render the main icon given in the homeIcon prop", () => {
+    runIconPropTest(icon => render(<Breadcrumb items={testItems} homeIcon={icon} />), "homepage-icon");
   });
 
   it("should render links to all items  without collapse", () => {

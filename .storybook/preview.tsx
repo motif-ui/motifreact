@@ -78,6 +78,7 @@ const preview: Preview = {
     },
     docs: {
       container: MotifDocContainer,
+      codePanel: true,
       toc: {
         title: "On this page",
         headingSelector: "h2, h3",

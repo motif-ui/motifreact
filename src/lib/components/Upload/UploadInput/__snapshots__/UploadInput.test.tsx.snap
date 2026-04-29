@@ -15,7 +15,7 @@ exports[`UploadInput should be rendered with only required props and should have
       >
         search
       </span>
-      Gözat..
+      Browse..
     </button>
     <div
       class="labelArea focusable"
@@ -24,7 +24,7 @@ exports[`UploadInput should be rendered with only required props and should have
         class="label placeholder roundedEnd"
         type="button"
       >
-        Dosya seçin
+        Select file
       </button>
       <div
         class="labelSuffixWrapper"

@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Avatar from "@/components/Avatar/Avatar";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Avatar", () => {
   it("should be rendered with only required props", () => {
@@ -10,8 +11,8 @@ describe("Avatar", () => {
     expect(render(<Avatar letters="test" />).getByText("TE")).toBeInTheDocument();
   });
 
-  it("should render icon when icon is set", () => {
-    expect(render(<Avatar icon="info" />).getByText("info")).toBeInTheDocument();
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<Avatar icon={icon} />));
   });
 
   it("should display image when image is set", () => {

@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { MESSAGE } from "@/components/Upload/constants";
 import "@testing-library/jest-dom";
 import { ReactNode } from "react";
+import { t } from "../../../utils/testUtils";
 
 export const simulateChooseFiles = async (input: Element | null, files: File[]) => {
   if (!input) throw new Error("Input element is null or undefined");
@@ -27,7 +28,7 @@ export const renderExtUploadFileList = (ui: ReactNode) => {
 
   const getFileItemLast = () => getFileList()?.lastChild as HTMLDivElement;
 
-  const getUploadButton = () => screen.queryByText("Yükle")?.parentElement as HTMLButtonElement;
+  const getUploadButton = () => screen.queryByText(t("g.upload"))?.parentElement as HTMLButtonElement;
 
   const getDragArea = () => result.container.firstElementChild?.firstChild as Element;
 
@@ -44,4 +45,4 @@ export const renderExtUploadFileList = (ui: ReactNode) => {
 };
 
 export const waitForSuccessfulUpload = (fileItem: HTMLDivElement) =>
-  waitFor(() => expect(fileItem).toHaveTextContent(MESSAGE.UPLOAD_SUCCESS));
+  waitFor(() => expect(fileItem).toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS)));
