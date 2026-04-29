@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Grid } from "../../index";
-
+import type { Size4LG } from "../../types";
 describe("Grid", () => {
   it("should render with only required props", () => {
     expect(
@@ -13,6 +13,21 @@ describe("Grid", () => {
         </Grid>,
       ).container,
     ).toMatchSnapshot();
+  });
+
+  it("should be rendered with the given size in gutter prop", () => {
+    const gutterSizes: Size4LG[] = ["sm", "md", "lg", "xl"];
+
+    gutterSizes.forEach(size => {
+      const { container } = render(
+        <Grid gutter={size}>
+          <Grid.Row>
+            <Grid.Col />
+          </Grid.Row>
+        </Grid>,
+      );
+      expect(container.firstChild).toHaveClass(`gutter-${size}`);
+    });
   });
 
   it("should fill the container when fluid prop is true", () => {
