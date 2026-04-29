@@ -1,4 +1,4 @@
-import { Locale, locales } from "./locales";
+import { Locale, locales } from "./locales/index";
 import { LibraryTranslateFn, LocaleKey } from "./types";
 import { DeepPartial, LocaleShape } from "../lib/types";
 
