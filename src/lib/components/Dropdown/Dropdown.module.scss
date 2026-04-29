@@ -1,11 +1,11 @@
 @use "@styles" as *;
 
 $sizes: (
-  // size, buttonPadding, buttonPaddingL, buttonGap, itemPaddingV, itemPaddingH, itemGap
-  ("xs", "4x", "10x", "6x", "6x", "14x", "8x"),
-  ("sm", "6x", "12x", "6x", "8x", "16x", "8x"),
-  ("md", "8x", "16x", "8x", "10x", "20x", "10x"),
-  ("lg", "10x", "20x", "8x", "12x", "24x", "10x")
+  // size, buttonPaddingAndGap, itemPaddingAndGap
+  ("xs", "4x", "6x"),
+  ("sm", "6x", "8x"),
+  ("md", "8x", "10x"),
+  ("lg", "10x", "12x")
 );
 $states: "hover", "active", "disabled";
 $variants: ("primary", "secondary", "info", "success", "warning", "danger");
@@ -192,16 +192,16 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 // =============================================================================
 // COMMON
 // =============================================================================
-@each $size, $buttonPad, $buttonPadL, $buttonGap, $itemPadV, $itemPadH, $itemGap in $sizes {
+@each $size, $buttonPaddingAndGap, $itemPaddingAndGap in $sizes {
   .#{$size} {
     .Button {
-      padding: var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPadL});
-      gap: var(--base-sizing-#{$buttonGap});
+      padding: var(--base-sizing-#{$buttonPaddingAndGap});
+      gap: var(--base-sizing-#{$buttonPaddingAndGap});
       @include font("base", $size, "500");
     }
     .MenuItem {
-      padding: var(--base-sizing-#{$itemPadV}) var(--base-sizing-#{$itemPadH});
-      gap: var(--base-sizing-#{$itemGap});
+      padding: var(--base-sizing-#{$itemPaddingAndGap});
+      gap: var(--base-sizing-#{$itemPaddingAndGap});
       &.MenuItem_clickable {
         @include font("body", $size);
       }

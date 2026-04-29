@@ -1,4 +1,4 @@
-import { FocusEventHandler, MouseEventHandler, ReactNode } from "react";
+import { FocusEventHandler, MouseEventHandler, ReactElement } from "react";
 import { InputCommonProps, InputSize } from "../Form/types";
 
 export type InputTextDefaultableProps = {
@@ -8,11 +8,11 @@ export type InputTextDefaultableProps = {
 
 export type InputTextProps = {
   placeholder?: string;
-  iconLeft?: ReactNode;
-  iconRight?: ReactNode;
+  iconLeft?: string | ReactElement;
+  iconRight?: string | ReactElement;
   maxLength?: number;
   onClick?: MouseEventHandler<HTMLInputElement>;
   onFocus?: FocusEventHandler<HTMLInputElement>;
-  readOnlyWithEnabledLook?: boolean;
+  type?: "text" | "number";
 } & InputCommonProps &
   InputTextDefaultableProps;

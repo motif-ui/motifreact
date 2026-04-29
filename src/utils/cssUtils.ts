@@ -27,12 +27,14 @@ export const sanitizeModuleRootClasses = (
   propsValues?: (string | false | undefined | (string | false | undefined)[])[],
 ) =>
   [
-    cssModule.Root,
-    ...(propsValues || [])
-      .flat()
-      .filter((key): key is string => !!key && !!cssModule[key])
-      .map(key => cssModule[key]),
-    globalClass ?? "",
+    ...new Set([
+      cssModule.Root,
+      ...(propsValues || [])
+        .flat()
+        .filter((key): key is string => !!key && !!cssModule[key])
+        .map(key => cssModule[key]),
+      ...(globalClass?.split(" ").filter(Boolean) ?? []),
+    ]),
   ]
     .join(" ")
     .trim() || undefined;

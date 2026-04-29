@@ -157,6 +157,7 @@ describe("InputDate", () => {
     const onChange = jest.fn();
     const { getByTestId, getInput } = renderExt(<InputDate disabled editable onChange={onChange} />);
     expect(getByTestId("inputItem")).toHaveClass("disabled");
+    expect(getByTestId("inputItem").getElementsByTagName("input")[0]).toBeDisabled();
 
     await userEvent.click(getInput());
     expect(screen.queryByTestId("Picker")).not.toBeInTheDocument();

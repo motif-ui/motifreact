@@ -1,4 +1,4 @@
-import InputText from "@/components/InputText";
+import InputText from "@/components/Motif/InputText/InputText";
 import { TableContext } from "@/components/Table/TableContext";
 import { useContext } from "react";
 import styles from "../../Table.module.scss";

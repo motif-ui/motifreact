@@ -11,7 +11,7 @@ import { formatDate, parseDate } from "@/components/InputDate/helper";
 import { PropsWithRef } from "../../types";
 import { InputValue } from "../Form/types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import InputText from "../InputText";
+import InputText from "@/components/Motif/InputText/InputText";
 import { MotifIcon, MotifIconButton } from "../Motif/Icon";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
@@ -122,7 +122,9 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
       <InputText
         iconLeft={<MotifIcon name="calendar_month" size={size} />}
         iconRight={
-          typedValue && !disabled && !readOnly && <MotifIconButton name="cancel_outline" size={size} onClick={clearClickHandler} />
+          typedValue && !disabled && !readOnly ? (
+            <MotifIconButton name="cancel_outline" size={size} onClick={clearClickHandler} />
+          ) : undefined
         }
         name={name}
         size={size}
@@ -131,7 +133,8 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
         success={success}
         error={error}
         disabled={disabled}
-        readOnlyWithEnabledLook={!editable}
+        readOnly={readOnly}
+        disableTyping={!editable}
         value={typedValue}
         onChange={onInputChange}
         onClick={pickerShowHandler}
