@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-$list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x"), ("md", "sm", "2x", "16x", "12x", "32x"), ("lg", "md", "4x", "20x", "16x", "40x"));
-@each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize in $list-item-sizes {
+$list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x"), ("md", "sm", "2x", "16x", "12x", "32x", "22x"), ("lg", "md", "4x", "20x", "16x", "40x", "24x"));
+@each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize, $iconFontSize in $list-item-sizes {
   .#{$size} {
     .baseContent {
       gap: var(--base-sizing-#{$spaceH});
@@ -26,6 +26,10 @@ $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x"), ("md", "sm", "2x", "1
     }
     .description {
       @include font("body", $size);
+    }
+    .icon,
+    .iconRight {
+      font-size: var(--base-sizing-#{$iconFontSize});
     }
   }
 }

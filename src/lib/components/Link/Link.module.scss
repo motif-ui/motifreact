@@ -1,11 +1,14 @@
 @use "@styles" as *;
 
-$sizes: (("sm", "4x"), ("md", "6x"), ("lg", "8x"));
+$sizes: (("sm", "4x", "16x"), ("md", "6x", "20x"), ("lg", "8x", "24x"));
 $state: ("default", "disabled", "active", "hover");
-@each $name, $gap in $sizes {
+@each $name, $gap, $iconFontSize in $sizes {
   .#{$name} {
     gap: var(--base-sizing-#{$gap});
     @include font("base", $name, "500");
+    .icon {
+      font-size: var(--base-sizing-#{$iconFontSize});
+    }
   }
 }
 

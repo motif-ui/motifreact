@@ -9,6 +9,7 @@ const meta: Meta<typeof Dropdown> = {
     variant: { table: { defaultValue: { summary: "primary" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     spacing: { table: { defaultValue: { summary: "callout" } } },
+    icon: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
   },
   args: {
     label: "Dropdown Menu",

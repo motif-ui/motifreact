@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { runIconPropTest } from "../../../utils/testUtils";
 import "@testing-library/jest-dom";
 import Link from "./Link";
 
@@ -25,6 +26,10 @@ describe("Link Component Tests", () => {
   it("should render the external icon if external prop is given", () => {
     render(<Link external url="https://motif-ui.com/" />);
     expect(screen.getByText("external")).toBeInTheDocument();
+  });
+
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<Link label="Motif" icon={icon} />), "icon");
   });
 
   it("should fire onClick event even if url and onClick are set together", () => {

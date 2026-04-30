@@ -21,10 +21,10 @@ export type ListViewItemProps = {
   title: string;
   description?: string;
   alternateText?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   image?: string;
   abbr?: string;
-  iconRight?: string;
+  iconRight?: string | ReactElement;
   href?: string;
   onClick?: () => void;
   disabled?: boolean;

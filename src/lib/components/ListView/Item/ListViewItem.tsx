@@ -3,22 +3,20 @@ import styles from "../ListView.module.scss";
 import { ListViewContext } from "../ListViewProvider";
 import CenterContent from "@/components/ListView/Item/components/CenterContent";
 import LeftContent from "@/components/ListView/Item/components/LeftContent";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { ListViewItemProps } from "@/components/ListView/types";
 import { PropsWithRefAndChildren } from "../../../types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
 const ListViewItem = (props: PropsWithRefAndChildren<ListViewItemProps, HTMLLIElement>) => {
   const { id, title, description, alternateText, icon, image, abbr, iconRight, href, onClick, disabled, ref, style } = props;
-  const { size, enableDividers, enableMultiLine } = useContext(ListViewContext);
+  const { enableDividers, enableMultiLine } = useContext(ListViewContext);
 
   const renderItemContent = () => (
     <>
       <LeftContent id={id} icon={icon} image={image} abbr={abbr} />
       <CenterContent title={title} description={description} alternateText={alternateText} />
-      {iconRight && (
-        <Icon className={styles.iconRight} variant="secondary" name={iconRight} size={size === "sm" ? "md" : size === "lg" ? "xl" : "lg"} />
-      )}
+      {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.iconRight} />}
     </>
   );
 
