@@ -1,7 +1,7 @@
 import { PickerPropsCommon, TimeFormat } from "../Motif/Pickers/types";
 import { Time, TimePeriod, TimePickerLocale } from "../TimePicker/types";
 import { Size4SM } from "../../types";
-import { DatePickerLocale } from "@/components/DatePicker/types";
+import { DatePickerLocale } from "../DatePicker/types";
 
 export type ActiveTab = "date" | "time";
 

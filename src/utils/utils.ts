@@ -1,4 +1,4 @@
-import { SCREEN_SIZES } from "../lib/constants";
+import { SCREEN_SIZES } from "../lib/constants.ts";
 import type { ReactNode } from "react";
 import { isValidElement } from "react";
 
