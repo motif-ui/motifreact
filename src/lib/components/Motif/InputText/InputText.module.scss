@@ -1,0 +1,129 @@
+@use "@styles" as *;
+
+// size, horizontalPadding, verticalPadding
+$sizes: (("xs", "8x", "4x"), ("sm", "12x", "6x"), ("md", "16x", "8x"), ("lg", "20x", "10x"));
+
+.Root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  background-color: var(--theme-color-surface-base-bg-light);
+  @include transition(border-color);
+
+  &:focus-within {
+    border-color: var(--theme-color-border-primary-default);
+  }
+
+  input {
+    flex: 1;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding: 0;
+    background: transparent;
+    color: var(--theme-color-text-base-title);
+
+    &::placeholder {
+      color: var(--theme-color-text-base-caption);
+    }
+    &:focus {
+      outline: none;
+    }
+
+    &[type="number"] {
+      appearance: textfield;
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        appearance: none;
+      }
+    }
+  }
+}
+
+.pill {
+  border-radius: var(--theme-sizing-radius-round);
+}
+
+.inFormField {
+  min-width: var(--base-sizing-190x);
+}
+
+.icon {
+  color: var(--theme-color-text-base-caption-light);
+}
+
+.error {
+  border-color: var(--theme-color-border-danger-default);
+  .icon.icon-right {
+    color: var(--theme-color-text-danger-default);
+  }
+}
+
+.success {
+  border-color: var(--theme-color-border-success-default);
+  .icon.icon-right {
+    color: var(--theme-color-text-success-default);
+  }
+}
+
+.disabled,
+.readOnly {
+  pointer-events: none;
+  border-color: var(--theme-color-border-light-disabled);
+  background-color: var(--theme-color-surface-base-base1);
+
+  .icon,
+  input {
+    color: var(--theme-color-text-base-disabled);
+  }
+  .numberButtons button {
+    color: var(--theme-color-text-base-disabled);
+    background-color: var(--theme-color-surface-base-base3);
+  }
+}
+
+.numberButtons {
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+  button {
+    all: unset;
+    @include transition(background-color);
+    @include flex-center;
+    color: var(--theme-color-text-base-subtitle);
+    background-color: var(--theme-color-surface-light-default);
+    flex: 1;
+    &:first-child {
+      border-top-right-radius: var(--theme-sizing-radius-default);
+    }
+    &:last-child {
+      border-bottom-right-radius: var(--theme-sizing-radius-default);
+    }
+    &:hover {
+      background-color: var(--theme-color-surface-light-hover);
+    }
+  }
+}
+
+@each $size, $paddingH, $paddingV in $sizes {
+  .#{$size} {
+    gap: var(--base-sizing-#{$paddingV});
+    padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+
+    input {
+      @include font("body", $size);
+    }
+
+    .numberButtons {
+      width: calc(2 * var(--base-sizing-#{$paddingH}));
+      margin: calc(-1 * var(--base-sizing-#{$paddingV})) calc(-1 * var(--base-sizing-#{$paddingH})) calc(-1 * var(--base-sizing-#{$paddingV})) 0;
+      button {
+        @include font("body", $size);
+        line-height: 1;
+      }
+    }
+  }
+}

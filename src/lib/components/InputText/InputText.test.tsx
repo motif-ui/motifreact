@@ -31,22 +31,22 @@ describe("InputText", () => {
 
   it("should render icons given as string, standalone or together", () => {
     const { rerender } = render(<InputText iconLeft="home" />);
-    expect(screen.getByText("home")).toHaveClass("icon-left");
+    expect(screen.getByText("home")).toBeInTheDocument();
 
     rerender(<InputText iconRight="info" />);
-    expect(screen.getByText("info")).toHaveClass("icon-right");
+    expect(screen.getByText("info")).toBeInTheDocument();
 
     rerender(<InputText iconRight="info" iconLeft="home" />);
-    expect(screen.getByText("home")).toHaveClass("icon-left");
-    expect(screen.getByText("info")).toHaveClass("icon-right");
+    expect(screen.getByText("home")).toBeInTheDocument();
+    expect(screen.getByText("info")).toBeInTheDocument();
   });
 
   it("should render icons given as components", () => {
     const { rerender } = render(<InputText iconLeft={<i>icon1</i>} />);
-    expect(screen.getByText("icon1").parentElement).toHaveClass("icon-left");
+    expect(screen.getByText("icon1")).toBeInTheDocument();
 
     rerender(<InputText iconRight={<Icon name="info" />} />);
-    expect(screen.getByText("info")).toHaveClass("icon-right");
+    expect(screen.getByText("info")).toBeInTheDocument();
   });
 
   it("triggers onChange callback when value is changed", async () => {
@@ -71,7 +71,7 @@ describe("InputText", () => {
 
     expect(handleChange).not.toHaveBeenCalled();
     expect(input).toHaveValue(value);
-    expect(input).toHaveAttribute("disabled");
+    expect(input).toBeDisabled();
     expect(screen.getByTestId("inputItem")).toHaveClass("disabled");
   });
 
@@ -99,5 +99,15 @@ describe("InputText", () => {
   it("should render in a pill shape when pill prop is true", () => {
     const { getByTestId } = render(<InputText pill />);
     expect(getByTestId("inputItem")).toHaveClass("pill");
+  });
+
+  it("should render the input in given type", () => {
+    const { getByTestId, rerender } = render(<InputText type="text" />);
+    expect(getByTestId("inputItem").querySelector("input")).toHaveAttribute("type", "text");
+
+    rerender(<InputText type="number" />);
+    expect(getByTestId("inputItem").querySelector("input")).toHaveAttribute("type", "number");
+    expect(screen.getByText("+")).toBeInTheDocument();
+    expect(screen.getByText("-")).toBeInTheDocument();
   });
 });

@@ -13,7 +13,7 @@ import { InputTimeProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputValue } from "@/components/Form/types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import InputText from "@/components/InputText";
+import InputText from "@/components/Motif/InputText/InputText";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import MotifIconButton from "@/components/Motif/Icon/MotifIconButton";
 
@@ -132,9 +132,9 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
       <InputText
         iconLeft={<MotifIcon name="schedule" size={size} />}
         iconRight={
-          itemValue &&
-          !disabled &&
-          !readOnly && <MotifIconButton name="cancel_outline" size={size} onClick={() => clearClickHandler(true)} />
+          itemValue && !disabled && !readOnly ? (
+            <MotifIconButton name="cancel_outline" size={size} onClick={() => clearClickHandler(true)} />
+          ) : undefined
         }
         name={name}
         size={size}
@@ -144,7 +144,8 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
         onChange={onTextFieldChange}
         error={error}
         disabled={disabled}
-        readOnlyWithEnabledLook={!editable}
+        readOnly={readOnly}
+        disableTyping={!editable}
         value={typedValue}
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
