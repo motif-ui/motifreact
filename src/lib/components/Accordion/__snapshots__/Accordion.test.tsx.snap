@@ -8,6 +8,7 @@ exports[`Accordion should be rendered with only required props 1`] = `
   >
     <button
       class="header"
+      type="button"
     >
       <span
         class="title"

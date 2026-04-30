@@ -24,21 +24,27 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
     className,
   } = usePropsWithThemeDefaults("Accordion", props);
   const { expandedIndex, setExpandedIndex, multiExpand, groupEnabled } = useContext(AccordionGroupContext);
-  const { visible: open, toggle } = useToggle(expanded);
+  const initialOpen = groupEnabled && !multiExpand ? expandedIndex === index : expanded;
+  const { visible: open, toggle } = useToggle(initialOpen);
 
   if (groupEnabled && index === undefined) {
     throw new Error("Accordion component must have an index prop when used inside AccordionGroup");
   }
 
   useEffect(() => {
-    toggle(expanded);
+    if (groupEnabled && !multiExpand && index !== undefined) {
+      expanded ? setExpandedIndex?.(index) : setExpandedIndex?.(-1);
+    } else {
+      toggle(expanded);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded]);
 
   useEffect(() => {
     if (groupEnabled && !multiExpand && expandedIndex !== undefined) {
-      toggle(expandedIndex === index);
+      expandedIndex === -1 && expanded ? setExpandedIndex?.(index!) : toggle(expandedIndex === index);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expandedIndex, groupEnabled, index, multiExpand, toggle]);
 
   const toggleAccordion = useCallback(() => {
@@ -51,7 +57,7 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
 
   return (
     <div className={classNames} style={style} ref={ref} data-testid="accordionItem">
-      <button className={styles.header} onClick={toggleAccordion}>
+      <button type="button" className={styles.header} onClick={toggleAccordion}>
         {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
         <span className={styles.title}>{title}</span>
         <MotifIcon className={styles.collapseIcon} size="lg" name="keyboard_arrow_down" />
