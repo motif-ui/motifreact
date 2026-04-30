@@ -63,14 +63,14 @@ $theme: (
 .next {
   position: absolute;
   top: calc(50% - var(--base-sizing-20x));
-  right: var(--base-sizing-40x);
+  right: var(--base-sizing-16x);
 }
 
 .prev {
   position: absolute;
   top: calc(50% - var(--base-sizing-20x));
   transform: rotate(180deg);
-  left: var(--base-sizing-40x);
+  left: var(--base-sizing-16x);
 }
 
 .track {
