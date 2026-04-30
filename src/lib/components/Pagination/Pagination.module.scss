@@ -9,6 +9,7 @@ $pagination-sizes: (
 
 .Root {
   display: inline-flex;
+  flex-wrap: wrap;
 }
 
 .pageItem {
