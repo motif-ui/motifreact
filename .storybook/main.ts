@@ -1,6 +1,6 @@
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from "path";
-import { applyCustomCSSModuleNaming } from "../src/lib/styles/scripts/build";
+import { applyCustomCSSModuleNaming } from "../src/lib/styles/scripts/build.ts";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],

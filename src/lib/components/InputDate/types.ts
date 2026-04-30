@@ -1,6 +1,6 @@
 import { InputCommonProps, InputSize } from "../Form/types";
 import { DateFormat } from "../Motif/Pickers/types";
-import { DatePickerLocale } from "@/components/DatePicker/types";
+import { DatePickerLocale } from "../DatePicker/types";
 
 export type InputDateDefaultableProps = {
   format?: DateFormat;

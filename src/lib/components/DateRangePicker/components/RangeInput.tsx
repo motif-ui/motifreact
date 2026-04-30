@@ -63,7 +63,7 @@ const RangeInput = (props: Props) => {
         );
       }
     },
-    [getDaysOfMonth, index, months, onDateChange, setDateCouple, setMonths],
+    [getDaysOfMonth, index, locale, months, onDateChange, setDateCouple, setMonths],
   );
 
   return (

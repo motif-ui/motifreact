@@ -1,5 +1,5 @@
 import { MotifContextProps } from "./motif/types/contextProps";
-import { createTranslator } from "../i18n/translate";
+import { createTranslator } from "../i18n/translate.ts";
 
 export const MOTIF_ICONS_DEFAULT_CLASS = "mtf-ui-icons";
 
