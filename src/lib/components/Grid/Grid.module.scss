@@ -2,8 +2,9 @@
 
 $grid-sizes: ("sm", "md", "lg", "xl");
 $grids: 12;
-@function calculate-grid-flex-width($colIdx) {
-  @return calc(($colIdx / $grids * 100%) - ((1 - $colIdx / $grids) * var(--theme-grid-gutter-gutter)));
+
+@function calculate-grid-flex-width($colIdx, $gutter) {
+  @return calc(($colIdx / $grids * 100%) - ((1 - $colIdx / $grids) * #{$gutter}));
 }
 
 .Root {
@@ -12,8 +13,31 @@ $grids: 12;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  gap: var(--theme-grid-gutter-gutter);
-  padding: var(--theme-grid-gutter-gutter);
+
+  @each $gutter-size in $grid-sizes {
+    &.gutter-#{$gutter-size} {
+      gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
+      padding: var(--theme-grid-gutter-gutter-#{$gutter-size});
+
+      .row {
+        gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
+      }
+
+      @for $i from 1 through $grids {
+        .col-size-#{$i} {
+          flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
+        }
+      }
+
+      @include screen-width-breakpoints($grid-sizes) using ($size) {
+        @for $i from 1 through $grids {
+          .col-#{$size}-#{$i} {
+            flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
+          }
+        }
+      }
+    }
+  }
 
   &.leanToEdge {
     padding: 0;
@@ -40,20 +64,6 @@ $grids: 12;
   }
 }
 
-@for $i from 1 through $grids {
-  .col-size-#{$i} {
-    flex: 0 0 calculate-grid-flex-width($i);
-  }
-}
-
-@include screen-width-breakpoints($grid-sizes) using ($size) {
-  @for $i from 1 through $grids {
-    .col-#{$size}-#{$i} {
-      flex: 0 0 calculate-grid-flex-width($i);
-    }
-  }
-}
-
 // ==============================
 // Row
 // ==============================
@@ -61,7 +71,6 @@ $grids: 12;
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--theme-grid-gutter-gutter);
 
   &.start {
     justify-content: flex-start;
