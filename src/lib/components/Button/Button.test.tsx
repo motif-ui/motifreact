@@ -4,6 +4,7 @@ import InputText from "@/components/InputText";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "./Button";
 import { ButtonProps } from "./types";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Button", () => {
   it("should render with only required props", () => {
@@ -52,9 +53,8 @@ describe("Button", () => {
     expect(container.firstChild).toHaveClass("pill");
   });
 
-  it("should render the icon when icon prop is set", () => {
-    render(<Button icon="home" />);
-    expect(screen.queryByText("home")).toBeInTheDocument();
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<Button icon={icon} />), "icon");
   });
 
   it("should contain both the icon and the label when both props are set", () => {

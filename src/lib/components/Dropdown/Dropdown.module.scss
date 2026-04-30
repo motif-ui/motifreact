@@ -1,11 +1,11 @@
 @use "@styles" as *;
 
 $sizes: (
-  // size, buttonPadding, buttonPaddingL, buttonGap, itemPaddingV, itemPaddingH, itemGap
-  ("xs", "4x", "10x", "6x", "6x", "14x", "8x"),
-  ("sm", "6x", "12x", "6x", "8x", "16x", "8x"),
-  ("md", "8x", "16x", "8x", "10x", "20x", "10x"),
-  ("lg", "10x", "20x", "8x", "12x", "24x", "10x")
+  // size, buttonPadding, buttonPaddingL, buttonGap, itemPaddingV, itemPaddingH, itemGap, iconFontSize
+  ("xs", "4x", "10x", "6x", "6x", "14x", "8x", "18x"),
+  ("sm", "6x", "12x", "6x", "8x", "16x", "8x", "20x"),
+  ("md", "8x", "16x", "8x", "10x", "20x", "10x", "22x"),
+  ("lg", "10x", "20x", "8x", "12x", "24x", "10x", "24x")
 );
 $states: "hover", "active", "disabled";
 $variants: ("primary", "secondary", "info", "success", "warning", "danger");
@@ -183,7 +183,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
     }
   }
 
-  .MenuItem-Icon:first-child:last-child {
+  .MenuItem_Icon:first-child:last-child {
     flex: 1;
     text-align: center;
   }
@@ -192,12 +192,15 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 // =============================================================================
 // COMMON
 // =============================================================================
-@each $size, $buttonPad, $buttonPadL, $buttonGap, $itemPadV, $itemPadH, $itemGap in $sizes {
+@each $size, $buttonPad, $buttonPadL, $buttonGap, $itemPadV, $itemPadH, $itemGap, $iconFontSize in $sizes {
   .#{$size} {
     .Button {
       padding: var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPad}) var(--base-sizing-#{$buttonPadL});
       gap: var(--base-sizing-#{$buttonGap});
       @include font("base", $size, "500");
+      .Button_Icon {
+        font-size: var(--base-sizing-#{$iconFontSize});
+      }
     }
     .MenuItem {
       padding: var(--base-sizing-#{$itemPadV}) var(--base-sizing-#{$itemPadH});
@@ -207,6 +210,9 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
       }
       &.MenuItem_header {
         @include font("base", $size, "500");
+      }
+      .MenuItem_Icon {
+        font-size: var(--base-sizing-#{$iconFontSize});
       }
     }
   }

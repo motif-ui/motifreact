@@ -4,7 +4,10 @@ import ListView from "../ListView";
 const meta: Meta<typeof ListView.Item> = {
   title: "Components/ListView/ListView.Item",
   component: ListView.Item,
-  argTypes: {},
+  argTypes: {
+    icon: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
+    iconRight: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
+  },
   args: {
     title: "My Document Folder",
     description: "Personal notes and other files",

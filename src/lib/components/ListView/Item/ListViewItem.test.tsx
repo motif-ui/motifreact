@@ -1,5 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
 import ListView from "../ListView";
+import { runIconPropTest } from "../../../../utils/testUtils";
 
 describe("ListView.Item", () => {
   it("should render with only required props", () => {
@@ -27,6 +28,10 @@ describe("ListView.Item", () => {
     expect(getByText("folder")).toBeInTheDocument();
   });
 
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<ListView.Item title="Test Item" icon={icon} />), "icon");
+  });
+
   it("should display given image on the left side", () => {
     const { container, queryByRole } = render(<ListView.Item title="Test Item" image="https://picsum.photos/seed/motifui/20" />);
     expect(container.getElementsByClassName("leftContent")).toHaveLength(1);
@@ -49,6 +54,10 @@ describe("ListView.Item", () => {
     const { container, getByText } = render(<ListView.Item title="Test Item" iconRight="folder" />);
     expect(container.getElementsByClassName("iconRight")).toHaveLength(1);
     expect(getByText("folder")).toBeInTheDocument();
+  });
+
+  it("should render the main icon given in the iconRight prop", () => {
+    runIconPropTest(icon => render(<ListView.Item title="Test Item" iconRight={icon} />), "iconRight");
   });
 
   it("should display as a link when href prop is given", () => {

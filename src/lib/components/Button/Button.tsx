@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Button.module.scss";
-import Icon from "@/components/Icon/Icon";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { PropsWithRef } from "../../types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -37,7 +37,7 @@ const Button = (props: PropsWithRef<ButtonProps, HTMLButtonElement>) => {
   return (
     (icon || label) && (
       <button className={classNames} onClick={onClick} {...(disabled && { disabled })} type={htmlType} ref={ref} style={style}>
-        {icon && <Icon name={icon} className={styles.icon} size={size} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
         {label && <span>{label}</span>}
       </button>
     )

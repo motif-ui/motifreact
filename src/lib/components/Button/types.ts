@@ -1,8 +1,8 @@
-import type { MouseEvent } from "react";
+import type { MouseEvent, ReactElement } from "react";
 
 export type ButtonProps = {
   label?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   iconPosition?: "left" | "right";
   disabled?: boolean;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;

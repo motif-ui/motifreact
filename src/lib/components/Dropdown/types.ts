@@ -1,11 +1,11 @@
-import type { MouseEvent } from "react";
+import type { MouseEvent, ReactElement } from "react";
 import { Size4SM } from "../../types";
 
 export type Spacing = "withGap" | "callout" | "noSpace";
 
 export type DropdownProps = {
   label?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   disabled?: boolean;
   /**
    * ```
@@ -32,7 +32,7 @@ export type DropdownDefaultableProps = {
 
 export type DropdownMenuItemProps = {
   label?: string;
-  icon?: string;
+  icon?: string | ReactElement;
   iconColor?: string;
   header?: string;
   action?: (event: MouseEvent<HTMLAnchorElement>) => void;

@@ -7,6 +7,7 @@ const meta: Meta<typeof Link> = {
   component: Link,
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
+    icon: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
   },
   args: {
     label: "Motif",
