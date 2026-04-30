@@ -1,4 +1,4 @@
-import { AddToastActionType, DeleteToastActionPayload, DeleteToastActionType, ToastProps, ToastStateProps } from "@/components/Toast/types";
+import { AddToastActionType, DeleteToastActionType, ToastProps, ToastStateProps } from "@/components/Toast/types";
 
 type ActionTypes = AddToastActionType | DeleteToastActionType;
 
@@ -16,7 +16,7 @@ export const ToastReducer = (state: ToastStateProps, action: ActionTypes): Toast
       };
     }
     case "DELETE_TOAST": {
-      const { position } = action.payload as DeleteToastActionPayload;
+      const { position } = action.payload;
       return {
         ...state,
         toasts: {

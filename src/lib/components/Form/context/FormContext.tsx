@@ -11,11 +11,13 @@ import {
   FormProviderProps,
 } from "../types";
 import { InputValidation } from "../../Form/validation/validations";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider";
 
 const FormContext = createContext<FormContextType<NameInputValue> | undefined>(undefined);
 export const useForm = () => useContext(FormContext);
 
 export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
+  const { t } = useMotifContext();
   const { formOrientation, labelOrientation, size, children } = props;
   const formStateRef = useRef<FormStateRefProps>({
     fields: {},
@@ -189,7 +191,7 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
       for (const validation of rules) {
         if (!fields[name]?.disabled && !validation.validate(values[name])) {
           isValid = false;
-          fields[name]?.errorSetter?.(validation.errorMessage);
+          fields[name]?.errorSetter?.(t(validation.errorMessage, validation.errorParams));
           break;
         }
       }
@@ -204,7 +206,7 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
     }
 
     return { isValid, values: sanitizedValues };
-  }, [_sanitizeValuesForDisabledItems]);
+  }, [_sanitizeValuesForDisabledItems, t]);
   /**
    * This callback is used in the inputs the lift the value state up to the form by updating the form state. It also
    * removes the error state of the input if it has any
@@ -231,13 +233,16 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
    * @param {string} name - name of the input
    * @param {string[]} errors - list of errors to pass to the form
    */
-  const notifyFormForFieldSelfError = useCallback((name: string, errors: string[]) => {
-    const field = formStateRef.current.fields[name];
-    if (field && errors.length) {
-      field.hasInternalError = true;
-      field.errorSetter?.("Lütfen bu alandaki hatayı giderin.");
-    }
-  }, []);
+  const notifyFormForFieldSelfError = useCallback(
+    (name: string, errors: string[]) => {
+      const field = formStateRef.current.fields[name];
+      if (field && errors.length) {
+        field.hasInternalError = true;
+        field.errorSetter?.(t("form.fieldError"));
+      }
+    },
+    [t],
+  );
 
   /**
    * This callback is used to reset the values of the form to their null values

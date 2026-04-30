@@ -1,0 +1,63 @@
+{
+  "g": {
+    "hello_x": "Hello, {{name}}!",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "submit": "Submit",
+    "clear": "Clear",
+    "browse": "Browse..",
+    "search": "Search...",
+    "upload": "Upload",
+    "selectPlease": "Please select",
+    "noData": "No data found...",
+    "x_message": "{{count}} message"
+  },
+  "form": {
+    "fieldError": "Please fix the error in this field."
+  },
+  "table": {
+    "totalSelectedRecords": "{{selected}} of {{total}} records selected.",
+    "totalRecords": "Total {{total}} records available."
+  },
+  "validation": {
+    "required": "Please fill in this field",
+    "requiredUploadedFile": "Please upload at least one file",
+    "requiredAllGroupItems": "Please fill in all fields",
+    "uploadItemSync": "Please fix the error in this field",
+    "tckn": "Please enter a valid Turkish ID number",
+    "iban": "Please enter a valid IBAN number",
+    "email": "Please enter a valid email address",
+    "url": "Please enter a valid URL",
+    "ipAddress": "Please enter a valid IP address",
+    "phone": "Please enter a valid phone number",
+    "minLength": "This field must be at least {{min}} characters long",
+    "maxLength": "This field must be at most {{max}} characters long",
+    "min": "You must enter at least {{min}}",
+    "max": "You must enter at most {{max}}",
+    "atLeastN": "You must select at least {{n}} items"
+  },
+  "upload": {
+    "selectFile": "Select file",
+    "filesSelected": "{{count}} files selected",
+    "filesUploaded": "{{count}} files uploaded",
+    "maxSizeError": "File size must be at most {{maxSize}}. '{{fileName}}' file size: {{fileSize}}",
+    "maxFileError": "You can upload a maximum of {{maxFile}} files.",
+    "mimeTypeError": "Only '{{acceptType}}' format files can be uploaded. Your file format: '{{fileType}}'",
+    "uploadError": "An error occurred while uploading the file. Please try again.",
+    "deleteError": "An error occurred while deleting the file. Please try again.",
+    "pleaseDrop": "Drop the files you want to upload here",
+    "pleaseClickOrDrop": "Click this area or drop files here to upload.",
+    "filesBeingUploaded": "Files are being uploaded...",
+    "waitingToUpload": "Waiting to upload...",
+    "uploadSuccess": "File uploaded successfully.",
+    "draggerMaxSize": "each up to {{maxSize}} in size",
+    "draggerMaxFile": "maximum {{maxFile}}",
+    "draggerCanUploadFiles": " files can be uploaded.",
+    "customValidationError": "An error occurred.",
+    "chooseOrDragImage": "Choose or drag an image"
+  },
+  "misc": {
+    "playgroundDescription": "This is the playground section to try your components..."
+  }
+}

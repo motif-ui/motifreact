@@ -1,3 +1,25 @@
+# [v0.3.0](https://github.com/motif-ui/motifreact/releases/tag/v0.3.0) (2026-04-28)
+
+## 🚀 Features
+
+- feat: add multi-language (i18n) support ([#47](https://github.com/motif-ui/motifreact/pull/47)) [@hatesalp](https://github.com/hatesalp)
+- feat: new component 🧩 - stepper ([#32](https://github.com/motif-ui/motifreact/pull/32)) [@ZehranurC](https://github.com/ZehranurC)
+
+## 🐛 Bug Fixes
+
+- fix: library updates completed ([#45](https://github.com/motif-ui/motifreact/pull/45)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: support custom icon components in icon props for accordion avatar badge breadcrumb and businesscard ([#34](https://github.com/motif-ui/motifreact/pull/34)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: accordion expanded prop collapsing issue ([#49](https://github.com/motif-ui/motifreact/pull/49)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: children prop is added to alert ([#44](https://github.com/motif-ui/motifreact/pull/44)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: navbar submenu container size is fixed as same as parent ([#46](https://github.com/motif-ui/motifreact/pull/46)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: add xs size support to uploadFileList and uploadDragger ([#36](https://github.com/motif-ui/motifreact/pull/36)) [@ZehranurC](https://github.com/ZehranurC)
+
+## Other Changes
+
+- refactor: general refactoring clean up ([#38](https://github.com/motif-ui/motifreact/pull/38)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.2.0...v0.3.0)
+
 # [v0.2.0](https://github.com/motif-ui/motifreact/releases/tag/v0.2.0) (2026-04-15)
 
 ## 🚀 Features

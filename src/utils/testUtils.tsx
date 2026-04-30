@@ -1,5 +1,8 @@
 import { RenderResult } from "@testing-library/react";
 import { ReactElement } from "react";
+import { createTranslator } from "../i18n/translate";
+
+export const t = createTranslator("en");
 
 type JestToErrorArg = Parameters<jest.Matchers<unknown, () => unknown>["toThrow"]>[0];
 

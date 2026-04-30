@@ -60,7 +60,7 @@ exports[`Table should render with only required props 1`] = `
       <span
         class="totalRecordsLabel"
       >
-        Toplam 3 veri bulunmaktadır.
+        Total 3 records available.
       </span>
     </div>
   </div>
