@@ -9,10 +9,10 @@ $sizes: (
 );
 
 .Root {
-  display: flex;
   flex-direction: column;
 }
 
+.vertical,
 .submitArea {
   display: flex;
 }
