@@ -1,4 +1,4 @@
-import { CSSProperties, RefObject, useCallback, useRef, useState } from "react";
+import { CSSProperties, RefObject, useCallback, useRef, useState, useEffect } from "react";
 import { Position } from "@/components/Tooltip/types";
 
 const positions: Position[] = ["top", "topLeft", "right", "bottomLeft", "bottom", "bottomRight", "left", "topRight"] as const;
@@ -11,11 +11,19 @@ export const usePositionTooltip = (
 ) => {
   const [positionStyle, setPositionStyle] = useState<CSSProperties>();
   const tryCounter = useRef(0);
-  const lastTriedPosition = useRef<Position>(position);
+  const [lastTriedPosition, setLastTriedPosition] = useState<Position>(position);
+  const lastTriedPositionRef = useRef<Position>(position);
+
+  useEffect(() => {
+    tryCounter.current = 0;
+    lastTriedPositionRef.current = position;
+    setLastTriedPosition(position);
+  }, [position]);
 
   const resetPosition = useCallback(() => {
     tryCounter.current = 0;
-    lastTriedPosition.current = position;
+    lastTriedPositionRef.current = position;
+    setLastTriedPosition(position);
   }, [position]);
 
   const getStyleOfPosition = useCallback(
@@ -89,13 +97,15 @@ export const usePositionTooltip = (
     const overflowBottom = bottom > screenHeight + offsetVertical;
 
     const maybeOverflow = overflowTop || overflowRight || overflowBottom || overflowLeft;
-    if (!maybeOverflow || (lastTriedPosition.current === position && tryCounter.current === positions.length)) {
+    if (!maybeOverflow || (lastTriedPositionRef.current === position && tryCounter.current === positions.length)) {
       return true;
     }
 
-    lastTriedPosition.current = positions[(positions.indexOf(lastTriedPosition.current) + 1) % positions.length];
+    const nextPosition = positions[(positions.indexOf(lastTriedPositionRef.current) + 1) % positions.length];
+    lastTriedPositionRef.current = nextPosition;
     tryCounter.current++;
-    setPositionStyle(getStyleOfPosition(lastTriedPosition.current));
+    setLastTriedPosition(nextPosition);
+    setPositionStyle(getStyleOfPosition(nextPosition));
     return false;
   }, [getStyleOfPosition, position, tooltipRef]);
 
@@ -103,5 +113,5 @@ export const usePositionTooltip = (
     setPositionStyle(getStyleOfPosition(position));
   }, [getStyleOfPosition, position]);
 
-  return { resetPosition, positionStyle, setTooltipPosition, tryToKeepTooltipInTheScreen, lastTriedPosition: lastTriedPosition.current };
+  return { resetPosition, positionStyle, setTooltipPosition, tryToKeepTooltipInTheScreen, lastTriedPosition };
 };
