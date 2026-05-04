@@ -14,7 +14,7 @@ import { InputDateTimeProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputValue } from "../Form/types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import InputText from "../InputText";
+import InputText from "@/components/Motif/InputText/InputText";
 import { MotifIcon, MotifIconButton } from "../Motif/Icon";
 import { DateUtils } from "../../../utils/dateUtils";
 
@@ -137,7 +137,9 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
       <InputText
         iconLeft={<MotifIcon name="event" size={size} />}
         iconRight={
-          typedValue && !disabled && !readOnly && <MotifIconButton name="cancel_outline" size={size} onClick={clearClickHandler} />
+          typedValue && !disabled && !readOnly ? (
+            <MotifIconButton name="cancel_outline" size={size} onClick={clearClickHandler} />
+          ) : undefined
         }
         name={name}
         size={size}
@@ -146,7 +148,8 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
         success={success}
         error={error}
         disabled={disabled}
-        readOnlyWithEnabledLook={!editable}
+        readOnly={readOnly}
+        disableTyping={!editable}
         value={typedValue}
         onChange={onInputTimeChange}
         onClick={pickerShowHandler}
