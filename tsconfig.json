@@ -5,7 +5,6 @@
     // Specify built-in library definitions to include (DOM, Iterables, and latest ES features)
     "lib": [
       "dom",
-      "dom.iterable",
       "esnext"
     ],
     // Type declaration packages to include globally
@@ -25,9 +24,11 @@
     // Emit additional JavaScript to ease support for importing CommonJS modules.
     "esModuleInterop": true,
     // Module system to use for imports/exports (ESNext enables modern ESM syntax)
-    "module": "ESNext",
+    "module": "esnext",
     // How module imports are resolved; "Bundler" is optimized for modern bundlers (TS 5+)
     "moduleResolution": "bundler",
+    // Allow .ts extensions in import specifiers (required for Storybook ESM compatibility)
+    "allowImportingTsExtensions": true,
     // Allow importing JSON files directly as modules
     "resolveJsonModule": true,
     // Treat every file as a module; prevents issues with isolated TS files
@@ -44,18 +45,15 @@
     ],
     // Define custom import aliases for cleaner import paths
     "paths": {
-      "@/components/*": [
-        "./src/lib/components/*"
-      ],
-      "@styles": ["src/lib/styles"],
-      "@styles/*": ["src/lib/styles/*"]
+      "src/*": [ "./src/*" ],
+      "@/components/*": [ "./src/lib/components/*" ],
+      "@styles": [ "./src/lib/styles" ],
+      "@styles/*": [ "./src/lib/styles/*" ]
     },
     // Keep import/export syntax exactly as written (do not transform)
     "verbatimModuleSyntax": false,
     // Report errors for function parameters that are never used
     "noUnusedParameters": true,
-    // Base directory for resolving non-relative module imports
-    "baseUrl": ".",
     // Cache build info to make type-checking in editors faster (incremental mode)
     "incremental": true
   },
