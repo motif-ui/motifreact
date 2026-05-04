@@ -26,18 +26,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.motif_icon_d_remove::before {
-  content: "\e923";
-}
-.motif_icon_d_motif_ui::before {
-  content: "\e922";
-}
-.motif_icon_d_undo::before {
-  content: "\e965";
-}
-.motif_icon_d_redo::before {
-  content: "\e966";
-}
 .motif_icon_d_add::before {
   content: "\e921";
 }
@@ -139,4 +127,19 @@
 }
 .motif_icon_d_warning::before {
   content: "\e900";
+}
+.motif_icon_d_zoom_out::before {
+  content: "\e922";
+}
+.motif_icon_d_zoom_in::before {
+  content: "\e923";
+}
+.motif_icon_d_undo::before {
+  content: "\e924";
+}
+.motif_icon_d_redo::before {
+  content: "\e925";
+}
+.motif_icon_d_motif_ui::before {
+  content: "\e926";
 }

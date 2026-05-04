@@ -51,8 +51,8 @@ const Preview = (props: PropsWithRefAndChildren<PreviewProps, HTMLDivElement>) =
       <div ref={toolbarRef} className={styles.toolbar}>
         <MotifIconButton variant="negative" name="undo" onClick={rotateLeft} />
         <MotifIconButton variant="negative" name="redo" onClick={rotateRight} />
-        <MotifIconButton variant="negative" name="remove" disabled={zoomOutDisabled} onClick={zoomOut} />
-        <MotifIconButton variant="negative" name="add" disabled={zoomInDisabled} onClick={zoomIn} />
+        <MotifIconButton variant="negative" name="zoom_out" disabled={zoomOutDisabled} onClick={zoomOut} />
+        <MotifIconButton variant="negative" name="zoom_in" disabled={zoomInDisabled} onClick={zoomIn} />
       </div>
     </div>
   );
