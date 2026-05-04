@@ -1,6 +1,6 @@
 import type { CSSProperties, Ref } from "react";
 import { PropsWithChildren } from "react";
-import { locales } from "../i18n/locales/index";
+import { locales } from "../i18n/locales";
 
 export type KeyValue = {
   key: string;
