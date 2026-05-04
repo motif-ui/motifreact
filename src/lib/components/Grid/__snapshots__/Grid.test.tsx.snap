@@ -3,7 +3,7 @@
 exports[`Grid should render with only required props 1`] = `
 <div>
   <div
-    class="Root"
+    class="Root gutter-md"
   >
     <div
       class="row start"

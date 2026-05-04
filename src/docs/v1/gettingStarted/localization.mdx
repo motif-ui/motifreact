@@ -4,6 +4,126 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 # Localization
 
-###### to be implemented...
+Motif UI has built-in localization support with no external dependencies. Component strings (validation messages, upload labels, etc.) are translated automatically based on the active locale. The system is designed to be extended — you can override individual strings, provide a fully custom locale, or integrate your existing i18n library.
 
-{/* i18n, locize, react-i18next */}
+## Built-in Locales
+
+The available locales are maintained in [`src/i18n/locales/`](https://github.com/motif-ui/motifreact/tree/main/src/i18n/locales). Each `.json` file in that folder is a supported locale — the file name is the locale key (e.g. `en.json` → `"en"`).
+
+#### Adding a new locale file
+
+To add a new locale, drop a JSON file into that folder and register it in `src/i18n/locales/index.ts` — that's the only file that needs to change. The `Locale` type and all IDE key autocomplete update automatically.
+
+```ts
+import tr from "./tr.json";
+import en from "./en.json";
+import fr from "./fr.json"; // 1. add the new JSON file
+
+export const locales = { tr, en, fr } as const; // 2. register it here
+
+export type Locale = keyof typeof locales; // updates automatically — no further changes needed
+```
+
+## Basic Usage
+
+Pass the `locale` prop to `MotifProvider`. All library components will use the matching translations automatically.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider locale="en">
+  {/* your app */}
+</MotifProvider>
+```
+
+## Switching Locale at Runtime
+
+The active locale can be changed at any time using `setLocale` from the `useMotifContext` hook. This is useful for language switcher buttons.
+
+```tsx
+import { useMotifContext } from "@motif-ui/react";
+
+const LocaleSwitcher = () => {
+  const { locale, setLocale } = useMotifContext();
+
+  return (
+    <button onClick={() => setLocale(locale === "tr" ? "en" : "tr")}>
+      {locale === "tr" ? "Switch to English" : "Türkçe'ye geç"}
+    </button>
+  );
+};
+```
+
+> `setLocale` only changes the library's internal locale. It does not affect any external i18n setup in your project.
+
+## Overriding Specific Strings
+
+To replace individual strings within a built-in locale, pass `locale` as an object with a `texts` field. Any key you provide overrides the built-in value; missing keys fall back to the selected locale, then to English.
+
+```jsx
+<MotifProvider
+  locale={{
+    locale: "tr",
+    texts: {
+      upload: {
+        browse: "Gözat...",
+        selectFile: "Dosya Seçiniz",
+      },
+    },
+  }}
+>
+  {/* your app */}
+</MotifProvider>
+```
+
+## Fully Custom Locale
+
+For a language not built into the library, omit the `locale` key and supply all strings via `texts`. Any missing keys fall back to English.
+
+```tsx
+import type { DeepPartial, LocaleShape } from "@motif-ui/react/types";
+
+const frenchTexts: DeepPartial<LocaleShape> = {
+  upload: {
+    browse: "Parcourir",
+    selectFile: "Choisir un fichier",
+    message: {
+      uploadError: "Une erreur est survenue lors du téléchargement.",
+      deleteError: "Une erreur est survenue lors de la suppression.",
+    },
+  },
+};
+
+<MotifProvider locale={{ texts: frenchTexts }}>
+  {/* your app */}
+</MotifProvider>
+```
+
+> `LocaleShape` is the full type of a locale file. `DeepPartial<LocaleShape>` makes every key optional, so you only need to supply the strings you want to change.
+
+## Integrating an External i18n Library
+
+If your project already uses a library like `react-i18next`, you can pass your own `t` function to `MotifProvider`. The library will use it instead of its built-in translations — no global i18n instance is touched and there are no conflicts between the two.
+
+```tsx
+import { useTranslation } from "react-i18next";
+import { MotifProvider } from "@motif-ui/react";
+
+const App = () => {
+  const { t } = useTranslation();
+
+  return (
+    <MotifProvider t={t}>
+      {/* your app */}
+    </MotifProvider>
+  );
+};
+```
+
+> When `t` is provided, the `locale` and `texts` props have no effect on translations. Your `t` function is solely responsible for returning the strings the library needs.
+
+The expected signature is intentionally compatible with i18next:
+
+```ts
+type LibraryTranslateFn = (key: string, params?: Record<string, unknown>) => string;
+```
