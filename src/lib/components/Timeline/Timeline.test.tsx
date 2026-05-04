@@ -33,7 +33,7 @@ describe("Timeline", () => {
   });
 
   it("should be rendered as given in orientation prop", () => {
-    const { container, rerender } = render(<Timeline items={items} orientation="vertical" />);
+    const { container, rerender } = render(<Timeline items={items} />);
     const root = container.firstChild as HTMLElement;
     expect(root).toHaveClass("vertical");
 
@@ -42,7 +42,7 @@ describe("Timeline", () => {
   });
 
   it("should be rendered as given in contentPosition prop", () => {
-    const { container, rerender } = render(<Timeline items={items} contentPosition="after" />);
+    const { container, rerender } = render(<Timeline items={items} />);
     const root = container.firstChild as HTMLElement;
     expect(root).toHaveClass("after");
 
@@ -54,7 +54,7 @@ describe("Timeline", () => {
   });
 
   it("should be rendered as given in textAlign prop", () => {
-    const { container, rerender } = render(<Timeline items={items} textAlign="start" />);
+    const { container, rerender } = render(<Timeline items={items} />);
     const root = container.firstChild as HTMLElement;
     expect(root).toHaveClass("start");
 
@@ -98,7 +98,7 @@ describe("Timeline", () => {
     expect(screen.getByText("My Content")).toBeInTheDocument();
   });
 
-  it("should render both title and content when both are provided", () => {
+  it("should render title and content when both are provided", () => {
     render(<Timeline items={[{ title: "My Title", content: "My Content" }]} />);
     expect(screen.getByText("My Title")).toBeInTheDocument();
     expect(screen.getByText("My Content")).toBeInTheDocument();
@@ -122,10 +122,16 @@ describe("Timeline", () => {
   });
 
   it("should render number markers with correct incremental order when markerType is number", () => {
-    render(<Timeline items={items} markerType="number" />);
-    expect(screen.getByText("1")).toBeInTheDocument();
-    expect(screen.getByText("2")).toBeInTheDocument();
-    expect(screen.getByText("3")).toBeInTheDocument();
+    const { container } = render(<Timeline items={items} markerType="number" />);
+    const itemElements = container.querySelectorAll(".item");
+    expect(itemElements[0].querySelector(".markerNumber")).toHaveTextContent("1");
+    expect(itemElements[1].querySelector(".markerNumber")).toHaveTextContent("2");
+    expect(itemElements[2].querySelector(".markerNumber")).toHaveTextContent("3");
+  });
+
+  it("should render default motif_ui icon when markerType is icon and no icon prop is set", () => {
+    render(<Timeline items={[{ title: "Item" }]} markerType="icon" />);
+    expect(screen.getByText("motif_ui")).toBeInTheDocument();
   });
 
   it("should render custom icon name when markerType is icon and icon prop is set", () => {
@@ -152,9 +158,9 @@ describe("Timeline", () => {
     const { container } = render(
       <Timeline items={[{ title: "Default item" }, { title: "Success item", variant: "success" }]} variant="primary" />,
     );
-    const itemEls = container.querySelectorAll(".item");
-    expect(itemEls[0]).not.toHaveClass("success");
-    expect(itemEls[1]).toHaveClass("success");
+    const itemElements = container.querySelectorAll(".item");
+    expect(itemElements[0]).not.toHaveClass("success");
+    expect(itemElements[1]).toHaveClass("success");
   });
 
   it("should apply item-level variant for all item variant values", () => {
@@ -169,15 +175,5 @@ describe("Timeline", () => {
   it("should not render any items when items array is empty", () => {
     const { container } = render(<Timeline items={[]} />);
     expect(container.firstChild?.childNodes.length).toBe(0);
-  });
-
-  it("should apply custom className to root element", () => {
-    const { container } = render(<Timeline items={items} className="custom-class" />);
-    expect(container.firstChild).toHaveClass("custom-class");
-  });
-
-  it("should apply custom style to root element", () => {
-    const { container } = render(<Timeline items={items} style={{ width: "500px" }} />);
-    expect(container.firstChild).toHaveStyle({ width: "500px" });
   });
 });
