@@ -17,6 +17,10 @@ $sizes: (
   display: flex;
 }
 
+.horizontal {
+  display: inline-flex;
+}
+
 .horizontal .fields {
   display: inline-flex;
   align-items: flex-start;
