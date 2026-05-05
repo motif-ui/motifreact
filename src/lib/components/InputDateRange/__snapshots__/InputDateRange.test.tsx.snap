@@ -6,11 +6,11 @@ exports[`InputDateRange should be rendered with only required props and should h
     class="Root"
   >
     <div
-      class="Root md has-icon-left"
+      class="Root md"
       data-testid="inputItem"
     >
       <span
-        class="Root md motifIconsDefault icon icon-left"
+        class="Root md motifIconsDefault icon"
       >
         calendar_expand_horizontal
       </span>

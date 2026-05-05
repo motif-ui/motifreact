@@ -12,7 +12,6 @@ jobs:
   chromatic:
     name: Chromatic
     runs-on: ubuntu-latest
-    environment: development
     continue-on-error: true
     steps:
       - name: Checkout

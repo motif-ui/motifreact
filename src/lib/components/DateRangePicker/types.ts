@@ -2,7 +2,7 @@ import { PickerPropsCommon } from "../Motif/Pickers/types";
 import { Size4SM } from "../../types";
 import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
 import { Dispatch, SetStateAction } from "react";
-import { DatePickerLocale } from "@/components/DatePicker/types";
+import { DatePickerLocale } from "../DatePicker/types";
 
 export type DateRangePickerProps = {
   value?: (Date | undefined)[];

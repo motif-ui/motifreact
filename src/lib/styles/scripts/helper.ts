@@ -1,7 +1,7 @@
 import * as path from "path";
 import type { RuleSetUseItem, RuleSetRule, Configuration } from "webpack";
 import { UseItemObject } from "./types";
-import { isObj, hasOwn } from "../../../utils/utils";
+import { isObj, hasOwn } from "../../../utils/utils.ts";
 const DEFAULT_CLASSNAME_PREFIX = "mtf-";
 
 /** Convert Windows backslashes to POSIX-style forward slashes */
