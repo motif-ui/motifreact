@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { StandardProps } from "../../types";
 
 export type TabProps = {
   /**
@@ -38,3 +39,7 @@ export type TabContextProps = {
   selectedTabId?: string;
   tabClickHandler?: (tabId: string) => void;
 };
+
+export type TabPanelProps = {
+  id: string;
+} & StandardProps;

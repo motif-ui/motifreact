@@ -15,7 +15,13 @@ exports[`Tab should render with only required props 1`] = `
         class="tabItem"
       />
     </div>
-    <div />
+    <div
+      class="panelContainer"
+    >
+      <div
+        class="panelWrapper"
+      />
+    </div>
   </div>
 </div>
 `;

@@ -1,15 +1,20 @@
 import { PropsWithChildren, useContext } from "react";
 import { TabContext } from "../TabProvider";
+import { TabPanelProps } from "../types";
+import styles from "../Tab.module.scss";
+import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
-export type Props = {
-  id: string;
-};
-
-const TabPanel = (props: PropsWithChildren<Props>) => {
-  const { id, children } = props;
+const TabPanel = (props: PropsWithChildren<TabPanelProps>) => {
+  const { id, children, className, style } = props;
   const { selectedTabId } = useContext(TabContext);
 
-  return id === selectedTabId ? children : null;
+  const classNames = sanitizeModuleClasses(styles, "panelWrapper", className);
+
+  return id === selectedTabId ? (
+    <div className={classNames} style={style}>
+      {children}
+    </div>
+  ) : null;
 };
 
 TabPanel.displayName = "TabPanel";
