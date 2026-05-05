@@ -85,7 +85,6 @@ $sizes: (
     .dragArea {
       gap: var(--base-sizing-#{$spacing});
       padding: var(--base-sizing-#{$padding});
-      width: var(--base-sizing-#{$width});
       height: var(--base-sizing-#{$height});
 
       .dragIcon {
@@ -108,7 +107,7 @@ $sizes: (
 
     &.inFormField {
       .dragArea {
-        min-width: var(--base-sizing-#{$width});
+        min-width: unset;
         width: 100%;
       }
     }
