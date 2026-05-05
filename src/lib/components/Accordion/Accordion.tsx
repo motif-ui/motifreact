@@ -24,34 +24,23 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
     className,
   } = usePropsWithThemeDefaults("Accordion", props);
   const { expandedIndex, setExpandedIndex, multiExpand, groupEnabled } = useContext(AccordionGroupContext);
-  const initialOpen = groupEnabled && !multiExpand ? expandedIndex === index : expanded;
-  const { visible: open, toggle } = useToggle(initialOpen);
+  const isGroupSingleSelect = groupEnabled && !multiExpand;
+  const { visible: localOpen, toggle } = useToggle(isGroupSingleSelect ? false : expanded);
+  const open = isGroupSingleSelect ? expandedIndex === index : localOpen;
 
   if (groupEnabled && index === undefined) {
     throw new Error("Accordion component must have an index prop when used inside AccordionGroup");
   }
 
   useEffect(() => {
-    if (groupEnabled && !multiExpand && index !== undefined) {
-      expanded ? setExpandedIndex?.(index) : setExpandedIndex?.(-1);
-    } else {
-      toggle(expanded);
-    }
+    !isGroupSingleSelect && toggle(expanded);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expanded]);
-
-  useEffect(() => {
-    if (groupEnabled && !multiExpand && expandedIndex !== undefined) {
-      expandedIndex === -1 && expanded ? setExpandedIndex?.(index!) : toggle(expandedIndex === index);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expandedIndex, groupEnabled, index, multiExpand, toggle]);
+  }, [expanded, isGroupSingleSelect]);
 
   const toggleAccordion = useCallback(() => {
-    groupEnabled && !multiExpand ? setExpandedIndex?.(open ? -1 : index!) : toggle();
+    isGroupSingleSelect ? setExpandedIndex?.(open ? -1 : index!) : toggle();
     onToggle?.();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groupEnabled, index, multiExpand, onToggle, open, setExpandedIndex]);
+  }, [isGroupSingleSelect, index, open, setExpandedIndex, toggle, onToggle]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [open && "expanded"]);
 
