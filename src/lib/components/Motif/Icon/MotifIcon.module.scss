@@ -10,7 +10,7 @@
 }
 
 .motifIconsDefault {
-  font-family: motif-icons-default, serif;
+  font-family: motif-icons-default, serif !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -25,7 +25,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.motif_icon_d_motif_ui::before {
+  content: "\e926";
+}
+.motif_icon_d_undo::before {
+  content: "\e924";
+}
+.motif_icon_d_redo::before {
+  content: "\e925";
+}
 .motif_icon_d_add::before {
   content: "\e921";
 }
@@ -133,13 +141,4 @@
 }
 .motif_icon_d_zoom_in::before {
   content: "\e923";
-}
-.motif_icon_d_undo::before {
-  content: "\e924";
-}
-.motif_icon_d_redo::before {
-  content: "\e925";
-}
-.motif_icon_d_motif_ui::before {
-  content: "\e926";
 }
