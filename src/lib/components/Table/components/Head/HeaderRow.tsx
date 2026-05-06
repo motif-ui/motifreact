@@ -1,5 +1,5 @@
 import styles from "../../Table.module.scss";
-import InputText from "@/components/InputText";
+import InputText from "@/components/Motif/InputText/InputText";
 import { TableContext } from "@/components/Table/TableContext";
 import { ReactNode, useContext } from "react";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";

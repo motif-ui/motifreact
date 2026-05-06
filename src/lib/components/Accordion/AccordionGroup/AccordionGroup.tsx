@@ -1,7 +1,7 @@
 "use client";
-import { createContext, useState } from "react";
+import { createContext, useState, Children, isValidElement } from "react";
 import styles from "../Accordion.module.scss";
-import { AccordionGroupContextProps, AccordionGroupProps } from "@/components/Accordion/types";
+import { AccordionGroupContextProps, AccordionGroupProps, AccordionProps } from "@/components/Accordion/types";
 import { PropsWithRef } from "../../../types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
@@ -9,7 +9,21 @@ export const AccordionGroupContext = createContext<AccordionGroupContextProps>({
 
 const AccordionGroup = (props: PropsWithRef<AccordionGroupProps, HTMLDivElement>) => {
   const { children, multiExpand, condensed, ref } = props;
-  const [expandedIndex, setExpandedIndex] = useState<number>();
+
+  const initialExpandedIndex = multiExpand
+    ? undefined
+    : Children.toArray(children).reduce<number | undefined>(
+        (lowest, child) =>
+          isValidElement<AccordionProps>(child) &&
+          child.props.expanded &&
+          child.props.index !== undefined &&
+          (lowest === undefined || child.props.index < lowest)
+            ? child.props.index
+            : lowest,
+        undefined,
+      );
+
+  const [expandedIndex, setExpandedIndex] = useState<number | undefined>(initialExpandedIndex);
   const classNames = sanitizeModuleClasses(styles, "group", condensed && "group_condensed");
 
   return (

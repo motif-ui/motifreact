@@ -16,7 +16,7 @@ import { InputDateRangeProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import MotifIconButton from "../Motif/Icon/MotifIconButton";
-import InputText from "@/components/InputText";
+import InputText from "@/components/Motif/InputText/InputText";
 import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
 
 export type MaybeDateRange = (Date | undefined)[] | undefined;
@@ -131,12 +131,12 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         success={success}
         error={error}
         disabled={disabled}
-        readOnlyWithEnabledLook
+        disableTyping
         value={typedValue}
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
         iconLeft={<MotifIcon name="calendar_expand_horizontal" size={size} />}
-        iconRight={itemValue && !disabled && <MotifIconButton name="cancel_outline" size={size} onClick={onClearClickInInput} />}
+        iconRight={itemValue && !disabled ? <MotifIconButton name="cancel_outline" size={size} onClick={onClearClickInInput} /> : undefined}
       />
       {visible && (
         <DateRangePicker
