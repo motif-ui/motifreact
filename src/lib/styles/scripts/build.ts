@@ -12,8 +12,8 @@ import {
   isRule,
   normalizeResource,
   toUseArray,
-} from "./helper";
-import { isObj } from "../../../utils/utils";
+} from "./helper.ts";
+import { isObj } from "../../../utils/utils.ts";
 
 /**
  * Recursively traverse Webpack rules to locate all css-loader entries and handles nested structures (oneOf, rules) safely.

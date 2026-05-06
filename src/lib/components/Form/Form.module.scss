@@ -9,13 +9,16 @@ $sizes: (
 );
 
 .Root {
-  min-width: min-content;
-  display: flex;
   flex-direction: column;
 }
 
+.vertical,
 .submitArea {
   display: flex;
+}
+
+.horizontal {
+  display: inline-flex;
 }
 
 .horizontal .fields {
