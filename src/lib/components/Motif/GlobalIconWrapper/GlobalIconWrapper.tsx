@@ -6,13 +6,16 @@ import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 type GlobalIconWrapperProps = {
   icon: string | ReactElement;
   className?: string;
+  color?: string;
 };
 
-const GlobalIconWrapper = ({ icon, className }: GlobalIconWrapperProps) =>
+const GlobalIconWrapper = ({ icon, className, color }: GlobalIconWrapperProps) =>
   typeof icon === "string" ? (
-    <Icon name={icon} className={className} />
+    <Icon name={icon} className={className} color={color} />
   ) : (
-    <span className={sanitizeModuleRootClasses(styles, className)}>{icon}</span>
+    <span className={sanitizeModuleRootClasses(styles, className)} style={color ? { color } : undefined}>
+      {icon}
+    </span>
   );
 
 export default GlobalIconWrapper;

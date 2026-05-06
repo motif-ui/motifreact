@@ -15,7 +15,7 @@ const DropdownButton = (props: Props) => {
 
   return (
     <button className={styles.Button} {...(disabled && { disabled })} onClick={toggleMenu} type="button">
-      {icon && <GlobalIconWrapper icon={icon} className={styles["Button_Icon"]} />}
+      {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
       {label && <span>{label}</span>}
       <MotifIcon name="arrow_drop_down" className={styles["Button-DropdownIcon"]} size={size} />
     </button>

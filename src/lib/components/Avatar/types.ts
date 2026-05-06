@@ -1,8 +1,8 @@
-import type { ReactElement } from "react";
+import type { IconGlobalType } from "../../types";
 
 export type AvatarProps = {
   image?: string;
-  icon?: string | ReactElement;
+  icon?: IconGlobalType;
   letters?: string;
 } & AvatarDefaultableProps;
 

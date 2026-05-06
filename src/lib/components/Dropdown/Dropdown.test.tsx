@@ -45,27 +45,21 @@ describe("Dropdown", () => {
   });
 
   it("should render the main icon given in the icon prop", () => {
-    runIconPropTest(icon => render(<Dropdown label="test" icon={icon} items={[{ label: "Item 1" }]} />), "Button_Icon");
+    runIconPropTest(icon => render(<Dropdown label="test" icon={icon} items={[{ label: "Item 1" }]} />), "icon");
   });
 
-  it("should render the main icon given in the menu item icon prop", () => {
+  it("should render all icon types in the menu item icon prop", () => {
     runIconPropTest(icon => {
       cleanup();
       const result = render(<Dropdown label="test" items={[{ label: "Item 1", icon }]} />);
       fireEvent.click(result.getByText("test"));
       return result;
-    }, "MenuItem_Icon");
+    }, "icon");
   });
 
   it("should render the label given in the label prop of the dropdown menu ", () => {
     render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
     expect(screen.queryByText("Dropdown Menu")).toBeInTheDocument();
-  });
-
-  it("should render the icon given in the icon prop of the dropdown menu item", () => {
-    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1", icon: "home" }]} />);
-    fireEvent.click(screen.getByText("Dropdown Menu"));
-    expect(screen.queryByText("home")).toBeInTheDocument();
   });
 
   it("should render the label given in the label prop of the dropdown menu item ", () => {

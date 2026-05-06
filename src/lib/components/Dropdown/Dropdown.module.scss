@@ -183,7 +183,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
     }
   }
 
-  .MenuItem_Icon:first-child:last-child {
+  .icon:first-child:last-child {
     flex: 1;
     text-align: center;
   }
@@ -198,9 +198,6 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
       padding: var(--base-sizing-#{$buttonPaddingAndGap});
       gap: var(--base-sizing-#{$buttonPaddingAndGap});
       @include font("base", $size, "500");
-      .Button_Icon {
-        font-size: var(--base-sizing-#{$iconFontSize});
-      }
     }
     .MenuItem {
       padding: var(--base-sizing-#{$itemPaddingAndGap});
@@ -211,9 +208,9 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
       &.MenuItem_header {
         @include font("base", $size, "500");
       }
-      .MenuItem_Icon {
-        font-size: var(--base-sizing-#{$iconFontSize});
-      }
+    }
+    .icon {
+      font-size: var(--base-sizing-#{$iconFontSize});
     }
   }
 }
