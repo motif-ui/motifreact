@@ -82,6 +82,13 @@ $sizes: (
 
 @each $name, $spacing, $padding, $infoFontPerc, $width, $height, $iconSize in $sizes {
   .#{$name} {
+    width: var(--base-sizing-#{$width}); // ← width buraya taşındı
+    flex: 1 1 auto;
+    box-sizing: border-box;
+
+    &.inFormField {
+      width: 100%;
+    }
     .dragArea {
       gap: var(--base-sizing-#{$spacing});
       padding: var(--base-sizing-#{$padding});
@@ -102,13 +109,6 @@ $sizes: (
 
       .dragInfo {
         @include font("body", $infoFontPerc);
-      }
-    }
-
-    &.inFormField {
-      .dragArea {
-        min-width: unset;
-        width: 100%;
       }
     }
   }
