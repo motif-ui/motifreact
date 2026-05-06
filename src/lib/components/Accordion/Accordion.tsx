@@ -24,34 +24,29 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
     className,
   } = usePropsWithThemeDefaults("Accordion", props);
   const { expandedIndex, setExpandedIndex, multiExpand, groupEnabled } = useContext(AccordionGroupContext);
-  const { visible: open, toggle } = useToggle(expanded);
+  const isGroupSingleSelect = groupEnabled && !multiExpand;
+  const { visible: localOpen, toggle } = useToggle(isGroupSingleSelect ? false : expanded);
+  const open = isGroupSingleSelect ? expandedIndex === index : localOpen;
 
   if (groupEnabled && index === undefined) {
     throw new Error("Accordion component must have an index prop when used inside AccordionGroup");
   }
 
   useEffect(() => {
-    toggle(expanded);
+    !isGroupSingleSelect && toggle(expanded);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expanded]);
-
-  useEffect(() => {
-    if (groupEnabled && !multiExpand && expandedIndex !== undefined) {
-      toggle(expandedIndex === index);
-    }
-  }, [expandedIndex, groupEnabled, index, multiExpand, toggle]);
+  }, [expanded, isGroupSingleSelect]);
 
   const toggleAccordion = useCallback(() => {
-    groupEnabled && !multiExpand ? setExpandedIndex?.(open ? -1 : index!) : toggle();
+    isGroupSingleSelect ? setExpandedIndex?.(open ? -1 : index!) : toggle();
     onToggle?.();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groupEnabled, index, multiExpand, onToggle, open, setExpandedIndex]);
+  }, [isGroupSingleSelect, index, open, setExpandedIndex, toggle, onToggle]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [open && "expanded"]);
 
   return (
     <div className={classNames} style={style} ref={ref} data-testid="accordionItem">
-      <button className={styles.header} onClick={toggleAccordion}>
+      <button type="button" className={styles.header} onClick={toggleAccordion}>
         {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
         <span className={styles.title}>{title}</span>
         <MotifIcon className={styles.collapseIcon} size="lg" name="keyboard_arrow_down" />
