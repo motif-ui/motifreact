@@ -46,7 +46,7 @@
     "mimeTypeError": "Only '{{acceptType}}' format files can be uploaded. Your file format: '{{fileType}}'",
     "uploadError": "An error occurred while uploading the file. Please try again.",
     "deleteError": "An error occurred while deleting the file. Please try again.",
-    "pleaseDrop": "Drop the files you want to upload here",
+    "pleaseDrop": "Drop files here to upload",
     "pleaseClickOrDrop": "Click this area or drop files here to upload.",
     "filesBeingUploaded": "Files are being uploaded...",
     "waitingToUpload": "Waiting to upload...",
