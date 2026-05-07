@@ -8,66 +8,68 @@ $sizes: (
   ("lg", "24x", "32x", "8x", "16x")
 );
 
-.Root {
-  flex-direction: column;
-}
-
-.vertical,
-.submitArea {
-  display: flex;
-}
-
-.horizontal {
-  display: inline-flex;
-}
-
-.horizontal .fields {
-  display: inline-flex;
-  align-items: flex-start;
-}
-
-.horizontalLabels .submitArea {
-  padding-top: 0;
-}
-
-.vertical {
-  .fields {
-    display: flex;
+@layer motif-ui {
+  .Root {
     flex-direction: column;
   }
 
+  .vertical,
   .submitArea {
-    margin-top: var(--base-sizing-24x);
+    display: flex;
+  }
 
-    &.submitArea_align_left {
-      justify-content: flex-start;
+  .horizontal {
+    display: inline-flex;
+  }
+
+  .horizontal .fields {
+    display: inline-flex;
+    align-items: flex-start;
+  }
+
+  .horizontalLabels .submitArea {
+    padding-top: 0;
+  }
+
+  .vertical {
+    .fields {
+      display: flex;
+      flex-direction: column;
     }
-    &.submitArea_align_center {
-      justify-content: center;
-    }
-    &.submitArea_align_right {
-      justify-content: flex-end;
+
+    .submitArea {
+      margin-top: var(--base-sizing-24x);
+
+      &.submitArea_align_left {
+        justify-content: flex-start;
+      }
+      &.submitArea_align_center {
+        justify-content: center;
+      }
+      &.submitArea_align_right {
+        justify-content: flex-end;
+      }
     }
   }
-}
 
-@each $size, $gapV, $gapH, $gapVLabel, $gapButtons in $sizes {
-  .#{$size} {
-    &,
-    &.vertical .fields {
-      gap: var(--base-sizing-#{$gapV});
-    }
-    .submitArea {
-      gap: var(--base-sizing-#{$gapButtons});
-    }
-    &.horizontal {
-      .fields {
-        gap: var(--base-sizing-#{$gapH});
+  @each $size, $gapV, $gapH, $gapVLabel, $gapButtons in $sizes {
+    .#{$size} {
+      &,
+      &.vertical .fields {
+        gap: var(--base-sizing-#{$gapV});
       }
-      &.verticalLabels .fields > [data-has-label] ~ .submitArea {
-        $gap-var: --base-sizing-#{$gapVLabel};
-        $line-height-var: --typography-base-#{$size}-500-line-height;
-        padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
+      .submitArea {
+        gap: var(--base-sizing-#{$gapButtons});
+      }
+      &.horizontal {
+        .fields {
+          gap: var(--base-sizing-#{$gapH});
+        }
+        &.verticalLabels .fields > [data-has-label] ~ .submitArea {
+          $gap-var: --base-sizing-#{$gapVLabel};
+          $line-height-var: --typography-base-#{$size}-500-line-height;
+          padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
+        }
       }
     }
   }

@@ -1,3 +1,5 @@
-.Root.inFormField {
-  min-width: var(--base-sizing-190x);
+@layer motif-ui {
+  .Root.inFormField {
+    min-width: var(--base-sizing-190x);
+  }
 }

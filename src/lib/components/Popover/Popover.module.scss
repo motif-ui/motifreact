@@ -120,82 +120,84 @@ $caret-margin: var(--base-sizing-12x);
   }
 }
 
-.Root {
-  z-index: 1;
-  box-sizing: border-box;
-  position: absolute;
-  display: flex; // DO NOT REMOVE: this prevents borders get cut off when popover overflows
-  @include fade-default;
-}
-
-.visible {
-  @include fade-in;
-}
-
-.popover {
-  width: max-content;
-  border-radius: var(--theme-sizing-radius-default);
-  overflow: hidden;
-  .justText & {
-    padding: var(--base-sizing-10x);
+@layer motif-ui {
+  .Root {
+    z-index: 1;
+    box-sizing: border-box;
+    position: absolute;
+    display: flex; // DO NOT REMOVE: this prevents borders get cut off when popover overflows
+    @include fade-default;
   }
-}
 
-.elevated {
-  @include drop-shadow(2);
-}
+  .visible {
+    @include fade-in;
+  }
 
-.withGap .popover::before {
-  content: "";
-  position: absolute;
-  width: $caret-margin;
-  height: $caret-margin;
-  box-sizing: border-box;
-}
+  .popover {
+    width: max-content;
+    border-radius: var(--theme-sizing-radius-default);
+    overflow: hidden;
+    .justText & {
+      padding: var(--base-sizing-10x);
+    }
+  }
 
-.noSpace::before {
-  content: initial;
-}
+  .elevated {
+    @include drop-shadow(2);
+  }
 
-.callout .popover {
-  &::before,
-  &::after {
+  .withGap .popover::before {
     content: "";
     position: absolute;
     width: $caret-margin;
     height: $caret-margin;
     box-sizing: border-box;
-    border-style: solid;
-    border-color: transparent;
   }
-}
 
-@each $position, $gapPosition, $edgeMarginPositions in $positions {
-  .#{$position} {
-    @each $variant, $bgColor, $borderColor, $textColor in $variants {
-      &.#{$variant} {
-        &.callout {
-          padding-#{$gapPosition}: $caret-margin;
+  .noSpace::before {
+    content: initial;
+  }
 
-          &.elevated {
-            @include caret-tip($position, $bgColor, true);
+  .callout .popover {
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: $caret-margin;
+      height: $caret-margin;
+      box-sizing: border-box;
+      border-style: solid;
+      border-color: transparent;
+    }
+  }
+
+  @each $position, $gapPosition, $edgeMarginPositions in $positions {
+    .#{$position} {
+      @each $variant, $bgColor, $borderColor, $textColor in $variants {
+        &.#{$variant} {
+          &.callout {
+            padding-#{$gapPosition}: $caret-margin;
+
+            &.elevated {
+              @include caret-tip($position, $bgColor, true);
+            }
+            &:not(.elevated) {
+              @include caret-tip($position, $bgColor, false, $borderColor);
+            }
           }
-          &:not(.elevated) {
-            @include caret-tip($position, $bgColor, false, $borderColor);
+          &:not(.elevated) .popover {
+            border: solid var(--base-sizing-1x) $borderColor;
           }
-        }
-        &:not(.elevated) .popover {
-          border: solid var(--base-sizing-1x) $borderColor;
-        }
-        .popover {
-          background-color: $bgColor;
-          color: $textColor;
-          @each $edgePos in $edgeMarginPositions {
-            margin-#{$edgePos}: var(--base-sizing-4x);
+          .popover {
+            background-color: $bgColor;
+            color: $textColor;
+            @each $edgePos in $edgeMarginPositions {
+              margin-#{$edgePos}: var(--base-sizing-4x);
+            }
           }
-        }
-        &.withGap {
-          padding-#{$gapPosition}: $caret-margin;
+          &.withGap {
+            padding-#{$gapPosition}: $caret-margin;
+          }
         }
       }
     }

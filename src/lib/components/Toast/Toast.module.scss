@@ -21,92 +21,95 @@ $animation-keyframes: (
   ("slideInBottom", translateY(100%), translateY(0%), 0, 1),
   ("slideOutBottom", translateY(0%), translateY(100%), 1, 0)
 );
-@each $animation, $transformZero, $transformHundred, $opacityZero, $opacityHundred in $animation-keyframes {
-  @keyframes #{$animation} {
-    0% {
-      opacity: $opacityZero;
-      transform: $transformZero;
-    }
-    100% {
-      opacity: $opacityHundred;
-      transform: $transformHundred;
-    }
-  }
-}
 
-.Root {
-  position: relative;
-  display: flex;
-  flex-wrap: nowrap;
-  @include width-or-width-below-screen-size(--theme-grid-breakpoint-sm, --base-sizing-256x, calc(100vw - var(--base-sizing-72x)));
-  padding: var(--base-sizing-10x) var(--base-sizing-20x);
-  gap: var(--base-sizing-10x);
-  border-radius: var(--theme-sizing-radius-default);
-  align-items: flex-start;
-
-  .icon {
-    align-self: center;
-  }
-}
-
-@each $color-type, $color in $color-types {
-  .#{$color-type} {
-    color: var(--theme-color-text-base-title);
-    background-color: var(--theme-color-surface-#{$color}-negative);
-    border-left-color: var(--theme-color-text-#{$color}-active);
-
-    .title {
-      color: var(--theme-color-text-#{$color}-active);
-    }
-  }
-}
-
-.contentContainer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--base-sizing-4x);
-  flex-grow: 1;
-  max-height: 90vh;
-  overflow-y: scroll;
-  @include hidden-scrollbar;
-
-  .content {
-    @include font("body", "md");
-  }
-  .title {
-    @include font("base", "lg", "600");
-  }
-}
-
-.progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-
-.Container {
-  display: flex;
-  flex-direction: column-reverse;
-  row-gap: var(--base-sizing-12x);
-  position: fixed;
-  z-index: 5;
-
-  @each $position, $animationIn, $animationOut, $top, $right, $bottom, $left, $transform in $positions {
-    &.#{$position} {
-      /* stylelint-disable declaration-block-no-redundant-longhand-properties */
-      top: $top;
-      right: $right;
-      bottom: $bottom;
-      left: $left;
-      /* stylelint-enable declaration-block-no-redundant-longhand-properties */
-      transform: $transform;
-
-      .Root:not(.closing) {
-        animation: $animationIn 0.3s ease-in-out forwards;
+@layer motif-ui {
+  @each $animation, $transformZero, $transformHundred, $opacityZero, $opacityHundred in $animation-keyframes {
+    @keyframes #{$animation} {
+      0% {
+        opacity: $opacityZero;
+        transform: $transformZero;
       }
-      .Root.closing {
-        animation: $animationOut 0.3s ease-in-out forwards;
+      100% {
+        opacity: $opacityHundred;
+        transform: $transformHundred;
+      }
+    }
+  }
+
+  .Root {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    @include width-or-width-below-screen-size(--theme-grid-breakpoint-sm, --base-sizing-256x, calc(100vw - var(--base-sizing-72x)));
+    padding: var(--base-sizing-10x) var(--base-sizing-20x);
+    gap: var(--base-sizing-10x);
+    border-radius: var(--theme-sizing-radius-default);
+    align-items: flex-start;
+
+    .icon {
+      align-self: center;
+    }
+  }
+
+  @each $color-type, $color in $color-types {
+    .#{$color-type} {
+      color: var(--theme-color-text-base-title);
+      background-color: var(--theme-color-surface-#{$color}-negative);
+      border-left-color: var(--theme-color-text-#{$color}-active);
+
+      .title {
+        color: var(--theme-color-text-#{$color}-active);
+      }
+    }
+  }
+
+  .contentContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--base-sizing-4x);
+    flex-grow: 1;
+    max-height: 90vh;
+    overflow-y: scroll;
+    @include hidden-scrollbar;
+
+    .content {
+      @include font("body", "md");
+    }
+    .title {
+      @include font("base", "lg", "600");
+    }
+  }
+
+  .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .Container {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: var(--base-sizing-12x);
+    position: fixed;
+    z-index: 5;
+
+    @each $position, $animationIn, $animationOut, $top, $right, $bottom, $left, $transform in $positions {
+      &.#{$position} {
+        /* stylelint-disable declaration-block-no-redundant-longhand-properties */
+        top: $top;
+        right: $right;
+        bottom: $bottom;
+        left: $left;
+        /* stylelint-enable declaration-block-no-redundant-longhand-properties */
+        transform: $transform;
+
+        .Root:not(.closing) {
+          animation: $animationIn 0.3s ease-in-out forwards;
+        }
+        .Root.closing {
+          animation: $animationOut 0.3s ease-in-out forwards;
+        }
       }
     }
   }

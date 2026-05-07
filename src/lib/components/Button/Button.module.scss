@@ -37,76 +37,78 @@ $variants: (
   }
 }
 
-.Root {
-  border: none;
-  border-radius: var(--theme-sizing-radius-default);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  vertical-align: bottom;
-  white-space: nowrap;
-  @include transition(background-color);
+@layer motif-ui {
+  .Root {
+    border: none;
+    border-radius: var(--theme-sizing-radius-default);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    vertical-align: bottom;
+    white-space: nowrap;
+    @include transition(background-color);
 
-  &:disabled {
-    pointer-events: none;
+    &:disabled {
+      pointer-events: none;
+    }
   }
-}
 
-.pill {
-  border-radius: var(--theme-sizing-radius-round);
-}
-.fluid {
-  width: 100%;
-}
-.icon-left {
-  flex-direction: row;
-}
-.icon-right {
-  flex-direction: row-reverse;
-}
-
-@each $size, $ph, $pv, $fontSize, $iconSize in $sizes {
-  .#{$size} {
-    padding: var(--base-sizing-#{$pv}) var(--base-sizing-#{$ph});
-    gap: var(--base-sizing-#{$pv});
-    @include font("base", $fontSize, "600");
+  .pill {
+    border-radius: var(--theme-sizing-radius-round);
   }
-}
+  .fluid {
+    width: 100%;
+  }
+  .icon-left {
+    flex-direction: row;
+  }
+  .icon-right {
+    flex-direction: row-reverse;
+  }
 
-@each $variant, $color, $textColorOnSurface in $variants {
-  .#{$variant} {
-    &.solid {
-      background-color: var(--theme-color-surface-#{$color}-default);
-      @include text-color-on-surface($variant, $textColorOnSurface);
-      @each $state in $states {
-        &:#{$state} {
-          @include state-background-color($color, $state, "solid");
-          @include text-color-on-surface($variant, $textColorOnSurface, $state);
+  @each $size, $ph, $pv, $fontSize, $iconSize in $sizes {
+    .#{$size} {
+      padding: var(--base-sizing-#{$pv}) var(--base-sizing-#{$ph});
+      gap: var(--base-sizing-#{$pv});
+      @include font("base", $fontSize, "600");
+    }
+  }
+
+  @each $variant, $color, $textColorOnSurface in $variants {
+    .#{$variant} {
+      &.solid {
+        background-color: var(--theme-color-surface-#{$color}-default);
+        @include text-color-on-surface($variant, $textColorOnSurface);
+        @each $state in $states {
+          &:#{$state} {
+            @include state-background-color($color, $state, "solid");
+            @include text-color-on-surface($variant, $textColorOnSurface, $state);
+          }
         }
       }
-    }
 
-    &.outline {
-      background-color: var(--theme-color-surface-base-bg-light);
-      border: solid var(--base-sizing-1x) var(--theme-color-border-#{$color}-default);
-      color: var(--theme-color-text-#{$color}-default);
-      @each $state in $states {
-        &:#{$state} {
-          @include state-background-color($color, $state, "outline");
-          border-color: var(--theme-color-border-#{$color}-#{$state});
-          color: var(--theme-color-text-#{$color}-#{$state});
+      &.outline {
+        background-color: var(--theme-color-surface-base-bg-light);
+        border: solid var(--base-sizing-1x) var(--theme-color-border-#{$color}-default);
+        color: var(--theme-color-text-#{$color}-default);
+        @each $state in $states {
+          &:#{$state} {
+            @include state-background-color($color, $state, "outline");
+            border-color: var(--theme-color-border-#{$color}-#{$state});
+            color: var(--theme-color-text-#{$color}-#{$state});
+          }
         }
       }
-    }
 
-    &.textonly {
-      background-color: transparent;
-      color: var(--theme-color-text-#{$color}-default);
-      @each $state in $states {
-        &:#{$state} {
-          @include state-background-color($color, $state, "textonly");
-          color: var(--theme-color-text-#{$color}-#{$state});
+      &.textonly {
+        background-color: transparent;
+        color: var(--theme-color-text-#{$color}-default);
+        @each $state in $states {
+          &:#{$state} {
+            @include state-background-color($color, $state, "textonly");
+            color: var(--theme-color-text-#{$color}-#{$state});
+          }
         }
       }
     }

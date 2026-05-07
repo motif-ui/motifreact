@@ -32,137 +32,139 @@ $color-types: (
   border-color: $borderDisabledColor;
 }
 
-@each $size, $progressHeight, $thumb, $thumbHover, $thumbBorder, $marginTop, $horizontalPadding in $sizes-positions {
-  .#{$size} {
-    &.Root {
-      min-height: var(--base-sizing-#{$thumbHover});
-      min-width: var(--base-sizing-128x);
+@layer motif-ui {
+  @each $size, $progressHeight, $thumb, $thumbHover, $thumbBorder, $marginTop, $horizontalPadding in $sizes-positions {
+    .#{$size} {
+      &.Root {
+        min-height: var(--base-sizing-#{$thumbHover});
+        min-width: var(--base-sizing-128x);
 
-      &.inFormField {
-        margin: var(--base-sizing-#{$marginTop}) var(--base-sizing-#{$horizontalPadding}) 0;
+        &.inFormField {
+          margin: var(--base-sizing-#{$marginTop}) var(--base-sizing-#{$horizontalPadding}) 0;
+        }
       }
-    }
-    .tooltip {
-      bottom: calc(var(--base-sizing-#{$thumb}) - var(--base-sizing-20x));
-    }
-    .fill,
-    .track,
-    .mRangeContainer::after {
-      height: var(--base-sizing-#{$progressHeight});
-    }
-    .mRangeContainer {
-      min-width: var(--base-sizing-#{$thumb});
-    }
+      .tooltip {
+        bottom: calc(var(--base-sizing-#{$thumb}) - var(--base-sizing-20x));
+      }
+      .fill,
+      .track,
+      .mRangeContainer::after {
+        height: var(--base-sizing-#{$progressHeight});
+      }
+      .mRangeContainer {
+        min-width: var(--base-sizing-#{$thumb});
+      }
 
-    .mRange {
-      &::-webkit-slider-thumb {
-        @include slider-size-thumb($thumb, $thumbBorder, $thumbHover);
-      }
-      &::-moz-range-thumb {
-        @include slider-size-thumb($thumb, $thumbBorder, $thumbHover);
+      .mRange {
+        &::-webkit-slider-thumb {
+          @include slider-size-thumb($thumb, $thumbBorder, $thumbHover);
+        }
+        &::-moz-range-thumb {
+          @include slider-size-thumb($thumb, $thumbBorder, $thumbHover);
+        }
       }
     }
   }
-}
 
-@each $variant, $color, $borderColor, $disabledColor, $borderDisabledColor in $color-types {
-  .#{$variant} {
-    .fill {
-      background: $color;
-    }
-    .mRange {
-      &::-webkit-slider-thumb {
-        border-color: $borderColor;
-      }
-      &::-moz-range-thumb {
-        border-color: $borderColor;
-      }
-    }
-    &.disabled {
-      cursor: not-allowed;
+  @each $variant, $color, $borderColor, $disabledColor, $borderDisabledColor in $color-types {
+    .#{$variant} {
       .fill {
-        background: $disabledColor;
+        background: $color;
       }
       .mRange {
         &::-webkit-slider-thumb {
-          @include slider-color-thumb-disabled($borderDisabledColor);
+          border-color: $borderColor;
         }
         &::-moz-range-thumb {
-          @include slider-color-thumb-disabled($borderDisabledColor);
+          border-color: $borderColor;
+        }
+      }
+      &.disabled {
+        cursor: not-allowed;
+        .fill {
+          background: $disabledColor;
+        }
+        .mRange {
+          &::-webkit-slider-thumb {
+            @include slider-color-thumb-disabled($borderDisabledColor);
+          }
+          &::-moz-range-thumb {
+            @include slider-color-thumb-disabled($borderDisabledColor);
+          }
         }
       }
     }
   }
-}
 
-.Root {
-  position: relative;
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-}
-
-.mRangeContainer {
-  top: 0;
-  bottom: 0;
-  position: absolute;
-}
-
-.mRange {
-  position: absolute;
-  inset: 0;
-  appearance: none;
-  background: transparent;
-  z-index: 1;
-  pointer-events: none;
-  margin: 0;
-
-  &:hover + .tooltip {
-    @include pop-in;
+  .Root {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
   }
 
-  &::-webkit-slider-thumb {
-    appearance: none;
-    @include slider-style-thumb;
-  }
-  &::-moz-range-thumb {
-    @include slider-style-thumb;
-  }
-}
-
-.tooltip {
-  @include pop-default;
-  transform-origin: center left;
-  bottom: auto;
-  position: absolute;
-  transform: translateX(-50%) translateY(-100%);
-  background: var(--theme-color-text-secondary-active);
-  padding: var(--base-sizing-4x) var(--base-sizing-8x);
-  border-radius: var(--theme-sizing-radius-default);
-  color: var(--theme-color-text-base-text-light);
-  z-index: 1;
-
-  &::after {
-    content: " ";
+  .mRangeContainer {
+    top: 0;
+    bottom: 0;
     position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-1px);
-    border-width: var(--base-sizing-6x);
-    border-style: solid;
-    border-color: var(--theme-color-text-secondary-active) transparent transparent;
   }
-}
 
-.fill {
-  position: absolute;
-  border-radius: var(--theme-sizing-radius-round);
-}
+  .mRange {
+    position: absolute;
+    inset: 0;
+    appearance: none;
+    background: transparent;
+    z-index: 1;
+    pointer-events: none;
+    margin: 0;
 
-.track {
-  position: absolute;
-  left: 0;
-  right: 0;
-  background: var(--theme-color-surface-base-base4);
-  border-radius: var(--theme-sizing-radius-round);
+    &:hover + .tooltip {
+      @include pop-in;
+    }
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      @include slider-style-thumb;
+    }
+    &::-moz-range-thumb {
+      @include slider-style-thumb;
+    }
+  }
+
+  .tooltip {
+    @include pop-default;
+    transform-origin: center left;
+    bottom: auto;
+    position: absolute;
+    transform: translateX(-50%) translateY(-100%);
+    background: var(--theme-color-text-secondary-active);
+    padding: var(--base-sizing-4x) var(--base-sizing-8x);
+    border-radius: var(--theme-sizing-radius-default);
+    color: var(--theme-color-text-base-text-light);
+    z-index: 1;
+
+    &::after {
+      content: " ";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-1px);
+      border-width: var(--base-sizing-6x);
+      border-style: solid;
+      border-color: var(--theme-color-text-secondary-active) transparent transparent;
+    }
+  }
+
+  .fill {
+    position: absolute;
+    border-radius: var(--theme-sizing-radius-round);
+  }
+
+  .track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: var(--theme-color-surface-base-base4);
+    border-radius: var(--theme-sizing-radius-round);
+  }
 }
