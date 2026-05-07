@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import styles from "./Chip.module.scss";
-import Icon from "@/components/Icon/Icon";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MotifIconButton } from "@/components/Motif/Icon";
 import { PropsWithRef } from "../../types";
 import { ChipProps } from "./types";
@@ -35,7 +35,7 @@ const Chip = (props: PropsWithRef<ChipProps, HTMLDivElement>) => {
   return (
     !deleted && (
       <div className={classNames} data-testid="chipItem" ref={ref} style={style}>
-        {icon && <Icon name={icon} size={size} className={styles["icon-left"]} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles["icon-left"]} />}
         <span className={styles.label}>{label}</span>
         {closable && <MotifIconButton name="cancel" size={size} onClick={deleteHandler} className={styles["icon-close"]} />}
       </div>

@@ -2,15 +2,16 @@ import type { MouseEvent } from "react";
 import { ReactElement } from "react";
 import Button from "@/components/Button/Button";
 import styles from "../Card.module.scss";
-import Icon from "@/components/Icon/Icon";
+import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { ButtonProps } from "@/components/Button/types";
 import { LinkProps } from "../../Link/types";
 import { IconButtonProps } from "../../IconButton/types";
+import type { IconGlobalType } from "../../../types";
 
 type Props = {
   actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   alternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
-  actionLink?: { text: string; href: string; icon?: string; targetBlank?: boolean };
+  actionLink?: { text: string; href: string; icon?: IconGlobalType; targetBlank?: boolean };
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
 };
 
@@ -30,7 +31,7 @@ const CardActions = (props: Props) => {
         {actionLink && (
           <a href={actionLink.href} {...(actionLink.targetBlank && { target: "_blank" })} className={styles.actionLink}>
             <span>{actionLink.text}</span>
-            {actionLink.icon && <Icon name={actionLink.icon} size="md" variant="primary" />}
+            {actionLink.icon && <GlobalIconWrapper icon={actionLink.icon} className={styles.actionLinkIcon} />}
           </a>
         )}
       </div>

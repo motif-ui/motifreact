@@ -169,10 +169,16 @@ $variants: (
     text-decoration: none;
     display: flex;
     gap: var(--base-sizing-6x);
+    align-items: center;
 
     span {
       color: var(--theme-color-text-primary-default);
       @include font("body", "md");
+    }
+
+    .actionLinkIcon {
+      font-size: var(--base-sizing-5x);
+      color: var(--theme-color-text-primary-active);
     }
   }
 }

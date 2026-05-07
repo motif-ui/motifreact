@@ -1,5 +1,5 @@
 import styles from "@/components/DataView/DataView.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { sanitizeModuleClasses } from "../../../utils/cssUtils";
 import { DataViewItemProps } from "@/components/DataView/types";
 import { PropsWithRefAndChildren } from "../../types";
@@ -11,7 +11,7 @@ const DataViewItem = (props: PropsWithRefAndChildren<DataViewItemProps, HTMLDivE
   return (
     <div className={classNames} ref={ref} style={style}>
       <span className={styles.title}>
-        {icon && <Icon name={icon} className={styles.icon} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
         {label}
       </span>
       {children ? <div className={styles.value}>{children}</div> : <span className={styles.value}>{value}</span>}
