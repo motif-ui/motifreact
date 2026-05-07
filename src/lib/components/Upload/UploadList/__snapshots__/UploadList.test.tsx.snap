@@ -19,7 +19,7 @@ exports[`UploadList should be rendered with only required props 1`] = `
       <span
         class="infoText"
       >
-        Drop the files you want to upload here
+        Drop files here to upload
       </span>
     </div>
   </div>

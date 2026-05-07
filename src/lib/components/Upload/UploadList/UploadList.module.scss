@@ -4,15 +4,16 @@
 $sizes: (("xs", "4x", "8x", "xs"), ("sm", "6x", "12x", "sm"), ("md", "8x", "16x", "sm"), ("lg", "10x", "20x", "sm"));
 
 .Root {
-  display: flex;
-  flex-direction: column;
-
-  &.inFormField {
-    min-width: var(--base-sizing-256x);
-  }
+  display: inline-block;
+  width: auto;
+  min-width: var(--base-sizing-216x);
+  max-width: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
 
   .dragArea {
     @include transition(border-color);
+    width: 100%;
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
@@ -22,6 +23,7 @@ $sizes: (("xs", "4x", "8x", "xs"), ("sm", "6x", "12x", "sm"), ("md", "8x", "16x"
     box-sizing: border-box;
 
     .infoText {
+      text-align: right;
       color: var(--base-colors-gray-gray-500);
     }
 
