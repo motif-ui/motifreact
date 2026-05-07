@@ -92,7 +92,7 @@ describe("ImageUpload", () => {
 
     const previewInitialScale = getTransformScale(previewImage);
 
-    const getButton = (name: string) => screen.getAllByText(name)[0];
+    const getButton = (name: string) => screen.getAllByText(name)[0].closest("button")!;
     const zoomInButton = getButton("zoom_in");
     const zoomOutButton = getButton("zoom_out");
     const rotateLeftButton = getButton("undo");
