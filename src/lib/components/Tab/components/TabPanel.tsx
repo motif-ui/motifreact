@@ -1,17 +1,17 @@
-import { PropsWithChildren, useContext } from "react";
+import { HTMLAttributes, PropsWithChildren, useContext } from "react";
 import { TabContext } from "../TabProvider";
 import { TabPanelProps } from "../types";
 import styles from "../Tab.module.scss";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
-const TabPanel = (props: PropsWithChildren<TabPanelProps>) => {
+const TabPanel = (props: PropsWithChildren<TabPanelProps & HTMLAttributes<HTMLDivElement>>) => {
   const { id, children, className, style } = props;
   const { selectedTabId } = useContext(TabContext);
 
-  const classNames = sanitizeModuleClasses(styles, "panelWrapper", className);
+  const classNames = sanitizeModuleClasses(styles, "panelWrapper");
 
   return id === selectedTabId ? (
-    <div className={classNames} style={style}>
+    <div className={`${classNames} ${className ?? ""}`.trim()} style={style}>
       {children}
     </div>
   ) : null;

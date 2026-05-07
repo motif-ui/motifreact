@@ -22,7 +22,10 @@ const Col = (props: PropsWithRefAndChildren<ColProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleClasses(styles, "colBase", ...sizeClasses);
   return (
     <div className={classNames} data-testid="col-container" ref={ref}>
-      <div style={{ ...styleFromContext, ...style }} className={sanitizeModuleClasses(styles, "col", className, classNameFromContext)}>
+      <div
+        style={{ ...styleFromContext, ...style }}
+        className={`${sanitizeModuleClasses(styles, "col") || ""} ${className ?? ""} ${classNameFromContext ?? ""}`.trim()}
+      >
         {children}
       </div>
     </div>

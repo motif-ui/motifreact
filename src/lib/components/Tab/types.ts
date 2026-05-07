@@ -1,5 +1,4 @@
 import { ReactElement } from "react";
-import { StandardProps } from "../../types";
 
 export type TabProps = {
   /**
@@ -42,4 +41,4 @@ export type TabContextProps = {
 
 export type TabPanelProps = {
   id: string;
-} & StandardProps;
+};

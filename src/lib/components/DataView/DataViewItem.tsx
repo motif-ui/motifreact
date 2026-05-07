@@ -6,10 +6,10 @@ import { PropsWithRefAndChildren } from "../../types";
 
 const DataViewItem = (props: PropsWithRefAndChildren<DataViewItemProps, HTMLDivElement>) => {
   const { label, value, icon, variant, style, className, children, ref } = props;
-  const classNames = sanitizeModuleClasses(styles, "item", variant, className);
+  const classNames = sanitizeModuleClasses(styles, "item", variant);
 
   return (
-    <div className={classNames} ref={ref} style={style}>
+    <div className={`${classNames} ${className ?? ""}`.trim()} ref={ref} style={style}>
       <span className={styles.title}>
         {icon && <Icon name={icon} className={styles.icon} />}
         {label}
