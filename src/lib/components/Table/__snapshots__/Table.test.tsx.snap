@@ -23,7 +23,11 @@ exports[`Table should render with only required props 1`] = `
                 data-testid="iconButtonTestId"
                 type="button"
               >
-                expand_all
+                <span
+                  class="Root md mtf-ui-icons sm"
+                >
+                  expand_all
+                </span>
               </button>
             </div>
           </th>
