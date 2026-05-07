@@ -72,6 +72,20 @@ describe("AccordionGroup", () => {
     expect(accordions[1]).not.toHaveClass("expanded");
   });
 
+  it("should only expand the lowest-index accordion on mount when multiExpand=false but multiple expanded props are given", () => {
+    render(
+      <AccordionGroup multiExpand={false}>
+        <Accordion title="Accordion Title 1" index={0} />
+        <Accordion title="Accordion Title 2" index={1} expanded />
+        <Accordion title="Accordion Title 3" index={2} expanded />
+      </AccordionGroup>,
+    );
+    const accordions = screen.getAllByTestId("accordionItem");
+    expect(accordions[0]).not.toHaveClass("expanded");
+    expect(accordions[1]).toHaveClass("expanded");
+    expect(accordions[2]).not.toHaveClass("expanded");
+  });
+
   it("should remain expanded on mount when expanded prop is true inside a multiExpand=false group", () => {
     render(
       <AccordionGroup multiExpand={false}>
