@@ -100,6 +100,8 @@ export const usePositionTooltip = (
   }, [getStyleOfPosition, position, tooltipRef]);
 
   const setTooltipPosition = useCallback(() => {
+    lastTriedPosition.current = position;
+    tryCounter.current = 0;
     setPositionStyle(getStyleOfPosition(position));
   }, [getStyleOfPosition, position]);
 

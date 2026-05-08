@@ -75,7 +75,7 @@ export const LabelOrientationComparison: Story = {
           <InputText iconLeft="person" />
         </Form.Field>
       </Form>
-      <Form onSubmit={() => {}} size="xs" labelOrientation="horizontal" style={{ width: 300 }} title="Horizontal">
+      <Form onSubmit={() => {}} size="xs" labelOrientation="horizontal" title="Horizontal">
         <Form.Field name="inputName" label="Name" helperText="Your name and surname" validations={[Validations.Required]}>
           <InputText iconLeft="person" />
         </Form.Field>

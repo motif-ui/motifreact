@@ -30,7 +30,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     style,
   } = props;
 
-  const { size, error, readOnly, success, disabled, onError, onFormFieldValueUpdate, inFormField } = useRegisterFormField({
+  const { size, error, readOnly, success, disabled, onError, onFormFieldValueUpdate } = useRegisterFormField({
     props,
     defaultValue: [],
     nonClearable: true,
@@ -43,7 +43,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     },
     [onChange, onFormFieldValueUpdate],
   );
-  const classes = sanitizeModuleRootClasses(styles, className, [inFormField && "inFormField", size]);
+  const classes = sanitizeModuleRootClasses(styles, className, [size]);
 
   return (
     <UploadProvider
