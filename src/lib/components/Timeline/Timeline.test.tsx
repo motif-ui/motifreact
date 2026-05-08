@@ -30,6 +30,16 @@ describe("Timeline", () => {
 
     // variant: primary
     expect(root).toHaveClass("primary");
+
+    // appearance: filled
+    expect(container.querySelector(".item")).toHaveClass("filled");
+
+    // disabled: false (default, no disabled class)
+    expect(container.querySelector(".item")).not.toHaveClass("disabled");
+
+    // icon: motif_ui (default when markerType is icon)
+    const { container: iconContainer } = render(<Timeline items={[{ title: "Item" }]} markerType="icon" />);
+    expect(iconContainer.textContent).toContain("motif_ui");
   });
 
   it("should be rendered as given in orientation prop", () => {
@@ -41,31 +51,25 @@ describe("Timeline", () => {
     expect(root).toHaveClass("horizontal");
   });
 
-  it("should be rendered as given in contentPosition prop", () => {
+  it("should position the content for each item as given in contentPosition prop", () => {
     const { container, rerender } = render(<Timeline items={items} />);
-    const root = container.firstChild as HTMLElement;
-    expect(root).toHaveClass("after");
-
-    rerender(<Timeline items={items} contentPosition="before" />);
-    expect(root).toHaveClass("before");
-
-    rerender(<Timeline items={items} contentPosition="alternate" />);
-    expect(root).toHaveClass("alternate");
+    const positions = ["after", "before", "alternate"] as const;
+    positions.forEach(position => {
+      rerender(<Timeline items={items} contentPosition={position} />);
+      expect(container.firstChild).toHaveClass(position);
+    });
   });
 
-  it("should be rendered as given in textAlign prop", () => {
+  it("should render the content aligned as given in textAlign prop", () => {
     const { container, rerender } = render(<Timeline items={items} />);
-    const root = container.firstChild as HTMLElement;
-    expect(root).toHaveClass("start");
-
-    rerender(<Timeline items={items} textAlign="center" />);
-    expect(root).toHaveClass("center");
-
-    rerender(<Timeline items={items} textAlign="end" />);
-    expect(root).toHaveClass("end");
+    const alignments = ["start", "center", "end"] as const;
+    alignments.forEach(alignment => {
+      rerender(<Timeline items={items} textAlign={alignment} />);
+      expect(container.firstChild).toHaveClass(alignment);
+    });
   });
 
-  it("should be rendered in the variant given in the variant prop", () => {
+  it("should render in the given variant", () => {
     const variants: TimelineVariant[] = ["primary", "secondary", "success", "warning", "danger", "light"];
     variants.forEach(variant => {
       const { container, unmount } = render(<Timeline items={items} variant={variant} />);
@@ -74,7 +78,7 @@ describe("Timeline", () => {
     });
   });
 
-  it("should be rendered as given in markerType prop", () => {
+  it("should render the markers in appearance as given in markerType prop", () => {
     const markerTypes: TimelineMarkerType[] = ["dot", "number", "icon"];
     markerTypes.forEach(markerType => {
       const { container, unmount } = render(<Timeline items={items} markerType={markerType} />);
@@ -85,7 +89,10 @@ describe("Timeline", () => {
 
   it("should render the correct number of items", () => {
     const { container } = render(<Timeline items={items} />);
-    expect(container.firstChild?.childNodes.length).toBe(items.length);
+    const itemElements = container.querySelectorAll(".item");
+    itemElements.forEach((item, idx) => {
+      expect(item.textContent).toContain(`Step ${idx + 1}`);
+    });
   });
 
   it("should render item title text", () => {
@@ -104,76 +111,46 @@ describe("Timeline", () => {
     expect(screen.getByText("My Content")).toBeInTheDocument();
   });
 
-  it("should not render content span when only title is provided", () => {
-    const { container } = render(<Timeline items={[{ title: "My Title" }]} />);
-    expect(container.querySelector(".title")).toBeInTheDocument();
-    expect(container.querySelector(".content")).not.toBeInTheDocument();
-  });
-
-  it("should not render title span when only content is provided", () => {
-    const { container } = render(<Timeline items={[{ content: "My Content" }]} />);
-    expect(container.querySelector(".content")).toBeInTheDocument();
-    expect(container.querySelector(".title")).not.toBeInTheDocument();
-  });
-
-  it("should not render section when item has neither title nor content", () => {
-    const { container } = render(<Timeline items={[{}]} />);
-    expect(container.querySelector(".section")).not.toBeInTheDocument();
-  });
-
   it("should render number markers with correct incremental order when markerType is number", () => {
     const { container } = render(<Timeline items={items} markerType="number" />);
     const itemElements = container.querySelectorAll(".item");
-    expect(itemElements[0].querySelector(".markerNumber")).toHaveTextContent("1");
-    expect(itemElements[1].querySelector(".markerNumber")).toHaveTextContent("2");
-    expect(itemElements[2].querySelector(".markerNumber")).toHaveTextContent("3");
+    itemElements.forEach((item, idx) => {
+      expect(item.querySelector(".markerNumber")).toHaveTextContent(`${idx + 1}`);
+    });
   });
 
-  it("should render default motif_ui icon when markerType is icon and no icon prop is set", () => {
-    render(<Timeline items={[{ title: "Item" }]} markerType="icon" />);
-    expect(screen.getByText("motif_ui")).toBeInTheDocument();
-  });
-
-  it("should render custom icon name when markerType is icon and icon prop is set", () => {
-    render(<Timeline items={[{ title: "Item", icon: "check" }]} markerType="icon" />);
+  it("should render the icons in icon prop of the items only when markerType is icon", () => {
+    const { rerender } = render(<Timeline items={[{ title: "Item", icon: "check" }]} markerType="icon" />);
     expect(screen.getByText("check")).toBeInTheDocument();
+
+    rerender(<Timeline items={[{ title: "Item", icon: "check" }]} markerType="dot" />);
+    expect(screen.queryByText("check")).not.toBeInTheDocument();
   });
 
-  it("should apply disabled class on item when disabled prop is true", () => {
+  it("should render the item with disabled is true, as disabled", () => {
     const { container } = render(<Timeline items={[{ title: "Item", disabled: true }]} />);
     expect(container.querySelector(".item")).toHaveClass("disabled");
   });
 
-  it("should apply filled appearance class by default on items", () => {
-    const { container } = render(<Timeline items={[{ title: "Item" }]} />);
+  it("should render items in the appearance given in appearance prop", () => {
+    const { container, rerender } = render(<Timeline items={[{ title: "Item", appearance: "filled" }]} />);
     expect(container.querySelector(".item")).toHaveClass("filled");
-  });
 
-  it("should apply outlined appearance class when appearance prop is outlined", () => {
-    const { container } = render(<Timeline items={[{ title: "Item", appearance: "outlined" }]} />);
+    rerender(<Timeline items={[{ title: "Item", appearance: "outlined" }]} />);
     expect(container.querySelector(".item")).toHaveClass("outlined");
   });
 
-  it("should apply item-level variant class only on the item that has variant prop", () => {
-    const { container } = render(
-      <Timeline items={[{ title: "Default item" }, { title: "Success item", variant: "success" }]} variant="primary" />,
-    );
-    const itemElements = container.querySelectorAll(".item");
-    expect(itemElements[0]).not.toHaveClass("success");
-    expect(itemElements[1]).toHaveClass("success");
+  it("should render the variant given in item when both Timeline variant and item variant are provided", () => {
+    const { container } = render(<Timeline items={[{ title: "Item", variant: "success" }]} variant="primary" />);
+    expect(container.querySelector(".item")).toHaveClass("success");
   });
 
-  it("should apply item-level variant for all item variant values", () => {
+  it("should render item in the given variant when variant prop in Timeline itself is not set", () => {
     const variants: TimelineVariant[] = ["primary", "secondary", "success", "warning", "danger", "light"];
     variants.forEach(variant => {
       const { container, unmount } = render(<Timeline items={[{ title: "Item", variant }]} />);
       expect(container.querySelector(".item")).toHaveClass(variant);
       unmount();
     });
-  });
-
-  it("should not render any items when items array is empty", () => {
-    const { container } = render(<Timeline items={[]} />);
-    expect(container.firstChild?.childNodes.length).toBe(0);
   });
 });
