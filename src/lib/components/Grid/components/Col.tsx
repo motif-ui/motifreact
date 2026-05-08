@@ -1,6 +1,6 @@
 import styles from "../Grid.module.scss";
 import { PropsWithRefAndChildren } from "../../../types";
-import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
+import { sanitizeModuleClasses, sanitizeModuleClassesWithOptions } from "../../../../utils/cssUtils";
 import { useContext } from "react";
 import GridContext from "@/components/Grid/GridContext";
 
@@ -20,12 +20,10 @@ const Col = (props: PropsWithRefAndChildren<ColProps, HTMLDivElement>) => {
     .map(([key, value]) => `col-${key}-${value}`);
 
   const classNames = sanitizeModuleClasses(styles, "colBase", ...sizeClasses);
+  const classNamesCol = sanitizeModuleClassesWithOptions(styles, { externalClasses: [className, classNameFromContext] }, "col");
   return (
     <div className={classNames} data-testid="col-container" ref={ref}>
-      <div
-        style={{ ...styleFromContext, ...style }}
-        className={`${sanitizeModuleClasses(styles, "col") || ""} ${className ?? ""} ${classNameFromContext ?? ""}`.trim()}
-      >
+      <div style={{ ...styleFromContext, ...style }} className={classNamesCol}>
         {children}
       </div>
     </div>

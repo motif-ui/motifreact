@@ -69,6 +69,44 @@ export const sanitizeModuleClasses = (
     .trim() || undefined;
 
 /**
+ * This utility function helps in sanitizing and combining class names based on CSS module styles to prevent generating
+ * undefined class names. Differs from sanitizeModuleClasses with additional options parameter
+ *
+ * @param cssModule - CSS module object
+ * @param moduleKeys - An array of class names.
+ * @param options - Additional options.
+ * @param options.externalClasses - An array of external class name strings (each entry may contain multiple space-separated classes) to include.
+ *
+ * @return A sanitized string of class names, ensuring no undefined or empty values are included.
+ *
+ * @example
+ * import styles from "./MyComponent.module.scss";
+ * const classNames = sanitizeModuleClassesWithOptions(styles,
+ *         { externalClasses: ["externalClass", "ext2 ext3"] },
+ *         "shape",
+ *         "size",
+ *         true && "pill",
+ *         icon && iconPosition && \`icon-\${iconPosition}\`,
+ * );
+ * */
+export const sanitizeModuleClassesWithOptions = (
+  cssModule: Readonly<Record<string, string>>,
+  options: { externalClasses?: (string | undefined)[] },
+  ...moduleKeys: (string | false | undefined | (string | false | undefined)[])[]
+) =>
+  [
+    ...new Set([
+      ...moduleKeys
+        .flat()
+        .filter((key): key is string => !!key && !!cssModule[key])
+        .map(key => cssModule[key]),
+      ...(options.externalClasses?.flatMap(cls => cls?.split(" ").filter(Boolean) ?? []) ?? []),
+    ]),
+  ]
+    .join(" ")
+    .trim() || undefined;
+
+/**
  * Converts RGB color values to hexadecimal format
  * @param r - Red channel (0-255)
  * @param g - Green channel (0-255)
