@@ -1,7 +1,7 @@
 import { NavBarLogoProps } from "./components/NavBarLogo";
-import { NavBarSearchProps } from "./components/NavBarSearch";
 import { NavBarButtonProps } from "./components/NavBarButton";
 import { MenuProps } from "./components/NavBarMenu/types";
+import { Size3 } from "src/lib/types.ts";
 
 export type NavBarVariant = "neutral" | "primary" | "secondary" | "info" | "success" | "warning" | "danger";
 
@@ -10,8 +10,13 @@ export type NavBarProps = {
    * ```
    * {
    *   placeholder?: string;
-   *   onSubmit: (query: string) => void;
    *   pill?: boolean;
+   *   onPressEnter?: (query: string) => void;
+   *   onButtonClick?: (query: string) => void;
+   *   searching?: boolean;
+   *   onResultClick?: (value?: string) => void;
+   *   results: { text: string; value?: string; }[];
+   *   visibleContainerSize?: Size3;
    * }
    * ```
    */
@@ -84,6 +89,23 @@ export type NavBarMenuContextProps = {
   isOpen: (id: string) => boolean;
   toggleMenu: (id: string, parentId?: string) => void;
   closeAll: () => void;
+};
+
+export type NavBarSearchProps = {
+  placeholder?: string;
+  pill?: boolean;
+  onPressEnter?: (query: string) => void;
+  onButtonClick?: (query: string) => void;
+  searching?: boolean;
+} & NavBarSearchResultsProps;
+
+export type NavBarSearchResultsProps = {
+  onResultClick?: (value?: string) => void;
+  results?: {
+    text: string;
+    value?: string;
+  }[];
+  visibleContainerSize?: Size3;
 };
 
 export const navBarMenuContextDefaults: NavBarMenuContextProps = {
