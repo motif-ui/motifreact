@@ -1,3 +1,27 @@
+# [v0.3.1](https://github.com/motif-ui/motifreact/releases/tag/v0.3.1) (2026-05-08)
+
+## 🐛 Bug Fixes
+
+- fix(inputDateRange): dateRangePicker input text name error when opening ([#64](https://github.com/motif-ui/motifreact/pull/64)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: set motif favicon for storybook ([#66](https://github.com/motif-ui/motifreact/pull/66)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: useState logic is introduced for avoiding bug inside tooltip caret hovering ([#61](https://github.com/motif-ui/motifreact/pull/61)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: UploadDragger and UploadList size overflow errors are fixed with css implementations ([#63](https://github.com/motif-ui/motifreact/pull/63)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: accordion form submit issue and improve group expand sync ([#55](https://github.com/motif-ui/motifreact/pull/55)) [@hatesalp](https://github.com/hatesalp)
+- fix(ImageUpload): replace zoom icons and update icon font files ([#60](https://github.com/motif-ui/motifreact/pull/60)) [@hatesalp](https://github.com/hatesalp)
+- fix: min-width for form is removed ([#53](https://github.com/motif-ui/motifreact/pull/53)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: internal inputText component is added ([#51](https://github.com/motif-ui/motifreact/pull/51)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: flex wrap is added for pagination ([#57](https://github.com/motif-ui/motifreact/pull/57)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: pass style prop through to Icon component ([#56](https://github.com/motif-ui/motifreact/pull/56)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: add gutter prop to Grid ([#48](https://github.com/motif-ui/motifreact/pull/48)) [@ZehranurC](https://github.com/ZehranurC)
+
+## Other Changes
+
+- chore: maintenance 20260430 ([#59](https://github.com/motif-ui/motifreact/pull/59)) [@aktasmehmet](https://github.com/aktasmehmet)
+- style(Carousel): updated arrow position ([#58](https://github.com/motif-ui/motifreact/pull/58)) [@hatesalp](https://github.com/hatesalp)
+- docs: localization documentation is added ([#52](https://github.com/motif-ui/motifreact/pull/52)) [@aktasmehmet](https://github.com/aktasmehmet)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.3.0...v0.3.1)
+
 # [v0.3.0](https://github.com/motif-ui/motifreact/releases/tag/v0.3.0) (2026-04-28)
 
 ## 🚀 Features

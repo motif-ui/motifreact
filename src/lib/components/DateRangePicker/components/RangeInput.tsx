@@ -1,4 +1,4 @@
-import InputText from "@/components/InputText";
+import InputText from "@/components/Motif/InputText/InputText";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import { useCallback, useContext, useEffect, useId, useState } from "react";
 import { DateRangePickerContext } from "@/components/DateRangePicker/context/DateRangePickerProvider";
@@ -63,7 +63,7 @@ const RangeInput = (props: Props) => {
         );
       }
     },
-    [getDaysOfMonth, index, months, onDateChange, setDateCouple, setMonths],
+    [getDaysOfMonth, index, locale, months, onDateChange, setDateCouple, setMonths],
   );
 
   return (

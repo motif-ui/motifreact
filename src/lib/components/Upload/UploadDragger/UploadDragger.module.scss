@@ -1,14 +1,16 @@
 @use "@styles" as *;
 
-// name, spacing, padding, infoFontPerc, width, height, iconSize
-$sizes: (
-  ("xs", "2x", "20x", "xxs", "256x", "160x", "32x"),
-  ("sm", "4x", "24x", "xs", "320x", "176x", "40x"),
-  ("md", "6x", "28x", "sm", "360x", "190x", "48x"),
-  ("lg", "8x", "32x", "md", "400x", "216x", "56x")
-);
+// name, spacing, padding, infoFontPerc, iconSize
+$sizes: (("xs", "2x", "20x", "xxs", "32x"), ("sm", "4x", "24x", "xs", "40x"), ("md", "6x", "28x", "sm", "48x"), ("lg", "8x", "32x", "md", "56x"));
 
 .Root {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  min-width: var(--base-sizing-216x);
+  flex-grow: 1;
+  box-sizing: border-box;
+
   .dragArea {
     border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
     border-radius: var(--theme-sizing-radius-default);
@@ -80,13 +82,11 @@ $sizes: (
   }
 }
 
-@each $name, $spacing, $padding, $infoFontPerc, $width, $height, $iconSize in $sizes {
+@each $name, $spacing, $padding, $infoFontPerc, $iconSize in $sizes {
   .#{$name} {
     .dragArea {
       gap: var(--base-sizing-#{$spacing});
       padding: var(--base-sizing-#{$padding});
-      width: var(--base-sizing-#{$width});
-      height: var(--base-sizing-#{$height});
 
       .dragIcon {
         font-size: var(--base-sizing-#{$iconSize});
@@ -103,13 +103,6 @@ $sizes: (
 
       .dragInfo {
         @include font("body", $infoFontPerc);
-      }
-    }
-
-    &.inFormField {
-      .dragArea {
-        min-width: var(--base-sizing-#{$width});
-        width: 100%;
       }
     }
   }

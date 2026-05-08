@@ -1,12 +1,12 @@
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from "path";
-import { applyCustomCSSModuleNaming } from "../src/lib/styles/scripts/build";
+import { applyCustomCSSModuleNaming } from "../src/lib/styles/scripts/build.ts";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   typescript: { reactDocgen: "react-docgen-typescript" },
   features: { interactions: process.env.NODE_ENV === "development" },
-  staticDirs: [{ from: "../src/lib/styles/themes", to: "/themes" }],
+  staticDirs: [{ from: "../src/lib/styles/themes", to: "/themes" }, "./public"],
   core: { disableTelemetry: true },
 
   addons:
