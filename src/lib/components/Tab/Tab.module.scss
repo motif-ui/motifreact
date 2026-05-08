@@ -109,3 +109,15 @@
     }
   }
 }
+
+// =============================================================================
+// Sub Component: TabPanel Container
+// =============================================================================
+.panelContainer {
+  box-sizing: border-box;
+}
+
+.panelWrapper {
+  box-sizing: border-box;
+  min-width: 0;
+}
