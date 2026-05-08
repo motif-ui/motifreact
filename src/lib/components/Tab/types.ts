@@ -38,3 +38,7 @@ export type TabContextProps = {
   selectedTabId?: string;
   tabClickHandler?: (tabId: string) => void;
 };
+
+export type TabPanelProps = {
+  id: string;
+};
