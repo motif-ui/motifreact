@@ -17,3 +17,20 @@ export const generateDummyTableData = (count: number) => {
   }
   return data;
 };
+
+export const generateMockTableData = (count: number) => {
+  const data = [];
+  for (let i = 0; i < count; i++) {
+    data.push({
+      name: MOCK.NAMES[i],
+      surname: MOCK.SURNAMES[i],
+      age: (i + 1) * 10,
+      address: {
+        country: MOCK.COUNTRIES[i],
+        city: MOCK.CITIES[i],
+        flag: MOCK.FLAGS[i],
+      },
+    });
+  }
+  return data;
+};

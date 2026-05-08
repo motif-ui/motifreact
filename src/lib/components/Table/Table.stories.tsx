@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Table from "./Table";
-import { generateDummyTableData } from "../../../docs/data/table";
+import { generateMockTableData } from "../../../docs/data/table";
 import Button from "@/components/Button";
 
 const meta: Meta<typeof Table> = {
@@ -18,7 +18,7 @@ const meta: Meta<typeof Table> = {
       { title: "Age", dataKey: "age" },
       { title: "City", dataKey: "address.city" },
     ],
-    data: generateDummyTableData(6),
+    data: generateMockTableData(6),
   },
 };
 
