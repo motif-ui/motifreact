@@ -33,7 +33,7 @@ const TabComponent = (props: PropsWithRef<TabProps, HTMLDivElement>) => {
             <TabItem {...item} key={item.id} />
           ))}
         </div>
-        <div>{children}</div>
+        <div className={styles.panelContainer}>{children}</div>
       </TabProvider>
     </div>
   );

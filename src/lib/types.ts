@@ -24,6 +24,7 @@ type RefType<R> = {
 };
 export type PropsWithRef<P = unknown, R = unknown> = P & StandardProps & RefType<R>;
 export type PropsWithRefAndChildren<P = unknown, R = unknown> = PropsWithChildren<P> & StandardProps & RefType<R>;
+export type StandardPropsWithChildren<P = unknown> = PropsWithChildren<P> & StandardProps;
 
 /** The shape of a locale file — use this to type custom locale objects. */
 export type LocaleShape = typeof locales.en;
