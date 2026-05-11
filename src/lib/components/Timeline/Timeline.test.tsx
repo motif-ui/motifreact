@@ -143,6 +143,7 @@ describe("Timeline", () => {
   it("should render the variant given in item when both Timeline variant and item variant are provided", () => {
     const { container } = render(<Timeline items={[{ title: "Item", variant: "success" }]} variant="primary" />);
     expect(container.querySelector(".item")).toHaveClass("success");
+    expect(container.querySelector(".item")).not.toHaveClass("primary");
   });
 
   it("should render item in the given variant when variant prop in Timeline itself is not set", () => {
