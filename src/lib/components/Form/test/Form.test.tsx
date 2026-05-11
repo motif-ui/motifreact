@@ -1072,4 +1072,183 @@ describe("Form", () => {
       });
     });
   });
+
+  it("should not show any errors on initial render validateOnChange is set, even when all field values are invalid", () => {
+    render(
+      <Form onSubmit={mockFunction} validateOnChange>
+        <Form.Field name="inputText" validations={[Validations.Required]}>
+          <InputText />
+        </Form.Field>
+        <Form.Field name="inputPassword" validations={[Validations.Required]}>
+          <InputPassword />
+        </Form.Field>
+        <Form.Field name="textarea" validations={[Validations.Required]}>
+          <Textarea />
+        </Form.Field>
+        <Form.Field name="switch" validations={[Validations.Required]}>
+          <Switch />
+        </Form.Field>
+        <Form.Field name="radioGroup" validations={[Validations.Required]}>
+          <RadioGroup name="radioGroup">
+            <Radio value="Black" label="Black" />
+            <Radio value="White" label="White" />
+          </RadioGroup>
+        </Form.Field>
+        <Form.Field name="select" validations={[Validations.Required]}>
+          <Select data={data} />
+        </Form.Field>
+        <Form.FieldGroup name="sports" groupValidations={[Validations.Required, Validations.AtLeastN(2)]}>
+          <Checkbox name="volleyball" label="Volleyball" />
+          <Checkbox name="basketball" label="Basketball" />
+          <Checkbox name="tennis" label="Tennis" />
+        </Form.FieldGroup>
+      </Form>,
+    );
+
+    screen.queryAllByTestId("formField").forEach(field => expect(field).not.toHaveClass("error"));
+    expect(getFormFieldGroup(0)).not.toHaveClass("error");
+  });
+
+  it("should show and clear errors immediately for inputs when validateOnChange is set", async () => {
+    const minMessage = (min: number) => `You must enter at least ${min}`;
+    const minLengthMessage = (min: number) => `This field must be at least ${min} characters long`;
+    const requiredMessage = "Please fill in this field";
+
+    render(
+      <Form onSubmit={mockFunction} validateOnChange>
+        {/* 0: InputText — MinLength(3): invalid → valid */}
+        <Form.Field name="inputText" validations={[Validations.MinLength(3)]}>
+          <InputText />
+        </Form.Field>
+        {/* 1: Checkbox — Required, start checked: uncheck → error, recheck → clear */}
+        <Form.Field name="check" validations={[Validations.Required]}>
+          <Checkbox checked label="Accept" />
+        </Form.Field>
+        {/* 2: Slider — Min(50): below → error, above → clear */}
+        <Form.Field name="mySlider" validations={[Validations.Min(50)]}>
+          <Slider />
+        </Form.Field>
+        {/* 3: Select — Required: select item → no error */}
+        <Form.Field name="mySelect" validations={[Validations.Required]}>
+          <Select data={data} />
+        </Form.Field>
+        {/* 4: PinCode — RequiredArrayItems([0,1]): fill first only → error, fill second → clear */}
+        <Form.Field name="myPinCode" validations={[Validations.RequiredArrayItems([0, 1])]}>
+          <PinCode>
+            <PinCode.Item />
+            <PinCode.Item />
+          </PinCode>
+        </Form.Field>
+      </Form>,
+    );
+
+    const user = userEvent.setup();
+
+    // InputText: type 2 chars → error; type 1 more → clear
+    const textInput = screen.getByTestId("inputItem").querySelector("input")!;
+    await user.type(textInput, "ab");
+    expect(getFormField(0)).toHaveClass("error");
+    expect(getFormField(0)).toHaveTextContent(minLengthMessage(3));
+    await user.type(textInput, "c");
+    expect(getFormField(0)).not.toHaveClass("error");
+
+    // Checkbox: uncheck → error; recheck → clear
+    const checkboxInput = screen.getByTestId("checkbox").querySelector("input")!;
+    await user.click(checkboxInput);
+    expect(getFormField(1)).toHaveClass("error");
+    expect(getFormField(1)).toHaveTextContent(requiredMessage);
+    await user.click(checkboxInput);
+    expect(getFormField(1)).not.toHaveClass("error");
+
+    // Slider: change to 30 → error; change to 60 → clear
+    const sliderInput = screen.getByTestId("slider").querySelector("input[type='range']")!;
+    await act(() => fireEvent.change(sliderInput, { target: { value: "30" } }));
+    expect(getFormField(2)).toHaveClass("error");
+    expect(getFormField(2)).toHaveTextContent(minMessage(50));
+    await act(() => fireEvent.change(sliderInput, { target: { value: "60" } }));
+    expect(getFormField(2)).not.toHaveClass("error");
+
+    // Select: select an item → no error
+    await user.click(screen.queryByRole("combobox")!);
+    await user.click(screen.queryByText("Item 1")!);
+    expect(getFormField(3)).not.toHaveClass("error");
+
+    // PinCode: fill first item only → error; fill second → clear
+    const pinCodeInputs = screen.getAllByTestId("pinCodeItem");
+    await user.type(pinCodeInputs[0], "a");
+    expect(getFormField(4)).toHaveClass("error");
+    expect(getFormField(4)).toHaveTextContent(requiredMessage);
+    await user.type(pinCodeInputs[1], "b");
+    expect(getFormField(4)).not.toHaveClass("error");
+  });
+
+  it("should show group validation error on FieldGroup immediately as inputs change when validateOnChange is set", async () => {
+    const atLeastNMessage = (n: number) => `You must select at least ${n} items`;
+
+    render(
+      <Form onSubmit={mockFunction} validateOnChange>
+        <Form.FieldGroup name="sports" groupValidations={[Validations.AtLeastN(2)]}>
+          <Checkbox name="volleyball" label="Volleyball" />
+          <Checkbox name="basketball" label="Basketball" />
+          <Checkbox name="tennis" label="Tennis" />
+        </Form.FieldGroup>
+      </Form>,
+    );
+
+    const user = userEvent.setup();
+    const checkboxInputs = screen.getAllByTestId("checkbox").map(el => el.querySelector("input")!);
+
+    await user.click(checkboxInputs[0]);
+    expect(getFormFieldGroup(0)).toHaveClass("error");
+    expect(getFormFieldGroup(0)).toHaveTextContent(atLeastNMessage(2));
+
+    await user.click(checkboxInputs[1]);
+    expect(getFormFieldGroup(0)).not.toHaveClass("error");
+
+    await user.click(checkboxInputs[0]);
+    expect(getFormFieldGroup(0)).toHaveClass("error");
+  });
+
+  it("should not validate on change when validateOnChange is not set", async () => {
+    render(
+      <Form onSubmit={mockFunction}>
+        <Form.Field name="inputText" validations={[Validations.Required]}>
+          <InputText />
+        </Form.Field>
+      </Form>,
+    );
+
+    const user = userEvent.setup();
+    const input = screen.getByTestId("inputItem").querySelector("input")!;
+
+    await user.type(input, "hello");
+    await user.clear(input);
+    expect(getFormField(0)).not.toHaveClass("error");
+
+    await user.click(screen.getByText(t("g.submit")));
+    expect(getFormField(0)).toHaveClass("error");
+  });
+
+  it("should validate all fields on submit even when validateOnChange is set", async () => {
+    render(
+      <Form onSubmit={mockFunction} validateOnChange>
+        <Form.Field name="inputText" validations={[Validations.Required]}>
+          <InputText value="hello" />
+        </Form.Field>
+        <Form.Field name="inputPassword" validations={[Validations.Required]}>
+          <InputPassword />
+        </Form.Field>
+      </Form>,
+    );
+
+    const user = userEvent.setup();
+
+    expect(getFormField(0)).not.toHaveClass("error");
+    expect(getFormField(1)).not.toHaveClass("error");
+
+    await user.click(screen.getByText(t("g.submit")));
+
+    expect(getFormField(0)).not.toHaveClass("error");
+    expect(getFormField(1)).toHaveClass("error");
+  });
 });

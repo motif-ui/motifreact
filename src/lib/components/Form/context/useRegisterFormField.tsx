@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useFormField } from "@/components/Form/context/FieldContext";
 import { useForm } from "@/components/Form/context/FormContext";
 import { InputValue, ItemRegisterType, UseRegisterFormFieldType } from "@/components/Form/types";
@@ -73,6 +73,22 @@ export const useRegisterFormField: UseRegisterFormFieldType = registerProps => {
         return () => unregisterSingleField(fieldName);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /**
+   * Releases this field from the pending-init quarantine after all mount effects have settled.
+   *
+   * Why setTimeout(0): React runs useEffect hooks in call order within a component, so this
+   * effect always fires before the input component's own mount-sync useEffect (which calls
+   * notifyFormForFieldValueChange with the initial value). Deferring to a macrotask guarantees
+   * the quarantine is only lifted after that mount-sync call has already been blocked.
+   */
+  useEffect(() => {
+    if (!shouldRegister) return;
+    const nameToMark = fieldContext.groupName ?? fieldContext.fieldName;
+    const timer = setTimeout(() => formContext.clearFieldFromPendingInit(nameToMark), 0);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
