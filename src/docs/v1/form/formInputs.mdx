@@ -25,6 +25,14 @@ of a form using these components, please refer to [Components/Form](?path=/docs/
 </Form.Field>
 ```
 
+### InputDateRange [[↗]](?path=/docs/components-inputdaterange--docs)
+
+```jsx
+<Form.Field name="filterDateRange" label="Dates to Filter">
+  <InputDateRange />
+</Form.Field>
+```
+
 ### InputDateTime [[↗]](?path=/docs/components-inputdatetime--docs)
 
 ```jsx
@@ -120,15 +128,32 @@ of a form using these components, please refer to [Components/Form](?path=/docs/
 </Form.Field>
 ```
 
+### Textarea [[↗]](?path=/docs/components-textarea--docs)
+
+```jsx
+<Form.Field name="desc" label="Description">
+  <Textarea />
+</Form.Field>
+```
+
 ### UploadInput [[↗]](?path=/docs/components-upload-input--docs)
 
 ```jsx
 <Form.Field name="avatar" label="Profile Picture">
   <UploadInput
-    uploadRequest={{
-      url: "/api/upload",
-      method: "POST"
-    }}
+    uploadRequest={{ url: "/api/upload", method: "POST" }}
+    deleteRequest={{ url: "/api/delete", method: "POST" }}
+  />
+</Form.Field>
+```
+
+### UploadDragger [[↗]](?path=/docs/components-upload-dragger--docs)
+
+```jsx
+<Form.Field name="files" label="Additional Files">
+  <UploadDragger
+    uploadRequest={{ url: "/api/upload", method: "POST" }}
+    deleteRequest={{ url: "/api/delete", method: "POST" }}
   />
 </Form.Field>
 ```
@@ -138,10 +163,8 @@ of a form using these components, please refer to [Components/Form](?path=/docs/
 ```jsx
 <Form.Field name="documents" label="Documents">
   <UploadList
-    uploadRequest={{
-      url: "/api/upload",
-      method: "POST"
-    }}
+    uploadRequest={{ url: "/api/upload", method: "POST" }}
+    deleteRequest={{ url: "/api/delete", method: "POST" }}
     maxSize={5000000}
   />
 </Form.Field>
