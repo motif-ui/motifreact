@@ -97,7 +97,7 @@ export const useRegisterFormField: UseRegisterFormFieldType = registerProps => {
       fieldContext?.fieldName && formContext?.notifyFormForFieldValueChange(name ?? fieldContext.fieldName, fieldContext.groupName, value);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fieldContext?.fieldName, fieldContext?.groupName, name],
+    [fieldContext?.fieldName, fieldContext?.groupName, name, formContext?.notifyFormForFieldValueChange],
   );
 
   const onFormFieldSelfError = useCallback(

@@ -1145,7 +1145,7 @@ describe("Form", () => {
     const user = userEvent.setup();
 
     // InputText: type 2 chars → error; type 1 more → clear
-    const textInput = screen.getByTestId("inputItem").querySelector("input")!;
+    const textInput = screen.getByTestId("inputItem").querySelector("input") as HTMLInputElement;
     await user.type(textInput, "ab");
     expect(getFormField(0)).toHaveClass("error");
     expect(getFormField(0)).toHaveTextContent(minLengthMessage(3));
