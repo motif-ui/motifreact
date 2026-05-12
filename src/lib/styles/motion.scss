@@ -11,6 +11,12 @@ $speeds: (
   "faster": 100ms,
   "fastest": 50ms
 );
+$spin-speeds: (
+  "slow": 2000ms,
+  "normal": 1000ms,
+  "fast": 500ms,
+  "faster": 300ms
+);
 
 @mixin transition($properties: all, $speed: "normal", $function: cubic-bezier(0.4, 0, 0.2, 1)) {
   $duration: map.get($speeds, $speed);
@@ -48,4 +54,24 @@ $speeds: (
 @mixin fade-in {
   visibility: visible;
   opacity: 1;
+}
+
+@mixin spin($direction: "clockwise", $speed: "normal") {
+  @keyframes spin-clockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes spin-counterclockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  animation: spin-#{$direction} map.get($spin-speeds, $speed) linear infinite;
 }
