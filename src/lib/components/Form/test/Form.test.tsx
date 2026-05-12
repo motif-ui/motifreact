@@ -1153,7 +1153,7 @@ describe("Form", () => {
     expect(getFormField(0)).not.toHaveClass("error");
 
     // Checkbox: uncheck → error; recheck → clear
-    const checkboxInput = screen.getByTestId("checkbox").querySelector("input")!;
+    const checkboxInput = screen.getByTestId("checkbox").querySelector("input") as HTMLInputElement;
     await user.click(checkboxInput);
     expect(getFormField(1)).toHaveClass("error");
     expect(getFormField(1)).toHaveTextContent(requiredMessage);
@@ -1196,7 +1196,7 @@ describe("Form", () => {
     );
 
     const user = userEvent.setup();
-    const checkboxInputs = screen.getAllByTestId("checkbox").map(el => el.querySelector("input")!);
+    const checkboxInputs = screen.getAllByTestId("checkbox").map(el => el.querySelector("input") as HTMLInputElement);
 
     await user.click(checkboxInputs[0]);
     expect(getFormFieldGroup(0)).toHaveClass("error");
