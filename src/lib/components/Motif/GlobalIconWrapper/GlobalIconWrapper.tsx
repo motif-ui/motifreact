@@ -1,7 +1,5 @@
 import type { CSSProperties } from "react";
-import Icon from "../../Icon/Icon";
-import styles from "./GlobalIconWrapper.module.scss";
-import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
+import Icon from "../../Icon";
 import type { IconGlobalType } from "../../../types";
 
 type GlobalIconWrapperProps = {
@@ -10,13 +8,8 @@ type GlobalIconWrapperProps = {
   style?: CSSProperties;
 };
 
-const GlobalIconWrapper = ({ icon, className, style }: GlobalIconWrapperProps) =>
-  typeof icon === "string" ? (
-    <Icon name={icon} className={className} style={style} />
-  ) : (
-    <span className={sanitizeModuleRootClasses(styles, className)} style={style}>
-      {icon}
-    </span>
-  );
+const GlobalIconWrapper = ({ icon, className, style }: GlobalIconWrapperProps) => (
+  <Icon className={className} style={style} {...(!icon || typeof icon === "string" ? { name: icon } : { children: icon })} />
+);
 
 export default GlobalIconWrapper;

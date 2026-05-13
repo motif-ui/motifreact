@@ -14,10 +14,10 @@ $state: ("default", "disabled", "active", "hover");
 
 .Root {
   display: inline-flex;
-  align-items: center;
   cursor: pointer;
   color: var(--theme-color-text-primary-default);
-  vertical-align: middle;
+  text-decoration: none;
+
   &.rightIcon {
     flex-direction: row-reverse;
   }

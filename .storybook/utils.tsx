@@ -33,7 +33,7 @@ export const themeChangeDecorator = (Story: FC, context: { globals: { theme?: st
 export const iconObjects = {
   string: "folder",
   "<i>": <i className="bi bi-airplane" />,
-  "<span>": <span className="material-symbols-outlined">thumb_up</span>,
+  "<span>": <span className="material-symbols-outlined">mood</span>,
   "<svg>": (
     <svg viewBox="0 0 16 16" width="1em" height="1em" fill="none" stroke="currentColor" strokeWidth="1.5">
       <path d="M8 1.5 3 4v4c0 3 2 5 5 6 3-1 5-3 5-6V4z" />

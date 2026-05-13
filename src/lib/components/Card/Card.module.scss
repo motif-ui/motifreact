@@ -164,21 +164,6 @@ $variants: (
   &:not(:first-child) {
     border-top: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
   }
-
-  .actionLink {
-    text-decoration: none;
-    display: flex;
-    gap: var(--base-sizing-6x);
-
-    span {
-      color: var(--theme-color-text-primary-default);
-      @include font("body", "md");
-    }
-
-    .actionLinkIcon {
-      font-size: var(--base-sizing-20x);
-    }
-  }
 }
 
 @each $variant, $bgColor, $titleColor, $subtitleColor, $avatarBgColor, $avatarTextColor in $variants {

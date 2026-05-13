@@ -180,7 +180,7 @@ export const ListViewIcons: Story = {
     <>
       {Object.values(iconObjects).map((iconItem, idx) => (
         <ListView key={"lv" + idx}>
-          <ListView.Item title="Item" icon={iconItem} />
+          <ListView.Item title="Item" icon={iconItem} iconRight={iconItem} />
         </ListView>
       ))}
     </>

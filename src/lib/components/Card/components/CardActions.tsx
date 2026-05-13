@@ -7,6 +7,7 @@ import { ButtonProps } from "@/components/Button/types";
 import { LinkProps } from "../../Link/types";
 import { IconButtonProps } from "../../IconButton/types";
 import type { IconGlobalType } from "../../../types";
+import { Link } from "src/lib";
 
 type Props = {
   actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
@@ -29,10 +30,12 @@ const CardActions = (props: Props) => {
         )}
         {buttons?.map(btn => btn)}
         {actionLink && (
-          <a href={actionLink.href} {...(actionLink.targetBlank && { target: "_blank" })} className={styles.actionLink}>
-            <span>{actionLink.text}</span>
-            {actionLink.icon && <GlobalIconWrapper icon={actionLink.icon} className={styles.actionLinkIcon} />}
-          </a>
+          <Link
+            label={actionLink.text}
+            icon={actionLink.icon && <GlobalIconWrapper icon={actionLink.icon} />}
+            url={actionLink.href}
+            targetBlank={actionLink.targetBlank}
+          />
         )}
       </div>
     )
