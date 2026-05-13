@@ -119,7 +119,8 @@ $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x", "22x"), ("md", 
   overflow: hidden;
 }
 
-.icon {
+.icon,
+.iconRight {
   color: var(--theme-color-text-secondary-default);
 }
 
