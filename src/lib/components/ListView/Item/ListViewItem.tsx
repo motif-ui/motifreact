@@ -44,5 +44,4 @@ const ListViewItem = (props: PropsWithRefAndChildren<ListViewItemProps, HTMLLIEl
   );
 };
 
-ListViewItem.displayName = "ListView.Item";
 export default ListViewItem;

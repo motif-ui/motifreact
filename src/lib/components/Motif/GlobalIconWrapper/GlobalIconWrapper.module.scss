@@ -3,9 +3,13 @@
 .Root {
   display: inline-flex;
   align-items: center;
+  overflow: hidden;
 
   > :not(svg) {
     font-size: 1em;
+    line-height: 1;
+    width: 1em;
+    height: 1em;
   }
 
   > svg {
