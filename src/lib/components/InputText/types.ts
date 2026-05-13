@@ -1,5 +1,6 @@
-import { FocusEventHandler, MouseEventHandler, ReactElement } from "react";
+import { FocusEventHandler, MouseEventHandler } from "react";
 import { InputCommonProps, InputSize } from "../Form/types";
+import { IconGlobalType } from "src/lib/types.ts";
 
 export type InputTextDefaultableProps = {
   pill?: boolean;
@@ -8,8 +9,8 @@ export type InputTextDefaultableProps = {
 
 export type InputTextProps = {
   placeholder?: string;
-  iconLeft?: string | ReactElement;
-  iconRight?: string | ReactElement;
+  iconLeft?: IconGlobalType;
+  iconRight?: IconGlobalType;
   maxLength?: number;
   onClick?: MouseEventHandler<HTMLInputElement>;
   onFocus?: FocusEventHandler<HTMLInputElement>;

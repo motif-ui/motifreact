@@ -1,12 +1,9 @@
 import type { Preview } from "@storybook/nextjs";
 import type { ArgTypesEnhancer } from "storybook/internal/types";
-import { MotifProvider } from "../src/lib";
-import { useInsertionEffect } from "react";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
-import { iconOptions, iconDecorator } from "./utils.tsx";
+import { iconOptions, iconDecorator, themeChangeDecorator } from "./utils.tsx";
 
-const DEFAULT_THEME = "default-theme";
-const RESET_THEME_BUTTON_VAL = "_reset";
+export const RESET_THEME_BUTTON_VAL = "_reset";
 
 const preview: Preview = {
   globalTypes: {
@@ -24,31 +21,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [
-    iconDecorator,
-    (Story, context) => {
-      const themeProp = context.globals.theme as string;
-      const theme = !themeProp || themeProp === RESET_THEME_BUTTON_VAL ? DEFAULT_THEME : themeProp;
-
-      useInsertionEffect(() => {
-        document.querySelectorAll("link[data-theme-css]").forEach(link => link.remove());
-
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.setAttribute("data-theme-css", "true");
-        link.href = `/themes/${theme}.css`;
-        document.head.appendChild(link);
-
-        return () => link.remove();
-      }, [theme]);
-
-      return (
-        <MotifProvider>
-          <Story />
-        </MotifProvider>
-      );
-    },
-  ],
+  decorators: [iconDecorator, themeChangeDecorator],
   parameters: {
     options: {
       storySort: {

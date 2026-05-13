@@ -9,6 +9,8 @@ const meta: Meta<typeof Button> = {
     variant: { table: { defaultValue: { summary: "primary" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     shape: { table: { defaultValue: { summary: "solid" } } },
+    iconPosition: { table: { defaultValue: { summary: "left" } } },
+    onClick: { action: "clicked" },
   },
   args: {
     label: "Button",

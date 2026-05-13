@@ -12,7 +12,7 @@ export type DropdownProps = {
    * ```
    * {
    *   label?: string;
-   *   icon?: string | ReactElement;
+   *   icon?: IconGlobalType;
    *   iconColor?: string;
    *   header?: string;
    *   action?: (event: MouseEvent) => void;

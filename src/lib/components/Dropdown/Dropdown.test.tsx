@@ -44,8 +44,13 @@ describe("Dropdown", () => {
     await waitFor(() => expect(screen.queryByText("Item 1")).not.toBeInTheDocument());
   });
 
-  it("should render the icon given in the icon prop of the dropdown menu", () => {
+  it("should render the icon given in the icon prop of the dropdown menu ", () => {
     runIconPropTest(icon => render(<Dropdown label="test" icon={icon} items={[{ label: "Item 1" }]} />), "icon");
+  });
+
+  it("should render the label given in the label prop of the dropdown menu ", () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    expect(screen.queryByText("Dropdown Menu")).toBeInTheDocument();
   });
 
   it("should render the icon given in the icon prop of the dropdown menu item", () => {
@@ -55,11 +60,6 @@ describe("Dropdown", () => {
       fireEvent.click(result.getByText("test"));
       return result;
     }, "icon");
-  });
-
-  it("should render the label given in the label prop of the dropdown menu ", () => {
-    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
-    expect(screen.queryByText("Dropdown Menu")).toBeInTheDocument();
   });
 
   it("should render the label given in the label prop of the dropdown menu item ", () => {

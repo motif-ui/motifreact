@@ -20,16 +20,6 @@ const meta: Meta<typeof Dropdown> = {
       { label: "Item Disabled", icon: "home", disabled: true },
       { label: "Item With Colored Icon", icon: "check_circle", iconColor: "red" },
       { icon: "check_circle", iconColor: "green" },
-      { label: "Bootstrap Icon", icon: <i className="bi bi-amazon" /> },
-      {
-        label: "Material Icon",
-        icon: (
-          <span className="material-symbols-outlined" key="mat-android">
-            android
-          </span>
-        ),
-        iconColor: "red",
-      },
     ],
   },
 };
