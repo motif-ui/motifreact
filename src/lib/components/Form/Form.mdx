@@ -7,45 +7,10 @@ import { getStaticPropNames } from "../../../utils/utils";
 
 ### Validation
 
-Validations are managed by `<Form.Field>`, `<Form.FieldGroup>`. There are some predefined validation rules under **Validations** class such as required, min, max, e-mail, etc:
+Form provides a flexible validation system using the `validations` prop available in `<Form.Field>` and
+`<Form.FieldGroup>` that actually manage the validations.
 
-<ul>
-  {getStaticPropNames(Validations).map(name => (
-    <li>{name}</li>
-  ))}
-</ul>
-
-There is always a possibility to use a custom validator. Each validation is simply a type which consists of a validate function and an error message:
-
-```js
-{
-    validate: (value?: string) => boolean;
-    errorMessage: string;
-    requiredValidation?: boolean; //adds asterisk to the label
-}
-```
-
-#### Custom Validation
-
-Here is an example of a simple custom validator which prevents the users sending a value which includes some dangerous numbers:
-
-```tsx
-  const customValidation: (dangerousNumbers: number[]) => InputValidation =
-    dangerousNumbers => ({
-      errorMessage: `Input should not include dangerous numbers of ${dangerousNumbers.toString()}`,
-      validate: value => {
-        const validated = !value?.split("").some(char => dangerousNumbers.some(dangerous => dangerous === parseInt(char)));
-        return validated;
-      },
-    }
-);
-
-//...
-
-<Form.Field name="input" validations={[Validations.customValidation([1, 3, 5])]}>
-  <InputText />
-</Form.Field>
-```
+Please refer to **[Validation ↗](?path=/docs/form-validation--docs)** section for detailed information.
 
 ### Submitted Value Types
 
