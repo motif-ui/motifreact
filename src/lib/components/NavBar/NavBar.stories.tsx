@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import { NavBarProps } from "@/components/NavBar/types";
 import { formatStoryTransform } from "../../../utils/docUtils";
 import { LOGO_URL } from "../../../utils/constants";
+import { useState } from "react";
 
 const argValues: NavBarProps = {
   logo: {
@@ -17,7 +18,11 @@ const argValues: NavBarProps = {
     ],
     subMenuDirection: "right",
   },
-  search: { onSubmit: (query: string) => alert(query) },
+  search: {
+    onButtonClick: () => alert("Check 'NavBar/Search' menu on the left for more detail!"),
+    onPressEnter: () => alert("Check 'NavBar/Search' menu on the left for more detail!"),
+    results: [],
+  },
   actionMenu: {
     items: [{ label: "User", icon: "person", items: [{ label: "Profile" }, { label: "Logout", icon: "close" }] }],
     subMenuDirection: "left",
@@ -79,5 +84,69 @@ export const Primary: Story = {
         transform: formatStoryTransform("NavBar", ["children"]),
       },
     },
+  },
+};
+
+export const Search: Story = {
+  parameters: {
+    docs: {
+      source: {
+        type: "code",
+        code: `
+const [results, setResults] = useState<{ text: string; value?: string }[]>([]);
+const [searching, setSearching] = useState(false);
+
+const doSearch = (query: string) => {
+  setSearching(true);
+  DUMMY_API_CALL().then(res => {
+    setResults(res.data);
+    setSearching(false);
+  });
+};
+
+return (
+  <NavBar
+    {...args}
+    search={{
+      onPressEnter: doSearch,
+      onButtonClick: doSearch,
+      onResultClick: result => alert("Clicked: " + result),
+      results,
+      searching,
+    }}
+  />
+);      
+  `,
+      },
+    },
+  },
+  render: args => {
+    const SearchComponent = () => {
+      const [results, setResults] = useState<{ text: string; value?: string }[]>([]);
+      const [searching, setSearching] = useState(false);
+      const cities = ["Ankara", "İstanbul", "Antalya", "İzmir", "Konya", "Trabzon", "Manisa", "Hatay", "Van"];
+
+      const doSearch = (query: string) => {
+        setSearching(true);
+        setTimeout(() => {
+          setResults(query ? cities.map(c => ({ text: c + " " + query, value: c })) : []);
+          setSearching(false);
+        }, 700);
+      };
+
+      return (
+        <NavBar
+          {...args}
+          search={{
+            onPressEnter: doSearch,
+            onButtonClick: doSearch,
+            onResultClick: result => alert("Clicked: " + result),
+            results,
+            searching,
+          }}
+        />
+      );
+    };
+    return <SearchComponent />;
   },
 };

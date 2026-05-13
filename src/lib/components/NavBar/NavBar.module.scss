@@ -30,6 +30,64 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
   }
 }
 
+.searchBox {
+  position: relative;
+
+  .searchResults {
+    all: unset;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + var(--base-sizing-2x));
+    list-style: none;
+    z-index: 1;
+    border-radius: var(--theme-sizing-radius-default);
+    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    background-color: var(--theme-color-surface-base-global-light);
+    overflow-y: auto;
+    @include shadow(3);
+
+    &::-webkit-scrollbar {
+      width: var(--base-sizing-6x);
+    }
+    &::-webkit-scrollbar-track {
+      background: var(--theme-color-surface-light-disabled);
+      margin: var(--base-sizing-1x) 0;
+      border-radius: var(--theme-sizing-radius-default);
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--theme-color-surface-light-hover);
+      border-radius: var(--theme-sizing-radius-default);
+    }
+
+    li {
+      button {
+        all: unset;
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: var(--base-sizing-8x) var(--base-sizing-16x);
+        color: var(--theme-color-text-base-text-dark);
+        @include font("body", "md");
+        @include transition(background-color);
+
+        &:hover {
+          background-color: var(--theme-color-surface-light-default);
+        }
+      }
+      &:not(:first-child) button {
+        border-top: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
+      }
+    }
+  }
+
+  &.pill .searchResults {
+    left: var(--base-sizing-20x);
+    right: var(--base-sizing-20x);
+  }
+}
+
 // =============================================================================
 // Menu
 // =============================================================================
@@ -200,7 +258,10 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
   }
   .searchBox {
     order: 998;
-    width: 100%;
+    &,
+    .searchInput {
+      width: 100%;
+    }
   }
 
   .mainMenuContainer {
