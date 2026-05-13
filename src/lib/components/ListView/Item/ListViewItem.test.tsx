@@ -22,7 +22,7 @@ describe("ListView.Item", () => {
     expect(getByText("Alternate Text")).toBeInTheDocument();
   });
 
-  it("should render all icon types in the icon prop", () => {
+  it("should display an icon on the left side, given in the icon prop", () => {
     const { container } = render(<ListView.Item title="Test Item" icon="folder" />);
     expect(container.getElementsByClassName("leftContent")).toHaveLength(1);
     runIconPropTest(icon => render(<ListView.Item title="Test Item" icon={icon} />), "icon");
@@ -46,7 +46,7 @@ describe("ListView.Item", () => {
     expect(getByText("te")).toBeInTheDocument();
   });
 
-  it("should render all icon types in the iconRight prop", () => {
+  it("should display an icon on the right side, given in the iconRight prop", () => {
     const { container } = render(<ListView.Item title="Test Item" iconRight="folder" />);
     expect(container.getElementsByClassName("iconRight")).toHaveLength(1);
     runIconPropTest(icon => render(<ListView.Item title="Test Item" iconRight={icon} />), "iconRight");

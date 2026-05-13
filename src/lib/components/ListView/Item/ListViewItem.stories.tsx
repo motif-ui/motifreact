@@ -1,12 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import ListView from "../ListView";
+import { iconOptions, iconDecorator } from "../../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof ListView.Item> = {
   title: "Components/ListView/ListView.Item",
   component: ListView.Item,
+  decorators: [iconDecorator],
   argTypes: {
-    icon: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
-    iconRight: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
+    icon: {
+      options: Object.keys(iconOptions),
+      mapping: iconOptions,
+      control: { type: "select" },
+    },
+    iconRight: {
+      options: Object.keys(iconOptions),
+      mapping: iconOptions,
+      control: { type: "select" },
+    },
   },
   args: {
     title: "My Document Folder",

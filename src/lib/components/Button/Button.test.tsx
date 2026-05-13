@@ -53,7 +53,7 @@ describe("Button", () => {
     expect(container.firstChild).toHaveClass("pill");
   });
 
-  it("should render the main icon given in the icon prop", () => {
+  it("should render the icon when icon prop is set", () => {
     runIconPropTest(icon => render(<Button icon={icon} />), "icon");
   });
 

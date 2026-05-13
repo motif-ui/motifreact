@@ -1,9 +1,11 @@
 import BusinessCard from "./BusinessCard";
 import { Meta, StoryObj } from "@storybook/nextjs";
+import { iconOptions, iconDecorator } from "../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof BusinessCard> = {
   title: "Components/BusinessCard",
   component: BusinessCard,
+  decorators: [iconDecorator],
   argTypes: {
     position: { table: { defaultValue: { summary: "center" } } },
     variant: { table: { defaultValue: { summary: "secondary" } } },
@@ -24,12 +26,17 @@ const meta: Meta<typeof BusinessCard> = {
         },
       },
     },
+    icon: {
+      options: Object.keys(iconOptions),
+      mapping: iconOptions,
+      control: { type: "select" },
+    },
   },
   args: {
     title: "Custom Card Title",
     outline: true,
     description: "This is a small text to describe the card",
-    icon: "motif_ui",
+    icon: "folder",
     link: {
       text: "Link Item",
       href: "https://motif-ui.com",

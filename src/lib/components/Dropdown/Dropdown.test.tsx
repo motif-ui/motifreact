@@ -44,11 +44,11 @@ describe("Dropdown", () => {
     await waitFor(() => expect(screen.queryByText("Item 1")).not.toBeInTheDocument());
   });
 
-  it("should render the main icon given in the icon prop", () => {
+  it("should render the icon given in the icon prop of the dropdown menu", () => {
     runIconPropTest(icon => render(<Dropdown label="test" icon={icon} items={[{ label: "Item 1" }]} />), "icon");
   });
 
-  it("should render all icon types in the menu item icon prop", () => {
+  it("should render the icon given in the icon prop of the dropdown menu item", () => {
     runIconPropTest(icon => {
       cleanup();
       const result = render(<Dropdown label="test" items={[{ label: "Item 1", icon }]} />);

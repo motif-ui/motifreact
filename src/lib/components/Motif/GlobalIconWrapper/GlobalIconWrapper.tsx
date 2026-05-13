@@ -1,19 +1,20 @@
-import { ReactElement } from "react";
+import type { CSSProperties } from "react";
 import Icon from "../../Icon/Icon";
 import styles from "./GlobalIconWrapper.module.scss";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
+import type { IconGlobalType } from "../../../types";
 
 type GlobalIconWrapperProps = {
-  icon: string | ReactElement;
+  icon: IconGlobalType;
   className?: string;
-  color?: string;
+  style?: CSSProperties;
 };
 
-const GlobalIconWrapper = ({ icon, className, color }: GlobalIconWrapperProps) =>
+const GlobalIconWrapper = ({ icon, className, style }: GlobalIconWrapperProps) =>
   typeof icon === "string" ? (
-    <Icon name={icon} className={className} color={color} />
+    <Icon name={icon} className={className} style={style} />
   ) : (
-    <span className={sanitizeModuleRootClasses(styles, className)} style={color ? { color } : undefined}>
+    <span className={sanitizeModuleRootClasses(styles, className)} style={style}>
       {icon}
     </span>
   );

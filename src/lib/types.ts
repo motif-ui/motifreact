@@ -30,6 +30,7 @@ export type StandardPropsWithChildren<P = unknown> = PropsWithChildren<P> & Stan
  * ```
  * Icon name, or custom icon that renders <span>, <i> or <svg>
  * ```
+ * @type {string | ReactElement}
  */
 export type IconGlobalType = string | ReactElement;
 

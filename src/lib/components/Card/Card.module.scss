@@ -169,7 +169,6 @@ $variants: (
     text-decoration: none;
     display: flex;
     gap: var(--base-sizing-6x);
-    align-items: center;
 
     span {
       color: var(--theme-color-text-primary-default);
@@ -177,8 +176,7 @@ $variants: (
     }
 
     .actionLinkIcon {
-      font-size: var(--base-sizing-5x);
-      color: var(--theme-color-text-primary-active);
+      font-size: var(--base-sizing-22x);
     }
   }
 }

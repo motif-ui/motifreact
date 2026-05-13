@@ -14,6 +14,7 @@ import Chip from "@/components/Chip/Chip";
 import DataView from "@/components/DataView/DataView";
 import IconButton from "@/components/IconButton/IconButton";
 import InputPassword from "@/components/InputPassword/InputPassword";
+
 const meta: Meta = {
   title: "Chromatic/GlobalIconWrapper",
   tags: ["!autodocs", "!dev"],
@@ -111,52 +112,18 @@ export const ButtonIcons: Story = {
   ),
 };
 
-export const CardActionIcon: Story = {
+export const CardIcons: Story = {
   render: () => (
     <>
       {iconItems.map((iconItem, idx) => (
-        <Card key={"cda" + idx} title="With Action" icon="folder" action={{ icon: iconItem, onClick: () => {} }} />
-      ))}
-    </>
-  ),
-};
-
-export const CardActionLinkIcon: Story = {
-  render: () => (
-    <>
-      {iconItems.map((iconItem, idx) => {
-        const stringIcon = typeof iconItem === "string" ? iconItem : "link";
-        return <Card key={"cdal" + idx} title="With Link" contentActionLink={{ text: "Details", href: "#", icon: stringIcon }} />;
-      })}
-    </>
-  ),
-};
-
-export const CardAllIcons: Story = {
-  render: () => (
-    <>
-      {iconItems.map((iconItem, idx) => {
-        const stringIcon = typeof iconItem === "string" ? iconItem : "link";
-        return (
-          <Card
-            key={"cdf" + idx}
-            title="Full Card"
-            icon={iconItem}
-            action={{ icon: iconItem, onClick: () => {} }}
-            contentActionLink={{ text: "Details", href: "#", icon: stringIcon }}
-            contentText="Card with all icon types"
-          />
-        );
-      })}
-    </>
-  ),
-};
-
-export const CardHeaderIcon: Story = {
-  render: () => (
-    <>
-      {iconItems.map((iconItem, idx) => (
-        <Card key={"cdh" + idx} title="Header Icon" icon={iconItem} />
+        <Card
+          key={"cdf" + idx}
+          title="Full Card"
+          icon={iconItem}
+          action={{ icon: iconItem, onClick: () => {} }}
+          contentActionLink={{ text: "Details", href: "#", icon: iconItem }}
+          contentText="Card with all icon types"
+        />
       ))}
     </>
   ),
@@ -188,17 +155,7 @@ export const DropdownIcons: Story = {
   render: () => (
     <>
       {iconItems.map((iconItem, idx) => (
-        <Dropdown
-          key={"dd" + idx}
-          label="Dropdown"
-          icon={iconItem}
-          items={iconItems.map((icon, i) => ({
-            label: `Item ${i + 1}`,
-            icon: icon,
-            iconColor: "red",
-            action: () => {},
-          }))}
-        />
+        <Dropdown key={"dd" + idx} label="Dropdown" icon={iconItem} items={[{ label: "Item 1" }]} />
       ))}
     </>
   ),
@@ -208,7 +165,7 @@ export const IconButtonIcons: Story = {
   render: () => (
     <>
       {iconItems.map((iconItem, idx) => (
-        <IconButton key={"ib" + idx} name={iconItem} size="xs" />
+        <IconButton key={"ib" + idx} name={iconItem} size="xxl" />
       ))}
     </>
   ),

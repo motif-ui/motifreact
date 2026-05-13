@@ -25,7 +25,7 @@ const DropdownMenuItem = (props: DropdownMenuItemProps) => {
       <a className={classNames} {...(!disabled && { onClick: handleClick })}>
         {header ?? (
           <>
-            {icon && <GlobalIconWrapper icon={icon} className={styles.icon} color={iconColor} />}
+            {icon && <GlobalIconWrapper icon={icon} className={styles.icon} style={{ color: iconColor }} />}
             {label && <span>{label}</span>}
           </>
         )}

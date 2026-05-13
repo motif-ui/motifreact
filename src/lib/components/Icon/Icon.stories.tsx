@@ -2,13 +2,20 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import Icon from "../Icon/Icon";
 import { motifIconNames } from "./motif-icon-names";
 import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
+import { iconOptions, iconDecorator } from "../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof Icon> = {
   title: "Components/Icon",
   component: Icon,
+  decorators: [iconDecorator],
   argTypes: {
     iconClass: { table: { defaultValue: { summary: MOTIF_ICONS_DEFAULT_CLASS } } },
     size: { table: { defaultValue: { summary: "md" } } },
+    name: {
+      options: Object.keys(iconOptions),
+      mapping: iconOptions,
+      control: { type: "select" },
+    },
   },
   args: {
     size: "xxl",

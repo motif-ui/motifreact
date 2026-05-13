@@ -1,13 +1,14 @@
-import { memo, ReactElement, useContext } from "react";
+import { memo, useContext } from "react";
 import Checkbox from "@/components/Checkbox";
 import GlobalIconWrapper from "../../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "../../ListView.module.scss";
 import { ListViewContext } from "@/components/ListView/ListViewProvider";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
+import type { IconGlobalType } from "../../../../types";
 
 type Props = {
   id?: string;
-  icon?: string | ReactElement;
+  icon?: IconGlobalType;
   image?: string;
   abbr?: string;
 };

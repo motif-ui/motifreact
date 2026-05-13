@@ -1,12 +1,13 @@
 import styles from "../Dropdown.module.scss";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MotifIcon } from "@/components/Motif/Icon";
-import { ReactElement, useContext } from "react";
+import { useContext } from "react";
+import type { IconGlobalType } from "../../../types";
 import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
 
 type Props = {
   label?: string;
-  icon?: string | ReactElement;
+  icon?: IconGlobalType;
 };
 
 const DropdownButton = (props: Props) => {

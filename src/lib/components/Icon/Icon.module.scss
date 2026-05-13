@@ -5,7 +5,7 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 
 .Root {
   display: inline-flex;
-  vertical-align: middle;
+  align-items: center;
   user-select: none;
 
   span,

@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-$sizes: (/* size, fontSize, padding, iconSize */ ("xs", "xxs", "2x", "16x"), ("sm", "xs", "4x", "18x"), ("md", "sm", "6x", "20x"), ("lg", "md", "8x", "22x"));
+$sizes: (/* size, fontSize, padding, iconLeftSize */ ("xs", "xxs", "2x", "18x"), ("sm", "xs", "4x", "20x"), ("md", "sm", "6x", "22x"), ("lg", "md", "8x", "24x"));
 $variants: (
   /* variant, color, colorSolid, colorCloseIconSolid */ ("primary", "primary", base-global-light, base-light-overlay75),
   ("secondary", "light", light-default, light-disabled),
@@ -24,7 +24,7 @@ $variants: (
   border-radius: var(--theme-sizing-radius-round);
 }
 
-@each $size, $fontSize, $padding, $iconSize in $sizes {
+@each $size, $fontSize, $padding, $iconLeftSize in $sizes {
   .#{$size} {
     min-width: var(--typography-body-#{$fontSize}-line-height);
     padding: var(--base-sizing-#{$padding});
@@ -33,11 +33,10 @@ $variants: (
       margin: 0 var(--base-sizing-#{$padding});
     }
     .icon-left {
-      font-size: var(--base-sizing-#{$iconSize});
+      font-size: var(--base-sizing-#{$iconLeftSize});
       margin-right: var(--base-sizing-2x);
     }
     .icon-close {
-      font-size: var(--base-sizing-#{$iconSize});
       margin-left: var(--base-sizing-2x);
     }
   }
