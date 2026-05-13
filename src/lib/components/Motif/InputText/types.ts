@@ -19,6 +19,7 @@ export type InternalInputProps = {
   disabled?: boolean;
   readOnly?: boolean;
   disableTyping?: boolean;
+  loader?: boolean;
   success?: boolean;
   error?: boolean;
   onClick?: MouseEventHandler<HTMLInputElement>;
