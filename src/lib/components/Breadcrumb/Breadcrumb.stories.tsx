@@ -1,18 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Breadcrumb from "./Breadcrumb";
-import { iconOptions, iconDecorator } from "../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof Breadcrumb> = {
   title: "Components/Breadcrumb",
   component: Breadcrumb,
-  decorators: [iconDecorator],
   argTypes: {
     collapsedPosition: { table: { defaultValue: { summary: "left" } } },
     homeIcon: {
-      options: Object.keys(iconOptions),
-      mapping: iconOptions,
-      control: { type: "select" },
       table: { defaultValue: { summary: "home" } },
     },
     maxVisibleItems: { table: { defaultValue: { summary: "3" } } },

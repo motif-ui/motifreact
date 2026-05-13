@@ -1,19 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import Accordion from "./Accordion";
-import { iconOptions, iconDecorator } from "../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof Accordion> = {
   title: "Components/Accordion",
   component: Accordion,
   argTypes: {
     expanded: { table: { defaultValue: { summary: "false" } } },
-    icon: {
-      options: Object.keys(iconOptions),
-      mapping: iconOptions,
-      control: { type: "select" },
-    },
   },
-  decorators: [iconDecorator],
   args: {
     text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae fermentum arcu, vitae dignissim quam. Suspendisse eu nisi
         semper, congue augue tincidunt, porttitor dui. Nam at faucibus turpis, sed ullamcorper augue. Proin odio tortor, tincidunt et

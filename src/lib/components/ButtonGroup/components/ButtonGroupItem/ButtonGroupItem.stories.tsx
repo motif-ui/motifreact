@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import ButtonGroup from "@/components/ButtonGroup";
-import { iconOptions, iconDecorator } from "../../../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof ButtonGroup.Item> = {
   title: "Components/ButtonGroup/ButtonGroup.Item",
   component: ButtonGroup.Item,
-  decorators: [iconDecorator],
   argTypes: {
     disabled: { control: "boolean" },
     children: {
@@ -13,11 +11,6 @@ const meta: Meta<typeof ButtonGroup.Item> = {
       description: "`ButtonGroup.Item[]`",
       control: { type: "boolean" },
       mapping: { false: undefined, true: <ButtonGroup.Item label="ButtonGroup SubItem" /> },
-    },
-    icon: {
-      options: Object.keys(iconOptions),
-      mapping: iconOptions,
-      control: { type: "select" },
     },
   },
   args: {

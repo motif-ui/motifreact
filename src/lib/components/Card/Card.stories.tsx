@@ -2,20 +2,13 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Card from "./Card";
 import { formatStoryTransform } from "../../../utils/docUtils";
-import { iconOptions, iconDecorator } from "../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof Card> = {
   title: "Components/Card",
   component: Card,
-  decorators: [iconDecorator],
   argTypes: {
     imagePosition: { table: { defaultValue: { summary: "left" } } },
     variant: { table: { defaultValue: { summary: "secondary" } } },
-    icon: {
-      options: Object.keys(iconOptions),
-      mapping: iconOptions,
-      control: { type: "select" },
-    },
   },
   args: {
     title: "Card Header Title",

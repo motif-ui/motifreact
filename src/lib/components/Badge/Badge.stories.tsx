@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Badge from "../Badge";
 import Button from "@/components/Button";
-import { iconOptions, iconDecorator } from "../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof Badge> = {
   title: "Components/Badge",
@@ -13,18 +12,12 @@ const meta: Meta<typeof Badge> = {
         <Story />
       </div>
     ),
-    iconDecorator,
   ],
   argTypes: {
     variant: { table: { defaultValue: { summary: "primary" } } },
     max: { table: { defaultValue: { summary: "999" } } },
     align: { table: { defaultValue: { summary: "top-right" } } },
     children: { control: false },
-    icon: {
-      options: Object.keys(iconOptions),
-      mapping: iconOptions,
-      control: { type: "select" },
-    },
   },
   args: {
     content: "badge",

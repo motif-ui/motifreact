@@ -1,7 +1,9 @@
 import type { Preview } from "@storybook/nextjs";
+import type { ArgTypesEnhancer } from "storybook/internal/types";
 import { MotifProvider } from "../src/lib";
 import { useInsertionEffect } from "react";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
+import { iconOptions, iconDecorator } from "./utils.tsx";
 
 const DEFAULT_THEME = "default-theme";
 const RESET_THEME_BUTTON_VAL = "_reset";
@@ -23,6 +25,7 @@ const preview: Preview = {
     },
   },
   decorators: [
+    iconDecorator,
     (Story, context) => {
       const themeProp = context.globals.theme as string;
       const theme = !themeProp || themeProp === RESET_THEME_BUTTON_VAL ? DEFAULT_THEME : themeProp;
@@ -89,5 +92,24 @@ const preview: Preview = {
   },
   tags: ["autodocs"],
 };
+
+/**
+ * Storybook reads this named export automatically at boot — do not remove or rename it.
+ *
+ * For every story, this runs after docgen collects argTypes. Any prop whose type is
+ * `IconGlobalType` automatically gets the icon selector control (options + mapping),
+ * so individual story files don't need to configure it themselves.
+ */
+export const argTypesEnhancers: ArgTypesEnhancer[] = [
+  context =>
+    Object.fromEntries(
+      Object.entries(context.argTypes).map(([key, argType]) => {
+        if ((argType as { table?: { type?: { summary?: string } } }).table?.type?.summary === "IconGlobalType") {
+          return [key, { ...argType, options: Object.keys(iconOptions), mapping: iconOptions, control: { type: "select" } }];
+        }
+        return [key, argType];
+      }),
+    ) as ReturnType<ArgTypesEnhancer>,
+];
 
 export default preview;

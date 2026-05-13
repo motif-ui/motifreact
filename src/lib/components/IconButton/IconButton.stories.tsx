@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
 import IconButton from "../IconButton/IconButton";
-import { iconOptions, iconDecorator } from "../../../utils/storybookUtils.tsx";
 
 const meta: Meta<typeof IconButton> = {
   title: "Components/IconButton",
@@ -21,16 +20,10 @@ const meta: Meta<typeof IconButton> = {
       },
     },
   },
-  decorators: [iconDecorator],
   argTypes: {
     iconClass: { table: { defaultValue: { summary: MOTIF_ICONS_DEFAULT_CLASS } } },
     size: { table: { defaultValue: { summary: "md" } } },
     variant: { table: { defaultValue: { summary: "secondary" } } },
-    name: {
-      options: Object.keys(iconOptions),
-      mapping: iconOptions,
-      control: { type: "select" },
-    },
   },
   args: {
     name: "motif_ui",
