@@ -17,6 +17,7 @@ export type FormDefaultableProps = {
   enableClearButton?: boolean;
   clearButtonLabel?: string;
   dontClearOnSubmit?: boolean;
+  validateOnChange?: boolean;
 };
 
 //////////////////////////////
@@ -80,6 +81,7 @@ export type FormProviderProps = {
   size: InputSize;
   formOrientation: Orientation;
   labelOrientation: Orientation;
+  validateOnChange?: boolean;
 };
 
 // Type of the form state reference
@@ -88,6 +90,7 @@ export type FormStateRefProps = {
   values: NameInputValue;
   validationRules: { [name: string]: InputValidation[] | undefined };
   isValid: boolean;
+  pendingInitFields: Set<string>;
 };
 
 // Props that are provided to the fields via FieldContext
@@ -103,6 +106,7 @@ export type FormContextType<T> = {
   labelOrientation: Orientation;
   validate: () => FormSubmitData<T>;
   resetValues: () => void;
+  clearFieldFromPendingInit: (name: string) => void;
 };
 
 // The type of the data returned when the form is submitted
