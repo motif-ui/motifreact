@@ -19,5 +19,4 @@ const DataViewItem = (props: PropsWithRefAndChildren<DataViewItemProps, HTMLDivE
   );
 };
 
-DataViewItem.displayName = "DataView.Item";
 export default DataViewItem;
