@@ -2,132 +2,130 @@
 
 $variants: (("neutral", "light"), ("primary", "primary"), ("secondary", "secondary"), ("info", "info"), ("success", "success"), ("danger", "danger"), ("warning", "warning"));
 
-@layer motif-ui {
-  .Root {
-    display: flex;
-    flex-flow: column nowrap;
-    border-radius: var(--theme-sizing-radius-default);
-    padding: var(--base-sizing-16x);
-    gap: var(--base-sizing-16x);
-    background: var(--theme-color-surface-base-bg-light);
+.Root {
+  display: flex;
+  flex-flow: column nowrap;
+  border-radius: var(--theme-sizing-radius-default);
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-16x);
+  background: var(--theme-color-surface-base-bg-light);
 
-    .icon {
-      font-size: var(--base-sizing-40x);
+  .icon {
+    font-size: var(--base-sizing-40x);
+  }
+  .title {
+    @include font("base", "lg", "700");
+  }
+  .description {
+    @include font("body", "md");
+  }
+  .link {
+    text-decoration: none;
+    @include font("body", "md");
+    &:hover {
+      text-decoration: underline;
     }
+  }
+
+  &:not(.solid),
+  &.neutral.solid {
     .title {
-      @include font("base", "lg", "700");
+      color: var(--theme-color-text-base-title);
     }
     .description {
-      @include font("body", "md");
+      color: var(--theme-color-text-base-caption);
     }
     .link {
-      text-decoration: none;
-      @include font("body", "md");
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-
-    &:not(.solid),
-    &.neutral.solid {
-      .title {
-        color: var(--theme-color-text-base-title);
-      }
-      .description {
-        color: var(--theme-color-text-base-caption);
-      }
-      .link {
-        color: var(--theme-color-text-primary-default);
-      }
+      color: var(--theme-color-text-primary-default);
     }
   }
+}
 
-  .outline {
-    border: var(--base-sizing-1x) solid;
-  }
+.outline {
+  border: var(--base-sizing-1x) solid;
+}
 
-  .elevated {
-    @include shadow(3);
-  }
+.elevated {
+  @include shadow(3);
+}
 
-  .clickable {
-    cursor: pointer;
-    &:not(.solid, .elevated, .outline) {
-      @include transition(background-color);
-      &:hover {
-        background-color: var(--theme-color-surface-base-base3);
-      }
+.clickable {
+  cursor: pointer;
+  &:not(.solid, .elevated, .outline) {
+    @include transition(background-color);
+    &:hover {
+      background-color: var(--theme-color-surface-base-base3);
     }
-    &.solid {
-      @include transition(background-color);
+  }
+  &.solid {
+    @include transition(background-color);
+  }
+  &.outline {
+    @include transition(background-color border-color);
+    &:not(.solid, .elevated):hover {
+      background-color: var(--theme-color-surface-light-negative);
     }
+  }
+  &.elevated {
+    @include transition(box-shadow);
     &.outline {
-      @include transition(background-color border-color);
-      &:not(.solid, .elevated):hover {
-        background-color: var(--theme-color-surface-light-negative);
-      }
+      @include transition(box-shadow border-color);
     }
-    &.elevated {
-      @include transition(box-shadow);
-      &.outline {
-        @include transition(box-shadow border-color);
-      }
-      &:hover {
-        @include shadow(4);
-      }
+    &:hover {
+      @include shadow(4);
     }
   }
+}
 
-  @each $variant, $name in $variants {
-    .#{$variant} {
-      &.solid {
-        background-color: var(--theme-color-surface-#{$name}-default);
-        &.clickable:not(.elevated):hover {
-          background-color: var(--theme-color-surface-#{$name}-hover);
+@each $variant, $name in $variants {
+  .#{$variant} {
+    &.solid {
+      background-color: var(--theme-color-surface-#{$name}-default);
+      &.clickable:not(.elevated):hover {
+        background-color: var(--theme-color-surface-#{$name}-hover);
+      }
+
+      @if $variant != "neutral" {
+        .title,
+        .description,
+        .link,
+        .icon,
+        .iconButton {
+          $tone: if($variant == "warning", "dark", "light");
+          color: var(--theme-color-text-base-global-#{$tone});
         }
-
-        @if $variant != "neutral" {
-          .title,
-          .description,
-          .link,
-          .icon,
-          .iconButton {
-            $tone: if($variant == "warning", "dark", "light");
-            color: var(--theme-color-text-base-global-#{$tone});
-          }
-        } @else {
-          .icon {
-            color: var(--theme-color-text-#{$name}-default);
-          }
+      } @else {
+        .icon {
+          color: var(--theme-color-text-#{$name}-default);
         }
       }
+    }
 
-      &.outline {
-        border-color: var(--theme-color-border-#{$name}-default);
-        &.clickable:hover {
-          border-color: var(--theme-color-border-#{$name}-hover);
-        }
-      }
-
-      &:not(.solid) .icon {
-        color: var(--theme-color-text-#{$name}-default);
+    &.outline {
+      border-color: var(--theme-color-border-#{$name}-default);
+      &.clickable:hover {
+        border-color: var(--theme-color-border-#{$name}-hover);
       }
     }
-  }
 
-  .left {
-    align-items: flex-start;
-  }
-  .center {
-    align-items: center;
-    span {
-      text-align: center;
+    &:not(.solid) .icon {
+      color: var(--theme-color-text-#{$name}-default);
     }
   }
-  .right {
-    align-items: flex-end;
-    span {
-      text-align: right;
-    }
+}
+
+.left {
+  align-items: flex-start;
+}
+.center {
+  align-items: center;
+  span {
+    text-align: center;
+  }
+}
+.right {
+  align-items: flex-end;
+  span {
+    text-align: right;
   }
 }

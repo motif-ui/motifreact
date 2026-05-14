@@ -8,32 +8,30 @@ $sizes: (
   ("lg", "32x", "24x", "10x")
 );
 
-@layer motif-ui {
-  .Root {
-    display: flex;
-    align-items: flex-start;
-    min-width: var(--base-sizing-128x);
-  }
+.Root {
+  display: flex;
+  align-items: flex-start;
+  min-width: var(--base-sizing-128x);
+}
 
-  .vertical {
-    flex-direction: column;
-  }
+.vertical {
+  flex-direction: column;
+}
 
-  .horizontal {
-    flex-direction: row;
-  }
+.horizontal {
+  flex-direction: row;
+}
 
-  @each $name, $gapItemsH, $gapItemsV, $paddingVInFormField in $sizes {
-    .#{$name} {
-      &.vertical {
-        gap: var(--base-sizing-#{$gapItemsV});
-      }
-      &.horizontal {
-        gap: var(--base-sizing-#{$gapItemsH});
-      }
-      &.inFormField {
-        padding: var(--base-sizing-#{$paddingVInFormField}) 0;
-      }
+@each $name, $gapItemsH, $gapItemsV, $paddingVInFormField in $sizes {
+  .#{$name} {
+    &.vertical {
+      gap: var(--base-sizing-#{$gapItemsV});
+    }
+    &.horizontal {
+      gap: var(--base-sizing-#{$gapItemsH});
+    }
+    &.inFormField {
+      padding: var(--base-sizing-#{$paddingVInFormField}) 0;
     }
   }
 }

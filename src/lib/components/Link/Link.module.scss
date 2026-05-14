@@ -3,53 +3,51 @@
 $sizes: (("sm", "4x", "16x"), ("md", "6x", "20x"), ("lg", "8x", "24x"));
 $state: ("default", "disabled", "active", "hover");
 
-@layer motif-ui {
-  @each $name, $gap, $iconFontSize in $sizes {
-    .#{$name} {
-      gap: var(--base-sizing-#{$gap});
-      @include font("base", $name, "500");
-      .icon {
-        font-size: var(--base-sizing-#{$iconFontSize});
-      }
+@each $name, $gap, $iconFontSize in $sizes {
+  .#{$name} {
+    gap: var(--base-sizing-#{$gap});
+    @include font("base", $name, "500");
+    .icon {
+      font-size: var(--base-sizing-#{$iconFontSize});
     }
   }
+}
 
-  .Root {
-    display: inline-flex;
-    cursor: pointer;
+.Root {
+  display: inline-flex;
+  cursor: pointer;
+  color: var(--theme-color-text-primary-default);
+  text-decoration: none;
+
+  &.rightIcon {
+    flex-direction: row-reverse;
+  }
+  &.leftIcon {
+    flex-direction: row;
+  }
+  .icon {
     color: var(--theme-color-text-primary-default);
-    text-decoration: none;
+  }
+  &:hover,
+  &:hover .icon {
+    color: var(--theme-color-text-primary-hover);
+  }
 
-    &.rightIcon {
-      flex-direction: row-reverse;
-    }
-    &.leftIcon {
-      flex-direction: row;
-    }
-    .icon {
-      color: var(--theme-color-text-primary-default);
-    }
-    &:hover,
-    &:hover .icon {
-      color: var(--theme-color-text-primary-hover);
-    }
+  &:focus,
+  &:focus .icon {
+    color: var(--theme-color-text-primary-active);
+    outline: none;
+  }
 
-    &:focus,
-    &:focus .icon {
-      color: var(--theme-color-text-primary-active);
-      outline: none;
-    }
+  &.disabled,
+  &.disabled .icon {
+    pointer-events: none;
+    color: var(--theme-color-text-primary-disabled);
+  }
 
-    &.disabled,
-    &.disabled .icon {
-      pointer-events: none;
-      color: var(--theme-color-text-primary-disabled);
-    }
-
-    &.underline {
-      .label {
-        text-decoration: underline;
-      }
+  &.underline {
+    .label {
+      text-decoration: underline;
     }
   }
 }

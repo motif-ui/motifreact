@@ -3,108 +3,106 @@
 // name, spacing, padding, infoFontPerc, iconSize
 $sizes: (("xs", "2x", "20x", "xxs", "32x"), ("sm", "4x", "24x", "xs", "40x"), ("md", "6x", "28x", "sm", "48x"), ("lg", "8x", "32x", "md", "56x"));
 
-@layer motif-ui {
-  .Root {
-    display: inline-block;
-    width: auto;
-    max-width: 100%;
-    min-width: var(--base-sizing-216x);
-    flex-grow: 1;
-    box-sizing: border-box;
+.Root {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  min-width: var(--base-sizing-216x);
+  flex-grow: 1;
+  box-sizing: border-box;
 
-    .dragArea {
-      border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-      border-radius: var(--theme-sizing-radius-default);
-      background-color: var(--theme-color-surface-base-base2);
+  .dragArea {
+    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    border-radius: var(--theme-sizing-radius-default);
+    background-color: var(--theme-color-surface-base-base2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    @include transition(border-color);
+
+    .dragIcon {
+      color: var(--theme-color-text-base-caption-light);
+      @include transition(color);
+    }
+
+    .dragTextGroup {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      cursor: pointer;
-      box-sizing: border-box;
-      @include transition(border-color);
+    }
+
+    .dragText {
+      color: var(--theme-color-text-base-subtitle);
+      text-align: center;
+    }
+
+    .dragInfo {
+      color: var(--theme-color-text-base-caption);
+      text-align: center;
+    }
+
+    &.flatBottom {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &.onDrag,
+    &:hover {
+      &:not(.disabled) {
+        border-style: dashed;
+        border-color: var(--theme-color-text-primary-default);
+        .dragIcon {
+          color: var(--theme-color-text-primary-default);
+        }
+      }
+    }
+
+    &.error {
+      border-color: var(--theme-color-surface-danger-default);
+    }
+
+    &.disabled {
+      cursor: default;
+      border-color: var(--theme-color-border-light-disabled);
+      .dragIcon {
+        color: var(--theme-color-text-base-disabled-light);
+      }
+      .dragText,
+      .dragInfo {
+        color: var(--theme-color-text-base-disabled);
+      }
+    }
+
+    &.success:not(.disabled) {
+      border-color: var(--theme-color-border-success-default);
+    }
+  }
+}
+
+@each $name, $spacing, $padding, $infoFontPerc, $iconSize in $sizes {
+  .#{$name} {
+    .dragArea {
+      gap: var(--base-sizing-#{$spacing});
+      padding: var(--base-sizing-#{$padding});
 
       .dragIcon {
-        color: var(--theme-color-text-base-caption-light);
-        @include transition(color);
+        font-size: var(--base-sizing-#{$iconSize});
       }
 
       .dragTextGroup {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        gap: var(--base-sizing-#{$spacing});
+        padding: var(--base-sizing-#{$spacing});
       }
 
       .dragText {
-        color: var(--theme-color-text-base-subtitle);
-        text-align: center;
+        @include font("base", $name, "500");
       }
 
       .dragInfo {
-        color: var(--theme-color-text-base-caption);
-        text-align: center;
-      }
-
-      &.flatBottom {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      &.onDrag,
-      &:hover {
-        &:not(.disabled) {
-          border-style: dashed;
-          border-color: var(--theme-color-text-primary-default);
-          .dragIcon {
-            color: var(--theme-color-text-primary-default);
-          }
-        }
-      }
-
-      &.error {
-        border-color: var(--theme-color-surface-danger-default);
-      }
-
-      &.disabled {
-        cursor: default;
-        border-color: var(--theme-color-border-light-disabled);
-        .dragIcon {
-          color: var(--theme-color-text-base-disabled-light);
-        }
-        .dragText,
-        .dragInfo {
-          color: var(--theme-color-text-base-disabled);
-        }
-      }
-
-      &.success:not(.disabled) {
-        border-color: var(--theme-color-border-success-default);
-      }
-    }
-  }
-
-  @each $name, $spacing, $padding, $infoFontPerc, $iconSize in $sizes {
-    .#{$name} {
-      .dragArea {
-        gap: var(--base-sizing-#{$spacing});
-        padding: var(--base-sizing-#{$padding});
-
-        .dragIcon {
-          font-size: var(--base-sizing-#{$iconSize});
-        }
-
-        .dragTextGroup {
-          gap: var(--base-sizing-#{$spacing});
-          padding: var(--base-sizing-#{$spacing});
-        }
-
-        .dragText {
-          @include font("base", $name, "500");
-        }
-
-        .dragInfo {
-          @include font("body", $infoFontPerc);
-        }
+        @include font("body", $infoFontPerc);
       }
     }
   }

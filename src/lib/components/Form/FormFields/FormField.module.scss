@@ -8,144 +8,142 @@ $sizes: (
   ("lg", "sm", "8x", "20x", "10x", "32x")
 );
 
-@layer motif-ui {
-  .Root {
-    display: flex;
+.Root {
+  display: flex;
 
-    &.error {
-      &.required .label::before,
-      &.required .label::after,
-      .helper {
-        color: var(--theme-color-text-danger-default);
-      }
-    }
-
-    &.success .helper {
-      color: var(--theme-color-text-success-default);
-    }
-
-    &.disabled {
-      .label {
-        &,
-        &::before,
-        &::after {
-          color: var(--theme-color-text-base-disabled);
-        }
-      }
-      &.required .label::before,
-      &.required .label::after {
-        color: var(--theme-color-text-base-disabled);
-      }
-      .helper {
-        color: var(--theme-color-text-base-disabled);
-      }
+  &.error {
+    &.required .label::before,
+    &.required .label::after,
+    .helper {
+      color: var(--theme-color-text-danger-default);
     }
   }
 
-  .label {
-    color: var(--theme-color-text-base-title-light);
-    .required & {
+  &.success .helper {
+    color: var(--theme-color-text-success-default);
+  }
+
+  &.disabled {
+    .label {
+      &,
       &::before,
       &::after {
-        color: var(--theme-color-text-base-caption);
-        padding: 0 var(--base-sizing-2x);
+        color: var(--theme-color-text-base-disabled);
       }
     }
-  }
-
-  .helper {
-    color: var(--theme-color-text-base-caption);
-    white-space: pre-line;
-    @include transition(color);
-  }
-
-  .inputContainer {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .horizontalForm {
-    .label {
-      white-space: nowrap;
-    }
-  }
-
-  .verticalForm.horizontalLabel {
-    .label {
-      width: var(--base-sizing-128x);
-      min-width: var(--base-sizing-128x);
-    }
-    .inputContainer {
-      flex: 1;
-    }
-  }
-
-  .horizontalLabel {
-    align-items: flex-start;
-    &.required .label::before {
-      content: "*";
-    }
-  }
-
-  .verticalLabel {
-    flex-direction: column;
+    &.required .label::before,
     &.required .label::after {
-      content: "*";
+      color: var(--theme-color-text-base-disabled);
+    }
+    .helper {
+      color: var(--theme-color-text-base-disabled);
     }
   }
+}
 
-  .groupItems {
-    display: flex;
-    .verticalGroup & {
-      flex-direction: column;
+.label {
+  color: var(--theme-color-text-base-title-light);
+  .required & {
+    &::before,
+    &::after {
+      color: var(--theme-color-text-base-caption);
+      padding: 0 var(--base-sizing-2x);
     }
   }
+}
 
-  @each $size, $helperSize, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems in $sizes {
-    .#{$size} {
-      &.verticalLabel {
-        gap: var(--base-sizing-#{$gapVLabel});
-        &.required .label::after {
-          font-weight: var(--typography-base-#{$size}-700-font-weight);
-        }
-        &.horizontalForm:not(:has(> .label)) {
-          @at-root :has(.label) > & {
-            $gap-var: --base-sizing-#{$gapVLabel};
-            $line-height-var: --typography-base-#{$size}-500-line-height;
-            padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
-          }
+.helper {
+  color: var(--theme-color-text-base-caption);
+  white-space: pre-line;
+  @include transition(color);
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontalForm {
+  .label {
+    white-space: nowrap;
+  }
+}
+
+.verticalForm.horizontalLabel {
+  .label {
+    width: var(--base-sizing-128x);
+    min-width: var(--base-sizing-128x);
+  }
+  .inputContainer {
+    flex: 1;
+  }
+}
+
+.horizontalLabel {
+  align-items: flex-start;
+  &.required .label::before {
+    content: "*";
+  }
+}
+
+.verticalLabel {
+  flex-direction: column;
+  &.required .label::after {
+    content: "*";
+  }
+}
+
+.groupItems {
+  display: flex;
+  .verticalGroup & {
+    flex-direction: column;
+  }
+}
+
+@each $size, $helperSize, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems in $sizes {
+  .#{$size} {
+    &.verticalLabel {
+      gap: var(--base-sizing-#{$gapVLabel});
+      &.required .label::after {
+        font-weight: var(--typography-base-#{$size}-700-font-weight);
+      }
+      &.horizontalForm:not(:has(> .label)) {
+        @at-root :has(.label) > & {
+          $gap-var: --base-sizing-#{$gapVLabel};
+          $line-height-var: --typography-base-#{$size}-500-line-height;
+          padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
         }
       }
+    }
 
-      &.verticalGroup .groupItems {
-        gap: var(--base-sizing-#{$gapVLabel});
-      }
+    &.verticalGroup .groupItems {
+      gap: var(--base-sizing-#{$gapVLabel});
+    }
 
-      &.horizontalLabel {
-        gap: var(--base-sizing-#{$gapHLabel});
-        .label {
-          margin-top: var(--base-sizing-#{$marginTopHLabel});
-        }
-        &.required .label::before {
-          font-weight: var(--typography-base-#{$size}-700-font-weight);
-        }
-      }
-
-      &.horizontalGroup .groupItems {
-        gap: var(--base-sizing-#{$gapHGroupItems});
-      }
-
+    &.horizontalLabel {
+      gap: var(--base-sizing-#{$gapHLabel});
       .label {
-        @include font("base", $size, "500");
+        margin-top: var(--base-sizing-#{$marginTopHLabel});
       }
+      &.required .label::before {
+        font-weight: var(--typography-base-#{$size}-700-font-weight);
+      }
+    }
 
-      .helper {
-        @include font("body", $helperSize);
-      }
+    &.horizontalGroup .groupItems {
+      gap: var(--base-sizing-#{$gapHGroupItems});
+    }
 
-      .inputContainer {
-        gap: var(--base-sizing-#{$gapVLabel});
-      }
+    .label {
+      @include font("base", $size, "500");
+    }
+
+    .helper {
+      @include font("body", $helperSize);
+    }
+
+    .inputContainer {
+      gap: var(--base-sizing-#{$gapVLabel});
     }
   }
 }

@@ -3,71 +3,69 @@
 // name, gap, padding, infoFontPerc
 $sizes: (("xs", "4x", "8x", "xs"), ("sm", "6x", "12x", "sm"), ("md", "8x", "16x", "sm"), ("lg", "10x", "20x", "sm"));
 
-@layer motif-ui {
-  .Root {
-    display: inline-block;
-    width: auto;
-    min-width: var(--base-sizing-216x);
-    max-width: 100%;
-    flex-grow: 1;
+.Root {
+  display: inline-block;
+  width: auto;
+  min-width: var(--base-sizing-216x);
+  max-width: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
+
+  .dragArea {
+    @include transition(border-color);
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    border-radius: var(--base-radius-sm);
+    background-color: var(--theme-color-surface-base-base2);
     box-sizing: border-box;
 
-    .dragArea {
-      @include transition(border-color);
-      width: 100%;
-      display: inline-flex;
-      justify-content: space-between;
-      align-items: center;
-      border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-      border-radius: var(--base-radius-sm);
-      background-color: var(--theme-color-surface-base-base2);
-      box-sizing: border-box;
+    .infoText {
+      text-align: right;
+      color: var(--base-colors-gray-gray-500);
+    }
 
-      .infoText {
-        text-align: right;
-        color: var(--base-colors-gray-gray-500);
-      }
-
-      &:hover,
-      &.onDrag {
-        &:not(.disabled) {
-          cursor: pointer;
-          border-style: dashed;
-          border-color: var(--theme-color-text-primary-default);
-        }
-      }
-
-      &.flatBottom {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      &.error {
-        border-color: var(--theme-color-surface-danger-default);
-      }
-
-      &.disabled {
-        border-color: var(--theme-color-border-light-disabled);
-        .infoText {
-          color: var(--theme-color-text-base-disabled-light);
-        }
-      }
-
-      &.success:not(.disabled) {
-        border-color: var(--theme-color-border-success-default);
+    &:hover,
+    &.onDrag {
+      &:not(.disabled) {
+        cursor: pointer;
+        border-style: dashed;
+        border-color: var(--theme-color-text-primary-default);
       }
     }
+
+    &.flatBottom {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &.error {
+      border-color: var(--theme-color-surface-danger-default);
+    }
+
+    &.disabled {
+      border-color: var(--theme-color-border-light-disabled);
+      .infoText {
+        color: var(--theme-color-text-base-disabled-light);
+      }
+    }
+
+    &.success:not(.disabled) {
+      border-color: var(--theme-color-border-success-default);
+    }
   }
+}
 
-  @each $name, $gap, $padding, $infoFontPerc in $sizes {
-    .#{$name} {
-      .dragArea {
-        padding: var(--base-sizing-#{$padding});
-        gap: var(--base-sizing-#{$gap});
+@each $name, $gap, $padding, $infoFontPerc in $sizes {
+  .#{$name} {
+    .dragArea {
+      padding: var(--base-sizing-#{$padding});
+      gap: var(--base-sizing-#{$gap});
 
-        .infoText {
-          @include font("body", $infoFontPerc);
-        }
+      .infoText {
+        @include font("body", $infoFontPerc);
       }
     }
   }

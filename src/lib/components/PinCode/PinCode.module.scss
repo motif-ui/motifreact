@@ -8,64 +8,62 @@ $sizes: (
   ("lg", "10x", "24x", "16x")
 );
 
-@layer motif-ui {
-  @each $size, $padding, $inputSize, $gap in $sizes {
-    .#{$size} {
-      gap: var(--base-sizing-#{$gap});
-      .input {
-        @include font("body", $size);
-        width: var(--base-sizing-#{$inputSize});
-        height: var(--base-sizing-#{$inputSize});
-        padding: var(--base-sizing-#{$padding});
-      }
+@each $size, $padding, $inputSize, $gap in $sizes {
+  .#{$size} {
+    gap: var(--base-sizing-#{$gap});
+    .input {
+      @include font("body", $size);
+      width: var(--base-sizing-#{$inputSize});
+      height: var(--base-sizing-#{$inputSize});
+      padding: var(--base-sizing-#{$padding});
     }
   }
+}
 
-  .Root {
-    display: inline-flex;
-    vertical-align: top;
+.Root {
+  display: inline-flex;
+  vertical-align: top;
 
-    &.success .input {
-      border-color: var(--theme-color-border-success-default);
-    }
-
-    &.circle .input {
-      border-radius: var(--theme-sizing-radius-round);
-    }
-
-    &.error .input {
-      border-color: var(--theme-color-border-danger-default);
-    }
-
-    .input.item_space {
-      background: none;
-      border: none;
-    }
+  &.success .input {
+    border-color: var(--theme-color-border-success-default);
   }
 
-  // =============================================================================
-  // Sub Component: PinCodeItemHOC
-  // =============================================================================
+  &.circle .input {
+    border-radius: var(--theme-sizing-radius-round);
+  }
 
-  .input {
-    text-align: center;
-    background-color: var(--theme-color-surface-base-bg-light);
-    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-    box-sizing: content-box;
-    border-radius: var(--theme-sizing-radius-default);
-    color: var(--theme-color-text-base-title);
-    @include focus-ring;
+  &.error .input {
+    border-color: var(--theme-color-border-danger-default);
+  }
 
-    &:disabled,
-    :read-only {
-      border-color: var(--theme-color-border-light-disabled);
-      color: var(--theme-color-text-base-disabled);
-      background-color: var(--theme-color-surface-base-base1);
-      pointer-events: none;
-    }
+  .input.item_space {
+    background: none;
+    border: none;
+  }
+}
 
-    &.item_space {
-      pointer-events: none;
-    }
+// =============================================================================
+// Sub Component: PinCodeItemHOC
+// =============================================================================
+
+.input {
+  text-align: center;
+  background-color: var(--theme-color-surface-base-bg-light);
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  box-sizing: content-box;
+  border-radius: var(--theme-sizing-radius-default);
+  color: var(--theme-color-text-base-title);
+  @include focus-ring;
+
+  &:disabled,
+  :read-only {
+    border-color: var(--theme-color-border-light-disabled);
+    color: var(--theme-color-text-base-disabled);
+    background-color: var(--theme-color-surface-base-base1);
+    pointer-events: none;
+  }
+
+  &.item_space {
+    pointer-events: none;
   }
 }

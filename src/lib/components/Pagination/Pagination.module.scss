@@ -7,75 +7,73 @@ $pagination-sizes: (
   ("lg", "48x", "10x")
 );
 
-@layer motif-ui {
-  .Root {
-    display: inline-flex;
-    flex-wrap: wrap;
-  }
+.Root {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
 
-  .pageItem {
-    border: solid var(--base-sizing-1x) transparent;
-    border-radius: var(--theme-sizing-radius-default);
-    background: none;
-    color: var(--theme-color-text-base-title-light);
-    cursor: pointer;
+.pageItem {
+  border: solid var(--base-sizing-1x) transparent;
+  border-radius: var(--theme-sizing-radius-default);
+  background: none;
+  color: var(--theme-color-text-base-title-light);
+  cursor: pointer;
 
-    &.arrowIcon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      span {
-        color: var(--theme-color-text-base-title-light);
-      }
-      &:disabled {
-        pointer-events: none;
-        span {
-          color: var(--theme-color-text-secondary-disabled);
-        }
-      }
-    }
-
-    &:hover {
-      background: var(--theme-color-surface-light-default);
-    }
-    &.active {
-      color: white;
-      pointer-events: none;
-      background: var(--theme-color-surface-primary-default);
-    }
-    @include focus-ring;
-  }
-
-  .separator {
-    color: var(--theme-color-text-base-caption);
+  &.arrowIcon {
     display: flex;
     align-items: center;
     justify-content: center;
-    &::before {
-      content: "...";
+    span {
+      color: var(--theme-color-text-base-title-light);
+    }
+    &:disabled {
+      pointer-events: none;
+      span {
+        color: var(--theme-color-text-secondary-disabled);
+      }
     }
   }
 
-  @each $name, $size, $gap in $pagination-sizes {
-    .#{$name} {
-      padding: var(--base-sizing-#{$gap});
-      gap: var(--base-sizing-#{$gap});
+  &:hover {
+    background: var(--theme-color-surface-light-default);
+  }
+  &.active {
+    color: white;
+    pointer-events: none;
+    background: var(--theme-color-surface-primary-default);
+  }
+  @include focus-ring;
+}
 
-      .pageItem {
-        height: var(--base-sizing-#{$size});
-        @include font("base", $name, "500");
-        &.arrowIcon {
-          width: var(--base-sizing-#{$size});
-        }
-        &:not(.arrowIcon) {
-          min-width: var(--base-sizing-#{$size});
-        }
-      }
+.separator {
+  color: var(--theme-color-text-base-caption);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &::before {
+    content: "...";
+  }
+}
 
-      .separator {
+@each $name, $size, $gap in $pagination-sizes {
+  .#{$name} {
+    padding: var(--base-sizing-#{$gap});
+    gap: var(--base-sizing-#{$gap});
+
+    .pageItem {
+      height: var(--base-sizing-#{$size});
+      @include font("base", $name, "500");
+      &.arrowIcon {
         width: var(--base-sizing-#{$size});
-        height: var(--base-sizing-#{$size});
       }
+      &:not(.arrowIcon) {
+        min-width: var(--base-sizing-#{$size});
+      }
+    }
+
+    .separator {
+      width: var(--base-sizing-#{$size});
+      height: var(--base-sizing-#{$size});
     }
   }
 }

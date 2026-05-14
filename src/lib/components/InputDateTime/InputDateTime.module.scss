@@ -1,14 +1,12 @@
-@layer motif-ui {
-  .Root {
-    position: relative;
-    display: inline-grid;
+.Root {
+  position: relative;
+  display: inline-grid;
 
-    .pickerContainer {
-      position: absolute;
-      left: 0;
-      top: 100%;
-      z-index: 1;
-      margin-top: var(--base-sizing-2x);
-    }
+  .pickerContainer {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 1;
+    margin-top: var(--base-sizing-2x);
   }
 }

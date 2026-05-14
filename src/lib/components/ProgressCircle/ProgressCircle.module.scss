@@ -7,86 +7,84 @@ $colors: "primary", "success", "danger", "warning", "info";
 // size, strokeWidth, radius, fontPerc
 $sizes: (("xs", "2x", "8x", "xs"), ("sm", "3x", "12x", "xs"), ("md", "4x", "18x", "xs"), ("lg", "4x", "24x", "xs"), ("xl", "6x", "32x", "md"));
 
-@layer motif-ui {
-  .Root {
-    @each $size, $strokeWidth, $radius, $fontPerc in $sizes {
-      &.#{$size} {
-        height: calc(var(--base-sizing-#{$radius}) * 2);
-        width: calc(var(--base-sizing-#{$radius}) * 2);
-        $normalized-radius: calc(var(--base-sizing-#{$radius}) - (var(--base-sizing-#{$strokeWidth}) / 2));
-        $circumference-with-unit: calc(#{$normalized-radius} * 2 * #{math.$pi});
-        $circumference: #{$circumference-with-unit};
-        $calculated-offset: calc(#{$circumference} - ((#{$circumference} * var(--percentage, 0)) / 100));
+.Root {
+  @each $size, $strokeWidth, $radius, $fontPerc in $sizes {
+    &.#{$size} {
+      height: calc(var(--base-sizing-#{$radius}) * 2);
+      width: calc(var(--base-sizing-#{$radius}) * 2);
+      $normalized-radius: calc(var(--base-sizing-#{$radius}) - (var(--base-sizing-#{$strokeWidth}) / 2));
+      $circumference-with-unit: calc(#{$normalized-radius} * 2 * #{math.$pi});
+      $circumference: #{$circumference-with-unit};
+      $calculated-offset: calc(#{$circumference} - ((#{$circumference} * var(--percentage, 0)) / 100));
 
-        circle {
-          cx: var(--base-sizing-#{$radius});
-          cy: var(--base-sizing-#{$radius});
-          r: $normalized-radius;
-          stroke-width: var(--base-sizing-#{$strokeWidth});
-        }
+      circle {
+        cx: var(--base-sizing-#{$radius});
+        cy: var(--base-sizing-#{$radius});
+        r: $normalized-radius;
+        stroke-width: var(--base-sizing-#{$strokeWidth});
+      }
 
+      .circle {
+        stroke-dashoffset: $calculated-offset;
+        stroke-dasharray: $circumference $circumference;
+      }
+
+      &.countdown {
         .circle {
-          stroke-dashoffset: $calculated-offset;
-          stroke-dasharray: $circumference $circumference;
+          animation: countdown-#{$size} var(--countdown-duration) linear forwards;
         }
 
-        &.countdown {
-          .circle {
-            animation: countdown-#{$size} var(--countdown-duration) linear forwards;
-          }
-
-          &.paused .circle {
-            animation-play-state: paused;
-          }
-
-          @keyframes countdown-#{$size} {
-            0% {
-              stroke-dashoffset: 0;
-            }
-            100% {
-              stroke-dashoffset: #{$circumference};
-            }
-          }
+        &.paused .circle {
+          animation-play-state: paused;
         }
 
-        .text {
-          fill: var(--theme-color-text-base-subtitle-light);
-          font-weight: var(--typography-base-#{$fontPerc}-500-fontWeight);
-          font-size: var(--typography-base-#{$fontPerc}-500-fontSize);
+        @keyframes countdown-#{$size} {
+          0% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-dashoffset: #{$circumference};
+          }
         }
       }
-    }
 
-    @each $color in $colors {
-      &.#{$color} .circle {
-        stroke: var(--theme-color-surface-#{$color}-default);
+      .text {
+        fill: var(--theme-color-text-base-subtitle-light);
+        font-weight: var(--typography-base-#{$fontPerc}-500-fontWeight);
+        font-size: var(--typography-base-#{$fontPerc}-500-fontSize);
       }
     }
+  }
 
-    &.secondary .circle {
-      stroke: var(--theme-color-surface-base-base7);
+  @each $color in $colors {
+    &.#{$color} .circle {
+      stroke: var(--theme-color-surface-#{$color}-default);
     }
+  }
 
-    .circle {
-      @include transition(stroke-dashoffset, "slow", ease-in-out);
-      transform: rotate(-90deg);
-      transform-origin: 50% 50%;
-      stroke-linecap: round;
-    }
+  &.secondary .circle {
+    stroke: var(--theme-color-surface-base-base7);
+  }
 
-    .track {
-      stroke: var(--theme-color-surface-base-base5);
-    }
+  .circle {
+    @include transition(stroke-dashoffset, "slow", ease-in-out);
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke-linecap: round;
+  }
 
-    &.indeterminate {
-      animation: 1.5s linear infinite svg-animation;
-      @keyframes svg-animation {
-        0% {
-          transform: rotateZ(0deg);
-        }
-        100% {
-          transform: rotateZ(360deg);
-        }
+  .track {
+    stroke: var(--theme-color-surface-base-base5);
+  }
+
+  &.indeterminate {
+    animation: 1.5s linear infinite svg-animation;
+    @keyframes svg-animation {
+      0% {
+        transform: rotateZ(0deg);
+      }
+      100% {
+        transform: rotateZ(360deg);
       }
     }
   }

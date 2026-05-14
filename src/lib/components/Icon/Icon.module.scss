@@ -3,45 +3,43 @@
 $variants: "primary", "secondary", "info", "success", "warning", "danger";
 $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
 
-@layer motif-ui {
-  .Root {
-    display: inline-flex;
-    vertical-align: top;
-    user-select: none;
+.Root {
+  display: inline-flex;
+  vertical-align: top;
+  user-select: none;
 
-    span,
-    i {
-      font-size: inherit;
-      line-height: 1;
-      &::before {
-        vertical-align: bottom;
-      }
-    }
-    svg {
-      width: 1em;
-      height: 1em;
+  span,
+  i {
+    font-size: inherit;
+    line-height: 1;
+    &::before {
+      vertical-align: bottom;
     }
   }
-
-  @each $variant in $variants {
-    .#{$variant} {
-      color: var(--theme-color-text-#{$variant}-default);
-    }
+  svg {
+    width: 1em;
+    height: 1em;
   }
+}
 
-  @each $size, $fontSize in $sizes {
-    .#{$size} {
-      font-size: var(--base-sizing-#{$fontSize});
-    }
+@each $variant in $variants {
+  .#{$variant} {
+    color: var(--theme-color-text-#{$variant}-default);
   }
+}
 
-  .stroke svg {
-    stroke: currentColor;
-    fill: transparent;
+@each $size, $fontSize in $sizes {
+  .#{$size} {
+    font-size: var(--base-sizing-#{$fontSize});
   }
+}
 
-  .fill svg {
-    fill: currentColor;
-    stroke: transparent;
-  }
+.stroke svg {
+  stroke: currentColor;
+  fill: transparent;
+}
+
+.fill svg {
+  fill: currentColor;
+  stroke: transparent;
 }

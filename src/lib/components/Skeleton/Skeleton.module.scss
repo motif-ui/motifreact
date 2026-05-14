@@ -1,38 +1,36 @@
-@layer motif-ui {
-  .skeleton {
-    &.table {
-      display: flex;
-      padding: var(--base-sizing-16x);
-      gap: var(--base-sizing-22x);
-      flex-direction: column;
+.skeleton {
+  &.table {
+    display: flex;
+    padding: var(--base-sizing-16x);
+    gap: var(--base-sizing-22x);
+    flex-direction: column;
 
-      div {
-        height: var(--base-sizing-10x);
+    div {
+      height: var(--base-sizing-10x);
+      width: 100%;
+      border-radius: var(--base-sizing-4x);
+      &:nth-child(1) {
         width: 100%;
-        border-radius: var(--base-sizing-4x);
-        &:nth-child(1) {
-          width: 100%;
-        }
-        &:nth-child(2) {
-          width: 100%;
-        }
-        &:nth-child(3) {
-          width: 100%;
-        }
       }
-
-      &.pulse div {
-        animation: pulse 1s linear infinite alternate;
+      &:nth-child(2) {
+        width: 100%;
+      }
+      &:nth-child(3) {
+        width: 100%;
       }
     }
 
-    @keyframes pulse {
-      0% {
-        background-color: #dddddd;
-      }
-      100% {
-        background-color: #efefef;
-      }
+    &.pulse div {
+      animation: pulse 1s linear infinite alternate;
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      background-color: #dddddd;
+    }
+    100% {
+      background-color: #efefef;
     }
   }
 }

@@ -20,27 +20,25 @@ $sizes: (
   ("p3", "14x", "20x", 400, 0.9)
 );
 
-@layer motif-ui {
-  @each $type, $fontSize, $lineHeight, $fontWeight, $marginEnd in $sizes {
-    .#{$type} {
-      all: unset;
-      font-size: var(--base-sizing-#{$fontSize});
-      line-height: var(--base-sizing-#{$lineHeight});
-      font-weight: $fontWeight;
-      margin-top: $marginEnd + em;
-      margin-bottom: $marginEnd + em;
-    }
+@each $type, $fontSize, $lineHeight, $fontWeight, $marginEnd in $sizes {
+  .#{$type} {
+    all: unset;
+    font-size: var(--base-sizing-#{$fontSize});
+    line-height: var(--base-sizing-#{$lineHeight});
+    font-weight: $fontWeight;
+    margin-top: $marginEnd + em;
+    margin-bottom: $marginEnd + em;
   }
+}
 
-  .Root {
-    display: inline-block;
-  }
+.Root {
+  display: inline-block;
+}
 
-  .italic {
-    font-style: italic;
-  }
+.italic {
+  font-style: italic;
+}
 
-  .underline {
-    text-decoration: underline;
-  }
+.underline {
+  text-decoration: underline;
 }
