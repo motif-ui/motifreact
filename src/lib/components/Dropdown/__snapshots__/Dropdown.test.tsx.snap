@@ -14,6 +14,8 @@ exports[`Dropdown should be rendered with only required props and should have de
     </span>
     <span
       class="Root md motifIconsDefault Button-DropdownIcon"
+      lang="en"
+      translate="no"
     >
       arrow_drop_down
     </span>

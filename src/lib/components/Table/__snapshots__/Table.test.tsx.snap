@@ -25,6 +25,8 @@ exports[`Table should render with only required props 1`] = `
               >
                 <span
                   class="Root md mtf-ui-icons sm"
+                  lang="en"
+                  translate="no"
                 >
                   expand_all
                 </span>

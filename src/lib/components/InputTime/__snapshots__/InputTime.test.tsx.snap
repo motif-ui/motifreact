@@ -11,6 +11,8 @@ exports[`InputTime should be rendered with only required props and should have d
     >
       <span
         class="Root md motifIconsDefault icon"
+        lang="en"
+        translate="no"
       >
         schedule
       </span>

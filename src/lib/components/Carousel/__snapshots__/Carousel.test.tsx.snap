@@ -70,6 +70,8 @@ exports[`Carousel should be rendered with only required props and should have de
     >
       <span
         class="Root md mtf-ui-icons xxl"
+        lang="en"
+        translate="no"
       >
         arrow_forward_ios
       </span>
@@ -81,6 +83,8 @@ exports[`Carousel should be rendered with only required props and should have de
     >
       <span
         class="Root md mtf-ui-icons xxl"
+        lang="en"
+        translate="no"
       >
         arrow_forward_ios
       </span>

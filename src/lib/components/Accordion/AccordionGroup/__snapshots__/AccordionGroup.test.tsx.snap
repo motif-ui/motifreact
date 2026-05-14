@@ -20,6 +20,8 @@ exports[`AccordionGroup should be rendered with only required props 1`] = `
         </span>
         <span
           class="Root lg motifIconsDefault collapseIcon"
+          lang="en"
+          translate="no"
         >
           keyboard_arrow_down
         </span>
@@ -47,6 +49,8 @@ exports[`AccordionGroup should be rendered with only required props 1`] = `
         </span>
         <span
           class="Root lg motifIconsDefault collapseIcon"
+          lang="en"
+          translate="no"
         >
           keyboard_arrow_down
         </span>

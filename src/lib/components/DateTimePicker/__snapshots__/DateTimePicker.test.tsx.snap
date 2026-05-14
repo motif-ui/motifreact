@@ -21,6 +21,8 @@ exports[`DatePicker should be rendered with only required props and should have 
           >
             <span
               class="Root md motifIconsDefault"
+              lang="en"
+              translate="no"
             >
               arrow_back
             </span>
@@ -45,6 +47,8 @@ exports[`DatePicker should be rendered with only required props and should have 
           >
             <span
               class="Root md motifIconsDefault"
+              lang="en"
+              translate="no"
             >
               arrow_forward
             </span>

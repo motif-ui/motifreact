@@ -8,6 +8,8 @@ exports[`Avatar should be rendered with only required props 1`] = `
   >
     <span
       class="Root md motifIconsDefault"
+      lang="en"
+      translate="no"
     >
       person
     </span>

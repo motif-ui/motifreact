@@ -7,6 +7,8 @@ exports[`Alert should be rendered with only required props and should have defau
   >
     <span
       class="Root lg secondary motifIconsDefault"
+      lang="en"
+      translate="no"
     >
       info
     </span>

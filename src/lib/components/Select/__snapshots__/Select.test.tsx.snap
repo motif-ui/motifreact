@@ -28,6 +28,8 @@ exports[`Select should be rendered with only required props 1`] = `
       >
         <span
           class="Root md motifIconsDefault iconRight arrowDown"
+          lang="en"
+          translate="no"
         >
           arrow_drop_down
         </span>
