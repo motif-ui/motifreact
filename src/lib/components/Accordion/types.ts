@@ -1,3 +1,4 @@
+import type { IconGlobalType } from "../../types";
 import { ReactElement } from "react";
 
 export type AccordionGroupProps = {
@@ -17,7 +18,7 @@ export type AccordionProps = {
   title: string;
   index?: number;
   text?: string;
-  icon?: string | ReactElement;
+  icon?: IconGlobalType;
   onToggle?: () => void;
 } & AccordionDefaultableProps;
 

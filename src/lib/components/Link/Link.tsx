@@ -1,5 +1,5 @@
 import styles from "./Link.module.scss";
-import Icon from "../Icon";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { PropsWithRef } from "../../types";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { LinkProps } from "../Link/types";
@@ -30,8 +30,6 @@ const Link = (props: PropsWithRef<LinkProps, HTMLAnchorElement>) => {
     iconPosition === "right" ? "rightIcon" : "leftIcon",
   ]);
 
-  const iconSize = size === "sm" ? "xxs" : size === "md" ? "sm" : size;
-
   return (
     (label || url) && (
       <a
@@ -45,9 +43,9 @@ const Link = (props: PropsWithRef<LinkProps, HTMLAnchorElement>) => {
         style={style}
       >
         {external ? (
-          <MotifIcon name="external" size={iconSize} className={styles.icon} />
+          <MotifIcon name="external" className={styles.icon} />
         ) : icon ? (
-          <Icon name={icon} size={iconSize} className={styles.icon} />
+          <GlobalIconWrapper icon={icon} className={styles.icon} />
         ) : null}
         <span className={styles.label}>{label || url}</span>
       </a>

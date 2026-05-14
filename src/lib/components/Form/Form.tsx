@@ -21,13 +21,14 @@ const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormP
     clearButtonLabel = t("g.clear"),
     dontClearOnSubmit,
     title,
+    validateOnChange,
     ref,
     style,
     className,
   } = usePropsWithThemeDefaults("Form", props);
 
   return (
-    <FormProvider formOrientation={formOrientation} size={size} labelOrientation={labelOrientation}>
+    <FormProvider formOrientation={formOrientation} size={size} labelOrientation={labelOrientation} validateOnChange={validateOnChange}>
       <FormComponent
         ref={ref}
         onSubmit={onSubmit}

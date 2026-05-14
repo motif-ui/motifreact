@@ -4,6 +4,7 @@ import { useMotifContext } from "../../motif/context/MotifProvider";
 import { IconButtonProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 
 const IconButton = (props: PropsWithRef<IconButtonProps, HTMLButtonElement>) => {
   const {
@@ -30,7 +31,7 @@ const IconButton = (props: PropsWithRef<IconButtonProps, HTMLButtonElement>) => 
       type="button"
       ref={ref}
     >
-      {name}
+      {name && <GlobalIconWrapper icon={name} className={styles[size]} />}
     </button>
   );
 };

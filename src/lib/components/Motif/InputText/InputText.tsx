@@ -26,6 +26,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     disabled,
     readOnly,
     disableTyping,
+    loader,
     error,
     success,
     onChange,
@@ -109,13 +110,30 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         onKeyUp={onKeyUp}
         {...controlledProps}
       />
-      {iconRight && (
-        <Icon className={styles.icon} size={size}>
-          {iconRight}
-        </Icon>
+      {loader ? (
+        <svg className={styles.loader} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle
+            cx="50"
+            cy="50"
+            r="42"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="8"
+            strokeDasharray="62.8 188.4"
+            strokeLinecap="round"
+          />
+        </svg>
+      ) : (
+        <>
+          {iconRight && (
+            <Icon className={styles.icon} size={size}>
+              {iconRight}
+            </Icon>
+          )}
+          {buttonRight && <MotifIconButton name={buttonRight.name} className={styles.icon} size={size} onClick={buttonRight.onClick} />}
+          {clearable && <MotifIconButton name="cancel_outline" disabled={disabled || readOnly} size={size} onClick={clearHandler} />}
+        </>
       )}
-      {buttonRight && <MotifIconButton name={buttonRight.name} className={styles.icon} size={size} onClick={buttonRight.onClick} />}
-      {clearable && <MotifIconButton name="cancel_outline" disabled={disabled || readOnly} size={size} onClick={clearHandler} />}
       {type === "number" && (
         <div className={styles.numberButtons}>
           <button type="button" onClick={() => adjustNumberValue(1)} disabled={disabled || readOnly}>

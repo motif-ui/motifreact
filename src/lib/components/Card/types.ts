@@ -1,4 +1,5 @@
 import type { MouseEvent, ReactElement } from "react";
+import type { IconGlobalType } from "../../types";
 import { ButtonProps } from "../Button/types";
 import { LinkProps } from "../Link/types";
 import { IconButtonProps } from "../IconButton/types";
@@ -7,9 +8,9 @@ export type CardProps = {
   title?: string;
   subtitle?: string;
   avatarText?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   image?: string;
-  action?: { icon: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
+  action?: { icon: IconGlobalType; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   contentTitle?: string;
   contentSubtitle?: string;
   contentText?: string;
@@ -17,7 +18,7 @@ export type CardProps = {
   contentLink?: { text: string; href: string; targetBlank?: boolean };
   contentActionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   contentAlternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
-  contentActionLink?: { text: string; href: string; icon?: string; targetBlank?: boolean };
+  contentActionLink?: { text: string; href: string; icon?: IconGlobalType; targetBlank?: boolean };
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
 } & CardDefaultableProps;
 

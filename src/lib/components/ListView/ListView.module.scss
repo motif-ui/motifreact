@@ -1,9 +1,9 @@
 @use "@styles" as *;
 
-$list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x"), ("md", "sm", "2x", "16x", "12x", "32x"), ("lg", "md", "4x", "20x", "16x", "40x"));
+$list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x", "22x"), ("md", "sm", "2x", "16x", "12x", "32x", "22x", "24x"), ("lg", "md", "4x", "20x", "16x", "40x", "24x", "28x"));
 
 @layer motif-ui {
-  @each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize in $list-item-sizes {
+  @each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize, $iconFontSize, $iconRightFontSize in $list-item-sizes {
     .#{$size} {
       .baseContent {
         gap: var(--base-sizing-#{$spaceH});
@@ -29,11 +29,18 @@ $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x"), ("md", "sm", "2x", "1
       .description {
         @include font("body", $size);
       }
+      .icon {
+        font-size: var(--base-sizing-#{$iconFontSize});
+      }
+      .iconRight {
+        font-size: var(--base-sizing-#{$iconRightFontSize});
+      }
     }
   }
 
   .Root {
     padding: 0;
+    margin: 0;
     list-style: none;
   }
 
@@ -114,7 +121,8 @@ $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x"), ("md", "sm", "2x", "1
     overflow: hidden;
   }
 
-  .icon {
+  .icon,
+  .iconRight {
     color: var(--theme-color-text-secondary-default);
   }
 

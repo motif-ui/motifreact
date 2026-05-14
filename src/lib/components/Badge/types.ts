@@ -1,9 +1,9 @@
-import type { ReactElement } from "react";
+import type { IconGlobalType } from "../../types";
 
 export type BadgeProps = {
   variant?: "primary" | "secondary" | "success" | "warning" | "danger" | "info";
   content?: string;
-  icon?: string | ReactElement;
+  icon?: IconGlobalType;
   dot?: boolean;
 } & BadgeDefaultableProps;
 

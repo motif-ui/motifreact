@@ -7,7 +7,11 @@ exports[`MotifIconButton should render with only required props 1`] = `
     data-testid="iconButtonTestId"
     type="button"
   >
-    home
+    <span
+      class="Root md mtf-ui-icons"
+    >
+      home
+    </span>
   </button>
 </div>
 `;

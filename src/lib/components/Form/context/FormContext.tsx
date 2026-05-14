@@ -18,12 +18,13 @@ export const useForm = () => useContext(FormContext);
 
 export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
   const { t } = useMotifContext();
-  const { formOrientation, labelOrientation, size, children } = props;
+  const { formOrientation, labelOrientation, size, children, validateOnChange } = props;
   const formStateRef = useRef<FormStateRefProps>({
     fields: {},
     values: {},
     validationRules: {},
     isValid: true,
+    pendingInitFields: new Set(),
   });
 
   /**
@@ -75,6 +76,7 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
     if (validations) {
       formStateRef.current.validationRules[name] = validations;
     }
+    formStateRef.current.pendingInitFields.add(name);
   }, []);
 
   /**
@@ -109,6 +111,7 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
       if (!formStateRef.current.validationRules[groupName] && !!groupValidations?.length) {
         formStateRef.current.validationRules[groupName] = groupValidations;
       }
+      formStateRef.current.pendingInitFields.add(groupName);
     },
     [],
   );
@@ -172,41 +175,38 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
   );
 
   /**
-   * Validates the form by checking the values that are passed to form state by onChange event of the inputs
-   * using the validation rules. It sets the form state with the latest info after the validation and returns
-   * the values and error status.
+   * Validates a single field by name: runs its validation rules and checks for self-reported errors.
+   * Disabled fields are always considered valid. Sets the field's error via errorSetter on failure.
    *
-   * Since the form handles everything itself, values of disabled items are removed from the form state here.
-   *
-   * @returns {FormSubmitData}
+   * @param {string} name - key in fields/validationRules (group name for group fields)
+   * @returns {boolean} true if the field is valid
    */
+  const _validateField = useCallback(
+    (name: string): boolean => {
+      const { fields, validationRules, values } = formStateRef.current;
+      const field = fields[name];
+
+      if (!field || field.disabled) return true;
+
+      const hasRuleError = (validationRules[name] || []).some(validation => {
+        if (validation.validate(values[name])) return false;
+        field.errorSetter?.(t(validation.errorMessage, validation.errorParams));
+        return true;
+      });
+
+      return !hasRuleError && !field.hasInternalError;
+    },
+    [t],
+  );
+
   const validate = useCallback(() => {
-    let isValid = true;
-
     const sanitizedValues = _sanitizeValuesForDisabledItems();
-    const { validationRules, fields, values } = formStateRef.current;
-
-    for (const name of Object.keys(validationRules)) {
-      const rules = validationRules[name] || [];
-      for (const validation of rules) {
-        if (!fields[name]?.disabled && !validation.validate(values[name])) {
-          isValid = false;
-          fields[name]?.errorSetter?.(t(validation.errorMessage, validation.errorParams));
-          break;
-        }
-      }
-    }
-
-    // 3. Final check for self-reported errors from components
-    if (isValid) {
-      const hasAnySelfError = Object.values(fields).some(field => field?.hasInternalError);
-      if (hasAnySelfError) {
-        isValid = false;
-      }
-    }
+    const { fields } = formStateRef.current;
+    const isValid = Object.keys(fields).reduce((acc, name) => _validateField(name) && acc, true);
 
     return { isValid, values: sanitizedValues };
-  }, [_sanitizeValuesForDisabledItems, t]);
+  }, [_sanitizeValuesForDisabledItems, _validateField]);
+
   /**
    * This callback is used in the inputs the lift the value state up to the form by updating the form state. It also
    * removes the error state of the input if it has any
@@ -215,16 +215,31 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
    * @param {string} groupName - name of the group if the input is in a group
    * @param {InputValue} value - value to update
    */
-  const notifyFormForFieldValueChange = useCallback((name: string, groupName: string | undefined, value?: InputValue) => {
-    const nameToUpdate = groupName ?? name;
-    formStateRef.current.values[nameToUpdate] = groupName
-      ? { ...(formStateRef.current.values[nameToUpdate] as object), [name]: value }
-      : value;
-    const field = formStateRef.current.fields[nameToUpdate];
-    if (field) {
-      field.errorSetter?.(undefined);
-      field.hasInternalError = undefined;
-    }
+  const notifyFormForFieldValueChange = useCallback(
+    (name: string, groupName: string | undefined, value?: InputValue) => {
+      const nameToUpdate = groupName ?? name;
+      formStateRef.current.values[nameToUpdate] = groupName
+        ? { ...(formStateRef.current.values[nameToUpdate] as object), [name]: value }
+        : value;
+      const field = formStateRef.current.fields[nameToUpdate];
+      if (field) {
+        field.errorSetter?.(undefined);
+        field.hasInternalError = undefined;
+
+        validateOnChange && !formStateRef.current.pendingInitFields.has(nameToUpdate) && _validateField(nameToUpdate);
+      }
+    },
+    [_validateField, validateOnChange],
+  );
+
+  /**
+   * Removes a field from the pending-init set, enabling validateOnChange for it going forward.
+   * Called via a deferred setTimeout in useRegisterFormField after all mount effects have run.
+   *
+   * @param {string} name - field name (or group name) to release from the init quarantine
+   */
+  const clearFieldFromPendingInit = useCallback((name: string) => {
+    formStateRef.current.pendingInitFields.delete(name);
   }, []);
 
   /**
@@ -307,6 +322,7 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
         unregisterSingleField,
         unregisterGroupFieldItem,
         resetValues,
+        clearFieldFromPendingInit,
       }}
     >
       {children}

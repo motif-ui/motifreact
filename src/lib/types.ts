@@ -1,4 +1,4 @@
-import type { CSSProperties, Ref } from "react";
+import type { CSSProperties, Ref, ReactElement } from "react";
 import { PropsWithChildren } from "react";
 import { locales } from "../i18n/locales";
 
@@ -25,6 +25,14 @@ type RefType<R> = {
 export type PropsWithRef<P = unknown, R = unknown> = P & StandardProps & RefType<R>;
 export type PropsWithRefAndChildren<P = unknown, R = unknown> = PropsWithChildren<P> & StandardProps & RefType<R>;
 export type StandardPropsWithChildren<P = unknown> = PropsWithChildren<P> & StandardProps;
+
+/**
+ * ```
+ * Icon name, or custom icon that renders <span>, <i> or <svg>
+ * ```
+ * @type {string | ReactElement}
+ */
+export type IconGlobalType = string | ReactElement;
 
 /** The shape of a locale file — use this to type custom locale objects. */
 export type LocaleShape = typeof locales.en;

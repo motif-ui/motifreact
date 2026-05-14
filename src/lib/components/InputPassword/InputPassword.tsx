@@ -1,6 +1,6 @@
 "use client";
 
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "./InputPassword.module.scss";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { MotifIcon, MotifIconButton } from "@/components/Motif/Icon";
@@ -44,9 +44,7 @@ const InputPassword = (p: PropsWithRef<InputPasswordProps, HTMLDivElement>) => {
 
   return (
     <div className={classNames} ref={ref} data-testid="inputPassword" style={style}>
-      <Icon className={styles.icon} size={size}>
-        {icon ?? <MotifIcon name="vpn_key" />}
-      </Icon>
+      <GlobalIconWrapper icon={icon ?? <MotifIcon name="vpn_key" />} className={styles.icon} />
       <input
         name={name}
         type={showPassword ? "text" : "password"}

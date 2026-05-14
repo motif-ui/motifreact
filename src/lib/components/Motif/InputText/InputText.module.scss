@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, horizontalPadding, verticalPadding
-$sizes: (("xs", "8x", "4x"), ("sm", "12x", "6x"), ("md", "16x", "8x"), ("lg", "20x", "10x"));
+// size, horizontalPadding, verticalPadding, loaderRadius
+$sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8x", "22x"), ("lg", "20x", "10x", "24x"));
 
 @layer motif-ui {
   .Root {
@@ -26,6 +26,7 @@ $sizes: (("xs", "8x", "4x"), ("sm", "12x", "6x"), ("md", "16x", "8x"), ("lg", "2
       padding: 0;
       background: transparent;
       color: var(--theme-color-text-base-title);
+      width: 100%;
 
       &::placeholder {
         color: var(--theme-color-text-base-caption);
@@ -109,13 +110,26 @@ $sizes: (("xs", "8x", "4x"), ("sm", "12x", "6x"), ("md", "16x", "8x"), ("lg", "2
     }
   }
 
-  @each $size, $paddingH, $paddingV in $sizes {
+  .loader {
+    color: var(--theme-color-border-primary-default);
+    circle {
+      @include spin;
+      transform-origin: 50% 50%;
+    }
+  }
+
+  @each $size, $paddingH, $paddingV, $loaderRadius in $sizes {
     .#{$size} {
       gap: var(--base-sizing-#{$paddingV});
       padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
 
       input {
         @include font("body", $size);
+      }
+
+      .loader {
+        width: var(--base-sizing-#{$loaderRadius});
+        height: var(--base-sizing-#{$loaderRadius});
       }
 
       .numberButtons {

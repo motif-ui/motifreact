@@ -7,7 +7,6 @@ const meta: Meta<typeof BusinessCard> = {
   argTypes: {
     position: { table: { defaultValue: { summary: "center" } } },
     variant: { table: { defaultValue: { summary: "secondary" } } },
-    icon: { description: "Icon name (string) or a custom icon uses <span>, <i> or <svg>" },
     onClick: {
       control: { type: "boolean" },
       mapping: {
@@ -30,7 +29,7 @@ const meta: Meta<typeof BusinessCard> = {
     title: "Custom Card Title",
     outline: true,
     description: "This is a small text to describe the card",
-    icon: "motif_ui",
+    icon: "folder",
     link: {
       text: "Link Item",
       href: "https://motif-ui.com",

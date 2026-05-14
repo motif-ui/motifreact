@@ -2,6 +2,7 @@ import { fireEvent, render } from "@testing-library/react";
 import NavBar from "./NavBar";
 import { MenuItemProps } from "@/components/NavBar/components/NavBarMenu/types";
 import { userEvent } from "@testing-library/user-event";
+import { Size3 } from "src/lib/types.ts";
 
 export const items: MenuItemProps[] = [
   { label: "Home", icon: "home", href: "https://motif-ui.com/", active: true },
@@ -57,27 +58,102 @@ describe("NavBar", () => {
   });
 
   it("should render a text input as a search area when search prop is given", () => {
-    const { getByRole, getByPlaceholderText } = render(<NavBar search={{ placeholder: "Search...", onSubmit: jest.fn() }} />);
+    const { getByRole, getByPlaceholderText } = render(<NavBar search={{ placeholder: "Search..." }} />);
     expect(getByRole("textbox")).toBeInTheDocument();
     expect(getByPlaceholderText("Search...")).toBeInTheDocument();
   });
 
   it("should render the search box in a pill shape when pill is true in the search prop", () => {
-    const { getByRole } = render(<NavBar search={{ onSubmit: jest.fn(), pill: true }} />);
+    const { getByRole } = render(<NavBar search={{ pill: true }} />);
     expect(getByRole("textbox").parentElement).toHaveClass("pill");
   });
 
-  it("should submit typed query in the search box when 'enter' key is pressed", () => {
+  it("should fire onPressEnter in search props with typed query when 'enter' key is pressed", async () => {
     const mockActionSubmit = jest.fn();
-    const { getByRole } = render(<NavBar search={{ onSubmit: mockActionSubmit }} />);
-    const input = getByRole("textbox");
-    fireEvent.change(input, { target: { value: "test query" } });
-    fireEvent.keyUp(input, { key: "Enter", code: "Enter" });
+    const { getByRole } = render(<NavBar search={{ onPressEnter: mockActionSubmit }} />);
+    const searchInput = getByRole("textbox");
+    await userEvent.type(searchInput, "test query");
+    fireEvent.keyUp(searchInput, { key: "Enter", code: "Enter" });
     expect(mockActionSubmit).toHaveBeenCalledWith("test query");
   });
 
+  it("should fire onButtonClick in search props with typed query when search button is clicked", async () => {
+    const mockActionSubmit = jest.fn();
+    const { getByRole, getByText } = render(<NavBar search={{ onButtonClick: mockActionSubmit }} />);
+    await userEvent.type(getByRole("textbox"), "test query");
+    const searchButton = getByText("search");
+    fireEvent.click(searchButton);
+    expect(mockActionSubmit).toHaveBeenCalledWith("test query");
+  });
+
+  it("should render the search results in a dropdown when results prop is given in search props", () => {
+    const { getByText } = render(<NavBar search={{ results: [{ text: "Result 1" }, { text: "Result 2" }] }} />);
+    expect(getByText("Result 1")).toBeInTheDocument();
+    expect(getByText("Result 2")).toBeInTheDocument();
+  });
+
+  it("should fire onResultClick with the clicked result item value when a search result is clicked", () => {
+    const mockOnResultClick = jest.fn();
+    const { getByText } = render(
+      <NavBar
+        search={{
+          results: [{ text: "Result 1", value: "val 1" }],
+          onResultClick: mockOnResultClick,
+        }}
+      />,
+    );
+    fireEvent.click(getByText("Result 1"));
+    expect(mockOnResultClick).toHaveBeenCalledWith("val 1");
+  });
+
+  it("should disable the search input and show a loader instead of search button when searching is true in search props", () => {
+    const { getByRole, queryByText } = render(<NavBar search={{ searching: true }} />);
+    expect(getByRole("textbox")).toBeDisabled();
+    expect(queryByText("search")).not.toBeInTheDocument();
+    expect(document.querySelector(".loader")).toBeInTheDocument();
+  });
+
+  it("should render the search results in the scrollable container with the height given in visibleContainerSize in search props", () => {
+    const visibleContainerSizes: Size3[] = ["sm", "md", "lg"];
+    visibleContainerSizes.forEach(size => {
+      const { getByRole, unmount } = render(
+        <NavBar
+          search={{
+            results: [{ text: "Result 1" }, { text: "Result 2" }, { text: "Result 3" }, { text: "Result 4" }, { text: "Result 5" }],
+            visibleContainerSize: size,
+          }}
+        />,
+      );
+      expect(getByRole("listbox")).toHaveStyle(`max-height: ${size === "sm" ? 116 : size === "md" ? 194 : 272}px`);
+      unmount();
+    });
+  });
+
+  it("should close the search results dropdown when clicked outside", async () => {
+    const { queryByText } = render(<NavBar search={{ results: [{ text: "Result 1" }] }} />);
+    expect(queryByText("Result 1")).toBeInTheDocument();
+    await userEvent.click(document.body);
+    expect(queryByText("Result 1")).not.toBeInTheDocument();
+  });
+
+  it("should close the search results dropdown when a search result is clicked", () => {
+    const { queryByText, getByText } = render(<NavBar search={{ results: [{ text: "Result 1" }] }} />);
+    expect(getByText("Result 1")).toBeInTheDocument();
+    fireEvent.click(getByText("Result 1"));
+    expect(queryByText("Result 1")).not.toBeInTheDocument();
+  });
+
+  it("should re-open the search results dropdown when the search input is clicked while there are results and the dropdown is closed", async () => {
+    const { queryByText, getByRole } = render(<NavBar search={{ results: [{ text: "Result 1" }] }} />);
+    expect(queryByText("Result 1")).toBeInTheDocument();
+    await userEvent.click(document.body);
+    expect(queryByText("Result 1")).not.toBeInTheDocument();
+    await userEvent.click(getByRole("textbox"));
+    expect(queryByText("Result 1")).toBeInTheDocument();
+  });
+
   it("should render the search box with the given placeholder in the search prop", () => {
-    const { getByPlaceholderText } = render(<NavBar search={{ placeholder: "Search...", onSubmit: jest.fn() }} />);
+    const { getByPlaceholderText } = render(<NavBar search={{ placeholder: "Search..." }} />);
     expect(getByPlaceholderText("Search...")).toBeInTheDocument();
   });
 

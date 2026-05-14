@@ -1,5 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
 import ListView from "../ListView";
+import { runIconPropTest } from "../../../../utils/testUtils";
 
 describe("ListView.Item", () => {
   it("should render with only required props", () => {
@@ -22,9 +23,9 @@ describe("ListView.Item", () => {
   });
 
   it("should display an icon on the left side, given in the icon prop", () => {
-    const { container, getByText } = render(<ListView.Item title="Test Item" icon="folder" />);
+    const { container } = render(<ListView.Item title="Test Item" icon="folder" />);
     expect(container.getElementsByClassName("leftContent")).toHaveLength(1);
-    expect(getByText("folder")).toBeInTheDocument();
+    runIconPropTest(icon => render(<ListView.Item title="Test Item" icon={icon} />), "icon");
   });
 
   it("should display given image on the left side", () => {
@@ -46,9 +47,9 @@ describe("ListView.Item", () => {
   });
 
   it("should display an icon on the right side, given in the iconRight prop", () => {
-    const { container, getByText } = render(<ListView.Item title="Test Item" iconRight="folder" />);
+    const { container } = render(<ListView.Item title="Test Item" iconRight="folder" />);
     expect(container.getElementsByClassName("iconRight")).toHaveLength(1);
-    expect(getByText("folder")).toBeInTheDocument();
+    runIconPropTest(icon => render(<ListView.Item title="Test Item" iconRight={icon} />), "iconRight");
   });
 
   it("should display as a link when href prop is given", () => {

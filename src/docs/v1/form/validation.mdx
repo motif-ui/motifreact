@@ -17,8 +17,14 @@ Form is flexible in terms of validation rules. Each validation rule is defined a
 
 ```tsx
 type InputValidation = {
-  errorMessage: string; // Message displayed when validation fails
-  validate: (value: InputValue) => boolean; // Function that performs the validation
+  // Function that performs the validation
+  validate: (value: InputValue) => boolean;
+  // Message displayed when validation fails
+  errorMessage: string;
+  // Optional parameters for error message formatting
+  errorParams?: Record<string, unknown>;
+  // Identifies the validation whether the connected field(s) is required.
+  requiredValidation?: boolean;
 }
 ```
 
@@ -216,4 +222,22 @@ You can add multiple validation rules to a field. Those may include a combinatio
 >
   <InputText />
 </Form.Field>
+```
+
+## Validate on Change
+
+By default, validations are triggered when the form is submitted. However, you can enable real-time validation by using
+the `validateOnChange` prop on the `<Form>` component. When this prop is set to `true`, validations will be executed
+whenever the value of a field changes, providing immediate feedback to users.
+
+```jsx
+<Form validateOnChange onSubmit={() => {}}>
+  <Form.Field
+    name="email"
+    label="Email"
+    validations={[Validations.EMAIL]}
+  >
+    <InputText />
+  </Form.Field>
+</Form>
 ```

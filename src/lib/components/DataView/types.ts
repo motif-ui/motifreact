@@ -1,3 +1,5 @@
+import type { IconGlobalType } from "../../types";
+
 type Cols = 1 | 2 | 3 | 4;
 
 export type DataViewProps = {
@@ -18,6 +20,6 @@ export type DataViewDefaultableProps = {
 export type DataViewItemProps = {
   label: string;
   value?: string | number;
-  icon?: string;
+  icon?: IconGlobalType;
   variant?: "primary" | "info" | "success" | "warning" | "danger";
 };
