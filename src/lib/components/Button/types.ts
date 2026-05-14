@@ -1,8 +1,9 @@
+import type { IconGlobalType } from "../../types";
 import type { MouseEvent } from "react";
 
 export type ButtonProps = {
   label?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   iconPosition?: "left" | "right";
   disabled?: boolean;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;

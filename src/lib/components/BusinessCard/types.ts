@@ -1,4 +1,5 @@
-import type { MouseEvent, ReactElement } from "react";
+import type { IconGlobalType } from "../../types";
+import type { MouseEvent } from "react";
 
 export type BusinessCardProps = {
   title?: string;
@@ -10,11 +11,11 @@ export type BusinessCardProps = {
     targetBlank?: boolean;
   };
   iconButton?: {
-    icon: string;
+    icon: IconGlobalType;
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   };
   image?: string;
-  icon?: string | ReactElement;
+  icon?: IconGlobalType;
 } & BusinessCardDefaultableProps;
 
 export type BusinessCardDefaultableProps = {

@@ -1,10 +1,9 @@
 import type { Preview } from "@storybook/nextjs";
-import { MotifProvider } from "../src/lib";
-import { useInsertionEffect } from "react";
+import type { ArgTypesEnhancer } from "storybook/internal/types";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
+import { iconOptions, iconDecorator, themeChangeDecorator } from "./utils.tsx";
 
-const DEFAULT_THEME = "default-theme";
-const RESET_THEME_BUTTON_VAL = "_reset";
+export const RESET_THEME_BUTTON_VAL = "_reset";
 
 const preview: Preview = {
   globalTypes: {
@@ -22,30 +21,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [
-    (Story, context) => {
-      const themeProp = context.globals.theme as string;
-      const theme = !themeProp || themeProp === RESET_THEME_BUTTON_VAL ? DEFAULT_THEME : themeProp;
-
-      useInsertionEffect(() => {
-        document.querySelectorAll("link[data-theme-css]").forEach(link => link.remove());
-
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.setAttribute("data-theme-css", "true");
-        link.href = `/themes/${theme}.css`;
-        document.head.appendChild(link);
-
-        return () => link.remove();
-      }, [theme]);
-
-      return (
-        <MotifProvider>
-          <Story />
-        </MotifProvider>
-      );
-    },
-  ],
+  decorators: [iconDecorator, themeChangeDecorator],
   parameters: {
     options: {
       storySort: {
@@ -89,5 +65,24 @@ const preview: Preview = {
   },
   tags: ["autodocs"],
 };
+
+/**
+ * Storybook reads this named export automatically at boot — do not remove or rename it.
+ *
+ * For every story, this runs after docgen collects argTypes. Any prop whose type is
+ * `IconGlobalType` automatically gets the icon selector control (options + mapping),
+ * so individual story files don't need to configure it themselves.
+ */
+export const argTypesEnhancers: ArgTypesEnhancer[] = [
+  context =>
+    Object.fromEntries(
+      Object.entries(context.argTypes).map(([key, argType]) => {
+        if ((argType as { table?: { type?: { summary?: string } } }).table?.type?.summary === "IconGlobalType") {
+          return [key, { ...argType, options: Object.keys(iconOptions), mapping: iconOptions, control: { type: "select" } }];
+        }
+        return [key, argType];
+      }),
+    ) as ReturnType<ArgTypesEnhancer>,
+];
 
 export default preview;

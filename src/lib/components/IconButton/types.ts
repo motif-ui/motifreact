@@ -1,10 +1,10 @@
-import { Size7 } from "../../types";
+import { IconGlobalType, Size7 } from "../../types";
 import type { MouseEvent } from "react";
 
 export type IconButtonProps = {
   iconClass?: string;
   disabled?: boolean;
-  name?: string;
+  name?: IconGlobalType;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 } & IconButtonDefaultableProps;
 

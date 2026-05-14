@@ -1,12 +1,13 @@
 @use "@styles" as *;
 
 $sizes: (
-  // size, buttonPaddingAndGap, itemPaddingAndGap
-  ("xs", "4x", "6x"),
-  ("sm", "6x", "8x"),
-  ("md", "8x", "10x"),
-  ("lg", "10x", "12x")
+  // size, buttonPaddingAndGap, itemPaddingAndGap, iconFontSize
+  ("xs", "4x", "6x", "18x"),
+  ("sm", "6x", "8x", "20x"),
+  ("md", "8x", "10x", "22x"),
+  ("lg", "10x", "12x", "24x")
 );
+
 $states: "hover", "active", "disabled";
 $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 @mixin caret-tip($position) {
@@ -183,7 +184,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
     }
   }
 
-  .MenuItem-Icon:first-child:last-child {
+  .icon:first-child:last-child {
     flex: 1;
     text-align: center;
   }
@@ -192,7 +193,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 // =============================================================================
 // COMMON
 // =============================================================================
-@each $size, $buttonPaddingAndGap, $itemPaddingAndGap in $sizes {
+@each $size, $buttonPaddingAndGap, $itemPaddingAndGap, $iconFontSize in $sizes {
   .#{$size} {
     .Button {
       padding: var(--base-sizing-#{$buttonPaddingAndGap});
@@ -208,6 +209,9 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
       &.MenuItem_header {
         @include font("base", $size, "500");
       }
+    }
+    .icon {
+      font-size: var(--base-sizing-#{$iconFontSize});
     }
   }
 }

@@ -4,7 +4,6 @@ import ListView from "../ListView";
 const meta: Meta<typeof ListView.Item> = {
   title: "Components/ListView/ListView.Item",
   component: ListView.Item,
-  argTypes: {},
   args: {
     title: "My Document Folder",
     description: "Personal notes and other files",

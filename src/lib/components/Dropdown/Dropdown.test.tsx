@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
+import { runIconPropTest } from "../../../utils/testUtils";
 import Dropdown from "./Dropdown";
 import { userEvent } from "@testing-library/user-event";
 import { Size4SM } from "../../types";
@@ -44,8 +45,7 @@ describe("Dropdown", () => {
   });
 
   it("should render the icon given in the icon prop of the dropdown menu ", () => {
-    render(<Dropdown label="Dropdown Menu" icon="account_circle" items={[{ label: "Item 1" }]} />);
-    expect(screen.queryByText("account_circle")).toBeInTheDocument();
+    runIconPropTest(icon => render(<Dropdown label="test" icon={icon} items={[{ label: "Item 1" }]} />), "icon");
   });
 
   it("should render the label given in the label prop of the dropdown menu ", () => {
@@ -54,9 +54,12 @@ describe("Dropdown", () => {
   });
 
   it("should render the icon given in the icon prop of the dropdown menu item", () => {
-    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1", icon: "home" }]} />);
-    fireEvent.click(screen.getByText("Dropdown Menu"));
-    expect(screen.queryByText("home")).toBeInTheDocument();
+    runIconPropTest(icon => {
+      cleanup();
+      const result = render(<Dropdown label="test" items={[{ label: "Item 1", icon }]} />);
+      fireEvent.click(result.getByText("test"));
+      return result;
+    }, "icon");
   });
 
   it("should render the label given in the label prop of the dropdown menu item ", () => {

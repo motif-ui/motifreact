@@ -6,8 +6,6 @@ const meta: Meta<typeof InputText> = {
   title: "Components/InputText",
   component: InputText,
   argTypes: {
-    iconLeft: { type: "string" },
-    iconRight: { type: "string" },
     value: { type: "string" },
     size: { table: { defaultValue: { summary: "md" } } },
   },

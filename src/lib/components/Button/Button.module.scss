@@ -71,6 +71,9 @@ $variants: (
     padding: var(--base-sizing-#{$pv}) var(--base-sizing-#{$ph});
     gap: var(--base-sizing-#{$pv});
     @include font("base", $fontSize, "600");
+    .icon {
+      font-size: var(--base-sizing-#{$iconSize});
+    }
   }
 }
 

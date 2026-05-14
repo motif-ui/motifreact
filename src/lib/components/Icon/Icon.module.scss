@@ -5,12 +5,20 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 
 .Root {
   display: inline-flex;
-  vertical-align: middle;
+  vertical-align: top;
   user-select: none;
 
   span,
   i {
     font-size: inherit;
+    line-height: 1;
+    &::before {
+      vertical-align: bottom;
+    }
+  }
+  svg {
+    width: 1em;
+    height: 1em;
   }
 }
 
@@ -23,11 +31,6 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 @each $size, $fontSize in $sizes {
   .#{$size} {
     font-size: var(--base-sizing-#{$fontSize});
-
-    svg {
-      width: var(--base-sizing-#{$fontSize});
-      height: var(--base-sizing-#{$fontSize});
-    }
   }
 }
 

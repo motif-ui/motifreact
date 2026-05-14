@@ -1,13 +1,13 @@
 import { DropdownMenuItemProps } from "@/components/Dropdown/types";
 import styles from "../Dropdown.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MouseEvent, useContext } from "react";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
 
 const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   const { label, header, icon, iconColor, disabled, action } = props;
-  const { size, hideMenu } = useContext(DropdownContext);
+  const { hideMenu } = useContext(DropdownContext);
   const classNames = sanitizeModuleClasses(
     styles,
     "MenuItem",
@@ -25,7 +25,7 @@ const DropdownMenuItem = (props: DropdownMenuItemProps) => {
       <a className={classNames} {...(!disabled && { onClick: handleClick })}>
         {header ?? (
           <>
-            {icon && <Icon name={icon} className={styles["MenuItem-Icon"]} color={iconColor} size={size} />}
+            {icon && <GlobalIconWrapper icon={icon} className={styles.icon} style={{ color: iconColor }} />}
             {label && <span>{label}</span>}
           </>
         )}

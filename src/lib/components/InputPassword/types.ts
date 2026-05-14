@@ -1,8 +1,9 @@
+import type { IconGlobalType } from "../../types";
 import { InputCommonProps, InputSize } from "../Form/types";
 
 export type InputPasswordProps = {
   placeholder?: string;
-  icon?: string;
+  icon?: IconGlobalType;
 } & InputCommonProps &
   InputPasswordDefaultableProps;
 

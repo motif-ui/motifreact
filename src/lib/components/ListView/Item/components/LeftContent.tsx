@@ -1,13 +1,14 @@
 import { memo, useContext } from "react";
 import Checkbox from "@/components/Checkbox";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "../../ListView.module.scss";
 import { ListViewContext } from "@/components/ListView/ListViewProvider";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
+import type { IconGlobalType } from "../../../../types";
 
 type Props = {
   id?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   image?: string;
   abbr?: string;
 };
@@ -31,7 +32,7 @@ const LeftContent = memo((props: Props) => {
     <Checkbox className={baseClasses} size={size} onChange={val => selectHandler?.(id!, Boolean(val))} />
   ) : icon ? (
     <div className={baseClasses}>
-      <Icon className={`${styles.icon}`} name={icon} size={size} />
+      <GlobalIconWrapper icon={icon} className={styles.icon} />
     </div>
   ) : image ? (
     <div className={baseClasses}>

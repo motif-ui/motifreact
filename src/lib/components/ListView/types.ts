@@ -1,3 +1,4 @@
+import type { IconGlobalType } from "../../types";
 import { Size3 } from "../../types";
 import { ReactElement } from "react";
 
@@ -21,10 +22,10 @@ export type ListViewItemProps = {
   title: string;
   description?: string;
   alternateText?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   image?: string;
   abbr?: string;
-  iconRight?: string;
+  iconRight?: IconGlobalType;
   href?: string;
   onClick?: () => void;
   disabled?: boolean;

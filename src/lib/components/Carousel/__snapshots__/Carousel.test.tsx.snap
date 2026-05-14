@@ -68,14 +68,22 @@ exports[`Carousel should be rendered with only required props and should have de
       data-testid="iconButtonTestId"
       type="button"
     >
-      arrow_forward_ios
+      <span
+        class="Root md mtf-ui-icons xxl"
+      >
+        arrow_forward_ios
+      </span>
     </button>
     <button
       class="Root xxl secondary motifIconsDefault next"
       data-testid="iconButtonTestId"
       type="button"
     >
-      arrow_forward_ios
+      <span
+        class="Root md mtf-ui-icons xxl"
+      >
+        arrow_forward_ios
+      </span>
     </button>
   </div>
 </div>

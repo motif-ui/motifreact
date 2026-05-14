@@ -1,12 +1,12 @@
 import { RenderResult } from "@testing-library/react";
-import { ReactElement } from "react";
 import { createTranslator } from "../i18n/translate";
+import type { IconGlobalType } from "../lib/types";
 
 export const t = createTranslator("en");
 
 type JestToErrorArg = Parameters<jest.Matchers<unknown, () => unknown>["toThrow"]>[0];
 
-export type ComponentWithIconRender = (icon: string | ReactElement) => RenderResult;
+export type ComponentWithIconRender = (icon: IconGlobalType) => RenderResult;
 
 export const runIconPropTest = (renderIcon: ComponentWithIconRender, className?: string) => {
   const iconName = "home";

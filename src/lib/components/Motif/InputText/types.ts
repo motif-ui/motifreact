@@ -1,5 +1,6 @@
-import { Dispatch, FocusEventHandler, KeyboardEventHandler, MouseEventHandler, ReactElement, RefObject, SetStateAction } from "react";
+import { Dispatch, FocusEventHandler, KeyboardEventHandler, MouseEventHandler, RefObject, SetStateAction } from "react";
 import { InputSize, InputValue } from "@/components/Form/types";
+import { IconGlobalType } from "src/lib/types.ts";
 
 export type InternalInputProps = {
   id?: string;
@@ -10,8 +11,8 @@ export type InternalInputProps = {
   size?: InputSize;
   pill?: boolean;
   uncontrolled?: boolean;
-  iconLeft?: string | ReactElement;
-  iconRight?: string | ReactElement;
+  iconLeft?: IconGlobalType;
+  iconRight?: IconGlobalType;
   buttonRight?: {
     name: string;
     onClick: () => void;

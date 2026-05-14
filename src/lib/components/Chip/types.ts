@@ -1,8 +1,8 @@
-import { Size4SM } from "../../types";
+import type { IconGlobalType, Size4SM } from "../../types";
 
 export type ChipProps = {
   label: string;
-  icon?: string;
+  icon?: IconGlobalType;
   variant?: ChipVariant;
   closable?: boolean;
   onClose?: () => void;

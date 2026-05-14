@@ -3,16 +3,17 @@ import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 import type { MouseEvent } from "react";
+import type { IconGlobalType } from "../../../types";
 import ImageView from "@/components/ImageView";
 
 type Props = {
-  icon?: string;
+  icon?: IconGlobalType;
   avatarText?: string;
   title?: string;
   subtitle?: string;
   image?: string;
   imagePosition?: "left" | "right";
-  action?: { icon: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
+  action?: { icon: IconGlobalType; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   variant: "primary" | "secondary" | "info" | "success" | "warning" | "danger";
 };
 
