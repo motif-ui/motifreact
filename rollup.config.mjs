@@ -14,6 +14,7 @@ import path from "path";
 import process from "node:process";
 import { fileURLToPath } from "url";
 import json from "@rollup/plugin-json";
+import { wrapCssWithLayer } from "./src/scripts/wrap-with-layer.mjs";
 
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
@@ -85,6 +86,7 @@ export default [
       commonjs(),
       json(),
       styles({
+        //mode: ["extract", "dist/bundle.css"], //TODO: Lets keep it like this unless there is problem.
         modules: {
           generateScopedName: generateScopedCssClassName,
         },
@@ -109,6 +111,7 @@ export default [
           }),
         ],
       }),
+      wrapCssWithLayer(),
       copy({
         targets: [
           {
