@@ -4,6 +4,8 @@ exports[`Icon should be rendered with only required props 1`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     account_circle
   </span>
@@ -14,6 +16,8 @@ exports[`Icon should render all icons in motifIcons set 1`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     motif_ui
   </span>
@@ -24,6 +28,8 @@ exports[`Icon should render all icons in motifIcons set 2`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     accessibility
   </span>
@@ -34,6 +40,8 @@ exports[`Icon should render all icons in motifIcons set 3`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     accessible
   </span>
@@ -44,6 +52,8 @@ exports[`Icon should render all icons in motifIcons set 4`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     accessible_forward
   </span>
@@ -54,6 +64,8 @@ exports[`Icon should render all icons in motifIcons set 5`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     account_balance
   </span>
@@ -64,6 +76,8 @@ exports[`Icon should render all icons in motifIcons set 6`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     account_balance_wallet
   </span>
@@ -74,6 +88,8 @@ exports[`Icon should render all icons in motifIcons set 7`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     account_balance_wallet_outline
   </span>
@@ -84,6 +100,8 @@ exports[`Icon should render all icons in motifIcons set 8`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     account_circle
   </span>
@@ -94,6 +112,8 @@ exports[`Icon should render all icons in motifIcons set 9`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     add
   </span>
@@ -104,6 +124,8 @@ exports[`Icon should render all icons in motifIcons set 10`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     add_box
   </span>
@@ -114,6 +136,8 @@ exports[`Icon should render all icons in motifIcons set 11`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     add_box_outline
   </span>
@@ -124,6 +148,8 @@ exports[`Icon should render all icons in motifIcons set 12`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     add_circle
   </span>
@@ -134,6 +160,8 @@ exports[`Icon should render all icons in motifIcons set 13`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     add_circle_outline
   </span>
@@ -144,6 +172,8 @@ exports[`Icon should render all icons in motifIcons set 14`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     alarm
   </span>
@@ -154,6 +184,8 @@ exports[`Icon should render all icons in motifIcons set 15`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     alarm_add
   </span>
@@ -164,6 +196,8 @@ exports[`Icon should render all icons in motifIcons set 16`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     alternate_email
   </span>
@@ -174,6 +208,8 @@ exports[`Icon should render all icons in motifIcons set 17`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     apartment
   </span>
@@ -184,6 +220,8 @@ exports[`Icon should render all icons in motifIcons set 18`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_back
   </span>
@@ -194,6 +232,8 @@ exports[`Icon should render all icons in motifIcons set 19`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_back_ios_new
   </span>
@@ -204,6 +244,8 @@ exports[`Icon should render all icons in motifIcons set 20`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_downward
   </span>
@@ -214,6 +256,8 @@ exports[`Icon should render all icons in motifIcons set 21`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_drop_down
   </span>
@@ -224,6 +268,8 @@ exports[`Icon should render all icons in motifIcons set 22`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_drop_up
   </span>
@@ -234,6 +280,8 @@ exports[`Icon should render all icons in motifIcons set 23`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_forward
   </span>
@@ -244,6 +292,8 @@ exports[`Icon should render all icons in motifIcons set 24`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_forward_ios
   </span>
@@ -254,6 +304,8 @@ exports[`Icon should render all icons in motifIcons set 25`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_insert
   </span>
@@ -264,6 +316,8 @@ exports[`Icon should render all icons in motifIcons set 26`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_left_alt
   </span>
@@ -274,6 +328,8 @@ exports[`Icon should render all icons in motifIcons set 27`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_right_alt
   </span>
@@ -284,6 +340,8 @@ exports[`Icon should render all icons in motifIcons set 28`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     arrow_upward
   </span>
@@ -294,6 +352,8 @@ exports[`Icon should render all icons in motifIcons set 29`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     article
   </span>
@@ -304,6 +364,8 @@ exports[`Icon should render all icons in motifIcons set 30`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     assignment
   </span>
@@ -314,6 +376,8 @@ exports[`Icon should render all icons in motifIcons set 31`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     assignment_ind
   </span>
@@ -324,6 +388,8 @@ exports[`Icon should render all icons in motifIcons set 32`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     assist_walker
   </span>
@@ -334,6 +400,8 @@ exports[`Icon should render all icons in motifIcons set 33`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     attach_file
   </span>
@@ -344,6 +412,8 @@ exports[`Icon should render all icons in motifIcons set 34`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     autorenew
   </span>
@@ -354,6 +424,8 @@ exports[`Icon should render all icons in motifIcons set 35`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     backspace
   </span>
@@ -364,6 +436,8 @@ exports[`Icon should render all icons in motifIcons set 36`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     backup
   </span>
@@ -374,6 +448,8 @@ exports[`Icon should render all icons in motifIcons set 37`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     balance
   </span>
@@ -384,6 +460,8 @@ exports[`Icon should render all icons in motifIcons set 38`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     bar_chart
   </span>
@@ -394,6 +472,8 @@ exports[`Icon should render all icons in motifIcons set 39`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     blind
   </span>
@@ -404,6 +484,8 @@ exports[`Icon should render all icons in motifIcons set 40`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     block
   </span>
@@ -414,6 +496,8 @@ exports[`Icon should render all icons in motifIcons set 41`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     bookmark
   </span>
@@ -424,6 +508,8 @@ exports[`Icon should render all icons in motifIcons set 42`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     bookmark_manager
   </span>
@@ -434,6 +520,8 @@ exports[`Icon should render all icons in motifIcons set 43`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     bookmark_outline
   </span>
@@ -444,6 +532,8 @@ exports[`Icon should render all icons in motifIcons set 44`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     border_all
   </span>
@@ -454,6 +544,8 @@ exports[`Icon should render all icons in motifIcons set 45`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     cached
   </span>
@@ -464,6 +556,8 @@ exports[`Icon should render all icons in motifIcons set 46`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     calendar_month
   </span>
@@ -474,6 +568,8 @@ exports[`Icon should render all icons in motifIcons set 47`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     calendar_today
   </span>
@@ -484,6 +580,8 @@ exports[`Icon should render all icons in motifIcons set 48`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     call
   </span>
@@ -494,6 +592,8 @@ exports[`Icon should render all icons in motifIcons set 49`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     call_outline
   </span>
@@ -504,6 +604,8 @@ exports[`Icon should render all icons in motifIcons set 50`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     cancel
   </span>
@@ -514,6 +616,8 @@ exports[`Icon should render all icons in motifIcons set 51`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     cancel_outline
   </span>
@@ -524,6 +628,8 @@ exports[`Icon should render all icons in motifIcons set 52`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     cardiology
   </span>
@@ -534,6 +640,8 @@ exports[`Icon should render all icons in motifIcons set 53`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     cases
   </span>
@@ -544,6 +652,8 @@ exports[`Icon should render all icons in motifIcons set 54`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     chat
   </span>
@@ -554,6 +664,8 @@ exports[`Icon should render all icons in motifIcons set 55`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     chat_bubble
   </span>
@@ -564,6 +676,8 @@ exports[`Icon should render all icons in motifIcons set 56`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     check
   </span>
@@ -574,6 +688,8 @@ exports[`Icon should render all icons in motifIcons set 57`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     check_circle
   </span>
@@ -584,6 +700,8 @@ exports[`Icon should render all icons in motifIcons set 58`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     check_circle_outline
   </span>
@@ -594,6 +712,8 @@ exports[`Icon should render all icons in motifIcons set 59`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     checklist
   </span>
@@ -604,6 +724,8 @@ exports[`Icon should render all icons in motifIcons set 60`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     chevron_left
   </span>
@@ -614,6 +736,8 @@ exports[`Icon should render all icons in motifIcons set 61`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     chevron_right
   </span>
@@ -624,6 +748,8 @@ exports[`Icon should render all icons in motifIcons set 62`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     chips
   </span>
@@ -634,6 +760,8 @@ exports[`Icon should render all icons in motifIcons set 63`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     close
   </span>
@@ -644,6 +772,8 @@ exports[`Icon should render all icons in motifIcons set 64`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     cloud_done
   </span>
@@ -654,6 +784,8 @@ exports[`Icon should render all icons in motifIcons set 65`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     cloud_download
   </span>
@@ -664,6 +796,8 @@ exports[`Icon should render all icons in motifIcons set 66`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     collapse_content
   </span>
@@ -674,6 +808,8 @@ exports[`Icon should render all icons in motifIcons set 67`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     collections_bookmark
   </span>
@@ -684,6 +820,8 @@ exports[`Icon should render all icons in motifIcons set 68`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     compare_arrows
   </span>
@@ -694,6 +832,8 @@ exports[`Icon should render all icons in motifIcons set 69`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     contact_page
   </span>
@@ -704,6 +844,8 @@ exports[`Icon should render all icons in motifIcons set 70`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     contact_support
   </span>
@@ -714,6 +856,8 @@ exports[`Icon should render all icons in motifIcons set 71`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     content_copy
   </span>
@@ -724,6 +868,8 @@ exports[`Icon should render all icons in motifIcons set 72`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     content_cut
   </span>
@@ -734,6 +880,8 @@ exports[`Icon should render all icons in motifIcons set 73`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     content_paste
   </span>
@@ -744,6 +892,8 @@ exports[`Icon should render all icons in motifIcons set 74`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     contract
   </span>
@@ -754,6 +904,8 @@ exports[`Icon should render all icons in motifIcons set 75`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     contract_edit
   </span>
@@ -764,6 +916,8 @@ exports[`Icon should render all icons in motifIcons set 76`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     copy_all
   </span>
@@ -774,6 +928,8 @@ exports[`Icon should render all icons in motifIcons set 77`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     create_new_folder
   </span>
@@ -784,6 +940,8 @@ exports[`Icon should render all icons in motifIcons set 78`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     credit_card
   </span>
@@ -794,6 +952,8 @@ exports[`Icon should render all icons in motifIcons set 79`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     crop_free
   </span>
@@ -804,6 +964,8 @@ exports[`Icon should render all icons in motifIcons set 80`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     dashboard
   </span>
@@ -814,6 +976,8 @@ exports[`Icon should render all icons in motifIcons set 81`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     delete
   </span>
@@ -824,6 +988,8 @@ exports[`Icon should render all icons in motifIcons set 82`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     delete_forever
   </span>
@@ -834,6 +1000,8 @@ exports[`Icon should render all icons in motifIcons set 83`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     delete_outline
   </span>
@@ -844,6 +1012,8 @@ exports[`Icon should render all icons in motifIcons set 84`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     density_medium
   </span>
@@ -854,6 +1024,8 @@ exports[`Icon should render all icons in motifIcons set 85`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     description
   </span>
@@ -864,6 +1036,8 @@ exports[`Icon should render all icons in motifIcons set 86`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     device_hub
   </span>
@@ -874,6 +1048,8 @@ exports[`Icon should render all icons in motifIcons set 87`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     device_reset
   </span>
@@ -884,6 +1060,8 @@ exports[`Icon should render all icons in motifIcons set 88`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     devices
   </span>
@@ -894,6 +1072,8 @@ exports[`Icon should render all icons in motifIcons set 89`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     dictionary
   </span>
@@ -904,6 +1084,8 @@ exports[`Icon should render all icons in motifIcons set 90`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     directions_car
   </span>
@@ -914,6 +1096,8 @@ exports[`Icon should render all icons in motifIcons set 91`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     diversity_3
   </span>
@@ -924,6 +1108,8 @@ exports[`Icon should render all icons in motifIcons set 92`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     do_not_disturb_on
   </span>
@@ -934,6 +1120,8 @@ exports[`Icon should render all icons in motifIcons set 93`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     domain
   </span>
@@ -944,6 +1132,8 @@ exports[`Icon should render all icons in motifIcons set 94`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     done_all
   </span>
@@ -954,6 +1144,8 @@ exports[`Icon should render all icons in motifIcons set 95`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     download
   </span>
@@ -964,6 +1156,8 @@ exports[`Icon should render all icons in motifIcons set 96`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     download_2
   </span>
@@ -974,6 +1168,8 @@ exports[`Icon should render all icons in motifIcons set 97`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     downloading
   </span>
@@ -984,6 +1180,8 @@ exports[`Icon should render all icons in motifIcons set 98`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     draft
   </span>
@@ -994,6 +1192,8 @@ exports[`Icon should render all icons in motifIcons set 99`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     drive_folder_upload
   </span>
@@ -1004,6 +1204,8 @@ exports[`Icon should render all icons in motifIcons set 100`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     edit_document
   </span>
@@ -1014,6 +1216,8 @@ exports[`Icon should render all icons in motifIcons set 101`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     emoji_flags
   </span>
@@ -1024,6 +1228,8 @@ exports[`Icon should render all icons in motifIcons set 102`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     emoji_flags_outline
   </span>
@@ -1034,6 +1240,8 @@ exports[`Icon should render all icons in motifIcons set 103`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     encrypted
   </span>
@@ -1044,6 +1252,8 @@ exports[`Icon should render all icons in motifIcons set 104`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     error
   </span>
@@ -1054,6 +1264,8 @@ exports[`Icon should render all icons in motifIcons set 105`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     error_outline
   </span>
@@ -1064,6 +1276,8 @@ exports[`Icon should render all icons in motifIcons set 106`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     event
   </span>
@@ -1074,6 +1288,8 @@ exports[`Icon should render all icons in motifIcons set 107`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     event_available
   </span>
@@ -1084,6 +1300,8 @@ exports[`Icon should render all icons in motifIcons set 108`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     event_busy
   </span>
@@ -1094,6 +1312,8 @@ exports[`Icon should render all icons in motifIcons set 109`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     expand_all
   </span>
@@ -1104,6 +1324,8 @@ exports[`Icon should render all icons in motifIcons set 110`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     expand_content
   </span>
@@ -1114,6 +1336,8 @@ exports[`Icon should render all icons in motifIcons set 111`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     extension
   </span>
@@ -1124,6 +1348,8 @@ exports[`Icon should render all icons in motifIcons set 112`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     external
   </span>
@@ -1134,6 +1360,8 @@ exports[`Icon should render all icons in motifIcons set 113`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     fact_check
   </span>
@@ -1144,6 +1372,8 @@ exports[`Icon should render all icons in motifIcons set 114`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     factory
   </span>
@@ -1154,6 +1384,8 @@ exports[`Icon should render all icons in motifIcons set 115`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     favorite
   </span>
@@ -1164,6 +1396,8 @@ exports[`Icon should render all icons in motifIcons set 116`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     feature_search
   </span>
@@ -1174,6 +1408,8 @@ exports[`Icon should render all icons in motifIcons set 117`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     feed
   </span>
@@ -1184,6 +1420,8 @@ exports[`Icon should render all icons in motifIcons set 118`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     feedback
   </span>
@@ -1194,6 +1432,8 @@ exports[`Icon should render all icons in motifIcons set 119`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     file_copy
   </span>
@@ -1204,6 +1444,8 @@ exports[`Icon should render all icons in motifIcons set 120`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     file_present
   </span>
@@ -1214,6 +1456,8 @@ exports[`Icon should render all icons in motifIcons set 121`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     filter
   </span>
@@ -1224,6 +1468,8 @@ exports[`Icon should render all icons in motifIcons set 122`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     filter_alt
   </span>
@@ -1234,6 +1480,8 @@ exports[`Icon should render all icons in motifIcons set 123`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     filter_alt_off
   </span>
@@ -1244,6 +1492,8 @@ exports[`Icon should render all icons in motifIcons set 124`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     filter_list
   </span>
@@ -1254,6 +1504,8 @@ exports[`Icon should render all icons in motifIcons set 125`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     filter_list_off
   </span>
@@ -1264,6 +1516,8 @@ exports[`Icon should render all icons in motifIcons set 126`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     filter_none
   </span>
@@ -1274,6 +1528,8 @@ exports[`Icon should render all icons in motifIcons set 127`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     finance
   </span>
@@ -1284,6 +1540,8 @@ exports[`Icon should render all icons in motifIcons set 128`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     fingerprint
   </span>
@@ -1294,6 +1552,8 @@ exports[`Icon should render all icons in motifIcons set 129`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     flash_on
   </span>
@@ -1304,6 +1564,8 @@ exports[`Icon should render all icons in motifIcons set 130`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     folder
   </span>
@@ -1314,6 +1576,8 @@ exports[`Icon should render all icons in motifIcons set 131`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     folder_copy
   </span>
@@ -1324,6 +1588,8 @@ exports[`Icon should render all icons in motifIcons set 132`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     folder_managed
   </span>
@@ -1334,6 +1600,8 @@ exports[`Icon should render all icons in motifIcons set 133`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     folder_open
   </span>
@@ -1344,6 +1612,8 @@ exports[`Icon should render all icons in motifIcons set 134`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     folder_outline
   </span>
@@ -1354,6 +1624,8 @@ exports[`Icon should render all icons in motifIcons set 135`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     folder_shared
   </span>
@@ -1364,6 +1636,8 @@ exports[`Icon should render all icons in motifIcons set 136`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     format_quote
   </span>
@@ -1374,6 +1648,8 @@ exports[`Icon should render all icons in motifIcons set 137`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     forum
   </span>
@@ -1384,6 +1660,8 @@ exports[`Icon should render all icons in motifIcons set 138`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     grade
   </span>
@@ -1394,6 +1672,8 @@ exports[`Icon should render all icons in motifIcons set 139`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     group
   </span>
@@ -1404,6 +1684,8 @@ exports[`Icon should render all icons in motifIcons set 140`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     group_add
   </span>
@@ -1414,6 +1696,8 @@ exports[`Icon should render all icons in motifIcons set 141`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     groups
   </span>
@@ -1424,6 +1708,8 @@ exports[`Icon should render all icons in motifIcons set 142`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     handshake
   </span>
@@ -1434,6 +1720,8 @@ exports[`Icon should render all icons in motifIcons set 143`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     handyman
   </span>
@@ -1444,6 +1732,8 @@ exports[`Icon should render all icons in motifIcons set 144`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     heap_snapshot_large
   </span>
@@ -1454,6 +1744,8 @@ exports[`Icon should render all icons in motifIcons set 145`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     hearing
   </span>
@@ -1464,6 +1756,8 @@ exports[`Icon should render all icons in motifIcons set 146`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     hearing_disabled
   </span>
@@ -1474,6 +1768,8 @@ exports[`Icon should render all icons in motifIcons set 147`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     help
   </span>
@@ -1484,6 +1780,8 @@ exports[`Icon should render all icons in motifIcons set 148`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     help_outline
   </span>
@@ -1494,6 +1792,8 @@ exports[`Icon should render all icons in motifIcons set 149`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     home
   </span>
@@ -1504,6 +1804,8 @@ exports[`Icon should render all icons in motifIcons set 150`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     home_outline
   </span>
@@ -1514,6 +1816,8 @@ exports[`Icon should render all icons in motifIcons set 151`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     how_to_reg
   </span>
@@ -1524,6 +1828,8 @@ exports[`Icon should render all icons in motifIcons set 152`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     imagesmode
   </span>
@@ -1534,6 +1840,8 @@ exports[`Icon should render all icons in motifIcons set 153`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     indeterminate_check_box
   </span>
@@ -1544,6 +1852,8 @@ exports[`Icon should render all icons in motifIcons set 154`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     info
   </span>
@@ -1554,6 +1864,8 @@ exports[`Icon should render all icons in motifIcons set 155`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     info_i
   </span>
@@ -1564,6 +1876,8 @@ exports[`Icon should render all icons in motifIcons set 156`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     info_outline
   </span>
@@ -1574,6 +1888,8 @@ exports[`Icon should render all icons in motifIcons set 157`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     insert_chart
   </span>
@@ -1584,6 +1900,8 @@ exports[`Icon should render all icons in motifIcons set 158`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     inventory
   </span>
@@ -1594,6 +1912,8 @@ exports[`Icon should render all icons in motifIcons set 159`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     ios_share
   </span>
@@ -1604,6 +1924,8 @@ exports[`Icon should render all icons in motifIcons set 160`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     keyboard
   </span>
@@ -1614,6 +1936,8 @@ exports[`Icon should render all icons in motifIcons set 161`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     keyboard_alt
   </span>
@@ -1624,6 +1948,8 @@ exports[`Icon should render all icons in motifIcons set 162`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     keyboard_arrow_down
   </span>
@@ -1634,6 +1960,8 @@ exports[`Icon should render all icons in motifIcons set 163`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     keyboard_arrow_up
   </span>
@@ -1644,6 +1972,8 @@ exports[`Icon should render all icons in motifIcons set 164`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     keyboard_voice
   </span>
@@ -1654,6 +1984,8 @@ exports[`Icon should render all icons in motifIcons set 165`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     label
   </span>
@@ -1664,6 +1996,8 @@ exports[`Icon should render all icons in motifIcons set 166`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     label_outline
   </span>
@@ -1674,6 +2008,8 @@ exports[`Icon should render all icons in motifIcons set 167`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     language
   </span>
@@ -1684,6 +2020,8 @@ exports[`Icon should render all icons in motifIcons set 168`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     library_books
   </span>
@@ -1694,6 +2032,8 @@ exports[`Icon should render all icons in motifIcons set 169`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     link
   </span>
@@ -1704,6 +2044,8 @@ exports[`Icon should render all icons in motifIcons set 170`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     link_off
   </span>
@@ -1714,6 +2056,8 @@ exports[`Icon should render all icons in motifIcons set 171`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     list_alt
   </span>
@@ -1724,6 +2068,8 @@ exports[`Icon should render all icons in motifIcons set 172`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     lists
   </span>
@@ -1734,6 +2080,8 @@ exports[`Icon should render all icons in motifIcons set 173`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     local_library
   </span>
@@ -1744,6 +2092,8 @@ exports[`Icon should render all icons in motifIcons set 174`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     local_mall
   </span>
@@ -1754,6 +2104,8 @@ exports[`Icon should render all icons in motifIcons set 175`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     location_off
   </span>
@@ -1764,6 +2116,8 @@ exports[`Icon should render all icons in motifIcons set 176`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     location_on
   </span>
@@ -1774,6 +2128,8 @@ exports[`Icon should render all icons in motifIcons set 177`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     location_on_outline
   </span>
@@ -1784,6 +2140,8 @@ exports[`Icon should render all icons in motifIcons set 178`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     lock
   </span>
@@ -1794,6 +2152,8 @@ exports[`Icon should render all icons in motifIcons set 179`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     lock_open
   </span>
@@ -1804,6 +2164,8 @@ exports[`Icon should render all icons in motifIcons set 180`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     logout
   </span>
@@ -1814,6 +2176,8 @@ exports[`Icon should render all icons in motifIcons set 181`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     mail
   </span>
@@ -1824,6 +2188,8 @@ exports[`Icon should render all icons in motifIcons set 182`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     mail_outline
   </span>
@@ -1834,6 +2200,8 @@ exports[`Icon should render all icons in motifIcons set 183`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     map
   </span>
@@ -1844,6 +2212,8 @@ exports[`Icon should render all icons in motifIcons set 184`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     mode_cool
   </span>
@@ -1854,6 +2224,8 @@ exports[`Icon should render all icons in motifIcons set 185`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     mode_heat
   </span>
@@ -1864,6 +2236,8 @@ exports[`Icon should render all icons in motifIcons set 186`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     more_horiz
   </span>
@@ -1874,6 +2248,8 @@ exports[`Icon should render all icons in motifIcons set 187`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     more_time
   </span>
@@ -1884,6 +2260,8 @@ exports[`Icon should render all icons in motifIcons set 188`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     more_vert
   </span>
@@ -1894,6 +2272,8 @@ exports[`Icon should render all icons in motifIcons set 189`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     moving
   </span>
@@ -1904,6 +2284,8 @@ exports[`Icon should render all icons in motifIcons set 190`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     nature
   </span>
@@ -1914,6 +2296,8 @@ exports[`Icon should render all icons in motifIcons set 191`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     near_me
   </span>
@@ -1924,6 +2308,8 @@ exports[`Icon should render all icons in motifIcons set 192`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     nest_eco_leaf
   </span>
@@ -1934,6 +2320,8 @@ exports[`Icon should render all icons in motifIcons set 193`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     note
   </span>
@@ -1944,6 +2332,8 @@ exports[`Icon should render all icons in motifIcons set 194`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     note_add
   </span>
@@ -1954,6 +2344,8 @@ exports[`Icon should render all icons in motifIcons set 195`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     notifications
   </span>
@@ -1964,6 +2356,8 @@ exports[`Icon should render all icons in motifIcons set 196`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     notifications_active
   </span>
@@ -1974,6 +2368,8 @@ exports[`Icon should render all icons in motifIcons set 197`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     notifications_off
   </span>
@@ -1984,6 +2380,8 @@ exports[`Icon should render all icons in motifIcons set 198`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     palette
   </span>
@@ -1994,6 +2392,8 @@ exports[`Icon should render all icons in motifIcons set 199`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     passkey
   </span>
@@ -2004,6 +2404,8 @@ exports[`Icon should render all icons in motifIcons set 200`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     payments
   </span>
@@ -2014,6 +2416,8 @@ exports[`Icon should render all icons in motifIcons set 201`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     person
   </span>
@@ -2024,6 +2428,8 @@ exports[`Icon should render all icons in motifIcons set 202`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     person_outline
   </span>
@@ -2034,6 +2440,8 @@ exports[`Icon should render all icons in motifIcons set 203`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     phone_iphone
   </span>
@@ -2044,6 +2452,8 @@ exports[`Icon should render all icons in motifIcons set 204`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     photo
   </span>
@@ -2054,6 +2464,8 @@ exports[`Icon should render all icons in motifIcons set 205`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     photo_camera
   </span>
@@ -2064,6 +2476,8 @@ exports[`Icon should render all icons in motifIcons set 206`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     photo_camera_outline
   </span>
@@ -2074,6 +2488,8 @@ exports[`Icon should render all icons in motifIcons set 207`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     picture_as_pdf
   </span>
@@ -2084,6 +2500,8 @@ exports[`Icon should render all icons in motifIcons set 208`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     pie_chart
   </span>
@@ -2094,6 +2512,8 @@ exports[`Icon should render all icons in motifIcons set 209`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     plagiarism
   </span>
@@ -2104,6 +2524,8 @@ exports[`Icon should render all icons in motifIcons set 210`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     podcasts
   </span>
@@ -2114,6 +2536,8 @@ exports[`Icon should render all icons in motifIcons set 211`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     priority_high
   </span>
@@ -2124,6 +2548,8 @@ exports[`Icon should render all icons in motifIcons set 212`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     privacy_tip
   </span>
@@ -2134,6 +2560,8 @@ exports[`Icon should render all icons in motifIcons set 213`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     prompt_suggestion
   </span>
@@ -2144,6 +2572,8 @@ exports[`Icon should render all icons in motifIcons set 214`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     psychiatry
   </span>
@@ -2154,6 +2584,8 @@ exports[`Icon should render all icons in motifIcons set 215`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     push_pin
   </span>
@@ -2164,6 +2596,8 @@ exports[`Icon should render all icons in motifIcons set 216`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     push_pin_outline
   </span>
@@ -2174,6 +2608,8 @@ exports[`Icon should render all icons in motifIcons set 217`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     question_mark
   </span>
@@ -2184,6 +2620,8 @@ exports[`Icon should render all icons in motifIcons set 218`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     receipt
   </span>
@@ -2194,6 +2632,8 @@ exports[`Icon should render all icons in motifIcons set 219`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     receipt_long
   </span>
@@ -2204,6 +2644,8 @@ exports[`Icon should render all icons in motifIcons set 220`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     remove
   </span>
@@ -2214,6 +2656,8 @@ exports[`Icon should render all icons in motifIcons set 221`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     reply
   </span>
@@ -2224,6 +2668,8 @@ exports[`Icon should render all icons in motifIcons set 222`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     schedule
   </span>
@@ -2234,6 +2680,8 @@ exports[`Icon should render all icons in motifIcons set 223`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     schedule_outline
   </span>
@@ -2244,6 +2692,8 @@ exports[`Icon should render all icons in motifIcons set 224`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     school
   </span>
@@ -2254,6 +2704,8 @@ exports[`Icon should render all icons in motifIcons set 225`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     search
   </span>
@@ -2264,6 +2716,8 @@ exports[`Icon should render all icons in motifIcons set 226`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     send
   </span>
@@ -2274,6 +2728,8 @@ exports[`Icon should render all icons in motifIcons set 227`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     send_outline
   </span>
@@ -2284,6 +2740,8 @@ exports[`Icon should render all icons in motifIcons set 228`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     sentiment_dissatisfied
   </span>
@@ -2294,6 +2752,8 @@ exports[`Icon should render all icons in motifIcons set 229`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     sentiment_satisfied
   </span>
@@ -2304,6 +2764,8 @@ exports[`Icon should render all icons in motifIcons set 230`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     settings
   </span>
@@ -2314,6 +2776,8 @@ exports[`Icon should render all icons in motifIcons set 231`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     settings_outline
   </span>
@@ -2324,6 +2788,8 @@ exports[`Icon should render all icons in motifIcons set 232`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     share
   </span>
@@ -2334,6 +2800,8 @@ exports[`Icon should render all icons in motifIcons set 233`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     shield
   </span>
@@ -2344,6 +2812,8 @@ exports[`Icon should render all icons in motifIcons set 234`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     shield_lock
   </span>
@@ -2354,6 +2824,8 @@ exports[`Icon should render all icons in motifIcons set 235`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     signpost
   </span>
@@ -2364,6 +2836,8 @@ exports[`Icon should render all icons in motifIcons set 236`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     sim_card
   </span>
@@ -2374,6 +2848,8 @@ exports[`Icon should render all icons in motifIcons set 237`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     sim_card_outline
   </span>
@@ -2384,6 +2860,8 @@ exports[`Icon should render all icons in motifIcons set 238`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     speed
   </span>
@@ -2394,6 +2872,8 @@ exports[`Icon should render all icons in motifIcons set 239`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     stethoscope
   </span>
@@ -2404,6 +2884,8 @@ exports[`Icon should render all icons in motifIcons set 240`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     store
   </span>
@@ -2414,6 +2896,8 @@ exports[`Icon should render all icons in motifIcons set 241`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     supervisor_account
   </span>
@@ -2424,6 +2908,8 @@ exports[`Icon should render all icons in motifIcons set 242`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     table_rows
   </span>
@@ -2434,6 +2920,8 @@ exports[`Icon should render all icons in motifIcons set 243`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     task
   </span>
@@ -2444,6 +2932,8 @@ exports[`Icon should render all icons in motifIcons set 244`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     task_alt
   </span>
@@ -2454,6 +2944,8 @@ exports[`Icon should render all icons in motifIcons set 245`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     thumb_down
   </span>
@@ -2464,6 +2956,8 @@ exports[`Icon should render all icons in motifIcons set 246`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     thumb_up
   </span>
@@ -2474,6 +2968,8 @@ exports[`Icon should render all icons in motifIcons set 247`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     topic
   </span>
@@ -2484,6 +2980,8 @@ exports[`Icon should render all icons in motifIcons set 248`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     touch_app
   </span>
@@ -2494,6 +2992,8 @@ exports[`Icon should render all icons in motifIcons set 249`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     trophy
   </span>
@@ -2504,6 +3004,8 @@ exports[`Icon should render all icons in motifIcons set 250`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     undo
   </span>
@@ -2514,6 +3016,8 @@ exports[`Icon should render all icons in motifIcons set 251`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     upload
   </span>
@@ -2524,6 +3028,8 @@ exports[`Icon should render all icons in motifIcons set 252`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     upload_2
   </span>
@@ -2534,6 +3040,8 @@ exports[`Icon should render all icons in motifIcons set 253`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     upload_file
   </span>
@@ -2544,6 +3052,8 @@ exports[`Icon should render all icons in motifIcons set 254`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     verified_user
   </span>
@@ -2554,6 +3064,8 @@ exports[`Icon should render all icons in motifIcons set 255`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     videocam
   </span>
@@ -2564,6 +3076,8 @@ exports[`Icon should render all icons in motifIcons set 256`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     videocam_off
   </span>
@@ -2574,6 +3088,8 @@ exports[`Icon should render all icons in motifIcons set 257`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     visibility
   </span>
@@ -2584,6 +3100,8 @@ exports[`Icon should render all icons in motifIcons set 258`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     visibility_off
   </span>
@@ -2594,6 +3112,8 @@ exports[`Icon should render all icons in motifIcons set 259`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     volume_off
   </span>
@@ -2604,6 +3124,8 @@ exports[`Icon should render all icons in motifIcons set 260`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     volume_up
   </span>
@@ -2614,6 +3136,8 @@ exports[`Icon should render all icons in motifIcons set 261`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     volunteer_activism
   </span>
@@ -2624,6 +3148,8 @@ exports[`Icon should render all icons in motifIcons set 262`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     vpn_key
   </span>
@@ -2634,6 +3160,8 @@ exports[`Icon should render all icons in motifIcons set 263`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     vpn_key_off
   </span>
@@ -2644,6 +3172,8 @@ exports[`Icon should render all icons in motifIcons set 264`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     warning
   </span>
@@ -2654,6 +3184,8 @@ exports[`Icon should render all icons in motifIcons set 265`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     warning_outline
   </span>
@@ -2664,6 +3196,8 @@ exports[`Icon should render all icons in motifIcons set 266`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     water_drop
   </span>
@@ -2674,6 +3208,8 @@ exports[`Icon should render all icons in motifIcons set 267`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     waves
   </span>
@@ -2684,6 +3220,8 @@ exports[`Icon should render all icons in motifIcons set 268`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     wb_sunny
   </span>
@@ -2694,6 +3232,8 @@ exports[`Icon should render all icons in motifIcons set 269`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     work
   </span>
@@ -2704,6 +3244,8 @@ exports[`Icon should render all icons in motifIcons set 270`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     work_outline
   </span>
@@ -2714,6 +3256,8 @@ exports[`Icon should render all icons in motifIcons set 271`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     zoom_in
   </span>
@@ -2724,6 +3268,8 @@ exports[`Icon should render all icons in motifIcons set 272`] = `
 <div>
   <span
     class="Root md mtf-ui-icons"
+    lang="en"
+    translate="no"
   >
     zoom_out
   </span>

@@ -10,6 +10,8 @@ exports[`ImageUpload should be rendered with only required props 1`] = `
     >
       <span
         class="Root md secondary motifIconsDefault addIcon"
+        lang="en"
+        translate="no"
       >
         add
       </span>

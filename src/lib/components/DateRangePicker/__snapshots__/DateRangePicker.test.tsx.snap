@@ -25,6 +25,8 @@ exports[`DateRangePicker should be rendered with only required props and should 
             </span>
             <span
               class="Root md motifIconsDefault Button-DropdownIcon"
+              lang="en"
+              translate="no"
             >
               arrow_drop_down
             </span>
@@ -36,6 +38,8 @@ exports[`DateRangePicker should be rendered with only required props and should 
         >
           <span
             class="Root md motifIconsDefault icon"
+            lang="en"
+            translate="no"
           >
             calendar_month
           </span>
@@ -52,6 +56,8 @@ exports[`DateRangePicker should be rendered with only required props and should 
         >
           <span
             class="Root md motifIconsDefault icon"
+            lang="en"
+            translate="no"
           >
             calendar_month
           </span>
@@ -374,6 +380,8 @@ exports[`DateRangePicker should be rendered with only required props and should 
             >
               <span
                 class="Root md motifIconsDefault"
+                lang="en"
+                translate="no"
               >
                 arrow_back
               </span>
@@ -662,6 +670,8 @@ exports[`DateRangePicker should be rendered with only required props and should 
             >
               <span
                 class="Root md motifIconsDefault"
+                lang="en"
+                translate="no"
               >
                 arrow_forward
               </span>
