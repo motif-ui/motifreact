@@ -249,7 +249,7 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 // =============================================================================
 // Responsive
 // =============================================================================
-@include screen-width("below", "sm") {
+@include screen-width("below", "lg") {
   .hamburger {
     display: block;
   }
@@ -266,8 +266,14 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 
   .mainMenuContainer {
     order: 999;
+    flex: none;
   }
+}
 
+@include screen-width("below", "sm") {
+  .mainMenuContainer {
+    flex: 1;
+  }
   .mainMenu {
     gap: 0;
     flex-direction: column;
