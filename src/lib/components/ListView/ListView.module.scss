@@ -1,6 +1,7 @@
 @use "@styles" as *;
 
 $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x", "22x"), ("md", "sm", "2x", "16x", "12x", "32x", "22x", "24x"), ("lg", "md", "4x", "20x", "16x", "40x", "24x", "28x"));
+
 @each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize, $iconFontSize, $iconRightFontSize in $list-item-sizes {
   .#{$size} {
     .baseContent {

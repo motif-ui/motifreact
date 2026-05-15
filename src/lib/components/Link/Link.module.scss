@@ -2,6 +2,7 @@
 
 $sizes: (("sm", "4x", "16x"), ("md", "6x", "20x"), ("lg", "8x", "24x"));
 $state: ("default", "disabled", "active", "hover");
+
 @each $name, $gap, $iconFontSize in $sizes {
   .#{$name} {
     gap: var(--base-sizing-#{$gap});
