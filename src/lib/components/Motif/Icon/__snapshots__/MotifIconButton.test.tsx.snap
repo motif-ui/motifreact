@@ -9,6 +9,8 @@ exports[`MotifIconButton should render with only required props 1`] = `
   >
     <span
       class="Root md mtf-ui-icons"
+      lang="en"
+      translate="no"
     >
       home
     </span>

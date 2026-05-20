@@ -7,6 +7,8 @@ exports[`Breadcrumb should render with only required props 1`] = `
   >
     <span
       class="Root md motifIconsDefault homepage-icon"
+      lang="en"
+      translate="no"
     >
       home
     </span>
@@ -20,6 +22,8 @@ exports[`Breadcrumb should render with only required props 1`] = `
       </a>
       <span
         class="Root md motifIconsDefault right-icon"
+        lang="en"
+        translate="no"
       >
         arrow_forward_ios
       </span>
@@ -34,6 +38,8 @@ exports[`Breadcrumb should render with only required props 1`] = `
       </span>
       <span
         class="Root md motifIconsDefault right-icon"
+        lang="en"
+        translate="no"
       >
         arrow_forward_ios
       </span>
@@ -48,6 +54,8 @@ exports[`Breadcrumb should render with only required props 1`] = `
       </a>
       <span
         class="Root md motifIconsDefault right-icon"
+        lang="en"
+        translate="no"
       >
         arrow_forward_ios
       </span>
