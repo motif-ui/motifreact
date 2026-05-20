@@ -250,9 +250,6 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 // Responsive
 // =============================================================================
 @include screen-width("below", "lg") {
-  .hamburger {
-    display: block;
-  }
   .logo {
     flex: 1;
   }
@@ -271,6 +268,9 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 }
 
 @include screen-width("below", "sm") {
+  .hamburger {
+    display: block;
+  }
   .mainMenuContainer {
     flex: 1;
   }
