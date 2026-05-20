@@ -28,10 +28,11 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
     className,
     style,
   } = usePropsWithThemeDefaults("FormFieldGroup", props);
-  const { size, formOrientation, labelOrientation } = formContext;
+  const { size, formOrientation, labelOrientation, preview } = formContext;
   const [error, setError] = useState<string>();
 
-  const isRequired = groupValidations?.some(validation => validation.requiredValidation);
+  const isDisabled = preview ? true : disabled;
+  const isRequired = !preview && groupValidations?.some(validation => validation.requiredValidation);
 
   const classNames = useMemo(
     () =>
@@ -41,9 +42,9 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
         labelOrientation + "Label",
         orientation + "Group",
         isRequired && "required",
-        error ? "error" : disabled || readOnly ? "disabled" : success && "success",
+        error && !preview ? "error" : isDisabled || readOnly ? "disabled" : success && "success",
       ]),
-    [className, disabled, error, formOrientation, isRequired, labelOrientation, orientation, readOnly, size, success],
+    [className, isDisabled, error, formOrientation, isRequired, labelOrientation, orientation, preview, readOnly, size, success],
   );
 
   return (
@@ -53,7 +54,7 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
       groupName={name}
       success={success}
       readOnly={readOnly}
-      disabled={disabled}
+      disabled={isDisabled}
       setFieldError={setError}
       error={!!error}
     >

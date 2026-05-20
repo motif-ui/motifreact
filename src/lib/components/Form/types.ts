@@ -6,6 +6,7 @@ import { Dispatch, FormEvent, SetStateAction } from "react";
 export type FormProps<T> = {
   onSubmit: (data: FormSubmitData<T>, event: FormEvent<HTMLFormElement>) => void;
   title?: string;
+  preview?: boolean;
 } & FormDefaultableProps;
 
 export type FormDefaultableProps = {
@@ -82,6 +83,7 @@ export type FormProviderProps = {
   formOrientation: Orientation;
   labelOrientation: Orientation;
   validateOnChange?: boolean;
+  preview?: boolean;
 };
 
 // Type of the form state reference
@@ -107,6 +109,7 @@ export type FormContextType<T> = {
   validate: () => FormSubmitData<T>;
   resetValues: () => void;
   clearFieldFromPendingInit: (name: string) => void;
+  preview?: boolean;
 };
 
 // The type of the data returned when the form is submitted

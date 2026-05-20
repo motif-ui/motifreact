@@ -388,6 +388,28 @@ describe("Form", () => {
     expect(inputItems[9]).toHaveClass("success");
   });
 
+  it("should render form in preview mode with all fields disabled and no submit button", () => {
+    render(
+      <Form onSubmit={mockFunction} preview>
+        <Form.Field name="inputText" label="Input">
+          <InputText name="inputText" value="Test Value" />
+        </Form.Field>
+        <Form.Field name="textareaField" label="Textarea">
+          <Textarea name="textareaField" value="Test" />
+        </Form.Field>
+        <Form.FieldGroup name="testGroup"> {groupItems} </Form.FieldGroup>
+      </Form>,
+    );
+
+    expect(screen.queryByText(t("g.submit"))).not.toBeInTheDocument();
+
+    screen.queryAllByTestId("formField").forEach(field => {
+      expect(field).toHaveClass("disabled");
+    });
+
+    expect(getFormFieldGroup(0)).toHaveClass("disabled");
+  });
+
   it("should prevent typing or editing all items in FormFieldGroup when readOnly prop is given", async () => {
     const handleSubmit = (data: FormSubmitData) => {
       expect(JSON.stringify(data)).toBe(JSON.stringify(expectedSubmitResponse));

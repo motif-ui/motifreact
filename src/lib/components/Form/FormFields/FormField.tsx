@@ -19,10 +19,11 @@ const FormField = (props: PropsWithRef<FormFieldProps, HTMLDivElement>) => {
     "FormField",
     props,
   );
-  const { size, formOrientation, labelOrientation } = formContext;
+  const { size, formOrientation, labelOrientation, preview } = formContext;
   const [error, setError] = useState<string>();
 
-  const isRequired = validations?.some(validation => validation.requiredValidation);
+  const isDisabled = preview ? true : disabled;
+  const isRequired = !preview && validations?.some(validation => validation.requiredValidation);
   const classNames = useMemo(
     () =>
       sanitizeModuleRootClasses(styles, className, [
@@ -30,16 +31,16 @@ const FormField = (props: PropsWithRef<FormFieldProps, HTMLDivElement>) => {
         formOrientation + "Form",
         labelOrientation + "Label",
         isRequired && "required",
-        error ? "error" : disabled || readOnly ? "disabled" : success && "success",
+        error && !preview ? "error" : isDisabled || readOnly ? "disabled" : success && "success",
       ]),
-    [className, disabled, error, formOrientation, isRequired, labelOrientation, readOnly, size, success],
+    [className, isDisabled, error, formOrientation, isRequired, labelOrientation, preview, readOnly, size, success],
   );
 
   return (
     <FieldProvider
       fieldName={name}
       validations={validations}
-      disabled={disabled}
+      disabled={isDisabled}
       readOnly={readOnly}
       success={success}
       setFieldError={setError}
