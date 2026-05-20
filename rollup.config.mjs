@@ -14,7 +14,7 @@ import path from "path";
 import process from "node:process";
 import { fileURLToPath } from "url";
 import json from "@rollup/plugin-json";
-import { wrapCssWithLayer } from "./src/scripts/wrap-with-layer.mjs";
+import wrapLayerPlugin from "./src/scripts/wrapLayer.mjs";
 
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
@@ -109,9 +109,9 @@ export default [
           url({
             url: "inline", // enable inline assets using base64 encoding
           }),
+          wrapLayerPlugin,
         ],
       }),
-      wrapCssWithLayer(),
       copy({
         targets: [
           {
