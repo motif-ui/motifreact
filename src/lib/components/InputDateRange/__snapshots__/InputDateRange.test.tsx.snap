@@ -11,6 +11,8 @@ exports[`InputDateRange should be rendered with only required props and should h
     >
       <span
         class="Root md motifIconsDefault icon"
+        lang="en"
+        translate="no"
       >
         calendar_expand_horizontal
       </span>

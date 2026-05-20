@@ -33,7 +33,7 @@ const Icon = (props: PropsWithRefAndChildren<IconProps, HTMLSpanElement>) => {
   ]);
 
   return (
-    <span className={classNames} style={{ ...(color && { color }), ...style }} ref={ref}>
+    <span className={classNames} style={{ ...(color && { color }), ...style }} ref={ref} lang="en" translate="no">
       {iconName || (!isChildMotifIcon && children)}
     </span>
   );

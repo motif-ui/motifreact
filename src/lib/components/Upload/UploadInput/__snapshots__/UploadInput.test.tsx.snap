@@ -12,6 +12,8 @@ exports[`UploadInput should be rendered with only required props and should have
     >
       <span
         class="Root md motifIconsDefault"
+        lang="en"
+        translate="no"
       >
         search
       </span>
