@@ -15,7 +15,7 @@ exports[`MenuList should be rendered with only required props and should have de
           class="menuItem expanded mainMenuItem"
         >
           <span
-            class="Root md mtf-ui-icons"
+            class="Root md mtf-ui-icons icon"
           >
             home
           </span>

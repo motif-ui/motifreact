@@ -1,5 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import NavBar from "./NavBar";
+import { runIconPropTest } from "../../../utils/testUtils";
 import { MenuItemProps } from "@/components/NavBar/components/NavBarMenu/types";
 import { userEvent } from "@testing-library/user-event";
 import { Size3 } from "src/lib/types.ts";
@@ -251,10 +252,7 @@ describe("NavBar", () => {
   });
 
   it("should render the icon given in the icon prop of the menu item", () => {
-    const { getByText } = render(<NavBar mainMenu={{ items }} />);
-    expect(getByText("home")).toBeInTheDocument();
-    fireEvent.click(getByText("Services"));
-    expect(getByText("person")).toBeInTheDocument();
+    runIconPropTest(icon => render(<NavBar mainMenu={{ items: [{ label: "Nav Item", icon, href: "#" }] }} />), "icon");
   });
 
   it("should redirect to the given href prop of the menu item when menu item is clicked and consider the related targetBlank prop", () => {

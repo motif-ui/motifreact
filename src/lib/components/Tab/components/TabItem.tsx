@@ -1,5 +1,5 @@
 import styles from "../Tab.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { TabItemProps } from "@/components/Tab/types";
 import { useContext } from "react";
 import { TabContext } from "@/components/Tab/TabProvider";
@@ -13,7 +13,7 @@ const TabItem = (props: TabItemProps) => {
 
   return (
     <button key={id} className={tabItemClass} disabled={disabled} onClick={() => tabClickHandler?.(id)}>
-      {icon && <Icon className={styles["tabItem-icon"]} name={icon} size="md" />}
+      {icon && <GlobalIconWrapper icon={icon} className={styles["tabItem-icon"]} />}
       {title && <span className={styles["tabItem-title"]}>{title}</span>}
     </button>
   );

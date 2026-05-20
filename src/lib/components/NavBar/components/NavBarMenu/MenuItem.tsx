@@ -1,5 +1,5 @@
 import styles from "../../NavBar.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { type MouseEvent, useId } from "react";
 import SubMenu from "./SubMenu";
@@ -21,7 +21,7 @@ const MenuItem = (props: MenuItemProps) => {
   return (
     <li role="none" className={className}>
       <a role="menuitem" onClick={clickHandler} {...{ href, target }}>
-        {icon && <Icon name={icon} size="md" />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
         <span className={styles.label}>{label}</span>
         {items && <MotifIcon name="keyboard_arrow_down" size="md" className={styles.dropdown} />}
       </a>

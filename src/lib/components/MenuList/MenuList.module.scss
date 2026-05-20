@@ -145,6 +145,10 @@ $sizes: (
 // Menu Item
 // =============================================================================
 
+.icon {
+  font-size: var(--base-sizing-22x);
+}
+
 .menuItemContainer {
   position: relative;
 }

@@ -1,5 +1,5 @@
 import styles from "../../NavBar.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { type MouseEvent, useId } from "react";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { SubMenuItemProps, SubMenuProps } from "./types";
@@ -29,7 +29,7 @@ const SubMenuItem = (props: SubMenuItemProps) => {
   return (
     <li role="none" className={styles.subMenuItem}>
       <a role="menuitem" onClick={clickHandler} {...{ href, target }}>
-        {icon && <Icon name={icon} size="md" />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
         <span className={styles.label}>{label}</span>
         {items && <MotifIcon name="arrow_drop_down" className={styles.dropdown} size="md" />}
       </a>

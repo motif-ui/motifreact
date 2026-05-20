@@ -1,7 +1,7 @@
 import { MouseEvent } from "react";
 import { useContext, useRef } from "react";
 import styles from "../MenuList.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MenuListContext } from "@/components/MenuList/MenuListContext";
 import { MenuItemCommonProps } from "@/components/MenuList/types";
 import Tooltip from "@/components/Tooltip";
@@ -57,7 +57,7 @@ const MenuItem = (props: MenuItemCommonProps) => {
 
   const menuItemElement = (
     <a className={classNames} {...itemAttributes}>
-      {icon && <Icon name={icon} size="md" />}
+      {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
       {(subMenuItem || !collapsed) && (
         <>
           <span className={styles.label}>

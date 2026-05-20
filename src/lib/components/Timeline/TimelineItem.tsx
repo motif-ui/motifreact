@@ -1,5 +1,5 @@
 import { memo } from "react";
-import Icon from "../Icon";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "./Timeline.module.scss";
 import { TimelineItemProps, TimelineMarkerType } from "./types";
 import { sanitizeModuleClasses } from "../../../utils/cssUtils";
@@ -18,7 +18,7 @@ const TimelineItem = memo((props: Props) => {
     <div className={itemClasses}>
       <div className={styles.marker}>
         {markerType === "icon" ? (
-          <Icon name={icon} className={styles.markerIcon} />
+          <GlobalIconWrapper icon={icon} className={styles.markerIcon} />
         ) : markerType === "number" ? (
           <span className={styles.markerNumber}>{order}</span>
         ) : (

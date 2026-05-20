@@ -64,6 +64,11 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
   .title {
     color: var(--theme-color-text-base-caption);
     @include font("base", "sm", "500");
+    overflow-wrap: break-word;
+  }
+
+  .stepHeader.item-vertical .title {
+    text-align: center;
   }
 
   &.clickable .stepHeader {
