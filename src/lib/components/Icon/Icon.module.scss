@@ -10,7 +10,7 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 
   span,
   i {
-    font-size: inherit;
+    font-size: inherit !important;
     line-height: 1;
     &::before {
       vertical-align: bottom;
