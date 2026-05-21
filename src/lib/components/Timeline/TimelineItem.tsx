@@ -18,7 +18,9 @@ const TimelineItem = memo((props: Props) => {
     <div className={itemClasses}>
       <div className={styles.marker}>
         {markerType === "icon" ? (
-          <Icon name={icon} className={styles.markerIcon} />
+          <span className={styles.markerIcon}>
+            <Icon name={icon} />
+          </span>
         ) : markerType === "number" ? (
           <span className={styles.markerNumber}>{order}</span>
         ) : (
