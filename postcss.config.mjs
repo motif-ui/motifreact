@@ -1,5 +1,7 @@
-import wrapLayerPlugin from "./src/scripts/wrapLayer.mjs";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
 
 export default {
-  plugins: [wrapLayerPlugin],
+  plugins: [require.resolve("./src/scripts/nextjsPostcssWrapLayer.cjs")],
 };
