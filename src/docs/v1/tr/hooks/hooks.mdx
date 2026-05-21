@@ -1,0 +1,21 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as HookStories from "../../en/hooks/hooks.stories.tsx";
+
+<Meta title="Hooks/Info (TR)" />
+
+# Hook'lar
+
+Motif UI, yaygın kullanıcı arayüzü desenlerini ve davranışlarını basitleştirmek için bir dizi özel React hook'u sunar. Bu hook'lar, Motif UI bileşenleriyle sorunsuz çalışacak şekilde tasarlanmıştır ve React uygulamalarınızda bağımsız olarak kullanılabilir.
+
+## TypeScript Desteği
+
+Tüm hook'lar TypeScript ile yazılmıştır ve eksiksiz tür tanımları içerir. Otomatik tamamlama ve tür denetimi özelliklerini hazır olarak elde edersiniz.
+
+```tsx
+// Genel tür desteği
+const ref = useOutsideClick<HTMLDivElement>(() => {});
+
+// Tam tür çıkarımı
+const { width, height } = useScreenSize(); // width ve height sayıdır
+const { visible, show, hide } = useToggle(); // Hepsi doğru şekilde türlenmiş
+```

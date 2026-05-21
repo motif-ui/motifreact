@@ -1,0 +1,69 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started/Element Access (TR)" />
+
+# Element Erişimi
+
+Element Erişimi özelliği, React ref'leri aracılığıyla her bileşenin kök DOM öğesine doğrudan erişim sağlar. Bu sayede, gerektiğinde temel HTML öğesini manipüle edebilir, sorgulayabilir veya onunla etkileşim kurabilirsiniz.
+
+## Genel Bakış
+
+Bu, özellikle şunlar için faydalıdır:
+
+- Yerel DOM yöntemlerine erişme
+- Öğeleri programlı olarak odaklama
+- Öğe boyutlarını ölçme
+- Belirli öğelere kaydırma
+- Özel animasyonlar uygulama
+
+## Ref Kullanımı
+
+Tüm bileşenler, kök DOM öğelerine referans veren bir `ref` prop'unu kabul eder. Referans verilen öğenin türü bileşene göre değişir (HTMLDivElement, HTMLButtonElement vb.).
+
+```tsx
+import { useRef } from "react";
+import { Button } from "@motif-ui/react";
+
+const MyComponent = () => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const handleClick = () => {
+    // Yerel DOM öğesine erişin
+    if (buttonRef.current) {
+      buttonRef.current.focus();
+      console.log("Button width:", buttonRef.current.offsetWidth);
+    }
+  };
+
+  return (
+    <>
+      <Button
+        ref={buttonRef}
+        label="Beni Odakla"
+        variant="primary"
+      />
+      <Button
+        label="Önceki Düğmeyi Odakla"
+        onClick={handleClick}
+        variant="secondary"
+      />
+    </>
+  );
+};
+```
+
+## En İyi Uygulamalar
+
+1. **Ref'leri idareli kullanın**: Ref'leri yalnızca doğrudan DOM erişimine ihtiyacınız olduğunda kullanın. Çoğu etkileşim prop'lar ve state aracılığıyla yönetilmelidir.
+
+2. **Null kontrolü yapın**: `ref.current`'a erişmeden önce her zaman var olup olmadığını kontrol edin, çünkü ilk render sırasında `null` olabilir.
+
+3. **Stil geçersiz kılmaktan kaçının**: Ref'ler aracılığıyla stilleri manipüle ederken, doğrudan stil manipülasyonu yerine CSS sınıflarını ve state yönetimini tercih edin.
+
+4. **Etkileri temizleyin**: Ref'leri kullanarak dinleyiciler veya aralıklar kurduysanız, bunları `useEffect` temizleme fonksiyonlarında temizlediğinizden emin olun.
+
+## Notlar
+
+- Ref, dahili olarak React'in `forwardRef` deseni kullanılarak iletilir.
+- Bileşik bileşenler (örneğin `Form` gibi) için, ref bir DOM öğesi yerine özel yöntemler ifşa edebilir.
+- SVG tabanlı bileşenler (`ProgressCircle` gibi), HTML öğeleri yerine `SVGSVGElement`'ı ref türü olarak kullanır.

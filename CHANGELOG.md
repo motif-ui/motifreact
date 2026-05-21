@@ -84,7 +84,7 @@
 
 ## 🐛 Bug Fixes
 
-- fix: scss-check script is implemented with both definition and refactoring ([#7](https://github.com/motif-ui/motifreact/pull/7)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: check:scss script is implemented with both definition and refactoring ([#7](https://github.com/motif-ui/motifreact/pull/7)) [@atakanbayrak](https://github.com/atakanbayrak)
 - fix: resolve custom sort type error in Storybook ([#15](https://github.com/motif-ui/motifreact/pull/15)) [@ZehranurC](https://github.com/ZehranurC)
 - fix: update contributing guidelines link ([#5](https://github.com/motif-ui/motifreact/pull/5)) [@umiitkose](https://github.com/umiitkose)
 

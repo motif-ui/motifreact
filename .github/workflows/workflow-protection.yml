@@ -39,7 +39,8 @@ jobs:
           
             const sensitiveFiles = allFiles.filter(f =>
             f.filename.startsWith('.github/workflows/') ||
-            f.filename.startsWith('.github/actions/')
+            f.filename.startsWith('.github/actions/') || 
+            f.filename.includes('package.json')
             );
 
             if (sensitiveFiles.length === 0) {

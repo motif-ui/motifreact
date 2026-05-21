@@ -1,0 +1,97 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as hooks from "../../en/hooks/hooks.stories.tsx";
+
+<Meta title="Hooks/useTimeout (TR)" />
+
+# useTimeout
+
+Durdurma, devam ettirme ve temizleme özellikleriyle gelişmiş zaman aşımı (timeout) yönetimi.
+
+## Kullanım
+
+```jsx
+import { useTimeout } from "@motif-ui/react";
+
+const AutoSaveForm = () => {
+  const saveData = () => {
+    console.log("Veriler otomatik kaydediliyor...");
+  };
+
+  const { start, pause, clear } = useTimeout(saveData, 5000);
+
+  return (
+    <div>
+      <input onFocus={pause} onBlur={start} />
+      <button onClick={start}>Otomatik Kaydetmeyi Başlat</button>
+      <button onClick={pause}>Otomatik Kaydetmeyi Duraklat</button>
+      <button onClick={clear}>Otomatik Kaydetmeyi İptal Et</button>
+    </div>
+  );
+};
+```
+
+## Parametreler
+
+<table>
+  <thead>
+    <tr>
+      <th>Parametre</th>
+      <th>Tip</th>
+      <th>Zorunlu</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`callback`</td>
+      <td>`() => void`</td>
+      <td>Evet</td>
+      <td>Zaman aşımı (timeout) sonrasında çalıştırılacak fonksiyon</td>
+    </tr>
+    <tr>
+      <td>`delay`</td>
+      <td>`number`</td>
+      <td>Evet</td>
+      <td>Gecikme milisaniye cinsinden</td>
+    </tr>
+  </tbody>
+</table>
+
+## Dönüş Değeri
+
+<table>
+  <thead>
+    <tr>
+      <th>Özellik</th>
+      <th>Tip</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`object`</td>
+      <td>
+        `
+          {"{"} <br />
+          &nbsp;&nbsp;start: () => void;<br />
+          &nbsp;&nbsp;pause: () => void;<br />
+          &nbsp;&nbsp;clear: () => void;<br />
+          {"}"}
+        `
+      </td>
+      <td>
+        Tüm zaman aşımı (timeout) kontrol yöntemlerini içeren, `useTimeout` hook'undan dönen nesne.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Özellikler
+
+- **Durdur/Devam Ettir**: Zaman aşımını (timeout) ilerlemeyi kaybetmeden geçici olarak duraklatın
+- **Dinamik Geri Arama (Callback)**: Geri arama fonksiyonunu otomatik olarak çalıştırır
+- **Otomatik Temizleme**: Çalıştırma sonrası zaman aşımını (timeout) otomatik olarak temizler
+
+## Örnek
+
+<Canvas of={hooks.UseTimeoutExample} />

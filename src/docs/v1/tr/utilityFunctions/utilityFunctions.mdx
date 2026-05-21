@@ -1,0 +1,420 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Utility/Utility Functions (TR)" />
+
+# Yardımcı Fonksiyonlar
+
+Birçok proje gibi, bizim projemiz de kod tabanı genelindeki yaygın görevleri basitleştirmek için geliştirilmiş bir yardımcı fonksiyon koleksiyonu içerir. Bu yardımcı programlardan bazıları diğer geliştiriciler için de faydalı olabileceğinden, seçtiklerimizi harici kullanım için sunduk. Tüm yardımcı fonksiyonlar, tam tür güvenliği sağlamak için TypeScript ile yazılmıştır.
+
+Bu belge, projenin yardımcı fonksiyonları için ayrıntılı açıklamalar ve kullanım yönergeleri sunmaktadır.
+
+<br />
+
+## Tarih
+
+<br />
+
+### areEqualDates
+
+İki tarihi karşılaştırarak aynı takvim gününü (yıl, ay ve gün) temsil edip etmediklerini belirler.
+
+#### API
+
+```typescript
+areEqualDates = (d1?: Date, d2?: Date) => boolean
+```
+
+#### Kullanım
+
+```typescript
+const date1 = new Date(2024, 0, 15, 10, 30); // Jan 15, 2024, 10:30
+const date2 = new Date(2024, 0, 15, 18, 45); // Jan 15, 2024, 18:45
+const date3 = new Date(2024, 0, 16, 10, 30); // Jan 16, 2024, 10:30
+
+DateUtils.areEqualDates(date1, date2); // true (same day, different times)
+DateUtils.areEqualDates(date1, date3); // false (different days)
+DateUtils.areEqualDates(date1, undefined); // false
+```
+
+### areEqualMonths
+
+İki tarihi karşılaştırarak aynı ayı temsil edip etmediklerini belirler.
+
+#### API
+
+```typescript
+areEqualMonths = (d1?: Date, d2?: Date) => boolean
+```
+
+#### Kullanım
+
+```typescript
+const date1 = new Date(2024, 0, 15); // January 15, 2024
+const date2 = new Date(2024, 0, 25); // January 25, 2024
+const date3 = new Date(2024, 1, 15); // February 15, 2024
+
+DateUtils.areEqualMonths(date1, date2); // true
+DateUtils.areEqualMonths(date1, date3); // false
+```
+
+### getTodayTimeless
+
+Bugünün tarihini, saat 00:00:00.000 (gece yarısı) olarak ayarlanmış şekilde döndürür.
+
+#### API
+
+```typescript
+getTodayTimeless = () => Date
+```
+
+#### Kullanım
+
+```typescript
+const today = DateUtils.getTodayTimeless();
+// Bugün 15 Ocak 2024, 14:30:45 ise
+// Sonuç: 15 Ocak 2024, 00:00:00.000
+```
+
+### getDateTimeless
+
+Verilen tarihin, saati 00:00:00.000 (gece yarısı) olarak ayarlanmış bir kopyasını döndürür.
+
+#### API
+
+```typescript
+getDateTimeless = (date?: Date) => Date | undefined
+```
+
+#### Kullanım
+
+```typescript
+const dateWithTime = new Date(2024, 0, 15, 14, 30, 45); // Jan 15, 2024, 14:30:45
+const dateWithoutTime = DateUtils.getDateTimeless(dateWithTime);
+// Sonuç: 15 Ocak 2024, 00:00:00.000
+
+DateUtils.getDateTimeless(undefined); // undefined
+```
+
+### getDateWithTime
+
+Bir tarihi belirli bir saatle birleştirerek yeni bir tarih oluşturur.
+
+#### API
+
+```typescript
+getDateWithTime = (date: Date | undefined, time?: Time) => Date | undefined
+```
+
+#### Kullanım
+
+```typescript
+const date = new Date(2024, 0, 15); // Jan 15, 2024
+const time = { hours: 14, minutes: 30, seconds: 45 };
+
+const dateWithTime = DateUtils.getDateWithTime(date, time);
+// Sonuç: 15 Ocak 2024, 14:30:45.000
+
+// Kısmi saat ile (varsayılanlar: hours=0, minutes=0, seconds=0)
+const timePartial = { hours: 10 };
+DateUtils.getDateWithTime(date, timePartial);
+// Sonuç: 15 Ocak 2024, 10:00:00.000
+```
+
+### getDateOfNextMonth
+
+Bir sonraki ayın ilk gününü döndürür.
+
+#### API
+
+```typescript
+getDateOfNextMonth = (date?: Date) => Date
+```
+
+#### Kullanım
+
+```typescript
+const currentDate = new Date(2024, 0, 15); // January 15, 2024
+const nextMonth = DateUtils.getDateOfNextMonth(currentDate);
+// Sonuç: 1 Şubat 2024, 00:00:00.000
+
+// Parametresiz (bugünü kullanır)
+const nextMonthFromToday = DateUtils.getDateOfNextMonth();
+```
+
+### getDateOfPrevMonth
+
+Bir önceki ayın ilk gününü döndürür.
+
+#### API
+
+```typescript
+getDateOfPrevMonth = (date?: Date) => Date
+```
+
+#### Kullanım
+
+```typescript
+const currentDate = new Date(2024, 1, 15); // February 15, 2024
+const prevMonth = DateUtils.getDateOfPrevMonth(currentDate);
+// Sonuç: 1 Ocak 2024, 00:00:00.000
+```
+
+### getNumberOfDaysInMonth
+
+Belirli bir aydaki gün sayısını döndürür.
+
+#### API
+
+```typescript
+getNumberOfDaysInMonth = (year: number, month: number) => number
+```
+
+#### Kullanım
+
+```typescript
+DateUtils.getNumberOfDaysInMonth(2024, 0); // 31 (Ocak)
+DateUtils.getNumberOfDaysInMonth(2024, 1); // 29 (Şubat 2024 - artık yıl)
+DateUtils.getNumberOfDaysInMonth(2023, 1); // 28 (Şubat 2023 - artık yıl değil)
+DateUtils.getNumberOfDaysInMonth(2024, 3); // 30 (Nisan)
+```
+
+### isInTheMonth
+
+Bir tarihin başka bir tarihle aynı ay ve yıla düşüp düşmediğini kontrol eder.
+
+#### API
+
+```typescript
+isInTheMonth = (date: Date, dateOfTheMonthToCheck: Date) => boolean
+```
+
+#### Kullanım
+
+```typescript
+const dateToCheck = new Date(2024, 0, 15); // January 15, 2024
+const referenceDate = new Date(2024, 0, 1); // January 1, 2024
+
+DateUtils.isInTheMonth(dateToCheck, referenceDate); // true
+```
+
+<br />
+
+## Test
+
+<br />
+
+### expectToThrow
+
+Bir fonksiyonun Jest test ortamında bir hata fırlatıp fırlatmadığını test ederken `console.error` çıktısını gizleyen bir yardımcı fonksiyondur.
+
+#### API
+
+```typescript
+expectToThrow = (func: () => unknown, error?: JestToErrorArg) => void
+```
+
+#### Parametreler
+
+- **func**: `() => unknown` - Hata fırlatması beklenen test edilecek fonksiyon
+- **error**: `JestToErrorArg` (isteğe bağlı) - Beklenen hata türü veya mesajı
+
+#### Örnek Kullanım
+
+```typescript
+describe("MyComponent", () => {
+  it("geçersiz prop'lar geçildiğinde hata fırlatmalı", () => {
+    expectToThrow(
+      () => validateProps({ invalid: true }),
+      "Geçersiz prop'lar sağlandı"
+    );
+  });
+
+  it("herhangi bir hata fırlatmalı", () => {
+    expectToThrow(() => someFunction());
+  });
+});
+```
+
+<br />
+
+## Tema Yönetimi
+
+<br />
+
+### convertThemeToCSSVariables
+
+İç içe geçmiş JavaScript tema nesnelerini düz CSS değişkenlerine (özel özellikler) dönüştüren bir fonksiyondur.
+
+#### API
+
+```typescript
+convertThemeToCSSVariables = (
+  themeObj: Record<string, unknown>,
+  prefix?: string
+) => Record<string, string>
+```
+
+#### Parametreler
+
+- **themeObj**: `Record<string, unknown>` - Dönüştürülecek tema nesnesi
+- **prefix**: `string` (isteğe bağlı, varsayılan: `"--theme"`) - CSS değişkenleri için önek
+
+#### Dönüş Değeri
+
+CSS değişken adlarını ve değerlerini içeren düz bir nesne.
+
+#### Örnek Kullanım
+
+```typescript
+const theme = {
+  colors: {
+    primary: {
+      default: "#007bff",
+      hover: "#0056b3",
+      active: "#004085"
+    },
+    secondary: "#6c757d"
+  },
+  spacing: {
+    small: "8px",
+    medium: "16px",
+    large: "24px"
+  },
+  fontSize: {
+    body: {
+      small: 14,
+      medium: 16,
+      large: 18
+    },
+  },
+};
+
+const cssVars = convertThemeToCSSVariables(theme);
+
+// Sonuç:
+// {
+//   '--theme-colors-primary-default': '#007bff',
+//   '--theme-colors-primary-hover': '#0056b3',
+//   '--theme-colors-primary-active': '#004085',
+//   '--theme-colors-secondary': '#6c757d',
+//   '--theme-spacing-small': '8px',
+//   '--theme-spacing-medium': '16px',
+//   '--theme-spacing-large': '24px',
+//   '--theme-font-size-body-small': '14',
+//   '--theme-font-size-body-medium': '16',
+//   '--theme-font-size-body-large': '18'
+// }
+```
+
+#### Özel Önek Kullanımı
+
+```typescript
+const cssVars = convertThemeToCSSVariables(theme, "--my-app");
+
+// Sonuç:
+// {
+//   '--my-app-colors-primary-default': '#007bff',
+//   '--my-app-colors-primary-hover': '#0056b3',
+//   ...
+// }
+```
+
+### sanitizeModuleClasses
+
+Tanımsız sınıf adları oluşumunu önlemek için CSS modül stillerine dayalı sınıf adlarını düzenlemeye ve birleştirmeye yardımcı olan bir yardımcı fonksiyondur. `sanitizeModuleRootClasses`'tan farklı olarak, bu fonksiyon bir kök sınıfı içermez ve global sınıfları ayrı ayrı ele almaz.
+
+#### API
+
+```typescript
+sanitizeModuleClasses = (
+  cssModule: Readonly<Record<string, string>>,
+  ...moduleKeys: (string | false | undefined | (string | false | undefined)[])[]
+) => string | undefined
+```
+
+#### Parametreler
+
+- **cssModule**: `Readonly<Record<string, string>>` - CSS modül nesnesi
+- **moduleKeys**: `(string | false | undefined | (string | false | undefined)[])[]` - Dizeler, boole değerleri, `undefined` veya bu türlerin dizilerini içerebilen sınıf adlarının rest parametresi
+
+#### Dönüş Değeri
+
+Tanımsız veya boş değerlerin dahil edilmediğinden emin olan, düzenlenmiş bir sınıf adları dizesi. Sonuç boşsa `undefined` döndürür.
+
+#### Kullanım
+
+```typescript
+const MyComponent = ({ shape, size, icon, iconPosition }) => {
+  const classNames = sanitizeModuleClasses(
+    styles,
+    "shape",
+    "size",
+    true && "pill",
+    icon && iconPosition && `icon-${iconPosition}`
+  );
+
+  return <div className={classNames}>Content</div>;
+};
+```
+
+<br />
+
+## Stil Belirleme
+
+<br />
+
+### rgbToHex
+
+RGB renk değerlerini onaltılık formata dönüştürür.
+
+#### API
+
+```typescript
+rgbToHex = (r: number, g: number, b: number) => string
+```
+
+#### Parametreler
+
+- **r**: `number` - Kırmızı kanal (0-255)
+- **g**: `number` - Yeşil kanal (0-255)
+- **b**: `number` - Mavi kanal (0-255)
+
+#### Dönüş Değeri
+
+`#RRGGBB` formatında bir onaltılık renk dizesi.
+
+#### Kullanım
+
+```typescript
+rgbToHex(34, 139, 34); // '#228B22'
+rgbToHex(255, 255, 255); // '#FFFFFF'
+```
+
+### isBright
+
+Bir rengin RGB değerlerine göre göreceli parlaklık hesaplaması kullanarak parlak olup olmadığını belirler.
+
+#### API
+
+```typescript
+isBright = (r: number, g: number, b: number, threshold?: number) => boolean
+```
+
+#### Parametreler
+
+- **r**: `number` - Kırmızı kanal (0-255)
+- **g**: `number` - Yeşil kanal (0-255)
+- **b**: `number` - Mavi kanal (0-255)
+- **threshold**: `number` - Eşik değeri (0-100)
+
+#### Dönüş Değeri
+
+Renk parlaksa (parlaklık > eşik veya 0.85) `true`, aksi takdirde `false` döndürür.
+
+#### Kullanım
+
+```typescript
+isBright(255, 255, 255); // true (beyaz - çok parlak)
+isBright(255, 255, 0); // true (sarı - parlak)
+isBright(0, 0, 255); // false (mavi - yeterince parlak değil)
+```

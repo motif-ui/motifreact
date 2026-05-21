@@ -1,0 +1,170 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Form/Supported Components (TR)" />
+
+# Desteklenen Bileşenler
+
+Form bileşeni, bu sayfada belirtilen çok çeşitli giriş türlerini destekler. Bu bileşenleri kullanan bir formun tam çalışan bir örneğini görmek için lütfen [Bileşenler/Form](?path=/docs/components-form--docs) sayfasına bakınız.
+
+### Checkbox [[↗]](?path=/docs/components-checkbox--docs)
+
+```jsx
+<Form.FieldGroup name="permissions" label="İzinler">
+  <Checkbox name="read" label="Oku" />
+  <Checkbox name="write" label="Yaz" />
+  <Checkbox name="delete" label="Sil" />
+</Form.FieldGroup>
+```
+
+### InputDate [[↗]](?path=/docs/components-inputdate--docs)
+
+```jsx
+<Form.Field name="birthdate" label="Doğum Tarihi">
+  <InputDate />
+</Form.Field>
+```
+
+### InputDateRange [[↗]](?path=/docs/components-inputdaterange--docs)
+
+```jsx
+<Form.Field name="filterDateRange" label="Filtrelenecek Tarihler">
+  <InputDateRange />
+</Form.Field>
+```
+
+### InputDateTime [[↗]](?path=/docs/components-inputdatetime--docs)
+
+```jsx
+<Form.Field name="eventDateTime" label="Etkinlik Tarihi ve Saati">
+  <InputDateTime />
+</Form.Field>
+```
+
+### InputText [[↗]](?path=/docs/components-inputtext--docs)
+
+```jsx
+<Form.Field name="name" label="Tam Ad">
+  <InputText />
+</Form.Field>
+```
+
+### InputTime [[↗]](?path=/docs/components-inputtime--docs)
+
+```jsx
+<Form.Field name="appointmentTime" label="Randevu Saati">
+  <InputTime />
+</Form.Field>
+```
+
+### InputPassword [[↗]](?path=/docs/components-inputpassword--docs)
+
+```jsx
+<Form.Field name="password" label="Şifre">
+  <InputPassword />
+</Form.Field>
+```
+
+### PinCode [[↗]](?path=/docs/components-pincode--docs)
+
+```jsx
+<Form.Field name="code" label="Doğrulama Kodu">
+  <PinCode>
+    <PinCodeItem />
+    <PinCodeItem />
+    <PinCodeItem />
+    <PinCodeItem />
+  </PinCode>
+</Form.Field>
+```
+
+### RadioGroup [[↗]](?path=/docs/components-radiogroup--docs)
+
+```jsx
+<Form.Field name="gender" label="Cinsiyet">
+  <RadioGroup name="gender">
+    <Radio value="male" label="Erkek" />
+    <Radio value="female" label="Kadın" />
+  </RadioGroup>
+</Form.Field>
+```
+
+### Select [[↗]](?path=/docs/components-select--docs)
+
+```jsx
+<Form.Field name="interests" label="İlgi Alanları">
+  <Select
+    multiple
+    data={[
+      { label: "Teknoloji", value: "tech" },
+      { label: "Sanat", value: "art" },
+      { label: "Spor", value: "sports" }
+    ]}
+  />
+</Form.Field>
+```
+
+### Slider [[↗]](?path=/docs/components-slider--docs)
+
+```jsx
+<Form.Field name="volume" label="Ses Seviyesi">
+  <Slider />
+</Form.Field>
+```
+
+### SliderRange [[↗]](?path=/docs/components-slider-range--docs)
+
+```jsx
+<Form.Field name="priceRange" label="Fiyat Aralığı">
+  <SliderRange />
+</Form.Field>
+```
+
+### Switch [[↗]](?path=/docs/components-switch--docs)
+
+```jsx
+<Form.Field name="notifications" label="Bildirimleri Etkinleştir">
+  <Switch />
+</Form.Field>
+```
+
+### Textarea [[↗]](?path=/docs/components-textarea--docs)
+
+```jsx
+<Form.Field name="desc" label="Açıklama">
+  <Textarea />
+</Form.Field>
+```
+
+### UploadInput [[↗]](?path=/docs/components-upload-input--docs)
+
+```jsx
+<Form.Field name="avatar" label="Profil Resmi">
+  <UploadInput
+    uploadRequest={{ url: "/api/upload", method: "POST" }}
+    deleteRequest={{ url: "/api/delete", method: "POST" }}
+  />
+</Form.Field>
+```
+
+### UploadDragger [[↗]](?path=/docs/components-upload-dragger--docs)
+
+```jsx
+<Form.Field name="files" label="Ek Dosyalar">
+  <UploadDragger
+    uploadRequest={{ url: "/api/upload", method: "POST" }}
+    deleteRequest={{ url: "/api/delete", method: "POST" }}
+  />
+</Form.Field>
+```
+
+### UploadList [[↗]](?path=/docs/components-upload-list--docs)
+
+```jsx
+<Form.Field name="documents" label="Belgeler">
+  <UploadList
+    uploadRequest={{ url: "/api/upload", method: "POST" }}
+    deleteRequest={{ url: "/api/delete", method: "POST" }}
+    maxSize={5000000}
+  />
+</Form.Field>
+```

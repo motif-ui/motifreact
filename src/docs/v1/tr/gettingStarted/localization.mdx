@@ -1,0 +1,129 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started/Localization (TR)" />
+
+# Yerelleştirme
+
+Motif UI, harici bağımlılıklar olmadan yerleşik yerelleştirme desteğine sahiptir. Bileşen dizeleri (doğrulama mesajları, yükleme etiketleri vb.), etkin yerel ayara göre otomatik olarak çevrilir. Sistem genişletilebilir olacak şekilde tasarlanmıştır; tek tek dizeleri geçersiz kılabilir, tamamen özel bir yerel ayar sağlayabilir veya mevcut i18n kütüphanenizi entegre edebilirsiniz.
+
+## Yerleşik Yerel Ayarlar
+
+Mevcut yerel ayarlar [`src/i18n/locales/`](https://github.com/motif-ui/motifreact/tree/main/src/i18n/locales) içinde tutulmaktadır. Bu klasördeki her bir `.json` dosyası desteklenen bir yerel ayardır; dosya adı yerel ayar anahtarıdır (örn. `en.json` → `"en"`).
+
+#### Yeni bir yerel ayar dosyası ekleme
+
+Yeni bir yerel ayar eklemek için, bu klasöre bir JSON dosyası bırakın ve `src/i18n/locales/index.ts` içinde kaydedin; değişmesi gereken tek dosya budur. `Locale` türü ve tüm IDE anahtar otomatik tamamlama otomatik olarak güncellenir.
+
+```ts
+import tr from "./tr.json";
+import en from "./en.json";
+import fr from "./fr.json"; // 1. yeni JSON dosyasını ekleyin
+
+export const locales = { tr, en, fr } as const; // 2. buraya kaydedin
+
+export type Locale = keyof typeof locales; // otomatik olarak güncellenir — başka değişiklik gerekmez
+```
+
+## Temel Kullanım
+
+`locale` prop'unu `MotifProvider`'a geçirin. Tüm kütüphane bileşenleri eşleşen çevirileri otomatik olarak kullanacaktır.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider locale="en">
+  {/* uygulamanız */}
+</MotifProvider>
+```
+
+## Çalışma Zamanında Yerel Ayarı Değiştirme
+
+Etkin yerel ayar, `useMotifContext` hook'undan `setLocale` kullanılarak herhangi bir zamanda değiştirilebilir. Bu, dil değiştirme düğmeleri için kullanışlıdır.
+
+```tsx
+import { useMotifContext } from "@motif-ui/react";
+
+const LocaleSwitcher = () => {
+  const { locale, setLocale } = useMotifContext();
+
+  return (
+    <button onClick={() => setLocale(locale === "tr" ? "en" : "tr")}>
+      {locale === "tr" ? "İngilizce'ye geç" : "Türkçe'ye geç"}
+    </button>
+  );
+};
+```
+
+> `setLocale` yalnızca kütüphanenin dahili yerel ayarını değiştirir. Projenizdeki herhangi bir harici i18n kurulumunu etkilemez.
+
+## Belirli Dizeleri Geçersiz Kılma
+
+Yerleşik bir yerel ayar içindeki tek tek dizeleri değiştirmek için, `locale`'i bir `texts` alanına sahip bir nesne olarak geçirin. Sağladığınız herhangi bir anahtar, yerleşik değeri geçersiz kılar; eksik anahtarlar seçilen yerel ayara, ardından İngilizceye döner.
+
+```jsx
+<MotifProvider
+  locale={{
+    locale: "tr",
+    texts: {
+      upload: {
+        browse: "Gözat...",
+        selectFile: "Dosya Seçiniz",
+      },
+    },
+  }}
+>
+  {/* uygulamanız */}
+</MotifProvider>
+```
+
+## Tamamen Özel Yerel Ayar
+
+Kütüphaneye yerleşik olmayan bir dil için, `locale` anahtarını atlayın ve tüm dizeleri `texts` aracılığıyla sağlayın. Eksik anahtarlar İngilizceye döner.
+
+```tsx
+import type { DeepPartial, LocaleShape } from "@motif-ui/react/types";
+
+const frenchTexts: DeepPartial<LocaleShape> = {
+  upload: {
+    browse: "Gözat",
+    selectFile: "Dosya Seçin",
+    message: {
+      uploadError: "Yükleme sırasında bir hata oluştu.",
+      deleteError: "Silme sırasında bir hata oluştu.",
+    },
+  },
+};
+
+<MotifProvider locale={{ texts: frenchTexts }}>
+  {/* uygulamanız */}
+</MotifProvider>
+```
+
+> `LocaleShape`, bir yerel ayar dosyasının tam türüdür. `DeepPartial<LocaleShape>`, her anahtarı isteğe bağlı hale getirir, böylece yalnızca değiştirmek istediğiniz dizeleri sağlamanız gerekir.
+
+## Harici Bir i18n Kütüphanesini Entegre Etme
+
+Projeniz zaten `react-i18next` gibi bir kütüphane kullanıyorsa, kendi `t` fonksiyonunuzu `MotifProvider`'a geçirebilirsiniz. Kütüphane, yerleşik çevirileri yerine bunu kullanacaktır; hiçbir global i18n örneğine dokunulmaz ve ikisi arasında çakışma olmaz.
+
+```tsx
+import { useTranslation } from "react-i18next";
+import { MotifProvider } from "@motif-ui/react";
+
+const App = () => {
+  const { t } = useTranslation();
+
+  return (
+    <MotifProvider t={t}>
+      {/* uygulamanız */}
+    </MotifProvider>
+  );
+};
+```
+
+> `t` sağlandığında, `locale` ve `texts` prop'larının çeviriler üzerinde hiçbir etkisi olmaz. Kütüphanenin ihtiyaç duyduğu dizeleri döndürmekten yalnızca `t` fonksiyonunuz sorumludur.
+
+Beklenen imza, kasıtlı olarak i18next ile uyumludur:
+
+```ts
+type LibraryTranslateFn = (key: string, params?: Record<string, unknown>) => string;
+```

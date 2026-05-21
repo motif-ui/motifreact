@@ -1,0 +1,56 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Icons/Icons (TR)" />
+
+# İkonlar
+
+Motif UI varsayılan olarak gömülü bir ikon kütüphanesi içermez. Bunun yerine, projenizde ikonları kullanmak için esnek bir yol sunar. Varsayılan setimizi, kendi ikon setinizi, diğer ikon kütüphanelerini veya herhangi başka bir SVG ikon setini kullanmayı seçebilirsiniz. Bu ikonlar `<Icon>`, `<IconButton>` bileşenlerinde veya bazı bileşenlerin `icon` prop'unda kullanılabilir.
+
+SVG gibi yöntemleri kullanmak her zaman memnuniyetle karşılanır ve desteklenir, ancak bitişimli yazı (ligature) desteği olan Font İkonları, ikonları kütüphane genelinde uygulamak ve kullanmak için tercih edilen ve en kolay yoldur.
+
+<br />
+
+## Motif UI İkonları
+
+Aslında, kendi font ikon setimiz var. Bu ikonların uygulamanız için yeterli olduğunu düşünüyorsanız, bunları kullanmanın en kolay yolu, uygulamanızın kök düzenine (root layout) gerekli CSS dosyasını dahil etmektir. Diğer tüm ayarlar zaten yapılmıştır ve yapacak başka bir şey yoktur!
+
+```jsx
+// ...ana düzen dosyanız
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/motif-ui/assets/css/motif-icons.css" />
+
+// ...bileşeniniz
+<Icon name="folder" />
+```
+
+Mevcut ikonların adları `<Icon>`, `<IconButton>` bileşen sayfalarında bulunabilir.
+
+<br />
+
+## Diğer Kütüphaneler
+
+Çeşitli seçenekler mevcut olsa da, en popüler olanlar **FontAwesome** ve **Material Icons**'dır. Başka herhangi bir ikon font kütüphanesini kullanmanız da her zaman memnuniyetle karşılanır.
+
+Özel bir ikon font kütüphanesi kullanmak için, istediğiniz ikon kütüphanesini projenize dahil etmeli ve ardından kullandığınız ikon kütüphanesinin temel sınıf adını **MotifProvider**'daki `baseIconClassName` prop'una ayarlamalısınız.
+
+```jsx
+// ...ana düzen dosyanız
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+<MotifProvider baseIconClass="material-icons">
+  {/* uygulamanızın alt öğeleri */ }
+</MotifProvider>
+```
+
+Ardından, uygulamanızın herhangi bir yerinde, bileşenlerin `icon` propları veya `<Icon>`, `<IconButton>` bileşenleri, ikon kütüphanesi tarafından tanımlanan ikon adlarını kullanabilir.
+
+```jsx
+import { Icon, Avatar, IconButton } from "@motif-ui/react";
+
+<Icon>android</Icon>
+<IconButton name="android" />
+<Avatar icon="android" />
+```
+
+<br />
+
+**_Daha fazla bilgi <a href="../../?path=/docs/components-icon--docs">`<Icon />`</a> bileşen sayfasında bulunabilir._**

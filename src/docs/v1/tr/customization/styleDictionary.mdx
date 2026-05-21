@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/Style Dictionary (TR)" />
+
+# Style Dictionary
+
+[Style Dictionary](https://styledictionary.com), stilleri bir kez tanımlamanıza ve farklı platformlarda kullanmanıza olanak tanıyan bir derleme sistemidir. Tasarım belirteçlerini (design tokens) platforma özgü formatlara dönüştürerek tasarımda tutarlılığı korumaya yardımcı olur. Böylece, aynı tasarımı başka bir platformda (iOS, Android veya web gibi) kullanmak isterseniz, Style Dictionary bunu kolaylaştırır.
+
+Figma tasarım sistemimizde tanımlanan tasarım belirteçlerini (design tokens), Motif UI'da kullanılabilecek **css değişkenlerine** dönüştürmek için Style Dictionary kullanıyoruz.
+
+Aşağıdaki komut, Motif UI için tasarım belirteçlerinden (design tokens) css değişkenlerini oluşturur:
+
+```bash
+npm run build:tokens
+```
+
+Bu süreç önemlidir çünkü bir tema oluşturmanın en önemli adımlarından biridir.

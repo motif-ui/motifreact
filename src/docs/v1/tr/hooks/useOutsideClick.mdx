@@ -1,0 +1,100 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as hooks from "../../en/hooks/hooks.stories.tsx";
+
+<Meta title="Hooks/useOutsideClick (TR)" />
+
+# useOutsideClick
+
+Belirtilen bir öğenin dışındaki tıklamaları algılar; açılır menüleri (dropdowns), modalları ve açılır pencereleri (popovers) kapatmak için kullanışlıdır.
+
+## Kullanım
+
+```tsx
+import { useOutsideClick } from "@motif-ui/react";
+
+const Dropdown = () => {
+  const [isOpen, setIsOpen] = useState(true);
+  const onOutsideClick = () => {
+    setIsOpen(false);
+  };
+  const dropdownRef = useOutsideClick<HTMLDivElement>(onOutsideClick);
+
+  return (
+    <div ref={dropdownRef}>
+      {isOpen && <div>Dropdown content</div>}
+    </div>
+  );
+};
+```
+
+## Hariç Tutulan Ref'lerle
+
+Belirli öğeleri dış tıklamanın tetiklenmesinden hariç tutabilirsiniz:
+
+```tsx
+import { useRef } from "react";
+import { useOutsideClick } from "@motif-ui/react";
+
+const Modal = () => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useOutsideClick<HTMLDivElement>(
+    () => console.log("Dışarıya Tıklandı"),
+    [buttonRef] // Düğme tıklamaları geri çağrıyı tetiklemez
+  );
+
+  return (
+    <>
+      <button ref={buttonRef}>Modali Aç</button>
+      <div ref={modalRef}>Modal içeriği</div>
+    </>
+  );
+};
+```
+
+## Parametreler
+
+<table>
+  <thead>
+    <tr>
+      <th>Parametre</th>
+      <th>Tip</th>
+      <th>Zorunlu</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>callback</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>Evet</td>
+      <td>Dışarı tıklandığında çağrılacak fonksiyon</td>
+    </tr>
+    <tr>
+      <td><code>excludedRefs</code></td>
+      <td><code>RefObject&lt;HTMLElement&gt;[]</code></td>
+      <td>Hayır</td>
+      <td>Dış tıklama algılamasından hariç tutulacak ref'lerin dizisi</td>
+    </tr>
+  </tbody>
+</table>
+
+## Dönüş Değeri
+
+<table>
+  <thead>
+    <tr>
+      <th>Tip</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RefObject&lt;R&gt;</code></td>
+      <td>Hedef öğeye bağlanacak bir ref</td>
+    </tr>
+  </tbody>
+</table>
+
+## Örnek
+
+<Canvas of={hooks.UseOutsideClickExample} />

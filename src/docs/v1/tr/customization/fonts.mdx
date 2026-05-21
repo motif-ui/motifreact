@@ -1,0 +1,94 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/Fonts (TR)" />
+
+# Yazı Tipleri
+
+Motif UI, tüm metin öğeleri için varsayılan yazı tipi olarak "Inter" kullanır. Bu yazı tipi, okunabilirliği ve modern görünümü nedeniyle seçilmiştir. Diğer tüm özelleştirme seçenekleriyle birlikte, projenizin tasarım gereksinimlerine daha iyi uyması için varsayılan yazı tipini değiştirebilirsiniz. Varsayılan yazı tipini değiştirmek için şu adımları izlemeniz gerekir:
+
+## 1. Yazı Tipini İçe Aktarma
+
+Varsayılan yazı tipini `Orbitron` olarak değiştirmek istediğinizi varsayalım. Öncelikle, bu yazı tipinin projenizin varlıklarına dahil edilerek veya FontSource ya da Google Fonts gibi bir web yazı tipi hizmetinden içe aktarılarak projenizde kullanılabilir olması gerekir.
+
+#### FontSource
+
+İstediğiniz yazı tipini FontSource kullanarak yükleyin. Bir yazı tipi yüklemek için şunu çalıştırın:
+
+```bash
+npm install @fontsource/orbitron
+```
+
+Ardından, yazı tipini projenizin kök düzenine (root layout) içe aktarın:
+
+```jsx
+import "@fontsource/orbitron";
+```
+
+#### Google Fonts
+
+Alternatif olarak, projenizin HTML'indeki `<head>` etiketine aşağıdaki kodu ekleyerek Google Fonts CDN aracılığıyla dahil edilebilir:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=orbitron:wght@400;500;600;700&display=swap" rel="stylesheet" />
+```
+
+#### @font-face Kullanma
+
+Kendi CSS dosyanızda veya temanızın CSS dosyasında @font-face kullanmaya her zaman başvurabilirsiniz. Motif UI'da kullanılan 400-700 arasındaki `font-weight` değerlerini içeren tüm font face'leri eklemelisiniz.
+
+```css
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa25L7W0Q5n-wU.woff2) format("woff2");
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* font-weight: 400, 500, 600, 700 dahil edilmelidir */
+```
+
+## 2. Yazı Tipi Ailesini Güncelleme
+
+Uygulanan yazı tipi ailesi, `--theme-typography-font-family` adlı bir CSS değişkenine dayanır. Uygulamanız genelinde varsayılan yazı tipini değiştirmek için bu değişkeni içe aktardığınız yeni yazı tipinizle değiştirmeli veya geçersiz kılmalısınız.
+
+Motif UI'da varsayılan yazı tipini değiştirmek için üç ana yöntem bulunmaktadır:
+
+### `<style>` Etiketi Enjekte Ederek
+
+HTML belgenizin `<head>` bölümüne bir `<style>` etiketi enjekte ederek `--theme-typography-font-family` değişkenini geçersiz kılabilirsiniz. Kendi özel temanız kullanılmadığı sürece, bu tercih edilen yöntemdir çünkü yazı tipinin içerik oluşturulmadan önce uygulanmasını sağlayarak FOUC'u (Flash of Unstyled Content - Stilsiz İçerik Parçacığı) önler.
+
+İşte bir örnek:
+
+```jsx
+<style>
+  {`:root{--theme-typography-font-family: 'Orbitron', sans-serif}`}
+</style>
+```
+
+### Özel Bir Temada
+
+Zaten oluşturduğunuz özel bir tema kullanıyorsanız, yazı tipi ailesi özel temanızın CSS dosyasındaki `--theme-typography-font-family` değişkenini geçersiz kılarak belirtilebilir.
+
+```css
+:root {
+  --theme-typography-font-family: "Orbitron", sans-serif;
+}
+```
+
+### MotifProvider Kullanarak
+
+`font` prop'unu geçirerek yazı tipi ailesini doğrudan `MotifProvider` içinde de ayarlayabilirsiniz. İşte bir örnek:
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider font="'Orbitron', sans-serif">
+  {/* uygulamanızın bileşenleri */ }
+</MotifProvider>
+```
+
+Bu yöntemin stili sağlayıcı içinde uyguladığından, ilk yükleme sırasında FOUC (Flash of Unstyled Content - Stilsiz İçerik Parçacığı) meydana gelebileceğini lütfen unutmayın.

@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { useRef, useState } from "react";
 import Button from "@/components/Button";
 import BusinessCard from "@/components/BusinessCard";
-import { useOutsideClick, useTimeout, useToggle } from "../../../lib/hooks";
+import { useOutsideClick, useTimeout, useToggle } from "../../../../lib/hooks";
 
 const meta: Meta = {
   title: "Hooks/Custom Hooks",

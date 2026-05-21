@@ -1,0 +1,46 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Hooks/useDomReady (TR)" />
+
+# useDomReady
+
+DOM tamamen yüklendiğinde ve hazır olduğunda `true` döndüren basit bir kanca.
+
+## Kullanım
+
+```jsx
+import { useDomReady } from "@motif-ui/react";
+
+const MyComponent = () => {
+  const domReady = useDomReady();
+
+  if (!domReady) {
+    return <div>Loading...</div>;
+  }
+
+  return <div>DOM is ready!</div>;
+};
+```
+
+## Dönüş Değeri
+
+<table>
+  <thead>
+    <tr>
+      <th>Tip</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>boolean</code></td>
+      <td>DOM hazır olduğunda `true`, aksi takdirde `false` döndürür</td>
+    </tr>
+  </tbody>
+</table>
+
+## Kullanım Durumları
+
+- SSR uygulamalarında hidrasyon uyuşmazlıklarını önlemek
+- DOM'a bağımlı işlemlerin güvenli bir şekilde çalışmasını sağlamak
+- DOM'un hazır olmasına göre koşullu render etme

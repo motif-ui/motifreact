@@ -1,0 +1,214 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started/MotifProvider (TR)" />
+
+# MotifProvider
+
+`MotifProvider`, tüm uygulamanızı saran kök bağlam sağlayıcısıdır. Aşağıdaki gibi genel kütüphane yapılandırmasını yönetir:
+
+- İkon fontları/SVG'ler için kullanılan temel ikon sınıfı
+- Tüm bileşenler için varsayılan prop değerleri
+- Genel font değişkeni/sınıf adı
+- Uygulama dili
+- Tema
+
+> **Not:** Tüm bu değerlere, uygulamanızın herhangi bir yerinden `useMotifContext()` hook'u kullanılarak erişilebilir.
+
+## Kullanım
+
+En basit haliyle, uygulamanızı bir kez MotifProvider ile sarmak yeterlidir. Ana `App` bileşeninizin dosyasının içine yerleştirilmelidir. Örneğin, Next.js kullanıyorsanız, tipik olarak `layout.tsx` dosyanızda olmalıdır.
+
+> **Not:** Daha fazla ayrıntı için lütfen _Entegrasyonlar_ bölümüne bakın.
+
+Aşağıda, nasıl kullanılacağına dair basit bir örnek bulunmaktadır. Her prop'un ayrıca kendi varsayılan değeri vardır. Bu nedenle, yalnızca gerekli olması durumunda kullanılabilirler.
+
+> **Not:** Her prop'un ayrıca kendi ayar fonksiyonları vardır. Bu sayede, bu prop'ları daha sonra güncellemek mümkün olacaktır.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+function App() {
+  return (
+    <MotifProvider
+      locale="tr"
+      baseIconClass="motif-icons"
+      font="motif-font"
+      theme={theme} >
+     {/* uygulamanızın alt bileşenleri */ }
+    </MotifProvider>
+  );
+}
+```
+
+## Prop'lar
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Tip</th>
+      <th>Ayarlayıcı</th>
+      <th>Açıklama</th>
+      <th>Varsayılan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>baseIconClass</code></td>
+      <td>string</td>
+      <td>`setBaseIconClass()`</td>
+      <td>Tüm ikonlar için temel sınıf</td>
+      <td>"motif-icons"</td>
+    </tr>
+        <tr>
+      <td><code>componentDefaults</code></td>
+      <td>ComponentDefaults</td>
+      <td>`setComponentDefaults()`</td>
+      <td>Bileşen başına genel varsayılan prop'lar</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td><code>font</code></td>
+      <td>string</td>
+      <td>`setFont()`</td>
+      <td>Genel font değişkeni</td>
+      <td><i>undefined</i></td>
+    </tr>
+    <tr>
+      <td><code>locale</code></td>
+      <td>"tr" | "en"</td>
+      <td>`setLocale()`</td>
+      <td>Uygulama dili</td>
+      <td>"tr"</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td>Theme</td>
+      <td>`setTheme()`</td>
+      <td>Kütüphaneyi stilize etmek için tema nesnesi</td>
+      <td><i>undefined</i></td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+### baseIconClass
+
+İkonlar için kullanılan temel CSS sınıfını ayarlar. Bu prop, içe aktarılan font ikonunun CSS sınıf adını tutmaktan sorumludur. Bu değeri ayarlayarak, ikonla ilgili her bileşen yalnızca ikon adını gerektirecek ve `Icon` ve `IconButton` bileşenleri için ikon sınıf adı açıkça gerekmeyecektir.
+
+Varsayılan değer `motif-icons`'dır ve bu prop `setBaseIconClass` fonksiyonu aracılığıyla güncellenebilir.
+
+> **Not:** Daha fazla ayrıntı [İkonlar bölümünde](?path=/docs/icons-icons--docs) bulunabilir.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider baseIconClass="my-icons">
+ {/* uygulamanızın alt bileşenleri */ }
+</MotifProvider>
+```
+
+### componentDefaults
+
+Bileşenler için **genel varsayılan prop'ları** tanımlamaya izin verir. Aynı prop'ları tekrar tekrar ayarlamadan, uygulama boyunca aynı bileşenler arasındaki tutarlılığı korumak için kullanılır. Bu prop `setComponentDefaults` fonksiyonu aracılığıyla güncellenebilir.
+
+Aşağıdaki örnek, uygulamanız boyunca `Button` ve `Popover` bileşenleri için varsayılan prop'ların nasıl ayarlanacağını göstermektedir:
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+const componentDefaults = {
+  Button: { variant: "primary", size: "md" },
+  Popover: { spacing: "withGap" },
+};
+
+<MotifProvider componentDefaults={componentDefaults}>
+ {/* uygulamanızın alt bileşenleri */ }
+</MotifProvider>
+```
+
+### font
+
+Uygulama köküne genel bir font ailesi adı uygular. Bu prop, uygulamaya o font ailesini kullanmasını söyler. Fontun kendisini içe aktarmaz. Burada kullanılan font ailesi bağımsız olarak içe aktarılmalıdır. Daha fazla bilgi [Fontlar bölümünde](?path=/docs/customization-fonts--docs) bulunabilir.
+
+> Bu prop `setFont` fonksiyonu aracılığıyla güncellenebilir.
+
+İşte bir örnek:
+
+```jsx
+import "@fontsource/orbitron";
+```
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider font="'Orbitron', sans-serif">
+  {/* uygulamanızın alt bileşenleri */ }
+</MotifProvider>
+```
+
+### locale
+
+Uygulamanın dilini tanımlar. Temel olarak bileşenler içindeki önceden tanımlanmış metin değerlerinin dilini değiştirir. `setLocale` fonksiyonu kullanılarak da ayarlanabilir. İşte bir örnek:
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider locale="en">
+  {/* uygulamanızın alt bileşenleri */ }
+</MotifProvider>
+```
+
+### theme
+
+Theme prop'u, tema CSS dosyalarındaki CSS değişkenlerine atıfta bulunan stil değerlerini değiştirmek için kullanılır. Tercih edilen bir yöntem olmasa da, uygulamanın tüm stili bu prop kullanılarak değiştirilebilir. Temelde bir tema CSS dosyasını kullanmanın diğer bir yoludur. Kütüphane başlatıldıktan sonra bu değeri değiştirmek için `setTheme` fonksiyonu da kullanılabilir.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+const theme = {
+  sizing: {
+    radius: {
+      default: ".5rem"
+    }
+  },
+  color: {
+    surface: {
+      primary: {
+        active: "red", default: "green", hover: "purple"
+      }
+    }
+  }
+}
+
+<MotifProvider theme={theme}>
+ {/* uygulamanızın alt bileşenleri */ }
+</MotifProvider>;
+```
+
+Daha ayrıntılı bilgiyi [burada](?path=/docs/design-themes--docs) bulabilirsiniz.
+
+## Bağlamı Kullanma
+
+Props'lar, `MotifProvider` ile üstte sarılmış herhangi bir bileşenden, `useMotifContext()` hook'u kullanılarak okunabilir ve tüketilebilir. Bu, uygulamanızdaki herhangi bir bileşenden değerlere hem erişmenizi hem de onları güncellemenizi sağlar:
+
+```tsx
+import { useMotifContext } from "@motif-ui/react";
+
+const Component = () => {
+  const { locale, baseIconClass, font, theme, componentDefaults, setLocale, setBaseIconClass, setFont, setTheme, setComponentDefaults } = useMotifContext();
+
+  return (
+    <div>
+      <p>Locale: {locale}</p>
+      <p>Icon Class: {baseIconClass}</p>
+      <p>Font: {font}</p>
+
+      <button onClick={() => setLocale("en")}>Switch to English</button>
+      <button onClick={() => setBaseIconClass("icons-2")}>Change Icon Class</button>
+      <button onClick={() => setFont("Roboto")}>Change Font</button>
+    </div>
+  );
+};
+```

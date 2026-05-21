@@ -1,12 +1,17 @@
 import type { Preview } from "@storybook/nextjs";
 import type { ArgTypesEnhancer } from "storybook/internal/types";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
-import { iconOptions, iconDecorator, themeChangeDecorator } from "./utils.tsx";
+import { iconOptions, iconDecorator, themeChangeDecorator, localeChangeDecorator } from "./utils.tsx";
 
 export const RESET_THEME_BUTTON_VAL = "_reset";
 
 const preview: Preview = {
   globalTypes: {
+    locale: {
+      name: "Language",
+      description: "Language",
+      defaultValue: "en",
+    },
     theme: {
       name: "Theme",
       description: "Global theme for components",
@@ -21,7 +26,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [iconDecorator, themeChangeDecorator],
+  decorators: [iconDecorator, themeChangeDecorator, localeChangeDecorator],
   parameters: {
     options: {
       storySort: {

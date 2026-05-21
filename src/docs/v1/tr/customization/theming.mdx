@@ -1,0 +1,44 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/Theming (TR)" />
+
+# Temalandırma
+
+Motif UI için kapsamlı kullanıcı arayüzü özelleştirme yöntemlerinden biri temalandırmadır. Varsayılan olarak, Motif UI herhangi bir stil olmadan kullanılır. **Başlarken** bölümünde belirtildiği gibi, bileşenleri stilize etmek için en azından varsayılan tema içe aktarılmalıdır.
+
+Bileşeni kendi temanızla özelleştirmek isterseniz, bir tane oluşturmanız gerekir.
+
+- Temalandırma, belirli CSS değişkenlerine dönüştürülen tasarım belirteçlerinin (design token) üzerinde bir özelleştirme sağlar. Bu değişkenler renkleri, boyutları vb. değiştirmekten sorumludur.
+- Temalandırma için gerekli tasarım belirteçleri `Design > Design Tokens` bölümünde listelenmiştir.
+- Kendi temanız için bu tasarım belirteçlerini değiştirmenin 2 yolu vardır:
+  - Figma'daki tasarım sistemimizi kullanarak
+  - CSS dosyasındaki CSS değişkenlerini doğrudan değiştirerek
+
+### Figma Kullanımı
+
+Figma'daki Motif UI tasarım sistemi, temalandırma için kullanılan tasarım belirteçleri setini sağlar. Bu belirteçleri basitçe değiştirebilir ve dışa aktarabilirsiniz. Tasarım belirteçleri JSON dosyası oluşturulduktan sonra, Motif UI kaynak kodu klonlanmalı, aşağıdaki betik çalıştırılmalı ve ardından tema CSS dosyanız kullanıma hazır olacaktır.
+
+```npm
+npm run build:theme <path-to-tokens-json> <theme-name> <output-folder-path>
+```
+
+### CSS Dosyasındaki CSS Değişkenlerini Değiştirme
+
+`themes/` klasöründe çeşitli önceden tanımlanmış temalar mevcuttur. Mevcut bir temada küçük ayarlamalar yaparak kendinizinkini oluşturmak isterseniz, en kolay yaklaşım, ilgili temanın CSS dosyasındaki CSS değişkenlerini değiştirmektir.
+
+<br />
+
+### MotifProvider İçindeki Theme Prop'u
+
+Motif UI'ı özelleştirmenin başka bir yolu da MotifProvider içindeki `theme` ve `setTheme` prop'larını kullanmaktır. Tamamen yeni bir tema CSS dosyası oluşturmaya kıyasla, bu yaklaşım temalandırma için **tercih edilen bir yöntem değildir**, ancak küçük ayarlamalar için kullanışlıdır.
+
+```jsx
+<MotifProvider theme={
+  sizing: {
+    radius: {
+      default: ".5rem"
+    }
+  }}>
+  {/* uygulamanızın çocukları */}
+</MotifProvider>
+```

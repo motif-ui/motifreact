@@ -1,0 +1,397 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as DesignTokenNamingDiagram from "../../../components/DesignTokenNamingDiagram/DesignTokenNamingDiagram.stories.tsx";
+import TokenTransformation from "../../../components/TokenTransformation/TokenTransformation.tsx";
+import styles from "../../en/design/DesignTokens.module.scss";
+
+<Meta title="Design/Design Tokens (TR)" />
+
+# Tasarım Tokenları
+
+Motif UI, **Tasarım Tokenları** kullanılarak inşa edilmiştir – temelde renkler, tipografi, boşluk ve diğer tasarım elemanları için bir adlandırma kuralıdır. Figma'da tasarımcılar tarafından tanımlanan değerler, koda kolayca yansıtılır.
+
+## Tasarım Tokenları Nelerdir?
+
+Tasarım tokenları, bir tasarım sistemi için doğruluk kaynağı olarak işlev gören soyut tasarım değerleridir (renkler veya boşluk gibi). Bunlar kendi başına CSS değişkenleri değildir, ancak web uygulamalarında kullanılmak üzere CSS değişkenlerine dönüştürülebilirler. Tasarım tokenları şunları sağlar:
+
+- **Tasarım Tutarlılığı**: Aynı tasarım değerleri, uygulamanın tamamında tekdüze bir şekilde uygulanır.
+- **Tema Yönetimi**: Farklı temalar kolayca uygulanabilir.
+- **Figma'dan Koda Uyumluluk**: Tasarım araçlarındaki tasarım değişiklikleri, token senkronizasyonu yoluyla güvenilir bir şekilde koda aktarılır.
+- **Basitleştirilmiş Bakım**: Tüm tasarım değerleri merkezileştirilmiştir, bu da değişiklikleri daha kolay, daha güvenli ve daha ölçeklenebilir hale getirir.
+
+## Adlandırma Kuralı
+
+Tasarım tokenları, tutarlılık ve netlik sağlamak için yapılandırılmış bir adlandırma düzenini izler. Bu düzenler, tasarım sistemleri arasında genellikle benzer olsa da, kütüphaneden kütüphaneye küçük farklılıklar gösterebilir. Motif UI'da kullanılan adlandırma kuralı aşağıdadır:
+
+<div style={{ minWidth: "320px", overflowX: "auto" }}>
+  <Canvas of={DesignTokenNamingDiagram.Primary} layout="fullscreen" className="no-border" sourceState="none" />
+</div>
+
+Her token, her bölümden sonra kendi içinde dallanır. Renk tokenlarının kendi alt bölümleri varken, tipografi tokenlarının da kendilerine ait alt bölümleri vardır ve bu böyle devam eder. Bu olası ayrıntılar, örnekler ve diğer ilgili belgeler aşağıda belirtilmiştir.
+
+```
+--[NAMESPACE]-[TYPE]-[CATEGORY]-[FAMILY]-[STATE]
+      |          |       │          │        │
+      |          |       │          │        └─ default, hover, active, 500, ...
+      |          |       │          └─ primary, secondary, success, warning, ...
+      |          |       └─ text, surface, border, ...
+      |          └─ color, typography, sizing, ...
+      └─ theme, base, typograpy
+```
+
+**Mevcut tasarım tokenlarından bazı örnekler aşağıda belirtilmiştir:**
+
+- `theme.color.semantic.primary.primary-500`
+- `theme.color.text.base.title`
+- `typography.heading.heading1.font.size`
+- `theme.elevation.elevation2.blur`
+- `base.sizing.16x`
+- `theme.sizing.radius.default`
+
+## Tokenlardan CSS Değişkenlerine
+
+Tasarım tokenları, Figma gibi tasarım araçları için harikadır, ancak kodda kullanılmak üzere platforma özgü formatlara dönüştürülmeleri gerekir. Web için en yaygın ve geniş çapta kabul gören format CSS değişkenleridir ve Motif UI bu yaklaşımı benimser.
+
+Motif UI'da, ham tasarım tokenları, standart CSS değişkeni adlandırma kurallarına uyan CSS değişkenlerine dönüştürülür. Değişken adları, yalnızca küçük sözdizimi ayarlamalarıyla orijinal token adlarına oldukça benzer:
+
+<TokenTransformation 
+  tokenName="theme.color.semantic.primary.primary-500"
+  cssVariable="--theme-color-semantic-primary-primary-500"
+/>
+<br />
+
+<TokenTransformation 
+  tokenName="typography.body.md.font.size"
+  cssVariable="--typography-body-md-font-size"
+/>
+
+## Dönüşüm
+
+**Dönüşüm** adı verilen süreç, temel olarak tasarım tokenlarının tasarımdan kullanılabilir koda doğru yolculuğudur. Bunu yapmanın birçok yolu vardır. Bizim yöntemimiz ve kullandığımız araçlar aşağıda belirtilmiştir:
+
+- **Figma:** Doğruluk kaynağı. Tüm tasarımlarımızın bulunduğu ve tokenların tutulduğu yer.
+- **Style Dictionary:** Tasarım tokenlarını herhangi bir ortamda çalışacak şekilde dönüştürmek için kullanılan çok popüler bir araç.
+- **CSS Variables:** Elemanları stilize etme yolu, tasarım tokenlarının dönüştüğü şey.
+
+### 1. Tanımlama ve Ayarlama
+
+Bu, tasarımcıların Figma'da gösterişli tasarımlarını oluşturup bu tasarım değerlerini tasarım tokenlarına bağladığı adımdır.
+
+### 2. Dışa Aktarma
+
+Tokenlar, bir sonraki adım için girdi olacak bir JSON dosyası olarak Figma'dan dışa aktarılır.
+
+```json
+// design-tokens.tokens.json
+{
+  "theme": {
+    "color": {
+      "semantic": {
+        "primary": {
+          "default": {
+            "value": "{base.colors.purple.purple-500}", "type": "color"
+          }
+        }
+      }
+    }
+  },
+  "base": {
+    "colors": {
+      "purple": {
+        "purple-500": {
+          "value": "#8b5cf6", "type": "color"
+        }
+      }
+    }
+  }
+}
+```
+
+### 3. Dönüştürme
+
+Bu, Style Dictionary'nin devreye girdiği aşamadır. Dışa aktarılan JSON dosyası CSS değişkenlerine dönüştürülür.
+
+```css
+--base-colors-purple-purple-500: #8b5cf6;
+--theme-color-semantic-primary-default: var(--base-colors-purple-purple-500);
+--typography-body-md-font-size: 1rem;
+--base-sizing-16x: 1rem;
+```
+
+### 4. Kullanım
+
+Bu süreçler gerekli CSS değişkenlerini oluşturur. Bu değişkenler Motif UI bileşenlerini stilize etmek için kullanılır. Bu değişkenlerle bir tema dosyası oluşturulduğunda/içe aktarıldığında, bileşenlerde kullanılmaya hazır hale gelirler. Bir tema dosyası, CSS değişkenleri ve bazı gerekli stillerin birleşimidir. Tema oluşturma ile ilgili ayrıntılı adımlar,
+
+<a href="../?path=/docs/customization-theming--docs">**Özelleştirme/Temalandırma**</a> bölümünde bulunabilir.
+
+##### Tema Dosyası
+
+```css
+/* Örnek tema css dosyası: sample-theme.css */
+:root {
+  --base-colors-purple-purple-500: #8b5cf6;
+  --theme-color-semantic-primary-default: var(--base-colors-purple-purple-500);
+  --typography-body-md-font-size: 1rem;
+  --base-sizing-16x: 1rem;
+}
+
+* { /* küresel stiller */ }
+body { /* gövde stilleri */ }
+```
+
+##### Tema dosyasını içe aktarma
+
+```tsx
+// Uygulamanızın giriş noktasında
+import "path/to/sample-theme.css";
+```
+
+##### Değişkenleri kullanma
+
+```css
+.button {
+  /* CSS değişkenini kullanma */
+  background-color: var(--theme-color-semantic-primary-default);
+  padding: var(--base-sizing-12x) var(--base-sizing-16x);
+  border-radius: var(--theme-sizing-radius-default);
+  font-size: var(--typography-body-md-font-size);
+}
+```
+
+## Tokenlar
+
+### 🎨 Renkler
+
+Renk tokenları hiyerarşik olarak kullanılır. **Temel renkler**, herhangi bir temalandırma değişikliğinden bağımsızdır. **Semantik renkler** temel renklerden türetilir ve tema ile değişir. En üst düzey renkler, bileşenler tarafından kullanılan ve semantik renklerden türetilen renklerdir.
+
+**--base-colors-**<i className={styles.tokenFamily}>[renk]</i>**-**<i className={styles.tokenState}>[renk-tonu]</i>
+
+<i className={styles.tokenFamily}>renk:</i> `white` `black` `bluetheme` `gray` `lightgray` `darkgray` `purple` `blue` `red` `green` `yellow` `redflag`
+<br />
+<i className={styles.tokenState}>renk-tonu:</i> `50` `100` `200` `300` `400` `500` `600` `700` `800` `900` `overlay10` `overlay15` `overlay20` `overlay25`
+`overlay40` `overlay50` `overlay75` `overlay90`
+
+**--theme-color-semantic-**<i className={styles.tokenFamily}>[varyant]</i>**-**<i className={styles.tokenState}>[varyant-tonu]</i>
+
+<i className={styles.tokenFamily}>varyant:</i> `primary` `secondary` `success` `warning` `danger` `info` `neutral` `accent`
+<br />
+<i className={styles.tokenState}>varyant-tonu:</i> `default` `50` `100` `200` `300` `400` `500` `600` `700` `800` `900`
+
+**--theme-color-**<i className={styles.tokenCategory}>[tip]</i>**-**<i className={styles.tokenFamily}>[varyant]</i>**-**<i className={styles.tokenState}>[durum]</i>
+
+<i className={styles.tokenCategory}>tip:</i> `border` `surface` `text`
+<br />
+<i className={styles.tokenFamily}>varyant:</i> `primary` `secondary` `success` `warning` `danger` `info` `neutral` `accent`
+<br />
+<i className={styles.tokenState}>durum:</i> `default` `hover` `active` `disabled`
+
+```css
+--base-colors-purple-purple-100: #d1c6e1ff;
+--theme-color-semantic-danger-danger-900: #5d0000ff;
+--theme-color-border-danger-active: #9d0000ff;
+--theme-color-surface-info-hover: #3178beff;
+```
+
+### 📝 Tipografi
+
+Tipografi tokenları, yazı tipi boyutunu, ağırlığını, satır yüksekliğini ve boşluğu kontrol eder. Tutarlı metin işleme sağlamak için bunları kullanın.
+
+#### Başlıklar
+
+Başlıklar ve üst bilgiler için kalın metin:
+Başlık tokenları, tüm ana başlıklar için yazı tipi boyutunu, ağırlığını ve boşluğu tanımlayarak UI genelinde net bir görsel hiyerarşi ve tutarlı tipografi sağlar.
+
+**--typography-heading-**<i className={styles.tokenFamily}>[boyut]</i>**-**<i className={styles.tokenState}>[özellik]</i>
+
+<i className={styles.tokenFamily}>boyut:</i> `heading1` `heading2` `heading3` `heading4` `heading5` `heading6`
+<br />
+<i className={styles.tokenState}>özellik:</i> `font-size` `font-weight` `line-height` `letter-spacing`
+
+```css
+--typography-heading-heading3-font-size: 1.75rem
+--typography-heading-heading3-font-weight: 700
+--typography-heading-heading3-line-height: 2.25rem
+```
+
+#### Gövde Metni
+
+Normal içerik metni:
+Gövde tokenları, paragraflar ve standart metinler için yazı tipi boyutunu, ağırlığını ve boşluğu tanımlayarak UI genelinde okunabilirlik ve tutarlılık sağlar.
+
+**--typography-body-**<i className={styles.tokenFamily}>[boyut]</i>**-**<i className={styles.tokenState}>[özellik]</i>
+
+<i className={styles.tokenFamily}>boyut:</i> `xxs` `xs` `sm` `md` `lg`
+<br />
+<i className={styles.tokenState}>özellik:</i> `font-size` `font-weight` `line-height` `letter-spacing`
+
+```css
+--typography-body-md-font-size: 1rem
+--typography-body-md-font-weight: 400
+--typography-body-md-line-height: 1.375rem
+```
+
+#### Gösterim Metni
+
+Büyük, dikkat çekici metin:
+Gösterim tokenları, açılış sayfalarında, hero bölümlerinde veya temel metriklerde güçlü görsel vurgu sağlamak için belirgin, dikkat çekici başlıklar veya sayılar için kullanılır.
+
+**--typography-display-**<i className={styles.tokenFamily}>[boyut]</i>**-**<i className={styles.tokenState}>[özellik]</i>
+
+<i className={styles.tokenFamily}>boyut:</i> `sm` `md` `lg`
+<br />
+<i className={styles.tokenState}>özellik:</i> `font-size` `font-weight` `line-height` `letter-spacing`
+
+```css
+--typography-display-lg-font-size: 3.5rem
+--typography-display-lg-font-weight: 400
+--typography-display-lg-line-height: 4rem
+```
+
+### 📏 Boşluk
+
+Kenar boşlukları, dolgular ve boşluklar için tutarlı boşluk ölçeği. Bu değerler, temanız tarafından tanımlanan temel bir birimin katlarıdır.
+
+**--base-sizing-**<i className={styles.tokenState}>[ölçek]</i>
+
+<i className={styles.tokenState}>ölçek:</i> `no-space` `1x` `2x` `4x` `6x` `8x` `10x` `12x` `14x` `16x` `18x` `20x` `24x` `28x` `32x` `36x` `40x` `48x` `56x` `64x` `80x` `96x` `128x` `160x` `190x` `256x` `320x` `512x`
+
+```css
+--base-sizing-8x: 0.5rem
+--base-sizing-16x: 1rem
+--base-sizing-24x: 1.5rem
+--base-sizing-48x: 3rem
+```
+
+### 🎯 Yükseklik (Elevation)
+
+Görsel derinlik ve hiyerarşi oluşturan kutu gölge tokenları. Her yükseklik tipinin birden fazla özelliği vardır (x, y, bulanıklık, yayılma, renk).
+
+**--theme-elevation-**<i className={styles.tokenFamily}>[tip]</i>**-**<i className={styles.tokenState}>[özellik]</i>
+
+<i className={styles.tokenFamily}>tip:</i> `elevation1` `elevation2` `elevation3` `elevation4` `elevation5` `elevation6` `focusring` `focusring-white`
+<br />
+<i className={styles.tokenState}>özellik:</i> `x` `y` `blur` `spread` `color`
+
+```css
+--theme-elevation-elevation2-x: 0
+--theme-elevation-elevation2-y: 0.25rem
+--theme-elevation-elevation2-blur: 0.375rem
+--theme-elevation-elevation2-spread: 0.125rem
+```
+
+#### Yükseklik Tipleri
+
+- **elevation[1-6]**: Kartlar, diyaloglar, modallar ve diğer katmanlı UI elemanları için kullanılan, 1'den (en az gölge) 6'ya (en çok gölge) kadar artan derinlik.
+- **focusring**: Klavye odak göstergeleri için kullanılır.
+- **focusring-white**: Koyu arka planlardaki odak göstergeleri için kullanılır.
+
+### 🔲 Kırılma Noktaları (Breakpoints)
+
+Kırılma noktaları, kapsayıcı genişlikleri ve ızgara boşlukları için duyarlı tasarım tokenları. **Not:** Bu değerler temaya özeldir.
+
+#### Kırılma Noktaları
+
+Medya sorgu değerleri:
+Duyarlı tasarım eşiklerini tanımlamak için kullanılan kırılma noktası değerleri. Bu tokenlar, düzenlerin ve bileşenlerin farklı ekran boyutlarına uyum sağlamasına yardımcı olur.
+
+**--theme-grid-breakpoint-**<i className={styles.tokenFamily}>[boyut]</i>
+
+<i className={styles.tokenFamily}>boyut:</i> `sm` `md` `lg` `xl`
+
+```css
+--theme-grid-breakpoint-sm: 36rem
+--theme-grid-breakpoint-md: 48rem
+--theme-grid-breakpoint-lg: 62rem
+--theme-grid-breakpoint-xl: 75rem
+```
+
+#### Kapsayıcı Genişlikleri
+
+Kapsayıcıların maksimum genişliğini tanımlayan kütüphane düzeyindeki eşikler. Bu değerler, bileşenleri ve düzenleri yeniden boyutlandırmak için kullanılır ve farklı ekran boyutlarında tutarlı ve duyarlı bir tasarım sağlar.
+
+**--theme-grid-container-**<i className={styles.tokenFamily}>[boyut]</i>
+
+<i className={styles.tokenFamily}>boyut:</i> `sm` `md` `lg` `xl`
+
+```css
+--theme-grid-container-sm: 33.75rem
+--theme-grid-container-md: 45rem
+--theme-grid-container-lg: 60rem
+--theme-grid-container-xl: 71.25rem
+```
+
+#### Izgara Boşluğu
+
+Izgara sütunları arasındaki boşluk:
+Bir ızgara düzenindeki sütunlar arasındaki yatay boşluğu (oluk) tanımlar ve duyarlı tasarımlarda tutarlı boşluk sağlar.
+
+```css
+--theme-grid-gutter-gutter: 1.5rem
+```
+
+### 🔘 Kenar Yuvarlama (Border Radius)
+
+Yuvarlatılmış köşeler için kenar yuvarlama tokenları. **Not:** Bu değerler temaya özeldir.
+
+**--theme-sizing-radius-**<i className={styles.tokenState}>[stil]</i>
+
+<i className={styles.tokenState}>stil:</i> `default` `round`
+
+```css
+--theme-sizing-radius-default: 0.25rem    /* Standart yuvarlatılmış köşeler */
+--theme-sizing-radius-round: 62.4375rem   /* Tamamen yuvarlatılmış (haplar, daireler) */
+```
+
+### 🌫️ Opaklık (Opacity)
+
+Şeffaflık seviyeleri için opaklık tokenları. **Not:** Bu değerler temaya özeldir.
+
+**--theme-opacity-alpha-**<i className={styles.tokenState}>[seviye]</i>
+
+<i className={styles.tokenState}>seviye:</i> `0` `25` `50` `75` `100`
+
+```css
+--theme-opacity-alpha-0: 0
+--theme-opacity-alpha-25: 1.5625rem
+--theme-opacity-alpha-50: 3.125rem
+--theme-opacity-alpha-100: 6.25rem
+```
+
+## Yaygın Desenler
+
+Aşağıda, yaygın UI elemanları için sık kullanılan token kombinasyonları bulunmaktadır:
+
+```css
+/* Düğme stilleri */
+.button {
+  background-color: var(--theme-color-semantic-primary-default);
+  color: var(--theme-color-text-primary-default);
+  padding: var(--base-sizing-12x) var(--base-sizing-16x);
+  border-radius: var(--theme-sizing-radius-default);
+  font-size: var(--typography-body-md-font-size);
+}
+
+/* Kart stilleri */
+.card {
+  padding: var(--base-sizing-24x);
+  border-radius: var(--theme-sizing-radius-default);
+  box-shadow:
+    var(--theme-elevation-elevation2-x)
+    var(--theme-elevation-elevation2-y)
+    var(--theme-elevation-elevation2-blur)
+    var(--theme-elevation-elevation2-spread)
+    var(--theme-elevation-elevation2-color);
+}
+
+/* Duyarlı düzen */
+.container {
+  max-width: var(--theme-grid-container-lg);
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-24x);
+}
+
+@media (min-width: 72px) {
+  .container {
+    padding: var(--base-sizing-32x);
+  }
+}
+```

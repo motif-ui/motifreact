@@ -1,0 +1,65 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import styles from "../../../components/Figma/Figma.module.scss";
+import Button from "../../../../lib/components/Button/Button";
+import * as Figma from "../../../components/Figma/figma.stories";
+
+<Meta title="Design/Figma (TR)" />
+
+# Figma
+
+Motif UI, tasarım ve kod arasında tutarlılığı sağlamak için tasarım jetonları üzerine inşa edilmiştir. Bu, tasarımımızı platformdan bağımsız tutmamızı, ölçeklendirmeyi ve bakımı kolaylaştırmamızı sağlar. Figma'da tasarım yapmanın kolay olması nedeniyle, jetonlarımız için doğruluk kaynağı olarak Figma'yı kullanmaya karar verdik.
+
+<Canvas of={Figma.FigmaImg} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+
+> **Figma dosyasına erişin:** [Motif UI Tasarım Sistemi](#) (Salt okunur erişim)
+
+## Neden Figma?
+
+Figma'yı tasarım sistemi platformumuz olarak seçtik çünkü aşağıdaki avantajları sunar:
+
+- **Gerçek Zamanlı İşbirliği**: Tasarımcılar ve geliştiriciler eş zamanlı olarak birlikte çalışabilir, bileşenleri gerçek zamanlı olarak inceleyebilir ve tartışabilir.
+- **Tek Doğruluk Kaynağı**: Tüm tasarım kararları, jetonlar ve bileşenler tek bir merkezi konumda bulunur.
+- **Sürüm Kontrolü**: Değişiklikleri takip edin, bileşen geçmişini koruyun ve gerektiğinde geri alın.
+- **Geliştiriciye Teslim**: Yerleşik inceleme araçları, kesin CSS değerleri, ölçümler ve dışa aktarılabilir varlıklar sağlar.
+- **Jeton Senkronizasyonu**: Tasarım jetonları kod tabanıyla senkronize edilmek üzere dışa aktarılabilir.
+- **Bileşen Varyantları**: Tek bir bileşen dosyası içinde birden çok durumu, boyutu ve temayı yönetin.
+- **Erişilebilirlik Araçları**: Yerleşik renk kontrast denetleyicileri ve erişilebilirlik özellikleri kapsayıcı tasarım sağlar.
+
+## Bileşen Kütüphanesi
+
+Tüm Motif UI bileşenleri, uygulanan kodla tam uyumlu olacak şekilde Figma'da tasarlanmıştır. İşte **Button** bileşeninin nasıl yapılandırıldığına dair bir örnek:
+
+<Canvas of={Figma.FigmaInspect} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+> **Not:** Figma'daki her bileşen varyantı, React bileşenindeki bir prop kombinasyonuna karşılık gelir. Örneğin, `variant="primary"` ve `size="lg"`, Figma'daki Primary/Large varyantıyla eşleşir.
+
+## Tasarım Jetonları
+
+Tasarım jetonları, tasarım sistemimizin temelini oluşturur. Tüm platformlarda tutarlılık sağlarlar ve tasarım sisteminin bakımını ve ölçeklendirilmesini kolaylaştırırlar. Kod tabanında renkler, boşluklar veya yazı tipi boyutları gibi değerleri doğrudan kodlamak yerine, merkezi olarak güncellenebilen jetonlar kullanırız.
+
+> **Not:** Mevcut tüm tasarım jetonlarının ve kod içindeki kullanımlarının eksiksiz bir referansı için [Tasarım Jetonları](/docs/design-design-tokens--docs) belgelerine bakın.
+
+<br />
+
+### Jetonları Dışa Aktarma
+
+Tasarım jetonları Figma'da oluşturulup sürdürüldükten sonra, geliştiricilerin kullanabileceği koda dönüştürülmek üzere dışa aktarılmaları gerekir. Bu süreç, tasarım ve kodun mükemmel bir şekilde senkronize kalmasını sağlar.
+
+<Canvas of={Figma.FigmaDesignToken} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+
+Tasarım jetonları, **Tokens Studio** eklentisi kullanılarak Figma'dan bir JSON dosyası olarak dışa aktarılır. Dışa aktarılan jetonları dönüştürmek için `npm run build:tokens` komutunu çalıştırın (gerekirse parametreler ekleyin). Bu süreç yalnızca tasarım jetonlarını oluşturur, temaları değil. Tema oluşturma için [Temalandırma](/docs/customization-theming--docs) bölümüne bakın. Sonuç olarak, tüm jetonları CSS değişkenleri olarak içeren kullanıma hazır bir CSS dosyası elde edersiniz.
+
+Jetonlarınızı CSS değişkenlerine dönüştürmek için aşağıdaki komut dosyası çalıştırılmalıdır:
+
+```bash
+npm run build:tokens [YOUR_TOKENS_JSON_FILE] [OUTPUT_CSS_FILE]
+```
+
+<br />
+
+## Tasarımdan Koda İş Akışı
+
+1.  **Tasarım**: Tasarımcılar Figma'da bileşenler oluşturur ve günceller.
+2.  **Jeton Dışa Aktarımı**: Tasarım jetonları Figma'dan JSON formatına dışa aktarılır.
+3.  **Derleme Süreci**: Style Dictionary, jetonları CSS değişkenlerine dönüştürür.
+4.  **Bileşen Geliştirme**: Geliştiriciler, oluşturulan jetonları kullanarak bileşenleri uygular.
+5.  **Kalite Güvencesi**: Figma tasarımları ve uygulanan bileşenler arasında görsel karşılaştırma.

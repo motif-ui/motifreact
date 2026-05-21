@@ -1,0 +1,116 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Integrations/Next.js (TR)" />
+
+# Next.js ile Kullanım
+
+Bu kılavuz, Motif UI'ı sıfırdan bir Next.js projesinde kurmanız için size yol gösterecektir.
+
+## Kurulum
+
+Motif UI'ı Next.js projenize dahil etmek için Motif UI'ı ve gerekli Inter yazı tipi paketini yüklemeniz gerekmektedir:
+
+```bash
+npm install @motif-ui/react @fontsource/inter
+```
+
+> **Not:** En kolay yazı tipi dahil etme yöntemi için `fontsource` kullanılması önerilir ve bu kılavuz örneklerde `fontsource`'u kullanmaktadır. Diğer kullanım yöntemleri için lütfen [Customization/Fonts](?path=/docs/customization-fonts--docs) bölümüne bakın.
+
+## Ayarlar
+
+### Uygulama Yönlendiricisi Ayarları (Next.js 13+)
+
+`app/layout.tsx` dosyanızdaki `children` bölümü `MotifProvider` ile sarmalanmalıdır:
+
+```jsx
+
+import { MotifProvider } from "@motif-ui/react"
+import "@motif-ui/react/themes/default-theme.css"
+import "@fontsource/inter"
+import ".././globals.css"
+
+export default function RootLayout({
+  children,""
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html>
+      <body>
+        <MotifProvider>
+            {children}
+        </MotifProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+> **Not:** Temanızın CSS'ini genel stillerinizden önce içe aktardığınızdan emin olun, böylece doğru stil basamaklandırması sağlanır. Ayrıca, temaları yüklemenin diğer yollarını ve gelişmiş özelleştirme seçeneklerini keşfetmek için [Theming](?path=/docs/customization-theming--docs) bölümünü ziyaret edin.
+
+### Sayfa Yönlendiricisi Ayarları (Next.js 12 ve altı)
+
+`pages/_app.jsx` (veya `_app.tsx`) dosyanızda, uygulamanızı `MotifProvider` ile sarmalayın:
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+import "@motif-ui/react/themes/default-theme.css";
+import "@fontsource/inter";
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <MotifProvider>
+      <Component {...pageProps} />
+    </MotifProvider>
+  );
+}
+
+export default MyApp;
+```
+
+## Kullanım
+
+Artık Motif UI bileşenlerini sayfalarınızda kullanmaya başlayabilirsiniz. İşte basit bir örnek:
+
+```jsx
+import { Text, Textarea } from "@motif-ui/react";
+
+export default function Home() {
+  return (
+    <div>
+      <Text variant="h2" text="Motif UI Testi" />
+      <Textarea
+        size="lg"
+        value="Merhaba Motif UI size hizmet vermeye hazır!"
+        maxLength={100}
+        placeholder="Bir şeyler yazın..."
+        success
+      />
+    </div>
+  );
+};
+```
+
+## Sonraki Adımlar
+
+- **Bileşenler** bölümündeki mevcut bileşenleri keşfedin
+- Görünümü ve hissi özelleştirmek için **Temalama** hakkında bilgi edinin
+- Gelişmiş özelleştirme için **Tasarım Tokenleri**'ne göz atın
+
+## Sorun Giderme
+
+### Bileşenlerin Stili Yok
+
+Bileşenleriniz stile sahip görünmüyorsa, tema CSS'ini doğru yere içe aktardığınızdan emin olun:
+
+**Uygulama Yönlendiricisi:** `app/layout.jsx` dosyasında içe aktarın
+
+```jsx
+import "@motif-ui/react/themes/default-theme.css"
+```
+
+**Sayfa Yönlendiricisi:** `pages/_app.jsx` dosyasında içe aktarın
+
+```jsx
+import "@motif-ui/react/themes/default-theme.css"
+```

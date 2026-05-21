@@ -1,0 +1,54 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started/Installation (TR)" />
+
+# Kurulum
+
+Motif UI'yı projenize kurmak ve ayarlamak için izlenmesi gereken bazı adımlar bulunmaktadır.
+
+## 1. Çekirdek Paketi İndirin
+
+Npm veya yarn aracılığıyla yüklenebilir. Bu, gerekli çekirdek paketi kuracaktır.
+
+```bash
+npm install @motif-ui/react @fontsource/inter
+```
+
+#### Bağımlılıklar (Peer Dependencies)
+
+Motif UI, `react` ve `react-dom`'un bağımlılık olarak yüklenmesini gerektirir. Lütfen aşağıdaki paketlerin projenizde yüklü olduğundan emin olun.
+
+```json
+"peerDependencies": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+},
+```
+
+#### Inter Font
+
+Varsayılan olarak, Motif UI `Inter` yazı tipini kullanır. Bu yazı tipi, düzgün görüntüleme için projenize **dahil edilmelidir**. FontSource kullanmak en basit yol olduğu için, kurulum betiğine zaten dahil edilmiştir. Yazı tipini değiştirmek veya farklı bir yöntemle dahil etmek isterseniz, lütfen
+
+<a href="../?path=/docs/customization-fonts--docs">**Özelleştirme/Yazı Tipleri**</a> bölümüne başvurun.
+
+## 2. `MotifProvider` ile Sarın
+
+Bir sonraki adım, tüm Motif UI bileşenlerinin doğru şekilde çalışmasını sağlamak için uygulamanızı `MotifProvider` bileşeniyle sarmalamaktır.
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+<MotifProvider>{/* uygulamanızın çocuk bileşenleri */}</MotifProvider>;
+```
+
+Başlamaya hazırsınız! Bu iki adım Motif UI ile başlangıç yapmanızı sağlayacaktır. Unutmayın, varsayılan olarak Motif UI herhangi bir stil **içermez**.
+
+## 3. Stil Verme
+
+Bileşenleri düzgün bir şekilde biçimlendirmek için tema CSS dosyalarının eklenmesi gerekir. Bunu, seçtiğiniz temanın CSS dosyasını ana uygulama dosyanıza içe aktararak yapabilirsiniz. İşte varsayılan temayı içe aktarmaya bir örnek:
+
+```jsx
+import "@motif-ui/react/themes/default-theme.css";
+```
+
+Yazı tipini değiştirmek için lütfen <a href="../?path=/docs/customization-fonts--docs">**Özelleştirme/Yazı Tipleri**</a> bölümüne başvurun.

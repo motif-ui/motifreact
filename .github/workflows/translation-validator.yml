@@ -1,0 +1,54 @@
+name: Translation Validator
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'src/docs/v1/**'
+
+jobs:
+  check-translations:
+    name: Check Docs Translations
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: 'true'
+
+      - uses: ./.github/actions/setup-node-deps
+
+      - name: Check translations are in sync
+        id: check_sync
+        continue-on-error: true
+        run: npm run check:translations
+
+      - name: Generate new translations
+        if: steps.check_sync.outcome == 'failure'
+        env:
+          TRANSLATION_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run translate:docs
+
+      - name: Create/Update PR for translations
+        if: steps.check_sync.outcome == 'failure'
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "auto-generated translations for #${{ github.event.pull_request.number }}"
+          title: "docs: 🌐translations for: #${{ github.event.pull_request.number }}"
+          body: "This PR is automatically generated for the document changes in PR #${{ github.event.pull_request.number }}. Please check the translations and merge."
+          branch: "translation/${{ github.event.pull_request.head.ref }}"
+          base: ${{ github.event.pull_request.head.ref }}
+
+      - name: Block Main PR with Review
+        if: steps.check_sync.outcome == 'failure' && steps.cpr.outputs.pull-request-operation == 'created'
+        run: |
+          gh pr review ${{ github.event.pull_request.number }} --request-changes --body "🛑 This PR has untranslated docs. #${{ steps.cpr.outputs.pull-request-number }} has been opened automatically with the generated translations. Please review and merge that PR to continue."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

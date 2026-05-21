@@ -1,0 +1,156 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/Guide (TR)" />
+
+# Özelleştirme Rehberi
+
+Motif UI'ı esneklik gözetilerek tasarlandığı için, bileşenlerin çeşitli yönlerini projenizin tasarım gereksinimlerine daha iyi uyacak şekilde özelleştirmek mümkün hale getirilmiştir. Bu rehber, Motif UI bileşenlerini özelleştirmek için kullanılabilecek farklı yöntemleri size gösterecektir.
+
+Her projenin benzersiz ihtiyaçlarını karşılamak amacıyla Motif UI, birden fazla özelleştirme seçeneği sunar. Bu rehberde üç ana konu ele alınmaktadır.
+
+<br />
+
+## Genel Kütüphane Özelleştirmesi
+
+Bu bölüm, kütüphanenin tamamını ve içindeki tüm bileşenleri etkileyen özelleştirme yöntemlerini kapsar.
+
+### 1. Tema Değişikliği
+
+Motif UI bileşenlerinin genel görünümünü ve hissini değiştirmenin en kolay yolu tema değiştirmektir. Motif UI, projenize kolayca entegre edilebilecek çeşitli önceden tanımlanmış temaları `@motif-ui/react/themes` altında sunar.
+
+Temayı değiştirmek için, varsayılan tema yerine istediğiniz temanın CSS dosyasını ana uygulama dosyanıza içe aktarmanız yeterlidir. Örneğin, `papyrus` temasını kullanmak için projenizin ana düzen dosyasında şunları yaparsınız:
+
+```jsx
+import "@motif-ui/react/themes/papyrus.css";
+```
+
+### 2. Stilsiz Kullanım
+
+Motif UI bileşenleri varsayılan olarak stilden bağımsız olacak şekilde tasarlanmıştır. Bu, kendi stillerinizi kullanmayı tercih ederseniz, herhangi bir tema CSS dosyasını içe aktarmayarak bunu yapabileceğiniz anlamına gelir. Bu size bileşenlerin stilini tam kontrol etme imkanı sağlar.
+
+Projenizden herhangi bir tema içe aktarma işlemini kaldırmanız yeterlidir, bileşenler önceden tanımlanmış herhangi bir stil olmadan render edilecektir. Daha sonra ihtiyacınıza göre kendi CSS veya stil çözümlerinizi uygulayabilirsiniz.
+
+```jsx
+//import "@motif-ui/react/themes/default-theme.css"; -> kaldırılmalı
+```
+
+### 3. MotifProvider içindeki theme prop'u
+
+MotifProvider, Motif UI'ı React'e özgü bir şekilde özelleştirme imkanı sunar. `theme` ve `setTheme` prop'ları, görünümün istenen bölümünü özelleştirmek için kullanılır. `theme` prop'u, tema CSS dosyasındaki CSS değişkenleriyle tam olarak eşleşir. Bu yaklaşım temelde `:root` öğesindeki CSS değişken değerlerini geçersiz kılar, ancak bunu bir tema CSS dosyasını tamamen değiştirmekten çok daha kolay hale getirir.
+
+```jsx
+<MotifProvider
+  theme={{
+    sizing: {
+      radius: {
+        default: ".5rem",
+      },
+    },
+    color: {
+      surface: {
+        primary: {
+          active: "red",
+          default: "green",
+          disabled: "black",
+          hover: "purple",
+          inverse: "aqua",
+          negative: "cyan",
+        },
+      },
+    },
+  }}
+>
+  {/* uygulamanızın çocuk bileşenleri */}
+</MotifProvider>
+```
+
+<br />
+
+## Genel Bileşen Özelleştirmesi
+
+Genellikle tema çoğu ihtiyacı karşılar, ancak birkaç bileşen yine de ince ayar gerektirebilir. Bu durumlarda, genel bileşen özelleştirme yöntemleri uygulanabilir.
+
+### 1. MotifProvider içindeki componentDefaults prop'u
+
+Bu yaklaşım, uygulamanız boyunca bileşenlere aynı prop'ları tekrar tekrar geçirme ihtiyacını ortadan kaldırır. `MotifProvider` içindeki **componentDefaults** prop'unu kullanarak, belirli bileşen prop'ları için varsayılan değerleri global olarak ayarlayabilirsiniz.
+
+Aşağıdaki örnek, uygulamanız boyunca `Button` ve `Textarea` bileşenleri için varsayılan prop'ların nasıl ayarlanacağını göstermektedir:
+
+```jsx
+<MotifProvider
+  componentDefaults={{
+    Button: { pill: true, size: "lg" },
+    Textarea: { maxLength: 300 },
+  }}
+>
+  {/* uygulamanızın çocuk bileşenleri */}
+</MotifProvider>
+```
+
+### 2. Açığa Çıkarılan Sınıf Adlarını Kullanma
+
+Motif UI'daki her bileşen, BEM (Block-Element-Modifier) adlandırma kuralına uygun belirli sınıf adlarını açığa çıkarır. Her bileşenin sayfasında belgelenen bu sınıf adları, global bir CSS dosyasında global stil ayarlamaları için hedeflenebilir, böylece uygulamanızdaki belirli bir bileşenin tüm örneklerini etkileyen özel stiller uygulamanıza olanak tanır.
+
+```css
+.mtf-Button.mtf-Button--info.mtf-Button--solid {
+  background-color: #4caf50; /* Bilgi katı düğmeleri için özel yeşil arka plan */
+  color: #ffffff;
+}
+```
+
+<br />
+
+## Bileşen Seviyesi Özelleştirme
+
+Bu bölüm, tek tek bileşenlere uygulanabilen özelleştirme yöntemlerine odaklanarak, görünümleri ve davranışları üzerinde daha ayrıntılı kontrol sağlar.
+
+### 1. Prop'ları Kullanma
+
+Her bileşen, görünümünü özelleştirmek için bazı prop'lar sağlar. Bu, bileşen bazında kolayca ayarlamalar yapılmasına olanak tanır. Örneğin, uygun prop'ları geçirerek bir `<Button>` bileşeninin `variant`, `size` vb. özelliklerini ayarlayabilirsiniz.
+
+```jsx
+<Button label="Düğme" variant="outline" size="lg" pill />
+```
+
+### 2. style ve className prop'ları
+
+Standart bir React bileşeni gibi, Motif UI bileşenleri de sırasıyla satır içi stiller ve özel CSS sınıfları için `style` ve `className` prop'larını kabul eder. Bu, diğerlerini etkilemeden tek tek bileşenlerin hızlı ve kolay bir şekilde özelleştirilmesini sağlar.
+
+```jsx
+<Button label="Düğme" style={{ backgroundColor: "#4caf50" }} className="customClassName" />
+```
+
+### 3. Açığa Çıkarılan Sınıf Adlarını Özel className ile Kullanma
+
+"Genel Bileşen Özelleştirmesi" bölümünde bahsedildiği gibi, her bileşen belirli sınıf adlarını açığa çıkarır. Ve bu sınıf adları, `className` prop'u aracılığıyla sağlanan özel sınıf adlarıyla birlikte kullanılabilir. Bu, bileşenin doğal sınıf yapısından yararlanırken tek tek bileşenlerin daha hedeflenmiş stilize edilmesine olanak tanır.
+
+```css
+/* css dosyası */
+
+.myCustomButton.mtf-Button--solid.mtf-Button--primary {
+  background-color: #4caf50;
+}
+```
+
+```jsx
+<Button label="Düğme" className="myCustomButton" />
+```
+
+### 4. CSS Modülleri
+
+Statik sınıf adları yerine CSS modüllerini kullanmak da mümkündür. Bu yöntem, kapsamlı stilizasyona izin vererek sınıf adı çakışmalarını önler ve stillerin yalnızca hedeflenen bileşenlere uygulanmasını sağlar.
+
+```css
+/* MyComponent.module.css */
+
+.myCustomButton {
+  padding: 10px 20px;
+  border: dotted 2px red;
+  background-color: chocolate;
+}
+```
+
+```jsx
+import styles from "./MyComponent.module.css";
+<Button label="Düğme" className={styles.myCustomButton} />;
+```

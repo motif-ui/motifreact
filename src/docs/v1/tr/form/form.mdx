@@ -1,0 +1,200 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as FormOrientation from "../../../components/FormOrientation/FormOrientation.stories.tsx";
+
+<Meta title="Form/Form (TR)" />
+
+# Form
+
+`<Form>`, bazı diğer bileşenlere bağımlı olan ve onlar için gerekli olan özel bir bileşendir. Doğru bir şekilde kullanmak için bazı kurallar bulunmaktadır.
+
+## Kılavuz
+
+`<Form>` ve `<form>` arasındaki temel fark, `<Form>`'un **method** veya **action** gibi proplara sahip olmamasıdır. Doğrulama sürecini yürütür ve form öğelerinin değerlerini **onSubmit** geri çağırma işlevinde döndürür. Bu yaklaşım, gönderme mantığını kullanıcıya bırakır.
+
+<Canvas of={FormOrientation.GuideForm} layout="fullscreen" sourceState="shown" />
+
+Arka planda, `<Form>`, tüm form öğelerinin durumunu tutar ve form bağlamı aracılığıyla onlara gerekli prop'ları ve metotları sağlar. Her özel girdi, kendini form bağlamına kaydeder ve değiştiğinde form durumundaki değerleri günceller. Gönderme olayı doğrulama sürecini tetikler ve formun durumu güncellenir. Tüm girdi bileşeni türleri, `<Form>` ile biraz farklı bir yaklaşımla kullanılabilir. Gönderme ve doğrulama mantığının çalışmasını sağlamak için, girdi bileşenlerini sarmalayan **"kontrollü"** bileşenler mevcuttur. Bu aracı bileşenler, girdiler ve form arasındaki iletişimden sorumludur.
+
+> ℹ️ **ÖNEMLİ :** Bu sayfa, **Form** bileşeni için genel kuralları ve önemli noktaları sağlamaktadır. Prop'lar ve gelişmiş kullanım gibi daha teknik bilgilere erişmek için lütfen her bileşenin kendi dokümantasyon sayfasına bakın.
+> **[Form ↗](?path=/docs/components-form--docs)** , **[FormField ↗](?path=/docs/components-form-form-field--docs)** ,
+> **[FormFieldGroup ↗](?path=/docs/components-form-form-fieldgroup--docs)**
+
+<br />
+
+### `<Form.Field>`
+
+Bu, girdiler için kontrol bileşenidir. Sarmaladığı girdi öğesine doğrulama, etiket ve yardımcı metin sağlar. `readOnly`, `disabled`, `success` gibi girdi odaklı bazı prop'lar da bu bileşene verilebilir.
+
+### `<Form.FieldGroup>`
+
+Form.Field'a benzer, ancak birden fazla girdinin birlikte gruplandırılması gerektiğinde kullanılır. `readOnly`, `disabled` ve `success` prop'ları, girdilerin hepsini bir kerede etkilemek için girdilere iletilir.
+
+- `orientation` prop'u, öğelerin hangi yönde işleneceğini belirlemek için kullanılır. `horizontal` (yatay) veya `vertical` (dikey) olabilir.
+  <br />
+
+## Kurallar
+
+- Tüm girdi bileşenleri, formun bir parçası olmak için bir `<Form.Field>` veya `<Form.FieldGroup>` bileşeni içine **sarmalanmalıdır**.
+- Her `<Form.Field>`, form içinde alanı tanımlamak için benzersiz bir `name` prop'una sahip olmalıdır _(verildiyse girdinin adıyla eşleşmelidir)_ .
+- `<Form.FieldGroup>` içindeki her girdi, benzersiz bir `name` prop'una sahip olmalıdır. **Bu zorunludur**.
+- Doğrulama kuralları, `validations` prop'u kullanılarak `<Form.Field>` ve `<Form.FieldGroup>`'a uygulanabilir. ( **[Doğrulama ↗](?path=/docs/form-validation--docs)** )
+- `<Form>`'un `onSubmit` prop'u, form gönderildiğinde form değerlerini alan bir geri çağırma işlevidir.
+- Form durumu `<Form>` tarafından dahili olarak yönetilir, bu nedenle girdi değerlerinin doğrudan manipülasyonu **önerilmez**.
+  - `success`, `disabled`, `readOnly`, `size`, `error` prop'ları form bağlamı tarafından yönetilir. Girdinin kendisine verilen bu prop'lar göz ardı edilecektir.
+- Formun dahili gönder ve sıfırla düğmeleri vardır. Bu eylemler için ekstra düğme eklemeye gerek yoktur.
+- Formu programatik olarak kontrol etmek için (örn. formu temizlemek için) form ref'indeki sağlanan metotları kullanın.
+- Formu temizleme, dosyalar sunucuya gönderilmiş olabileceğinden yükleme girdilerini etkilemez. **Manuel olarak temizlenmelidirler**.
+  <br />
+
+## Gönderme
+
+`onSubmit` geri çağırma işlevi, form öğelerinin değerlerini tek bir nesne içinde döndürür. Nesnenin anahtarları, girdilerin adlarıdır. TypeScript kullananlar için, kişisel özel tipi `onSubmit` geri çağırma işlevi tarafından döndürülenle eşleştirmek önemlidir.
+
+Döndürülen veri nesnesinin tipi, (`Record<string, any>`'i genişletmesi gereken) genel bir tip olan `FormSubmitData`'dır. Burada genel bir tip kullanmak isteğe bağlıdır. Gerektiğinde aşağıdaki gibi kullanılabilir:
+
+```tsx
+type CustomType = {
+  name: string;
+  age: number;
+  city?: string;
+};
+
+const onSubmit = ({ values }: FormSubmitData<CustomType>) => {
+  console.log(values.name, values.age, values.city);
+};
+
+<Form onSubmit={onSubmit}>
+  <Form.Field name="name" label="İsim"><InputText /></Form.Field>
+  <Form.Field name="age" label="Yaş"><InputText /></Form.Field>
+  <Form.Field name="city" label="Şehir"><InputText /></Form.Field>
+</Form>
+```
+
+Genel tipi doğrudan `<Form>` içinde kullanmak da mümkündür. İşte bir örnek:
+
+```tsx
+type CustomType = {
+  name: string;
+  age?: number;
+};
+
+<Form<CustomType>
+  onSubmit={data => console.log(data.values.name)}>
+
+  <Form.Field name="name" label="İsim"><InputText /></Form.Field>
+  <Form.Field name="age" label="Yaş"><InputText /></Form.Field>
+</Form>
+```
+
+<br />
+
+## Doğrulama
+
+Form, `<Form.Field>` ve `<Form.FieldGroup>`'da bulunan `validations` prop'unu kullanarak esnek bir doğrulama sistemi sunar. Ayrıntılı bilgi için lütfen **[Doğrulama ↗](?path=/docs/form-validation--docs)** bölümüne bakın.
+
+<br />
+
+## Ref Nesnesi
+
+Form bileşeni, formu programatik olarak manipüle etmek amacıyla standart ref prop'larına ek olarak bazı metotları açığa çıkarmak için `forwardRef` kullanır.
+
+```jsx
+import { useRef } from "react";
+
+function MyComponent() {
+  const formRef = useRef(null);
+
+  const clearFormManually = () => {
+    formRef.current?.clearForm();
+  };
+
+  return (
+    <>
+      <Form ref={formRef} onSubmit={handleSubmit}>
+        {/* alanlar */}
+      </Form>
+
+      <button onClick={clearFormManually}>Formu Temizle</button>
+    </>
+  );
+}
+```
+
+### FormRefType
+
+TypeScript kullanıcıları için, standart HTML form prop'larına ek olarak özel prop'lar içeren özelleştirilmiş bir referans tipi olan **FormRefType** sağlanmıştır.
+
+- **clearForm()**: Formu temizlemek için açığa çıkarılan metot. `<Form>` form değerlerini dahili olarak yönettiği için; HTML formunun varsayılan sıfırlama işlevi yerine, gerektiğinde `clearForm` işlevi kullanılmalıdır,
+
+```tsx
+const formRef = useRef<FormRefType>(null);
+
+//...
+//  formRef.current?.clearForm();
+//...
+
+<Form onSubmit={onSubmit} ref={formRef}>
+  <Form.Field name="name" label="İsim">
+    <InputText />
+  </Form.Field>
+</Form>;
+```
+
+<br />
+
+## Yönlendirmeler
+
+Yönlendirme (orientation) söz konusu olduğunda, Form bileşeni oldukça sağlam ve esnek çözümler sunar. Neredeyse istenen her türlü yönlendirme varyantı uygulanabilir. Yatay etiketlere sahip dikey bir form içine yatay bir radyo grubu kolayca yerleştirebilir veya dikey etiketlere ve dikey gruplandırılmış girdilere sahip yatay bir form oluşturabilirsiniz. Yönlendirme dört farklı düzeyde kontrol edilebilir:
+
+### Form
+
+Form düzeyindeki yönlendirme, alanların form içinde nasıl düzenlendiğini kontrol eder. İki ana seçenek vardır: dikey ve yatay.
+
+<Canvas of={FormOrientation.Primary} layout="fullscreen" />
+
+### Etiket
+
+Etiket yönlendirmesi, etiketlerin girdi alanlarına göre nasıl konumlandırıldığını kontrol eder. Yine iki ana seçenek vardır: dikey ve yatay.
+
+<Canvas of={FormOrientation.LabelOrientationComparison} layout="fullscreen" />
+
+### Grup
+
+Grup düzeyindeki yönlendirme, birden fazla girdinin `<Form.FieldGroup>` kullanılarak gruplandırıldığı durumlarda kullanılır. Gruplandırılmış girdilerin düzenini, dikey veya yatay olarak belirler.
+
+<Canvas of={FormOrientation.GroupOrientationComparison} layout="fullscreen" />
+
+### Bileşen
+
+Bileşen düzeyindeki yönlendirme, tek tek girdi bileşenlerinin doğal düzenini ifade eder. Bazı bileşenler, örneğin `<RadioGroup>`, form içinde nasıl görüntülendiklerini etkileyen kendi yönlendirme ayarlarına sahip olabilir.
+
+<Canvas of={FormOrientation.RadioGroupOrientationComparison} layout="fullscreen" />
+
+<br />
+
+## `<Grid>` ile Kullanım
+
+**Form.Field**'ı doğrudan **Form** içinde kullanmak, varsayılan düzen sırasına sahip bir form oluşturmanın en kolay yoludur. **Form** içinde `<Grid>` bileşenini kullanarak bir düzen özelleştirme seçeneği de bulunmaktadır.
+
+<Canvas of={FormOrientation.FormWithGrid} layout="fullscreen" sourceState="shown" />
+
+## Sorun Giderme
+
+<br />
+
+#### Form gönderilmiyor
+
+- `onSubmit` fonksiyonunun doğru tanımlandığından emin olun
+- Hata mesajları için konsolu kontrol edin
+- Tüm gerekli alanların doldurulduğundan emin olun
+
+#### Doğrulama çalışmıyor
+
+- `validations` prop'unun doğru yazıldığından emin olun
+- Doğrulama fonksiyonunun boolean döndürdüğünden emin olun
+- Alanın `name` prop'unun benzersiz olduğundan emin olun
+
+#### Alan değeri güncellenmiyor
+
+- Alan bileşeninin Form.Field içinde olduğundan emin olun
+- `name` prop'unun doğru tanımlandığından emin olun

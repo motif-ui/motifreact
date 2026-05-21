@@ -1,0 +1,85 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Integrations/Vite (TR)" />
+
+# Vite ile Kullanım
+
+Motif UI, hem standart **Vite** hem de **Rolldown destekli Vite** projeleriyle tamamen uyumludur. Ayrıca, standart React şablonlarını hem **react** hem de **react-ts** olarak destekler.
+
+Bu kılavuz, Motif UI'ı sıfırdan bir Vite React projesinde nasıl kuracağınızı anlatacaktır.
+
+## Kurulum
+
+Motif UI'ı Vite projenize dahil etmek için Motif UI'ı ve gerekli Inter font paketini yüklemelisiniz:
+
+```bash
+npm install @motif-ui/react @fontsource/inter
+```
+
+> **Not:** En kolay font dahil etme yöntemi olarak fontsource kullanılması önerilir ve bu kılavuz örneklerde fontsource'u kullanmaktadır. Diğer kullanım yöntemleri için lütfen [Customization/Fonts](?path=/docs/customization-fonts--docs) bölümüne bakın.
+
+## Kurulum
+
+### Uygulamanızı MotifProvider ile Sarın
+
+`main.jsx` (veya `main.tsx`) dosyanızda, uygulamanızı `MotifProvider` ile sarın:
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { MotifProvider } from "@motif-ui/react";
+import "@motif-ui/react/themes/default-theme.css";
+import "@fontsource/inter";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <MotifProvider>
+      <App />
+    </MotifProvider>
+  </React.StrictMode>,
+);
+```
+
+> **Not:** Doğru stil basamaklamasına izin vermek için tema CSS'ini içe aktardığınızdan emin olun; ayrıca temaları yüklemenin daha fazla yolu ve gelişmiş özelleştirme seçenekleri için [Theming](?path=/docs/customization-theming--docs) bölümünü ziyaret edin.
+
+## Kullanım
+
+Artık uygulamanızda Motif UI bileşenlerini kullanmaya başlayabilirsiniz. İşte `App.jsx` içinde basit bir örnek:
+
+```jsx
+import { Text, Textarea } from "@motif-ui/react";
+
+function App() {
+  return (
+    <div>
+      <Text variant="h2" text="Motif UI Test" />
+      <Textarea
+        size="lg"
+        value="Merhaba Motif UI size hizmet etmeye hazır!"
+        maxLength={100}
+        placeholder="Bir şeyler yazın..."
+        success
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Sonraki Adımlar
+
+- **Bileşenler** bölümündeki mevcut bileşenleri keşfedin
+- Görünümü ve hissiyatı özelleştirmek için **Tema Oluşturma** hakkında bilgi edinin
+- Gelişmiş özelleştirme için **Tasarım Token'larını** inceleyin
+
+## Sorun Giderme
+
+### Bileşenlerde Stil Yok
+
+Bileşenleriniz stilsiz görünüyorsa, tema CSS'ini içe aktardığınızdan emin olun:
+
+```jsx
+import "@motif-ui/react/themes/default-theme.css"
+```

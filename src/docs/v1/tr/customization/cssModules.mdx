@@ -1,0 +1,59 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Customization/CSS Modules (TR)" />
+
+# CSS Modülleri
+
+Motif UI bileşenleri CSS Modülleri kullanılarak oluşturulduğundan, tek tek bileşenlerin stillerini genel stilleri etkilemeden kolayca özelleştirebilirsiniz. CSS Modülleri, stilleri bileşene yerel olarak sınırlar, böylece güvenli ve modüler bir stil oluşturma imkanı sunar.
+
+Bileşenlerde CSS modüllerinin kullanılmasını sağlamak için Motif UI, tüm bileşenlerde bir `className` prop'u sunar. Bu prop, bileşene uygulamak istediğiniz CSS sınıf ad(lar)ını temsil eden bir dizge kabul eder.
+
+## CSS Modülleri ile Nasıl Özelleştirilir
+
+Bir bileşeni CSS Modülleri kullanarak özelleştirmek için şu adımları izleyin:
+
+1.  **Bileşeni Belirleyin**: Hangi Motif UI bileşenini özelleştirmek istediğinizi belirleyin.
+
+2.  **Özel Bir CSS Modülü Oluşturun**: Özel stillerinizi tanımlamak için yeni bir CSS dosyası (örn. `CustomButton.module.css`) oluşturun.
+
+```css
+/* CustomButton.module.css */
+.customButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.customButton:hover {
+  background-color: #45a049;
+}
+```
+
+3.  **Stilleri İçe Aktarın ve Uygulayın**: React bileşeninizde, CSS modülünü içe aktarın ve stilleri `className` prop'unu kullanarak Motif UI bileşenine uygulayın.
+
+```jsx
+import { Button } from "@motif-ui/react";
+import styles from "./CustomButton.module.css";
+const CustomButton = () => {
+  return <Button label="Özel Buton" className={styles.customButton} />;
+};
+export default CustomButton;
+```
+
+4.  **Özelleştirilmiş Bileşeni Kullanın**: Artık özelleştirilmiş bileşeninizi uygulamanızda kullanabilirsiniz.
+
+```jsx
+import CustomButton from "./CustomButton";
+const App = () => {
+  return (
+    <div>
+      <CustomButton />
+    </div>
+  );
+};
+export default App;
+```
+
+Bu adımları izleyerek, Motif UI bileşenlerini CSS Modülleri kullanarak kolayca özelleştirebilir, stillerinizin kapsamlı olmasını ve diğer bileşenlerle veya genel stillerle çakışmamasını sağlayabilirsiniz.

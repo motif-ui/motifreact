@@ -1,0 +1,127 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as hooks from "../../en/hooks/hooks.stories.tsx";
+
+<Meta title="Hooks/useToggle (TR)" />
+
+# useToggle
+
+İsteğe bağlı animasyon desteğiyle görünürlük durumlarını yönetir.
+
+## Temel Kullanım
+
+```jsx
+import { useToggle } from "@motif-ui/react";
+
+const Sidebar = () => {
+  const { visible, show, hide, toggle } = useToggle(false);
+
+  return (
+    <>
+      <button onClick={toggle}>Toggle Sidebar</button>
+      {visible && <div>Sidebar content</div>}
+    </>
+  );
+};
+```
+
+## Animasyonlu Kullanım
+
+```jsx
+import { useToggle } from "@motif-ui/react";
+
+const AnimatedModal = () => {
+  const { visible, toggleState, show, hide } = useToggle(false, 300);
+
+  return (
+    <>
+      <button onClick={show}>Modali Aç</button>
+      {(visible || toggleState) && (
+        <div className={toggleState === "hiding" ? "fade-out" : "fade-in"}>
+          Modal içeriği
+          <button onClick={hide}>Kapat</button>
+        </div>
+      )}
+    </>
+  );
+};
+```
+
+## Parametreler
+
+<table>
+  <thead>
+    <tr>
+      <th>Parametre</th>
+      <th>Tip</th>
+      <th>Zorunlu</th>
+      <th>Varsayılan</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>initialVisible</code></td>
+      <td><code>boolean</code></td>
+      <td>Hayır</td>
+      <td><code>false</code></td>
+      <td>Başlangıçtaki görünürlük durumu</td>
+    </tr>
+    <tr>
+      <td><code>toggleTime</code></td>
+      <td><code>number</code></td>
+      <td>Hayır</td>
+      <td><code>undefined</code></td>
+      <td>Milisan cinsinden animasyon süresi</td>
+    </tr>
+  </tbody>
+</table>
+
+## Dönüş Değeri
+
+<table>
+  <thead>
+    <tr>
+      <th>Özellik</th>
+      <th>Tip</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>object</code></td>
+      <td>
+        <code>
+          {"{"} <br />
+          &nbsp;&nbsp;visible: boolean;<br />
+          &nbsp;&nbsp;toggleState?: "showing" | "hiding";<br />
+          &nbsp;&nbsp;show: () =&gt; void;<br />
+          &nbsp;&nbsp;hide: () =&gt; void;<br />
+          &nbsp;&nbsp;toggle: (forceShow?: boolean) =&gt; void;<br />
+          {"}"}
+        </code>
+      </td>
+      <td>
+        Mevcut durumu ve kontrol yöntemlerini içeren, <code>useToggle</code> tarafından döndürülen nesne.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Animasyon Deseni
+
+`toggleTime` sağlandığında:
+
+1. `show()` `toggleState`'i `"showing"` olarak ve `visible`'ı `true` olarak ayarlar.
+2. `toggleTime` ms sonra, `toggleState` `undefined` olur.
+3. `hide()` `toggleState`'i `"hiding"` olarak ve `visible`'ı `false` olarak ayarlar.
+4. `toggleTime` ms sonra, `toggleState` `undefined` olur.
+
+Bu size şunları sağlar:
+
+- Gizleme animasyonu sırasında öğeyi bağlı tutma
+- `toggleState`'e göre farklı CSS sınıfları uygulama
+- Öğeyi ne zaman ayıracağınızı kontrol etme
+
+## Örnek
+
+<Canvas of={hooks.UseToggleExample} />

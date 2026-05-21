@@ -1,0 +1,168 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import Button from "../../../../lib/components/Button/Button";
+import * as ColorPaletteStories from "../../../components/ColorPalette/ColorPalette.stories";
+
+<Meta title="Design/Color Palette (TR)" />
+
+# Renk Paleti
+
+Motif UI'daki tüm renkler, bileşenlerin kullanması için `CSS değişkenlerine` dönüştürülen tasarım token'ları olarak ayarlanmıştır.
+
+> **Not:** Burada gösterilen tüm renk değerleri **Varsayılan Tema**'dan alınmıştır. Diğer temalar, aynı token adları için farklı değerler tanımlayabilir. Bunları keşfetmek için **[Temalar](/docs/design-themes--docs)** sayfasını ziyaret edin.
+
+Kusursuz bir renklendirme için izlenmesi gereken bazı kurallar ve en iyi uygulamalar bulunmaktadır. Bunlar aşağıda belirtilmiştir:
+
+- **Yapı:** Her renk, bir çift token katmanından gelir—değişmez **temel** token'lar ham değerleri tutarken, farklı temaların renklerini temsil eden **tema ön ekli** renkler bulunur.
+- **Beklenti:** Standart kütüphane kullanımında, tema ön ekli token'lar eşleşen temel token'ları referans alır. Gerekirse, bir tema token'ını temel renkler dışında farklı bir renge yönlendirebilirsiniz, ancak bileşenler bu eşlemenin var olduğu beklentisiyle oluşturulmuştur.
+- **Tonlar:** Hem temel hem de tema renkleri, 10 tonlu bir sistem üzerine kurulmuştur. Bu tonlar, tema token eşlemelerindeki durumları ifade eder. Bu nedenle, kullanmayı seçtiğiniz renk için tüm tonları eklemek çok önemlidir.
+  <br />
+
+## Ana Renk Token'ları
+
+<table>
+  <thead>
+    <tr>
+      <th>Tip</th>
+      <th>Nedir</th>
+      <th style={{ minWidth: "120px" }}>Değişir mi?</th>
+      <th>Örnek</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`Base`</td>
+      <td>Ham, sabit değerler</td>
+      <td>❌ Asla </td>
+      <td>`--base-colors-green-green-600: #049e4e`</td>
+    </tr>
+    <tr>
+      <td>`Semantic`</td>
+      <td>Temel renklere referanslar</td>
+      <td>✅ Temaya göre</td>
+      <td>`--theme-color-semantic-success-success-600: var(--base-colors-green-green-600)`</td>
+    </tr>
+    <tr>
+      <td>`Categorized`</td>
+      <td>Semantik renklere referanslar</td>
+      <td>✅ Temaya göre</td>
+      <td>`--theme-color-surface-success-hover: var(--theme-color-semantic-success-success-600)`</td>
+    </tr>
+  </tbody>
+</table>
+
+> **Kural:** Bileşenlerde her zaman tema ön ekli token'ları kullanın. Temel renkler tasarım sistemi içsel kullanımları içindir.
+
+<br />
+
+## Renk Tipleri
+
+Her tema aşağıda belirtilen tam bir renk token'ı kümesi sağlamak **zorundadır**. Minimumda, her tema şunları tanımlamalıdır:
+
+- **Primary**: ` --theme-color-semantic-primary-primary-50…900` ve yüzey/metin varyantları (default, hover, active, disabled).
+- **Secondary**: Hayalet düğmeler, sekme göstergeleri ve ince ayırıcılar gibi destekleyici UI öğeleri için tema ön ekli vurgu token'ları (genellikle gri tonlama temel değerlerine eşlenir).
+- **Neutral**: Sayfa arka planları, gövde metni, ayırıcılar ve renk açısından nötr olması gereken diğer temel yüzeyler için varsayılan tuvali sağlayan temel aile token'ları.
+- **Semantic states:** Arka planlar ve yüzeyler için 50…900 adımlı `success / warning / danger / info` aileleri.
+- **Base overlays:** perdeler, modallar ve fonlar için beyaz / siyah ve overlay seviyeleri.
+- **Text tokens:** temel metin, başlık, alt başlık, altyazı, devre dışı bırakılmış metin, artı `primary / success / warning / danger / info / secondary` metin varyantları.
+- **Surface border tokens:** `light / secondary / primary / success / warning / danger / info` yüzeyler ve default, hover, active ve disabled durumları için eşleşen kenarlık renkleri.
+
+#### Örnekler
+
+- `--theme-color-text-primary-default` → Birincil metin, normal durum
+- `--theme-color-surface-danger-hover` → Tehlike arka planı, üzerine gelme durumu
+- `--theme-color-border-secondary-disabled` → İkincil kenarlık, devre dışı durumu
+
+```css
+.button {
+  background-color: var(--theme-color-semantic-primary-primary-500);
+  color: var(--theme-color-semantic-base-white);
+}
+
+.button:hover {
+  background-color: var(--theme-color-surface-primary-hover);
+}
+
+.button:disabled {
+  background-color: var(--theme-color-surface-light-disabled);
+  color: var(--theme-color-text-base-text-light);
+}
+```
+
+> Tema yazarları için; gerekli semantik aileler, tonlar ve overlay'lerin tam kontrol listesi **[Tasarım Token'ları](/docs/design-design-tokens--docs)** bölümünde bulunmaktadır.
+
+<br />
+
+### Ton Adımları
+
+Her renk ailesi, en açıktan en koyuya doğru **10 tona** sahiptir. Açık tonlar arka planlar için, koyu tonlar ise metinler için en iyisidir.
+
+```
+Primary (50 → 900)
+
++----+----+----+----+----+----+----+----+----+----+
+| 50 |100 |200 |300 |400 |500 |600 |700 |800 |900 |
++----+----+----+----+----+----+----+----+----+----+
+En Açık          Varsayılan ton (500)          En Koyu
+```
+
+### Durum Varyantları
+
+Her tonun etkileşimler için **6 durumu** vardır:
+
+- `default` : Boşta duran bileşenler için kullanılan temel render
+- `hover` : Öğenin işaretçi odağı aldığında uygulanır
+- `active` : Onaylayıcı geri bildirim için kısa ömürlü basılı durum
+- `disabled` : Azaltılmış kontrastlı, etkileşimsiz görünüm
+- `inverse`: Koyu-üzerine-açık ve açık-üzerine-koyu değişimleri için yüksek kontrastlı varyant
+- `negative`: Inverse overlay'ler veya koyu zemin üzerine hata uygulamaları için kullanılan isteğe bağlı kontrast tonu
+
+### Semantik Aileler
+
+- `primary`: Ana eylem veya vurgu için markayı önde gelen renk.
+- `secondary`: Odağı birincil eylemde tutan destekleyici vurgu.
+- `success`: Olumlu onaylar (bildirimler, rozetler, durumlar).
+- `warning`: Dikkat gerektiren geri bildirimler ve uyarılar.
+- `danger`: Hatalar ve yıkıcı olanaklar.
+- `info`: Nötr bilgilendirme çağrıları.
+- `base`: Arka planlar, gövde metni ve ayırıcılar için nötr tuval.
+  <br />
+
+## Bileşen Renklendirmesi
+
+> Bu düğmeyi hangi token'lar renklendiriyor?
+
+<Canvas of={ColorPaletteStories.Solid} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+
+```
+┌─────────────┐
+│   Primary───│───▸  --theme-color-text-base-global-light
+└──|──────────┘
+   └───▸ --theme-color-surface-primary-default
+
+:hover     →  --theme-color-surface-primary-hover
+:active    →  --theme-color-surface-primary-active
+:disabled  →  --theme-color-surface-primary-disabled & --theme-color-text-base-disabled
+```
+
+> Bu düğmeyi hangi token'lar renklendiriyor?
+
+<Canvas of={ColorPaletteStories.Outline} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+
+```
+┌─────────────┐
+│   Primary───│───▸  --theme-color-text-primary-default
+|──|──────────┘
+|  └───▸   --theme-color-surface-base-bg-light
+|
+└──▸  --theme-color-border-primary-default
+
+:hover     →  --theme-color-border-primary-default & --theme-color-text-primary-hover
+:active    →  --theme-color-border-primary-active & --theme-color-text-primary-active
+:disabled  →  --theme-color-border-primary-disabled & --theme-color-text-primary-disabled
+```
+
+## 🎨 Tam Renk Paleti Referansı
+
+Bu bölüm, **Varsayılan Tema**'da bulunan tüm semantik renkleri göstermektedir. Her tema, aynı token adları için kendi renk değerlerini sağlar. Mevcut tüm temaları keşfetmek isterseniz, lütfen **[Tasarım/Temalar](/docs/design-themes--docs)** bölümünü ziyaret edin.
+
+<Canvas of={ColorPaletteStories.Primary} layout="fullscreen" className="no-border" sourceState="none" />

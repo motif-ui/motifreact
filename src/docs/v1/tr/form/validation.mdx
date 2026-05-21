@@ -1,0 +1,236 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Form/Validation (TR)" />
+
+# Form Doğrulama
+
+Form bileşeni güçlü, yerleşik bir doğrulama sistemi sunar. Doğrulamalar `validations` prop'u kullanılarak uygulanabilir. Doğrulama kuralları, bir fonksiyon dizisi veya önceden tanımlanmış doğrulama sabitleri olarak tanımlanır. Form gönderildiğinde, her alanın doğrulama fonksiyonları yürütülür. Herhangi bir doğrulama başarısız olursa, form gönderilmez ve ilgili hata mesajları alanların yanında görüntülenir.
+
+<br />
+
+## Doğrulama Nesnesi
+
+Form, doğrulama kuralları açısından esnektir. Her doğrulama kuralı aşağıdaki yapıya sahip bir nesne olarak tanımlanır:
+
+```tsx
+type InputValidation = {
+  // Doğrulamayı gerçekleştiren fonksiyon
+  validate: (value: InputValue) => boolean;
+  // Doğrulama başarısız olduğunda görüntülenen mesaj
+  errorMessage: string;
+  // Hata mesajı biçimlendirmesi için isteğe bağlı parametreler
+  errorParams?: Record<string, unknown>;
+  // Bağlı alan(lar)ın gerekli olup olmadığını belirten doğrulama.
+  requiredValidation?: boolean;
+}
+```
+
+Kullanıcıların bazı 'tehlikeli' sayılar içeren bir değer göndermesini engelleyen basit bir özel doğrulayıcı örneği aşağıdadır:
+
+```tsx
+const customValidation: (dangerousNumbers: number[]) => InputValidation = dangerousNumbers => ({
+  errorMessage: `Giriş ${dangerousNumbers.toString()} tehlikeli sayıları içermemelidir`,
+  validate: value => {
+    const validated = !value?.split("").some(char => dangerousNumbers.some(dangerous => dangerous === parseInt(char)));
+    return validated;
+  },
+});
+
+//...
+
+<Form.Field name="input" validations={[Validations.customValidation([1, 3, 5])]}>
+  <InputText />
+</Form.Field>
+```
+
+## Yerleşik Doğrulamalar
+
+Özel doğrulamalara ek olarak, Form doğrulama sürecini basitleştirmek için çeşitli yerleşik ve yaygın doğrulama kuralları sunar. Bu doğrulama kuralları `Validations` nesnesinde mevcuttur. İşte yaygın olarak kullanılan yerleşik doğrulama kurallarından bazıları:
+
+### Gerekli (Required)
+
+```jsx
+<Form.Field name="username" validations={[Validations.Required]}>
+  <InputText />
+</Form.Field>
+```
+
+### Minimum Uzunluk (Min Length)
+
+```jsx
+<Form.Field name="password" validations={[Validations.MinLength(8)]}>
+  <InputPassword />
+</Form.Field>
+```
+
+### Maksimum Uzunluk (Max Length)
+
+```jsx
+<Form.Field name="bio" validations={[Validations.MaxLength(500)]}>
+  <Textarea />
+</Form.Field>
+```
+
+### Minimum Değer (Min)
+
+```jsx
+<Form.Field name="age" validations={[Validations.Min(18)]}>
+  <InputText />
+</Form.Field>
+```
+
+### Maksimum Değer (Max)
+
+```jsx
+<Form.Field name="quantity" validations={[Validations.Max(100)]}>
+  <InputText />
+</Form.Field>
+```
+
+### E-posta (Email)
+
+```jsx
+<Form.Field name="email" validations={[Validations.EMAIL]}>
+  <InputText />
+</Form.Field>
+```
+
+### TCKN
+
+```jsx
+<Form.Field name="identityNumber" validations={[Validations.TCKN]}>
+  <InputText />
+</Form.Field>
+```
+
+### IBAN
+
+```jsx
+<Form.Field name="bankAccount" validations={[Validations.IBAN]}>
+  <InputText />
+</Form.Field>
+```
+
+### Yüklenmiş Dosya Gerekli (Required Uploaded File)
+
+```jsx
+<Form.Field name="document" validations={[Validations.RequiredUploadedFile]}>
+  <UploadInput />
+</Form.Field>
+```
+
+### Dizi Öğeleri Gerekli (Required Array Items)
+
+```jsx
+<Form.Field name="pinCode" validations={[Validations.RequiredArrayItems([0, 1, 2])]}>
+  <PinCode>
+    <PinCodeItem />
+    <PinCodeItem />
+    <PinCodeItem />
+  </PinCode>
+</Form.Field>
+```
+
+### En Az N (At Least N)
+
+```jsx
+<Form.FieldGroup name="interests" groupValidations={[Validations.AtLeastN(2)]}>
+  <Checkbox name="sports" label="Spor" />
+  <Checkbox name="music" label="Müzik" />
+  <Checkbox name="reading" label="Okuma" />
+</Form.FieldGroup>
+```
+
+### URL
+
+```jsx
+<Form.Field name="url" validations={[Validations.URL]}>
+  <InputText />
+</Form.Field>
+```
+
+### IP Adresi (IP Address)
+
+```jsx
+<Form.Field name="ip" validations={[Validations.IP_ADDRESS]}>
+  <InputText />
+</Form.Field>
+```
+
+### Telefon (Phone)
+
+```jsx
+<Form.Field name="phone" validations={[Validations.PHONE_1]}>
+  <InputText />
+</Form.Field>
+```
+
+### Tüm Grup Öğeleri Gerekli (Required All Group Items)
+
+```jsx
+<Form onSubmit={() => {}}>
+  <Form.Field
+    name="address"
+    label="Adres Bilgileri"
+    validations={[Validations.RequiredAllGroupItems]}
+  >
+    <div style={{ display: "flex", gap: 12 }}>
+      <InputText name="city" placeholder="Şehir" />
+      <InputText name="district" placeholder="İlçe" />
+      <InputText name="postalCode" placeholder="Posta Kodu" />
+    </div>
+  </Form.Field>
+</Form>
+```
+
+### Yükleme Öğesi Senkron Doğrulama (Upload Item Sync Validation)
+
+```jsx
+<Form onSubmit={() => {}}>
+  <Form.Field
+    name="documents"
+    label="Belgeleri Yükle"
+    helperText="Lütfen en az bir geçerli belge yükleyin"
+    validations={[Validations.UploadItemSyncValidation]}
+  >
+    <UploadInput />
+  </Form.Field>
+</Form>
+```
+
+## Çoklu Doğrulamalar
+
+Bir alana birden fazla doğrulama kuralı ekleyebilirsiniz. Bunlar, yerleşik ve özel doğrulamaların bir kombinasyonunu içerebilir.
+
+```jsx
+<Form.Field
+  name="username"
+  validations={[
+    Validations.Required,
+    Validations.MinLength(3),
+    Validations.MaxLength(20),
+    {
+      errorMessage: "Sadece harf ve rakamlara izin verilir",
+      validate: (value) => /^[a-zA-Z0-9]+$/.test(value)
+    }
+  ]}
+>
+  <InputText />
+</Form.Field>
+```
+
+## Değişiklikte Doğrula (Validate on Change)
+
+Varsayılan olarak, doğrulamalar form gönderildiğinde tetiklenir. Ancak, `<Form>` bileşenindeki `validateOnChange` prop'unu kullanarak gerçek zamanlı doğrulamayı etkinleştirebilirsiniz. Bu prop `true` olarak ayarlandığında, bir alanın değeri her değiştiğinde doğrulamalar yürütülür ve kullanıcılara anında geri bildirim sağlanır.
+
+```jsx
+<Form validateOnChange onSubmit={() => {}}>
+  <Form.Field
+    name="email"
+    label="Email"
+    validations={[Validations.EMAIL]}
+  >
+    <InputText />
+  </Form.Field>
+</Form>
+```
