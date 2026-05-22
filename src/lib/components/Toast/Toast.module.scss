@@ -21,7 +21,6 @@ $animation-keyframes: (
   ("slideInBottom", translateY(100%), translateY(0%), 0, 1),
   ("slideOutBottom", translateY(0%), translateY(100%), 1, 0)
 );
-
 @each $animation, $transformZero, $transformHundred, $opacityZero, $opacityHundred in $animation-keyframes {
   @keyframes #{$animation} {
     0% {

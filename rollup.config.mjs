@@ -86,7 +86,6 @@ export default [
       commonjs(),
       json(),
       styles({
-        //mode: ["extract", "dist/bundle.css"], //TODO: Lets keep it like this unless there is problem.
         modules: {
           generateScopedName: generateScopedCssClassName,
         },

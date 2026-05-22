@@ -88,9 +88,7 @@ $variants: (
     border-radius: var(--theme-sizing-radius-round);
   }
 
-  .outlined & .markerIcon,
-  .outlined & .markerNumber,
-  .outlined & .markerDot {
+  .outlined & span {
     border-width: var(--base-sizing-2x);
     border-style: solid;
   }
