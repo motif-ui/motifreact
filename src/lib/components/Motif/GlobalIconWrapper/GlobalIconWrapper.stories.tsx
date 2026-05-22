@@ -18,7 +18,6 @@ import { iconObjects } from "../../../../../.storybook/utils.tsx";
 
 const meta: Meta = {
   title: "Chromatic/GlobalIconWrapper",
-  tags: ["!autodocs", "!dev"],
   parameters: { layout: "padded" },
   decorators: [
     Story => (

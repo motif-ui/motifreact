@@ -14,7 +14,9 @@ import path from "path";
 import process from "node:process";
 import { fileURLToPath } from "url";
 import json from "@rollup/plugin-json";
-import wrapLayerPlugin from "./src/scripts/wrapLayer.mjs";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const wrapLayerPlugin = require("./src/scripts/postcssWrapLayer.cjs");
 
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 

@@ -208,7 +208,7 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
     }
 
     .icon {
-      font-size: var(--base-sizing-#{$iconSize});
+      --mtf-icon-size: var(--base-sizing-#{$iconSize});
     }
 
     .button__dropdownItem .button {
