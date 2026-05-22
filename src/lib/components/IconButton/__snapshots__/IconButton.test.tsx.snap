@@ -8,7 +8,7 @@ exports[`IconButton should be rendered with only required props 1`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -26,7 +26,7 @@ exports[`IconButton should render all icons in motifIcons set 1`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -44,7 +44,7 @@ exports[`IconButton should render all icons in motifIcons set 2`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -62,7 +62,7 @@ exports[`IconButton should render all icons in motifIcons set 3`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -80,7 +80,7 @@ exports[`IconButton should render all icons in motifIcons set 4`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -98,7 +98,7 @@ exports[`IconButton should render all icons in motifIcons set 5`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -116,7 +116,7 @@ exports[`IconButton should render all icons in motifIcons set 6`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -134,7 +134,7 @@ exports[`IconButton should render all icons in motifIcons set 7`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -152,7 +152,7 @@ exports[`IconButton should render all icons in motifIcons set 8`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -170,7 +170,7 @@ exports[`IconButton should render all icons in motifIcons set 9`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -188,7 +188,7 @@ exports[`IconButton should render all icons in motifIcons set 10`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -206,7 +206,7 @@ exports[`IconButton should render all icons in motifIcons set 11`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -224,7 +224,7 @@ exports[`IconButton should render all icons in motifIcons set 12`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -242,7 +242,7 @@ exports[`IconButton should render all icons in motifIcons set 13`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -260,7 +260,7 @@ exports[`IconButton should render all icons in motifIcons set 14`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -278,7 +278,7 @@ exports[`IconButton should render all icons in motifIcons set 15`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -296,7 +296,7 @@ exports[`IconButton should render all icons in motifIcons set 16`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -314,7 +314,7 @@ exports[`IconButton should render all icons in motifIcons set 17`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -332,7 +332,7 @@ exports[`IconButton should render all icons in motifIcons set 18`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -350,7 +350,7 @@ exports[`IconButton should render all icons in motifIcons set 19`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -368,7 +368,7 @@ exports[`IconButton should render all icons in motifIcons set 20`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -386,7 +386,7 @@ exports[`IconButton should render all icons in motifIcons set 21`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -404,7 +404,7 @@ exports[`IconButton should render all icons in motifIcons set 22`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -422,7 +422,7 @@ exports[`IconButton should render all icons in motifIcons set 23`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -440,7 +440,7 @@ exports[`IconButton should render all icons in motifIcons set 24`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -458,7 +458,7 @@ exports[`IconButton should render all icons in motifIcons set 25`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -476,7 +476,7 @@ exports[`IconButton should render all icons in motifIcons set 26`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -494,7 +494,7 @@ exports[`IconButton should render all icons in motifIcons set 27`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -512,7 +512,7 @@ exports[`IconButton should render all icons in motifIcons set 28`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -530,7 +530,7 @@ exports[`IconButton should render all icons in motifIcons set 29`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -548,7 +548,7 @@ exports[`IconButton should render all icons in motifIcons set 30`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -566,7 +566,7 @@ exports[`IconButton should render all icons in motifIcons set 31`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -584,7 +584,7 @@ exports[`IconButton should render all icons in motifIcons set 32`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -602,7 +602,7 @@ exports[`IconButton should render all icons in motifIcons set 33`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -620,7 +620,7 @@ exports[`IconButton should render all icons in motifIcons set 34`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -638,7 +638,7 @@ exports[`IconButton should render all icons in motifIcons set 35`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -656,7 +656,7 @@ exports[`IconButton should render all icons in motifIcons set 36`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -674,7 +674,7 @@ exports[`IconButton should render all icons in motifIcons set 37`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -692,7 +692,7 @@ exports[`IconButton should render all icons in motifIcons set 38`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -710,7 +710,7 @@ exports[`IconButton should render all icons in motifIcons set 39`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -728,7 +728,7 @@ exports[`IconButton should render all icons in motifIcons set 40`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -746,7 +746,7 @@ exports[`IconButton should render all icons in motifIcons set 41`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -764,7 +764,7 @@ exports[`IconButton should render all icons in motifIcons set 42`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -782,7 +782,7 @@ exports[`IconButton should render all icons in motifIcons set 43`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -800,7 +800,7 @@ exports[`IconButton should render all icons in motifIcons set 44`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -818,7 +818,7 @@ exports[`IconButton should render all icons in motifIcons set 45`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -836,7 +836,7 @@ exports[`IconButton should render all icons in motifIcons set 46`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -854,7 +854,7 @@ exports[`IconButton should render all icons in motifIcons set 47`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -872,7 +872,7 @@ exports[`IconButton should render all icons in motifIcons set 48`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -890,7 +890,7 @@ exports[`IconButton should render all icons in motifIcons set 49`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -908,7 +908,7 @@ exports[`IconButton should render all icons in motifIcons set 50`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -926,7 +926,7 @@ exports[`IconButton should render all icons in motifIcons set 51`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -944,7 +944,7 @@ exports[`IconButton should render all icons in motifIcons set 52`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -962,7 +962,7 @@ exports[`IconButton should render all icons in motifIcons set 53`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -980,7 +980,7 @@ exports[`IconButton should render all icons in motifIcons set 54`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -998,7 +998,7 @@ exports[`IconButton should render all icons in motifIcons set 55`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1016,7 +1016,7 @@ exports[`IconButton should render all icons in motifIcons set 56`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1034,7 +1034,7 @@ exports[`IconButton should render all icons in motifIcons set 57`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1052,7 +1052,7 @@ exports[`IconButton should render all icons in motifIcons set 58`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1070,7 +1070,7 @@ exports[`IconButton should render all icons in motifIcons set 59`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1088,7 +1088,7 @@ exports[`IconButton should render all icons in motifIcons set 60`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1106,7 +1106,7 @@ exports[`IconButton should render all icons in motifIcons set 61`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1124,7 +1124,7 @@ exports[`IconButton should render all icons in motifIcons set 62`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1142,7 +1142,7 @@ exports[`IconButton should render all icons in motifIcons set 63`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1160,7 +1160,7 @@ exports[`IconButton should render all icons in motifIcons set 64`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1178,7 +1178,7 @@ exports[`IconButton should render all icons in motifIcons set 65`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1196,7 +1196,7 @@ exports[`IconButton should render all icons in motifIcons set 66`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1214,7 +1214,7 @@ exports[`IconButton should render all icons in motifIcons set 67`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1232,7 +1232,7 @@ exports[`IconButton should render all icons in motifIcons set 68`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1250,7 +1250,7 @@ exports[`IconButton should render all icons in motifIcons set 69`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1268,7 +1268,7 @@ exports[`IconButton should render all icons in motifIcons set 70`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1286,7 +1286,7 @@ exports[`IconButton should render all icons in motifIcons set 71`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1304,7 +1304,7 @@ exports[`IconButton should render all icons in motifIcons set 72`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1322,7 +1322,7 @@ exports[`IconButton should render all icons in motifIcons set 73`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1340,7 +1340,7 @@ exports[`IconButton should render all icons in motifIcons set 74`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1358,7 +1358,7 @@ exports[`IconButton should render all icons in motifIcons set 75`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1376,7 +1376,7 @@ exports[`IconButton should render all icons in motifIcons set 76`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1394,7 +1394,7 @@ exports[`IconButton should render all icons in motifIcons set 77`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1412,7 +1412,7 @@ exports[`IconButton should render all icons in motifIcons set 78`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1430,7 +1430,7 @@ exports[`IconButton should render all icons in motifIcons set 79`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1448,7 +1448,7 @@ exports[`IconButton should render all icons in motifIcons set 80`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1466,7 +1466,7 @@ exports[`IconButton should render all icons in motifIcons set 81`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1484,7 +1484,7 @@ exports[`IconButton should render all icons in motifIcons set 82`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1502,7 +1502,7 @@ exports[`IconButton should render all icons in motifIcons set 83`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1520,7 +1520,7 @@ exports[`IconButton should render all icons in motifIcons set 84`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1538,7 +1538,7 @@ exports[`IconButton should render all icons in motifIcons set 85`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1556,7 +1556,7 @@ exports[`IconButton should render all icons in motifIcons set 86`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1574,7 +1574,7 @@ exports[`IconButton should render all icons in motifIcons set 87`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1592,7 +1592,7 @@ exports[`IconButton should render all icons in motifIcons set 88`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1610,7 +1610,7 @@ exports[`IconButton should render all icons in motifIcons set 89`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1628,7 +1628,7 @@ exports[`IconButton should render all icons in motifIcons set 90`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1646,7 +1646,7 @@ exports[`IconButton should render all icons in motifIcons set 91`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1664,7 +1664,7 @@ exports[`IconButton should render all icons in motifIcons set 92`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1682,7 +1682,7 @@ exports[`IconButton should render all icons in motifIcons set 93`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1700,7 +1700,7 @@ exports[`IconButton should render all icons in motifIcons set 94`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1718,7 +1718,7 @@ exports[`IconButton should render all icons in motifIcons set 95`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1736,7 +1736,7 @@ exports[`IconButton should render all icons in motifIcons set 96`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1754,7 +1754,7 @@ exports[`IconButton should render all icons in motifIcons set 97`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1772,7 +1772,7 @@ exports[`IconButton should render all icons in motifIcons set 98`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1790,7 +1790,7 @@ exports[`IconButton should render all icons in motifIcons set 99`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1808,7 +1808,7 @@ exports[`IconButton should render all icons in motifIcons set 100`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1826,7 +1826,7 @@ exports[`IconButton should render all icons in motifIcons set 101`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1844,7 +1844,7 @@ exports[`IconButton should render all icons in motifIcons set 102`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1862,7 +1862,7 @@ exports[`IconButton should render all icons in motifIcons set 103`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1880,7 +1880,7 @@ exports[`IconButton should render all icons in motifIcons set 104`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1898,7 +1898,7 @@ exports[`IconButton should render all icons in motifIcons set 105`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1916,7 +1916,7 @@ exports[`IconButton should render all icons in motifIcons set 106`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1934,7 +1934,7 @@ exports[`IconButton should render all icons in motifIcons set 107`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1952,7 +1952,7 @@ exports[`IconButton should render all icons in motifIcons set 108`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1970,7 +1970,7 @@ exports[`IconButton should render all icons in motifIcons set 109`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -1988,7 +1988,7 @@ exports[`IconButton should render all icons in motifIcons set 110`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2006,7 +2006,7 @@ exports[`IconButton should render all icons in motifIcons set 111`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2024,7 +2024,7 @@ exports[`IconButton should render all icons in motifIcons set 112`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2042,7 +2042,7 @@ exports[`IconButton should render all icons in motifIcons set 113`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2060,7 +2060,7 @@ exports[`IconButton should render all icons in motifIcons set 114`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2078,7 +2078,7 @@ exports[`IconButton should render all icons in motifIcons set 115`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2096,7 +2096,7 @@ exports[`IconButton should render all icons in motifIcons set 116`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2114,7 +2114,7 @@ exports[`IconButton should render all icons in motifIcons set 117`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2132,7 +2132,7 @@ exports[`IconButton should render all icons in motifIcons set 118`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2150,7 +2150,7 @@ exports[`IconButton should render all icons in motifIcons set 119`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2168,7 +2168,7 @@ exports[`IconButton should render all icons in motifIcons set 120`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2186,7 +2186,7 @@ exports[`IconButton should render all icons in motifIcons set 121`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2204,7 +2204,7 @@ exports[`IconButton should render all icons in motifIcons set 122`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2222,7 +2222,7 @@ exports[`IconButton should render all icons in motifIcons set 123`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2240,7 +2240,7 @@ exports[`IconButton should render all icons in motifIcons set 124`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2258,7 +2258,7 @@ exports[`IconButton should render all icons in motifIcons set 125`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2276,7 +2276,7 @@ exports[`IconButton should render all icons in motifIcons set 126`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2294,7 +2294,7 @@ exports[`IconButton should render all icons in motifIcons set 127`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2312,7 +2312,7 @@ exports[`IconButton should render all icons in motifIcons set 128`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2330,7 +2330,7 @@ exports[`IconButton should render all icons in motifIcons set 129`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2348,7 +2348,7 @@ exports[`IconButton should render all icons in motifIcons set 130`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2366,7 +2366,7 @@ exports[`IconButton should render all icons in motifIcons set 131`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2384,7 +2384,7 @@ exports[`IconButton should render all icons in motifIcons set 132`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2402,7 +2402,7 @@ exports[`IconButton should render all icons in motifIcons set 133`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2420,7 +2420,7 @@ exports[`IconButton should render all icons in motifIcons set 134`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2438,7 +2438,7 @@ exports[`IconButton should render all icons in motifIcons set 135`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2456,7 +2456,7 @@ exports[`IconButton should render all icons in motifIcons set 136`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2474,7 +2474,7 @@ exports[`IconButton should render all icons in motifIcons set 137`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2492,7 +2492,7 @@ exports[`IconButton should render all icons in motifIcons set 138`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2510,7 +2510,7 @@ exports[`IconButton should render all icons in motifIcons set 139`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2528,7 +2528,7 @@ exports[`IconButton should render all icons in motifIcons set 140`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2546,7 +2546,7 @@ exports[`IconButton should render all icons in motifIcons set 141`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2564,7 +2564,7 @@ exports[`IconButton should render all icons in motifIcons set 142`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2582,7 +2582,7 @@ exports[`IconButton should render all icons in motifIcons set 143`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2600,7 +2600,7 @@ exports[`IconButton should render all icons in motifIcons set 144`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2618,7 +2618,7 @@ exports[`IconButton should render all icons in motifIcons set 145`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2636,7 +2636,7 @@ exports[`IconButton should render all icons in motifIcons set 146`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2654,7 +2654,7 @@ exports[`IconButton should render all icons in motifIcons set 147`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2672,7 +2672,7 @@ exports[`IconButton should render all icons in motifIcons set 148`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2690,7 +2690,7 @@ exports[`IconButton should render all icons in motifIcons set 149`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2708,7 +2708,7 @@ exports[`IconButton should render all icons in motifIcons set 150`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2726,7 +2726,7 @@ exports[`IconButton should render all icons in motifIcons set 151`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2744,7 +2744,7 @@ exports[`IconButton should render all icons in motifIcons set 152`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2762,7 +2762,7 @@ exports[`IconButton should render all icons in motifIcons set 153`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2780,7 +2780,7 @@ exports[`IconButton should render all icons in motifIcons set 154`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2798,7 +2798,7 @@ exports[`IconButton should render all icons in motifIcons set 155`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2816,7 +2816,7 @@ exports[`IconButton should render all icons in motifIcons set 156`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2834,7 +2834,7 @@ exports[`IconButton should render all icons in motifIcons set 157`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2852,7 +2852,7 @@ exports[`IconButton should render all icons in motifIcons set 158`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2870,7 +2870,7 @@ exports[`IconButton should render all icons in motifIcons set 159`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2888,7 +2888,7 @@ exports[`IconButton should render all icons in motifIcons set 160`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2906,7 +2906,7 @@ exports[`IconButton should render all icons in motifIcons set 161`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2924,7 +2924,7 @@ exports[`IconButton should render all icons in motifIcons set 162`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2942,7 +2942,7 @@ exports[`IconButton should render all icons in motifIcons set 163`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2960,7 +2960,7 @@ exports[`IconButton should render all icons in motifIcons set 164`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2978,7 +2978,7 @@ exports[`IconButton should render all icons in motifIcons set 165`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -2996,7 +2996,7 @@ exports[`IconButton should render all icons in motifIcons set 166`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3014,7 +3014,7 @@ exports[`IconButton should render all icons in motifIcons set 167`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3032,7 +3032,7 @@ exports[`IconButton should render all icons in motifIcons set 168`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3050,7 +3050,7 @@ exports[`IconButton should render all icons in motifIcons set 169`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3068,7 +3068,7 @@ exports[`IconButton should render all icons in motifIcons set 170`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3086,7 +3086,7 @@ exports[`IconButton should render all icons in motifIcons set 171`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3104,7 +3104,7 @@ exports[`IconButton should render all icons in motifIcons set 172`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3122,7 +3122,7 @@ exports[`IconButton should render all icons in motifIcons set 173`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3140,7 +3140,7 @@ exports[`IconButton should render all icons in motifIcons set 174`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3158,7 +3158,7 @@ exports[`IconButton should render all icons in motifIcons set 175`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3176,7 +3176,7 @@ exports[`IconButton should render all icons in motifIcons set 176`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3194,7 +3194,7 @@ exports[`IconButton should render all icons in motifIcons set 177`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3212,7 +3212,7 @@ exports[`IconButton should render all icons in motifIcons set 178`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3230,7 +3230,7 @@ exports[`IconButton should render all icons in motifIcons set 179`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3248,7 +3248,7 @@ exports[`IconButton should render all icons in motifIcons set 180`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3266,7 +3266,7 @@ exports[`IconButton should render all icons in motifIcons set 181`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3284,7 +3284,7 @@ exports[`IconButton should render all icons in motifIcons set 182`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3302,7 +3302,7 @@ exports[`IconButton should render all icons in motifIcons set 183`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3320,7 +3320,7 @@ exports[`IconButton should render all icons in motifIcons set 184`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3338,7 +3338,7 @@ exports[`IconButton should render all icons in motifIcons set 185`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3356,7 +3356,7 @@ exports[`IconButton should render all icons in motifIcons set 186`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3374,7 +3374,7 @@ exports[`IconButton should render all icons in motifIcons set 187`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3392,7 +3392,7 @@ exports[`IconButton should render all icons in motifIcons set 188`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3410,7 +3410,7 @@ exports[`IconButton should render all icons in motifIcons set 189`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3428,7 +3428,7 @@ exports[`IconButton should render all icons in motifIcons set 190`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3446,7 +3446,7 @@ exports[`IconButton should render all icons in motifIcons set 191`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3464,7 +3464,7 @@ exports[`IconButton should render all icons in motifIcons set 192`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3482,7 +3482,7 @@ exports[`IconButton should render all icons in motifIcons set 193`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3500,7 +3500,7 @@ exports[`IconButton should render all icons in motifIcons set 194`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3518,7 +3518,7 @@ exports[`IconButton should render all icons in motifIcons set 195`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3536,7 +3536,7 @@ exports[`IconButton should render all icons in motifIcons set 196`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3554,7 +3554,7 @@ exports[`IconButton should render all icons in motifIcons set 197`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3572,7 +3572,7 @@ exports[`IconButton should render all icons in motifIcons set 198`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3590,7 +3590,7 @@ exports[`IconButton should render all icons in motifIcons set 199`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3608,7 +3608,7 @@ exports[`IconButton should render all icons in motifIcons set 200`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3626,7 +3626,7 @@ exports[`IconButton should render all icons in motifIcons set 201`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3644,7 +3644,7 @@ exports[`IconButton should render all icons in motifIcons set 202`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3662,7 +3662,7 @@ exports[`IconButton should render all icons in motifIcons set 203`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3680,7 +3680,7 @@ exports[`IconButton should render all icons in motifIcons set 204`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3698,7 +3698,7 @@ exports[`IconButton should render all icons in motifIcons set 205`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3716,7 +3716,7 @@ exports[`IconButton should render all icons in motifIcons set 206`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3734,7 +3734,7 @@ exports[`IconButton should render all icons in motifIcons set 207`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3752,7 +3752,7 @@ exports[`IconButton should render all icons in motifIcons set 208`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3770,7 +3770,7 @@ exports[`IconButton should render all icons in motifIcons set 209`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3788,7 +3788,7 @@ exports[`IconButton should render all icons in motifIcons set 210`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3806,7 +3806,7 @@ exports[`IconButton should render all icons in motifIcons set 211`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3824,7 +3824,7 @@ exports[`IconButton should render all icons in motifIcons set 212`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3842,7 +3842,7 @@ exports[`IconButton should render all icons in motifIcons set 213`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3860,7 +3860,7 @@ exports[`IconButton should render all icons in motifIcons set 214`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3878,7 +3878,7 @@ exports[`IconButton should render all icons in motifIcons set 215`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3896,7 +3896,7 @@ exports[`IconButton should render all icons in motifIcons set 216`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3914,7 +3914,7 @@ exports[`IconButton should render all icons in motifIcons set 217`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3932,7 +3932,7 @@ exports[`IconButton should render all icons in motifIcons set 218`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3950,7 +3950,7 @@ exports[`IconButton should render all icons in motifIcons set 219`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3968,7 +3968,7 @@ exports[`IconButton should render all icons in motifIcons set 220`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -3986,7 +3986,7 @@ exports[`IconButton should render all icons in motifIcons set 221`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4004,7 +4004,7 @@ exports[`IconButton should render all icons in motifIcons set 222`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4022,7 +4022,7 @@ exports[`IconButton should render all icons in motifIcons set 223`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4040,7 +4040,7 @@ exports[`IconButton should render all icons in motifIcons set 224`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4058,7 +4058,7 @@ exports[`IconButton should render all icons in motifIcons set 225`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4076,7 +4076,7 @@ exports[`IconButton should render all icons in motifIcons set 226`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4094,7 +4094,7 @@ exports[`IconButton should render all icons in motifIcons set 227`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4112,7 +4112,7 @@ exports[`IconButton should render all icons in motifIcons set 228`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4130,7 +4130,7 @@ exports[`IconButton should render all icons in motifIcons set 229`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4148,7 +4148,7 @@ exports[`IconButton should render all icons in motifIcons set 230`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4166,7 +4166,7 @@ exports[`IconButton should render all icons in motifIcons set 231`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4184,7 +4184,7 @@ exports[`IconButton should render all icons in motifIcons set 232`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4202,7 +4202,7 @@ exports[`IconButton should render all icons in motifIcons set 233`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4220,7 +4220,7 @@ exports[`IconButton should render all icons in motifIcons set 234`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4238,7 +4238,7 @@ exports[`IconButton should render all icons in motifIcons set 235`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4256,7 +4256,7 @@ exports[`IconButton should render all icons in motifIcons set 236`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4274,7 +4274,7 @@ exports[`IconButton should render all icons in motifIcons set 237`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4292,7 +4292,7 @@ exports[`IconButton should render all icons in motifIcons set 238`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4310,7 +4310,7 @@ exports[`IconButton should render all icons in motifIcons set 239`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4328,7 +4328,7 @@ exports[`IconButton should render all icons in motifIcons set 240`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4346,7 +4346,7 @@ exports[`IconButton should render all icons in motifIcons set 241`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4364,7 +4364,7 @@ exports[`IconButton should render all icons in motifIcons set 242`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4382,7 +4382,7 @@ exports[`IconButton should render all icons in motifIcons set 243`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4400,7 +4400,7 @@ exports[`IconButton should render all icons in motifIcons set 244`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4418,7 +4418,7 @@ exports[`IconButton should render all icons in motifIcons set 245`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4436,7 +4436,7 @@ exports[`IconButton should render all icons in motifIcons set 246`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4454,7 +4454,7 @@ exports[`IconButton should render all icons in motifIcons set 247`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4472,7 +4472,7 @@ exports[`IconButton should render all icons in motifIcons set 248`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4490,7 +4490,7 @@ exports[`IconButton should render all icons in motifIcons set 249`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4508,7 +4508,7 @@ exports[`IconButton should render all icons in motifIcons set 250`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4526,7 +4526,7 @@ exports[`IconButton should render all icons in motifIcons set 251`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4544,7 +4544,7 @@ exports[`IconButton should render all icons in motifIcons set 252`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4562,7 +4562,7 @@ exports[`IconButton should render all icons in motifIcons set 253`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4580,7 +4580,7 @@ exports[`IconButton should render all icons in motifIcons set 254`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4598,7 +4598,7 @@ exports[`IconButton should render all icons in motifIcons set 255`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4616,7 +4616,7 @@ exports[`IconButton should render all icons in motifIcons set 256`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4634,7 +4634,7 @@ exports[`IconButton should render all icons in motifIcons set 257`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4652,7 +4652,7 @@ exports[`IconButton should render all icons in motifIcons set 258`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4670,7 +4670,7 @@ exports[`IconButton should render all icons in motifIcons set 259`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4688,7 +4688,7 @@ exports[`IconButton should render all icons in motifIcons set 260`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4706,7 +4706,7 @@ exports[`IconButton should render all icons in motifIcons set 261`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4724,7 +4724,7 @@ exports[`IconButton should render all icons in motifIcons set 262`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4742,7 +4742,7 @@ exports[`IconButton should render all icons in motifIcons set 263`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4760,7 +4760,7 @@ exports[`IconButton should render all icons in motifIcons set 264`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4778,7 +4778,7 @@ exports[`IconButton should render all icons in motifIcons set 265`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4796,7 +4796,7 @@ exports[`IconButton should render all icons in motifIcons set 266`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4814,7 +4814,7 @@ exports[`IconButton should render all icons in motifIcons set 267`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4832,7 +4832,7 @@ exports[`IconButton should render all icons in motifIcons set 268`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4850,7 +4850,7 @@ exports[`IconButton should render all icons in motifIcons set 269`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4868,7 +4868,7 @@ exports[`IconButton should render all icons in motifIcons set 270`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4886,7 +4886,7 @@ exports[`IconButton should render all icons in motifIcons set 271`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
@@ -4904,7 +4904,7 @@ exports[`IconButton should render all icons in motifIcons set 272`] = `
     type="button"
   >
     <span
-      class="Root md mtf-ui-icons"
+      class="Root mtf-ui-icons md"
       lang="en"
       translate="no"
     >
