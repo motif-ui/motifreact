@@ -9,7 +9,8 @@ import Textarea from "@/components/Textarea";
 import Switch from "@/components/Switch";
 import RadioGroup from "@/components/RadioGroup";
 import Radio from "@/components/Radio";
-import { AlternateFormButton, FormRefType, FormSubmitData, InputSize, Orientation } from "../../Form/types";
+import { FormRefType, FormSubmitData, InputSize, Orientation } from "../../Form/types";
+import Button from "@/components/Button";
 import UploadInput from "@/components/Upload/UploadInput";
 import UploadList from "@/components/Upload/UploadList";
 import Grid from "@/components/Grid";
@@ -1289,12 +1290,13 @@ describe("Form", () => {
 
   it("should render buttons (with the given props) in the submit area when alternateButtons prop is provided", async () => {
     const mockFunction = jest.fn();
-    const alternateButtons: AlternateFormButton[] = [
-      { label: "Custom 1", onClick: mockFunction, variant: "warning" },
-      { label: "Custom 2", onClick: mockFunction, icon: "person", variant: "danger" },
-    ];
     render(
-      <Form alternateButtons={alternateButtons}>
+      <Form
+        alternateButtons={[
+          <Button key="1" label="Custom 1" onClick={mockFunction} variant="warning" />,
+          <Button key="2" label="Custom 2" onClick={mockFunction} icon="person" variant="danger" />,
+        ]}
+      >
         <Form.Field name="inputText">
           <InputText />
         </Form.Field>
@@ -1319,9 +1321,8 @@ describe("Form", () => {
   });
 
   it("should render alternate buttons with primary variant by default", () => {
-    const alternateButtons: AlternateFormButton[] = [{ label: "Custom 1", onClick: jest.fn() }];
     render(
-      <Form alternateButtons={alternateButtons}>
+      <Form alternateButtons={[<Button key="1" label="Custom 1" onClick={jest.fn()} />]}>
         <Form.Field name="inputText">
           <InputText />
         </Form.Field>

@@ -1,7 +1,8 @@
 "use client";
 
-import { FormEvent, useCallback, useImperativeHandle, useRef } from "react";
-import { AlternateFormButton, FormContextType, FormRefType, FormSubmitData, NameInputValue } from "@/components/Form/types";
+import { FormEvent, useCallback, useImperativeHandle, useRef, ReactElement, cloneElement } from "react";
+import { FormContextType, FormRefType, FormSubmitData, NameInputValue } from "@/components/Form/types";
+import { ButtonProps } from "@/components/Button/types";
 import { useForm } from "@/components/Form/context/FormContext";
 import styles from "../Form.module.scss";
 import Button from "@/components/Button";
@@ -17,7 +18,7 @@ type Props<T> = {
   dontClearOnSubmit?: boolean;
   onSubmit?: (data: FormSubmitData<T>, event: FormEvent<HTMLFormElement>) => void;
   title?: string;
-  alternateButtons?: AlternateFormButton[];
+  alternateButtons?: ReactElement<ButtonProps>[];
 };
 
 const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<Props<T>, FormRefType>) => {
@@ -63,9 +64,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
         {children}
         {maybeButtonContainer && (
           <div className={`${styles.submitArea} ${styles["submitArea_align_" + buttonPosition]}`}>
-            {alternateButtons?.map(({ label, icon, variant, onClick }) => (
-              <Button key={label} label={label} size={size} variant={variant} icon={icon} onClick={onClick} />
-            ))}
+            {alternateButtons?.map(button => cloneElement(button, { size }))}
             {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
             {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" />}
           </div>

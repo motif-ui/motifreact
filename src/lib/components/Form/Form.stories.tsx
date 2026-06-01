@@ -21,6 +21,7 @@ import InputDateTime from "@/components/InputDateTime";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import { LocaleKey } from "src/i18n/types";
+import Button from "@/components/Button";
 
 const meta: Meta<typeof Form> = {
   title: "Components/Form",
@@ -50,19 +51,9 @@ const meta: Meta<typeof Form> = {
       control: { type: "boolean" },
       mapping: {
         false: undefined,
-        true: [{ label: "My Button", onClick: () => alert("My button is clicked!"), icon: "person", variant: "danger" }],
+        true: [<Button key="1" label="My Button" onClick={() => alert("My button is clicked!")} icon="person" variant="danger" />],
       },
-      table: {
-        type: {
-          summary: "AlternateFormButton[]",
-          detail: `{ 
-  label: string; 
-  onClick: () => void; 
-  icon?: IconGlobalType; 
-  variant?: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger'; 
-}[]`,
-        },
-      },
+      table: { type: { summary: "Button[]" } },
     },
     size: { table: { defaultValue: { summary: "md" } } },
     formOrientation: { table: { defaultValue: { summary: "vertical" } } },
