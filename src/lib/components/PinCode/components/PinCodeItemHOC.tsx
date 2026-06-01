@@ -35,7 +35,7 @@ const PinCodeItemHOC = (props: PropsWithRef<PinCodeItemHOCProps, HTMLInputElemen
 
   const keyUpHandler = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
-      e.key.toLocaleLowerCase() === "backspace" && !value && focusPreviousInput(index, value);
+      e.key.toLocaleLowerCase() === "backspace" && !value && focusPreviousInput(index);
     },
     [focusPreviousInput, index, value],
   );
