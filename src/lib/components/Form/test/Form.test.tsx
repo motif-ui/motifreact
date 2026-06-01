@@ -403,11 +403,13 @@ describe("Form", () => {
 
     expect(screen.queryByText(t("g.submit"))).not.toBeInTheDocument();
 
-    screen.queryAllByTestId("formField").forEach(field => {
-      expect(field).toHaveClass("disabled");
+    screen.queryAllByTestId("inputItem").forEach(item => {
+      expect(item).toHaveClass("disabled");
     });
 
-    expect(getFormFieldGroup(0)).toHaveClass("disabled");
+    screen.queryAllByTestId("textareaItem").forEach(item => {
+      expect(item).toHaveAttribute("disabled");
+    });
   });
 
   it("should prevent typing or editing all items in FormFieldGroup when readOnly prop is given", async () => {
