@@ -42,6 +42,28 @@ const meta: Meta<typeof Form> = {
     ),
   ],
   argTypes: {
+    onSubmit: {
+      control: { type: "check" },
+      options: ["event"],
+    },
+    alternateButtons: {
+      control: { type: "boolean" },
+      mapping: {
+        false: undefined,
+        true: [{ label: "My Button", onClick: () => alert("My button is clicked!"), icon: "person", variant: "danger" }],
+      },
+      table: {
+        type: {
+          summary: "AlternateFormButton[]",
+          detail: `{ 
+  label: string; 
+  onClick: () => void; 
+  icon?: IconGlobalType; 
+  variant?: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger'; 
+}[]`,
+        },
+      },
+    },
     size: { table: { defaultValue: { summary: "md" } } },
     formOrientation: { table: { defaultValue: { summary: "vertical" } } },
     labelOrientation: { table: { defaultValue: { summary: "vertical" } } },
@@ -50,21 +72,9 @@ const meta: Meta<typeof Form> = {
     clearButtonLabel: { table: { defaultValue: { summary: "Temizle" } } },
   },
   args: {
-    onSubmit: (data: FormSubmitData, event) => {
-      if (data.isValid) {
-        fetch("https://jsonplaceholder.typicode.com/todos/1")
-          .then(response => response.json())
-          .then(json => {
-            alert("Form is VALID! Check for the console log.");
-            console.log(data, event);
-            alert("Server response:\n\n" + JSON.stringify(json));
-          })
-          .catch(alert);
-      } else {
-        alert("Form is NOT VALID! Check for the console log.");
-        console.log(data, event);
-      }
-    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    onSubmit: "event",
   },
 };
 
@@ -72,8 +82,8 @@ export default meta;
 type Story = StoryObj<typeof Form>;
 
 export const Primary: Story = {
-  render: args => (
-    <Form {...args}>
+  render: ({ onSubmit, ...args }) => (
+    <Form {...args} onSubmit={!onSubmit?.length ? undefined : onSubmitMock}>
       <Form.Field name="inputName" label="Name" helperText="Your name and surname" validations={[Validations.Required]}>
         <InputText iconLeft="person" />
       </Form.Field>
@@ -216,4 +226,20 @@ export const Primary: Story = {
       </Form.Field>
     </Form>
   ),
+};
+
+const onSubmitMock = (data: FormSubmitData, event: unknown) => {
+  if (data.isValid) {
+    fetch("https://jsonplaceholder.typicode.com/todos/1")
+      .then(response => response.json())
+      .then(json => {
+        alert("Form is VALID! Check for the console log.");
+        console.log(data, event);
+        alert("Server response:\n\n" + JSON.stringify(json));
+      })
+      .catch(alert);
+  } else {
+    alert("Form is NOT VALID! Check for the console log.");
+    console.log(data, event);
+  }
 };
