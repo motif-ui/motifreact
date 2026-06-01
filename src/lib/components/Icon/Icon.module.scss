@@ -7,9 +7,9 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
   display: inline-flex !important;
   vertical-align: top;
   user-select: none;
-  font-size: var(--mtf-icon-size, var(--base-sizing-22x));
-  width: var(--mtf-icon-size, var(--base-sizing-22x));
-  height: var(--mtf-icon-size, var(--base-sizing-22x));
+  font-size: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
+  width: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
+  height: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
 
   span,
   i {
