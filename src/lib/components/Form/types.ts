@@ -1,10 +1,11 @@
 import { InputValidation } from "./validation/validations";
 import { FileType } from "../Upload/types";
-import { Size4SM } from "../../types";
+import { IconGlobalType, Size4SM } from "../../types";
 import { Dispatch, FormEvent, SetStateAction } from "react";
 
 export type FormProps<T> = {
-  onSubmit: (data: FormSubmitData<T>, event: FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (data: FormSubmitData<T>, event: FormEvent<HTMLFormElement>) => void;
+  alternateButtons?: AlternateFormButton[];
   title?: string;
 } & FormDefaultableProps;
 
@@ -28,6 +29,12 @@ export type InputValue = string | boolean | object | [] | FileType | number | un
 export type InputSize = Size4SM;
 export type Orientation = "horizontal" | "vertical";
 export type NameInputValue = Record<string, InputValue>;
+export type AlternateFormButton = {
+  label: string;
+  onClick: () => void;
+  icon?: IconGlobalType;
+  variant?: "primary" | "secondary" | "info" | "success" | "warning" | "danger";
+};
 // Common props for all input types. This should be extended or omitted for the specific input types.
 export type InputCommonProps = {
   name?: string;

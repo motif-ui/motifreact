@@ -22,6 +22,7 @@ const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormP
     dontClearOnSubmit,
     title,
     validateOnChange,
+    alternateButtons,
     ref,
     style,
     className,
@@ -38,6 +39,7 @@ const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormP
         enableClearButton={enableClearButton}
         dontClearOnSubmit={dontClearOnSubmit}
         title={title}
+        alternateButtons={alternateButtons}
         style={style}
         className={className}
       >

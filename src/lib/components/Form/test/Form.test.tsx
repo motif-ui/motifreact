@@ -9,7 +9,7 @@ import Textarea from "@/components/Textarea";
 import Switch from "@/components/Switch";
 import RadioGroup from "@/components/RadioGroup";
 import Radio from "@/components/Radio";
-import { FormRefType, FormSubmitData, InputSize, Orientation } from "../../Form/types";
+import { AlternateFormButton, FormRefType, FormSubmitData, InputSize, Orientation } from "../../Form/types";
 import UploadInput from "@/components/Upload/UploadInput";
 import UploadList from "@/components/Upload/UploadList";
 import Grid from "@/components/Grid";
@@ -18,7 +18,7 @@ import Col from "@/components/Grid/components/Col";
 import { MOCK } from "../../Upload/mock";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { FileType } from "@/components/Upload/types";
-import { t } from "../../../../utils/testUtils";
+import { t } from "src/utils/testUtils.tsx";
 
 import {
   data,
@@ -40,7 +40,7 @@ import InputDate from "@/components/InputDate";
 import InputTime from "@/components/InputTime";
 import InputDateTime from "@/components/InputDateTime";
 import { formatDate } from "@/components/InputDate/helper";
-import { DateUtils } from "../../../../utils/dateUtils";
+import { DateUtils } from "src/utils/dateUtils.ts";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
@@ -1250,5 +1250,60 @@ describe("Form", () => {
 
     expect(getFormField(0)).not.toHaveClass("error");
     expect(getFormField(1)).toHaveClass("error");
+  });
+
+  it("should not render the submit button when onSubmit is not provided", () => {
+    render(
+      <Form>
+        <Form.Field name="inputText">
+          <InputText />
+        </Form.Field>
+      </Form>,
+    );
+    expect(screen.queryByText(t("g.submit"))).not.toBeInTheDocument();
+  });
+
+  it("should render buttons (with the given props) in the submit area when alternateButtons prop is provided", async () => {
+    const mockFunction = jest.fn();
+    const alternateButtons: AlternateFormButton[] = [
+      { label: "Custom 1", onClick: mockFunction, variant: "warning" },
+      { label: "Custom 2", onClick: mockFunction, icon: "person", variant: "danger" },
+    ];
+    render(
+      <Form alternateButtons={alternateButtons}>
+        <Form.Field name="inputText">
+          <InputText />
+        </Form.Field>
+      </Form>,
+    );
+
+    const button1 = screen.getByText("Custom 1").closest("button");
+    expect(button1).toBeInTheDocument();
+    expect(button1).toHaveClass("warning");
+
+    const button2 = screen.getByText("Custom 2").closest("button");
+    expect(button2).toBeInTheDocument();
+    expect(button2).toHaveClass("danger");
+    expect(button2).toHaveTextContent("person");
+
+    const user = userEvent.setup();
+    await user.click(button1!);
+    expect(mockFunction).toHaveBeenCalledTimes(1);
+
+    await user.click(button2!);
+    expect(mockFunction).toHaveBeenCalledTimes(2);
+  });
+
+  it("should render alternate buttons with primary variant by default", () => {
+    const alternateButtons: AlternateFormButton[] = [{ label: "Custom 1", onClick: jest.fn() }];
+    render(
+      <Form alternateButtons={alternateButtons}>
+        <Form.Field name="inputText">
+          <InputText />
+        </Form.Field>
+      </Form>,
+    );
+
+    expect(screen.getByText("Custom 1").closest("button")).toHaveClass("primary");
   });
 });
