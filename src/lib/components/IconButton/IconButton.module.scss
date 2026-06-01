@@ -45,7 +45,7 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 
 @each $name, $fontSize in $sizes {
   .#{$name} {
-    font-size: var(--base-sizing-#{$fontSize});
+    --mtf-icon-size: var(--base-sizing-#{$fontSize});
   }
 }
 

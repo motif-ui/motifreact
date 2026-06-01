@@ -69,7 +69,7 @@ exports[`Carousel should be rendered with only required props and should have de
       type="button"
     >
       <span
-        class="Root md mtf-ui-icons xxl"
+        class="Root mtf-ui-icons xxl"
         lang="en"
         translate="no"
       >
@@ -82,7 +82,7 @@ exports[`Carousel should be rendered with only required props and should have de
       type="button"
     >
       <span
-        class="Root md mtf-ui-icons xxl"
+        class="Root mtf-ui-icons xxl"
         lang="en"
         translate="no"
       >

@@ -67,23 +67,18 @@ export const ExternalFontIcons: Story = {
       source: {
         type: "code",
         code: `
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols" />
 //...
-<Icon iconClass="material-icons" name="android" size="xxl" />
+<Icon iconClass="material-symbols" name="android" size="xxl" />
         `,
       },
     },
   },
   args: {
-    iconClass: "material-icons",
+    iconClass: "material-symbols",
     name: "android",
   },
-  render: args => (
-    <>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-      <Icon {...args} />
-    </>
-  ),
+  render: args => <Icon {...args} />,
 };
 
 export const SvgUsage: Story = {
@@ -119,23 +114,18 @@ export const AnyExternalIcon: Story = {
       source: {
         type: "code",
         code: `
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols" />
 //...
 <Icon color="green">
-  <i class="material-icons">android</i>
+  <i class="material-symbols">android</i>
 </Icon>
         `,
       },
     },
   },
   args: {
-    children: <i className="material-icons">android</i>,
+    children: <span className="material-symbols">android</span>,
     color: "green",
   },
-  render: args => (
-    <>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-      <Icon {...args} />
-    </>
-  ),
+  render: args => <Icon {...args} />,
 };

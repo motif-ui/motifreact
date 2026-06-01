@@ -18,7 +18,7 @@ import Col from "@/components/Grid/components/Col";
 import { MOCK } from "../../Upload/mock";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { FileType } from "@/components/Upload/types";
-import { t } from "../../../../utils/testUtils";
+import { t } from "src/utils/testUtils.tsx";
 
 import {
   data,
@@ -40,7 +40,7 @@ import InputDate from "@/components/InputDate";
 import InputTime from "@/components/InputTime";
 import InputDateTime from "@/components/InputDateTime";
 import { formatDate } from "@/components/InputDate/helper";
-import { DateUtils } from "../../../../utils/dateUtils";
+import { DateUtils } from "src/utils/dateUtils.ts";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
@@ -705,7 +705,7 @@ describe("Form", () => {
     });
 
     await user.type(screen.getAllByTestId("inputItem")[0].firstElementChild!, value);
-    await user.type(screen.getByTestId("inputPassword").lastElementChild!, value);
+    await user.type(screen.getAllByTestId("inputItem")[1].lastElementChild!, value);
     await user.type(screen.getByTestId("inputDate").firstElementChild!.children[1], "12/12/2024");
     await user.type(screen.getAllByTestId("pinCodeItem")[0], value);
     await user.click(screen.getByText("Black"));
