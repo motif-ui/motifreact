@@ -197,7 +197,7 @@ $sizes: (
     }
 
     .closeIcon {
-      font-size: var(--base-sizing-#{$selectedIconSize});
+      --mtf-icon-size: var(--base-sizing-#{$selectedIconSize});
     }
 
     .dropdown {

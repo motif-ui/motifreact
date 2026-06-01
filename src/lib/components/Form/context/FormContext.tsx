@@ -18,7 +18,7 @@ export const useForm = () => useContext(FormContext);
 
 export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
   const { t } = useMotifContext();
-  const { formOrientation, labelOrientation, size, children, validateOnChange } = props;
+  const { formOrientation, labelOrientation, size, children, validateOnChange, preview } = props;
   const formStateRef = useRef<FormStateRefProps>({
     fields: {},
     values: {},
@@ -323,6 +323,7 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
         unregisterGroupFieldItem,
         resetValues,
         clearFieldFromPendingInit,
+        preview,
       }}
     >
       {children}

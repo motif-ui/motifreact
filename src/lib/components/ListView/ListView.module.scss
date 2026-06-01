@@ -28,10 +28,10 @@ $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x", "22x"), ("md", 
       @include font("body", $size);
     }
     .icon {
-      font-size: var(--base-sizing-#{$iconFontSize});
+      --mtf-icon-size: var(--base-sizing-#{$iconFontSize});
     }
     .iconRight {
-      font-size: var(--base-sizing-#{$iconRightFontSize});
+      --mtf-icon-size: var(--base-sizing-#{$iconRightFontSize});
     }
   }
 }

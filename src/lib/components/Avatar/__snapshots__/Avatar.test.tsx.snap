@@ -7,7 +7,7 @@ exports[`Avatar should be rendered with only required props 1`] = `
     data-testid="avatarItem"
   >
     <span
-      class="Root md motifIconsDefault"
+      class="Root motifIconsDefault"
       lang="en"
       translate="no"
     >

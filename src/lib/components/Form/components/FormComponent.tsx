@@ -35,7 +35,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
     className,
     style,
   } = props;
-  const { size, formOrientation, labelOrientation, validate, resetValues } = useForm() as FormContextType<T>;
+  const { size, formOrientation, labelOrientation, validate, resetValues, preview } = useForm() as FormContextType<T>;
 
   const internalFormRef = useRef<HTMLFormElement>(null);
   useImperativeHandle(ref, () => ({
@@ -54,7 +54,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
   );
 
   const classNames = sanitizeModuleRootClasses(styles, className, [size, formOrientation, labelOrientation + "Labels"]);
-  const maybeButtonContainer = enableClearButton || onSubmit || alternateButtons?.length;
+  const maybeButtonContainer = !preview && (enableClearButton || onSubmit || alternateButtons?.length);
 
   return (
     <form onSubmit={submitHandler} className={classNames} ref={internalFormRef} style={style}>
@@ -68,6 +68,12 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
             ))}
             {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
             {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" />}
+          </div>
+        )}
+        {!preview && (
+          <div className={`${styles.submitArea} ${styles["submitArea_align_" + buttonPosition]}`}>
+            {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
+            <Button label={submitButtonLabel} size={size} htmlType="submit" />
           </div>
         )}
       </div>

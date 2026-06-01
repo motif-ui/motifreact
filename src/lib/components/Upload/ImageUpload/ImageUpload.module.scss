@@ -1,8 +1,8 @@
 @use "@styles" as *;
 
-$sizes: (("xs", 160x, 6x, 36x, 24x), ("sm", 190x, 8x, 40x, 28x), ("md", 256x, 10x, 44x, 32x), ("lg", 320x, 12x, 48x, 36x));
+$sizes: (("xs", 160x, 6x, 36x, 16x), ("sm", 190x, 8x, 40x, 18x), ("md", 256x, 10x, 44x, 20x), ("lg", 320x, 12x, 48x, 22x));
 
-@each $name, $box, $padding, $fontSize, $iconSize in $sizes {
+@each $name, $box, $padding, $addIconSize, $iconSize in $sizes {
   .#{$name} {
     width: var(--base-sizing-#{$box});
 
@@ -17,13 +17,11 @@ $sizes: (("xs", 160x, 6x, 36x, 24x), ("sm", 190x, 8x, 40x, 28x), ("md", 256x, 10
     }
 
     .icon {
-      width: var(--base-sizing-#{$fontSize});
-      height: var(--base-sizing-#{$fontSize});
-      font-size: var(--base-sizing-#{$iconSize});
+      --mtf-icon-size: var(--base-sizing-#{$iconSize});
     }
 
     .addIcon {
-      font-size: var(--base-sizing-#{$fontSize});
+      --mtf-icon-size: var(--base-sizing-#{$addIconSize});
     }
 
     .dragMessage {

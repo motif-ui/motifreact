@@ -6,7 +6,7 @@ exports[`Breadcrumb should render with only required props 1`] = `
     class="Root"
   >
     <span
-      class="Root md motifIconsDefault homepage-icon"
+      class="Root motifIconsDefault homepage-icon"
       lang="en"
       translate="no"
     >
@@ -21,7 +21,7 @@ exports[`Breadcrumb should render with only required props 1`] = `
         Ana Sayfa
       </a>
       <span
-        class="Root md motifIconsDefault right-icon"
+        class="Root motifIconsDefault right-icon"
         lang="en"
         translate="no"
       >
@@ -37,7 +37,7 @@ exports[`Breadcrumb should render with only required props 1`] = `
         ...
       </span>
       <span
-        class="Root md motifIconsDefault right-icon"
+        class="Root motifIconsDefault right-icon"
         lang="en"
         translate="no"
       >
@@ -53,7 +53,7 @@ exports[`Breadcrumb should render with only required props 1`] = `
         Microsoft
       </a>
       <span
-        class="Root md motifIconsDefault right-icon"
+        class="Root motifIconsDefault right-icon"
         lang="en"
         translate="no"
       >
