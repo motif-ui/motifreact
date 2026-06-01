@@ -70,12 +70,6 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
             {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" />}
           </div>
         )}
-        {!preview && (
-          <div className={`${styles.submitArea} ${styles["submitArea_align_" + buttonPosition]}`}>
-            {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
-            <Button label={submitButtonLabel} size={size} htmlType="submit" />
-          </div>
-        )}
       </div>
     </form>
   );
