@@ -89,7 +89,7 @@ $sizes: (("xs", "2x", "20x", "xxs", "32x"), ("sm", "4x", "24x", "xs", "40x"), ("
       padding: var(--base-sizing-#{$padding});
 
       .dragIcon {
-        font-size: var(--base-sizing-#{$iconSize});
+        --mtf-icon-size: var(--base-sizing-#{$iconSize});
       }
 
       .dragTextGroup {

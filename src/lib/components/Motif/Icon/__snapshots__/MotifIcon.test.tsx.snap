@@ -3,7 +3,7 @@
 exports[`MotifIcon should render with only required props 1`] = `
 <div>
   <span
-    class="Root md motifIconsDefault"
+    class="Root motifIconsDefault"
     lang="en"
     translate="no"
   >

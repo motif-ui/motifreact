@@ -7,7 +7,7 @@ $state: ("default", "disabled", "active", "hover");
     gap: var(--base-sizing-#{$gap});
     @include font("base", $name, "500");
     .icon {
-      font-size: var(--base-sizing-#{$iconFontSize});
+      --mtf-icon-size: var(--base-sizing-#{$iconFontSize});
     }
   }
 }

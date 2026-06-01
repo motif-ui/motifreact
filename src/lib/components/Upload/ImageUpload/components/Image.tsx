@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { FileType } from "@/components/Upload/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
-import { shortenText } from "../../../../../utils/utils";
+import { shortenText } from "src/utils/utils.ts";
 import { MotifIconButton } from "@/components/Motif/Icon";
 import Preview from "@/components/Upload/ImageUpload/components/Preview";
 import useToggle from "../../../../hooks/useToggle";
@@ -15,22 +15,15 @@ type Props = {
 };
 
 export const Image = ({ file: { status, progress, file } }: Props) => {
-  const { size, selectedFiles, removeFiles } = useContext(UploadContext);
+  const { selectedFiles, removeFiles } = useContext(UploadContext);
   const image = URL.createObjectURL(file);
-  const iconSize = size === "sm" ? "xs" : size === "lg" ? "md" : "sm";
   const { visible, show, hide } = useToggle(false);
   const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL;
   const deleteFailed = status === STATUS.DELETE_FAIL;
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
 
   const deleteIcon = (
-    <MotifIconButton
-      name="delete"
-      variant="danger"
-      size={iconSize}
-      className={styles.icon}
-      onClick={() => removeFiles([selectedFiles[0]])}
-    />
+    <MotifIconButton name="delete" variant="danger" className={styles.icon} onClick={() => removeFiles([selectedFiles[0]])} />
   );
 
   return (
@@ -48,7 +41,7 @@ export const Image = ({ file: { status, progress, file } }: Props) => {
           </div>
           {!visible && (
             <div className={styles.iconContainer}>
-              <MotifIconButton className={styles.icon} variant="primary" name="visibility" size={iconSize} onClick={show} />
+              <MotifIconButton className={styles.icon} variant="primary" name="visibility" onClick={show} />
               {deleteIcon}
             </div>
           )}
