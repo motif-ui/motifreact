@@ -124,7 +124,7 @@ export const useRegisterFormField: UseRegisterFormFieldType = registerProps => {
     ? {
         readOnly: fieldContext.readOnly,
         success: fieldContext.groupName ? (fieldContext.success ?? success) : fieldContext.success,
-        disabled: fieldContext.groupName ? (fieldContext.disabled ?? disabled) : fieldContext.disabled,
+        disabled: formContext.preview ?? (fieldContext.groupName ? (fieldContext.disabled ?? disabled) : fieldContext.disabled),
         size: formContext.size,
         error: fieldContext.error,
         onError: onFormFieldSelfError,
