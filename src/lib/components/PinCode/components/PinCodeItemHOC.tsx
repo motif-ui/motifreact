@@ -13,7 +13,7 @@ const PinCodeItemHOC = (props: PropsWithRef<PinCodeItemHOCProps, HTMLInputElemen
     useContext(PinCodeContext);
 
   const setCaseSensitiveValue = useCallback(
-    (val: string) => {
+    (val = "") => {
       const newValue = letterCase === "upper" ? val.toLocaleUpperCase() : letterCase === "lower" ? val.toLocaleLowerCase() : val;
       onChange(index, newValue);
       return newValue;
@@ -27,7 +27,7 @@ const PinCodeItemHOC = (props: PropsWithRef<PinCodeItemHOCProps, HTMLInputElemen
 
   const changeHandler = useCallback(
     (val?: string) => {
-      const newValue = setCaseSensitiveValue(val || "");
+      const newValue = setCaseSensitiveValue(val);
       newValue.length === 1 && focusNextInput(index);
     },
     [focusNextInput, index, setCaseSensitiveValue],
