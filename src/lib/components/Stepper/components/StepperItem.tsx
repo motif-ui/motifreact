@@ -30,10 +30,9 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
         )}
       </>
     ) : stepType !== "text" && (status === "completed" || status === "error" || stepType === "icon") ? (
-      <Icon
-        name={status === "completed" ? "check" : status === "error" ? "priority_high" : icon}
-        className={`${styles.stepIndicator} ${styles.stepIcon}`}
-      />
+      <span className={`${styles.stepIndicator} ${styles.stepIcon}`}>
+        <Icon name={status === "completed" ? "check" : status === "error" ? "priority_high" : icon} />
+      </span>
     ) : (
       stepType === "number" && <span className={`${styles.stepIndicator} ${styles.stepNumber}`}>{index + 1}</span>
     );

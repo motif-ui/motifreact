@@ -18,5 +18,6 @@ export default {
     "value-keyword-case": null,
     "scss/dollar-variable-empty-line-before": null,
     "color-hex-length": "long",
+    "custom-property-empty-line-before": null,
   },
 };

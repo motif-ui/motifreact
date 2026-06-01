@@ -1,12 +1,7 @@
 @use "@styles" as *;
 
 // size, paddingH, paddingV, gap, iconSize
-$sizes: (
-  ("xs", "8x", "4x", "4x", "18x"),
-  ("sm", "12x", "6x", "6x", "20x"),
-  ("md", "16x", "8x", "8x", "22x"),
-  ("lg", "20x", "10x", "10x", "24x")
-);
+$sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md", "16x", "8x", "8x", "22x"), ("lg", "20x", "10x", "10x", "24x"));
 
 .Root {
   display: inline-flex;
@@ -213,7 +208,7 @@ $sizes: (
     }
 
     .icon {
-      font-size: var(--base-sizing-#{$iconSize});
+      --mtf-icon-size: var(--base-sizing-#{$iconSize});
     }
 
     .button__dropdownItem .button {

@@ -33,7 +33,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
     className,
     style,
   } = props;
-  const { size, formOrientation, labelOrientation, validate, resetValues } = useForm() as FormContextType<T>;
+  const { size, formOrientation, labelOrientation, validate, resetValues, preview } = useForm() as FormContextType<T>;
 
   const internalFormRef = useRef<HTMLFormElement>(null);
   useImperativeHandle(ref, () => ({
@@ -58,10 +58,12 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
       {title && <FormTitle title={title} size={size} />}
       <div className={styles.fields}>
         {children}
-        <div className={`${styles.submitArea} ${styles["submitArea_align_" + buttonPosition]}`}>
-          {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
-          <Button label={submitButtonLabel} size={size} htmlType="submit" />
-        </div>
+        {!preview && (
+          <div className={`${styles.submitArea} ${styles["submitArea_align_" + buttonPosition]}`}>
+            {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
+            <Button label={submitButtonLabel} size={size} htmlType="submit" />
+          </div>
+        )}
       </div>
     </form>
   );

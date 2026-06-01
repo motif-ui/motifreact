@@ -13,8 +13,8 @@ $sizes: (
     gap: var(--base-sizing-#{$gap});
     .input input {
       @include font("body", $size);
-      width: var(--base-sizing-#{$inputSize});
-      height: var(--base-sizing-#{$inputSize});
+      width: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}) + var(--base-sizing-2x));
+      height: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}) + var(--base-sizing-2x));
       padding: var(--base-sizing-#{$padding});
     }
   }

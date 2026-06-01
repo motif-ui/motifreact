@@ -23,8 +23,6 @@ const meta: Meta = {
   decorators: [
     Story => (
       <div style={{ width: 250, display: "flex", flexDirection: "column", gap: 30 }}>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
         <Story />
       </div>
     ),
