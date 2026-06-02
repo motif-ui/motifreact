@@ -6,7 +6,7 @@ import { ButtonProps } from "../Button/types";
 
 export type FormProps<T> = {
   onSubmit?: (data: FormSubmitData<T>, event: FormEvent<HTMLFormElement>) => void;
-  alternateButtons?: ReactElement<Omit<ButtonProps, "size">>[];
+  alternateButtons?: ReactElement<ButtonProps>[];
   title?: string;
   preview?: boolean;
 } & FormDefaultableProps;
