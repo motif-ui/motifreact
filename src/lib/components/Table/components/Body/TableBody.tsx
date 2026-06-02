@@ -13,9 +13,9 @@ type Props = {
 
 const TableBody = memo((props: Props) => {
   const { loading, emptyMessage, striped } = props;
-  const { visibleRows, numberOfVisibleColumns } = useContext(TableContext);
+  const { visibleRows, numberOfVisibleColumns, rowColorCallback } = useContext(TableContext);
 
-  const className = sanitizeModuleClasses(styles, striped && "striped");
+  const className = sanitizeModuleClasses(styles, striped && !rowColorCallback && "striped");
   return (
     <tbody className={className} data-testid="TableBody">
       {loading ? (
