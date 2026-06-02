@@ -1,10 +1,12 @@
 import { InputValidation } from "./validation/validations";
 import { FileType } from "../Upload/types";
 import { Size4SM } from "../../types";
-import { Dispatch, FormEvent, SetStateAction } from "react";
+import { Dispatch, FormEvent, ReactElement, SetStateAction } from "react";
+import { ButtonProps } from "../Button/types";
 
 export type FormProps<T> = {
-  onSubmit: (data: FormSubmitData<T>, event: FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (data: FormSubmitData<T>, event: FormEvent<HTMLFormElement>) => void;
+  alternateButtons?: ReactElement<ButtonProps>[];
   title?: string;
   preview?: boolean;
 } & FormDefaultableProps;
