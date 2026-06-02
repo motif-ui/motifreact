@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import DateRangePicker from "./DateRangePicker";
+import React from "react";
 const today = new Date();
 
 const meta: Meta<typeof DateRangePicker> = {
@@ -13,11 +14,24 @@ const meta: Meta<typeof DateRangePicker> = {
   },
   args: {
     variant: "shadow",
-    value: [new Date(today), new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7)],
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof DateRangePicker>;
 
-export const Primary: Story = {};
+const renderDateRangePicker = (args: React.ComponentProps<typeof DateRangePicker>, value?: Date[]) => (
+  <DateRangePicker {...args} value={value} />
+);
+
+export const Primary: Story = {
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
+  render: args => renderDateRangePicker(args, [new Date(today), new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7)]),
+};
+
+export const Secondary: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: args => renderDateRangePicker(args, [new Date(2026, 10, 12), new Date(2026, 10, 18)]),
+};
