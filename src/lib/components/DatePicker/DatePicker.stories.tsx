@@ -27,8 +27,18 @@ export default meta;
 type Story = StoryObj<typeof DatePicker>;
 
 export const Primary: Story = {
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
   render: args => {
     const value = args.value ? new Date(args.value) : undefined;
     return <DatePicker {...args} value={value} />;
+  },
+};
+
+export const Secondary: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: args => {
+    return <DatePicker {...args} value={new Date(2025, 11, 11)} />;
   },
 };
