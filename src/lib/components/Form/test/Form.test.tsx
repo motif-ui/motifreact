@@ -386,7 +386,7 @@ describe("Form", () => {
     // Switch Item is sliced because switch component does not have success prop
     inputItems.slice(0, inputItems.length - 2).forEach(element => expect(element).toHaveClass("success"));
     // PinCode is added below
-    expect(inputItems[9]).toHaveClass("success");
+    expect(inputItems[9].firstElementChild).toHaveClass("success");
   });
 
   it("should render form in preview mode with all fields disabled and no submit button", () => {
@@ -460,7 +460,7 @@ describe("Form", () => {
     await user.type(inputItems[7].lastElementChild!, formatDate(newDateValue, defaultDateFormat, LOCALE_DATE_TR_TR));
 
     // Pin Code
-    expect(screen.getAllByTestId("pinCodeItem")[0]).toHaveAttribute("readonly");
+    expect(inputItems[9].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
     await user.type(inputItems[9].getElementsByTagName("input")[0], value);
 
     await user.click(screen.getByText(t("g.submit")));
@@ -708,7 +708,7 @@ describe("Form", () => {
     await user.type(screen.getAllByTestId("inputItem")[0].firstElementChild!, value);
     await user.type(screen.getAllByTestId("inputItem")[1].lastElementChild!, value);
     await user.type(screen.getByTestId("inputDate").firstElementChild!.children[1], "12/12/2024");
-    await user.type(screen.getAllByTestId("pinCodeItem")[0], value);
+    await user.type(screen.getByTestId("pinCode").querySelectorAll("input")[0], value);
     await user.click(screen.getByText("Black"));
     await user.click(screen.queryByRole("combobox")!);
     await user.click(screen.queryByText("Item 1")!);
@@ -1170,7 +1170,7 @@ describe("Form", () => {
     const user = userEvent.setup();
 
     // InputText: type 2 chars → error; type 1 more → clear
-    const textInput = screen.getByTestId("inputItem").querySelector("input") as HTMLInputElement;
+    const textInput = getFormField(0)?.querySelector("input") as HTMLInputElement;
     await user.type(textInput, "ab");
     expect(getFormField(0)).toHaveClass("error");
     expect(getFormField(0)).toHaveTextContent(minLengthMessage(3));
@@ -1199,7 +1199,7 @@ describe("Form", () => {
     expect(getFormField(3)).not.toHaveClass("error");
 
     // PinCode: fill first item only → error; fill second → clear
-    const pinCodeInputs = screen.getAllByTestId("pinCodeItem");
+    const pinCodeInputs = screen.getByTestId("pinCode").querySelectorAll("input");
     await user.type(pinCodeInputs[0], "a");
     expect(getFormField(4)).toHaveClass("error");
     expect(getFormField(4)).toHaveTextContent(requiredMessage);

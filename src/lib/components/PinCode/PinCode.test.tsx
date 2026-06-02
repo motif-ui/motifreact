@@ -1,9 +1,15 @@
-import { getAllByTestId, render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import PinCode from "@/components/PinCode/PinCode";
-import { expectToThrow } from "../../../utils/testUtils";
+import { expectToThrow } from "src/utils/testUtils.tsx";
 import { userEvent } from "@testing-library/user-event";
 
-const testPropMatchesClassName = (prop: { [key: string]: unknown }, className: string, inParent: boolean, inChild: boolean) => {
+const testPropMatchesClassName = (
+  prop: { [key: string]: unknown },
+  className: string,
+  inParent: boolean,
+  inChild: boolean,
+  inInput: boolean,
+) => {
   const { container } = render(
     <PinCode {...prop}>
       <PinCode.Item />
@@ -11,33 +17,24 @@ const testPropMatchesClassName = (prop: { [key: string]: unknown }, className: s
     </PinCode>,
   );
   inParent && expect(container.firstElementChild).toHaveClass(className);
-  inChild && getAllByTestId(container, "pinCodeItem").forEach(i => expect(i).toHaveClass(className));
+  inChild && Array.from(container.firstElementChild!.children).forEach(i => expect(i).toHaveClass(className));
+  inInput && screen.getAllByRole("textbox").forEach(i => expect(i).toHaveClass(className));
 };
 
 describe("PinCode", () => {
-  it("should be rendered with only required props", () => {
+  it("should render with only required props and have default prop values stated here", () => {
     const { container } = render(
       <PinCode>
         <PinCode.Item />
-        <PinCode.Item />
+        <PinCode.Item masked />
       </PinCode>,
     );
     expect(container).toMatchSnapshot();
-  });
-
-  it("should be rendered with default values", () => {
-    const { container } = render(
-      <PinCode>
-        <PinCode.Item masked />
-        <PinCode.Item masked />
-      </PinCode>,
-    );
 
     // size: "md"
     expect(container.firstElementChild).toHaveClass("md");
-    getAllByTestId(container, "pinCodeItem").forEach(i => expect(i).toHaveClass("md"));
     // maskType : "asterisks"
-    getAllByTestId(container, "pinCodeItem").forEach(i => expect(i).toHaveAttribute("type", "password"));
+    expect(container.firstElementChild!.children.item(1)?.firstElementChild).toHaveAttribute("type", "password");
   });
 
   it("should should allow minimum 2 children", () => {
@@ -53,19 +50,19 @@ describe("PinCode", () => {
   });
 
   it("should render in size given in the size prop", () => {
-    ["xs", "sm", "md", "lg"].forEach(size => testPropMatchesClassName({ size }, size, true, true));
+    ["xs", "sm", "md", "lg"].forEach(size => testPropMatchesClassName({ size }, size, true, false, false));
   });
 
   it("should render inputs as circle when circle prop is true", () => {
-    testPropMatchesClassName({ circle: true }, "circle", true, false);
+    testPropMatchesClassName({ circle: true }, "circle", true, false, false);
   });
 
   it("should render in success format when the success prop is true", () => {
-    testPropMatchesClassName({ success: true }, "success", true, false);
+    testPropMatchesClassName({ success: true }, "success", false, true, false);
   });
 
   it("should render in error format when the error prop is true", () => {
-    testPropMatchesClassName({ error: true }, "error", true, false);
+    testPropMatchesClassName({ error: true }, "error", false, true, false);
   });
 
   it("should fire onChange event when a value inside inputs are changed", async () => {
@@ -101,20 +98,21 @@ describe("PinCode", () => {
   });
 
   it("should render as disabled when the disabled prop is true", async () => {
-    const { container } = render(
+    render(
       <PinCode disabled>
         <PinCode.Item />
         <PinCode.Item />
       </PinCode>,
     );
-    getAllByTestId(container, "pinCodeItem").forEach(i => {
-      expect(i).toHaveAttribute("disabled");
-    });
-
     const onChange = jest.fn();
     const value = "x";
-    await userEvent.setup().type(container.getElementsByTagName("input")[0], value);
-    expect(onChange).not.toHaveBeenCalled();
+
+    for (const i of screen.getAllByRole("textbox")) {
+      expect(i.parentElement).toHaveClass("disabled");
+      expect(i).toHaveAttribute("disabled");
+      await userEvent.type(i, value);
+      expect(onChange).not.toHaveBeenCalled();
+    }
   });
 
   it("should allow each input to have a value with max 1 length", async () => {
@@ -273,7 +271,7 @@ describe("PinCode", () => {
         <PinCode.Item />
       </PinCode>,
     );
-    expect(container.getElementsByTagName("input")[1]).toHaveClass("item_space");
+    expect(container.getElementsByTagName("input")[1].parentElement).toHaveClass("item_space");
     expect(container.getElementsByTagName("input")[1]).toHaveAttribute("disabled");
   });
 

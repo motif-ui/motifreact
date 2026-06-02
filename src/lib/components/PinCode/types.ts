@@ -28,7 +28,7 @@ export type PinCodeContextValueProps = {
   disabled?: boolean;
   readOnly?: boolean;
   focusNextInput: (index: number) => void;
-  focusPreviousInput: (index: number, value: string) => void;
+  focusPreviousInput: (index: number) => void;
   onChange: (index: number, value?: string) => void;
 };
 
