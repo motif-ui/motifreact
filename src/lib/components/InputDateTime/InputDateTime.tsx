@@ -13,10 +13,10 @@ import { LOCALE_DATE_TIME_TR_TR } from "../DateTimePicker/locale/tr_TR";
 import { InputDateTimeProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputValue } from "../Form/types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
-import { MotifIcon, MotifIconButton } from "../Motif/Icon";
-import { DateUtils } from "../../../utils/dateUtils";
+import { MotifIcon } from "../Motif/Icon";
+import { DateUtils } from "src/utils/dateUtils.ts";
 
 const pickerSizeMap = {
   xs: "xs",
@@ -136,11 +136,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
     <div ref={innerRef} className={classNames} style={style}>
       <InputText
         iconLeft={<MotifIcon name="event" size={size} />}
-        iconRight={
-          typedValue && !disabled && !readOnly ? (
-            <MotifIconButton name="cancel_outline" size={size} onClick={clearClickHandler} />
-          ) : undefined
-        }
+        buttonRight={typedValue && !disabled && !readOnly ? { name: "cancel_outline", onClick: clearClickHandler } : undefined}
         name={name}
         size={size}
         pill={pill}
