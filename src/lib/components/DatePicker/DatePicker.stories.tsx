@@ -31,8 +31,8 @@ export const Primary: Story = {
     chromatic: { disableSnapshot: true },
   },
   render: args => {
-    const value = args.value ? new Date(args.value) : undefined;
-    return <DatePicker {...args} value={value} />;
+    //const value = args.value ? new Date(args.value) : undefined;
+    return <DatePicker {...args} value={new Date(2021, 12, 28)} />;
   },
 };
 
