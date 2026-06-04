@@ -6,6 +6,7 @@ import styles from "../../Table.module.scss";
 import HeaderRow from "@/components/Table/components/Head/HeaderRow";
 import FilterColumnsRow from "@/components/Table/components/Head/FilterColumnsRow";
 import RowSelectionCell from "@/components/Table/components/Head/RowSelectionCell";
+import { getRenderableHeaderColumns } from "@/components/Table/cellSpan";
 
 type Props = {
   background: RowBackground;
@@ -21,8 +22,8 @@ const TableHead = ({ background, header }: Props) => {
       <tr>
         {selectable && <RowSelectionCell />}
         {showFixedRowNumbers && <th>#</th>}
-        {columns.map((column, index) => (
-          <HeaderCell key={"0-" + index} index={index} column={column} />
+        {getRenderableHeaderColumns(columns).map(({ column, index, colSpan }) => (
+          <HeaderCell key={"0-" + index} index={index} column={column} colSpan={colSpan} />
         ))}
       </tr>
       {filterableColumns && <FilterColumnsRow />}

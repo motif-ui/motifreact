@@ -571,3 +571,123 @@ export const RowColoring: Story = {
     );
   },
 };
+
+export const ColSpan: Story = {
+  render: () => {
+    type RowData = { fullName: string; age: number; city: string; merged: boolean };
+    const data: RowData[] = [
+      { fullName: "John Doe", age: 28, city: "New York", merged: true },
+      { fullName: "Jane Smith", age: 34, city: "Los Angeles", merged: true },
+      { fullName: "Alice Johnson", age: 29, city: "Chicago", merged: false },
+      { fullName: "Bob Williams", age: 42, city: "Houston", merged: false },
+    ];
+    const columns = [
+      {
+        title: "Personal Info",
+        dataKey: "fullName",
+        colSpan: (row: unknown) => ((row as RowData).merged ? 2 : 1),
+      },
+      {
+        title: "Age",
+        dataKey: "age",
+      },
+      {
+        title: "City",
+        dataKey: "city",
+      },
+    ];
+    return (
+      <div style={{ width: 800 }}>
+        <Table data={data} columns={columns} border="cellBorders" />
+      </div>
+    );
+  },
+};
+
+export const RowSpan: Story = {
+  render: () => {
+    type RowData = { name: string; surname: string; age: number };
+    const data = [
+      { name: "Name 1", surname: "Surname 1", age: 25 },
+      { name: "Name 1", surname: "Surname 2", age: 30 },
+      { name: "Name 2", surname: "Surname 3", age: 22 },
+      { name: "Name 2", surname: "Surname 4", age: 28 },
+    ];
+    const columns = [
+      {
+        title: "Name",
+        dataKey: "name",
+        // İsim bazlı gruplama: İlk ve üçüncü satırda 2 satır kapla diyoruz.
+        // Bir sonraki satırlar TableBody tarafından otomatik olarak atlanır.
+        rowSpan: (row: object) => {
+          const rowData = row as RowData;
+          return rowData.surname === "Surname 1" || rowData.surname === "Surname 3" ? 2 : 1;
+        },
+      },
+      { title: "Surname", dataKey: "surname" },
+      { title: "Age", dataKey: "age" },
+    ];
+    return (
+      <div style={{ width: 600 }}>
+        <Table data={data} columns={columns} border="cellBorders" />
+      </div>
+    );
+  },
+};
+
+export const FilteredRowSpanAndColSpan: Story = {
+  render: () => {
+    type RowData = {
+      department: string;
+      employee: string;
+      role: string;
+      status: "Active" | "Passive";
+      firstInGroup: boolean;
+      summary?: boolean;
+    };
+
+    const allData: RowData[] = [
+      { department: "Engineering", employee: "John", role: "Frontend", status: "Active", firstInGroup: true },
+      { department: "Engineering", employee: "Jane", role: "Backend", status: "Active", firstInGroup: false },
+      { department: "Engineering", employee: "Bob", role: "DevOps", status: "Passive", firstInGroup: false },
+      { department: "Sales", employee: "Alice", role: "Lead", status: "Active", firstInGroup: true },
+      { department: "Sales", employee: "Charlie", role: "Representative", status: "Passive", firstInGroup: false },
+      { department: "Active Team Total", employee: "3 employees", role: "", status: "Active", firstInGroup: true, summary: true },
+    ];
+
+    const data = allData.filter(row => row.status === "Active");
+    const groupSizes = data.reduce<Record<string, number>>((acc, row) => {
+      if (!row.summary) acc[row.department] = (acc[row.department] ?? 0) + 1;
+      return acc;
+    }, {});
+
+    return (
+      <div style={{ width: 800 }}>
+        <Table
+          data={data}
+          border="cellBorders"
+          filterableTable
+          columns={[
+            {
+              title: "Department",
+              dataKey: "department",
+              filter: true,
+              rowSpan: (row: object) => {
+                const rowData = row as RowData;
+                return rowData.firstInGroup && !rowData.summary ? groupSizes[rowData.department] : 1;
+              },
+            },
+            {
+              title: "Employee",
+              dataKey: "employee",
+              filter: true,
+              colSpan: (row: object) => ((row as RowData).summary ? 2 : 1),
+            },
+            { title: "Role", dataKey: "role", filter: true },
+            { title: "Status", dataKey: "status", filter: true },
+          ]}
+        />
+      </div>
+    );
+  },
+};

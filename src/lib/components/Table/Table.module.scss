@@ -132,6 +132,9 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
 
 .bordered {
   &.cellBorders {
+    table {
+      border-collapse: collapse;
+    }
     td,
     th {
       border-color: var(--theme-color-border-light-default);

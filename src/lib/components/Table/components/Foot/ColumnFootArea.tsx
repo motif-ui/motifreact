@@ -1,6 +1,7 @@
 import { ReactNode, useContext, useMemo } from "react";
 import { TableContext } from "@/components/Table/TableContext";
 import { Column, RowBackground } from "@/components/Table/types";
+import { getColSpan, getRenderableHeaderColumns } from "@/components/Table/cellSpan";
 import { getValueByChainedKey } from "../../../../../utils/utils";
 import styles from "../../Table.module.scss";
 
@@ -23,14 +24,15 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
   const colspanInfoList = useMemo(
     () =>
       columnsConsideringExtraCols?.reduceRight(
-        (acc, column) => {
+        (acc, column, index, arr) => {
+          const columnSpan = getColSpan(column, arr.length - index) ?? 1;
           if (column.footer) {
             return [{ colSpan: 0, title: column.footer.title }, ...acc];
           } else {
-            if (!acc.length) return [{ colSpan: 1 }];
+            if (!acc.length) return [{ colSpan: columnSpan }];
 
             const [lastItem, ...rest] = acc;
-            return [{ colSpan: lastItem.colSpan + 1, title: lastItem.title }, { colSpan: 0 }, ...rest];
+            return [{ colSpan: lastItem.colSpan + columnSpan, title: lastItem.title }, { colSpan: 0 }, ...rest];
           }
         },
         [] as { colSpan: number; title?: string }[],
@@ -54,18 +56,21 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
     }
   };
 
-  const footerCells = columnsConsideringExtraCols?.map((column, index) => {
-    if (!colspanInfoList?.[index] || (!column.footer && !colspanInfoList[index].colSpan)) {
-      return null;
-    }
+  const footerCells = columnsConsideringExtraCols
+    ? getRenderableHeaderColumns(columnsConsideringExtraCols).map(({ column, index }) => {
+        const info = colspanInfoList?.[index];
+        if (!info || (!column.footer && !info.colSpan)) {
+          return null;
+        }
 
-    const { colSpan, title } = colspanInfoList[index];
-    return (
-      <th key={"foot_td" + index} {...(colSpan && { colSpan })}>
-        {column.footer ? (column.footer.render?.(getFooterValue(column)) ?? getFooterValue(column)) : colSpan > 0 && title ? title : ""}
-      </th>
-    );
-  });
+        const { colSpan, title } = info;
+        return (
+          <th key={"foot_td" + index} {...(colSpan && { colSpan })}>
+            {column.footer ? (column.footer.render?.(getFooterValue(column)) ?? getFooterValue(column)) : colSpan > 0 && title ? title : ""}
+          </th>
+        );
+      })
+    : undefined;
 
   return (
     <tfoot className={styles[background]} data-testid="TableFooter">

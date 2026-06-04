@@ -38,6 +38,8 @@ export type Column = {
   footer?: Footer;
   width?: string;
   filter?: boolean;
+  colSpan?: number | ((rowData: object) => number);
+  rowSpan?: number | ((rowData: object) => number);
 };
 
 export type Sorting = {
