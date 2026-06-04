@@ -617,8 +617,6 @@ export const RowSpan: Story = {
       {
         title: "Name",
         dataKey: "name",
-        // İsim bazlı gruplama: İlk ve üçüncü satırda 2 satır kapla diyoruz.
-        // Bir sonraki satırlar TableBody tarafından otomatik olarak atlanır.
         rowSpan: (row: object) => {
           const rowData = row as RowData;
           return rowData.surname === "Surname 1" || rowData.surname === "Surname 3" ? 2 : 1;
@@ -630,63 +628,6 @@ export const RowSpan: Story = {
     return (
       <div style={{ width: 600 }}>
         <Table data={data} columns={columns} border="cellBorders" />
-      </div>
-    );
-  },
-};
-
-export const FilteredRowSpanAndColSpan: Story = {
-  render: () => {
-    type RowData = {
-      department: string;
-      employee: string;
-      role: string;
-      status: "Active" | "Passive";
-      firstInGroup: boolean;
-      summary?: boolean;
-    };
-
-    const allData: RowData[] = [
-      { department: "Engineering", employee: "John", role: "Frontend", status: "Active", firstInGroup: true },
-      { department: "Engineering", employee: "Jane", role: "Backend", status: "Active", firstInGroup: false },
-      { department: "Engineering", employee: "Bob", role: "DevOps", status: "Passive", firstInGroup: false },
-      { department: "Sales", employee: "Alice", role: "Lead", status: "Active", firstInGroup: true },
-      { department: "Sales", employee: "Charlie", role: "Representative", status: "Passive", firstInGroup: false },
-      { department: "Active Team Total", employee: "3 employees", role: "", status: "Active", firstInGroup: true, summary: true },
-    ];
-
-    const data = allData.filter(row => row.status === "Active");
-    const groupSizes = data.reduce<Record<string, number>>((acc, row) => {
-      if (!row.summary) acc[row.department] = (acc[row.department] ?? 0) + 1;
-      return acc;
-    }, {});
-
-    return (
-      <div style={{ width: 800 }}>
-        <Table
-          data={data}
-          border="cellBorders"
-          filterableTable
-          columns={[
-            {
-              title: "Department",
-              dataKey: "department",
-              filter: true,
-              rowSpan: (row: object) => {
-                const rowData = row as RowData;
-                return rowData.firstInGroup && !rowData.summary ? groupSizes[rowData.department] : 1;
-              },
-            },
-            {
-              title: "Employee",
-              dataKey: "employee",
-              filter: true,
-              colSpan: (row: object) => ((row as RowData).summary ? 2 : 1),
-            },
-            { title: "Role", dataKey: "role", filter: true },
-            { title: "Status", dataKey: "status", filter: true },
-          ]}
-        />
       </div>
     );
   },
