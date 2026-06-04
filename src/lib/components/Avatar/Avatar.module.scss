@@ -44,7 +44,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
       @include font($fontType, $fontSize, $fontWeight);
     }
     &.icon span {
-      font-size: var(--base-sizing-#{$iconSize});
+      --mtf-icon-size: var(--base-sizing-#{$iconSize});
     }
   }
 }

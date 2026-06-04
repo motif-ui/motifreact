@@ -46,16 +46,15 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 
   .stepIcon {
     .icon & {
-      font-size: var(--base-sizing-28x);
+      --mtf-icon-size: var(--base-sizing-28x);
     }
     .number & {
-      font-size: var(--base-sizing-16x);
+      --mtf-icon-size: var(--base-sizing-16x);
     }
   }
 
   .dotStatusIcon {
     pointer-events: none;
-    font-size: var(--base-sizing-22x);
     width: var(--base-sizing-12x);
     height: var(--base-sizing-12x);
     @include flex-center;

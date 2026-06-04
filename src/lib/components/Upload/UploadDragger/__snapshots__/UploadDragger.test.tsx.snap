@@ -10,7 +10,7 @@ exports[`UploadDragger should be rendered with only required props 1`] = `
       class="dragArea"
     >
       <span
-        class="Root md secondary motifIconsDefault dragIcon"
+        class="Root secondary motifIconsDefault dragIcon"
         lang="en"
         translate="no"
       >

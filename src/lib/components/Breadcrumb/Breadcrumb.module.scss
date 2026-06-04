@@ -34,13 +34,13 @@
     .right-icon {
       margin-left: var(--base-sizing-8x);
       color: var(--theme-color-text-base-caption-light);
-      font-size: var(--base-sizing-14x);
+      --mtf-icon-size: var(--base-sizing-14x);
     }
   }
 
   .homepage-icon {
     color: var(--theme-color-text-primary-default);
     margin-right: var(--base-sizing-8x);
-    font-size: var(--base-sizing-22x);
+    --mtf-icon-size: var(--base-sizing-22x);
   }
 }

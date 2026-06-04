@@ -4,13 +4,16 @@ $variants: "primary", "secondary", "info", "success", "warning", "danger";
 $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
 
 .Root {
-  display: inline-flex;
+  display: inline-flex !important;
   vertical-align: top;
   user-select: none;
+  font-size: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
+  width: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
+  height: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
 
   span,
   i {
-    font-size: inherit;
+    font-size: inherit !important;
     line-height: 1;
     &::before {
       vertical-align: bottom;
@@ -30,7 +33,7 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 
 @each $size, $fontSize in $sizes {
   .#{$size} {
-    font-size: var(--base-sizing-#{$fontSize});
+    --mtf-icon-size: var(--base-sizing-#{$fontSize});
   }
 }
 
