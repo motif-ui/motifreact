@@ -11,7 +11,7 @@ exports[`InputDate should be rendered with only required props and should have d
       data-testid="inputItem"
     >
       <span
-        class="Root md motifIconsDefault icon"
+        class="Root motifIconsDefault icon"
         lang="en"
         translate="no"
       >
