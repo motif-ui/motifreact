@@ -14,8 +14,8 @@ import { StepperContext } from "./StepperContext";
 const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) => {
   const {
     children,
-    activeStep: controlledStep,
     defaultActiveStep = 0,
+    hideNavigation,
     showCount,
     variant = "primary",
     stepType = "number",
@@ -45,9 +45,8 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   const stepItems = Children.toArray(children) as ReactElement<StepperItemProps>[];
   const count = stepItems.length;
   const disabledSteps = stepItems.map(item => !!item.props.disabled);
-  const isControlled = controlledStep !== undefined;
 
-  const rawActiveStep = externalState ? externalState.activeStep : isControlled ? controlledStep : internalStep;
+  const rawActiveStep = externalState ? externalState.activeStep : internalStep;
   const resolvedStep = disabledSteps.findIndex((d, i) => i > rawActiveStep && !d);
   const activeStep = externalState && disabledSteps[rawActiveStep] && resolvedStep !== -1 ? resolvedStep : rawActiveStep;
 
@@ -55,15 +54,11 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
     (index: number) => {
       if (!disabledSteps[index]) {
         const clamped = Math.max(0, Math.min(index, count - 1));
-        if (externalState) {
-          externalState.goToStep(clamped);
-        } else if (!isControlled) {
-          setInternalStep(clamped);
-        }
+        externalState ? externalState.goToStep(clamped) : setInternalStep(clamped);
         onStepChange?.(clamped);
       }
     },
-    [disabledSteps, count, externalState, isControlled, onStepChange],
+    [disabledSteps, count, externalState, onStepChange],
   );
 
   const goToNextStep = useCallback(() => {
@@ -111,12 +106,14 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
         {activeContent && (
           <div className={styles.stepContent}>
             <div>{activeContent}</div>
-            <StepperNavigation
-              onFinishClick={onFinishClick}
-              finishButtonLabel={finishButtonLabel}
-              onNextClick={onNextClick}
-              onPrevClick={onPrevClick}
-            />
+            {!hideNavigation && (
+              <StepperNavigation
+                onFinishClick={onFinishClick}
+                finishButtonLabel={finishButtonLabel}
+                onNextClick={onNextClick}
+                onPrevClick={onPrevClick}
+              />
+            )}
           </div>
         )}
       </div>

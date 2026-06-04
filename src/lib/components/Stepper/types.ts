@@ -26,9 +26,9 @@ export type StepperDefaultableProps = {
 };
 
 export type StepperProps = {
-  activeStep?: number;
-  onStepClick?: (index: number) => void;
   defaultActiveStep?: number;
+  hideNavigation?: boolean;
+  onStepClick?: (index: number) => void;
   onStepChange?: (index: number) => void;
   onFinishClick?: () => void;
   onNextClick?: () => void;

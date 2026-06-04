@@ -3,6 +3,13 @@ import * as Stepper from "./Stepper.stories";
 
 <Meta of={Stepper} />
 
+### Controlled vs Uncontrolled
+
+Stepper component can be used in both controlled and uncontrolled modes. By default, it operates in uncontrolled mode,
+where it manages its own state internally. However, if you want to have more control over the stepper's behavior, you
+can use it in controlled mode by using the `useStepper` hook. This allows you to manage the state of the stepper and
+have more control over its behavior.
+
 ### useStepper
 
 useStepper hook is designed to extend the functionality of Stepper component. It provides necessary props/functions for:
