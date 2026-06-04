@@ -18,9 +18,13 @@ describe("Table", () => {
     const getSelectAllCheckbox = () => getCheckboxes()[0].firstElementChild as HTMLInputElement;
     const getPaginationBar = () => queryByTestId("pagination") as HTMLDivElement;
     const getSortButton = () => container.getElementsByClassName("sortButton")[0];
-    const getFirstRow = () => getTableBody().firstElementChild as HTMLTableRowElement;
     const getTableBody = () => getByTestId("TableBody") as HTMLDivElement;
+    const getFirstRow = () => getTableBody().firstElementChild as HTMLTableRowElement;
     const getCountText = () => getByTestId("FooterForNumbers").firstElementChild as HTMLDivElement;
+    const getHeaderCells = () => within(getByTestId("TableHead").firstElementChild as HTMLTableRowElement).getAllByRole("columnheader");
+    const getFilterCells = () => (getByTestId("TableHead").lastElementChild as HTMLTableRowElement).querySelectorAll("th");
+    const getBodyCells = () => within(getFirstRow()).getAllByRole("cell");
+    const getFooterCells = () => within(getByTestId("TableFooter").firstElementChild as HTMLTableRowElement).getAllByRole("columnheader");
 
     return {
       ...result,
@@ -33,6 +37,10 @@ describe("Table", () => {
       getCountText,
       getTableBody,
       getTableContainer,
+      getHeaderCells,
+      getFilterCells,
+      getBodyCells,
+      getFooterCells,
     };
   };
 
@@ -684,5 +692,158 @@ describe("Table", () => {
     expect(getTableContainer()).toHaveClass("fluid");
     rerender(<Table columns={cols} data={data} />);
     expect(getTableContainer()).not.toHaveClass("fluid");
+  });
+
+  it("should render static colSpan across header, filter, body and footer cells", () => {
+    const { queryByText, getHeaderCells, getFilterCells, getBodyCells, getFooterCells } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", colSpan: 2, filter: true },
+          { title: "Skipped", dataKey: "skipped", filter: true, footer: { type: "sum" } },
+          { title: "Amount", dataKey: "amount", footer: { type: "sum" } },
+        ]}
+        data={[{ name: "John", skipped: 99, amount: 10 }]}
+      />,
+    );
+
+    const headerCells = getHeaderCells();
+    expect(headerCells).toHaveLength(2);
+    expect(headerCells[0]).toHaveAttribute("colspan", "2");
+    expect(headerCells[0]).toHaveTextContent("Name");
+    expect(headerCells[1]).toHaveTextContent("Amount");
+    expect(queryByText("Skipped")).not.toBeInTheDocument();
+
+    const filterCells = getFilterCells();
+    expect(filterCells).toHaveLength(2);
+    expect(filterCells[0]).toHaveAttribute("colspan", "2");
+
+    const bodyCells = getBodyCells();
+    expect(bodyCells).toHaveLength(2);
+    expect(bodyCells[0]).toHaveAttribute("colspan", "2");
+    expect(bodyCells[0]).toHaveTextContent("John");
+
+    const footerCells = getFooterCells();
+    expect(footerCells).toHaveLength(2);
+    expect(footerCells[0]).toHaveAttribute("colspan", "2");
+    expect(footerCells[0]).toHaveTextContent("");
+    expect(footerCells[1]).toHaveTextContent("10");
+  });
+
+  it("should render static rowSpan attribute in cells and skip covered rows", () => {
+    const { getFirstRow, getTableBody } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", rowSpan: 2 },
+          { title: "Age", dataKey: "age" },
+        ]}
+        data={[
+          { name: "John", age: 30 },
+          { name: "Jane", age: 25 },
+        ]}
+      />,
+    );
+
+    const firstRowCells = within(getFirstRow()).getAllByRole("cell");
+    expect(firstRowCells[0]).toHaveAttribute("rowspan", "2");
+
+    const secondRowCells = within(getTableBody().children[1] as HTMLTableRowElement).getAllByRole("cell");
+    expect(secondRowCells).toHaveLength(1);
+    expect(secondRowCells[0]).toHaveTextContent("25");
+  });
+
+  it("should not render cells covered by previous colspan", () => {
+    const { getBodyCells } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", colSpan: 2 },
+          { title: "Skipped", dataKey: "skipped", colSpan: 2 },
+          { title: "Status", dataKey: "status" },
+        ]}
+        data={[{ name: "John", skipped: "should not render", status: "Active" }]}
+      />,
+    );
+
+    const cells = getBodyCells();
+    expect(cells).toHaveLength(2);
+    expect(cells[0]).toHaveTextContent("John");
+    expect(cells[1]).toHaveTextContent("Active");
+  });
+
+  it("should render dynamic colSpan in body cells only and recalculate it when data changes", () => {
+    const getNameColSpan = (rowData: object) => ("name" in rowData && rowData.name === "John" ? 2 : 1);
+    const { getHeaderCells, getBodyCells, rerender } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", colSpan: getNameColSpan },
+          { title: "Age", dataKey: "age" },
+        ]}
+        data={[{ name: "John", age: 30 }]}
+        reflectDataChanges
+      />,
+    );
+
+    expect(getHeaderCells()).toHaveLength(2);
+    expect(getHeaderCells()[0]).not.toHaveAttribute("colspan");
+
+    let cells = getBodyCells();
+    expect(cells.length).toBe(1);
+    expect(cells[0]).toHaveAttribute("colspan", "2");
+
+    rerender(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", colSpan: getNameColSpan },
+          { title: "Age", dataKey: "age" },
+        ]}
+        data={[{ name: "Jane", age: 25 }]}
+        reflectDataChanges
+      />,
+    );
+    cells = getBodyCells();
+    expect(cells.length).toBe(2);
+    expect(cells[0]).not.toHaveAttribute("colspan");
+  });
+
+  it("should clamp spans to the available columns and rows", () => {
+    const { getTableBody, getHeaderCells, getBodyCells } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", colSpan: 20, rowSpan: 20 },
+          { title: "Age", dataKey: "age" },
+        ]}
+        data={[
+          { name: "John", age: 30 },
+          { name: "Jane", age: 25 },
+        ]}
+      />,
+    );
+
+    const headerCells = getHeaderCells();
+    expect(headerCells).toHaveLength(1);
+    expect(headerCells[0]).toHaveAttribute("colspan", "2");
+
+    const firstRowCells = getBodyCells();
+    expect(firstRowCells).toHaveLength(1);
+    expect(firstRowCells[0]).toHaveAttribute("colspan", "2");
+    expect(firstRowCells[0]).toHaveAttribute("rowspan", "2");
+
+    expect(within(getTableBody().children[1] as HTMLTableRowElement).queryAllByRole("cell")).toHaveLength(0);
+  });
+
+  it("should handle invalid span values", () => {
+    const { getBodyCells } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", colSpan: Number.NaN, rowSpan: -1 },
+          { title: "Age", dataKey: "age" },
+        ]}
+        data={[{ name: "John", age: 30 }]}
+      />,
+    );
+
+    const cells = getBodyCells();
+    expect(cells).toHaveLength(2);
+    expect(cells[0]).not.toHaveAttribute("colspan");
+    expect(cells[0]).not.toHaveAttribute("rowspan");
   });
 });
