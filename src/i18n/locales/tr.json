@@ -11,6 +11,9 @@
     "upload": "Yükle",
     "selectPlease": "Lütfen seçiniz",
     "noData": "Veri bulunamadı...",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "finish": "Tamamla",
     "x_message": "{{count}} mesaj"
   },
   "form": {

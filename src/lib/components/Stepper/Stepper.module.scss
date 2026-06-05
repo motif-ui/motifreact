@@ -15,6 +15,13 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 
 .stepList {
   display: flex;
+  justify-content: center;
+}
+
+.stepNavigation {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--base-sizing-48x);
 }
 
 .stepItem {
@@ -23,6 +30,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
   .stepHeader {
     display: flex;
     align-items: center;
+    text-align: center;
     &.item-vertical {
       flex-direction: column;
       gap: var(--base-sizing-4x);
@@ -96,13 +104,24 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
   }
 }
 
+.stepContent {
+  display: flex;
+  flex-direction: column;
+}
+
 .vertical {
   display: grid;
+  grid-template-columns: max-content 1fr;
   row-gap: var(--base-sizing-8x);
 
   .stepList {
     grid-row: 2;
     flex-direction: column;
+  }
+
+  .stepNavigation {
+    align-self: flex-end;
+    gap: var(--base-sizing-8x);
   }
 
   .stepItem {
@@ -126,6 +145,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 
   .stepContent {
     grid-row: 2;
+    justify-content: space-between;
   }
 }
 
