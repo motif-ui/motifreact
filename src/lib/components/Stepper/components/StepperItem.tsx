@@ -29,12 +29,16 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
       ) : (
         <span className={`${styles.stepIndicator} ${styles.stepDot}`} />
       )
-    ) : stepType !== "text" && (status === "completed" || status === "error") ? (
-      <Icon name={status === "completed" ? "check" : "priority_high"} className={`${styles.stepIndicator} ${styles.stepIcon}`} />
-    ) : stepType === "icon" ? (
-      <GlobalIconWrapper icon={icon} className={`${styles.stepIndicator} ${styles.stepIcon}`} />
     ) : (
-      stepType === "number" && <span className={`${styles.stepIndicator} ${styles.stepNumber}`}>{index + 1}</span>
+      <span className={styles.stepIndicator}>
+        {stepType !== "text" && (status === "completed" || status === "error") ? (
+          <Icon className={styles.stepIcon} name={status === "completed" ? "check" : "priority_high"} />
+        ) : stepType === "icon" ? (
+          <GlobalIconWrapper icon={icon} className={styles.stepIcon} />
+        ) : (
+          stepType === "number" && <span className={styles.stepNumber}>{index + 1}</span>
+        )}
+      </span>
     );
 
   return (

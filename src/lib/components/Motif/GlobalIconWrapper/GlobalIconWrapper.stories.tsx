@@ -27,13 +27,11 @@ import { iconObjects } from "../../../../../.storybook/utils.tsx";
 
 const meta: Meta = {
   title: "Chromatic/GlobalIconWrapper",
-  tags: ["!autodocs", "!dev"],
+  //tags: ["!autodocs", "!dev"],
   parameters: { layout: "padded" },
   decorators: [
     Story => (
-      <div style={{ width: 450, display: "flex", flexDirection: "column", gap: 30 }}>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+      <div style={{ width: 250, display: "flex", flexDirection: "column", gap: 30 }}>
         <Story />
       </div>
     ),
@@ -43,10 +41,12 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
+const iconTypes = Object.values(iconObjects);
+
 export const AccordionIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Accordion title="String icon" key={"ac" + idx} icon={iconItem} />
       ))}
     </>
@@ -56,7 +56,7 @@ export const AccordionIcons: Story = {
 export const AvatarIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Avatar variant="primary" size="xxl" key={"av" + idx} icon={iconItem} />
       ))}
     </>
@@ -66,7 +66,7 @@ export const AvatarIcons: Story = {
 export const BadgeIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Badge variant="danger" align="bottom-right" key={"ba" + idx} icon={iconItem}>
           <button>btn</button>
         </Badge>
@@ -78,7 +78,7 @@ export const BadgeIcons: Story = {
 export const BreadcrumbIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Breadcrumb items={[{ label: "Products", path: "/" }, { label: "Current" }]} key={"bc" + idx} homeIcon={iconItem} />
       ))}
     </>
@@ -88,7 +88,7 @@ export const BreadcrumbIcons: Story = {
 export const BusinessCardIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <BusinessCard variant="primary" title="Title" outline key={"buc" + idx} icon={iconItem} />
       ))}
     </>
@@ -98,7 +98,7 @@ export const BusinessCardIcons: Story = {
 export const ButtonIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Button key={"btn" + idx} icon={iconItem} label="Button" variant="primary" />
       ))}
     </>
@@ -108,7 +108,7 @@ export const ButtonIcons: Story = {
 export const CardIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Card
           key={"cdf" + idx}
           title="Full Card"
@@ -125,7 +125,7 @@ export const CardIcons: Story = {
 export const ChipIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Chip key={"ch" + idx} icon={iconItem} label="Chip" />
       ))}
     </>
@@ -135,7 +135,7 @@ export const ChipIcons: Story = {
 export const DataViewIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <DataView key={"dv" + idx} cols={1}>
           <DataView.Item label="Data" value="Item" icon={iconItem} />
         </DataView>
@@ -147,7 +147,7 @@ export const DataViewIcons: Story = {
 export const DropdownIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Dropdown key={"dd" + idx} label="Dropdown" icon={iconItem} items={[{ label: "Item 1" }]} />
       ))}
     </>
@@ -157,7 +157,7 @@ export const DropdownIcons: Story = {
 export const IconButtonIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <IconButton key={"ib" + idx} name={iconItem} size="xxl" />
       ))}
     </>
@@ -167,8 +167,8 @@ export const IconButtonIcons: Story = {
 export const InputPasswordIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
-        <InputPassword key={"ip" + idx} icon={iconItem} toggleMask size="lg" placeholder={`InputPassword ${idx + 1}`} />
+      {iconTypes.map((iconItem, idx) => (
+        <InputPassword key={"ip" + idx} icon={iconItem} placeholder="Placeholder" toggleMask size="lg" />
       ))}
     </>
   ),
@@ -180,13 +180,7 @@ export const InputTextIcons: Story = {
     return (
       <>
         {icons.map((iconItem, idx) => (
-          <InputText
-            key={"it" + idx}
-            iconLeft={iconItem}
-            iconRight={icons[(idx + 1) % icons.length]}
-            placeholder={`InputText ${idx + 1}`}
-            size="lg"
-          />
+          <InputText key={"it" + idx} placeholder="Placeholder" iconLeft={iconItem} iconRight={icons[(idx + 1) % icons.length]} size="lg" />
         ))}
       </>
     );
@@ -196,8 +190,8 @@ export const InputTextIcons: Story = {
 export const LinkIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
-        <Link key={"lnk" + idx} url="#" icon={iconItem} label="Link" />
+      {iconTypes.map((iconItem, idx) => (
+        <Link key={"lnk" + idx} url="#" icon={iconItem} label="Link" iconPosition="left" />
       ))}
     </>
   ),
@@ -206,9 +200,9 @@ export const LinkIcons: Story = {
 export const ListViewIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <ListView key={"lv" + idx}>
-          <ListView.Item title="Item" icon={iconItem} iconRight={iconItem} />
+          <ListView.Item title="List Item" icon={iconItem} iconRight={iconItem} />
         </ListView>
       ))}
     </>
@@ -216,44 +210,32 @@ export const ListViewIcons: Story = {
 };
 
 export const MenuListIcons: Story = {
-  render: () => {
-    const items = Object.values(iconObjects).map((icon, idx) => ({ label: `Item ${idx + 1}`, icon }));
-    return <MenuList items={items} />;
-  },
+  render: () => <MenuList items={iconTypes.map(icon => ({ label: "Item", icon }))} />,
 };
 
 export const NavBarIcons: Story = {
-  render: () => {
-    const mainMenu = {
-      items: [
-        { label: "Home", icon: "home" },
-        { label: "Contact", icon: "mail" },
-      ],
-      subMenuDirection: "right" as const,
-    };
-    return (
-      <>
-        {Object.values(iconObjects).map((iconItem, idx) => (
-          <NavBar
-            key={"nb" + idx}
-            button={{ label: "Login", icon: iconItem }}
-            mainMenu={mainMenu}
-            actionMenu={{
-              items: [{ label: "User", icon: iconItem, items: [{ label: "Profile" }, { label: "Logout", icon: iconItem }] }],
-              subMenuDirection: "left",
-            }}
-          />
-        ))}
-      </>
-    );
-  },
+  render: () => (
+    <>
+      {iconTypes.map((iconItem, idx) => (
+        <NavBar
+          style={{ width: 1100 }}
+          key={"nb" + idx}
+          button={{ label: "Login", icon: iconItem }}
+          mainMenu={{ items: [{ label: "Home", icon: iconItem }] }}
+          actionMenu={{ items: [{ label: "User", icon: iconItem }] }}
+        />
+      ))}
+    </>
+  ),
 };
 
 export const PanelIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
-        <Panel key={"pl" + idx} titleIcon={iconItem} title="Panel" />
+      {iconTypes.map((iconItem, idx) => (
+        <Panel key={"pl" + idx} titleIcon={iconItem} title="Panel" titleSize="lg">
+          <Panel.Title title="Another Title" icon={iconItem} size="lg" />
+        </Panel>
       ))}
     </>
   ),
@@ -262,8 +244,8 @@ export const PanelIcons: Story = {
 export const SelectIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
-        <Select key={"sel" + idx} icon={iconItem} data={[{ label: "Option", value: "option" }]} />
+      {iconTypes.map((iconItem, idx) => (
+        <Select key={"sel" + idx} icon={iconItem} data={[{ label: "", value: "option" }]} />
       ))}
     </>
   ),
@@ -271,7 +253,7 @@ export const SelectIcons: Story = {
 
 export const StepperIcons: Story = {
   render: () => {
-    const stepContent = Object.values(iconObjects).map((icon, idx) => ({ icon, idx }));
+    const stepContent = iconTypes.map((icon, idx) => ({ icon, idx }));
     return (
       <Stepper stepType="icon">
         {stepContent.map(step => (
@@ -285,33 +267,22 @@ export const StepperIcons: Story = {
 };
 
 export const TabIcons: Story = {
-  render: () => {
-    const tabs = Object.values(iconObjects).map((icon, idx) => ({ id: `tab${idx}`, title: `Tab ${idx + 1}`, icon }));
-    return (
-      <Tab tabs={tabs}>
-        {tabs.map(tab => (
-          <Tab.Panel key={tab.id} id={tab.id} />
-        ))}
-      </Tab>
-    );
-  },
+  render: () => <Tab tabs={iconTypes.map((icon, idx) => ({ id: `tab${idx}`, title: `Tab ${idx + 1}`, icon }))} style={{ width: 500 }} />,
 };
 
 export const TimelineIcons: Story = {
-  render: () => {
-    const items = Object.values(iconObjects).map((icon, idx) => ({ title: `Timeline ${idx + 1}`, icon }));
-    return <Timeline items={items} markerType="icon" />;
-  },
+  render: () => <Timeline items={iconTypes.map((icon, idx) => ({ title: `Timeline ${idx + 1}`, icon }))} markerType="icon" />,
 };
 
 export const ToastIcons: Story = {
   render: () => (
     <>
-      {Object.values(iconObjects).map((iconItem, idx) => (
+      {iconTypes.map((iconItem, idx) => (
         <Toast
           key={"to" + idx}
           id={`toast-${idx}`}
           icon={iconItem}
+          title="Toast"
           content="Toast message"
           variant="success"
           position="topRight"
