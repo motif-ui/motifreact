@@ -3,7 +3,7 @@ import { TableContext } from "@/components/Table/TableContext";
 import styles from "../../Table.module.scss";
 import Skeleton from "@/components/Skeleton";
 import DataRow from "@/components/Table/components/Body/DataRow";
-import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
+import { sanitizeModuleClasses } from "src/utils/cssUtils";
 
 type Props = {
   loading?: boolean;
@@ -13,9 +13,9 @@ type Props = {
 
 const TableBody = memo((props: Props) => {
   const { loading, emptyMessage, striped } = props;
-  const { visibleRows, numberOfVisibleColumns, rowColorCallback } = useContext(TableContext);
+  const { visibleRows, numberOfVisibleColumns } = useContext(TableContext);
 
-  const className = sanitizeModuleClasses(styles, striped && !rowColorCallback && "striped");
+  const className = sanitizeModuleClasses(styles, striped && "striped");
   return (
     <tbody className={className} data-testid="TableBody">
       {loading ? (

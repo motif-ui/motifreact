@@ -71,15 +71,20 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
       word-break: break-all;
       hyphens: auto;
     }
-    &.striped {
-      tr:nth-child(even) {
-        background-color: var(--theme-color-surface-base-base2);
-      }
+    &.striped:where(tr:nth-child(even)) {
+      background-color: var(--theme-color-surface-base-base2);
     }
 
-    tr.selected {
-      @include transition(background-color);
-      background-color: var(--theme-color-surface-primary-negative);
+    tr {
+      &.selected {
+        @include transition(background-color);
+        background-color: var(--theme-color-surface-primary-negative);
+      }
+      @each $variant in $row-color-variants {
+        &.#{$variant} {
+          background-color: var(--theme-color-surface-#{$variant}-negative);
+        }
+      }
     }
   }
 
@@ -121,12 +126,6 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
 
   &.hoverable tbody tr:hover {
     background-color: var(--theme-color-surface-light-default);
-  }
-}
-
-@each $variant in $row-color-variants {
-  .#{$variant} {
-    background-color: var(--theme-color-surface-#{$variant}-negative);
   }
 }
 
