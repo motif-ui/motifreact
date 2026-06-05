@@ -12,10 +12,9 @@ import { LOCALE_TIME_PICKER_TR_TR } from "@/components/TimePicker/locale/tr_TR";
 import { InputTimeProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputValue } from "@/components/Form/types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
-import MotifIconButton from "@/components/Motif/Icon/MotifIconButton";
 
 const pickerSizeMap = {
   xs: "xs",
@@ -131,11 +130,7 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     <div ref={innerRef} className={classNames} style={style}>
       <InputText
         iconLeft={<MotifIcon name="schedule" size={size} />}
-        iconRight={
-          itemValue && !disabled && !readOnly ? (
-            <MotifIconButton name="cancel_outline" size={size} onClick={() => clearClickHandler(true)} />
-          ) : undefined
-        }
+        buttonRight={itemValue && !disabled && !readOnly ? { name: "cancel_outline", onClick: () => clearClickHandler(true) } : undefined}
         name={name}
         size={size}
         pill={pill}
