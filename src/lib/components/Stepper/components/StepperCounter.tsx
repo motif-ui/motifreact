@@ -1,9 +1,9 @@
-import { useContext } from "react";
 import styles from "../Stepper.module.scss";
-import { StepperContext } from "../StepperContext";
+import { useContext } from "react";
+import { StepperContext } from "@/components/Stepper/StepperContext.tsx";
 
-const StepperCounter = ({ activeStep }: { activeStep: number }) => {
-  const { count, variant } = useContext(StepperContext);
+const StepperCounter = () => {
+  const { activeStep, count, variant } = useContext(StepperContext)!;
 
   return (
     <span className={`${styles.stepCount} ${styles[`count-${variant}`]}`}>
