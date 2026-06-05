@@ -71,8 +71,10 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
       word-break: break-all;
       hyphens: auto;
     }
-    &.striped:where(tr:nth-child(even)) {
-      background-color: var(--theme-color-surface-base-base2);
+    &.striped {
+      :where(tr:nth-child(even)) {
+        background-color: var(--theme-color-surface-base-base2);
+      }
     }
 
     tr {
