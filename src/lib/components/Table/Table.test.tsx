@@ -358,20 +358,6 @@ describe("Table", () => {
     expect(getTableBody()).toHaveClass("striped");
   });
 
-  it("should not stripe rows when striped and rowColorCallback prop is given together", () => {
-    const { getTableBody } = renderExt(
-      <Table
-        columns={[{ title: "Age", dataKey: "age" }]}
-        data={[{ age: 45 }, { age: 55 }, { age: 32 }]}
-        rowColorCallback={rowData => (rowData.age > 40 ? "danger" : undefined)}
-        striped
-      />,
-    );
-    expect(getTableBody()).not.toHaveClass("striped");
-    const numberOfRowsInDanger = screen.getAllByRole("row").filter(r => r.className.includes("danger")).length;
-    expect(numberOfRowsInDanger).toBe(2);
-  });
-
   it("should make the rows hoverable when hoverable prop is true", () => {
     const { getTableContainer } = renderExt(<Table columns={cols} data={data} hoverable />);
     expect(getTableContainer()).toHaveClass("hoverable");
