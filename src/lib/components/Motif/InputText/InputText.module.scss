@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, horizontalPadding, verticalPadding, loaderRadius, iconFontSize
-$sizes: (("xs", "8x", "4x", "18x", "18x"), ("sm", "12x", "6x", "20x", "20x"), ("md", "16x", "8x", "22x", "22x"), ("lg", "20x", "10x", "24x", "24x"));
+// size, horizontalPadding, verticalPadding, loaderRadius
+$sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8x", "22x"), ("lg", "20x", "10x", "24x"));
 
 .Root {
   position: relative;
@@ -113,17 +113,13 @@ $sizes: (("xs", "8x", "4x", "18x", "18x"), ("sm", "12x", "6x", "20x", "20x"), ("
   }
 }
 
-@each $size, $paddingH, $paddingV, $loaderRadius, $iconFontSize in $sizes {
+@each $size, $paddingH, $paddingV, $loaderRadius in $sizes {
   .#{$size} {
     gap: var(--base-sizing-#{$paddingV});
     padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
 
     input {
       @include font("body", $size);
-    }
-
-    .icon {
-      font-size: var(--base-sizing-#{$iconFontSize});
     }
 
     .loader {

@@ -90,7 +90,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   return (
     <div className={classNames} ref={ref} data-testid="inputItem" style={style}>
-      {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.icon} />}
+      {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.icon} size={size} />}
       <input
         id={id}
         type={type}
@@ -121,7 +121,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         </svg>
       ) : (
         <>
-          {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.icon} />}
+          {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.icon} size={size} />}
           {buttonRight && <MotifIconButton name={buttonRight.name} className={styles.icon} size={size} onClick={buttonRight.onClick} />}
           {clearable && <MotifIconButton name="cancel_outline" disabled={disabled || readOnly} size={size} onClick={clearHandler} />}
         </>

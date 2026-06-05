@@ -131,7 +131,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
         onClick={inputOnClickHandler}
         tabIndex={0}
       >
-        {icon && <GlobalIconWrapper icon={icon} className={styles.iconLeft} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.iconLeft} size={size} />}
         <div className={styles.inputTextAndItemsContainer}>
           {multiple &&
             filterable &&

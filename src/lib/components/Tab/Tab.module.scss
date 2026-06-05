@@ -64,10 +64,6 @@
     @include font;
   }
 
-  .tabItem-icon {
-    font-size: var(--base-sizing-22x);
-  }
-
   @include focus-ring;
   @include transition(border-color background-color);
   * {

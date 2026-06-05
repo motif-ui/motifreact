@@ -3,7 +3,7 @@ import GlobalIconWrapper from "../../../Motif/GlobalIconWrapper/GlobalIconWrappe
 import { MotifIcon } from "@/components/Motif/Icon";
 import { type MouseEvent, useId } from "react";
 import SubMenu from "./SubMenu";
-import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
+import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
 import { MenuItemProps } from "./types";
 import { useNavBarMenuContext } from "@/components/NavBar/NavBarContext";
 
@@ -21,7 +21,7 @@ const MenuItem = (props: MenuItemProps) => {
   return (
     <li role="none" className={className}>
       <a role="menuitem" onClick={clickHandler} {...{ href, target }}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
+        {icon && <GlobalIconWrapper icon={icon} size="md" />}
         <span className={styles.label}>{label}</span>
         {items && <MotifIcon name="keyboard_arrow_down" size="md" className={styles.dropdown} />}
       </a>

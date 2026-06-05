@@ -57,7 +57,7 @@ const MenuItem = (props: MenuItemCommonProps) => {
 
   const menuItemElement = (
     <a className={classNames} {...itemAttributes}>
-      {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
+      {icon && <GlobalIconWrapper icon={icon} size="md" />}
       {(subMenuItem || !collapsed) && (
         <>
           <span className={styles.label}>

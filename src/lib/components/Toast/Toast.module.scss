@@ -46,7 +46,6 @@ $animation-keyframes: (
 
   .icon {
     align-self: center;
-    font-size: var(--base-sizing-32x);
   }
 }
 
@@ -57,10 +56,6 @@ $animation-keyframes: (
     border-left-color: var(--theme-color-text-#{$color}-active);
 
     .title {
-      color: var(--theme-color-text-#{$color}-active);
-    }
-
-    .icon {
       color: var(--theme-color-text-#{$color}-active);
     }
   }

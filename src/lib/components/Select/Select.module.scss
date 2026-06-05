@@ -1,11 +1,11 @@
 @use "@styles" as *;
 
 $sizes: (
-  //sizeName, paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, loaderTop, selectedSize, selectedIconSize, iconLeftSize
-  ("xs", "4x", "8x", "4x", "160x", "18x", 1, "xs", "12x", "18x"),
-  ("sm", "6x", "12x", "6x", "190x", "20x", -2, "xs", "16x", "20x"),
-  ("md", "8x", "16x", "8x", "190x", "22x", -1, "sm", "18x", "22x"),
-  ("lg", "10x", "20x", "10x", "256x", "24x", 0, "md", "20x", "24x")
+  //sizeName, paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, loaderTop, selectedSize, selectedIconSize
+  ("xs", "4x", "8x", "4x", "160x", "18x", 1, "xs", "12x"),
+  ("sm", "6x", "12x", "6x", "190x", "20x", -2, "xs", "16x"),
+  ("md", "8x", "16x", "8x", "190x", "22x", -1, "sm", "18x"),
+  ("lg", "10x", "20x", "10x", "256x", "24x", 0, "md", "20x")
 );
 
 .Root {
@@ -176,7 +176,7 @@ $sizes: (
   }
 }
 
-@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $selectedSize, $selectedIconSize, $iconLeftSize in $sizes {
+@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $selectedSize, $selectedIconSize in $sizes {
   .#{$size} {
     .input {
       padding: var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingH});
@@ -198,10 +198,6 @@ $sizes: (
 
     .closeIcon {
       --mtf-icon-size: var(--base-sizing-#{$selectedIconSize});
-    }
-
-    .iconLeft {
-      font-size: var(--base-sizing-#{$iconLeftSize});
     }
 
     .dropdown {

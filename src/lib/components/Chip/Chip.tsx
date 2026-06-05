@@ -35,7 +35,7 @@ const Chip = (props: PropsWithRef<ChipProps, HTMLDivElement>) => {
   return (
     !deleted && (
       <div className={classNames} data-testid="chipItem" ref={ref} style={style}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles["icon-left"]} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles["icon-left"]} size={size} />}
         <span className={styles.label}>{label}</span>
         {closable && <MotifIconButton name="cancel" size={size} onClick={deleteHandler} className={styles["icon-close"]} />}
       </div>

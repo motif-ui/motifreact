@@ -29,7 +29,7 @@ const SubMenuItem = (props: SubMenuItemProps) => {
   return (
     <li role="none" className={styles.subMenuItem}>
       <a role="menuitem" onClick={clickHandler} {...{ href, target }}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
+        {icon && <GlobalIconWrapper icon={icon} size="md" />}
         <span className={styles.label}>{label}</span>
         {items && <MotifIcon name="arrow_drop_down" className={styles.dropdown} size="md" />}
       </a>
