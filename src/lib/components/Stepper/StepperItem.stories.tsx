@@ -20,7 +20,7 @@ type Story = StoryObj<typeof Stepper.Item>;
 
 export const Primary: Story = {
   render: args => (
-    <Stepper activeStep={1} stepType="icon">
+    <Stepper defaultActiveStep={1} stepType="icon">
       <Stepper.Item {...args} title={`${args.title} Completed`} />
       <Stepper.Item {...args} />
       <Stepper.Item {...args} title={`${args.title} Upcoming`} />
