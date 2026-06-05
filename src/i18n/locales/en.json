@@ -11,6 +11,9 @@
     "upload": "Upload",
     "selectPlease": "Please select",
     "noData": "No data found...",
+    "previous": "Previous",
+    "next": "Next",
+    "finish": "Finish",
     "x_message": "{{count}} message"
   },
   "form": {
