@@ -10,7 +10,7 @@ import useDeepCompareEffect from "use-deep-compare-effect";
 import { PropsWithRef } from "../../types";
 import { PinCodeContext } from "@/components/PinCode/PinCodeContext";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 
 const PinCodeComponent = (p: PropsWithRef<PinCodeProps, HTMLDivElement>) => {
   const defaultValue = p.value
@@ -19,7 +19,7 @@ const PinCodeComponent = (p: PropsWithRef<PinCodeProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("PinCode", p);
   const { children, circle, letterCase, maskType = "asterisks", value = defaultValue, onChange, ref, className, style } = props;
 
-  const inputRefs = useRef<(HTMLInputElement | null)[]>(new Array<null>(children.length));
+  const inputRefs = useRef<(HTMLDivElement | null)[]>(new Array<null>(children.length));
   const [inputValues, setInputValues] = useState<string[]>(value as string[]);
 
   const { size, error, readOnly, success, disabled, onFormFieldValueUpdate } = useRegisterFormField({
@@ -31,7 +31,7 @@ const PinCodeComponent = (p: PropsWithRef<PinCodeProps, HTMLDivElement>) => {
   const focusNextInput = useCallback(
     (index: number) => {
       const nextIndex = children.slice(index + 1).findIndex(child => !(child.props.disabled || child.props.space)) + index + 1;
-      nextIndex !== -1 && inputRefs.current[nextIndex]?.focus();
+      nextIndex !== -1 && inputRefs.current[nextIndex]?.getElementsByTagName("input")[0].focus();
     },
     [children],
   );
@@ -46,7 +46,7 @@ const PinCodeComponent = (p: PropsWithRef<PinCodeProps, HTMLDivElement>) => {
           : -1;
 
       const previousIndex = findPreviousEnabledIndex(index);
-      previousIndex >= 0 && inputRefs.current[previousIndex]?.focus();
+      previousIndex >= 0 && inputRefs.current[previousIndex]?.getElementsByTagName("input")[0].focus();
     },
     [children],
   );
@@ -104,7 +104,7 @@ const PinCodeComponent = (p: PropsWithRef<PinCodeProps, HTMLDivElement>) => {
       ];
     }, []);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [size, circle && "circle", error ? "error" : success && "success"]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [size, circle && "circle"]);
 
   return (
     <div className={classNames} style={style} ref={ref} data-testid="pinCode">

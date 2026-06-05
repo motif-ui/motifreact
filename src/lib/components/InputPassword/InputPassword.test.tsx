@@ -27,7 +27,7 @@ describe("InputPassword", () => {
     const value = "Entered Text";
     const user = userEvent.setup();
     render(<InputPassword onChange={handleChange} value="" />);
-    const input = screen.getByTestId("inputPassword").querySelector("input");
+    const input = screen.getByTestId("inputItem").querySelector("input");
     await user.type(input!, value);
 
     expect(handleChange).toHaveBeenCalled();
@@ -36,7 +36,7 @@ describe("InputPassword", () => {
 
   it("should reveal the password when the visibility icon is clicked.", async () => {
     const { getByTestId, getByRole } = render(<InputPassword toggleMask />);
-    const input = getByTestId("inputPassword").querySelector("input");
+    const input = getByTestId("inputItem").querySelector("input");
     const button = getByRole("button");
     const user = userEvent.setup();
 
@@ -60,7 +60,7 @@ describe("InputPassword", () => {
     expect(handleChange).not.toHaveBeenCalled();
     expect(input).toHaveValue(value);
     expect(input).toHaveAttribute("disabled");
-    expect(screen.getByTestId("inputPassword")).toHaveClass("disabled");
+    expect(screen.getByTestId("inputItem")).toHaveClass("disabled");
   });
 
   it("should be rendered as readOnly when readOnly prop is given", async () => {
@@ -74,7 +74,7 @@ describe("InputPassword", () => {
     expect(handleChange).not.toHaveBeenCalled();
     expect(input).toHaveValue(value);
     expect(input).toHaveAttribute("readonly");
-    expect(screen.getByTestId("inputPassword")).toHaveClass("disabled");
+    expect(screen.getByTestId("inputItem")).toHaveClass("readOnly");
   });
 
   it("should render icon when icon is set", () => {
@@ -84,12 +84,12 @@ describe("InputPassword", () => {
 
   it("should be rendered as success variant when success prop is given", () => {
     render(<InputPassword success />);
-    expect(screen.getByTestId("inputPassword")).toHaveClass("success");
+    expect(screen.getByTestId("inputItem")).toHaveClass("success");
   });
 
   it("should be rendered as error variant when error prop is given", () => {
     render(<InputPassword error />);
-    expect(screen.getByTestId("inputPassword")).toHaveClass("error");
+    expect(screen.getByTestId("inputItem")).toHaveClass("error");
   });
 
   it("should not render the visibility toggle button when toggleMask is not given", () => {
@@ -99,6 +99,6 @@ describe("InputPassword", () => {
 
   it("should render in a pill shape when pill prop is true", () => {
     const { getByTestId } = render(<InputPassword pill />);
-    expect(getByTestId("inputPassword")).toHaveClass("pill");
+    expect(getByTestId("inputItem")).toHaveClass("pill");
   });
 });

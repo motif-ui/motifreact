@@ -69,7 +69,7 @@ export const getAllInputItems = () => {
   const inputs: HTMLElement[] = [];
 
   inputs.push(screen.getAllByTestId("inputItem")[0]);
-  inputs.push(screen.getByTestId("inputPassword"));
+  inputs.push(screen.getAllByTestId("inputItem")[1]);
   inputs.push(screen.getByTestId("textareaItem").parentElement!);
   screen.getAllByTestId("checkbox").forEach(element => inputs.push(element));
   screen.getAllByTestId("radioItem").forEach(element => inputs.push(element));

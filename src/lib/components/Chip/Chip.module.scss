@@ -33,10 +33,11 @@ $variants: (
       margin: 0 var(--base-sizing-#{$padding});
     }
     .icon-left {
-      font-size: var(--base-sizing-#{$iconLeftSize});
+      --mtf-icon-size: var(--base-sizing-#{$iconLeftSize});
       margin-right: var(--base-sizing-2x);
     }
     .icon-close {
+      --mtf-icon-size: var(--base-sizing-22x);
       margin-left: var(--base-sizing-2x);
     }
   }

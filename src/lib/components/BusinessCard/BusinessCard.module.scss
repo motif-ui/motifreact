@@ -11,7 +11,7 @@ $variants: (("neutral", "light"), ("primary", "primary"), ("secondary", "seconda
   background: var(--theme-color-surface-base-bg-light);
 
   .icon {
-    font-size: var(--base-sizing-40x);
+    --mtf-icon-size: var(--base-sizing-40x);
   }
   .title {
     @include font("base", "lg", "700");

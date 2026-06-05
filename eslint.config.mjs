@@ -4,6 +4,7 @@ import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 import reactHooks from "eslint-plugin-react-hooks";
 import react from "eslint-plugin-react";
 import compat from "eslint-plugin-compat";
+import globals from "globals";
 
 export default [
   js.configs.recommended,
@@ -12,6 +13,12 @@ export default [
   {
     files: ["**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs"],
     ...typescript.configs.disableTypeChecked,
+  },
+  {
+    files: ["**/*.cjs"],
+    languageOptions: {
+      globals: globals.commonjs,
+    },
   },
   {
     files: ["**/*.{js,jsx,ts,tsx}"],

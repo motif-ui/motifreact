@@ -1,17 +1,19 @@
 import styles from "../PinCode.module.scss";
 import type { KeyboardEvent, FocusEvent } from "react";
-import { ChangeEvent, useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { PinCodeContext } from "../PinCodeContext";
 import { PinCodeItemHOCProps } from "../types";
 import { PropsWithRef } from "../../../types";
-import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
+import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
+import InputText from "@/components/Motif/InputText/InputText.tsx";
 
 const PinCodeItemHOC = (props: PropsWithRef<PinCodeItemHOCProps, HTMLInputElement>) => {
   const { index, indexByWord, masked, space, value, ref } = props;
-  const { readOnly, maskType, focusNextInput, size, onChange, letterCase, focusPreviousInput, disabled } = useContext(PinCodeContext);
+  const { readOnly, maskType, focusNextInput, onChange, letterCase, focusPreviousInput, disabled, error, success } =
+    useContext(PinCodeContext);
 
   const setCaseSensitiveValue = useCallback(
-    (val: string) => {
+    (val = "") => {
       const newValue = letterCase === "upper" ? val.toLocaleUpperCase() : letterCase === "lower" ? val.toLocaleLowerCase() : val;
       onChange(index, newValue);
       return newValue;
@@ -24,8 +26,8 @@ const PinCodeItemHOC = (props: PropsWithRef<PinCodeItemHOCProps, HTMLInputElemen
   }, [letterCase, setCaseSensitiveValue, value]);
 
   const changeHandler = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const newValue = setCaseSensitiveValue(e.target.value);
+    (val?: string) => {
+      const newValue = setCaseSensitiveValue(val);
       newValue.length === 1 && focusNextInput(index);
     },
     [focusNextInput, index, setCaseSensitiveValue],
@@ -33,7 +35,7 @@ const PinCodeItemHOC = (props: PropsWithRef<PinCodeItemHOCProps, HTMLInputElemen
 
   const keyUpHandler = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
-      e.key === "Backspace" && !value && focusPreviousInput(index, value);
+      e.key.toLocaleLowerCase() === "backspace" && !value && focusPreviousInput(index);
     },
     [focusPreviousInput, index, value],
   );
@@ -42,15 +44,15 @@ const PinCodeItemHOC = (props: PropsWithRef<PinCodeItemHOCProps, HTMLInputElemen
 
   const disabledFinal = !!disabled || props.disabled;
 
-  const classNames = sanitizeModuleClasses(styles, "input", size, space && "item_space");
+  const classNames = sanitizeModuleClasses(styles, "input", space && "item_space");
 
   return space ? (
-    <input disabled ref={ref} className={classNames} data-testid="pinCodeItem" />
+    <InputText disabled ref={ref} className={classNames} />
   ) : (
-    <input
+    <InputText
       className={classNames}
       maxLength={1}
-      value={masked && disabledFinal ? (maskType === "number" ? indexByWord + 1 : "*") : value}
+      value={masked && disabledFinal ? (maskType === "number" ? String(indexByWord + 1) : "*") : value}
       readOnly={readOnly}
       disabled={disabledFinal}
       onChange={changeHandler}
@@ -58,7 +60,8 @@ const PinCodeItemHOC = (props: PropsWithRef<PinCodeItemHOCProps, HTMLInputElemen
       onKeyUp={keyUpHandler}
       type={masked && maskType === "asterisks" ? "password" : "text"}
       ref={ref}
-      data-testid="pinCodeItem"
+      error={error}
+      success={success}
     />
   );
 };

@@ -8,18 +8,7 @@ import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaul
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 
 const Icon = (props: PropsWithRefAndChildren<IconProps, HTMLSpanElement>) => {
-  const {
-    iconClass,
-    name,
-    svgColorType,
-    children,
-    ref,
-    color,
-    size = "md",
-    variant,
-    className,
-    style,
-  } = usePropsWithThemeDefaults("Icon", props);
+  const { iconClass, name, svgColorType, children, ref, color, size, variant, className, style } = usePropsWithThemeDefaults("Icon", props);
   const { baseIconClass } = useMotifContext();
   const isChildMotifIcon = isValidElement(children) && (children.type as FunctionComponent<IconProps>).displayName === "Icon";
 

@@ -33,3 +33,4 @@ jobs:
           buildScriptName: 'build:storybook'
           zip: true
           skip: "dependabot/**"
+          autoAcceptChanges: "main"

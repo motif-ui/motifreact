@@ -1,3 +1,27 @@
+# [v0.4.0](https://github.com/motif-ui/motifreact/releases/tag/v0.4.0) (2026-06-02)
+
+## 🚀 Features
+
+- feat: css specificity has changed with css layer ([#65](https://github.com/motif-ui/motifreact/pull/65)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+## 🐛 Bug Fixes
+
+- fix(Form): extra buttons and submit button removal ([#75](https://github.com/motif-ui/motifreact/pull/75)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: preview feature is added for Form component ([#72](https://github.com/motif-ui/motifreact/pull/72)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: prevent browser translation from breaking icons ([#69](https://github.com/motif-ui/motifreact/pull/69)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: add non-string icon support to A-L components ([#54](https://github.com/motif-ui/motifreact/pull/54)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(NavBar): search is improved ([#67](https://github.com/motif-ui/motifreact/pull/67)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(Form): validateOnChange feature ([#68](https://github.com/motif-ui/motifreact/pull/68)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: add styling support to Tab.Panel wrappers ([#62](https://github.com/motif-ui/motifreact/pull/62)) [@ZehranurC](https://github.com/ZehranurC)
+
+## Other Changes
+
+- refactor(PinCode): custom input is replaced ([#73](https://github.com/motif-ui/motifreact/pull/73)) [@aktasmehmet](https://github.com/aktasmehmet)
+- refactor(InputPassword): custom input is replaced ([#74](https://github.com/motif-ui/motifreact/pull/74)) [@aktasmehmet](https://github.com/aktasmehmet)
+- test: add Timeline component tests ([#50](https://github.com/motif-ui/motifreact/pull/50)) [@ZehranurC](https://github.com/ZehranurC)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.3.1...v0.4.0)
+
 # [v0.3.1](https://github.com/motif-ui/motifreact/releases/tag/v0.3.1) (2026-05-08)
 
 ## 🐛 Bug Fixes

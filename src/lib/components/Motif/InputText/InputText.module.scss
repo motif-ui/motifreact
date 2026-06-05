@@ -48,10 +48,6 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
   border-radius: var(--theme-sizing-radius-round);
 }
 
-.inFormField {
-  min-width: var(--base-sizing-190x);
-}
-
 .icon {
   color: var(--theme-color-text-base-caption-light);
 }

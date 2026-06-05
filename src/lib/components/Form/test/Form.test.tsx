@@ -10,6 +10,7 @@ import Switch from "@/components/Switch";
 import RadioGroup from "@/components/RadioGroup";
 import Radio from "@/components/Radio";
 import { FormRefType, FormSubmitData, InputSize, Orientation } from "../../Form/types";
+import Button from "@/components/Button";
 import UploadInput from "@/components/Upload/UploadInput";
 import UploadList from "@/components/Upload/UploadList";
 import Grid from "@/components/Grid";
@@ -18,7 +19,7 @@ import Col from "@/components/Grid/components/Col";
 import { MOCK } from "../../Upload/mock";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { FileType } from "@/components/Upload/types";
-import { t } from "../../../../utils/testUtils";
+import { t } from "src/utils/testUtils.tsx";
 
 import {
   data,
@@ -40,7 +41,7 @@ import InputDate from "@/components/InputDate";
 import InputTime from "@/components/InputTime";
 import InputDateTime from "@/components/InputDateTime";
 import { formatDate } from "@/components/InputDate/helper";
-import { DateUtils } from "../../../../utils/dateUtils";
+import { DateUtils } from "src/utils/dateUtils.ts";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
@@ -385,7 +386,31 @@ describe("Form", () => {
     // Switch Item is sliced because switch component does not have success prop
     inputItems.slice(0, inputItems.length - 2).forEach(element => expect(element).toHaveClass("success"));
     // PinCode is added below
-    expect(inputItems[9]).toHaveClass("success");
+    expect(inputItems[9].firstElementChild).toHaveClass("success");
+  });
+
+  it("should render form in preview mode with all fields disabled and no submit button", () => {
+    render(
+      <Form onSubmit={mockFunction} preview>
+        <Form.Field name="inputText" label="Input">
+          <InputText name="inputText" value="Test Value" />
+        </Form.Field>
+        <Form.Field name="textareaField" label="Textarea">
+          <Textarea name="textareaField" value="Test" />
+        </Form.Field>
+        <Form.FieldGroup name="testGroup"> {groupItems} </Form.FieldGroup>
+      </Form>,
+    );
+
+    expect(screen.queryByText(t("g.submit"))).not.toBeInTheDocument();
+
+    screen.queryAllByTestId("inputItem").forEach(item => {
+      expect(item).toHaveClass("disabled");
+    });
+
+    screen.queryAllByTestId("textareaItem").forEach(item => {
+      expect(item).toHaveAttribute("disabled");
+    });
   });
 
   it("should prevent typing or editing all items in FormFieldGroup when readOnly prop is given", async () => {
@@ -435,7 +460,7 @@ describe("Form", () => {
     await user.type(inputItems[7].lastElementChild!, formatDate(newDateValue, defaultDateFormat, LOCALE_DATE_TR_TR));
 
     // Pin Code
-    expect(screen.getAllByTestId("pinCodeItem")[0]).toHaveAttribute("readonly");
+    expect(inputItems[9].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
     await user.type(inputItems[9].getElementsByTagName("input")[0], value);
 
     await user.click(screen.getByText(t("g.submit")));
@@ -681,9 +706,9 @@ describe("Form", () => {
     });
 
     await user.type(screen.getAllByTestId("inputItem")[0].firstElementChild!, value);
-    await user.type(screen.getByTestId("inputPassword").lastElementChild!, value);
+    await user.type(screen.getAllByTestId("inputItem")[1].lastElementChild!, value);
     await user.type(screen.getByTestId("inputDate").firstElementChild!.children[1], "12/12/2024");
-    await user.type(screen.getAllByTestId("pinCodeItem")[0], value);
+    await user.type(screen.getByTestId("pinCode").querySelectorAll("input")[0], value);
     await user.click(screen.getByText("Black"));
     await user.click(screen.queryByRole("combobox")!);
     await user.click(screen.queryByText("Item 1")!);
@@ -1145,7 +1170,7 @@ describe("Form", () => {
     const user = userEvent.setup();
 
     // InputText: type 2 chars → error; type 1 more → clear
-    const textInput = screen.getByTestId("inputItem").querySelector("input") as HTMLInputElement;
+    const textInput = getFormField(0)?.querySelector("input") as HTMLInputElement;
     await user.type(textInput, "ab");
     expect(getFormField(0)).toHaveClass("error");
     expect(getFormField(0)).toHaveTextContent(minLengthMessage(3));
@@ -1174,7 +1199,7 @@ describe("Form", () => {
     expect(getFormField(3)).not.toHaveClass("error");
 
     // PinCode: fill first item only → error; fill second → clear
-    const pinCodeInputs = screen.getAllByTestId("pinCodeItem");
+    const pinCodeInputs = screen.getByTestId("pinCode").querySelectorAll("input");
     await user.type(pinCodeInputs[0], "a");
     expect(getFormField(4)).toHaveClass("error");
     expect(getFormField(4)).toHaveTextContent(requiredMessage);
@@ -1250,5 +1275,60 @@ describe("Form", () => {
 
     expect(getFormField(0)).not.toHaveClass("error");
     expect(getFormField(1)).toHaveClass("error");
+  });
+
+  it("should not render the submit button when onSubmit is not provided", () => {
+    render(
+      <Form>
+        <Form.Field name="inputText">
+          <InputText />
+        </Form.Field>
+      </Form>,
+    );
+    expect(screen.queryByText(t("g.submit"))).not.toBeInTheDocument();
+  });
+
+  it("should render buttons (with the given props) in the submit area when alternateButtons prop is provided", async () => {
+    const mockFunction = jest.fn();
+    render(
+      <Form
+        alternateButtons={[
+          <Button key="1" label="Custom 1" onClick={mockFunction} variant="warning" />,
+          <Button key="2" label="Custom 2" onClick={mockFunction} icon="person" variant="danger" />,
+        ]}
+      >
+        <Form.Field name="inputText">
+          <InputText />
+        </Form.Field>
+      </Form>,
+    );
+
+    const button1 = screen.getByText("Custom 1").closest("button");
+    expect(button1).toBeInTheDocument();
+    expect(button1).toHaveClass("warning");
+
+    const button2 = screen.getByText("Custom 2").closest("button");
+    expect(button2).toBeInTheDocument();
+    expect(button2).toHaveClass("danger");
+    expect(button2).toHaveTextContent("person");
+
+    const user = userEvent.setup();
+    await user.click(button1!);
+    expect(mockFunction).toHaveBeenCalledTimes(1);
+
+    await user.click(button2!);
+    expect(mockFunction).toHaveBeenCalledTimes(2);
+  });
+
+  it("should render alternate buttons with primary variant by default", () => {
+    render(
+      <Form alternateButtons={[<Button key="1" label="Custom 1" onClick={jest.fn()} />]}>
+        <Form.Field name="inputText">
+          <InputText />
+        </Form.Field>
+      </Form>,
+    );
+
+    expect(screen.getByText("Custom 1").closest("button")).toHaveClass("primary");
   });
 });
