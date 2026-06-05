@@ -273,7 +273,7 @@ export const StepperIcons: Story = {
   render: () => {
     const stepContent = Object.values(iconObjects).map((icon, idx) => ({ icon, idx }));
     return (
-      <Stepper stepType="icon" activeStep={1}>
+      <Stepper stepType="icon">
         {stepContent.map(step => (
           <Stepper.Item key={step.idx} title={`Step ${step.idx + 1}`} icon={step.icon}>
             Content
