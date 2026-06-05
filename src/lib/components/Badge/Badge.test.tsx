@@ -86,14 +86,12 @@ describe("Badge", () => {
   });
 
   it("should render the main icon given in the icon prop", () => {
-    runIconPropTest(
-      icon =>
-        render(
-          <Badge icon={icon}>
-            <button />
-          </Badge>,
-        ),
-      "icon",
+    runIconPropTest(icon =>
+      render(
+        <Badge icon={icon}>
+          <button />
+        </Badge>,
+      ),
     );
   });
 

@@ -252,7 +252,7 @@ describe("NavBar", () => {
   });
 
   it("should render the icon given in the icon prop of the menu item", () => {
-    runIconPropTest(icon => render(<NavBar mainMenu={{ items: [{ label: "Nav Item", icon, href: "#" }] }} />), "icon");
+    runIconPropTest(icon => render(<NavBar mainMenu={{ items: [{ label: "Nav Item", icon, href: "#" }] }} />));
   });
 
   it("should redirect to the given href prop of the menu item when menu item is clicked and consider the related targetBlank prop", () => {

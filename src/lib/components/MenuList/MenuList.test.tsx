@@ -128,7 +128,7 @@ describe("MenuList", () => {
   });
 
   it("should display mainMenu item's icon given in the 'icon' property of the mainMenu item", () => {
-    runIconPropTest(icon => render(<MenuList items={[{ label: "Home", icon }]} />), "icon");
+    runIconPropTest(icon => render(<MenuList items={[{ label: "Home", icon }]} />));
   });
 
   it("should display mainMenu item as active when 'active' property of the mainMenu item is true", () => {
