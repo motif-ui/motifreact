@@ -7,6 +7,7 @@ const meta: Meta<typeof TimelineItem> = {
   component: TimelineItem,
   argTypes: {
     appearance: { table: { defaultValue: { summary: "filled" } } },
+    icon: { table: { defaultValue: { summary: "motif_ui" } } },
     variant: { table: { defaultValue: { summary: "[parent variant]" } } },
     order: { table: { disable: true } },
     markerType: { table: { disable: true } },

@@ -25,7 +25,7 @@ export type NavBarProps = {
    * ```
    * {
    *   label?: string;
-   *   icon?: string | ReactElement;
+   *   icon?: IconGlobalType;
    *   pill?: boolean;
    *   onClick?: (event: MouseEvent) => void;
    * }
@@ -37,7 +37,7 @@ export type NavBarProps = {
    * {
    *   items: {
    *    label?: string;
-   *    icon?: string | ReactElement;
+   *    icon?: IconGlobalType;
    *    items?: ItemProps[];
    *    href?: string;
    *    onClick?: (event: MouseEvent) => void;
@@ -53,7 +53,7 @@ export type NavBarProps = {
    * {
    *   items: {
    *    label?: string;
-   *    icon?: string | ReactElement;
+   *    icon?: IconGlobalType;
    *    items?: ItemProps[];
    *    href?: string;
    *    onClick?: (event: MouseEvent) => void;

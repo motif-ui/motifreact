@@ -24,7 +24,7 @@ export type TimelineProps = {
    * {
    *   title?: string;
    *   content?: string;
-   *   icon?: string | ReactElement;
+   *   icon?: IconGlobalType;
    *   variant?: string;
    *   disabled?: boolean;
    *   appearance?: string;

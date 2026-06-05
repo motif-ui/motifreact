@@ -11,7 +11,7 @@ export type MenuListProps = {
    * ```
    * {
    *   label: string;
-   *   icon: string | ReactElement;
+   *   icon: IconGlobalType;
    *   active?: boolean;
    *   disabled?: boolean;
    *   href?: string;

@@ -1,6 +1,6 @@
 import { Dispatch, FocusEventHandler, KeyboardEventHandler, MouseEventHandler, RefObject, SetStateAction } from "react";
-import type { IconGlobalType } from "../../../types";
 import { InputSize, InputValue } from "@/components/Form/types";
+import type { IconGlobalType } from "../../../types";
 
 export type InternalInputProps = {
   id?: string;
