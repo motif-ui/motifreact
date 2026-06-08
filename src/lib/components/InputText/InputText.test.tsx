@@ -15,6 +15,11 @@ describe("InputText", () => {
     expect(screen.getByDisplayValue(value));
   });
 
+  it("should display clearable icon when clearable prop is given", () => {
+    render(<InputText clearable />);
+    expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
+  });
+
   it("should be rendered with the size given in size prop", () => {
     const sizes: InputSize[] = ["xs", "sm", "md", "lg"];
     for (const size of sizes) {
