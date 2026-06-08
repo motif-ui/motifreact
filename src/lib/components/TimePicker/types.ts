@@ -1,5 +1,4 @@
 import { Size4SM } from "../../types";
-import { LOCALE_TIME_PICKER_TR_TR } from "./locale/tr_TR";
 import { PickerPropsCommon, TimeFormat } from "../Motif/Pickers/types";
 
 export type TimePickerProps = {
@@ -29,7 +28,7 @@ export type TimePickerProviderProps = {
 
 export type TimeContextProps = {
   size: Size4SM;
-  locale: TimePickerLocale;
+  locale?: TimePickerLocale;
   resetTime: () => void;
   secondsEnabled: boolean;
   setTimeItem: (type: TimeType, value: number) => void;
@@ -41,7 +40,6 @@ export type TimeContextProps = {
 
 export const timeContextDefaultValues: TimeContextProps = {
   size: "md",
-  locale: LOCALE_TIME_PICKER_TR_TR,
   resetTime: () => {},
   secondsEnabled: false,
   setTimeItem: () => {},
