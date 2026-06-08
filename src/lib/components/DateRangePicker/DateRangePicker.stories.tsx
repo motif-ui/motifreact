@@ -31,7 +31,7 @@ export const Primary: Story = {
   render: args => renderDateRangePicker(args, [new Date(today), new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7)]),
 };
 
-export const Secondary: Story = {
+export const PrimaryStaticForChromatic: Story = {
   tags: ["!autodocs", "!dev"],
   render: args => renderDateRangePicker(args, [new Date(2026, 10, 12), new Date(2026, 10, 18)]),
 };

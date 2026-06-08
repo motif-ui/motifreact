@@ -36,7 +36,7 @@ export const Primary: Story = {
   render: args => renderDatePicker(args, args.value ? new Date(args.value) : undefined),
 };
 
-export const Secondary: Story = {
+export const PrimaryStaticForChromatic: Story = {
   tags: ["!autodocs", "!dev"],
   render: args => renderDatePicker(args, new Date(2013, 1, 18)),
 };
