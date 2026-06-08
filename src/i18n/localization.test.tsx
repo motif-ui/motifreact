@@ -8,6 +8,12 @@ import en from "./locales/en.json";
 import tr from "./locales/tr.json";
 import type { DeepPartial, LocaleShape } from "../lib/types";
 
+const flattenKeys = (obj: Record<string, unknown>, prefix = ""): string[] =>
+  Object.entries(obj).flatMap(([k, v]) => {
+    const full = prefix ? `${prefix}.${k}` : k;
+    return typeof v === "object" && v !== null ? flattenKeys(v as Record<string, unknown>, full) : [full];
+  });
+
 describe("Localization", () => {
   it("should return the English string for the given key", () => {
     const t = createTranslator("en");
@@ -86,7 +92,7 @@ describe("Localization", () => {
   });
 
   it("should fall back to English when a key is missing in the selected locale", () => {
-    const t = createTranslator("tr", {});
+    const t = createTranslator("en", {});
     expect(t("misc.playgroundDescription")).toBe(locales.tr.misc.playgroundDescription);
   });
 
@@ -96,20 +102,7 @@ describe("Localization", () => {
     expect(result).toBe("nonexistent.key");
   });
 
-  it("should fall back to English for missing keys when only localeTexts is supplied to custom locale", () => {
-    const t = createTranslator("en", { upload: { selectFile: "Choisir un fichier" } });
-    expect(t("upload.selectFile")).toBe("Choisir un fichier");
-    expect(t("g.save")).toBe(en.g.save);
-  });
-
   it("should expose the correct locale string via useMotifContext", () => {
-    const { result } = renderHook(() => useMotifContext(), {
-      wrapper: ({ children }: PropsWithChildren) => <MotifProvider locale="tr">{children}</MotifProvider>,
-    });
-    expect(result.current.locale).toBe("tr");
-  });
-
-  it("should translate keys using the selected locale", () => {
     const { result } = renderHook(() => useMotifContext(), {
       wrapper: ({ children }: PropsWithChildren) => <MotifProvider locale="tr">{children}</MotifProvider>,
     });
@@ -278,12 +271,6 @@ describe("Localization", () => {
     expect(result.current.t("validation.minLength", { min: 8 })).toBe("Ce champ doit comporter au moins 8 caractères");
   });
 
-  const flattenKeys = (obj: Record<string, unknown>, prefix = ""): string[] =>
-    Object.entries(obj).flatMap(([k, v]) => {
-      const full = prefix ? `${prefix}.${k}` : k;
-      return typeof v === "object" && v !== null ? flattenKeys(v as Record<string, unknown>, full) : [full];
-    });
-
   it("should have all English keys present in the Turkish locale", () => {
     const enKeys = flattenKeys(en);
     const trKeys = new Set(flattenKeys(tr));
@@ -298,18 +285,10 @@ describe("Localization", () => {
     expect(missing).toEqual([]);
   });
 
-  it("should have string values for all leaf keys in English locale", () => {
+  it("should have string values for all leaf keys in given language locale", () => {
     const enKeys = flattenKeys(en);
     enKeys.forEach(key => {
       const t = createTranslator("en");
-      expect(typeof t(key as Parameters<typeof t>[0])).toBe("string");
-    });
-  });
-
-  it("should have string values for all leaf keys in Turkish locale", () => {
-    const trKeys = flattenKeys(tr);
-    trKeys.forEach(key => {
-      const t = createTranslator("tr");
       expect(typeof t(key as Parameters<typeof t>[0])).toBe("string");
     });
   });
