@@ -3,15 +3,17 @@ import Picker from "@/components/Motif/Pickers/Picker";
 import { DateRangePickerProvider } from "@/components/DateRangePicker/context/DateRangePickerProvider";
 import { DateRangePickerProps } from "./types";
 import DateRangePickerContainer from "@/components/DateRangePicker/components/DateRangePickerContainer";
-import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
+import { useMemo } from "react";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const DateRangePicker = (props: PropsWithRef<DateRangePickerProps, HTMLDivElement>) => {
   const {
     value,
     size = "md",
     variant = "borderless",
-    locale = LOCALE_DATE_RANGE_TR_TR,
+    locale,
     ref,
     onDateChange,
     onOkClick,
@@ -21,9 +23,11 @@ const DateRangePicker = (props: PropsWithRef<DateRangePickerProps, HTMLDivElemen
     style,
   } = usePropsWithThemeDefaults("DateRangePicker", props);
 
+  const { t } = useMotifContext();
+  const resolvedLocale = useMemo(() => locale ?? getDateLocale(t), [locale, t]);
   return (
     <Picker size={size} variant={variant} wide ref={ref} style={style} className={`mtf-DateRangePicker ${className ?? ""}`.trim()}>
-      <DateRangePickerProvider value={value} size={size} locale={locale} onDateChange={onDateChange}>
+      <DateRangePickerProvider value={value} size={size} locale={resolvedLocale} onDateChange={onDateChange}>
         <DateRangePickerContainer removeActionButtons={removeActionButtons} onOkClick={onOkClick} onClearClick={onClearClick} />
       </DateRangePickerProvider>
     </Picker>

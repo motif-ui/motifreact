@@ -6,9 +6,23 @@ import { calculateWeeks } from "@/components/DatePicker/components/helper";
 import { DateUtils } from "../../../../../../utils/dateUtils";
 import Day from "@/components/DatePicker/components/DateSelector/Day/Day";
 import DaySelector from "@/components/DatePicker/components/DateSelector/Day/DaySelector";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const DaySelectorWithMonthYear = () => {
-  const { size, locale, pickerDate, today, selectedDate, setPickerDate, onDateChange, setSelectedDate } = useContext(DatePickerContext);
+  const {
+    size,
+    locale: contextLocale,
+    pickerDate,
+    today,
+    selectedDate,
+    setPickerDate,
+    onDateChange,
+    setSelectedDate,
+  } = useContext(DatePickerContext);
+
+  const { t } = useMotifContext();
+  const locale = useMemo(() => contextLocale ?? getDateLocale(t), [contextLocale, t]);
 
   const calculatedWeeks = useMemo(
     () => calculateWeeks(pickerDate.getFullYear(), pickerDate.getMonth(), locale.firstDayOfWeek),

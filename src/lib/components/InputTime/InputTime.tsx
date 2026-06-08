@@ -1,20 +1,21 @@
 "use client";
 
 import styles from "./InputTime.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import TimePicker from "@/components/TimePicker";
 import { Time } from "../TimePicker/types";
 import { formatTime, parseTime, validateTime } from "@/components/InputTime/helper";
 import { PropsWithRef } from "../../types";
-import { LOCALE_TIME_PICKER_TR_TR } from "@/components/TimePicker/locale/tr_TR";
 import { InputTimeProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputValue } from "@/components/Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const pickerSizeMap = {
   xs: "xs",
@@ -32,12 +33,15 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     onChange,
     secondsEnabled,
     format = "24h",
-    locale = LOCALE_TIME_PICKER_TR_TR,
+    locale: propsLocale,
     placeholder = `__:__${secondsEnabled ? ":__" : ""}`,
     ref,
     style,
     className,
   } = props;
+
+  const { t } = useMotifContext();
+  const locale = useMemo(() => propsLocale ?? getDateLocale(t), [propsLocale, t]);
 
   const [pickerVisible, setPickerVisible] = useState(false);
   const [itemValue, setItemValue] = useState<Time | undefined>(validateTime(value as Time, !!secondsEnabled));

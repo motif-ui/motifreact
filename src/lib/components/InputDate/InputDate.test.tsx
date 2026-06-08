@@ -5,12 +5,12 @@ import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
-import { LOCALE_DATE_EN_GB } from "@/components/DatePicker/locale/en_GB";
-import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
+import { t } from "../../../utils/testUtils";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 describe("InputDate", () => {
   const testDate = new Date(2025, 1, 15);
-  const formatDateWithDefaultFormatAndTR = (mockStartDate: Date) => formatDate(mockStartDate, defaultDateFormat, LOCALE_DATE_TR_TR);
+  const formatDateWithDefaultFormatAndTR = (mockStartDate: Date) => formatDate(mockStartDate, defaultDateFormat, getDateLocale(t));
 
   const renderExt = (ui: ReactNode) => {
     const result = render(ui);
@@ -60,7 +60,6 @@ describe("InputDate", () => {
           monthFormat: "MMM",
           yearFormat: "YY",
         }}
-        locale={LOCALE_DATE_EN_GB}
       />,
     );
     expect(screen.queryByDisplayValue("*25-*Feb-*2")).toBeInTheDocument();
@@ -76,7 +75,6 @@ describe("InputDate", () => {
           monthFormat: "MMMM",
           yearFormat: "YY",
         }}
-        locale={LOCALE_DATE_EN_GB}
       />,
     );
     expect(screen.queryByDisplayValue("*25-*February-*2")).toBeInTheDocument();

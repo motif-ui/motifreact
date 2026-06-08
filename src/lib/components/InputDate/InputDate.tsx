@@ -14,7 +14,8 @@ import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
 import { MotifIcon } from "../Motif/Icon";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const pickerSizeMap = {
   xs: "xs",
@@ -25,8 +26,10 @@ const pickerSizeMap = {
 
 const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDate", p);
-  const { editable, pill, value, onChange, ref, style, className, locale = LOCALE_DATE_TR_TR } = props;
+  const { editable, pill, value, onChange, ref, style, className, locale: propsLocale } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
+  const { t } = useMotifContext();
+  const locale = useMemo(() => propsLocale ?? getDateLocale(t), [propsLocale, t]);
 
   const placeholder = useMemo(
     () => props.placeholder ?? format.order.map(o => format[`${o}Format`]).join(format.delimiter),
@@ -144,6 +147,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
           value={itemValue}
           onDateChange={dateChangeHandler}
           className={styles.datePicker}
+          locale={locale}
         />
       )}
     </div>

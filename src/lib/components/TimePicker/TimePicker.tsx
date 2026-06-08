@@ -1,12 +1,13 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { TimePickerProvider } from "./context/TimePickerProvider";
 import { TimePickerProps } from "./types";
 import { DateTimePickerContext } from "@/components/DateTimePicker/context/DateTimePickerProvider";
 import { PropsWithRef } from "../../types";
 import TimePickerContainer from "@/components/TimePicker/components/TimePickerContainer";
-import { LOCALE_TIME_PICKER_TR_TR } from "./locale/tr_TR";
 import Picker from "@/components/Motif/Pickers/Picker";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const TimePicker = (props: PropsWithRef<TimePickerProps, HTMLDivElement>) => {
   const {
@@ -15,7 +16,7 @@ const TimePicker = (props: PropsWithRef<TimePickerProps, HTMLDivElement>) => {
     fluid,
     onOkClick,
     onPeriodChange,
-    locale = LOCALE_TIME_PICKER_TR_TR,
+    locale,
     secondsEnabled,
     onTimeChange,
     value,
@@ -27,11 +28,14 @@ const TimePicker = (props: PropsWithRef<TimePickerProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("TimePicker", props);
   const externalPickerContext = useContext(DateTimePickerContext);
 
+  const { t } = useMotifContext();
+  const resolvedLocale = useMemo(() => locale ?? getDateLocale(t), [locale, t]);
+
   return (
     <TimePickerProvider
       size={size}
       secondsEnabled={!!secondsEnabled}
-      locale={locale}
+      locale={resolvedLocale}
       onTimeChange={onTimeChange}
       onPeriodChange={onPeriodChange}
       value={value}

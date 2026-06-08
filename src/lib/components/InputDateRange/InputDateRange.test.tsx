@@ -6,8 +6,8 @@ import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { LOCALE_DATE_RANGE_EN_GB } from "@/components/DateRangePicker/locale/en_GB";
-import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
+import { t } from "../../../utils/testUtils";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 describe("InputDateRange", () => {
   const user = userEvent.setup();
@@ -15,8 +15,8 @@ describe("InputDateRange", () => {
   const placeholder = "__ / __ / ____"; // default formata göre "DD/MM/YYYY"
 
   const createDateRangeString = (inputDate1: Date | undefined, inputDate2: Date | undefined) => {
-    const date1 = formatDate(inputDate1, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR);
-    const date2 = formatDate(inputDate2, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR);
+    const date1 = formatDate(inputDate1, defaultDateFormat, getDateLocale(t));
+    const date2 = formatDate(inputDate2, defaultDateFormat, getDateLocale(t));
     return `${date1} ${RANGE_ARROW} ${date2}`.trim();
   };
 
@@ -60,7 +60,6 @@ describe("InputDateRange", () => {
           monthFormat: "MMM",
           yearFormat: "YY",
         }}
-        locale={LOCALE_DATE_RANGE_EN_GB}
       />,
     );
     expect(screen.queryByDisplayValue(`*25-*Feb-*12 ${RANGE_ARROW} *25-*Feb-*21`)).toBeInTheDocument();
@@ -76,7 +75,6 @@ describe("InputDateRange", () => {
           monthFormat: "MMMM",
           yearFormat: "YY",
         }}
-        locale={LOCALE_DATE_RANGE_EN_GB}
       />,
     );
     expect(screen.queryByDisplayValue(`*25-*February-*12 ${RANGE_ARROW} *25-*February-*21`)).toBeInTheDocument();
@@ -117,7 +115,7 @@ describe("InputDateRange", () => {
     await user.click(getDateButton(dateStart));
     await user.click(getDateButton(dateEnd));
 
-    const okButton = getByText("OK") as HTMLButtonElement;
+    const okButton = getByText(t("g.submit")) as HTMLButtonElement;
     await user.click(okButton);
 
     expect(getDateRangeInput()).toHaveValue(testDateString);

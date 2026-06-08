@@ -3,6 +3,8 @@ import TimePicker from "@/components/TimePicker";
 import { Time, TimePickerLocale } from "../TimePicker/types";
 import { userEvent } from "@testing-library/user-event";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { t } from "../../../utils/testUtils";
 
 const timeValue: Time = { hours: 11, minutes: 43, seconds: 13 };
 const checkSelection = (list: HTMLUListElement, index: number, isSelected: boolean) =>
@@ -85,8 +87,8 @@ describe("TimePicker", () => {
     expect(container.firstElementChild).toHaveClass("borderless");
 
     // labels = Sa,Da (default)
-    expect(screen.queryByText("Sa")).toBeInTheDocument();
-    expect(screen.queryByText("Da")).toBeInTheDocument();
+    expect(screen.queryByText("Hr")).toBeInTheDocument();
+    expect(screen.queryByText("Mn")).toBeInTheDocument();
 
     // size = md (default)
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
@@ -150,7 +152,7 @@ describe("TimePicker", () => {
   it("should enable selecting and showing seconds info when secondsEnabled is true", () => {
     render(<TimePicker secondsEnabled />);
 
-    expect(screen.queryByText("Sn")).toBeInTheDocument();
+    expect(screen.queryByText("Sc")).toBeInTheDocument();
     expect(screen.getByTestId("timeStripeContainer").querySelectorAll("ul").length).toBe(3);
     expect(screen.getByTestId("timeInfo")).toHaveTextContent("__ : __ : __");
   });
@@ -185,12 +187,12 @@ describe("TimePicker", () => {
 
     const { rerender } = render(<TimePicker onOkClick={handleOkClick} />);
 
-    await user.click(screen.queryByText("OK") as Element);
+    await user.click(screen.queryByText("Submit") as Element);
     expect(handleOkClick).toHaveBeenCalledWith(undefined);
 
     rerender(<TimePicker value={timeValue} onOkClick={handleOkClick} />);
 
-    await user.click(screen.queryByText("OK") as Element);
+    await user.click(screen.queryByText("Submit") as Element);
     expect(handleOkClick).toHaveBeenNthCalledWith(2, expect.objectContaining({ hours: timeValue.hours, minutes: timeValue.minutes }));
   });
 
@@ -273,7 +275,7 @@ describe("TimePicker", () => {
 
     render(<TimePicker value={{ hours: 14, minutes: 30 }} format="12h" onTimeChange={handleTimeChange} />);
 
-    await userEvent.click(screen.getByText("ÖÖ"));
+    await userEvent.click(screen.getByText(getDateLocale(t).am));
 
     expect(handleTimeChange).toHaveBeenCalledWith({
       hours: 2, // 14:30 (2:30 PM) -> 2:30 AM
@@ -286,7 +288,7 @@ describe("TimePicker", () => {
 
     render(<TimePicker value={{ hours: 0, minutes: 0 }} format="12h" onTimeChange={handleTimeChange} />);
 
-    await userEvent.click(screen.getByText("ÖS"));
+    await userEvent.click(screen.getByText(getDateLocale(t).pm));
 
     expect(handleTimeChange).toHaveBeenCalledWith({
       hours: 12, // 0:00 (12:00 AM) -> 12:00 PM
@@ -299,7 +301,7 @@ describe("TimePicker", () => {
 
     render(<TimePicker value={{ hours: 12, minutes: 0 }} format="12h" onTimeChange={handleTimeChange} />);
 
-    await userEvent.click(screen.getByText("ÖÖ"));
+    await userEvent.click(screen.getByText(getDateLocale(t).am));
 
     expect(handleTimeChange).toHaveBeenCalledWith({
       hours: 0, // 12:00 PM -> 0:00 (12:00 AM)
@@ -329,9 +331,9 @@ describe("TimePicker", () => {
 
     render(<TimePicker value={{ hours: 14, minutes: 30 }} format="12h" onPeriodChange={handlePeriodChange} />);
 
-    await userEvent.click(screen.getByText("ÖÖ"));
+    await userEvent.click(screen.getByText(getDateLocale(t).am));
     expect(handlePeriodChange).toHaveBeenCalledWith("am");
-    await userEvent.click(screen.getByText("ÖS"));
+    await userEvent.click(screen.getByText(getDateLocale(t).pm));
     expect(handlePeriodChange).toHaveBeenCalledWith("pm");
   });
 });
