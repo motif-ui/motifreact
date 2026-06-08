@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import Panel from "@/components/Panel/Panel";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Panel", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {
@@ -23,8 +24,7 @@ describe("Panel", () => {
   });
 
   it("should render an icon which is given in titleIcon prop", () => {
-    const { getByText } = render(<Panel title="title" titleIcon="home" />);
-    expect(getByText("home")).toBeInTheDocument();
+    runIconPropTest(icon => render(<Panel title="title" titleIcon={icon} />), "title-icon");
   });
 
   it("should be rendered in the given type prop", () => {
@@ -120,7 +120,6 @@ describe("Panel.Title", () => {
   });
 
   it("should render the icon given in the icon prop", () => {
-    const { getByText } = render(<Panel.Title title="Panel Title" icon="home" />);
-    expect(getByText("home")).toBeInTheDocument();
+    runIconPropTest(icon => render(<Panel.Title title="Panel Title" icon={icon} />), "title-icon");
   });
 });

@@ -1,12 +1,12 @@
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "../Panel.module.scss";
 import { memo } from "react";
-import { Size3 } from "../../../types";
+import type { Size3, IconGlobalType } from "../../../types";
 
 type Props = {
   title: string;
   size?: Size3;
-  icon?: string;
+  icon?: IconGlobalType;
 };
 
 const PanelTitle = memo((props: Props) => {
@@ -14,7 +14,7 @@ const PanelTitle = memo((props: Props) => {
 
   const child = (
     <>
-      {icon && <Icon name={icon} className={styles["title-icon"]} />} {title}
+      {icon && <GlobalIconWrapper icon={icon} className={styles["title-icon"]} />} {title}
     </>
   );
 

@@ -1,3 +1,4 @@
+import type { IconGlobalType } from "../../types";
 import type { MouseEvent } from "react";
 import { Dispatch, SetStateAction, ReactNode } from "react";
 import { Size3 } from "../../types";
@@ -10,7 +11,7 @@ export type MenuListProps = {
    * ```
    * {
    *   label: string;
-   *   icon: string;
+   *   icon: IconGlobalType;
    *   active?: boolean;
    *   disabled?: boolean;
    *   href?: string;
@@ -71,7 +72,7 @@ export const menuListContextDefaultValues: MenuListContextProps = {
 
 export type MenuItemCommonProps = {
   label: string;
-  icon?: string;
+  icon?: IconGlobalType;
   disabled?: boolean;
   href?: string;
   action?: (event: MouseEvent<HTMLAnchorElement>) => void;
@@ -93,7 +94,7 @@ export type MainMenuProps = {
 };
 
 export type MainMenuItemProps = Omit<MenuItemCommonProps, "level" | "id"> & {
-  icon: string;
+  icon: IconGlobalType;
 };
 
 export type SubMenuItemProps = Omit<MenuItemCommonProps, "level" | "icon" | "id">;

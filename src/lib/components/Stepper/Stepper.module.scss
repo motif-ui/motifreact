@@ -46,10 +46,10 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
     color: var(--theme-color-text-base-global-light);
     @include transition(background-color);
     @include flex-center;
+  }
 
-    &.stepNumber {
-      @include font("base", "xxs", "700");
-    }
+  .stepNumber {
+    @include font("base", "xxs", "700");
   }
 
   .stepIcon {
@@ -65,12 +65,14 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
     pointer-events: none;
     width: var(--base-sizing-12x);
     height: var(--base-sizing-12x);
+    @include transition(color);
     @include flex-center;
   }
 
   .title {
     color: var(--theme-color-text-base-caption);
     @include font("base", "sm", "500");
+    @include transition(color);
   }
 
   &.clickable .stepHeader {
@@ -206,7 +208,8 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
         background-color: var(--theme-color-surface-#{$variant}-default);
       }
       &.clickable .stepHeader:hover {
-        .title {
+        .title,
+        .dotStatusIcon {
           color: var(--theme-color-text-#{$variant}-hover);
         }
         .stepIndicator {

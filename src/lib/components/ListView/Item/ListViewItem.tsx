@@ -6,7 +6,7 @@ import LeftContent from "@/components/ListView/Item/components/LeftContent";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { ListViewItemProps } from "@/components/ListView/types";
 import { PropsWithRefAndChildren } from "../../../types";
-import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
+import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
 
 const ListViewItem = (props: PropsWithRefAndChildren<ListViewItemProps, HTMLLIElement>) => {
   const { id, title, description, alternateText, icon, image, abbr, iconRight, href, onClick, disabled, ref, style } = props;

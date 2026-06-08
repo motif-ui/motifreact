@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, act } from "@testing-library/react";
+import { runIconPropTest } from "../../../utils/testUtils";
 import { useToast } from "@/components/Toast/useToast";
 import { AddToastOptions, ToastVariant } from "@/components/Toast/types";
 import { useEffect } from "react";
@@ -83,8 +84,7 @@ describe("Toast", () => {
   });
 
   it("should display given icon by icon prop", () => {
-    const { getByText } = render(<Toaster content={content} icon="home" variant="info" />);
-    expect(getByText("home")).toBeInTheDocument();
+    runIconPropTest(icon => render(<Toaster content={content} icon={icon} variant="info" />), "icon");
   });
 
   it("should be rendered in the variant given in the variant prop", () => {

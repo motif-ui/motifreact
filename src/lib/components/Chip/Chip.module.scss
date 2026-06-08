@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-$sizes: (/* size, fontSize, padding, iconLeftSize */ ("xs", "xxs", "2x", "18x"), ("sm", "xs", "4x", "20x"), ("md", "sm", "6x", "22x"), ("lg", "md", "8x", "24x"));
+$sizes: (/* size, fontSize, padding */ ("xs", "xxs", "2x"), ("sm", "xs", "4x"), ("md", "sm", "6x"), ("lg", "md", "8x"));
 $variants: (
   /* variant, color, colorSolid, colorCloseIconSolid */ ("primary", "primary", base-global-light, base-light-overlay75),
   ("secondary", "light", light-default, light-disabled),
@@ -24,7 +24,7 @@ $variants: (
   border-radius: var(--theme-sizing-radius-round);
 }
 
-@each $size, $fontSize, $padding, $iconLeftSize in $sizes {
+@each $size, $fontSize, $padding in $sizes {
   .#{$size} {
     min-width: var(--typography-body-#{$fontSize}-line-height);
     padding: var(--base-sizing-#{$padding});
@@ -33,11 +33,9 @@ $variants: (
       margin: 0 var(--base-sizing-#{$padding});
     }
     .icon-left {
-      --mtf-icon-size: var(--base-sizing-#{$iconLeftSize});
       margin-right: var(--base-sizing-2x);
     }
     .icon-close {
-      --mtf-icon-size: var(--base-sizing-22x);
       margin-left: var(--base-sizing-2x);
     }
   }

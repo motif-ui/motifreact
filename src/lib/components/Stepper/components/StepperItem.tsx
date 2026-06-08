@@ -1,5 +1,6 @@
 import { PropsWithChildren, useCallback, useContext } from "react";
 import Icon from "../../Icon";
+import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "../Stepper.module.scss";
 import { StepperContext } from "@/components/Stepper/StepperContext.tsx";
 import { StepperItemInternalProps } from "../types";
@@ -23,19 +24,21 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
 
   const renderStep = () =>
     stepType === "dot" ? (
-      <>
-        {status === "completed" || status === "error" ? (
-          <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
-        ) : (
-          <span className={`${styles.stepIndicator} ${styles.stepDot}`} />
-        )}
-      </>
-    ) : stepType !== "text" && (status === "completed" || status === "error" || stepType === "icon") ? (
-      <span className={`${styles.stepIndicator} ${styles.stepIcon}`}>
-        <Icon name={status === "completed" ? "check" : status === "error" ? "priority_high" : icon} />
-      </span>
+      status === "completed" || status === "error" ? (
+        <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
+      ) : (
+        <span className={`${styles.stepIndicator} ${styles.stepDot}`} />
+      )
     ) : (
-      stepType === "number" && <span className={`${styles.stepIndicator} ${styles.stepNumber}`}>{index + 1}</span>
+      <span className={styles.stepIndicator}>
+        {stepType !== "text" && (status === "completed" || status === "error") ? (
+          <Icon className={styles.stepIcon} name={status === "completed" ? "check" : "priority_high"} />
+        ) : stepType === "icon" ? (
+          <GlobalIconWrapper icon={icon} className={styles.stepIcon} />
+        ) : (
+          stepType === "number" && <span className={styles.stepNumber}>{index + 1}</span>
+        )}
+      </span>
     );
 
   return (

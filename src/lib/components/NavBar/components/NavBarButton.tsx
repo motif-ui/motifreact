@@ -1,10 +1,11 @@
 import Button from "@/components/Button";
 import { MouseEvent } from "react";
+import type { IconGlobalType } from "../../../types";
 import { useNavBarContext } from "@/components/NavBar/NavBarContext";
 
 export type NavBarButtonProps = {
   label?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   pill?: boolean;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
