@@ -112,6 +112,7 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 
 .mainMenuContainer {
   flex: 1;
+  max-width: 100%;
 }
 
 .subMenu {
@@ -148,6 +149,9 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
     @include transition(color background-color);
 
     .label {
+      max-width: 100%;
+      text-wrap: balance;
+      overflow: hidden;
       flex: 1;
       @include font("body", "sm");
     }
@@ -249,7 +253,7 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 // =============================================================================
 // Responsive
 // =============================================================================
-@include screen-width("below", "sm") {
+@include screen-width("below", "lg") {
   .hamburger {
     display: block;
   }

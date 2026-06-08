@@ -1,5 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
 import Tab from "./Tab";
+import TabItem from "./components/TabItem";
+import { runIconPropTest } from "../../../utils/testUtils";
 
 describe("Tab", () => {
   it("should render with only required props", () => {
@@ -139,6 +141,22 @@ describe("Tab", () => {
     );
 
     expect(queryByText("Content 3")).toBeNull();
+  });
+
+  it("should render the icon given in tab icon prop ", () => {
+    runIconPropTest(
+      icon =>
+        render(
+          <Tab tabs={[{ id: "tab1", icon }]}>
+            <Tab.Panel id="tab1" />
+          </Tab>,
+        ),
+      "tabItem-icon",
+    );
+  });
+
+  it("should render the icon given in TabItem icon prop", () => {
+    runIconPropTest(icon => render(<TabItem id="tabitem" icon={icon} />), "tabItem-icon");
   });
 
   it("should allow rendering only tab item part but Tab.Panels", () => {

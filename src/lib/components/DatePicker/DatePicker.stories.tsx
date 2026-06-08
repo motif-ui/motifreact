@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import DatePicker from "./DatePicker";
+import React from "react";
 
 const meta: Meta<typeof DatePicker> = {
   title: "Components/DatePicker",
@@ -26,9 +27,16 @@ const meta: Meta<typeof DatePicker> = {
 export default meta;
 type Story = StoryObj<typeof DatePicker>;
 
+const renderDatePicker = (args: React.ComponentProps<typeof DatePicker>, value?: Date) => <DatePicker {...args} value={value} />;
+
 export const Primary: Story = {
-  render: args => {
-    const value = args.value ? new Date(args.value) : undefined;
-    return <DatePicker {...args} value={value} />;
+  parameters: {
+    chromatic: { disableSnapshot: true },
   },
+  render: args => renderDatePicker(args, args.value ? new Date(args.value) : undefined),
+};
+
+export const PrimaryStaticForChromatic: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: args => renderDatePicker(args, new Date(2013, 1, 18)),
 };

@@ -1,3 +1,4 @@
+import type { IconGlobalType } from "../../types";
 import { PropsWithChildren } from "react";
 
 export type StepperVariant = "primary" | "secondary" | "success" | "warning" | "danger";
@@ -6,7 +7,7 @@ export type StepperOrientation = "vertical" | "horizontal";
 
 export type StepperItemProps = PropsWithChildren<{
   title?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   variant?: StepperVariant;
   error?: boolean;
   disabled?: boolean;
@@ -22,11 +23,18 @@ export type StepperDefaultableProps = {
   orientation?: StepperOrientation;
   itemOrientation?: StepperOrientation;
   showCount?: boolean;
+  finishButtonLabel?: string;
 };
 
 export type StepperProps = {
-  activeStep?: number;
+  defaultActiveStep?: number;
+  hideNavigation?: boolean;
   onStepClick?: (index: number) => void;
+  onStepChange?: (index: number) => void;
+  onFinishClick?: () => void;
+  onNextClick?: () => void;
+  onPrevClick?: () => void;
+  state?: UseStepperReturn;
 } & StepperDefaultableProps;
 
 export type StepperContextType = {
@@ -36,4 +44,26 @@ export type StepperContextType = {
   stepType: StepperStepType;
   itemOrientation: StepperOrientation;
   onStepClick?: (index: number) => void;
+  goToStep: (index: number) => void;
+  goToNextStep: () => void;
+  goToPrevStep: () => void;
+  disabledSteps: boolean[];
+  stepData: Partial<Record<number, Record<string, unknown>>>;
+  setStepData: (index: number, data: Record<string, unknown>) => void;
+};
+
+export type StepperNavigationProps = {
+  onFinishClick?: () => void;
+  finishButtonLabel?: string;
+  onNextClick?: () => void;
+  onPrevClick?: () => void;
+};
+
+export type UseStepperReturn = {
+  activeStep: number;
+  stepData: Partial<Record<number, Record<string, unknown>>>;
+  setStepData: (index: number, data: Record<string, unknown>) => void;
+  goToStep: (index: number) => void;
+  goToNextStep: () => void;
+  goToPrevStep: () => void;
 };
