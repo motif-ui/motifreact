@@ -1,3 +1,14 @@
+# [v0.4.1](https://github.com/motif-ui/motifreact/releases/tag/v0.4.1) (2026-06-08)
+
+## 🐛 Bug Fixes
+
+- fix: add non-string icon support to M-Z components (MenuList, Navbar,… ([#71](https://github.com/motif-ui/motifreact/pull/71)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: navbar responsive design refactored under different sizes ([#70](https://github.com/motif-ui/motifreact/pull/70)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Stepper): data management between steps ([#80](https://github.com/motif-ui/motifreact/pull/80)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: library font family is added to storybook environment with higher hierarchy ([#76](https://github.com/motif-ui/motifreact/pull/76)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.0...v0.4.1)
+
 # [v0.4.0](https://github.com/motif-ui/motifreact/releases/tag/v0.4.0) (2026-06-02)
 
 ## 🚀 Features
