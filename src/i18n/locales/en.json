@@ -62,5 +62,20 @@
   },
   "misc": {
     "playgroundDescription": "This is the playground section to try your components..."
+  },
+  "datepicker": {
+    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "weekDays": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    "firstDayOfWeek": 1,
+    "last": "Last",
+    "days": "days",
+    "today": "Today",
+    "choose": "Please choose",
+    "hoursAbbr": "Hr",
+    "minutesAbbr": "Mn",
+    "secondsAbbr": "Sc",
+    "am": "AM",
+    "pm": "PM"
   }
 }

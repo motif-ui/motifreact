@@ -1,6 +1,5 @@
 import { Size4SM } from "../../types";
 import { DaysOfWeek, PickerPropsCommon } from "../Motif/Pickers/types";
-import { LOCALE_DATE_TR_TR } from "./locale/tr_TR";
 import { DateUtils } from "../../../utils/dateUtils";
 
 export type DatePickerProps = {
@@ -46,7 +45,7 @@ export type DatePickerPickerType = "day" | "month" | "year";
 
 export type DatePickerContextProps = {
   size: Size4SM;
-  locale: DatePickerLocale;
+  locale?: DatePickerLocale;
   pickerDate: Date; // The date that is used to hold the values when choosing temporary values like months or years.
   picker: DatePickerPickerType;
   selectedDate?: Date;
@@ -76,7 +75,6 @@ export const datePickerContextDefaultValues: DatePickerContextProps = {
   previousTab: "day",
   clearDatePicker: () => {},
   setPickerDate: () => {},
-  locale: LOCALE_DATE_TR_TR,
   onYearMonthTabSelected: () => {},
   fluid: false,
   today: DateUtils.getTodayTimeless(),

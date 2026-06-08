@@ -1,13 +1,13 @@
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
 import { render, within } from "@testing-library/react";
 import DateRangePicker from "@/components/DateRangePicker/DateRangePicker";
-import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
 import { formatDate } from "@/components/InputDate/helper";
-import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
 import { userEvent } from "@testing-library/user-event";
 import { DateUtils } from "../../../utils/dateUtils";
 import { ReactNode } from "react";
 import { defaultDateFormat } from "../Motif/Pickers/types";
+import { t } from "../../../utils/testUtils";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 describe("DateRangePicker", () => {
   const today = new Date(2023, 5, 15);
@@ -16,7 +16,7 @@ describe("DateRangePicker", () => {
   const year = today.getFullYear();
   const month = today.getMonth();
 
-  const formatDateWithDefaultFormatAndTR = (mockStartDate: Date) => formatDate(mockStartDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR);
+  const formatDateWithDefaultFormatAndTR = (mockStartDate: Date) => formatDate(mockStartDate, defaultDateFormat, getDateLocale(t));
 
   beforeAll(() => {
     jest.spyOn(DateUtils, "getTodayTimeless").mockReturnValue(today);
@@ -47,13 +47,13 @@ describe("DateRangePicker", () => {
 
   it("should be rendered with only required props and should have default prop values stated here", () => {
     const { getFirstPicker, getByTestId, container } = renderExt(
-      <DateRangePicker locale={LOCALE_DATE_RANGE_TR_TR} value={[new Date(2000, 1, 15), new Date(2000, 1, 18)]} />,
+      <DateRangePicker value={[new Date(2000, 1, 15), new Date(2000, 1, 18)]} />,
     );
     expect(container).toMatchSnapshot();
     const pickerContainer = getByTestId("Picker");
     // locale: TR
-    expect(within(getFirstPicker()).getByText("Çr")).toBeInTheDocument();
-    expect(within(getFirstPicker()).getByText("Pe")).toBeInTheDocument();
+    expect(within(getFirstPicker()).getByText("Mo")).toBeInTheDocument();
+    expect(within(getFirstPicker()).getByText("Tu")).toBeInTheDocument();
 
     // variant: borderless
     expect(pickerContainer).toHaveClass("borderless");
@@ -66,9 +66,9 @@ describe("DateRangePicker", () => {
     const { queryByText, getByTestId } = renderExt(<DateRangePicker />);
     await userEvent.click(getByTestId("Dropdown").firstElementChild!);
 
-    expect(queryByText(LOCALE_DATE_RANGE_TR_TR.today)).toBeInTheDocument();
+    expect(queryByText(getDateLocale(t).today)).toBeInTheDocument();
     dropdownDays.forEach(day => {
-      expect(queryByText(`${LOCALE_DATE_RANGE_TR_TR.last} ${day} ${LOCALE_DATE_RANGE_TR_TR.days}`)).toBeInTheDocument();
+      expect(queryByText(`${getDateLocale(t).last} ${day} ${getDateLocale(t).days}`)).toBeInTheDocument();
     });
   });
 
@@ -78,7 +78,7 @@ describe("DateRangePicker", () => {
     await userEvent.click(dropdownTrigger);
 
     const lastXDays = 7;
-    const chosenDay = getByText(`${LOCALE_DATE_RANGE_TR_TR.last} ${lastXDays} ${LOCALE_DATE_RANGE_TR_TR.days}`);
+    const chosenDay = getByText(`${getDateLocale(t).last} ${lastXDays} ${getDateLocale(t).days}`);
     await userEvent.click(chosenDay);
 
     const startDateInMillis = new Date(year, month, today.getDate() - lastXDays + 1).getTime();
@@ -93,7 +93,7 @@ describe("DateRangePicker", () => {
     const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
     await userEvent.click(dropdownTrigger);
 
-    const chosenDay = getByText(`${LOCALE_DATE_RANGE_TR_TR.last} ${dropdownDays[2]} ${LOCALE_DATE_RANGE_TR_TR.days}`);
+    const chosenDay = getByText(`${getDateLocale(t).last} ${dropdownDays[2]} ${getDateLocale(t).days}`);
     await userEvent.click(chosenDay);
 
     const endDateButton = getFirstPicker().querySelector(`[data-date="${today.getTime()}"]`);
@@ -115,7 +115,7 @@ describe("DateRangePicker", () => {
     const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
     await userEvent.click(dropdownTrigger);
 
-    const chosenDay = getByText(`${LOCALE_DATE_RANGE_TR_TR.last} ${dropdownDays[1]} ${LOCALE_DATE_RANGE_TR_TR.days}`);
+    const chosenDay = getByText(`${getDateLocale(t).last} ${dropdownDays[1]} ${getDateLocale(t).days}`);
     await userEvent.click(chosenDay);
 
     const endDateButton = container.querySelector(`[data-date="${today.getTime()}"]`);
@@ -127,7 +127,7 @@ describe("DateRangePicker", () => {
     const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
     await userEvent.click(dropdownTrigger);
 
-    const chosenDay = getByText(`${LOCALE_DATE_RANGE_TR_TR.last} ${dropdownDays[0]} ${LOCALE_DATE_RANGE_TR_TR.days}`);
+    const chosenDay = getByText(`${getDateLocale(t).last} ${dropdownDays[0]} ${getDateLocale(t).days}`);
     await userEvent.click(chosenDay);
 
     expect(getFirstInput().value).toBe(formatDateWithDefaultFormatAndTR(new Date(year, month, today.getDate() - 6)));
@@ -224,8 +224,8 @@ describe("DateRangePicker", () => {
 
   it("should render the current month in the first picker and the next month in the second picker when the value prop is not given", () => {
     const { getFirstPicker, getSecondPicker } = renderExt(<DateRangePicker />);
-    expect(within(getSecondPicker()).getByText(LOCALE_DATE_TR_TR.months[today.getMonth() + 1])).toBeInTheDocument();
-    expect(within(getFirstPicker()).getByText(LOCALE_DATE_TR_TR.months[today.getMonth()])).toBeInTheDocument();
+    expect(within(getSecondPicker()).getByText(getDateLocale(t).months[today.getMonth() + 1])).toBeInTheDocument();
+    expect(within(getFirstPicker()).getByText(getDateLocale(t).months[today.getMonth()])).toBeInTheDocument();
   });
 
   it("should render a left arrow in the first picker", () => {
@@ -242,7 +242,7 @@ describe("DateRangePicker", () => {
 
   it("should swipe the months to the left and render the previous month in the first picker when left arrow button is clicked", async () => {
     const { getByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
-    const previousMonthLabel = LOCALE_DATE_TR_TR.months[today.getMonth() - 1];
+    const previousMonthLabel = getDateLocale(t).months[today.getMonth() - 1];
     await userEvent.click(getByText("arrow_back"));
     const firstVisiblePicker = Array.from(getByTestId("DateRangePickerContainer").children)[0] as HTMLElement;
     const pastMonth = within(firstVisiblePicker).getByText(previousMonthLabel);
@@ -251,7 +251,7 @@ describe("DateRangePicker", () => {
 
   it("should swipe the months to the right and render the next month in the second picker when right arrow button is clicked", async () => {
     const { getByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
-    const futureMonthLabel = LOCALE_DATE_TR_TR.months[today.getMonth() + 2];
+    const futureMonthLabel = getDateLocale(t).months[today.getMonth() + 2];
     await userEvent.click(getByText("arrow_forward"));
     const lastPicker = Array.from(getByTestId("DateRangePickerContainer").children)[3] as HTMLElement;
     const futureMonth = within(lastPicker).getByText(futureMonthLabel);
@@ -303,13 +303,13 @@ describe("DateRangePicker", () => {
   it("should render Clear and OK buttons", () => {
     const { queryByText } = renderExt(<DateRangePicker />);
     expect(queryByText("Clear")).toBeInTheDocument();
-    expect(queryByText("OK")).toBeInTheDocument();
+    expect(queryByText("Submit")).toBeInTheDocument();
   });
 
   it("should not render Clear and OK buttons when removeActionButtons is true", () => {
     const { queryByText } = renderExt(<DateRangePicker removeActionButtons />);
     expect(queryByText("Clear")).not.toBeInTheDocument();
-    expect(queryByText("OK")).not.toBeInTheDocument();
+    expect(queryByText("Submit")).not.toBeInTheDocument();
   });
 
   it("should show today with a different style", () => {

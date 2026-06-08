@@ -25,10 +25,10 @@ exports[`TimePicker should be rendered with only required props and should have 
         class="abbrContainer"
       >
         <span>
-          Sa
+          Hr
         </span>
         <span>
-          Da
+          Mn
         </span>
       </div>
       <div
@@ -648,7 +648,7 @@ exports[`TimePicker should be rendered with only required props and should have 
           type="button"
         >
           <span>
-            OK
+            Submit
           </span>
         </button>
       </div>

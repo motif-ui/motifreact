@@ -7,10 +7,10 @@ import { defaultDateFormat } from "../Motif/Pickers/types";
 import { formatDateTime } from "./helper";
 import { formatDate } from "../InputDate/helper";
 import { TimeFormat } from "../Motif/Pickers/types";
-import { LOCALE_DATE_TIME_TR_TR } from "@/components/DateTimePicker/locale/tr_TR";
 import { DateUtils } from "../../../utils/dateUtils";
 import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
-import { LOCALE_DATE_TIME_EN_GB } from "@/components/DateTimePicker/locale/en_GB";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { t } from "../../../utils/testUtils";
 
 describe(InputDateTime, () => {
   const today = new Date();
@@ -26,7 +26,7 @@ describe(InputDateTime, () => {
     return formatDateTime(dateTime, defaultDateFormat, secondsEnabled, timeFormat, locale);
   };
 
-  const formatDateTimeValue = createDateTimeString(dateValue, false, "24h", LOCALE_DATE_TIME_TR_TR);
+  const formatDateTimeValue = createDateTimeString(dateValue, false, "24h", getDateLocale(t));
   const renderExt = (ui: ReactNode) => {
     const result = render(ui);
 
@@ -92,7 +92,6 @@ describe(InputDateTime, () => {
           yearFormat: "YY",
           monthFormat: "MMM",
         }}
-        locale={LOCALE_DATE_TIME_EN_GB}
       />,
     );
     expect(screen.queryByDisplayValue("02 Feb 25 00:00")).toBeInTheDocument();
@@ -106,7 +105,6 @@ describe(InputDateTime, () => {
           yearFormat: "YY",
           monthFormat: "MMMM",
         }}
-        locale={LOCALE_DATE_TIME_EN_GB}
       />,
     );
 
@@ -143,13 +141,12 @@ describe(InputDateTime, () => {
     expect(getByText("calendar_month").closest("button")).not.toHaveClass("active");
     expect(getByText("schedule").closest("button")).toHaveClass("active");
 
-    const { secondsAbbr } = LOCALE_DATE_TIME_TR_TR;
-    expect(getByText(secondsAbbr)).toBeInTheDocument();
+    expect(getByText(getDateLocale(t).secondsAbbr)).toBeInTheDocument();
 
     const seconds11 = getTimeList()[2].children.item(11);
     await userEvent.click(seconds11?.firstElementChild as Element);
     const newDate = DateUtils.getDateWithTime(new Date(), { seconds: 11 });
-    const formatDateValue = formatDateTime(newDate, defaultDateFormat, true, "24h", LOCALE_DATE_TIME_TR_TR);
+    const formatDateValue = formatDateTime(newDate, defaultDateFormat, true, "24h", getDateLocale(t));
     expect(getInputText()).toHaveValue(formatDateValue);
   });
 
@@ -165,12 +162,12 @@ describe(InputDateTime, () => {
     await waitFor(() => expect(getPickerContainer()).toBeInTheDocument());
     act(() => getByText("schedule").closest("button")?.click());
 
-    expect(getAllByText(LOCALE_DATE_TIME_TR_TR.pm)[1]).toHaveClass("selected");
-    expect(getInputText().value).toEqual("12/10/2025 02:00 " + LOCALE_DATE_TIME_TR_TR.pm);
+    expect(getAllByText(getDateLocale(t).pm)[1]).toHaveClass("selected");
+    expect(getInputText().value).toEqual("12/10/2025 02:00 " + getDateLocale(t).pm);
 
-    await userEvent.click(getByText(LOCALE_DATE_TIME_TR_TR.am));
-    expect(getAllByText(LOCALE_DATE_TIME_TR_TR.am)[1]).toHaveClass("selected");
-    expect(getInputText().value).toEqual("12/10/2025 02:00 " + LOCALE_DATE_TIME_TR_TR.am);
+    await userEvent.click(getByText(getDateLocale(t).am));
+    expect(getAllByText(getDateLocale(t).am)[1]).toHaveClass("selected");
+    expect(getInputText().value).toEqual("12/10/2025 02:00 " + getDateLocale(t).am);
     expect(onChange).toHaveBeenCalledWith(new Date(2025, 9, 12, 2, 0));
     jest.resetAllMocks();
   });
@@ -333,7 +330,7 @@ describe(InputDateTime, () => {
 
   it("should select today as the date when initially no value is selected and any time value (hours, minutes or seconds) is selected via the picker", async () => {
     const { getByText, getInputText, getTimeList } = renderExt(<InputDateTime secondsEnabled />);
-    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat, LOCALE_DATE_TIME_TR_TR)} 11:00:00`;
+    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat, getDateLocale(t))} 11:00:00`;
 
     await userEvent.click(getInputText());
 
@@ -346,7 +343,7 @@ describe(InputDateTime, () => {
 
   it("should select the unselected time values as 00 when initially no value is selected and any time value (hours, minutes or seconds) is selected via the picker", async () => {
     const { getByText, getInputText, getClearButton, getTimeList } = renderExt(<InputDateTime secondsEnabled />);
-    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat, LOCALE_DATE_TIME_TR_TR)}`;
+    const dateTimeVal = `${formatDate(new Date(), defaultDateFormat, getDateLocale(t))}`;
 
     const cases = [
       { col: "hours", expected: "05:00:00" },
@@ -378,13 +375,13 @@ describe(InputDateTime, () => {
     await userEvent.click(getInputText());
     await userEvent.click(getDateButton(dateValue));
 
-    await userEvent.click(getByText(LOCALE_DATE_TIME_TR_TR.pm));
-    expect(getAllByText(LOCALE_DATE_TIME_TR_TR.pm)[1]).toHaveClass("selected");
-    expect(getInputText().value).toEqual(expect.stringContaining(LOCALE_DATE_TIME_TR_TR.pm));
+    await userEvent.click(getByText(getDateLocale(t).pm));
+    expect(getAllByText(getDateLocale(t).pm)[1]).toHaveClass("selected");
+    expect(getInputText().value).toEqual(expect.stringContaining(getDateLocale(t).pm));
 
-    await userEvent.click(getByText(LOCALE_DATE_TIME_TR_TR.am));
-    expect(getAllByText(LOCALE_DATE_TIME_TR_TR.am)[1]).toHaveClass("selected");
-    expect(getInputText().value).toEqual(expect.stringContaining(LOCALE_DATE_TIME_TR_TR.am));
+    await userEvent.click(getByText(getDateLocale(t).am));
+    expect(getAllByText(getDateLocale(t).am)[1]).toHaveClass("selected");
+    expect(getInputText().value).toEqual(expect.stringContaining(getDateLocale(t).am));
   });
 
   it("should append AM/PM to the value when formatTime is 12h and a valid date/time is selected", async () => {
@@ -393,6 +390,6 @@ describe(InputDateTime, () => {
 
     await userEvent.click(getInputText());
     await userEvent.click(getDateButton(dateValue));
-    expect(getInputText().value).toEqual(expect.stringContaining(LOCALE_DATE_TIME_TR_TR.am));
+    expect(getInputText().value).toEqual(expect.stringContaining(getDateLocale(t).am));
   });
 });

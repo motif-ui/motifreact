@@ -16,7 +16,8 @@ import { InputDateRangeProps } from "./types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
-import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
+import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 export type MaybeDateRange = (Date | undefined)[] | undefined;
 
@@ -31,13 +32,16 @@ export const pickerSizeMap = {
 
 const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDateRange", p);
-  const { pill, value, onChange, locale = LOCALE_DATE_RANGE_TR_TR, ref, style, className } = props;
+  const { pill, value, onChange, locale: propsLocale, ref, style, className } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
   const datePlaceholder = format.order.map(part => format[`${part}Format`]?.replace(/[DMY]/g, "_")).join(` ${format.delimiter} `);
   const placeholder = useMemo(
     () => props.placeholder ?? `${datePlaceholder} ${RANGE_ARROW} ${datePlaceholder}`,
     [datePlaceholder, props.placeholder],
   );
+
+  const { t } = useMotifContext();
+  const locale = useMemo(() => propsLocale ?? getDateLocale(t), [propsLocale, t]);
 
   const formatRangeString = useCallback(
     (dates: MaybeDateRange) => {

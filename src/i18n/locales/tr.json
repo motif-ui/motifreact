@@ -62,5 +62,20 @@
   },
   "misc": {
     "playgroundDescription": "This is the playground section to try your components..."
+  },
+  "datepicker": {
+    "months": ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
+    "monthsShort": ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"],
+    "weekDays": ["Pz", "Pt", "Sa", "Çr", "Pe", "Cu", "Ct"],
+    "firstDayOfWeek": 1,
+    "last": "Son",
+    "days": "gün",
+    "today": "Bugün",
+    "choose": "Lütfen seçiniz",
+    "hoursAbbr": "Sa",
+    "minutesAbbr": "Da",
+    "secondsAbbr": "Sn",
+    "am": "ÖÖ",
+    "pm": "ÖS"
   }
 }

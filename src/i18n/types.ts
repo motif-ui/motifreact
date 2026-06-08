@@ -1,4 +1,4 @@
-import { Locale, locales } from "./locales/index";
+import { Locale, locales } from "src/i18n/locales";
 import { DeepPartial, LocaleShape } from "../lib/types";
 
 /**
@@ -17,10 +17,14 @@ export type LocaleConfig = Locale | { locale?: Locale; texts?: DeepPartial<Local
 type DeepKeys<T, Prefix extends string = ""> = {
   [K in keyof T & string]: T[K] extends string
     ? `${Prefix}${K}`
-    : T[K] extends Record<string, unknown>
-      ? `${Prefix}${K}` | DeepKeys<T[K], `${Prefix}${K}.`>
-      : never;
-}[keyof T & string];
+    : T[K] extends number
+      ? `${Prefix}${K}`
+      : T[K] extends readonly string[]
+        ? `${Prefix}${K}`
+        : T[K] extends Record<string, unknown>
+          ? `${Prefix}${K}` | DeepKeys<T[K], `${Prefix}${K}.`>
+          : never;
+}[keyof T & string & string[]];
 
 /** Union of every valid translation key derived from the English locale file. */
 export type LocaleKey = DeepKeys<typeof locales.en>;
