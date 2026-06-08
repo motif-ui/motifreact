@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen, act } from "@testing-library/react";
+import { runIconPropTest } from "../../../utils/testUtils";
 import { SelectGroupItem, SelectItem } from "@/components/Select/types";
 import { Select, Validations } from "../../index";
 import { userEvent } from "@testing-library/user-event";
@@ -18,8 +19,7 @@ describe("Select", () => {
   });
 
   it("should display given icon in the icon prop", () => {
-    render(<Select data={data} icon="home" />);
-    expect(screen.queryByText("home")).toBeInTheDocument();
+    runIconPropTest(icon => render(<Select data={data} icon={icon} />), "iconLeft");
   });
 
   it("should display placeholder when placeholder prop is set", () => {

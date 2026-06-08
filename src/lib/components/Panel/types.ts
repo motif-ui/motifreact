@@ -1,8 +1,9 @@
+import type { IconGlobalType } from "../../types";
 import { Size3 } from "../../types";
 
 export type PanelProps = {
   title?: string;
-  titleIcon?: string;
+  titleIcon?: IconGlobalType;
 } & PanelDefaultableProps;
 
 export type PanelDefaultableProps = {

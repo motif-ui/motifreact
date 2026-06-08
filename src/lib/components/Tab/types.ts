@@ -1,3 +1,4 @@
+import type { IconGlobalType } from "../../types";
 import { ReactElement } from "react";
 
 export type TabProps = {
@@ -6,7 +7,7 @@ export type TabProps = {
    * {
    *   id: string;
    *   title?: string;
-   *   icon?: string;
+   *   icon?: IconGlobalType;
    *   disabled?: boolean;
    * }[]
    * ```
@@ -25,7 +26,7 @@ export type TabDefaultableProps = {
 export type TabItemProps = {
   id: string;
   title?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   disabled?: boolean;
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Select.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import type { MouseEvent } from "react";
 import { Fragment, useCallback, useEffect, useImperativeHandle, useState } from "react";
 import { useSelectExpand } from "@/components/Select/useSelectExpand";
@@ -131,7 +131,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
         onClick={inputOnClickHandler}
         tabIndex={0}
       >
-        {icon && <Icon name={icon} className={styles.iconLeft} size={size} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.iconLeft} size={size} />}
         <div className={styles.inputTextAndItemsContainer}>
           {multiple &&
             filterable &&

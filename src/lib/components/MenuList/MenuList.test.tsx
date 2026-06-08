@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import MenuList from "./MenuList";
+import { runIconPropTest } from "../../../utils/testUtils";
 import { userEvent } from "@testing-library/user-event";
 import { Size3 } from "../../types";
 import { MainMenuItemProps } from "@/components/MenuList/types";
@@ -127,8 +128,7 @@ describe("MenuList", () => {
   });
 
   it("should display mainMenu item's icon given in the 'icon' property of the mainMenu item", () => {
-    render(<MenuList items={items} />);
-    expect(screen.queryByText("home")).toBeInTheDocument();
+    runIconPropTest(icon => render(<MenuList items={[{ label: "Home", icon }]} />));
   });
 
   it("should display mainMenu item as active when 'active' property of the mainMenu item is true", () => {

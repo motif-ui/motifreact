@@ -1,6 +1,6 @@
 "use client";
 
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "./InputText.module.scss";
 import { ChangeEvent, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { PropsWithRef } from "../../../types";
@@ -90,11 +90,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   return (
     <div className={classNames} ref={ref} data-testid="inputItem" style={style}>
-      {iconLeft && (
-        <Icon className={styles.icon} size={size}>
-          {iconLeft}
-        </Icon>
-      )}
+      {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.icon} size={size} />}
       <input
         id={id}
         type={type}
@@ -125,11 +121,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         </svg>
       ) : (
         <>
-          {iconRight && (
-            <Icon className={styles.icon} size={size}>
-              {iconRight}
-            </Icon>
-          )}
+          {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.icon} size={size} />}
           {buttonRight && <MotifIconButton name={buttonRight.name} className={styles.icon} size={size} onClick={buttonRight.onClick} />}
           {clearable && <MotifIconButton name="cancel_outline" disabled={disabled || readOnly} size={size} onClick={clearHandler} />}
         </>
