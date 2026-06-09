@@ -1,10 +1,20 @@
 import "@testing-library/jest-dom";
+import type { ReactNode } from "react";
 import Form from "@/components/Form";
 import InputText from "@/components/InputText";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "./Button";
 import { ButtonProps } from "./types";
 import { runIconPropTest } from "../../../utils/testUtils";
+
+jest.mock("../Motif/GlobalIconWrapper/GlobalIconWrapper", () => ({
+  __esModule: true,
+  default: ({ icon, className }: { icon: ReactNode; className?: string }) => (
+    <span className={`Root ${className ?? ""}`} data-testid="button-icon">
+      {icon}
+    </span>
+  ),
+}));
 
 describe("Button", () => {
   it("should render with only required props", () => {
@@ -54,7 +64,7 @@ describe("Button", () => {
   });
 
   it("should render the icon when icon prop is set", () => {
-    runIconPropTest(icon => render(<Button icon={icon} />), "icon");
+    runIconPropTest(icon => render(<Button icon={icon} aria-label="Home" />), "icon");
   });
 
   it("should contain both the icon and the label when both props are set", () => {
@@ -63,12 +73,22 @@ describe("Button", () => {
     expect(screen.getByText("test label")).toBeInTheDocument();
   });
 
-  it("should render the icon, considering the given position prop", () => {
-    const { rerender, container } = render(<Button icon="home" iconPosition="left" />);
-    expect(container.firstChild).toHaveClass("icon-left");
+  it("should render the icon before or after the content based on iconPosition", () => {
+    const { rerender, getByTestId, getByText } = render(
+      <Button icon="home" iconPosition="left">
+        Home
+      </Button>,
+    );
 
-    rerender(<Button icon="home" iconPosition="right" />);
-    expect(container.firstChild).toHaveClass("icon-right");
+    expect(getByTestId("button-icon").nextSibling).toBe(getByText("Home"));
+
+    rerender(
+      <Button icon="home" iconPosition="right">
+        Home
+      </Button>,
+    );
+
+    expect(getByTestId("button-icon").previousSibling).toBe(getByText("Home"));
   });
 
   it("should be rendered as disabled when disabled prop is given", () => {

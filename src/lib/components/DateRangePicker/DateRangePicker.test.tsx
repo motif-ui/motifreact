@@ -1,5 +1,5 @@
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
-import { render, within } from "@testing-library/react";
+import { act, render, waitFor, within } from "@testing-library/react";
 import DateRangePicker from "@/components/DateRangePicker/DateRangePicker";
 import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
 import { formatDate } from "@/components/InputDate/helper";
@@ -17,6 +17,11 @@ describe("DateRangePicker", () => {
   const month = today.getMonth();
 
   const formatDateWithDefaultFormatAndTR = (mockStartDate: Date) => formatDate(mockStartDate, defaultDateFormat, LOCALE_DATE_RANGE_TR_TR);
+  const advancePickerSlide = () => {
+    act(() => {
+      jest.advanceTimersByTime(350);
+    });
+  };
 
   beforeAll(() => {
     jest.spyOn(DateUtils, "getTodayTimeless").mockReturnValue(today);
@@ -107,19 +112,29 @@ describe("DateRangePicker", () => {
   });
 
   it("should render the end date in one of the pickers visible when an item from the dropdown is clicked and picker is showing past date", async () => {
+    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByText, getByTestId, container } = renderExt(<DateRangePicker />);
-    for (let i = 0; i < 10; i++) {
-      await userEvent.click(getByText("arrow_back"));
+
+    try {
+      for (let i = 0; i < 10; i++) {
+        await user.click(getByText("arrow_back"));
+        advancePickerSlide();
+      }
+
+      const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
+      await user.click(dropdownTrigger);
+
+      const chosenDay = getByText(`${LOCALE_DATE_RANGE_TR_TR.last} ${dropdownDays[1]} ${LOCALE_DATE_RANGE_TR_TR.days}`);
+      await user.click(chosenDay);
+
+      await waitFor(() => {
+        const endDateButton = container.querySelector(`[data-date="${today.getTime()}"]`);
+        expect(endDateButton).toHaveClass("selected");
+      });
+    } finally {
+      jest.useRealTimers();
     }
-
-    const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
-    await userEvent.click(dropdownTrigger);
-
-    const chosenDay = getByText(`${LOCALE_DATE_RANGE_TR_TR.last} ${dropdownDays[1]} ${LOCALE_DATE_RANGE_TR_TR.days}`);
-    await userEvent.click(chosenDay);
-
-    const endDateButton = container.querySelector(`[data-date="${today.getTime()}"]`);
-    expect(endDateButton).toHaveClass("selected");
   });
 
   it("should reflect the date range to the inputs when an item from the dropdown is clicked", async () => {
