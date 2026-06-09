@@ -7,7 +7,7 @@ import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider"
 
 const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   const { label, header, icon, iconColor, disabled, action } = props;
-  const { hideMenu } = useContext(DropdownContext);
+  const { hideMenu, size } = useContext(DropdownContext);
   const classNames = sanitizeModuleClasses(
     styles,
     "MenuItem",
@@ -25,7 +25,7 @@ const DropdownMenuItem = (props: DropdownMenuItemProps) => {
       <a className={classNames} {...(!disabled && { onClick: handleClick })}>
         {header ?? (
           <>
-            {icon && <GlobalIconWrapper icon={icon} className={styles.icon} style={{ color: iconColor }} />}
+            {icon && <GlobalIconWrapper icon={icon} size={size} className={styles.icon} style={{ color: iconColor }} />}
             {label && <span>{label}</span>}
           </>
         )}

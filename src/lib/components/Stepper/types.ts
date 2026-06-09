@@ -1,3 +1,4 @@
+import type { IconGlobalType } from "../../types";
 import { PropsWithChildren } from "react";
 
 export type StepperVariant = "primary" | "secondary" | "success" | "warning" | "danger";
@@ -6,7 +7,7 @@ export type StepperOrientation = "vertical" | "horizontal";
 
 export type StepperItemProps = PropsWithChildren<{
   title?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   variant?: StepperVariant;
   error?: boolean;
   disabled?: boolean;

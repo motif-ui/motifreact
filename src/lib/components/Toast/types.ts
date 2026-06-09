@@ -1,3 +1,4 @@
+import type { IconGlobalType } from "../../types";
 import { ReactElement } from "react";
 import { PropsWithRef } from "../../types";
 
@@ -14,7 +15,7 @@ export type ToastProps = {
   duration: number;
   closable: boolean;
   title?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   maxContentLength?: number;
 };
 
@@ -23,7 +24,7 @@ export type AddToastOptions = PropsWithRef<ToastDefaultableProps>;
 export type ToastDefaultableProps = {
   title?: string;
   position?: ToastPosition;
-  icon?: string;
+  icon?: IconGlobalType;
   duration?: number;
   closable?: boolean;
   maxContentLength?: number;
