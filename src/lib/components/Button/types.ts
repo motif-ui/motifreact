@@ -1,14 +1,15 @@
 import type { IconGlobalType } from "../../types";
-import type { MouseEvent } from "react";
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 export type ButtonProps = {
-  label?: string;
+  ref?: Ref<HTMLButtonElement>;
+  label?: ReactNode;
+  children?: ReactNode;
   icon?: IconGlobalType;
   iconPosition?: "left" | "right";
-  disabled?: boolean;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-  htmlType?: "submit" | "button";
-} & ButtonDefaultableProps;
+  htmlType?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> &
+  ButtonDefaultableProps;
 
 export type ButtonDefaultableProps = {
   shape?: "solid" | "outline" | "textonly";

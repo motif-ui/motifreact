@@ -59,11 +59,8 @@ $variants: (
 .fluid {
   width: 100%;
 }
-.icon-left {
-  flex-direction: row;
-}
-.icon-right {
-  flex-direction: row-reverse;
+.icon-only {
+  gap: 0;
 }
 
 @each $size, $ph, $pv, $fontSize, $iconSize in $sizes {
@@ -71,8 +68,13 @@ $variants: (
     padding: var(--base-sizing-#{$pv}) var(--base-sizing-#{$ph});
     gap: var(--base-sizing-#{$pv});
     @include font("base", $fontSize, "600");
+
     .icon {
       --mtf-icon-size: var(--base-sizing-#{$iconSize});
+    }
+
+    &.icon-only {
+      padding: var(--base-sizing-#{$pv});
     }
   }
 }
