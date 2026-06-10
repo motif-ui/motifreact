@@ -172,13 +172,24 @@ describe("NavBar", () => {
     const { getByRole } = render(
       <NavBar
         logo={{
-          imgPath: "some_image",
+          image: <img src="some_image" alt="logo" />,
           href: "https://motif-ui.com/",
         }}
       />,
     );
     expect(getByRole("link")).toHaveAttribute("href", "https://motif-ui.com/");
     expect(getByRole("img")).toHaveAttribute("src", "some_image");
+  });
+
+  it("should render a custom component as the logo", () => {
+    const CustomLogo = ({ title }: { title: string }) => (
+      <svg role="img" aria-label={title}>
+        <title>{title}</title>
+      </svg>
+    );
+    const { getByRole } = render(<NavBar logo={{ image: <CustomLogo title="Custom logo" /> }} />);
+
+    expect(getByRole("img", { name: "Custom logo" })).toBeInTheDocument();
   });
 
   it("should render either an action menu with the props in the actionMenu prop or a main menu with the props in the mainMenu prop", () => {

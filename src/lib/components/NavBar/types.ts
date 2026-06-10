@@ -72,8 +72,7 @@ export type NavBarDefaultableProps = {
   /**
    * ```
    * {
-   *   imgPath: string;
-   *   alt?: string;
+   *   image: ReactElement;
    *   href?: string;
    * }
    * ```

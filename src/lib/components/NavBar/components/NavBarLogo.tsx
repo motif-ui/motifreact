@@ -1,19 +1,19 @@
+import type { ReactElement } from "react";
 import styles from "../NavBar.module.scss";
 
 export type NavBarLogoProps = {
-  imgPath: string;
-  alt?: string;
+  image: ReactElement;
   href?: string;
 };
 
 const NavBarLogo = (props: NavBarLogoProps) => {
-  const { href, imgPath, alt } = props;
+  const { href, image } = props;
   return href ? (
     <a href={href} className={styles.logo}>
-      <img src={imgPath} alt={alt} />
+      {image}
     </a>
   ) : (
-    <img src={imgPath} alt={alt} className={styles.logo} />
+    <div className={styles.logo}>{image}</div>
   );
 };
 export default NavBarLogo;
