@@ -8,7 +8,7 @@ import { useState } from "react";
 const argValues: NavBarProps = {
   logo: {
     href: "https://motif-ui.com/",
-    imgPath: LOGO_URL,
+    image: <img src={LOGO_URL} alt="logo" />,
   },
   button: { label: "Login", icon: "person" },
   mainMenu: {
