@@ -93,7 +93,7 @@ describe("Localization", () => {
 
   it("should fall back to English when a key is missing in the selected locale", () => {
     const t = createTranslator("tr");
-    expect(t("misc.playgroundDescription")).toBe(locales.en.misc.playgroundDescription);
+    expect(t("misc.localizationTestValue")).toBe(locales.en.misc.localizationTestValue);
   });
 
   it("should return the raw key when the key is not found in any locale", () => {
