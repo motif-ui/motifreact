@@ -9,5 +9,5 @@ runs:
         node-version: 24.11.0
         cache: 'npm'
     - name: Install deps
-      run: npm ci
+      run: npm ci --ignore-scripts
       shell: bash
