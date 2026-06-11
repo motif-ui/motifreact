@@ -1,0 +1,33 @@
+name: Build Storybook
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4 # v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          persist-credentials: 'false'
+
+      - uses: ./.github/actions/setup-node-deps
+
+      - name: Build Storybook
+        run: npm run build:storybook
+
+      - name: Upload Storybook artifact
+        uses: actions/upload-artifact@v4 # v4
+        with:
+          name: storybook-static
+          path: storybook-static/
+          retention-days: 1
