@@ -1,4 +1,4 @@
-import { ResolvedCellSpan, getSpanProps } from "@/components/Table/cellSpan";
+import { ResolvedCellSpan, getSpanProps } from "@/components/Table/helper";
 import { Column } from "@/components/Table/types";
 import { getValueByChainedKey } from "../../../../../utils/utils";
 

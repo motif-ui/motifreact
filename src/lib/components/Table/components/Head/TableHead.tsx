@@ -6,7 +6,7 @@ import styles from "../../Table.module.scss";
 import HeaderRow from "@/components/Table/components/Head/HeaderRow";
 import FilterColumnsRow from "@/components/Table/components/Head/FilterColumnsRow";
 import RowSelectionCell from "@/components/Table/components/Head/RowSelectionCell";
-import { getRenderableHeaderColumns } from "@/components/Table/cellSpan";
+import { getRenderableHeaderColumns } from "@/components/Table/helper";
 
 type Props = {
   background: RowBackground;

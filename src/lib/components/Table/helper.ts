@@ -1,5 +1,9 @@
 import { Column, RowDetail } from "@/components/Table/types";
 
+// Constants
+export const SORT_DIRECTIONS: ("asc" | "desc" | undefined)[] = ["asc", "desc", undefined] as const;
+
+// Cell Span Types
 export type ResolvedCellSpan = {
   colSpan: number;
   rowSpan: number;
@@ -14,6 +18,7 @@ export type RenderableColumn = {
   colSpan?: number;
 };
 
+// Cell Span Utils
 const clampSpanValue = (span: number | undefined, maxSpan?: number): number => {
   if (!span || !Number.isFinite(span)) return 1;
   const clamped = Math.max(Math.floor(span), 1);
@@ -67,12 +72,12 @@ export const getSpannedCellsMap = (columns: Column[], rows?: RowDetail[]): Spann
   const map = new Map<SpannedCellKey, ResolvedCellSpan | undefined>();
   if (!rows) return map;
 
-  rows.forEach(row => {
+  rows.forEach((row, rowIndex) => {
+    const remainingRowsCount = rows.length - rowIndex;
     columns.forEach((column, colIndex) => {
-      const cellKey: SpannedCellKey = `${row.motifIndex}-${colIndex}`;
+      const cellKey: SpannedCellKey = `${rowIndex}-${colIndex}`;
       if (map.has(cellKey)) return;
 
-      const remainingRowsCount = rows.filter(r => r.motifIndex >= row.motifIndex).length;
       const span = resolveCellSpan(column, row.data, {
         maxColSpan: columns.length - colIndex,
         maxRowSpan: remainingRowsCount,
@@ -81,16 +86,45 @@ export const getSpannedCellsMap = (columns: Column[], rows?: RowDetail[]): Spann
       map.set(cellKey, span);
 
       for (let c = 1; c < colSpan; c++) {
-        map.set(`${row.motifIndex}-${colIndex + c}`, undefined);
+        map.set(`${rowIndex}-${colIndex + c}`, undefined);
       }
 
       for (let r = 1; r < rowSpan; r++) {
         for (let c = 0; c < colSpan; c++) {
-          map.set(`${row.motifIndex + r}-${colIndex + c}`, undefined);
+          map.set(`${rowIndex + r}-${colIndex + c}`, undefined);
         }
       }
     });
   });
 
   return map;
+};
+
+// Sorting Utils
+export const sortByType = (a: unknown, b: unknown, type: string) => {
+  switch (type) {
+    case "string":
+      return sortStrings(a as string, b as string);
+    case "number":
+      return sortNumbers(a as number, b as number);
+    case "boolean":
+      return sortBoolean(a as boolean, b as boolean);
+    case "object":
+      return sortObjects(a, b);
+    default:
+      return 0;
+  }
+};
+
+const sortStrings = (s1: string, s2: string) => s1.localeCompare(s2);
+
+const sortNumbers = (n1: number, n2: number) => n1 - n2;
+
+const sortBoolean = (b1: boolean, b2: boolean) => (b1 === b2 ? 0 : b1 ? 1 : -1);
+
+const sortObjects = (a: unknown, b: unknown) => {
+  if (!a || !b) {
+    return a === b ? 0 : !a ? -1 : 1;
+  }
+  return 0;
 };

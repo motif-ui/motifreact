@@ -846,4 +846,40 @@ describe("Table", () => {
     expect(cells[0]).not.toHaveAttribute("colspan");
     expect(cells[0]).not.toHaveAttribute("rowspan");
   });
+
+  it("should correctly handle rowSpan with filtered data", async () => {
+    const { container, getTableBody } = renderExt(
+      <Table
+        data={[
+          { name: "Alice", age: 28, group: "A" },
+          { name: "Bob", age: 34, group: "B" },
+          { name: "Charlie", age: 29, group: "A" },
+          { name: "Dave", age: 42, group: "B" },
+        ]}
+        columns={[
+          { title: "Group", dataKey: "group", rowSpan: 2, filter: true },
+          { title: "Name", dataKey: "name" },
+          { title: "Age", dataKey: "age" },
+        ]}
+        filterableTable
+        border="cellBorders"
+      />,
+    );
+
+    const filterInputs = container.querySelectorAll('[data-testid="inputItem"]');
+    const groupColumnFilterInput = filterInputs[filterInputs.length - 1].querySelector("input") as HTMLInputElement;
+
+    await userEvent.type(groupColumnFilterInput, "A");
+
+    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
+    expect(rows).toHaveLength(2);
+
+    const firstRowCells = within(rows[0]).getAllByRole("cell");
+    expect(firstRowCells[0]).toHaveTextContent("A");
+    expect(firstRowCells[0]).toHaveAttribute("rowspan", "2");
+
+    const secondRowCells = within(rows[1]).getAllByRole("cell");
+    expect(secondRowCells).toHaveLength(2);
+    expect(secondRowCells[0]).toHaveTextContent("Charlie");
+  });
 });

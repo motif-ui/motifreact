@@ -5,17 +5,16 @@ import { useContext } from "react";
 import { TableContext } from "@/components/Table/TableContext";
 import { RowDetail } from "@/components/Table/types";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
-import { SpannedCellsMap } from "@/components/Table/cellSpan";
 
 type Props = {
   rowNumberStatic: number;
   row: RowDetail;
-  spannedCellsMap: SpannedCellsMap;
+  rowIndex: number;
 };
 
 const DataRow = (props: Props) => {
-  const { rowNumberStatic, row, spannedCellsMap } = props;
-  const { columns, showFixedRowNumbers, selectable, selectHandler, rowColorCallback } = useContext(TableContext);
+  const { rowNumberStatic, row, rowIndex } = props;
+  const { columns, showFixedRowNumbers, selectable, selectHandler, rowColorCallback, spannedCellsMap } = useContext(TableContext);
 
   const className = sanitizeModuleClasses(styles, row.isSelected && "selected", rowColorCallback?.(row.data));
 
@@ -28,8 +27,8 @@ const DataRow = (props: Props) => {
       )}
       {showFixedRowNumbers ? <td>{rowNumberStatic}</td> : null}
       {columns.map((column, cIndex) => {
-        const span = spannedCellsMap.get(`${row.motifIndex}-${cIndex}`);
-        return span && <DataCell key={row.motifIndex + "-" + cIndex} column={column} rowData={row.data} span={span} />;
+        const span = spannedCellsMap.get(`${rowIndex}-${cIndex}`);
+        return span && <DataCell key={`${rowIndex}-${cIndex}`} column={column} rowData={row.data} span={span} />;
       })}
     </tr>
   );

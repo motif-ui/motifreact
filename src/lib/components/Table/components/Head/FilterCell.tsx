@@ -1,5 +1,5 @@
 import InputText from "@/components/Motif/InputText/InputText";
-import { getSpanProps } from "@/components/Table/cellSpan";
+import { getSpanProps } from "@/components/Table/helper";
 import { TableContext } from "@/components/Table/TableContext";
 import { useContext } from "react";
 import styles from "../../Table.module.scss";

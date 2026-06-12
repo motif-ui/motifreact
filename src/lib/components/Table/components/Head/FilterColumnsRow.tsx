@@ -2,7 +2,7 @@ import styles from "../../Table.module.scss";
 import FilterCell from "@/components/Table/components/Head/FilterCell";
 import { useContext } from "react";
 import { TableContext } from "@/components/Table/TableContext";
-import { getRenderableHeaderColumns, getSpanProps } from "@/components/Table/cellSpan";
+import { getRenderableHeaderColumns, getSpanProps } from "@/components/Table/helper";
 
 const FilterColumnsRow = () => {
   const { columns, showFixedRowNumbers, selectable } = useContext(TableContext);

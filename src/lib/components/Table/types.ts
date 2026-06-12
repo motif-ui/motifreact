@@ -1,4 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
+import { SpannedCellsMap } from "@/components/Table/helper";
 
 export type TableProps<T = object> = {
   columns: Column[];
@@ -84,6 +85,7 @@ export type TableContextType = {
   visibleRows?: RowDetail[];
   totalRecords: number;
   columns: Column[];
+  spannedCellsMap: SpannedCellsMap;
   updateSortState: (columnIndex: number) => void;
   columnStates: ColumState[];
   showFixedRowNumbers?: boolean;
@@ -120,6 +122,7 @@ export const TableContextDefaultValues: TableContextType = {
   columnStates: [],
   currentPage: 1,
   numberOfVisibleColumns: 0,
+  spannedCellsMap: new Map(),
 };
 
 //

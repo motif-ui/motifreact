@@ -1,10 +1,9 @@
-import { memo, ReactNode, useContext, useMemo } from "react";
+import { memo, ReactNode, useContext } from "react";
 import { TableContext } from "@/components/Table/TableContext";
 import styles from "../../Table.module.scss";
 import Skeleton from "@/components/Skeleton";
 import DataRow from "@/components/Table/components/Body/DataRow";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
-import { getSpannedCellsMap } from "@/components/Table/cellSpan";
 
 type Props = {
   loading?: boolean;
@@ -14,9 +13,7 @@ type Props = {
 
 const TableBody = memo((props: Props) => {
   const { loading, emptyMessage, striped } = props;
-  const { columns, visibleRows, numberOfVisibleColumns } = useContext(TableContext);
-
-  const spannedCellsMap = useMemo(() => getSpannedCellsMap(columns, visibleRows), [columns, visibleRows]);
+  const { visibleRows, numberOfVisibleColumns } = useContext(TableContext);
 
   const className = sanitizeModuleClasses(styles, striped && "striped");
   return (
@@ -34,9 +31,7 @@ const TableBody = memo((props: Props) => {
           </td>
         </tr>
       ) : (
-        visibleRows.map((row, index) => (
-          <DataRow key={row.motifIndex} rowNumberStatic={index + 1} row={row} spannedCellsMap={spannedCellsMap} />
-        ))
+        visibleRows.map((row, index) => <DataRow key={row.motifIndex} rowNumberStatic={index + 1} row={row} rowIndex={index} />)
       )}
     </tbody>
   );

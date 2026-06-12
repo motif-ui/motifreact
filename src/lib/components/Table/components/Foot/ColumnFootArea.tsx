@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useMemo } from "react";
 import { TableContext } from "@/components/Table/TableContext";
 import { Column, RowBackground } from "@/components/Table/types";
-import { getColSpan, getRenderableHeaderColumns } from "@/components/Table/cellSpan";
+import { getRenderableHeaderColumns } from "@/components/Table/helper";
 import { getValueByChainedKey } from "../../../../../utils/utils";
 import styles from "../../Table.module.scss";
 
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ColumnFootArea = ({ background, customFooter }: Props) => {
-  const { originalRows, columns, showFixedRowNumbers, selectable, numberOfVisibleColumns } = useContext(TableContext);
+  const { usableRows, columns, showFixedRowNumbers, selectable, numberOfVisibleColumns } = useContext(TableContext);
 
   const columnsConsideringExtraCols = useMemo(
     () =>
@@ -21,34 +21,15 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
     [columns, showFixedRowNumbers, selectable],
   );
 
-  const colspanInfoList = useMemo(
-    () =>
-      columnsConsideringExtraCols?.reduceRight(
-        (acc, column, index, arr) => {
-          const columnSpan = getColSpan(column, arr.length - index) ?? 1;
-          if (column.footer) {
-            return [{ colSpan: 0, title: column.footer.title }, ...acc];
-          } else {
-            if (!acc.length) return [{ colSpan: columnSpan }];
-
-            const [lastItem, ...rest] = acc;
-            return [{ colSpan: lastItem.colSpan + columnSpan, title: lastItem.title }, { colSpan: 0 }, ...rest];
-          }
-        },
-        [] as { colSpan: number; title?: string }[],
-      ),
-    [columnsConsideringExtraCols],
-  );
-
   const getFooterValue = ({ title, dataKey, footer }: Column) => {
     const { type } = footer || {};
     switch (type) {
       case "avg":
-        return originalRows
-          ? (originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) / originalRows.length).toFixed(2)
+        return usableRows
+          ? (usableRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) / usableRows.length).toFixed(2)
           : undefined;
       case "sum":
-        return originalRows?.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0);
+        return usableRows?.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0);
       case "title":
         return title;
       default:
@@ -57,16 +38,16 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
   };
 
   const footerCells = columnsConsideringExtraCols
-    ? getRenderableHeaderColumns(columnsConsideringExtraCols).map(({ column, index }) => {
-        const info = colspanInfoList?.[index];
-        if (!info || (!column.footer && !info.colSpan)) {
-          return null;
-        }
+    ? getRenderableHeaderColumns(columnsConsideringExtraCols).map(({ column, colSpan: headerColSpan }) => {
+        const actualColSpan = headerColSpan ?? 1;
+        const footerValue = getFooterValue(column);
+        const footerContent = column.footer ? (column.footer.render?.(footerValue) ?? footerValue) : "";
+        const footerTitle = column.footer?.title;
 
-        const { colSpan, title } = info;
         return (
-          <th key={"foot_td" + index} {...(colSpan && { colSpan })}>
-            {column.footer ? (column.footer.render?.(getFooterValue(column)) ?? getFooterValue(column)) : colSpan > 0 && title ? title : ""}
+          <th key={"foot_" + column.dataKey} {...(actualColSpan > 1 && { colSpan: actualColSpan })}>
+            {footerTitle && <div>{footerTitle}</div>}
+            {footerContent}
           </th>
         );
       })

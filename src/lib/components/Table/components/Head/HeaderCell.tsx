@@ -1,6 +1,6 @@
 import styles from "../../Table.module.scss";
 import { MotifIconButton } from "@/components/Motif/Icon";
-import { getSpanProps } from "@/components/Table/cellSpan";
+import { getSpanProps } from "@/components/Table/helper";
 import { Column } from "@/components/Table/types";
 import { useContext } from "react";
 import { TableContext } from "../../TableContext";
