@@ -9,15 +9,11 @@ const FilterColumnsRow = () => {
 
   return (
     <tr className={styles.trColumnFilters}>
-      {selectable && <th aria-hidden />}
-      {showFixedRowNumbers && <th aria-hidden />}
+      {selectable && <th />}
+      {showFixedRowNumbers && <th />}
       {getRenderableHeaderColumns(columns).map(({ column, index, colSpan }) => {
         const key = "0-filter" + index;
-        return column.filter ? (
-          <FilterCell index={index} key={key} colSpan={colSpan} />
-        ) : (
-          <th key={key} {...getSpanProps(colSpan)} aria-hidden />
-        );
+        return column.filter ? <FilterCell index={index} key={key} colSpan={colSpan} /> : <th key={key} {...getSpanProps(colSpan)} />;
       })}
     </tr>
   );
