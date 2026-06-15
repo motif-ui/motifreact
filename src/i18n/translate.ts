@@ -26,13 +26,17 @@ const interpolate = (template: string | string[], params?: Record<string, unknow
   });
 };
 
-export const createTranslator =
-  (locale: Locale, localeTexts?: DeepPartial<LocaleShape>): LibraryTranslateFn =>
-  (key: LocaleKey, params?: Record<string, unknown>): string => {
+export const createTranslator = (locale: Locale, localeTexts?: DeepPartial<LocaleShape>): LibraryTranslateFn => {
+  const resolve = (key: LocaleKey, params?: Record<string, unknown>) => {
     const template =
       (localeTexts && getNestedValue(localeTexts, key as string)) ??
       getNestedValue(locales[locale], key as string) ??
       getNestedValue(locales.en, key as string) ??
       key;
-    return <string>interpolate(template as string, params);
+    return interpolate(template as string, params);
   };
+
+  const t = (key: LocaleKey, params?: Record<string, unknown>): string => resolve(key, params) as string;
+  t.array = (key: LocaleKey, params?: Record<string, unknown>): string[] => resolve(key, params) as string[];
+  return t;
+};

@@ -36,4 +36,7 @@ export type LocaleKey = DeepKeys<typeof locales.en>;
  * The signature is intentionally compatible with i18next's `t` so consumers
  * can pass their own t to <MotifProvider t={t}> without type errors.
  */
-export type LibraryTranslateFn = (key: LocaleKey, params?: Record<string, unknown>) => string;
+export type LibraryTranslateFn = {
+  (key: LocaleKey, params?: Record<string, unknown>): string;
+  array(key: LocaleKey, params?: Record<string, unknown>): string[];
+};
