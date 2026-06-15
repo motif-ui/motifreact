@@ -15,6 +15,17 @@ describe("InputText", () => {
     expect(screen.getByDisplayValue(value));
   });
 
+  it("should display clearable icon when clearable prop is true", () => {
+    render(<InputText clearable />);
+    expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
+  });
+
+  it("should clear the input when clear button is clicked", async () => {
+    render(<InputText clearable value="Hello" />);
+    await userEvent.click(screen.getByTestId("iconButtonTestId"));
+    expect(screen.getByRole("textbox")).toHaveValue("");
+  });
+
   it("should be rendered with the size given in size prop", () => {
     const sizes: InputSize[] = ["xs", "sm", "md", "lg"];
     for (const size of sizes) {
