@@ -8,7 +8,7 @@ import { PropsWithRefAndChildren } from "../../types";
 import { MotifIcon } from "@/components/Motif/Icon";
 import useToggle from "../../hooks/useToggle";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 
 const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLDivElement>) => {
   const {
@@ -47,7 +47,7 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
   return (
     <div className={classNames} style={style} ref={ref} data-testid="accordionItem">
       <button type="button" className={styles.header} onClick={toggleAccordion}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} size="lg" />}
         <span className={styles.title}>{title}</span>
         <MotifIcon className={styles.collapseIcon} size="lg" name="keyboard_arrow_down" />
       </button>

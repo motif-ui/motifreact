@@ -10,9 +10,9 @@ import useOutsideClick from "../../hooks/useOutsideClick";
 import { formatDate, parseDate } from "@/components/InputDate/helper";
 import { PropsWithRef } from "../../types";
 import { InputValue } from "../Form/types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
-import { MotifIcon, MotifIconButton } from "../Motif/Icon";
+import { MotifIcon } from "../Motif/Icon";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
 
@@ -121,11 +121,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     <div ref={innerRef} className={classNames} style={style} data-testid="inputDate">
       <InputText
         iconLeft={<MotifIcon name="calendar_month" size={size} />}
-        iconRight={
-          typedValue && !disabled && !readOnly ? (
-            <MotifIconButton name="cancel_outline" size={size} onClick={clearClickHandler} />
-          ) : undefined
-        }
+        buttonRight={typedValue && !disabled && !readOnly ? { name: "cancel_outline", onClick: clearClickHandler } : undefined}
         name={name}
         size={size}
         pill={pill}

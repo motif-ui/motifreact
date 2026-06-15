@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Toast.module.scss";
-import Icon from "@/components/Icon";
+import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MotifIconButton } from "@/components/Motif/Icon";
 import useTimeout from "../../hooks/useTimeout";
 import { PropsWithRef } from "../../types";
 import { ToastProps } from "@/components/Toast/types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import ProgressBar from "@/components/ProgressBar";
 
 const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
@@ -85,7 +85,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
   return (
     !dismissed && (
       <div ref={ref} className={toastClasses} data-testid="toast" style={style} {...handlers}>
-        {icon && <Icon name={icon} className={styles.icon} variant={variant} size="xxl" />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="xxl" />}
 
         <div className={styles.contentContainer}>
           {title && <span className={styles.title}>{title}</span>}

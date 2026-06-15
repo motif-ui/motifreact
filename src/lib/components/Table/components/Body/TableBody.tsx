@@ -3,7 +3,7 @@ import { TableContext } from "@/components/Table/TableContext";
 import styles from "../../Table.module.scss";
 import Skeleton from "@/components/Skeleton";
 import DataRow from "@/components/Table/components/Body/DataRow";
-import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
+import { sanitizeModuleClasses } from "src/utils/cssUtils";
 
 type Props = {
   loading?: boolean;

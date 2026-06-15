@@ -1,3 +1,4 @@
+import type { IconGlobalType } from "../../../../types";
 import type { MouseEvent } from "react";
 
 export type MenuProps = {
@@ -7,7 +8,7 @@ export type MenuProps = {
 
 type ItemProps = {
   label?: string;
-  icon?: string;
+  icon?: IconGlobalType;
   items?: ItemProps[];
   href?: string;
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;

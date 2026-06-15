@@ -53,10 +53,6 @@
     }
   }
 
-  .icon {
-    --mtf-icon-size: var(--base-sizing-24x);
-  }
-
   .collapseIcon {
     @include transition(transform);
     color: var(--theme-color-text-base-text-dark);
