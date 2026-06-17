@@ -1,22 +1,7 @@
-import { Column, RowDetail } from "@/components/Table/types";
+import { Column, RowDetail, ResolvedCellSpan, RenderableColumn, SpannedCellKey, SpannedCellsMap } from "@/components/Table/types";
 
 // Constants
 export const SORT_DIRECTIONS: ("asc" | "desc" | undefined)[] = ["asc", "desc", undefined] as const;
-
-// Cell Span Types
-export type ResolvedCellSpan = {
-  colSpan: number;
-  rowSpan: number;
-};
-
-export type SpannedCellKey = `${number}-${number}`;
-export type SpannedCellsMap = Map<SpannedCellKey, ResolvedCellSpan | undefined>;
-
-export type RenderableColumn = {
-  column: Column;
-  index: number;
-  colSpan?: number;
-};
 
 // Cell Span Utils
 const clampSpanValue = (span: number | undefined, maxSpan?: number): number => {

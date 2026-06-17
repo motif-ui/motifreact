@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ColumnFootArea = ({ background, customFooter }: Props) => {
-  const { usableRows, columns, showFixedRowNumbers, selectable, numberOfVisibleColumns } = useContext(TableContext);
+  const { originalRows, columns, showFixedRowNumbers, selectable, numberOfVisibleColumns } = useContext(TableContext);
 
   const columnsConsideringExtraCols = useMemo(
     () =>
@@ -25,11 +25,11 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
     const { type } = footer || {};
     switch (type) {
       case "avg":
-        return usableRows
-          ? (usableRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) / usableRows.length).toFixed(2)
+        return originalRows
+          ? (originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) / originalRows.length).toFixed(2)
           : undefined;
       case "sum":
-        return usableRows?.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0);
+        return originalRows?.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0);
       case "title":
         return title;
       default:
@@ -38,14 +38,14 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
   };
 
   const footerCells = columnsConsideringExtraCols
-    ? getRenderableHeaderColumns(columnsConsideringExtraCols).map(({ column, colSpan: headerColSpan }) => {
+    ? getRenderableHeaderColumns(columnsConsideringExtraCols).map(({ column, index, colSpan: headerColSpan }) => {
         const actualColSpan = headerColSpan ?? 1;
         const footerValue = getFooterValue(column);
         const footerContent = column.footer ? (column.footer.render?.(footerValue) ?? footerValue) : "";
         const footerTitle = column.footer?.title;
 
         return (
-          <th key={"foot_" + column.dataKey} {...(actualColSpan > 1 && { colSpan: actualColSpan })}>
+          <th key={"foot_" + index} {...(actualColSpan > 1 && { colSpan: actualColSpan })}>
             {footerTitle && <div>{footerTitle}</div>}
             {footerContent}
           </th>

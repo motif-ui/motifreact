@@ -1,5 +1,18 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { SpannedCellsMap } from "@/components/Table/helper";
+
+export type ResolvedCellSpan = {
+  colSpan: number;
+  rowSpan: number;
+};
+
+export type SpannedCellKey = `${number}-${number}`;
+export type SpannedCellsMap = Map<SpannedCellKey, ResolvedCellSpan | undefined>;
+
+export type RenderableColumn = {
+  column: Column;
+  index: number;
+  colSpan?: number;
+};
 
 export type TableProps<T = object> = {
   columns: Column[];
