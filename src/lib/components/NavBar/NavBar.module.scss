@@ -28,7 +28,8 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
   align-items: center;
   height: var(--base-sizing-40x);
 
-  > * {
+  > *,
+  > * > * {
     height: 100%;
   }
 }

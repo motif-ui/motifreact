@@ -192,6 +192,31 @@ describe("NavBar", () => {
     expect(getByRole("img", { name: "Custom logo" })).toBeInTheDocument();
   });
 
+  it("should render custom component using logoSlot prop", () => {
+    const CustomLogo = ({ title }: { title: string }) => (
+      <svg role="img" aria-label={title}>
+        <title>{title}</title>
+      </svg>
+    );
+    const { getByRole } = render(<NavBar logoSlot={<CustomLogo title="Custom SVG Logo" />} />);
+
+    expect(getByRole("img", { name: "Custom SVG Logo" })).toBeInTheDocument();
+  });
+
+  it("should render logoSlot with href", () => {
+    const { getByRole } = render(
+      <NavBar
+        logoSlot={
+          <a href="https://example.com/">
+            <img src="logo.png" alt="Logo" />
+          </a>
+        }
+      />,
+    );
+    expect(getByRole("link")).toHaveAttribute("href", "https://example.com/");
+    expect(getByRole("img")).toHaveAttribute("src", "logo.png");
+  });
+
   it("should render either an action menu with the props in the actionMenu prop or a main menu with the props in the mainMenu prop", () => {
     const mockClick = jest.fn();
     const { getByText, getByRole, rerender } = render(
