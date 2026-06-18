@@ -61,6 +61,7 @@
     "chooseOrDragImage": "Bir resim seçin veya sürükleyin"
   },
   "misc": {
-    "playgroundDescription": "This is the playground section to try your components..."
+    "playgroundDescription": "Burası component'lerin denenebileceği bölüm...",
+    "localizationTestValue": null
   }
 }
