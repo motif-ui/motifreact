@@ -72,6 +72,7 @@ $sizes: (
 
   .inputText {
     all: unset;
+    width: 0;
     min-width: 0;
     flex-grow: 1;
     text-align: left;
