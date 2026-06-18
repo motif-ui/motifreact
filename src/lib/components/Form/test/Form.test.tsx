@@ -13,6 +13,7 @@ import { FormRefType, FormSubmitData, InputSize, Orientation } from "../../Form/
 import Button from "@/components/Button";
 import UploadInput from "@/components/Upload/UploadInput";
 import UploadList from "@/components/Upload/UploadList";
+import UploadDragger from "@/components/Upload/UploadDragger";
 import Grid from "@/components/Grid";
 import Row from "@/components/Grid/components/Row";
 import Col from "@/components/Grid/components/Col";
@@ -1330,5 +1331,68 @@ describe("Form", () => {
     );
 
     expect(screen.getByText("Custom 1").closest("button")).toHaveClass("primary");
+  });
+
+  it("should include UploadInput, UploadDragger, UploadList value files in form submit data", async () => {
+    const uploadValueServerFiles = [
+      { id: "server-1", name: "file.pdf", type: "application/pdf", size: 2048 },
+      { id: "server-2", name: "file.png", type: "image/png", size: 1024 },
+      { id: "server-3", name: "file.tiff", type: "image/tiff", size: 512 },
+    ];
+
+    const handleSubmit = (data: FormSubmitData) => {
+      const inputValues = [
+        data.values.uploadInput as FileType[],
+        data.values.uploadList as FileType[],
+        data.values.uploadDragger as FileType[],
+      ];
+
+      inputValues.forEach((files, i) => {
+        expect(files).toHaveLength(1);
+        expect(files[0].id).toBe(uploadValueServerFiles[i].id);
+        expect(files[0].file.name).toBe(uploadValueServerFiles[i].name);
+        expect(files[0].status).toBe(STATUS.SUCCESS);
+        expect(files[0].uploaded).toBe(true);
+      });
+    };
+
+    render(
+      <Form onSubmit={handleSubmit}>
+        <Form.Field name="uploadInput">
+          <UploadInput {...requiredProps} value={[uploadValueServerFiles[0]]} />
+        </Form.Field>
+        <Form.Field name="uploadList">
+          <UploadList {...requiredProps} value={[uploadValueServerFiles[1]]} />
+        </Form.Field>
+        <Form.Field name="uploadDragger">
+          <UploadDragger {...requiredProps} value={[uploadValueServerFiles[2]]} />
+        </Form.Field>
+      </Form>,
+    );
+
+    await userEvent.setup().click(screen.getByText(t("g.submit")));
+  });
+
+  it("should pass RequiredUploadedFile validation for UploadInput, UploadList, and UploadDragger when value files are present on mount", async () => {
+    const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
+
+    render(
+      <Form onSubmit={mockFunction}>
+        <Form.Field name="uploadInput" validations={[Validations.RequiredUploadedFile]}>
+          <UploadInput {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+        <Form.Field name="uploadList" validations={[Validations.RequiredUploadedFile]}>
+          <UploadList {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+        <Form.Field name="uploadDragger" validations={[Validations.RequiredUploadedFile]}>
+          <UploadDragger {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+      </Form>,
+    );
+
+    await userEvent.setup().click(screen.getByText(t("g.submit")));
+    expect(getFormField(0)).not.toHaveClass("error");
+    expect(getFormField(1)).not.toHaveClass("error");
+    expect(getFormField(2)).not.toHaveClass("error");
   });
 });

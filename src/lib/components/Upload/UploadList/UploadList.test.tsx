@@ -21,6 +21,8 @@ describe("UploadList", () => {
     };
   };
   const requiredProps = { id: "uploadList", uploadRequest: MOCK.uploadRequest, deleteRequest: MOCK.deleteRequest };
+  const serverFile = { id: "file-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
+  const serverFile2 = { id: "file-2", name: "server-img.png", type: "image/png", size: 4096 };
 
   it("should be rendered with only required props", () => {
     expect(renderExt(<UploadList {...requiredProps} />).container).toMatchSnapshot();
@@ -430,5 +432,78 @@ describe("UploadList", () => {
     expect(getDeleteButton()).toBeInTheDocument();
 
     xhrSpy.mockRestore();
+  });
+
+  it("should render a single file given in the value prop", () => {
+    const { getFileList, getFileItemFirst } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    expect(getFileList()?.childNodes).toHaveLength(1);
+    expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
+    expect(getFileItemFirst()).toHaveTextContent(formatBytes(serverFile.size));
+  });
+
+  it("should render multiple files given in the value prop", () => {
+    const { getFileList, getFileItemFirst, getFileItemLast } = renderExt(
+      <UploadList {...requiredProps} value={[serverFile, serverFile2]} />,
+    );
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
+    expect(getFileItemLast()).toHaveTextContent(serverFile2.name);
+  });
+
+  it("should send a delete request and remove the file when the delete button is clicked for a value file", async () => {
+    const xhrSpy = mockXHRs(200);
+    const { getFileList, getDeleteButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getFileList()).not.toBeInTheDocument());
+    xhrSpy.mockRestore();
+  });
+
+  it("should show a delete error when deleting a value file from the server fails", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { getDeleteButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument());
+    xhrSpy.mockRestore();
+  });
+
+  it("should render the download button when onDownloadClick is provided in value", () => {
+    const { unmount, getDownloadButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    expect(getDownloadButton()).not.toBeInTheDocument();
+    unmount();
+    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} />);
+    expect(getDownloadButton()).toBeInTheDocument();
+  });
+
+  it("should call onDownloadClick when the download button is clicked", async () => {
+    const onDownloadClick = jest.fn();
+    const { getDownloadButton } = renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, onDownloadClick }]} />);
+    await userEvent.click(getDownloadButton());
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should show the download button but hide action buttons when readOnly or disabled", () => {
+    const { getDownloadButton, getDeleteButton, unmount } = renderExt(
+      <UploadList {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} readOnly />,
+    );
+    expect(getDownloadButton()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    unmount();
+
+    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} disabled />);
+    expect(getDownloadButton()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+  });
+
+  it("should disable the browse button when the maxFile limit is already reached by value files", () => {
+    const { getBrowseButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} maxFile={1} />);
+    expect(getBrowseButton()).toBeDisabled();
+  });
+
+  it("should not add a duplicate file when a chosen file matches a value file by name, size, and type", async () => {
+    const matchingValueFile = { id: "server-pdf", name: MOCK.filePdf1kb.name, type: MOCK.filePdf1kb.type, size: MOCK.filePdf1kb.size };
+    const { getFileList, getInput } = renderExt(<UploadList {...requiredProps} value={[matchingValueFile]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(1);
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getFileList()?.childNodes).toHaveLength(1);
   });
 });

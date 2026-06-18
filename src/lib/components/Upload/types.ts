@@ -3,13 +3,20 @@ import { ReactNode } from "react";
 
 export type FileType = {
   id: string;
-  file: File;
+  file: Pick<File, "name" | "size" | "type">;
   status: number;
   uploaded?: boolean;
   progress?: number;
   messages?: string[];
   request?: XMLHttpRequest;
+  download?: () => void;
+  addedByValue?: boolean;
 };
+
+export type FileObject = {
+  id: string;
+  onDownloadClick?: () => void;
+} & Pick<File, "name" | "size" | "type">;
 
 export type RequestSettings = {
   url: string;
@@ -74,6 +81,7 @@ export type UploadProviderProps = {
   isUploadInput?: boolean;
   size?: Size4SM;
   name?: string;
+  value?: FileType[];
 };
 
 export type InputState = "noFile" | "waitingToUpload" | "uploading" | "error" | "uploaded";

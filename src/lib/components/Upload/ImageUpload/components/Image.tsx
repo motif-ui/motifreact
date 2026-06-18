@@ -16,7 +16,7 @@ type Props = {
 
 export const Image = ({ file: { status, progress, file } }: Props) => {
   const { selectedFiles, removeFiles } = useContext(UploadContext);
-  const image = URL.createObjectURL(file);
+  const image = URL.createObjectURL(file as File);
   const { visible, show, hide } = useToggle(false);
   const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL;
   const deleteFailed = status === STATUS.DELETE_FAIL;

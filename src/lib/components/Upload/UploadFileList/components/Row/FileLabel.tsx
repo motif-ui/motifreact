@@ -17,15 +17,13 @@ export const FileLabel = memo(
       status,
       messages,
       progress,
+      addedByValue,
       file: { name, size },
     },
   }: Props) => {
     const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL || status === STATUS.DELETE_FAIL;
-    const helperClassName = sanitizeModuleClasses(
-      styles,
-      "helperText",
-      failed ? "helperError" : status === STATUS.SUCCESS && "helperSuccess",
-    );
+    const successByUpload = status === STATUS.SUCCESS && !addedByValue;
+    const helperClassName = sanitizeModuleClasses(styles, "helperText", failed ? "helperError" : successByUpload && "helperSuccess");
     const { t } = useMotifContext();
 
     return (
@@ -34,7 +32,7 @@ export const FileLabel = memo(
         <span className={helperClassName}>
           {status === STATUS.IDLE
             ? t(MESSAGE.WAITING_TO_UPLOAD)
-            : status === STATUS.SUCCESS
+            : successByUpload
               ? t(MESSAGE.UPLOAD_SUCCESS)
               : failed
                 ? messages?.join("\n")
