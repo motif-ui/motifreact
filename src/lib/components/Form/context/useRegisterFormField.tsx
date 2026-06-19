@@ -113,7 +113,6 @@ export const useRegisterFormField: UseRegisterFormFieldType = registerProps => {
 
   const onChangeWithFormFieldUpdate = useCallback(
     (val?: InputValue) => {
-      //TODO - after all components get onChange prop from this hook, "onFormFieldValueUpdate" may be moved into this function and then deleted
       onChange?.(val);
       onFormFieldValueUpdate(val);
     },
