@@ -87,15 +87,12 @@ describe("Stepper", () => {
   });
 
   it("should render step counter when showCount prop is true", () => {
-    const { container, rerender } = renderExt();
-    expect(container.querySelector(".stepCount")).not.toBeInTheDocument();
+    renderExt();
+    expect(screen.queryByText("/ 3")).not.toBeInTheDocument();
+    cleanup();
 
-    rerender(
-      <Stepper showCount>
-        <Stepper.Item title="Step 1">Content 1</Stepper.Item>
-      </Stepper>,
-    );
-    expect(container.querySelector(".stepCount")).toBeInTheDocument();
+    renderExt({ showCount: true });
+    expect(screen.getByText("/ 3")).toBeInTheDocument();
   });
 
   it("should render the correct initial active step using defaultActiveStep", () => {
@@ -104,6 +101,15 @@ describe("Stepper", () => {
     expect(stepItems[0]).toHaveClass("completed");
     expect(stepItems[1]).toHaveClass("active");
     expect(stepItems[2]).toHaveClass("upcoming");
+  });
+
+  it("should clamp defaultActiveStep to valid range", () => {
+    const { container, unmount } = renderExt({ defaultActiveStep: -1 });
+    expect(container.querySelectorAll(".stepItem")[0]).toHaveClass("active");
+    unmount();
+
+    const { container: highContainer } = renderExt({ defaultActiveStep: 99 });
+    expect(highContainer.querySelectorAll(".stepItem")[2]).toHaveClass("active");
   });
 
   it("should render step content of the active step only", () => {
@@ -301,6 +307,11 @@ describe("useStepper", () => {
   it("should initialise with defaultActiveStep", () => {
     const { result } = renderHook(() => useStepper(2));
     expect(result.current.activeStep).toBe(2);
+  });
+
+  it("should clamp negative defaultActiveStep to 0", () => {
+    const { result } = renderHook(() => useStepper(-5));
+    expect(result.current.activeStep).toBe(0);
   });
 
   it("should default to step 0 when no defaultActiveStep is given", () => {
