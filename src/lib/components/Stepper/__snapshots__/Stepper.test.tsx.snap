@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Stepper should render with only required props and have default prop values stated here 1`] = `
+<div>
+  <div
+    class="Root horizontal number vertical-items"
+  >
+    <div
+      class="stepList"
+    >
+      <div
+        class="stepItem primary active"
+      >
+        <div
+          class="stepHeader item-vertical"
+        >
+          <span
+            class="stepIndicator"
+          >
+            <span
+              class="stepNumber"
+            >
+              1
+            </span>
+          </span>
+          <span
+            class="title"
+          >
+            Step 1
+          </span>
+        </div>
+      </div>
+      <div
+        class="stepItem primary upcoming"
+      >
+        <div
+          class="stepHeader item-vertical"
+        >
+          <span
+            class="stepIndicator"
+          >
+            <span
+              class="stepNumber"
+            >
+              2
+            </span>
+          </span>
+          <span
+            class="title"
+          >
+            Step 2
+          </span>
+        </div>
+      </div>
+      <div
+        class="stepItem primary upcoming"
+      >
+        <div
+          class="stepHeader item-vertical"
+        >
+          <span
+            class="stepIndicator"
+          >
+            <span
+              class="stepNumber"
+            >
+              3
+            </span>
+          </span>
+          <span
+            class="title"
+          >
+            Step 3
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="stepContent"
+    >
+      <div>
+        Content 1
+      </div>
+      <div
+        class="stepNavigation"
+      >
+        <button
+          class="Root primary outline md"
+          disabled=""
+          type="button"
+        >
+          <span>
+            Previous
+          </span>
+        </button>
+        <button
+          class="Root primary solid md"
+          type="button"
+        >
+          <span>
+            Next
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
