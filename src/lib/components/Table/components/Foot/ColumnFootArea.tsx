@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useMemo } from "react";
 import { TableContext } from "@/components/Table/TableContext";
 import { Column, RowBackground } from "@/components/Table/types";
-import { getRenderableHeaderColumns } from "@/components/Table/helper";
+import { getRenderableHeaderColumns, getSpanProps } from "@/components/Table/helper";
 import { getValueByChainedKey } from "../../../../../utils/utils";
 import styles from "../../Table.module.scss";
 
@@ -25,7 +25,7 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
     const { type } = footer || {};
     switch (type) {
       case "avg":
-        return originalRows
+        return originalRows?.length
           ? (originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) / originalRows.length).toFixed(2)
           : undefined;
       case "sum":
@@ -45,7 +45,7 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
         const footerTitle = column.footer?.title;
 
         return (
-          <th key={"foot_" + index} {...(actualColSpan > 1 && { colSpan: actualColSpan })}>
+          <th key={"foot_" + index} {...getSpanProps(actualColSpan)}>
             {footerTitle && <div>{footerTitle}</div>}
             {footerContent}
           </th>
