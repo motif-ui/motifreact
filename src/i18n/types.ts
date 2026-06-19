@@ -17,14 +17,12 @@ export type LocaleConfig = Locale | { locale?: Locale; texts?: DeepPartial<Local
 type DeepKeys<T, Prefix extends string = ""> = {
   [K in keyof T & string]: T[K] extends string
     ? `${Prefix}${K}`
-    : T[K] extends number
+    : T[K] extends readonly string[]
       ? `${Prefix}${K}`
-      : T[K] extends readonly string[]
-        ? `${Prefix}${K}`
-        : T[K] extends Record<string, unknown>
-          ? `${Prefix}${K}` | DeepKeys<T[K], `${Prefix}${K}.`>
-          : never;
-}[keyof T & string & string[]];
+      : T[K] extends Record<string, unknown>
+        ? `${Prefix}${K}` | DeepKeys<T[K], `${Prefix}${K}.`>
+        : never;
+}[keyof T & string];
 
 /** Union of every valid translation key derived from the English locale file. */
 export type LocaleKey = DeepKeys<typeof locales.en>;
@@ -36,7 +34,4 @@ export type LocaleKey = DeepKeys<typeof locales.en>;
  * The signature is intentionally compatible with i18next's `t` so consumers
  * can pass their own t to <MotifProvider t={t}> without type errors.
  */
-export type LibraryTranslateFn = {
-  (key: LocaleKey, params?: Record<string, unknown>): string;
-  array(key: LocaleKey, params?: Record<string, unknown>): string[];
-};
+export type LibraryTranslateFn = (key: LocaleKey, params?: Record<string, unknown>) => string;

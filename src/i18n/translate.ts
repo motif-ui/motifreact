@@ -10,7 +10,6 @@ const getNestedValue = (obj: Record<string, unknown>, key: string): string | str
     current = (current as Record<string, unknown>)[part];
   }
   if (typeof current === "string") return current;
-  if (typeof current === "number") return String(current);
   if (Array.isArray(current) && current.every(item => typeof item === "string")) return current;
   return undefined;
 };
@@ -26,17 +25,10 @@ const interpolate = (template: string | string[], params?: Record<string, unknow
   });
 };
 
-export const createTranslator = (locale: Locale, localeTexts?: DeepPartial<LocaleShape>): LibraryTranslateFn => {
-  const resolve = (key: LocaleKey, params?: Record<string, unknown>) => {
+export const createTranslator =
+  (locale: Locale, localeTexts?: DeepPartial<LocaleShape>): LibraryTranslateFn =>
+  (key: LocaleKey, params?: Record<string, unknown>) => {
     const template =
-      (localeTexts && getNestedValue(localeTexts, key as string)) ??
-      getNestedValue(locales[locale], key as string) ??
-      getNestedValue(locales.en, key as string) ??
-      key;
-    return interpolate(template as string, params);
+      (localeTexts && getNestedValue(localeTexts, key)) ?? getNestedValue(locales[locale], key) ?? getNestedValue(locales.en, key) ?? key;
+    return interpolate(template, params) as string;
   };
-
-  const t = (key: LocaleKey, params?: Record<string, unknown>): string => resolve(key, params) as string;
-  t.array = (key: LocaleKey, params?: Record<string, unknown>): string[] => resolve(key, params) as string[];
-  return t;
-};
