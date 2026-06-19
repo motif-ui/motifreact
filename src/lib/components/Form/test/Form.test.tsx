@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
 import { useRef, useState } from "react";
 import Form from "@/components/Form/Form";
 import InputText from "@/components/InputText";
@@ -20,7 +20,7 @@ import Col from "@/components/Grid/components/Col";
 import { MOCK } from "../../Upload/mock";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { FileType } from "@/components/Upload/types";
-import { t } from "src/utils/testUtils.tsx";
+import { t, mockXHRs } from "src/utils/testUtils.tsx";
 
 import {
   data,
@@ -672,6 +672,7 @@ describe("Form", () => {
   });
 
   it("should remove error conditions after filling in incorrect inputs", async () => {
+    const xhrSpy = mockXHRs();
     const validationMessage = "Please fill in this field";
     const fileValidationMessage = "Please upload at least one file";
     const value = "Entered Text";
@@ -729,10 +730,14 @@ describe("Form", () => {
     );
     await user.type(screen.getByTestId("textareaItem"), value);
 
-    items.forEach((element, index) => {
-      expect(getFormField(index)).not.toHaveClass("error");
-      expect(getFormField(index)).toHaveTextContent("Helper Text " + element.key);
+    await waitFor(() => {
+      items.forEach((element, index) => {
+        expect(getFormField(index)).not.toHaveClass("error");
+        expect(getFormField(index)).toHaveTextContent("Helper Text " + element.key);
+      });
     });
+
+    xhrSpy.mockRestore();
   });
 
   it("should be rendered as error and show component level message when required validation property and component level validation is given and form submitted", async () => {

@@ -14,6 +14,9 @@ describe("UploadDragger", () => {
   const serverFile = { id: "file-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
   const serverFile2 = { id: "file-2", name: "server-img.png", type: "image/png", size: 4096 };
 
+  beforeEach(() => mockXHRs());
+  afterEach(() => jest.restoreAllMocks());
+
   it("should be rendered with only required props", () => {
     expect(renderExt(<UploadDragger {...requiredProps} />).container).toMatchSnapshot();
   });
@@ -68,7 +71,6 @@ describe("UploadDragger", () => {
   });
 
   it("should only accept files of the given file types with accept prop", async () => {
-    const xhrSpy = mockXHRs();
     const accept: string[] = ["application/pdf"];
     const expectedErrorMessage = t(MESSAGE.MIME_TYPE, { acceptType: "application/pdf", fileType: "image/png" });
     const { getInput, getFileItemFirst, getFileItemLast } = renderExt(<UploadDragger {...requiredProps} accept={accept} maxFile={2} />);
@@ -80,12 +82,9 @@ describe("UploadDragger", () => {
     expect(fileItem2).toHaveTextContent(MOCK.filePng2mb.name);
     expect(fileItem2).toHaveTextContent(expectedErrorMessage); // Validation failed : File type PNG
     expect(fileItem2.childNodes[1].lastChild).toHaveClass("helperError");
-
-    xhrSpy.mockRestore();
   });
 
   it("should validate each file with the given validate function and show the given error message if fails when customValidation prop is given", async () => {
-    const xhrSpy = mockXHRs();
     const errorMessage = "Seçilen dosya formatı hatalı. Uygun formatta dosya seçerek tekrar deneyiniz.";
 
     const customValidation = (file: File) => ({ isValid: file.type === "application/pdf", errorMessage });
@@ -99,12 +98,9 @@ describe("UploadDragger", () => {
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(errorMessage); // Validation failed : File type PNG
     expect(fileItem2.childNodes[1].lastChild).toHaveClass("helperError");
-
-    xhrSpy.mockRestore();
   });
 
   it("should allow uploading as many files as specified with the maxFile prop", async () => {
-    const xhrSpy = mockXHRs();
     const maxFile = 1;
     const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
     const { getInput, getFileItemFirst, getFileItemLast } = renderExt(<UploadDragger {...requiredProps} maxFile={maxFile} />);
@@ -118,8 +114,6 @@ describe("UploadDragger", () => {
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.fileTxt1kb.name);
     expect(fileItem2).toHaveTextContent(expectedErrorMessage);
-
-    xhrSpy.mockRestore();
   });
 
   it("should not upload files whose file size is larger than given size in maxSize prop", async () => {
@@ -196,14 +190,12 @@ describe("UploadDragger", () => {
   });
 
   it("should upload files when files are dropped to the file drag area", async () => {
-    const xhrSpy = mockXHRs();
     const { getFileList, getFileItemFirst, getDragArea } = renderExt(<UploadDragger {...requiredProps} />);
     await simulateDrop(getDragArea(), [MOCK.filePng2mb]);
     expect(getFileList()?.childNodes).toHaveLength(1);
     const fileItem = getFileItemFirst();
     expect(fileItem).toHaveTextContent(MOCK.filePng2mb.name);
     await waitForSuccessfulUpload(fileItem);
-    xhrSpy.mockRestore();
   });
 
   it("should not upload files automatically when autoUpload prop is false", async () => {
@@ -216,18 +208,15 @@ describe("UploadDragger", () => {
   });
 
   it("should allow files to be uploaded manually when autoUpload prop is false", async () => {
-    const xhrSpy = mockXHRs();
     const { getFileItemFirst, getInput, getUploadButton } = renderExt(<UploadDragger {...requiredProps} autoUpload={false} />);
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
     const fileItem = getFileItemFirst();
     await userEvent.click(getUploadButton());
     expect(fileItem).toHaveTextContent(MOCK.fileGif1mb.name);
     await waitForSuccessfulUpload(fileItem);
-    xhrSpy.mockRestore();
   });
 
   it("should delete the file from the list when delete icon of that file is clicked", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const { container, getFileList, getFileItemFirst, getDeleteButton } = renderExt(<UploadDragger {...requiredProps} />);
     const dragArea = container.firstElementChild?.firstChild;
     await simulateDrop(dragArea as Element, [MOCK.filePng2mb]);
@@ -242,11 +231,9 @@ describe("UploadDragger", () => {
       expect(getDeleteButton()).not.toBeInTheDocument();
       expect(fileList).not.toBeInTheDocument();
     });
-    xhrSpy.mockRestore();
   });
 
   it("should automatically upload a file which was errored because the maximum number of file limit is reached, when an already uploaded file is deleted and autoUpload is true", async () => {
-    const xhrSpy = mockXHRs(200, 200, 200);
     const { getDragArea, getFileList, getFileItemFirst, getFileItemLast, getDeleteButton } = renderExt(
       <UploadDragger {...requiredProps} />,
     );
@@ -270,12 +257,9 @@ describe("UploadDragger", () => {
     });
 
     await waitForSuccessfulUpload(getFileItemFirst());
-
-    xhrSpy.mockRestore();
   });
 
   it("should show error and prevent uploading for exceeding files when more files than the maxFile prop is dropped and autoUpload is false", async () => {
-    const xhrSpy = mockXHRs();
     const maxFile = 1;
     const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
     const { getDragArea, getFileList, getUploadButton } = renderExt(
@@ -294,11 +278,9 @@ describe("UploadDragger", () => {
       expect(fileItem).not.toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
       expect(fileItem).toHaveTextContent(expectedErrorMessage);
     });
-    xhrSpy.mockRestore();
   });
 
   it("should upload valid files and make the upload button disabled when autoUpload is false and more files than maxFile are added", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const maxFile = 2;
     const { getDragArea, getUploadButton } = renderExt(<UploadDragger {...requiredProps} maxFile={maxFile} autoUpload={false} />);
     await simulateDrop(getDragArea(), [MOCK.filePng2mb, MOCK.filePdf1kb, MOCK.fileJpeg1kb]);
@@ -310,12 +292,9 @@ describe("UploadDragger", () => {
     await waitFor(() => {
       expect(screen.queryAllByText(t(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile);
     });
-
-    xhrSpy.mockRestore();
   });
 
   it("should enable the upload button when one of the already-uploadeded files is deleted and autoUpload is false and waiting files have only maxFile exceed error", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const maxFile = 2;
     const { getDragArea, getUploadButton, getDeleteButton } = renderExt(
       <UploadDragger {...requiredProps} maxFile={maxFile} autoUpload={false} />,
@@ -329,12 +308,9 @@ describe("UploadDragger", () => {
       await userEvent.click(getDeleteButton(1)); // delete a success file
     });
     await waitFor(() => expect(getUploadButton()).not.toBeDisabled());
-
-    xhrSpy.mockRestore();
   });
 
   it("should keep the upload button as disabled when autoUpload is false and one of the maxFile-exceed-errored files are deleted", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const maxFile = 2;
     const { getDragArea, getUploadButton, getDeleteButton } = renderExt(
       <UploadDragger {...requiredProps} maxFile={maxFile} autoUpload={false} />,
@@ -346,8 +322,6 @@ describe("UploadDragger", () => {
     await waitFor(() => expect(uploadButton).toBeDisabled());
     await userEvent.click(getDeleteButton(2));
     expect(uploadButton).toBeDisabled();
-
-    xhrSpy.mockRestore();
   });
 
   it("should allow user to retry uploading via re-upload button when a network error occurs", async () => {
@@ -398,11 +372,9 @@ describe("UploadDragger", () => {
   });
 
   it("should send a delete request and remove the file when the delete button is clicked for a value file", async () => {
-    const xhrSpy = mockXHRs(200);
     const { getFileList, getDeleteButton } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} />);
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getFileList()).not.toBeInTheDocument());
-    xhrSpy.mockRestore();
   });
 
   it("should show a delete error when deleting a value file from the server fails", async () => {
