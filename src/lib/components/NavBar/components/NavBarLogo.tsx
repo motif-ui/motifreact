@@ -10,14 +10,8 @@ export type NavBarLogoProps = {
 
 const NavBarLogo = (props: NavBarLogoProps) => {
   const { href, imgPath, alt, image } = props;
-  const logoContent = image ? image : <img src={imgPath} alt={alt} />;
+  const logoContent = image ? href ? <a href={href}>{image}</a> : image : <img src={imgPath} alt={alt} />;
 
-  return href ? (
-    <a href={href} className={styles.logo}>
-      {logoContent}
-    </a>
-  ) : (
-    <div className={styles.logo}>{logoContent}</div>
-  );
+  return <div className={styles.logo}>{logoContent}</div>;
 };
 export default NavBarLogo;

@@ -24,13 +24,12 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 }
 
 .logo {
-  display: flex;
-  align-items: center;
+  @include flex-center;
   height: var(--base-sizing-40x);
 
-  > *,
-  > * > * {
+  > * {
     height: 100%;
+    @include flex-center;
   }
 }
 

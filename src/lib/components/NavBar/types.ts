@@ -82,7 +82,6 @@ export type NavBarDefaultableProps = {
   /**
    * Custom logo component. Takes precedence over logo prop.
    * Use for flexible logo rendering with <img>, <Image>, <NextImage>, etc.
-   * Wrap with <a> tag if you need a link: <a href="/home"><img .../></a>
    */
   logoSlot?: React.ReactElement;
 };
