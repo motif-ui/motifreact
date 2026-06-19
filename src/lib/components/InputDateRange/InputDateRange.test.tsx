@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
 import { t } from "../../../utils/testUtils";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDateRange", () => {
   const user = userEvent.setup();
@@ -115,7 +115,7 @@ describe("InputDateRange", () => {
     await user.click(getDateButton(dateStart));
     await user.click(getDateButton(dateEnd));
 
-    const okButton = getByText(t("g.submit")) as HTMLButtonElement;
+    const okButton = getByText(t("g.ok")) as HTMLButtonElement;
     await user.click(okButton);
 
     expect(getDateRangeInput()).toHaveValue(testDateString);

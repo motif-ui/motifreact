@@ -15,7 +15,7 @@ const DayHeader = () => {
 
   return (
     <Header
-      month={locale!.months[pickerDate.getMonth()]}
+      month={locale.months[pickerDate.getMonth()]}
       year={pickerDate.getFullYear().toString()}
       onPrevClick={prevClickHandler}
       onNextClick={nextClickHandler}

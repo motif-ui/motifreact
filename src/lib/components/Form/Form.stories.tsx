@@ -21,6 +21,7 @@ import InputDateTime from "@/components/InputDateTime";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import Button from "@/components/Button";
+import { LocaleKey } from "src/i18n/types.ts";
 
 const meta: Meta<typeof Form> = {
   title: "Components/Form",
@@ -203,7 +204,7 @@ export const Primary: Story = {
         helperText="Please choose an age range"
         validations={[
           {
-            errorMessage: "Please select a value between 20 and 80.",
+            errorMessage: "Please select a value between 20 and 80." as LocaleKey,
             validate: value => {
               if (value === undefined) return false;
               const valueArray = value as number[];

@@ -1,19 +1,13 @@
 "use client";
 
 import styles from "../../../DatePicker.module.scss";
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { DatePickerContext } from "@/components/DatePicker/context/DatePickerProvider";
 import Header from "@/components/DatePicker/components/Header/Header";
 import MonthYearButton from "./MonthYearButton";
-import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const MonthSelector = () => {
-  const { pickerDate, setPickerDate, setPicker, locale: contextLocale, onPickerChange, size } = useContext(DatePickerContext);
-
-  const { t } = useMotifContext();
-  const locale = useMemo(() => contextLocale ?? getDateLocale(t), [contextLocale, t]);
-
+  const { pickerDate, setPickerDate, setPicker, locale, onPickerChange, size } = useContext(DatePickerContext);
   const [activeDate] = useState(pickerDate);
 
   const prevClickHandler = useCallback(() => {

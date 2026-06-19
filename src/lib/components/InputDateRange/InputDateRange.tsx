@@ -16,8 +16,7 @@ import { InputDateRangeProps } from "./types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
-import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
 
 export type MaybeDateRange = (Date | undefined)[] | undefined;
 
@@ -39,9 +38,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     () => props.placeholder ?? `${datePlaceholder} ${RANGE_ARROW} ${datePlaceholder}`,
     [datePlaceholder, props.placeholder],
   );
-
-  const { t } = useMotifContext();
-  const locale = useMemo(() => propsLocale ?? getDateLocale(t), [propsLocale, t]);
+  const locale = useDateLocale(propsLocale);
 
   const formatRangeString = useCallback(
     (dates: MaybeDateRange) => {

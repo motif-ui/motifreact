@@ -6,7 +6,7 @@ import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { t } from "../../../utils/testUtils";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
   const testDate = new Date(2025, 1, 15);

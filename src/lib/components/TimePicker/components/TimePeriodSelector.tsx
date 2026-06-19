@@ -16,7 +16,7 @@ const TimePeriodSelector = () => {
 
         return (
           <button key={period} className={buttonClasses} onClick={() => changeTimePeriod(period)} type="button">
-            {locale![period]}
+            {locale[period]}
           </button>
         );
       })}

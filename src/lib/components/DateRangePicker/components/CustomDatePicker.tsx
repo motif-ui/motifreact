@@ -1,11 +1,9 @@
-import { useCallback, useContext, RefObject, useMemo } from "react";
+import { useCallback, useContext, RefObject } from "react";
 import { DateRangePickerContext } from "@/components/DateRangePicker/context/DateRangePickerProvider";
 import { DateUtils } from "../../../../utils/dateUtils";
 import Day from "@/components/DatePicker/components/DateSelector/Day/Day";
 import { MIDDLE_OF_THE_MONTH, orderDatesAndPutTimes } from "@/components/DateRangePicker/helper";
 import DaySelector from "@/components/DatePicker/components/DateSelector/Day/DaySelector";
-import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 type Props = {
   order: number;
@@ -16,7 +14,7 @@ const CustomDatePicker = (props: Props) => {
   const { order, daysRef } = props;
   const {
     size,
-    locale: contextLocale,
+    locale,
     dateCouple: [startDate, endDate],
     today,
     months,
@@ -27,10 +25,6 @@ const CustomDatePicker = (props: Props) => {
     setMonths,
     getDaysOfMonth,
   } = useContext(DateRangePickerContext);
-
-  const { t } = useMotifContext();
-  const locale = useMemo(() => contextLocale ?? getDateLocale(t), [contextLocale, t]);
-
   const onDateClick = useCallback(
     (date: Date) => {
       const updatedDates = partialSelection ? orderDatesAndPutTimes([partialSelection, date]) : [new Date(date), undefined];

@@ -9,7 +9,6 @@ type Props = {
   onClearClick?: () => void;
   onOkClick?: () => void;
   spread?: boolean;
-  locale?: unknown;
 };
 
 const PickerActions = (props: Props) => {
@@ -21,7 +20,7 @@ const PickerActions = (props: Props) => {
   return (
     <div className={classes}>
       <Button variant="secondary" label={t("g.clear")} size={size} onClick={onClearClick} />
-      <Button variant="primary" label={t("g.submit")} size={size} onClick={onOkClick} />
+      <Button variant="primary" label={t("g.ok")} size={size} onClick={onOkClick} />
     </div>
   );
 };

@@ -3,7 +3,7 @@ import TimePicker from "@/components/TimePicker";
 import { Time, TimePickerLocale } from "../TimePicker/types";
 import { userEvent } from "@testing-library/user-event";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 import { t } from "../../../utils/testUtils";
 
 const timeValue: Time = { hours: 11, minutes: 43, seconds: 13 };
@@ -187,12 +187,12 @@ describe("TimePicker", () => {
 
     const { rerender } = render(<TimePicker onOkClick={handleOkClick} />);
 
-    await user.click(screen.queryByText("Submit") as Element);
+    await user.click(screen.queryByText("OK") as Element);
     expect(handleOkClick).toHaveBeenCalledWith(undefined);
 
     rerender(<TimePicker value={timeValue} onOkClick={handleOkClick} />);
 
-    await user.click(screen.queryByText("Submit") as Element);
+    await user.click(screen.queryByText("OK") as Element);
     expect(handleOkClick).toHaveBeenNthCalledWith(2, expect.objectContaining({ hours: timeValue.hours, minutes: timeValue.minutes }));
   });
 

@@ -3,9 +3,7 @@ import Picker from "@/components/Motif/Pickers/Picker";
 import { DateTimePickerProvider } from "./context/DateTimePickerProvider";
 import DateTimePickerContainer from "./components/DateTimePickerContainer";
 import { PropsWithRef } from "../../types";
-import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { useMemo } from "react";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
 
 const DateTimePicker = (props: PropsWithRef<DateTimePickerProps, HTMLDivElement>) => {
   const {
@@ -21,17 +19,17 @@ const DateTimePicker = (props: PropsWithRef<DateTimePickerProps, HTMLDivElement>
     secondsEnabled,
     onClearClick,
     removeActionButtons,
+    firstDayOfWeek = 1,
     style,
     className,
     ref,
   } = props;
 
-  const { t } = useMotifContext();
-  const resolvedLocale = useMemo(() => locale ?? getDateLocale(t), [locale, t]);
-
+  const resolvedLocale = useDateLocale(locale);
   return (
     <Picker size={size} variant={variant} fluid={fluid} ref={ref} style={style} className={`mtf-DateTimePicker ${className ?? ""}`.trim()}>
       <DateTimePickerProvider
+        firstDayOfWeek={firstDayOfWeek}
         size={size}
         value={value}
         onTimeChange={onTimeChange}

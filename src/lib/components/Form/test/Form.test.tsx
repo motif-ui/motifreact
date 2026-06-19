@@ -45,7 +45,7 @@ import { DateUtils } from "src/utils/dateUtils.ts";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("Form", () => {
   it("should be rendered with only required props and items", () => {

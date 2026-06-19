@@ -51,7 +51,7 @@ export type DateRangePickerProviderProps = {
 };
 
 export type DateRangePickerContextProps = {
-  locale?: DateRangePickerLocale;
+  locale: DateRangePickerLocale;
   size: Size4SM;
   dateCouple: (Date | undefined)[];
   setDateCouple: Dispatch<SetStateAction<(Date | undefined)[]>>;
@@ -84,4 +84,13 @@ export const datePickerContextDefaultValues: DateRangePickerContextProps = {
   setDateCouple: () => {},
   getDaysOfMonth: () => [],
   initialMonths: [],
+  locale: {
+    months: [],
+    monthsShort: [],
+    weekDays: [],
+    today: "",
+    last: "",
+    days: "",
+    choose: "",
+  },
 };

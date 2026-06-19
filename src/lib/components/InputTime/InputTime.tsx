@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./InputTime.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useState } from "react";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import TimePicker from "@/components/TimePicker";
@@ -14,8 +14,7 @@ import { InputValue } from "@/components/Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
-import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
 
 const pickerSizeMap = {
   xs: "xs",
@@ -40,9 +39,7 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     className,
   } = props;
 
-  const { t } = useMotifContext();
-  const locale = useMemo(() => propsLocale ?? getDateLocale(t), [propsLocale, t]);
-
+  const locale = useDateLocale(propsLocale);
   const [pickerVisible, setPickerVisible] = useState(false);
   const [itemValue, setItemValue] = useState<Time | undefined>(validateTime(value as Time, !!secondsEnabled));
   const [typedValue, setTypedValue] = useState<string>(formatTime(itemValue, false, !!secondsEnabled, format, locale));

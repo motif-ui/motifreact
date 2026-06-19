@@ -4,7 +4,7 @@ import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
 import { Time } from "@/components/TimePicker/types";
 import { ReactNode } from "react";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 import { t } from "../../../utils/testUtils";
 
 describe("InputTime", () => {
@@ -22,7 +22,7 @@ describe("InputTime", () => {
 
     const getClearButton = () => screen.queryByText("cancel_outline") as HTMLButtonElement;
 
-    const getOkButton = () => screen.getByText("Submit");
+    const getOkButton = () => screen.getByText("OK");
 
     const hasValueBothInPickerAndInput = (expectedValue: string) => {
       expect(getInput()).toHaveValue(expectedValue);

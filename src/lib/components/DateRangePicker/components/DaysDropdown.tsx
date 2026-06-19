@@ -2,15 +2,13 @@ import Dropdown from "@/components/Dropdown";
 import { useCallback, useContext, useMemo, useState } from "react";
 import { DateRangePickerContext } from "@/components/DateRangePicker/context/DateRangePickerProvider";
 import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const days = [1, 7, 30, 180, 365] as const;
 
 const DaysDropdown = () => {
-  const { locale: contextLocale, size, setMonths, initialMonths, today, setDateCouple, onDateChange } = useContext(DateRangePickerContext);
+  const { locale, size, setMonths, initialMonths, today, setDateCouple, onDateChange } = useContext(DateRangePickerContext);
   const { t } = useMotifContext();
-  const locale = useMemo(() => contextLocale ?? getDateLocale(t), [contextLocale, t]);
-  const [label, setLabel] = useState(locale.choose);
+  const [label, setLabel] = useState(t("g.choose"));
 
   const changeHandler = useCallback(
     (label: string, days: number) => {

@@ -16,8 +16,7 @@ import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
 import { MotifIcon } from "../Motif/Icon";
 import { DateUtils } from "src/utils/dateUtils.ts";
-import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
 
 const pickerSizeMap = {
   xs: "xs",
@@ -28,11 +27,21 @@ const pickerSizeMap = {
 
 const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDateTime", p);
-  const { editable, pill, value, onChange, secondsEnabled, timeFormat = "24h", locale: propsLocale, ref, style, className } = props;
+  const {
+    editable,
+    pill,
+    value,
+    onChange,
+    secondsEnabled,
+    timeFormat = "24h",
+    locale: propsLocale,
+    ref,
+    style,
+    className,
+    firstDayOfWeek,
+  } = props;
 
-  const { t } = useMotifContext();
-  const locale = useMemo(() => propsLocale ?? getDateLocale(t), [propsLocale, t]);
-
+  const locale = useDateLocale(propsLocale);
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.dateFormat }), [props.dateFormat]);
   const placeholder = useMemo(
     () =>
@@ -147,6 +156,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
       {pickerVisible && (
         <div className={styles.pickerContainer}>
           <DateTimePicker
+            firstDayOfWeek={firstDayOfWeek}
             variant="bordered"
             secondsEnabled={secondsEnabled}
             timeFormat={timeFormat}

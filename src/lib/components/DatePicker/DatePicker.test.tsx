@@ -3,7 +3,7 @@ import { render, act } from "@testing-library/react";
 import { DatePickerLocale } from "./types";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
 import { t } from "../../../utils/testUtils";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 export const runDatePickerCommonTests = () => {
   describe("DatePickerCommon", () => {
@@ -295,11 +295,11 @@ describe("DatePicker", () => {
   it("should not render clear and ok buttons when removeActionButtons is set to true", () => {
     const { rerender, queryByText } = render(<DatePicker />);
     expect(queryByText("Clear")).toBeInTheDocument();
-    expect(queryByText("Submit")).toBeInTheDocument();
+    expect(queryByText("OK")).toBeInTheDocument();
 
     rerender(<DatePicker removeActionButtons />);
     expect(queryByText("Clear")).not.toBeInTheDocument();
-    expect(queryByText("Submit")).not.toBeInTheDocument();
+    expect(queryByText("OK")).not.toBeInTheDocument();
   });
 
   it("should fire onPickerChange event with 'month' parameter when the picker is switched to Month Picker", () => {
@@ -392,7 +392,7 @@ describe("DatePicker", () => {
     const onOkClick = jest.fn();
     const { getByText } = render(<DatePicker onOkClick={onOkClick} />);
 
-    const okButton = getByText("Submit");
+    const okButton = getByText("OK");
     const day10Button = getByText("10");
 
     act(() => okButton.click());
@@ -408,9 +408,8 @@ describe("DatePicker", () => {
       months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
       monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
       weekDays: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-      firstDayOfWeek: 3 /* wednesday */,
     };
-    const { container, getByText } = render(<DatePicker locale={LOCALE_DATE_ES_ES} value={new Date(2025, 3, 10)} />);
+    const { container, getByText } = render(<DatePicker firstDayOfWeek={3} locale={LOCALE_DATE_ES_ES} value={new Date(2025, 3, 10)} />);
 
     // Weekdays
     expect(getByText("Do")).toBeInTheDocument();

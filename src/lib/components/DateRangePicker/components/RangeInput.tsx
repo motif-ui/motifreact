@@ -1,6 +1,6 @@
 import InputText from "@/components/Motif/InputText/InputText";
 import useOutsideClick from "../../../hooks/useOutsideClick";
-import { useCallback, useContext, useEffect, useId, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useId, useState } from "react";
 import { DateRangePickerContext } from "@/components/DateRangePicker/context/DateRangePickerProvider";
 import { InputValue } from "@/components/Form/types";
 import { formatDate, parseDate } from "@/components/InputDate/helper";
@@ -8,8 +8,6 @@ import { MIDDLE_OF_THE_MONTH, orderDatesAndPutTimes } from "@/components/DateRan
 import { DateUtils } from "../../../../utils/dateUtils";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { DateFormat } from "../../Motif/Pickers/types";
-import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const dateFormat: DateFormat = {
   order: ["day", "month", "year"],
@@ -24,13 +22,9 @@ type Props = {
 };
 
 const RangeInput = (props: Props) => {
-  const { locale: contextLocale } = useContext(DateRangePickerContext);
   const { index } = props;
-  const { size, dateCouple, onDateChange, setDateCouple, getDaysOfMonth, months, setMonths } = useContext(DateRangePickerContext);
+  const { size, dateCouple, onDateChange, setDateCouple, getDaysOfMonth, months, setMonths, locale } = useContext(DateRangePickerContext);
   const uniqueName = useId();
-
-  const { t } = useMotifContext();
-  const locale = useMemo(() => contextLocale ?? getDateLocale(t), [contextLocale, t]);
 
   const [value, setValue] = useState<string>("");
 

@@ -6,7 +6,7 @@ import { act, render, waitFor } from "@testing-library/react";
 import { DateTimePickerLocale } from "../DateTimePicker/types";
 import { userEvent } from "@testing-library/user-event";
 import { t } from "../../../utils/testUtils";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateTimePicker", () => {
   beforeEach(() => {
@@ -137,11 +137,11 @@ describe("DateTimePicker", () => {
   it("should not render clear and ok buttons when removeActionButtons is set to true", () => {
     const { rerender, queryByText } = render(<DateTimePicker />);
     expect(queryByText("Clear")).toBeInTheDocument();
-    expect(queryByText("Submit")).toBeInTheDocument();
+    expect(queryByText("OK")).toBeInTheDocument();
 
     rerender(<DateTimePicker removeActionButtons />);
     expect(queryByText("Clear")).not.toBeInTheDocument();
-    expect(queryByText("Submit")).not.toBeInTheDocument();
+    expect(queryByText("OK")).not.toBeInTheDocument();
   });
 
   it("should trigger onClearClick event when the clear button is clicked", () => {
@@ -155,11 +155,11 @@ describe("DateTimePicker", () => {
     const handleOkClick = jest.fn();
     const date = new Date(2000, 10, 11, 12, 13, 14);
     const { getByText } = render(<DateTimePicker onOkClick={handleOkClick} value={date} />);
-    act(() => getByText("Submit").click());
+    act(() => getByText("OK").click());
     expect(handleOkClick).toHaveBeenCalledWith(date);
 
     act(() => getByText("Clear").click());
-    act(() => getByText("Submit").click());
+    act(() => getByText("OK").click());
     expect(handleOkClick).toHaveBeenCalledWith(undefined);
   });
 
@@ -189,7 +189,6 @@ describe("DateTimePicker", () => {
       ],
       monthsShort: ["Ja1", "Fe2", "Ma3", "Ap4", "Ma5", "Ju6", "Ju7", "Ag8", "Se9", "O10", "N11", "D12"],
       weekDays: ["5D", "6D", "7D", "1D", "2D", "3D", "4D"],
-      firstDayOfWeek: 3 /* 1D */,
       hoursAbbr: "H1",
       minutesAbbr: "M2",
       secondsAbbr: "S3",
@@ -197,7 +196,7 @@ describe("DateTimePicker", () => {
       pm: "PM",
     };
     const { container, getByText, getAllByText } = render(
-      <DateTimePicker locale={LOCALE_DATETIME_CUSTOM} secondsEnabled timeFormat="12h" />,
+      <DateTimePicker locale={LOCALE_DATETIME_CUSTOM} firstDayOfWeek={3} secondsEnabled timeFormat="12h" />,
     );
     const thisMonth = new Date().getMonth();
 

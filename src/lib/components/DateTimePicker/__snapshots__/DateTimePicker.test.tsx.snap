@@ -319,7 +319,7 @@ exports[`DatePicker should be rendered with only required props and should have 
         type="button"
       >
         <span>
-          Submit
+          OK
         </span>
       </button>
     </div>
@@ -975,7 +975,7 @@ exports[`TimePicker should be rendered with only required props and should have 
           type="button"
         >
           <span>
-            Submit
+            OK
           </span>
         </button>
       </div>

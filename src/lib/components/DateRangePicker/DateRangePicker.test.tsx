@@ -7,7 +7,7 @@ import { DateUtils } from "../../../utils/dateUtils";
 import { ReactNode } from "react";
 import { defaultDateFormat } from "../Motif/Pickers/types";
 import { t } from "../../../utils/testUtils";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateRangePicker", () => {
   const today = new Date(2023, 5, 15);
@@ -303,13 +303,13 @@ describe("DateRangePicker", () => {
   it("should render Clear and OK buttons", () => {
     const { queryByText } = renderExt(<DateRangePicker />);
     expect(queryByText("Clear")).toBeInTheDocument();
-    expect(queryByText("Submit")).toBeInTheDocument();
+    expect(queryByText("OK")).toBeInTheDocument();
   });
 
   it("should not render Clear and OK buttons when removeActionButtons is true", () => {
     const { queryByText } = renderExt(<DateRangePicker removeActionButtons />);
     expect(queryByText("Clear")).not.toBeInTheDocument();
-    expect(queryByText("Submit")).not.toBeInTheDocument();
+    expect(queryByText("OK")).not.toBeInTheDocument();
   });
 
   it("should show today with a different style", () => {

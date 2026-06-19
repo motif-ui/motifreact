@@ -1191,7 +1191,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
         type="button"
       >
         <span>
-          Submit
+          OK
         </span>
       </button>
     </div>

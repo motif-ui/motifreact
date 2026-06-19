@@ -23,12 +23,12 @@ export type DatePickerDefaultableProps = {
    *   // 2 letters
    *   weekDays: string[];
    *
-   *   firstDayOfWeek: 0|1|2|3|4|5|6;
    * }
    * ```
    */
   locale?: DatePickerLocale;
   removeActionButtons?: boolean;
+  firstDayOfWeek?: DaysOfWeek;
 } & PickerPropsCommon;
 
 export type DatePickerProviderProps = {
@@ -39,13 +39,15 @@ export type DatePickerProviderProps = {
   onDateChange?: (date?: Date) => void;
   onPickerChange?: (picker: DatePickerPickerType) => void;
   onClearClick?: () => void;
+  firstDayOfWeek: DaysOfWeek;
 };
 
 export type DatePickerPickerType = "day" | "month" | "year";
 
 export type DatePickerContextProps = {
   size: Size4SM;
-  locale?: DatePickerLocale;
+  firstDayOfWeek: DaysOfWeek;
+  locale: DatePickerLocale;
   pickerDate: Date; // The date that is used to hold the values when choosing temporary values like months or years.
   picker: DatePickerPickerType;
   selectedDate?: Date;
@@ -65,7 +67,6 @@ export type DatePickerLocale = {
   months: string[];
   monthsShort: string[];
   weekDays: string[];
-  firstDayOfWeek: DaysOfWeek;
 };
 
 export const datePickerContextDefaultValues: DatePickerContextProps = {
@@ -80,4 +81,10 @@ export const datePickerContextDefaultValues: DatePickerContextProps = {
   today: DateUtils.getTodayTimeless(),
   setSelectedDate: () => {},
   setPicker: () => {},
+  firstDayOfWeek: 1,
+  locale: {
+    months: [],
+    monthsShort: [],
+    weekDays: [],
+  },
 };

@@ -1,14 +1,9 @@
 import styles from "../../TimePicker.module.scss";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { TimePickerContext } from "@/components/TimePicker/context/TimePickerProvider";
-import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
 
 const TimeHeader = () => {
-  const { locale: contextLocale, secondsEnabled } = useContext(TimePickerContext);
-
-  const { t } = useMotifContext();
-  const locale = useMemo(() => contextLocale ?? getDateLocale(t), [contextLocale, t]);
+  const { locale, secondsEnabled } = useContext(TimePickerContext);
 
   return (
     <div className={styles.abbrContainer}>

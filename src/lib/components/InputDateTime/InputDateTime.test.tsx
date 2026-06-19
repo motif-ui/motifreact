@@ -9,7 +9,7 @@ import { formatDate } from "../InputDate/helper";
 import { TimeFormat } from "../Motif/Pickers/types";
 import { DateUtils } from "../../../utils/dateUtils";
 import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
-import { getDateLocale } from "src/i18n/locales/dateLocals.ts";
+import { getDateLocale } from "src/i18n/helper.ts";
 import { t } from "../../../utils/testUtils";
 
 describe(InputDateTime, () => {

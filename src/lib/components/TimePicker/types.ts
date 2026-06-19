@@ -28,7 +28,7 @@ export type TimePickerProviderProps = {
 
 export type TimeContextProps = {
   size: Size4SM;
-  locale?: TimePickerLocale;
+  locale: TimePickerLocale;
   resetTime: () => void;
   secondsEnabled: boolean;
   setTimeItem: (type: TimeType, value: number) => void;
@@ -45,6 +45,13 @@ export const timeContextDefaultValues: TimeContextProps = {
   setTimeItem: () => {},
   format: "24h",
   changeTimePeriod: () => {},
+  locale: {
+    hoursAbbr: "",
+    minutesAbbr: "",
+    secondsAbbr: "",
+    am: "",
+    pm: "",
+  },
 };
 
 export type Time = {
