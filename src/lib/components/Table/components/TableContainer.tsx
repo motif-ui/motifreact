@@ -7,6 +7,8 @@ import FooterForNumbers from "@/components/Table/components/Foot/FooterForNumber
 import { PropsWithRef } from "../../../types";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import TableTitleSection from "./TableTitleSection";
+import { useContext } from "react";
+import { TableContext } from "@/components/Table/TableContext";
 
 type Props = Omit<
   TableProps,
@@ -23,6 +25,7 @@ type Props = Omit<
 >;
 
 const TableContainer = (props: PropsWithRef<Props, HTMLDivElement>) => {
+  const { columns } = useContext(TableContext);
   const {
     title,
     subtitle,
@@ -49,11 +52,12 @@ const TableContainer = (props: PropsWithRef<Props, HTMLDivElement>) => {
     distributeColsEvenly && "distributeColsEvenly",
     fluid && "fluid",
   ]);
+  const hasCellSpan = columns.some(column => column.colSpan !== undefined || column.rowSpan !== undefined);
 
   return (
     <div ref={ref} className={classNames} style={style}>
       <TableTitleSection title={title} subtitle={subtitle} />
-      <table>
+      <table className={hasCellSpan ? styles.hasCellSpan : undefined}>
         <TableHead background={headerColsBackground} header={header} />
         <TableBody loading={loading} emptyMessage={emptyMessage} striped={striped} />
         <ColumnFootArea background={footerColsBackground} customFooter={footer} />

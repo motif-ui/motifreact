@@ -133,7 +133,7 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
 
 .bordered {
   &.cellBorders {
-    table {
+    table.hasCellSpan {
       border-collapse: collapse;
     }
     td,
@@ -206,7 +206,7 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
   }
 
   &.rowBorders {
-    table {
+    table.hasCellSpan {
       border-collapse: collapse;
     }
     tr {
