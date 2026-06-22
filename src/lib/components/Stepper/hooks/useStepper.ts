@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { UseStepperReturn } from "../types";
 
 const useStepper = (defaultActiveStep = 0): UseStepperReturn => {
-  const [activeStep, setActiveStep] = useState(defaultActiveStep);
+  const [activeStep, setActiveStep] = useState(Math.max(0, defaultActiveStep));
   const [stepData, setStepDataState] = useState<Partial<Record<number, Record<string, unknown>>>>({});
 
   const setStepData = useCallback(
