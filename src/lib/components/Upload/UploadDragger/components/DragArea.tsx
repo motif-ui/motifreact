@@ -30,7 +30,7 @@ const DragArea = (props: Props) => {
 
   const isFirstRun = useRef(true);
 
-  const isMaxFileReached = selectedFiles.filter(file => file.status === STATUS.UPLOADING || file.uploaded).length >= maxFile;
+  const isMaxFileReached = selectedFiles.filter(f => f.status !== STATUS.CHECK_FAIL).length >= maxFile;
 
   const isDisabled = disabled || isMaxFileReached;
 

@@ -10,6 +10,9 @@ import { InputValue } from "../../Form/types";
 import { PropsWithRef } from "../../../types";
 import { UploadDraggerProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
+import { Validations } from "src/lib";
+import { mapExternalValue, toFormValue } from "@/components/Upload/helper.ts";
+import { FileType } from "@/components/Upload/types.ts";
 
 const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("UploadDragger", p);
@@ -26,20 +29,24 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
     onChange,
     ref,
     customValidation,
+    value: externalValue,
     className,
     style,
   } = props;
+  const mappedValue = mapExternalValue(externalValue);
 
   const { size, error, readOnly, success, disabled, onError, onFormFieldValueUpdate } = useRegisterFormField({
-    props,
+    props: { ...props, value: toFormValue(mappedValue) },
     defaultValue: [],
+    defaultValidations: [Validations.UploadItemSyncValidation],
     nonClearable: true,
   });
 
   const changeHandler = useCallback(
-    (value: InputValue) => {
-      onChange?.(value);
-      onFormFieldValueUpdate?.(value);
+    (val: InputValue) => {
+      const sanitizedValue = toFormValue(val as FileType[]);
+      onChange?.(sanitizedValue);
+      onFormFieldValueUpdate?.(sanitizedValue);
     },
     [onChange, onFormFieldValueUpdate],
   );
@@ -49,6 +56,7 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
   return (
     <UploadProvider
       props={{ autoUpload, accept, maxSize, maxFile, messages, uploadRequest, deleteRequest, customValidation }}
+      value={mappedValue}
       size={size}
       name={name}
       disabled={disabled}

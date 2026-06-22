@@ -21,6 +21,11 @@ describe("UploadList", () => {
     };
   };
   const requiredProps = { id: "uploadList", uploadRequest: MOCK.uploadRequest, deleteRequest: MOCK.deleteRequest };
+  const serverFile = { id: "file-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
+  const serverFile2 = { id: "file-2", name: "server-img.png", type: "image/png", size: 4096 };
+
+  beforeEach(() => mockXHRs());
+  afterEach(() => jest.restoreAllMocks());
 
   it("should be rendered with only required props", () => {
     expect(renderExt(<UploadList {...requiredProps} />).container).toMatchSnapshot();
@@ -101,7 +106,6 @@ describe("UploadList", () => {
   });
 
   it("should only accept files of the given file types with accept prop", async () => {
-    const xhrSpy = mockXHRs();
     const { getInput, getFileItemFirst, getFileItemLast } = renderExt(
       <UploadList {...requiredProps} accept={["application/pdf"]} maxFile={2} />,
     );
@@ -116,12 +120,9 @@ describe("UploadList", () => {
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.filePdf1kb.name);
     await waitForSuccessfulUpload(fileItem2); // Successfully uploaded : File type PDF;
-
-    xhrSpy.mockRestore();
   });
 
   it("should validate each file with the given validate function and show the given error message if fails when customValidation prop is given", async () => {
-    const xhrSpy = mockXHRs();
     const errorMessage = "Seçilen dosya formatı hatalı. Uygun formatta dosya seçerek tekrar deneyiniz.";
 
     const customValidation = (file: File) => ({ isValid: file.type === "application/pdf", errorMessage });
@@ -136,12 +137,9 @@ describe("UploadList", () => {
 
     const fileItem2 = getFileItemLast();
     await waitForSuccessfulUpload(fileItem2); // Successfully uploaded : File type PDF;
-
-    xhrSpy.mockRestore();
   });
 
   it("should allow uploading as many files as specified with the maxFile prop", async () => {
-    const xhrSpy = mockXHRs();
     const { getInput, getFileItemFirst, getFileItemLast, getBrowseButton } = renderExt(<UploadList {...requiredProps} maxFile={1} />);
     await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb, MOCK.filePdf1kb]);
 
@@ -153,8 +151,6 @@ describe("UploadList", () => {
     const fileItem1 = getFileItemFirst();
     expect(fileItem1).toHaveTextContent(MOCK.fileJpeg1kb.name);
     await waitForSuccessfulUpload(fileItem1);
-
-    xhrSpy.mockRestore();
   });
 
   it("should not upload files whose file size is larger than given size in maxSize prop", async () => {
@@ -228,7 +224,6 @@ describe("UploadList", () => {
   });
 
   it("should not upload file when same file is already uploaded", async () => {
-    const xhrSpy = mockXHRs();
     const { getInput, getDragArea, getFileList, getBrowseButton, getFileItemFirst } = renderExt(
       <UploadList {...requiredProps} maxFile={2} />,
     );
@@ -241,11 +236,9 @@ describe("UploadList", () => {
     await simulateDrop(getDragArea(), [MOCK.filePng2mb]);
     expect(fileList?.childNodes).toHaveLength(1);
     expect(getBrowseButton()).not.toBeDisabled();
-    xhrSpy.mockRestore();
   });
 
   it("should upload files when files are dropped to the file drag area", async () => {
-    const xhrSpy = mockXHRs();
     const { getDragArea, getFileList, getFileItemFirst } = renderExt(<UploadList {...requiredProps} />);
 
     await simulateDrop(getDragArea(), [MOCK.filePng2mb]);
@@ -255,11 +248,9 @@ describe("UploadList", () => {
     const fileItem = getFileItemFirst();
     expect(fileItem).toHaveTextContent(MOCK.filePng2mb.name);
     await waitForSuccessfulUpload(fileItem);
-    xhrSpy.mockRestore();
   });
 
   it("should not upload files automatically when autoUpload prop is false", async () => {
-    const xhrSpy = mockXHRs();
     const { getInput, getFileItemFirst } = renderExt(<UploadList {...requiredProps} autoUpload={false} />);
 
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
@@ -268,12 +259,9 @@ describe("UploadList", () => {
     expect(fileItem).toHaveTextContent(MOCK.filePng2mb.name);
     expect(fileItem).not.toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
     expect(fileItem).toHaveTextContent(t(MESSAGE.WAITING_TO_UPLOAD));
-
-    xhrSpy.mockRestore();
   });
 
   it("should allow files to be uploaded manually when autoUpload prop is false", async () => {
-    const xhrSpy = mockXHRs();
     const { getInput, getFileItemFirst, getUploadButton } = renderExt(<UploadList {...requiredProps} autoUpload={false} />);
 
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
@@ -282,12 +270,9 @@ describe("UploadList", () => {
     const fileItem = getFileItemFirst();
     expect(fileItem).toHaveTextContent(MOCK.filePng2mb.name);
     await waitForSuccessfulUpload(fileItem);
-
-    xhrSpy.mockRestore();
   });
 
   it("should delete the file from the list when delete icon of that file is clicked", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const { getDragArea, getFileItemFirst, getBrowseButton, getDeleteButton, getFileList } = renderExt(<UploadList {...requiredProps} />);
 
     await simulateDrop(getDragArea(), [MOCK.filePng2mb]);
@@ -299,12 +284,9 @@ describe("UploadList", () => {
 
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getFileList()).not.toBeInTheDocument());
-
-    xhrSpy.mockRestore();
   });
 
   it("should automatically upload a file which was errored because the maximum number of file limit is reached, when an already uploaded file is deleted and autoUpload is true", async () => {
-    const xhrSpy = mockXHRs(200, 200, 200);
     const { getDragArea, getFileList, getFileItemFirst, getFileItemLast, getDeleteButton } = renderExt(<UploadList {...requiredProps} />);
 
     const initialFile1 = MOCK.filePng2mb;
@@ -323,12 +305,9 @@ describe("UploadList", () => {
     expect(getFileList()?.childNodes).toHaveLength(1);
     expect(getFileItemFirst()).toHaveTextContent(MOCK.filePdf1kb.name);
     expect(screen.queryByText(initialFile1.name)).not.toBeInTheDocument();
-
-    xhrSpy.mockRestore();
   });
 
   it("should show error and prevent uploading for exceeding files when more files than the maxFile prop is dropped and autoUpload is false", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const maxFile = 2;
     const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
     const { getDragArea, getFileList, getUploadButton, getFileItemLast } = renderExt(
@@ -346,12 +325,9 @@ describe("UploadList", () => {
       expect(getFileItemLast()).toHaveTextContent(MOCK.fileJpeg1kb.name);
       expect(getFileItemLast()).toHaveTextContent(expectedErrorMessage);
     });
-
-    xhrSpy.mockRestore();
   });
 
   it("should upload valid files and make the upload button disabled when autoUpload is false and more files than maxFile are added", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const maxFile = 2;
     const { getDragArea, getUploadButton } = renderExt(<UploadList {...requiredProps} maxFile={maxFile} autoUpload={false} />);
 
@@ -362,12 +338,9 @@ describe("UploadList", () => {
       expect(screen.queryAllByText(t(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile);
       expect(getUploadButton()).toBeDisabled();
     });
-
-    xhrSpy.mockRestore();
   });
 
   it("should enable the upload button when one of the already-uploadeded files is deleted and autoUpload is false and waiting files have only maxFile exceed error", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const maxFile = 2;
     const { getDragArea, getUploadButton, getDeleteButton } = renderExt(
       <UploadList {...requiredProps} maxFile={maxFile} autoUpload={false} />,
@@ -380,12 +353,9 @@ describe("UploadList", () => {
     await waitFor(() => expect(screen.queryAllByText(t(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(maxFile));
     await userEvent.click(getDeleteButton(0)); // delete a success file
     await waitFor(() => expect(getUploadButton()).not.toBeDisabled());
-
-    xhrSpy.mockRestore();
   });
 
   it("should keep the upload button as disabled when autoUpload is false and one of the maxFile-exceed-errored files are deleted", async () => {
-    const xhrSpy = mockXHRs(200, 200);
     const maxFile = 2;
     const { getDragArea, getUploadButton, getDeleteButton } = renderExt(
       <UploadList {...requiredProps} maxFile={maxFile} autoUpload={false} />,
@@ -397,8 +367,6 @@ describe("UploadList", () => {
     await waitFor(() => expect(uploadButton).toBeDisabled());
     await userEvent.click(getDeleteButton(3)); // delete a failed file
     expect(uploadButton).toBeDisabled();
-
-    xhrSpy.mockRestore();
   });
 
   it("should allow user to retry uploading via re-upload button when a network error occurs", async () => {
@@ -430,5 +398,76 @@ describe("UploadList", () => {
     expect(getDeleteButton()).toBeInTheDocument();
 
     xhrSpy.mockRestore();
+  });
+
+  it("should render a single file given in the value prop", () => {
+    const { getFileList, getFileItemFirst } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    expect(getFileList()?.childNodes).toHaveLength(1);
+    expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
+    expect(getFileItemFirst()).toHaveTextContent(formatBytes(serverFile.size));
+  });
+
+  it("should render multiple files given in the value prop", () => {
+    const { getFileList, getFileItemFirst, getFileItemLast } = renderExt(
+      <UploadList {...requiredProps} value={[serverFile, serverFile2]} />,
+    );
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
+    expect(getFileItemLast()).toHaveTextContent(serverFile2.name);
+  });
+
+  it("should send a delete request and remove the file when the delete button is clicked for a value file", async () => {
+    const { getFileList, getDeleteButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getFileList()).not.toBeInTheDocument());
+  });
+
+  it("should show a delete error when deleting a value file from the server fails", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { getDeleteButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument());
+    xhrSpy.mockRestore();
+  });
+
+  it("should render the download button when onDownloadClick is provided in value", () => {
+    const { unmount, getDownloadButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    expect(getDownloadButton()).not.toBeInTheDocument();
+    unmount();
+    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} />);
+    expect(getDownloadButton()).toBeInTheDocument();
+  });
+
+  it("should call onDownloadClick when the download button is clicked", async () => {
+    const onDownloadClick = jest.fn();
+    const { getDownloadButton } = renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, onDownloadClick }]} />);
+    await userEvent.click(getDownloadButton());
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should show the download button but hide action buttons when readOnly or disabled", () => {
+    const { getDownloadButton, getDeleteButton, unmount } = renderExt(
+      <UploadList {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} readOnly />,
+    );
+    expect(getDownloadButton()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    unmount();
+
+    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} disabled />);
+    expect(getDownloadButton()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+  });
+
+  it("should disable the browse button when the maxFile limit is already reached by value files", () => {
+    const { getBrowseButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} maxFile={1} />);
+    expect(getBrowseButton()).toBeDisabled();
+  });
+
+  it("should not add a duplicate file when a chosen file matches a value file by name, size, and type", async () => {
+    const matchingValueFile = { id: "server-pdf", name: MOCK.filePdf1kb.name, type: MOCK.filePdf1kb.type, size: MOCK.filePdf1kb.size };
+    const { getFileList, getInput } = renderExt(<UploadList {...requiredProps} value={[matchingValueFile]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(1);
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getFileList()?.childNodes).toHaveLength(1);
   });
 });
