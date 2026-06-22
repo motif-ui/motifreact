@@ -50,6 +50,21 @@ describe("usePropsWithThemeDefaults", () => {
     });
   });
 
+  it("should have default className when props do not provide one", () => {
+    const componentDefaults: ComponentDefaults = {
+      Button: { className: "btn-solid" },
+    };
+
+    const { result } = renderHook(() => usePropsWithThemeDefaults("Button", { label: "Test" }), {
+      wrapper: ({ children }) => <MotifProvider componentDefaults={componentDefaults}>{children}</MotifProvider>,
+    });
+
+    expect(result.current).toEqual({
+      className: "btn-solid",
+      label: "Test",
+    });
+  });
+
   it("should have provided className when defaults do not provide one", () => {
     const componentDefaults: ComponentDefaults = {
       Button: { variant: "primary" },
@@ -207,29 +222,29 @@ describe("usePropsWithThemeDefaults", () => {
 
     expect(result.current.props).toEqual({ label: "Test" });
   });
-});
 
-it("should handle partial override with className merge", () => {
-  const componentDefaults: ComponentDefaults = {
-    Button: { className: "btn-base", variant: "primary", size: "md" },
-  };
+  it("should handle partial override with className merge", () => {
+    const componentDefaults: ComponentDefaults = {
+      Button: { className: "btn-base", variant: "primary", size: "md" },
+    };
 
-  const { result } = renderHook(
-    () =>
-      usePropsWithThemeDefaults("Button", {
-        className: "custom",
-        variant: "danger",
-        label: "Delete",
-      }),
-    {
-      wrapper: ({ children }) => <MotifProvider componentDefaults={componentDefaults}>{children}</MotifProvider>,
-    },
-  );
+    const { result } = renderHook(
+      () =>
+        usePropsWithThemeDefaults("Button", {
+          className: "custom",
+          variant: "danger",
+          label: "Delete",
+        }),
+      {
+        wrapper: ({ children }) => <MotifProvider componentDefaults={componentDefaults}>{children}</MotifProvider>,
+      },
+    );
 
-  expect(result.current).toEqual({
-    className: "btn-base custom",
-    variant: "danger",
-    size: "md",
-    label: "Delete",
+    expect(result.current).toEqual({
+      className: "btn-base custom",
+      variant: "danger",
+      size: "md",
+      label: "Delete",
+    });
   });
 });
