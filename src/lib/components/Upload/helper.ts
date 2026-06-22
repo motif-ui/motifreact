@@ -18,5 +18,8 @@ export const mapExternalValue = (value?: InputValue) =>
       }))
     : [];
 
+/**
+ * It is used to strip out some internal props out of the type which is sent to the form submit value.
+ */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const toFormValue = (files: FileType[]) => files.map(({ download: _d, addedByValue: _a, request: _r, ...rest }) => rest);

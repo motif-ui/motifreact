@@ -13,6 +13,9 @@ export type FileType = {
   addedByValue?: boolean;
 };
 
+/**
+ * This type is used to get already uploaded files on the server from the user
+ */
 export type FileObject = {
   id: string;
   onDownloadClick?: () => void;
