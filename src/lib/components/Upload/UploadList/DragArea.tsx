@@ -29,7 +29,7 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
 
   const isFirstRun = useRef(true);
 
-  const maxFileReached = selectedFiles.filter(file => file.status === STATUS.IDLE || file.uploaded).length >= maxFile;
+  const maxFileReached = selectedFiles.filter(f => f.status !== STATUS.CHECK_FAIL).length >= maxFile;
   const isUploading = selectedFiles.some(file => file.status === STATUS.UPLOADING);
   const isWaitingToUpload = selectedFiles.some(file => file.status === STATUS.IDLE);
   const isDisabled = disabled || isUploading || maxFileReached;
