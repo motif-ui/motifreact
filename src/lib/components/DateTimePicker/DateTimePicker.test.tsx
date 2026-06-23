@@ -225,6 +225,11 @@ describe("DateTimePicker", () => {
     expect(getByText("PM")).toBeInTheDocument();
   });
 
+  it("should reflect the day arrangement given in the firstDayOfWeek prop", () => {
+    const { container } = render(<DateTimePicker firstDayOfWeek={3} secondsEnabled timeFormat="12h" />);
+    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+  });
+
   it("should put clicked time value on the top label as active", () => {
     const { getByText, getAllByText } = render(<DateTimePicker secondsEnabled />);
 

@@ -3,7 +3,7 @@ import Picker from "@/components/Motif/Pickers/Picker";
 import { DateTimePickerProvider } from "./context/DateTimePickerProvider";
 import DateTimePickerContainer from "./components/DateTimePickerContainer";
 import { PropsWithRef } from "../../types";
-import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
+import { useDateLocale } from "src/i18n/useDateLocale.ts";
 
 const DateTimePicker = (props: PropsWithRef<DateTimePickerProps, HTMLDivElement>) => {
   const {

@@ -16,7 +16,7 @@ import { InputDateRangeProps } from "./types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
-import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
+import { useDateLocale } from "src/i18n/useDateLocale.ts";
 
 export type MaybeDateRange = (Date | undefined)[] | undefined;
 

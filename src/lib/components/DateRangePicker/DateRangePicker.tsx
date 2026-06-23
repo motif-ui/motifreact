@@ -4,7 +4,7 @@ import { DateRangePickerProvider } from "@/components/DateRangePicker/context/Da
 import { DateRangePickerProps } from "./types";
 import DateRangePickerContainer from "@/components/DateRangePicker/components/DateRangePickerContainer";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
+import { useDateLocale } from "src/i18n/useDateLocale.ts";
 
 const DateRangePicker = (props: PropsWithRef<DateRangePickerProps, HTMLDivElement>) => {
   const {

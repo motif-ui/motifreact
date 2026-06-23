@@ -23,7 +23,6 @@ export type DateRangePickerDefaultableProps = {
    *   // 2 letters
    *   weekDays: string[];
    *
-   *   firstDayOfWeek: 0|1|2|3|4|5|6;
    *
    *   // 'Today' text in selector
    *   today: string;

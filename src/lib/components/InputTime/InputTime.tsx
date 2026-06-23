@@ -14,7 +14,7 @@ import { InputValue } from "@/components/Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
-import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
+import { useDateLocale } from "src/i18n/useDateLocale.ts";
 
 const pickerSizeMap = {
   xs: "xs",

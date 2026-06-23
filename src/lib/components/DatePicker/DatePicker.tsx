@@ -7,7 +7,7 @@ import { DateTimePickerContext } from "@/components/DateTimePicker/context/DateT
 import { PropsWithRef } from "../../types";
 import DatePickerContainer from "@/components/DatePicker/components/DatePickerContainer";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { useDateLocale } from "src/lib/hooks/useDateLocale.ts";
+import { useDateLocale } from "src/i18n/useDateLocale.ts";
 
 export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>) => {
   const {

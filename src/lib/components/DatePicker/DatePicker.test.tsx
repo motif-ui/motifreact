@@ -409,14 +409,11 @@ describe("DatePicker", () => {
       monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
       weekDays: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
     };
-    const { container, getByText } = render(<DatePicker firstDayOfWeek={3} locale={LOCALE_DATE_ES_ES} value={new Date(2025, 3, 10)} />);
+    const { getByText } = render(<DatePicker locale={LOCALE_DATE_ES_ES} value={new Date(2025, 3, 10)} />);
 
     // Weekdays
     expect(getByText("Do")).toBeInTheDocument();
     expect(getByText("Vi")).toBeInTheDocument();
-
-    // First day of week
-    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("Mi");
 
     // Month names
     const monthButton = getByText("Abril");
@@ -425,6 +422,11 @@ describe("DatePicker", () => {
     // Month names short
     act(() => monthButton.click());
     expect(getByText("Dic")).toBeInTheDocument();
+  });
+
+  it("should reflect the day arrangement given in the firstDayOfWeek prop", () => {
+    const { container } = render(<DatePicker firstDayOfWeek={3} value={new Date(2025, 3, 10)} />);
+    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
 
   it("should render the given value in the value prop as selected", () => {

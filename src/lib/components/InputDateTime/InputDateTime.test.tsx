@@ -82,6 +82,12 @@ describe(InputDateTime, () => {
     expect(hours.lastElementChild).toHaveTextContent("23");
   });
 
+  it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
+    const { container, getInputText } = renderExt(<InputDateTime firstDayOfWeek={3} value={new Date(2025, 3, 10)} />);
+    await userEvent.click(getInputText());
+    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+  });
+
   it("should display the date as given dateFormat in format prop", () => {
     const { rerender } = render(
       <InputDateTime

@@ -8,7 +8,7 @@ const days = [1, 7, 30, 180, 365] as const;
 const DaysDropdown = () => {
   const { locale, size, setMonths, initialMonths, today, setDateCouple, onDateChange } = useContext(DateRangePickerContext);
   const { t } = useMotifContext();
-  const [label, setLabel] = useState(t("g.choose"));
+  const [label, setLabel] = useState(t("g.choosePlease"));
 
   const changeHandler = useCallback(
     (label: string, days: number) => {
