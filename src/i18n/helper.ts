@@ -1,19 +1,4 @@
-import { LibraryTranslateFn } from "src/i18n/types.ts";
-
-export type DateLocale = {
-  months: string[];
-  monthsShort: string[];
-  weekDays: string[];
-  today: string;
-  last: string;
-  days: string;
-  choose: string;
-  hoursAbbr: string;
-  minutesAbbr: string;
-  secondsAbbr: string;
-  am: string;
-  pm: string;
-};
+import { DateLocale, LibraryTranslateFn } from "src/i18n/types.ts";
 
 export const getDateLocale = (t: LibraryTranslateFn): DateLocale => ({
   months: t("date.months") as unknown as string[],
@@ -23,7 +8,7 @@ export const getDateLocale = (t: LibraryTranslateFn): DateLocale => ({
   today: t("date.today"),
   last: t("date.last"),
   days: t("date.days"),
-  choose: t("g.choose"),
+  choose: t("g.choosePlease"),
 
   hoursAbbr: t("date.hoursAbbr"),
   minutesAbbr: t("date.minutesAbbr"),

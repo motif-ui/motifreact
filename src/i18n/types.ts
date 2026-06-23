@@ -35,3 +35,21 @@ export type LocaleKey = DeepKeys<typeof locales.en>;
  * can pass their own t to <MotifProvider t={t}> without type errors.
  */
 export type LibraryTranslateFn = (key: LocaleKey, params?: Record<string, unknown>) => string;
+
+/**
+ * Type definition for helper which declared as useDateLocale.
+ */
+export type DateLocale = {
+  months: string[];
+  monthsShort: string[];
+  weekDays: string[];
+  today: string;
+  last: string;
+  days: string;
+  choose: string;
+  hoursAbbr: string;
+  minutesAbbr: string;
+  secondsAbbr: string;
+  am: string;
+  pm: string;
+};

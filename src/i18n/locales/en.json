@@ -16,7 +16,7 @@
     "finish": "Finish",
     "x_message": "{{count}} message",
     "ok": "OK",
-    "choose": "Please choose"
+    "choosePlease": "Please choose"
   },
   "form": {
     "fieldError": "Please fix the error in this field."

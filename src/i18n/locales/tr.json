@@ -16,7 +16,7 @@
     "finish": "Tamamla",
     "x_message": "{{count}} mesaj",
     "ok": "OK",
-    "choose": "Lütfen seçiniz"
+    "choosePlease": "Lütfen seçiniz"
   },
   "form": {
     "fieldError": "Lütfen bu alandaki hatayı giderin."
