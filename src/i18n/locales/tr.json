@@ -63,7 +63,8 @@
     "chooseOrDragImage": "Bir resim seçin veya sürükleyin"
   },
   "misc": {
-    "playgroundDescription": "This is the playground section to try your components..."
+    "playgroundDescription": "Burası component'lerin denenebileceği bölüm...",
+    "localizationTestValue": null
   },
   "date": {
     "months": ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],

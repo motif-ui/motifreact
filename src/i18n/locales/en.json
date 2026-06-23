@@ -63,7 +63,8 @@
     "chooseOrDragImage": "Choose or drag an image"
   },
   "misc": {
-    "playgroundDescription": "This is the playground section to try your components..."
+    "playgroundDescription": "This is the playground section to try your components...",
+    "localizationTestValue": "Localization test value"
   },
   "date": {
     "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],

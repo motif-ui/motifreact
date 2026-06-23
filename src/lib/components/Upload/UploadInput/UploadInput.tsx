@@ -14,13 +14,26 @@ import { UploadInputProps, UploadInputWrapperProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIcon } from "@/components/Motif/Icon";
+import { mapExternalValue, toFormValue } from "@/components/Upload/helper.ts";
 
 const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("UploadInput", p);
-  const { autoUpload, accept, maxSize, maxFile, messages, uploadRequest, deleteRequest, customValidation, ...inputCommonProps } = props;
+  const {
+    autoUpload,
+    accept,
+    maxSize,
+    maxFile,
+    messages,
+    uploadRequest,
+    deleteRequest,
+    customValidation,
+    value: externalValue,
+    ...inputCommonProps
+  } = props;
+  const mappedValue = mapExternalValue(externalValue);
 
   const { size, error, success, onError, disabled, readOnly, onFormFieldValueUpdate, inFormField, name, onChange } = useRegisterFormField({
-    props: inputCommonProps,
+    props: { ...inputCommonProps, value: toFormValue(mappedValue) },
     defaultValue: undefined,
     defaultValidations: [Validations.UploadItemSyncValidation],
     nonClearable: true,
@@ -50,7 +63,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
   };
 
   return (
-    <UploadProvider props={uploadProps} isUploadInput name={name} disabled={disabled}>
+    <UploadProvider props={uploadProps} isUploadInput name={name} disabled={disabled} value={mappedValue}>
       <UploadInputWrapper {...uploadProps} {...inputCommonPropsAfterRegister} />
     </UploadProvider>
   );
@@ -99,8 +112,9 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
   const styleVariant = isDisabled ? "disabled" : error || inputState === "error" ? "error" : success && "success";
 
   useEffect(() => {
-    !readOnly && onChange?.(selectedFiles);
-    onFormFieldValueUpdate?.(selectedFiles);
+    const sanitizedValue = toFormValue(selectedFiles);
+    !readOnly && onChange?.(sanitizedValue);
+    onFormFieldValueUpdate?.(sanitizedValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFilesEqualityString, readOnly]);
 
