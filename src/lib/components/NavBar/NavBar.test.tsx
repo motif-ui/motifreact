@@ -172,7 +172,8 @@ describe("NavBar", () => {
     const { getByRole } = render(
       <NavBar
         logo={{
-          image: <img src="some_image" alt="logo" />,
+          imgPath: "some_image",
+          alt: "logo",
           href: "https://motif-ui.com/",
         }}
       />,
@@ -196,12 +197,20 @@ describe("NavBar", () => {
     expect(getByRole("img")).toHaveAttribute("src", "logo.png");
   });
 
-  it("should prioritize logoSlot over logo prop", () => {
-    const { getByRole } = render(
-      <NavBar logo={{ image: <img src="logo-prop.png" alt="Logo prop" /> }} logoSlot={<img src="logo-slot.png" alt="Logo slot" />} />,
+  it("should prioritize logoSlot over logo prop when both are provided", () => {
+    const { getByRole, queryByAltText } = render(
+      <NavBar
+        logo={{ imgPath: "logo-prop.png", alt: "Logo prop" }}
+        logoSlot={
+          <a href="https://example.com/">
+            <img src="logo-slot.png" alt="Logo slot" />
+          </a>
+        }
+      />,
     );
 
     expect(getByRole("img")).toHaveAttribute("src", "logo-slot.png");
+    expect(queryByAltText("Logo prop")).not.toBeInTheDocument();
   });
 
   it("should render either an action menu with the props in the actionMenu prop or a main menu with the props in the mainMenu prop", () => {

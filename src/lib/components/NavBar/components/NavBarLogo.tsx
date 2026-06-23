@@ -1,17 +1,25 @@
-import type { ReactElement } from "react";
+import { PropsWithChildren } from "react";
 import styles from "../NavBar.module.scss";
 
 export type NavBarLogoProps = {
   imgPath?: string;
   alt?: string;
   href?: string;
-  image?: ReactElement;
 };
 
-const NavBarLogo = (props: NavBarLogoProps) => {
-  const { href, imgPath, alt, image } = props;
-  const logoContent = image ? href ? <a href={href}>{image}</a> : image : <img src={imgPath} alt={alt} />;
+const NavBarLogo = ({ children, imgPath, alt, href }: PropsWithChildren<NavBarLogoProps>) => {
+  const logoContent =
+    children ||
+    (imgPath &&
+      (href ? (
+        <a href={href}>
+          <img src={imgPath} alt={alt} />
+        </a>
+      ) : (
+        <img src={imgPath} alt={alt} />
+      )));
 
-  return <div className={styles.logo}>{logoContent}</div>;
+  return logoContent ? <div className={styles.logo}>{logoContent}</div> : null;
 };
+
 export default NavBarLogo;
