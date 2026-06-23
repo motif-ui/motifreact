@@ -21,6 +21,8 @@ export const renderExtUploadFileList = (ui: ReactNode) => {
 
   const getFileList = () => result.queryByTestId("uploadFileList");
 
+  const getDownloadButton = () => result.queryByText("download") as HTMLButtonElement;
+
   const getDeleteButton = (index?: number) =>
     (index === undefined ? screen.queryByText("delete") : screen.queryAllByText("delete")[index]) as HTMLButtonElement;
 
@@ -41,6 +43,7 @@ export const renderExtUploadFileList = (ui: ReactNode) => {
     getDeleteButton,
     getUploadButton,
     getDragArea,
+    getDownloadButton,
   };
 };
 
