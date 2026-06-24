@@ -61,6 +61,7 @@ export const expectToThrow = (func: () => unknown, error?: JestToErrorArg): void
 export const mockXHRs = (...statusCodes: number[]) => {
   const mockProgressEventLoad = new ProgressEvent("load", { loaded: 100 });
   const mockProgressEventError = new ProgressEvent("error");
+  const pendingTimers: ReturnType<typeof setTimeout>[] = [];
   let requestCount = 0;
 
   const mockXHR: unknown = {
@@ -73,10 +74,12 @@ export const mockXHRs = (...statusCodes: number[]) => {
       const status = statusCodes.length ? statusCodes[requestCount++] : 200; // Default to 200 if no status codes are provided
       Object.defineProperty(this, "status", { value: status, writable: true });
 
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         // This timeout simulates the asynchronous nature of XMLHttpRequest
+        pendingTimers.splice(pendingTimers.indexOf(timer), 1);
         status === 200 ? this.onload!(mockProgressEventLoad) : this.onerror!(mockProgressEventError);
       }, 0);
+      pendingTimers.push(timer);
     }),
     addEventListener: jest.fn(function (this: XMLHttpRequest, event: string, callback: () => void) {
       if (event === "load") {
@@ -89,5 +92,12 @@ export const mockXHRs = (...statusCodes: number[]) => {
     }),
   };
 
-  return jest.spyOn(window, "XMLHttpRequest").mockImplementation(() => mockXHR as XMLHttpRequest);
+  const spy = jest.spyOn(window, "XMLHttpRequest").mockImplementation(() => mockXHR as XMLHttpRequest);
+  const originalMockRestore = spy.mockRestore.bind(spy);
+  spy.mockRestore = () => {
+    pendingTimers.forEach(clearTimeout);
+    pendingTimers.length = 0;
+    originalMockRestore();
+  };
+  return spy;
 };

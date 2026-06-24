@@ -13,6 +13,7 @@ const meta: Meta<typeof UploadInput> = {
     size: { table: { defaultValue: { summary: "md" } } },
     maxFile: { table: { defaultValue: { summary: "1" } } },
     autoUpload: { table: { defaultValue: { summary: "true" } } },
+    value: { table: { type: { summary: "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; }[]" } } },
   },
   args: {
     uploadRequest: { url, method, headers: [{ key: "mtf", value: "ui" }] },

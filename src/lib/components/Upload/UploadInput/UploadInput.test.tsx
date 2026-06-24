@@ -68,6 +68,8 @@ describe("UploadInput", () => {
     };
   };
   const requiredProps = { uploadRequest: MOCK.uploadRequest, deleteRequest: MOCK.deleteRequest };
+  const serverFile = { id: "file-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
+  const serverFile2 = { id: "file-2", name: "server-img.png", type: "image/png", size: 4096 };
 
   it("should be rendered with only required props and should have default prop values stated here", () => {
     const { container } = renderExt(<UploadInput {...requiredProps} />);
@@ -368,6 +370,51 @@ describe("UploadInput", () => {
     await actHoverToErrorIcon();
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
 
+    xhrSpy.mockRestore();
+  });
+
+  it("should display the file name when a single file is given in the value prop", () => {
+    const { getFileItem } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+  });
+
+  it("should display the uploaded file count when multiple files are given in the value prop", () => {
+    const { getFileItem } = renderExt(<UploadInput {...requiredProps} value={[serverFile, serverFile2]} />);
+    expect(getFileItem()).toHaveTextContent(t("upload.filesUploaded", { count: 2 }));
+  });
+
+  it("should disable the browse button when a value file is present", () => {
+    const { getBrowseButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
+    expect(getBrowseButton()).toBeDisabled();
+  });
+
+  it("should send a delete request and clear the component when the delete button is clicked for a value file", async () => {
+    const xhrSpy = mockXHRs(200);
+    const { getDeleteButton, getBrowseButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => {
+      expect(getDeleteButton()).not.toBeInTheDocument();
+      expect(getBrowseButton()).not.toBeDisabled();
+    });
+    xhrSpy.mockRestore();
+  });
+
+  it("should show a delete error and keep the file when deleting a value file from the server fails", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { getDeleteButton, getErrorIcon } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => {
+      expect(getDeleteButton()).toBeInTheDocument();
+      expect(getErrorIcon()).toBeInTheDocument();
+    });
+    xhrSpy.mockRestore();
+  });
+
+  it("should send a single delete request for all value files when the delete button is clicked", async () => {
+    const xhrSpy = mockXHRs(200);
+    const { getDeleteButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getDeleteButton()).not.toBeInTheDocument());
     xhrSpy.mockRestore();
   });
 });
