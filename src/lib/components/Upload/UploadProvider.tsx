@@ -6,15 +6,13 @@ import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
-export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled }: UploadProviderProps) => {
+export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, value }: UploadProviderProps) => {
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFiles, setSelectedFiles] = useState<FileType[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<FileType[]>(value ?? []);
   const { t } = useMotifContext();
 
-  const selectedFilesEqualityString = selectedFiles
-    .map(f => f.id + f.file.name + f.file.size + f.file.type + f.status + (f.progress || 0) + (f.messages?.join("") || ""))
-    .join(",");
+  const selectedFilesEqualityString = selectedFiles.map(f => f.id + f.file.name + f.file.type + f.status).join(",");
 
   const _updateProgress = useCallback((fileIds: string[], e: ProgressEvent<XMLHttpRequestEventTarget>) => {
     const percentCompleted = Math.round((e.loaded / e.total) * 100);
@@ -108,11 +106,11 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       const data = new FormData();
       if (bulk) {
         files.forEach(file => {
-          data.append("file_" + file.id, file.file);
+          data.append("file_" + file.id, file.file as File);
           data.append("fileId_" + file.id, file.id);
         });
       } else {
-        data.append("file_" + files[0].id, files[0].file);
+        data.append("file_" + files[0].id, files[0].file as File);
         data.append("fileId_" + files[0].id, files[0].id);
       }
 
@@ -251,7 +249,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
         maxFile && filesIteratedWithoutError >= maxFile && (messages?.maxFileMessage ?? t(MESSAGE.MAX_FILE, { maxFile }));
 
       // Custom Validation
-      const { errorMessage: customValidationError, isValid: customValidationValid } = customValidation?.(f.file) || {};
+      const { errorMessage: customValidationError, isValid: customValidationValid } = customValidation?.(f.file as File) || {};
       const customValidationMessage =
         customValidationValid === false ? customValidationError || t(MESSAGE.CUSTOM_VALIDATION_ERROR) : undefined;
 
@@ -266,7 +264,10 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       };
     });
 
-    setSelectedFiles(filesAfterVerification);
+    const anyChanged =
+      filesAfterVerification.length !== selectedFiles.length || filesAfterVerification.some((f, i) => f !== selectedFiles[i]);
+
+    anyChanged && setSelectedFiles(filesAfterVerification);
 
     if (autoUpload) {
       const hasError = filesAfterVerification.some(f => f.messages?.length);
@@ -356,5 +357,4 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
   );
 };
 
-const _isSameFile = (f1: File, f2: FileType) =>
-  f1.name === f2.file.name && f1.size === f2.file.size && f1.lastModified === f2.file.lastModified && f1.type === f2.file.type;
+const _isSameFile = (f1: File, f2: FileType) => f1.name === f2.file.name && f1.size === f2.file.size && f1.type === f2.file.type;
