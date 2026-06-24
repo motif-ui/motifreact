@@ -21,6 +21,7 @@ const NavBar = (props: PropsWithRef<NavBarProps, HTMLElement>) => {
     className,
     style,
     logo,
+    logoSlot,
     search,
     button,
     mainMenu,
@@ -35,7 +36,7 @@ const NavBar = (props: PropsWithRef<NavBarProps, HTMLElement>) => {
         {mainMenu && (
           <MotifIconButton name="density_medium" size="xl" onClick={() => setMenuCollapsed(p => !p)} className={styles.hamburger} />
         )}
-        {logo && <NavBarLogo {...logo} />}
+        {(logo || logoSlot) && <NavBarLogo logo={logo}>{logoSlot}</NavBarLogo>}
         <div className={styles.mainMenuContainer}>{mainMenu && <Menu {...mainMenu} main />}</div>
         {search && <NavBarSearch {...search} />}
         {button && <NavBarButton {...button} />}

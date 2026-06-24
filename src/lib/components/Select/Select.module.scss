@@ -10,7 +10,7 @@ $sizes: (
 
 .Root {
   position: relative;
-  display: inline-block;
+  display: block;
 
   &.expanded .input {
     border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
@@ -19,7 +19,7 @@ $sizes: (
     }
   }
 
-  &.inFormField .input {
+  &.inFormField {
     min-width: var(--base-sizing-190x);
   }
 
@@ -72,6 +72,7 @@ $sizes: (
 
   .inputText {
     all: unset;
+    width: 0;
     min-width: 0;
     flex-grow: 1;
     text-align: left;

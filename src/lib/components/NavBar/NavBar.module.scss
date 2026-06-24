@@ -25,7 +25,8 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 
 .logo {
   height: var(--base-sizing-40x);
-  img {
+  display: flex;
+  * {
     height: 100%;
   }
 }
