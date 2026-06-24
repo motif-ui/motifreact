@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render } from "@testing-library/react";
 import MotifIconButton from "./MotifIconButton";
-import selectionJson from "./assets/selection.json";
+import selectionJson from "./assets/selection.icomoon.json";
 import { Size7 } from "../../../types";
 
-const motifIconDefaultNames = selectionJson.icons.map(icon => icon.properties.name);
+const motifIconDefaultNames = selectionJson.glyphs.map(glyph => glyph.extras.name);
 
 describe("MotifIconButton", () => {
   it("should render with only required props", () => {
