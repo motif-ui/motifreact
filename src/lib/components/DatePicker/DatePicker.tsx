@@ -16,7 +16,7 @@ export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>)
     fluid,
     onOkClick,
     value,
-    locale,
+    locale: propsLocale,
     onDateChange,
     onPickerChange,
     onClearClick,
@@ -27,12 +27,12 @@ export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>)
     ref,
   } = usePropsWithThemeDefaults("DatePicker", props);
   const externalPickerContext = useContext(DateTimePickerContext);
-  const resolvedLocale = useDateLocale(locale);
+  const locale = useDateLocale(propsLocale);
   return (
     <DatePickerProvider
       size={size}
       value={value}
-      locale={resolvedLocale}
+      locale={locale}
       firstDayOfWeek={firstDayOfWeek}
       fluid={!!fluid}
       onDateChange={onDateChange}

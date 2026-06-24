@@ -10,7 +10,7 @@ const DateTimePicker = (props: PropsWithRef<DateTimePickerProps, HTMLDivElement>
     size = "md",
     variant = "borderless",
     timeFormat = "24h",
-    locale,
+    locale: propsLocale,
     fluid,
     value,
     onDateChange,
@@ -25,7 +25,7 @@ const DateTimePicker = (props: PropsWithRef<DateTimePickerProps, HTMLDivElement>
     ref,
   } = props;
 
-  const resolvedLocale = useDateLocale(locale);
+  const locale = useDateLocale(propsLocale);
   return (
     <Picker size={size} variant={variant} fluid={fluid} ref={ref} style={style} className={`mtf-DateTimePicker ${className ?? ""}`.trim()}>
       <DateTimePickerProvider
@@ -34,7 +34,7 @@ const DateTimePicker = (props: PropsWithRef<DateTimePickerProps, HTMLDivElement>
         value={value}
         onTimeChange={onTimeChange}
         onDateChange={onDateChange}
-        locale={resolvedLocale}
+        locale={locale}
         secondsEnabled={secondsEnabled}
         timeFormat={timeFormat}
         fluid={fluid}

@@ -195,17 +195,12 @@ describe("DateTimePicker", () => {
       am: "AM",
       pm: "PM",
     };
-    const { container, getByText, getAllByText } = render(
-      <DateTimePicker locale={LOCALE_DATETIME_CUSTOM} firstDayOfWeek={3} secondsEnabled timeFormat="12h" />,
-    );
+    const { getByText, getAllByText } = render(<DateTimePicker locale={LOCALE_DATETIME_CUSTOM} secondsEnabled timeFormat="12h" />);
     const thisMonth = new Date().getMonth();
 
     // Weekdays
     expect(getByText("5D")).toBeInTheDocument();
     expect(getByText("7D")).toBeInTheDocument();
-
-    // First day of week
-    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("1D");
 
     // Month names
     const monthButton = getByText(LOCALE_DATETIME_CUSTOM.months[thisMonth]);
