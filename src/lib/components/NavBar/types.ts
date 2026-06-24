@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { NavBarLogoProps } from "./components/NavBarLogo";
 import { NavBarButtonProps } from "./components/NavBarButton";
 import { MenuProps } from "./components/NavBarMenu/types";
@@ -79,6 +80,10 @@ export type NavBarDefaultableProps = {
    * ```
    */
   logo?: NavBarLogoProps;
+  /**
+   * Custom logo component. Takes precedence over logo prop.
+   */
+  logoSlot?: ReactElement;
 };
 
 export type NavBarContextProps = {

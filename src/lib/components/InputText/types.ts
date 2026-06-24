@@ -5,6 +5,7 @@ import { IconGlobalType } from "src/lib/types.ts";
 export type InputTextDefaultableProps = {
   pill?: boolean;
   size?: InputSize;
+  clearable?: boolean;
 };
 
 export type InputTextProps = {

@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react";
 import styles from "../NavBar.module.scss";
 
 export type NavBarLogoProps = {
@@ -6,14 +7,22 @@ export type NavBarLogoProps = {
   href?: string;
 };
 
-const NavBarLogo = (props: NavBarLogoProps) => {
-  const { href, imgPath, alt } = props;
-  return href ? (
-    <a href={href} className={styles.logo}>
-      <img src={imgPath} alt={alt} />
-    </a>
-  ) : (
-    <img src={imgPath} alt={alt} className={styles.logo} />
+const NavBarLogo = (props: PropsWithChildren<{ logo?: NavBarLogoProps }>) => {
+  const { logo, children } = props;
+  const { alt, imgPath, href } = logo || {};
+  return (
+    <div className={styles.logo}>
+      {children ??
+        (logo &&
+          (href ? (
+            <a href={href}>
+              <img src={imgPath} alt={alt} />
+            </a>
+          ) : (
+            <img src={imgPath} alt={alt} />
+          )))}
+    </div>
   );
 };
+
 export default NavBarLogo;

@@ -7,33 +7,54 @@ import { UploadContext } from "@/components/Upload/UploadProvider";
 
 type Props = {
   file: FileType;
+  readOnly?: boolean;
+  disabled?: boolean;
 };
 
-export const FileButton = memo(({ file }: Props) => {
+export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
   const { removeFiles, reUpload, abort, size } = useContext(UploadContext);
   const iconSize = size === "xs" ? "xxs" : size === "sm" ? "xs" : size === "lg" ? "md" : "sm";
 
   return (
     <>
-      {(file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.ABORT) && (
+      {file.download && (
         <MotifIconButton
-          name="autorenew"
+          name="download"
           variant="secondary"
           size={iconSize}
-          className={`${styles.icon} ${styles.iconRenew}`}
-          onClick={() => reUpload(file)}
+          className={`${styles.icon} ${styles.iconPositiveAction}`}
+          onClick={file.download}
         />
       )}
-      {file.status === STATUS.UPLOADING ? (
-        <MotifIconButton name="cancel_outline" variant="secondary" size={iconSize} className={styles.icon} onClick={() => abort(file)} />
-      ) : (
-        <MotifIconButton
-          name="delete"
-          variant="secondary"
-          size={iconSize}
-          className={`${styles.icon} ${styles.iconDelete}`}
-          onClick={() => removeFiles([file])}
-        />
+      {!disabled && !readOnly && (
+        <>
+          {(file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.ABORT) && (
+            <MotifIconButton
+              name="autorenew"
+              variant="secondary"
+              size={iconSize}
+              className={`${styles.icon} ${styles.iconPositiveAction}`}
+              onClick={() => reUpload(file)}
+            />
+          )}
+          {file.status === STATUS.UPLOADING ? (
+            <MotifIconButton
+              name="cancel_outline"
+              variant="secondary"
+              size={iconSize}
+              className={styles.icon}
+              onClick={() => abort(file)}
+            />
+          ) : (
+            <MotifIconButton
+              name="delete"
+              variant="secondary"
+              size={iconSize}
+              className={`${styles.icon} ${styles.iconDelete}`}
+              onClick={() => removeFiles([file])}
+            />
+          )}
+        </>
       )}
     </>
   );
