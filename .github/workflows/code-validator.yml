@@ -30,4 +30,24 @@ jobs:
           npm run lint
           npm run check:type
           npm run check:scss
-          npm run test:ci
+          npx jest --ci --coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Package size report
+        uses: pkg-size/action@v1.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v8.2.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=motif-ui
+            -Dsonar.projectKey=motif-ui_motifreact
+            -Dsonar.sources=src
