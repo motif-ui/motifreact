@@ -135,7 +135,8 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
         iconLeft={<MotifIcon name="calendar_expand_horizontal" size={size} />}
-        buttonRight={itemValue && !disabled ? { name: "cancel_outline", onClick: onClearClickInInput } : undefined}
+        clearable
+        onClearClick={onClearClickInInput}
       />
       {visible && (
         <DateRangePicker

@@ -58,13 +58,13 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   const changeProcess = useCallback(
     (val: string, updateInputRefValue?: boolean) => {
-      !uncontrolled && setItemValue(val);
+      if (!uncontrolled || clearable) setItemValue(val);
       onChange?.(val);
       if (updateInputRefValue && inputRef.current) {
         inputRef.current.value = val;
       }
     },
-    [onChange, setItemValue, uncontrolled],
+    [onChange, setItemValue, uncontrolled, clearable],
   );
 
   const changeHandler = useCallback(
@@ -86,26 +86,38 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     disabled ? "disabled" : error ? "error" : success && "success",
     readOnly && "readOnly",
     pill && "pill",
+    clearable && "clearable",
   ]);
 
   return (
     <div className={classNames} ref={ref} data-testid="inputItem" style={style}>
       {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.icon} size={size} />}
-      <input
-        id={id}
-        type={type}
-        ref={inputRef}
-        name={name}
-        placeholder={placeholder}
-        onChange={changeHandler}
-        disabled={disabled}
-        readOnly={readOnly || disableTyping}
-        maxLength={maxLength}
-        onClick={onClick}
-        onFocus={onFocus}
-        onKeyUp={onKeyUp}
-        {...controlledProps}
-      />
+      <div className={styles.inputWrapper}>
+        <input
+          id={id}
+          type={type}
+          ref={inputRef}
+          name={name}
+          placeholder={placeholder}
+          onChange={changeHandler}
+          disabled={disabled}
+          readOnly={readOnly || disableTyping}
+          maxLength={maxLength}
+          onClick={onClick}
+          onFocus={onFocus}
+          onKeyUp={onKeyUp}
+          {...controlledProps}
+        />
+        {clearable && itemValue && (
+          <MotifIconButton
+            name="cancel_outline"
+            disabled={disabled || readOnly}
+            size={size}
+            onClick={clearHandler}
+            className={styles.clearButton}
+          />
+        )}
+      </div>
       {loader ? (
         <svg className={styles.loader} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <circle
@@ -123,7 +135,6 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         <>
           {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.icon} size={size} />}
           {buttonRight && <MotifIconButton name={buttonRight.name} className={styles.icon} size={size} onClick={buttonRight.onClick} />}
-          {clearable && <MotifIconButton name="cancel_outline" disabled={disabled || readOnly} size={size} onClick={clearHandler} />}
         </>
       )}
       {type === "number" && (

@@ -32,6 +32,7 @@ const InputPassword = (p: PropsWithRef<InputPasswordProps, HTMLDivElement>) => {
       onValueUpdated={onFormFieldValueUpdate}
       imperativeRef={internalInputRef}
       className={classNames}
+      clearable
       buttonRight={
         toggleMask
           ? {
