@@ -34,9 +34,7 @@ jobs:
           npx jest --ci --coverage
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@fb8b358c0f0dc4f0fd44f2d6f95dd1f605d2e4d2 # v7.0.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
 
       - name: Package size report
         uses: pkg-size/action@a637fb0897b6f14f18e776d8c3dbccb34a1ad27b # v1.1.1
@@ -44,9 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@42f35949c5b9b9945a97303b2a2020fdb6f66538 # v8.2.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        uses: SonarSource/sonarqube-scan-action@713881670b6b3676cda39549040e2d88c70d582e # v8.2.0
         with:
           args: >
             -Dsonar.organization=motif-ui
