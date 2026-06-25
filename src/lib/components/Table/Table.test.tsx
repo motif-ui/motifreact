@@ -13,7 +13,7 @@ describe("Table", () => {
     const result = render(ui);
     const { getByTestId, getAllByTestId, queryByTestId, getByRole, container } = result;
     const getTableContainer = () => getByRole("table").parentElement as HTMLDivElement;
-    const getFilterableTableInput = () => getByTestId("inputItem").firstElementChild as HTMLInputElement;
+    const getFilterableTableInput = () => getByTestId("inputItem").querySelector("input") as HTMLInputElement;
     const getCheckboxes = () => getAllByTestId("checkbox") as HTMLDivElement[];
     const getSelectAllCheckbox = () => getCheckboxes()[0].firstElementChild as HTMLInputElement;
     const getPaginationBar = () => queryByTestId("pagination") as HTMLDivElement;

@@ -34,7 +34,7 @@ describe("PinCode", () => {
     // size: "md"
     expect(container.firstElementChild).toHaveClass("md");
     // maskType : "asterisks"
-    expect(container.firstElementChild!.children.item(1)?.firstElementChild).toHaveAttribute("type", "password");
+    expect(container.firstElementChild!.children.item(1)?.querySelector("input")).toHaveAttribute("type", "password");
   });
 
   it("should should allow minimum 2 children", () => {
@@ -108,7 +108,7 @@ describe("PinCode", () => {
     const value = "x";
 
     for (const i of screen.getAllByRole("textbox")) {
-      expect(i.parentElement).toHaveClass("disabled");
+      expect(i.parentElement?.parentElement).toHaveClass("disabled");
       expect(i).toHaveAttribute("disabled");
       await userEvent.type(i, value);
       expect(onChange).not.toHaveBeenCalled();
@@ -271,7 +271,7 @@ describe("PinCode", () => {
         <PinCode.Item />
       </PinCode>,
     );
-    expect(container.getElementsByTagName("input")[1].parentElement).toHaveClass("item_space");
+    expect(container.getElementsByTagName("input")[1].parentElement?.parentElement).toHaveClass("item_space");
     expect(container.getElementsByTagName("input")[1]).toHaveAttribute("disabled");
   });
 

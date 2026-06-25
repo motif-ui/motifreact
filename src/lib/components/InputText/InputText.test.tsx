@@ -15,9 +15,14 @@ describe("InputText", () => {
     expect(screen.getByDisplayValue(value));
   });
 
-  it("should display clearable icon when clearable prop is true", () => {
-    render(<InputText clearable />);
+  it("should display clearable icon when clearable prop is true and input has value", () => {
+    render(<InputText clearable value="Hello" />);
     expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
+  });
+
+  it("should not display clearable icon when clearable prop is true but input has no value", () => {
+    render(<InputText clearable />);
+    expect(screen.queryByTestId("iconButtonTestId")).not.toBeInTheDocument();
   });
 
   it("should clear the input when clear button is clicked", async () => {

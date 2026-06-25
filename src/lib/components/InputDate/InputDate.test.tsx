@@ -200,7 +200,7 @@ describe("InputDate", () => {
 
     await userEvent.type(getInput(), "66/");
     await userEvent.click(getClearButton());
-    expect(onChange).toHaveBeenCalledTimes(5);
+    expect(onChange).toHaveBeenCalledTimes(6);
   });
 
   it("should be rendered as success variant when success prop is true", () => {

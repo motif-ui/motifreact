@@ -66,7 +66,7 @@ describe("NavBar", () => {
 
   it("should render the search box in a pill shape when pill is true in the search prop", () => {
     const { getByRole } = render(<NavBar search={{ pill: true }} />);
-    expect(getByRole("textbox").parentElement).toHaveClass("pill");
+    expect(getByRole("textbox").parentElement?.parentElement).toHaveClass("pill");
   });
 
   it("should fire onPressEnter in search props with typed query when 'enter' key is pressed", async () => {
