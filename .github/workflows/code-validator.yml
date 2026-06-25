@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   validate:
@@ -17,7 +18,7 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
-          persist-credentials: 'false'
+          persist-credentials: false
 
       - name: Setup Dependencies
         uses: ./.github/actions/setup-node-deps
@@ -33,17 +34,17 @@ jobs:
           npx jest --ci --coverage
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@fb8b358c0f0dc4f0fd44f2d6f95dd1f605d2e4d2 # v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Package size report
-        uses: pkg-size/action@v1.1.1
+        uses: pkg-size/action@a637fb0897b6f14f18e776d8c3dbccb34a1ad27b # v1.1.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v8.2.0
+        uses: SonarSource/sonarqube-scan-action@42f35949c5b9b9945a97303b2a2020fdb6f66538 # v8.2.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
