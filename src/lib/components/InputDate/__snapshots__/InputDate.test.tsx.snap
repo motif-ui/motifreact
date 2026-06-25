@@ -7,7 +7,7 @@ exports[`InputDate should be rendered with only required props and should have d
     data-testid="inputDate"
   >
     <div
-      class="Root md"
+      class="Root md clearable"
       data-testid="inputItem"
     >
       <span
@@ -17,11 +17,15 @@ exports[`InputDate should be rendered with only required props and should have d
       >
         calendar_month
       </span>
-      <input
-        placeholder="DD/MM/YYYY"
-        readonly=""
-        value=""
-      />
+      <div
+        class="inputWrapper"
+      >
+        <input
+          placeholder="DD/MM/YYYY"
+          readonly=""
+          value=""
+        />
+      </div>
     </div>
   </div>
 </div>

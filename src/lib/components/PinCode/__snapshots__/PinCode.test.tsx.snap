@@ -10,21 +10,29 @@ exports[`PinCode should render with only required props and have default prop va
       class="Root input"
       data-testid="inputItem"
     >
-      <input
-        maxlength="1"
-        type="text"
-        value=""
-      />
+      <div
+        class="inputWrapper"
+      >
+        <input
+          maxlength="1"
+          type="text"
+          value=""
+        />
+      </div>
     </div>
     <div
       class="Root input"
       data-testid="inputItem"
     >
-      <input
-        maxlength="1"
-        type="password"
-        value=""
-      />
+      <div
+        class="inputWrapper"
+      >
+        <input
+          maxlength="1"
+          type="password"
+          value=""
+        />
+      </div>
     </div>
   </div>
 </div>

@@ -6,7 +6,7 @@ exports[`InputTime should be rendered with only required props and should have d
     class="Root"
   >
     <div
-      class="Root md"
+      class="Root md clearable"
       data-testid="inputItem"
     >
       <span
@@ -16,11 +16,15 @@ exports[`InputTime should be rendered with only required props and should have d
       >
         schedule
       </span>
-      <input
-        placeholder="__:__"
-        readonly=""
-        value=""
-      />
+      <div
+        class="inputWrapper"
+      >
+        <input
+          placeholder="__:__"
+          readonly=""
+          value=""
+        />
+      </div>
     </div>
   </div>
 </div>
