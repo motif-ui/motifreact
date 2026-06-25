@@ -23,9 +23,6 @@ jobs:
       - name: Setup Dependencies
         uses: ./.github/actions/setup-node-deps
 
-      - name: Build Library
-        run: npm run build:lib
-
       - name: Run Linters and Tests
         run: |
           npm run lint
@@ -36,6 +33,7 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
 
+      # Since Package size report already builds the lib, there is no need for an explicit build to run.
       - name: Package size report
         uses: pkg-size/action@a637fb0897b6f14f18e776d8c3dbccb34a1ad27b # v1.1.1
         env:

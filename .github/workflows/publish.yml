@@ -90,7 +90,7 @@ jobs:
           HUSKY: 0
 
       - name: Build
-        run: npm run build:lib
+        run: npm run build
 
       - name: Publish to npm
         run: npm publish --provenance --access public
