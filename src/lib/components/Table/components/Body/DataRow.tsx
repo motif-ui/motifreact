@@ -28,7 +28,7 @@ const DataRow = (props: Props) => {
       {showFixedRowNumbers ? <td>{rowNumberStatic}</td> : null}
       {columns.map((column, cIndex) => {
         const span = spannedCellsMap.get(`${rowIndex}-${cIndex}`);
-        return span && <DataCell key={`${rowIndex}-${cIndex}`} column={column} rowData={row.data} span={span} />;
+        return span && <DataCell key={`${row.motifIndex}-${cIndex}`} column={column} rowData={row.data} span={span} />;
       })}
     </tr>
   );

@@ -725,7 +725,7 @@ describe("Table", () => {
     const footerCells = getFooterCells();
     expect(footerCells).toHaveLength(2);
     expect(footerCells[0]).toHaveAttribute("colspan", "2");
-    expect(footerCells[0]).toHaveTextContent("");
+    expect(footerCells[0]).toHaveTextContent("99");
     expect(footerCells[1]).toHaveTextContent("10");
   });
 
@@ -881,5 +881,108 @@ describe("Table", () => {
     const secondRowCells = within(rows[1]).getAllByRole("cell");
     expect(secondRowCells).toHaveLength(2);
     expect(secondRowCells[0]).toHaveTextContent("Charlie");
+  });
+
+  it("should render dynamic rowSpan in body cells based on row data", () => {
+    const { getFirstRow, getTableBody } = renderExt(
+      <Table
+        columns={[
+          {
+            title: "Name",
+            dataKey: "name",
+            rowSpan: (row: object) => ("spanned" in row && row.spanned ? 2 : 1),
+          },
+          { title: "Age", dataKey: "age" },
+        ]}
+        data={[
+          { name: "Alice", age: 28, spanned: true },
+          { name: "Alice", age: 30, spanned: false },
+          { name: "Bob", age: 25, spanned: false },
+        ]}
+      />,
+    );
+
+    const firstRowCells = within(getFirstRow()).getAllByRole("cell");
+    expect(firstRowCells[0]).toHaveAttribute("rowspan", "2");
+    expect(firstRowCells[0]).toHaveTextContent("Alice");
+
+    const secondRowCells = within(getTableBody().children[1] as HTMLTableRowElement).getAllByRole("cell");
+    expect(secondRowCells).toHaveLength(1);
+    expect(secondRowCells[0]).toHaveTextContent("30");
+
+    const thirdRowCells = within(getTableBody().children[2] as HTMLTableRowElement).getAllByRole("cell");
+    expect(thirdRowCells).toHaveLength(2);
+    expect(thirdRowCells[0]).toHaveTextContent("Bob");
+  });
+
+  it("should recalculate dynamic rowSpan after data is sorted", async () => {
+    const { getTableBody, getSortButton } = renderExt(
+      <Table
+        columns={[
+          {
+            title: "Name",
+            dataKey: "name",
+            rowSpan: (row: object) => ("spanned" in row && row.spanned ? 2 : 1),
+          },
+          { title: "Age", dataKey: "age", sorting: {} },
+        ]}
+        data={[
+          { name: "Alice", age: 28, spanned: true },
+          { name: "Bob", age: 25 },
+          { name: "Charlie", age: 30 },
+        ]}
+      />,
+    );
+
+    // Before sort: Alice is row 0, her rowspan=2 absorbs row 1's Name cell
+    let rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
+    expect(within(rows[0]).getAllByRole("cell")[0]).toHaveAttribute("rowspan", "2");
+    expect(within(rows[1]).getAllByRole("cell")).toHaveLength(1);
+
+    // Sort ascending by age → Bob(25), Alice(28), Charlie(30)
+    await userEvent.click(getSortButton());
+
+    rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
+    expect(within(rows[0]).getAllByRole("cell")[0]).not.toHaveAttribute("rowspan");
+    expect(within(rows[0]).getAllByRole("cell")[0]).toHaveTextContent("Bob");
+    expect(within(rows[1]).getAllByRole("cell")[0]).toHaveAttribute("rowspan", "2");
+    expect(within(rows[1]).getAllByRole("cell")[0]).toHaveTextContent("Alice");
+    expect(within(rows[2]).getAllByRole("cell")).toHaveLength(1);
+  });
+
+  it("should add a spacer cell in the footer row to align with the selectable checkbox column", () => {
+    const { getFooterCells } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name" },
+          { title: "Amount", dataKey: "amount", footer: { type: "sum" } },
+        ]}
+        data={[{ name: "Alice", amount: 100 }]}
+        selectable
+      />,
+    );
+
+    const footerCells = getFooterCells();
+    expect(footerCells).toHaveLength(2);
+    expect(footerCells[0]).toHaveAttribute("colspan", "2");
+    expect(footerCells[1]).toHaveTextContent("100");
+  });
+
+  it("should add a spacer cell in the footer row to align with the showFixedRowNumbers column", () => {
+    const { getFooterCells } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name" },
+          { title: "Amount", dataKey: "amount", footer: { type: "sum" } },
+        ]}
+        data={[{ name: "Alice", amount: 100 }]}
+        showFixedRowNumbers
+      />,
+    );
+
+    const footerCells = getFooterCells();
+    expect(footerCells).toHaveLength(2);
+    expect(footerCells[0]).toHaveAttribute("colspan", "2");
+    expect(footerCells[1]).toHaveTextContent("100");
   });
 });

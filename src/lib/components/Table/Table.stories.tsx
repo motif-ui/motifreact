@@ -413,11 +413,7 @@ export const Filtering: Story = {
       { title: "Full Name", dataKey: "name", filter: true },
       { title: "Age", dataKey: "age", filter: true },
     ];
-    return (
-      <div style={{ width: 600 }}>
-        <Table data={data} columns={columns} filterableTable />
-      </div>
-    );
+    return <Table data={data} columns={columns} filterableTable />;
   },
 };
 
@@ -448,9 +444,7 @@ export const Selection: Story = {
       { title: "Age", dataKey: "age", sorting: {} },
     ];
     return (
-      <div style={{ width: 600 }}>
-        <Table data={data} columns={columns} selectable selectionKey="selected" onSelect={selection => alert(JSON.stringify(selection))} />
-      </div>
+      <Table data={data} columns={columns} selectable selectionKey="selected" onSelect={selection => alert(JSON.stringify(selection))} />
     );
   },
 };
@@ -526,11 +520,7 @@ export const RowNumbers: Story = {
       { title: "Name", dataKey: "name", sorting: {} },
       { title: "Age", dataKey: "age", sorting: {} },
     ];
-    return (
-      <div style={{ width: 600 }}>
-        <Table data={data} columns={columns} />
-      </div>
-    );
+    return <Table data={data} columns={columns} />;
   },
 };
 
@@ -561,18 +551,16 @@ export const RowColoring: Story = {
       { title: "Age", dataKey: "age" },
     ];
     return (
-      <div style={{ width: 600 }}>
-        <Table
-          data={data}
-          columns={columns}
-          rowColorCallback={rowData => (rowData.age > 80 ? "danger" : rowData.age < 30 ? "success" : undefined)}
-        />
-      </div>
+      <Table
+        data={data}
+        columns={columns}
+        rowColorCallback={rowData => (rowData.age > 80 ? "danger" : rowData.age < 30 ? "success" : undefined)}
+      />
     );
   },
 };
 
-export const ColSpan: Story = {
+export const Colspan: Story = {
   render: () => {
     type RowData = { fullName: string; age: number; city: string; merged: boolean };
     const data: RowData[] = [
@@ -596,15 +584,11 @@ export const ColSpan: Story = {
         dataKey: "city",
       },
     ];
-    return (
-      <div style={{ width: 800 }}>
-        <Table data={data} columns={columns} border="cellBorders" />
-      </div>
-    );
+    return <Table data={data} columns={columns} border="cellBorders" />;
   },
 };
 
-export const RowSpan: Story = {
+export const Rowspan: Story = {
   render: () => {
     type RowData = { name: string; surname: string; age: number };
     const data = [
@@ -625,10 +609,6 @@ export const RowSpan: Story = {
       { title: "Surname", dataKey: "surname" },
       { title: "Age", dataKey: "age" },
     ];
-    return (
-      <div style={{ width: 600 }}>
-        <Table data={data} columns={columns} border="cellBorders" />
-      </div>
-    );
+    return <Table data={data} columns={columns} border="cellBorders" />;
   },
 };

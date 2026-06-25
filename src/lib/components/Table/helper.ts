@@ -7,7 +7,7 @@ export const SORT_DIRECTIONS: ("asc" | "desc" | undefined)[] = ["asc", "desc", u
 const clampSpanValue = (span: number | undefined, maxSpan?: number): number => {
   if (!span || !Number.isFinite(span)) return 1;
   const clamped = Math.max(Math.floor(span), 1);
-  return maxSpan ? Math.min(clamped, Math.max(Math.floor(maxSpan), 1)) : clamped;
+  return maxSpan != null ? Math.min(clamped, Math.max(Math.floor(maxSpan), 1)) : clamped;
 };
 
 export const resolveCellSpan = (
