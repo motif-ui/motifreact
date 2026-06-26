@@ -48,3 +48,5 @@ jobs:
             -Dsonar.organization=motif-ui
             -Dsonar.projectKey=motif-ui_motifreact
             -Dsonar.sources=src
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
