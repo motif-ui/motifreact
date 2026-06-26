@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   validate:
@@ -17,17 +18,22 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
-          persist-credentials: 'false'
+          persist-credentials: false
 
       - name: Setup Dependencies
         uses: ./.github/actions/setup-node-deps
-
-      - name: Build Library
-        run: npm run build:lib
 
       - name: Run Linters and Tests
         run: |
           npm run lint
           npm run check:type
           npm run check:scss
-          npm run test:ci
+          npx jest --ci --coverage
+
+      # Since Package size report already builds the lib, there is no need for an explicit build to run.
+      - name: Package size report
+        uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          build-script: "build:lib"
