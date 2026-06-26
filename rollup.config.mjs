@@ -17,6 +17,7 @@ import json from "@rollup/plugin-json";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const wrapLayerPlugin = require("./src/scripts/postcssWrapLayer.cjs");
+import { codecovRollupPlugin } from "@codecov/rollup-plugin";
 
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
@@ -125,6 +126,11 @@ export default [
         mangle: {
           keep_fnames: true,
         },
+      }),
+      codecovRollupPlugin({
+        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        bundleName: "motifreact",
+        uploadToken: process.env.CODECOV_TOKEN,
       }),
     ],
     external: ["react", "react-dom", "react/jsx-runtime"],
