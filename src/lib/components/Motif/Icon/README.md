@@ -8,7 +8,7 @@ a very small subset of icons internally.
 Available icons are listed in [motif-default-icons.json](./assets/motif-default-icons.json) and also in [MotifIcon.module.scss](./MotifIcon.module.scss)
 file as the css class names.
 
-To verify all available icons, navigate to the hidden Storybook story **Chromatic/MotifIcon**. To see hidden story please untag `!dev`and `!autodocs` and it will be available on sidebar.
+To verify all available icons, navigate to the hidden Storybook story **Chromatic/MotifIcon**. To see hidden story please untag `!dev` and `!autodocs` and it will be available on sidebar.
 
 ### How to add new icons?
 
@@ -40,7 +40,7 @@ When the project is restored into **IcoMoon**, new icons can be added by importi
 9. In the Export section, click **Download** to download the font package.
 
 10. The downloaded package should include:
-    - `selection.icomoon.json` (the project file)
+    - `motif-default-icons.json` (the project file)
     - Font files in, `.ttf`, `.woff`, and `.woff2` formats
 11. Overwrite the existing font files in [./assets/fonts/](./assets/fonts/) folder with the new ones:
     - `motif-icons-default.ttf`
