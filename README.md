@@ -4,7 +4,6 @@
 ![Last updated](https://img.shields.io/npm/last-update/@motif-ui/react?color=green)
 ![Repo size](https://img.shields.io/github/repo-size/motif-ui/motifreact?color=blue&logo=github)
 ![Top language](https://img.shields.io/github/languages/top/motif-ui/motifreact?color=blue)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=motif-ui_motifreact&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=motif-ui_motifreact)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-yellow.svg)](https://github.com/motif-ui/motifreact/pulls)
 
 # Motif UI React
