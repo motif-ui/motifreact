@@ -35,16 +35,9 @@ jobs:
 
       # Since Package size report already builds the lib, there is no need for an explicit build to run.
       - name: Package size report
-        uses: preactjs/compressed-size-action@v2 # v1.1.1
+        uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
-          install-script: "npm run build:lib"
-
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@713881670b6b3676cda39549040e2d88c70d582e # v8.2.0
-        with:
-          args: >
-            -Dsonar.organization=motif-ui
-            -Dsonar.projectKey=motif-ui_motifreact
-            -Dsonar.sources=src
+          build-script: "build:lib"
