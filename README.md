@@ -107,7 +107,7 @@ npm run storybook
 4. Build the library:
 
 ```bash
-npm run build
+npm run build:lib
 ```
 
 This will generate ESM and CommonJS builds in the `/dist` folder.
