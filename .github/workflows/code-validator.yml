@@ -35,11 +35,11 @@ jobs:
 
       # Since Package size report already builds the lib, there is no need for an explicit build to run.
       - name: Package size report
-        uses: pkg-size/action@a637fb0897b6f14f18e776d8c3dbccb34a1ad27b # v1.1.1
+        uses: preactjs/compressed-size-action@v2 # v1.1.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          build-command: npm run build:lib
+          install-script: "npm run build:lib"
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@713881670b6b3676cda39549040e2d88c70d582e # v8.2.0
