@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render } from "@testing-library/react";
 import MotifIconButton from "./MotifIconButton";
-import selectionJson from "./assets/selection.json";
+import selectionJson from "./assets/motif-default-icons.json";
 import { Size7 } from "../../../types";
 
 const motifIconDefaultNames = selectionJson.glyphs.map(glyph => glyph.extras.name);

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import iconMoon from "./assets/selection.json" with { type: "json" };
+import iconMoon from "./assets/motif-default-icons.json" with { type: "json" };
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 
 const meta: Meta = {

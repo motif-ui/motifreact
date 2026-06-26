@@ -5,14 +5,14 @@ a very small subset of icons internally.
 
 ### Which icons are available?
 
-Available icons are listed in [selection.icomoon.json](./assets/selection.icomoon.json) and also in [MotifIcon.module.scss](./MotifIcon.module.scss)
+Available icons are listed in [motif-default-icons.json](./assets/motif-default-icons.json) and also in [MotifIcon.module.scss](./MotifIcon.module.scss)
 file as the css class names.
 
-To verify all available icons, navigate to the hidden Storybook story **Chromatic/MotifIcon**. This story is visible in Storybook but tagged with `!dev` and `!autodocs` to hide it from the sidebar.
+To verify all available icons, navigate to the hidden Storybook story **Chromatic/MotifIcon**. To see hidden story please untag `!dev`and `!autodocs` and it will be available on sidebar.
 
 ### How to add new icons?
 
-Font icons are generated using the `IcoMoon` app. The required json file to restore the current IcoMoon project is [selection.json](./assets/selection.json).
+Font icons are generated using the `IcoMoon` app. The required json file to restore the current IcoMoon project is [motif-default-icons.json](./assets/motif-default-icons.json).
 
 When the project is restored into **IcoMoon**, new icons can be added by importing new SVG files and downloading the updated font bundle. **Note:** IcoMoon now automatically generates all font formats (.ttf, .woff, .woff2), eliminating the need for manual conversion.
 
@@ -23,9 +23,9 @@ When the project is restored into **IcoMoon**, new icons can be added by importi
    2. On the right bottom side of the panel exporting is possible, exported format should be SVG.
    3. Exported SVG could be directly imported into IcoMoon.
 
-2. Open [IcoMoon app](https://app.icomoon.io) in your browser.
+2. Open [IcoMoon app](https://icomoon.io/new-app) in your browser.
 
-3. Click **Import** and select the [selection.json](./assets/selection.json) file to restore the current project.
+3. Click **Import** and select the [motif-default-icons.json](./assets/motif-default-icons.json) file to restore the current project.
 
 4. Click **Load** to load the existing icons into the editor.
 
@@ -33,21 +33,20 @@ When the project is restored into **IcoMoon**, new icons can be added by importi
 
 6. The selected icons will appear in the middle panel alongside existing icons.
 
-7. Fill in the name fields for the new icons if needed.
+7. You may change the name of new icons in the name field if necessary.
 
 8. Click **Export** in the left sidebar.
 
 9. In the Export section, click **Download** to download the font package.
 
-10. The downloaded package includes:
+10. The downloaded package should include:
     - `selection.icomoon.json` (the project file)
-    - Font files in all formats: `.ttf`, `.woff`, and `.woff2`
-
+    - Font files in, `.ttf`, `.woff`, and `.woff2` formats
 11. Overwrite the existing font files in [./assets/fonts/](./assets/fonts/) folder with the new ones:
     - `motif-icons-default.ttf`
     - `motif-icons-default.woff`
     - `motif-icons-default.woff2`
 
-12. Replace the [selection.json](./assets/selection.json) file with the newly downloaded one. Remove any old selection files (e.g., `selection.json`) to keep the assets folder clean.
+12. Replace the [motif-default-icons.json](./assets/motif-default-icons.json) file with the new one.
 
 13. Update the icon class names in [MotifIcon.module.scss](./MotifIcon.module.scss) file with the new ones from the exported `style.css` file.
