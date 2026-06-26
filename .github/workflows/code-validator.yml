@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   validate:
@@ -17,17 +18,33 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
-          persist-credentials: 'false'
+          persist-credentials: false
 
       - name: Setup Dependencies
         uses: ./.github/actions/setup-node-deps
-
-      - name: Build Library
-        run: npm run build:lib
 
       - name: Run Linters and Tests
         run: |
           npm run lint
           npm run check:type
           npm run check:scss
-          npm run test:ci
+          npx jest --ci --coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+
+      # Since Package size report already builds the lib, there is no need for an explicit build to run.
+      - name: Package size report
+        uses: pkg-size/action@a637fb0897b6f14f18e776d8c3dbccb34a1ad27b # v1.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          build-command: npm run build:lib
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@713881670b6b3676cda39549040e2d88c70d582e # v8.2.0
+        with:
+          args: >
+            -Dsonar.organization=motif-ui
+            -Dsonar.projectKey=motif-ui_motifreact
+            -Dsonar.sources=src
