@@ -3,10 +3,10 @@ import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
 import { runDatePickerCommonTests } from "@/components/DatePicker/DatePicker.test";
 import { runTimePickerCommonTests } from "@/components/TimePicker/TimePicker.test";
 import { act, render, waitFor } from "@testing-library/react";
-import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
-import { LOCALE_DATE_TIME_TR_TR } from "@/components/DateTimePicker/locale/tr_TR";
 import { DateTimePickerLocale } from "../DateTimePicker/types";
 import { userEvent } from "@testing-library/user-event";
+import { t } from "../../../utils/testUtils";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateTimePicker", () => {
   beforeEach(() => {
@@ -58,7 +58,7 @@ describe("DateTimePicker", () => {
     const { getByText } = render(<DateTimePicker />);
     expect(getByText("calendar_month").closest("button")).toHaveClass("active");
     expect(getByText("schedule").closest("button")).not.toHaveClass("active");
-    LOCALE_DATE_TIME_TR_TR.weekDays.forEach(weekDay => expect(getByText(weekDay)).toBeInTheDocument());
+    getDateLocale(t).weekDays.forEach(weekDay => expect(getByText(weekDay)).toBeInTheDocument());
   });
 
   it("should switch to the time picker when time picker button is clicked", () => {
@@ -67,7 +67,7 @@ describe("DateTimePicker", () => {
     expect(getByText("calendar_month").closest("button")).not.toHaveClass("active");
     expect(getByText("schedule").closest("button")).toHaveClass("active");
 
-    const { hoursAbbr, minutesAbbr, secondsAbbr } = LOCALE_DATE_TIME_TR_TR;
+    const { hoursAbbr, minutesAbbr, secondsAbbr } = getDateLocale(t);
     expect(getByText(hoursAbbr)).toBeInTheDocument();
     expect(getByText(minutesAbbr)).toBeInTheDocument();
     expect(getByText(secondsAbbr)).toBeInTheDocument();
@@ -81,7 +81,7 @@ describe("DateTimePicker", () => {
     act(() => getByText("calendar_month").click());
     expect(getByText("schedule").closest("button")).not.toHaveClass("active");
     expect(getByText("calendar_month").closest("button")).toHaveClass("active");
-    LOCALE_DATE_TIME_TR_TR.weekDays.forEach(weekDay => expect(getByText(weekDay)).toBeInTheDocument());
+    getDateLocale(t).weekDays.forEach(weekDay => expect(getByText(weekDay)).toBeInTheDocument());
   });
 
   it("should switch to the time picker and select 00 for time parts when there is no selected value and a date is selected from the date picker", async () => {
@@ -102,7 +102,7 @@ describe("DateTimePicker", () => {
     const { getByText, getAllByText } = render(<DateTimePicker />);
 
     const today = new Date();
-    const monthAndDay = LOCALE_DATE_TR_TR.monthsShort[today.getMonth()] + " " + today.getDate();
+    const monthAndDay = getDateLocale(t).monthsShort[today.getMonth()] + " " + today.getDate();
     expect(getByText(monthAndDay)).toBeInTheDocument();
     expect(getAllByText(today.getFullYear())[0]).toBeInTheDocument();
     expect(getByText(monthAndDay).parentElement).not.toHaveClass("active");
@@ -189,24 +189,18 @@ describe("DateTimePicker", () => {
       ],
       monthsShort: ["Ja1", "Fe2", "Ma3", "Ap4", "Ma5", "Ju6", "Ju7", "Ag8", "Se9", "O10", "N11", "D12"],
       weekDays: ["5D", "6D", "7D", "1D", "2D", "3D", "4D"],
-      firstDayOfWeek: 3 /* 1D */,
       hoursAbbr: "H1",
       minutesAbbr: "M2",
       secondsAbbr: "S3",
       am: "AM",
       pm: "PM",
     };
-    const { container, getByText, getAllByText } = render(
-      <DateTimePicker locale={LOCALE_DATETIME_CUSTOM} secondsEnabled timeFormat="12h" />,
-    );
+    const { getByText, getAllByText } = render(<DateTimePicker locale={LOCALE_DATETIME_CUSTOM} secondsEnabled timeFormat="12h" />);
     const thisMonth = new Date().getMonth();
 
     // Weekdays
     expect(getByText("5D")).toBeInTheDocument();
     expect(getByText("7D")).toBeInTheDocument();
-
-    // First day of week
-    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("1D");
 
     // Month names
     const monthButton = getByText(LOCALE_DATETIME_CUSTOM.months[thisMonth]);
@@ -224,6 +218,11 @@ describe("DateTimePicker", () => {
     expect(getByText("S3")).toBeInTheDocument();
     expect(getAllByText("AM")).toHaveLength(2);
     expect(getByText("PM")).toBeInTheDocument();
+  });
+
+  it("should reflect the day arrangement given in the firstDayOfWeek prop", () => {
+    const { container } = render(<DateTimePicker firstDayOfWeek={3} secondsEnabled timeFormat="12h" />);
+    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
 
   it("should put clicked time value on the top label as active", () => {
@@ -246,7 +245,7 @@ describe("DateTimePicker", () => {
     act(() => getByText("Clear").click());
     expect(getByText("__:__")).not.toHaveClass("active");
     const today = new Date();
-    expect(getByText(LOCALE_DATE_TR_TR.monthsShort[today.getMonth()] + " " + today.getDate()).parentElement).not.toHaveClass("active");
+    expect(getByText(getDateLocale(t).monthsShort[today.getMonth()] + " " + today.getDate()).parentElement).not.toHaveClass("active");
     expect(getAllByText(today.getFullYear())[0].parentElement).not.toHaveClass("active");
   });
 
@@ -284,14 +283,14 @@ describe("DateTimePicker", () => {
     const { getByText, getByTestId } = render(<DateTimePicker timeFormat="12h" value={date} />);
 
     act(() => getByText("schedule").click());
-    expect(getByTestId("dateTimeInfo").textContent).toContain(`02:30${LOCALE_DATE_TIME_TR_TR.pm}`);
+    expect(getByTestId("dateTimeInfo").textContent).toContain(`02:30${getDateLocale(t).pm}`);
   });
 
   it("should render time period as AM when timeFormat is 12h and no complete time value is selected yet", () => {
     const { getByText, getByTestId } = render(<DateTimePicker timeFormat="12h" />);
 
     act(() => getByText("schedule").click());
-    expect(getByTestId("dateTimeInfo").textContent).toContain(LOCALE_DATE_TIME_TR_TR.am);
+    expect(getByTestId("dateTimeInfo").textContent).toContain(getDateLocale(t).am);
   });
 
   it("should change time when AM/PM buttons are clicked in 12-hour format", async () => {
@@ -302,7 +301,7 @@ describe("DateTimePicker", () => {
 
     act(() => getByText("schedule").click());
 
-    await userEvent.click(getByText("ÖÖ")); // Click AM
+    await userEvent.click(getByText(getDateLocale(t).am)); // Click AM
 
     expect(handleTimeChange).toHaveBeenCalledWith({
       hours: 2, // 14:30 (2:30 PM) -> 2:30 AM
@@ -318,14 +317,14 @@ describe("DateTimePicker", () => {
       <DateTimePicker timeFormat="12h" value={new Date("August 1, 2020 00:00:00")} onTimeChange={handleTimeChange} />,
     );
     act(() => getByText("schedule").click());
-    await userEvent.click(getByText("ÖS")); // Click PM
+    await userEvent.click(getByText(getDateLocale(t).pm)); // Click PM
     expect(handleTimeChange).toHaveBeenCalledWith({
       hours: 12, // 0:00 (12:00 AM) -> 12:00 PM
       minutes: 0,
       seconds: 0,
     });
 
-    await userEvent.click(getByText("ÖÖ")); // Click AM
+    await userEvent.click(getByText(getDateLocale(t).am)); // Click AM
     expect(handleTimeChange).toHaveBeenCalledWith({
       hours: 0, // 12:00 PM -> 0:00 (12:00 AM)
       minutes: 0,
@@ -341,16 +340,16 @@ describe("DateTimePicker", () => {
     act(() => getByText("schedule").click());
 
     // AM
-    expect(getAllByText("ÖÖ")[1]).toHaveClass("selected");
-    expect(getByText("ÖS")).not.toHaveClass("selected");
+    expect(getAllByText(getDateLocale(t).am)[1]).toHaveClass("selected");
+    expect(getByText(getDateLocale(t).pm)).not.toHaveClass("selected");
 
     const date1 = new Date();
     date1.setHours(15, 0, 0, 0);
     rerender(<DateTimePicker timeFormat="12h" value={date1} />);
     act(() => getByText("schedule").click());
     // PM
-    expect(getAllByText("ÖS")[1]).toHaveClass("selected");
-    expect(getByText("ÖÖ")).not.toHaveClass("selected");
+    expect(getAllByText(getDateLocale(t).pm)[1]).toHaveClass("selected");
+    expect(getByText(getDateLocale(t).am)).not.toHaveClass("selected");
   });
 
   it("should render 12 hours to select when timeFormat is 12h", () => {
@@ -367,12 +366,12 @@ describe("DateTimePicker", () => {
     const date = new Date("August 1, 2020 23:59:59");
     const { getByText, getAllByText } = render(<DateTimePicker value={date} />);
 
-    const dateText = LOCALE_DATE_TR_TR.monthsShort[date.getMonth()] + " " + date.getDate();
+    const dateText = getDateLocale(t).monthsShort[date.getMonth()] + " " + date.getDate();
     expect(getByText(dateText).parentElement).toHaveClass("active");
 
     const yearLabel = getAllByText(date.getFullYear())[0];
     expect(yearLabel.parentElement).toHaveClass("active");
-    expect(yearLabel.parentElement).toHaveTextContent("Ağu 12020");
+    expect(yearLabel.parentElement).toHaveTextContent("Aug 12020");
   });
   it("should render the selected time text in the time format given in the timeFormat prop", () => {
     const date = new Date("August 1, 2020 14:30:00");

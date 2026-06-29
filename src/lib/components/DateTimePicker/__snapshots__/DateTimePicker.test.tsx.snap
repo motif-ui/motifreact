@@ -33,7 +33,7 @@ exports[`DatePicker should be rendered with only required props and should have 
             <button
               type="button"
             >
-              Şubat
+              February
             </button>
             <button
               type="button"
@@ -58,25 +58,25 @@ exports[`DatePicker should be rendered with only required props and should have 
           class="weekDays"
         >
           <span>
-            Pt
+            Mo
+          </span>
+          <span>
+            Tu
+          </span>
+          <span>
+            We
+          </span>
+          <span>
+            Th
+          </span>
+          <span>
+            Fr
           </span>
           <span>
             Sa
           </span>
           <span>
-            Çr
-          </span>
-          <span>
-            Pe
-          </span>
-          <span>
-            Cu
-          </span>
-          <span>
-            Ct
-          </span>
-          <span>
-            Pz
+            Su
           </span>
         </div>
         <div
@@ -352,10 +352,10 @@ exports[`TimePicker should be rendered with only required props and should have 
         class="abbrContainer"
       >
         <span>
-          Sa
+          Hr
         </span>
         <span>
-          Da
+          Mn
         </span>
       </div>
       <div

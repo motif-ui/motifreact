@@ -9,7 +9,8 @@ import { getPeriodOfTime } from "@/components/TimePicker/helper";
 export const DateTimePickerContext = createContext<DateTimePickerContextProps | undefined>(undefined);
 
 export const DateTimePickerProvider = (props: PropsWithChildren<DateTimePickerProviderProps>) => {
-  const { children, size, value, onDateChange, onTimeChange, locale, secondsEnabled, timeFormat, fluid, onClearClick } = props;
+  const { children, size, value, onDateChange, onTimeChange, locale, secondsEnabled, timeFormat, fluid, onClearClick, firstDayOfWeek } =
+    props;
 
   const [activeTab, setActiveTab] = useState<ActiveTab>("date");
   const [selectedValue, setSelectedValue] = useState<Date | undefined>(value);
@@ -73,6 +74,7 @@ export const DateTimePickerProvider = (props: PropsWithChildren<DateTimePickerPr
       timeChangeHandler,
       timeFormat,
       fluid,
+      firstDayOfWeek,
     }),
     [
       activeTab,
@@ -87,6 +89,7 @@ export const DateTimePickerProvider = (props: PropsWithChildren<DateTimePickerPr
       size,
       timeChangeHandler,
       timeFormat,
+      firstDayOfWeek,
     ],
   );
   return <DateTimePickerContext value={contextValue}>{children}</DateTimePickerContext>;
