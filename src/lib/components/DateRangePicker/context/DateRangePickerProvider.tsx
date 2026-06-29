@@ -15,7 +15,10 @@ export const DateRangePickerContext = createContext<DateRangePickerContextProps>
 export const DateRangePickerProvider = (props: PropsWithChildren<DateRangePickerProviderProps>) => {
   const { value, locale, size, onDateChange, children } = props;
 
-  const getDaysOfMonth = useCallback((month: Date) => calculateWeeksFlat(month, locale.firstDayOfWeek), [locale.firstDayOfWeek]);
+  //TODO: With the changes of firstDayOfWeek seperation inside DatePicker, reaching out from local.firstDayOfWeek is
+  // not possible, so default value is given inside this method to convert back to normal when task is completed.
+  // Issue number is: 1441
+  const getDaysOfMonth = useCallback((month: Date) => calculateWeeksFlat(month, 1), []);
   const today = useMemo(() => DateUtils.getTodayTimeless(), []);
   const initialMonths = useMemo(
     () => [

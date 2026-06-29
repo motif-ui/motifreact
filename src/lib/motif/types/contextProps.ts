@@ -1,7 +1,7 @@
 import { StandardProps } from "../../types";
 import type { ComponentDefaultableProps } from "./componentDefaultableProps";
 import { ColorBorder, ColorSemantic, ColorSurface, ColorText, Elevation, Grid, Sizing, Typography } from "./cssVariablesType";
-import type { Locale } from "../../../i18n/locales/index";
+import type { Locale } from "src/i18n/locales/index";
 import { LibraryTranslateFn, LocaleConfig } from "../../../i18n/types";
 
 export type MotifProviderProps = {

@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { DatePickerProps } from "./types";
 import { DatePickerProvider } from "@/components/DatePicker/context/DatePickerProvider";
 import DateSelector from "@/components/DatePicker/components/DateSelector/DateSelector";
-import { LOCALE_DATE_TR_TR } from "./locale/tr_TR";
 import { DateTimePickerContext } from "@/components/DateTimePicker/context/DateTimePickerProvider";
 import { PropsWithRef } from "../../types";
 import DatePickerContainer from "@/components/DatePicker/components/DatePickerContainer";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { useDateLocale } from "src/i18n/useDateLocale.ts";
 
 export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>) => {
   const {
@@ -16,22 +16,24 @@ export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>)
     fluid,
     onOkClick,
     value,
-    locale = LOCALE_DATE_TR_TR,
+    locale: propsLocale,
     onDateChange,
     onPickerChange,
     onClearClick,
     removeActionButtons,
+    firstDayOfWeek = 1,
     className,
     style,
     ref,
   } = usePropsWithThemeDefaults("DatePicker", props);
   const externalPickerContext = useContext(DateTimePickerContext);
-
+  const locale = useDateLocale(propsLocale);
   return (
     <DatePickerProvider
       size={size}
       value={value}
       locale={locale}
+      firstDayOfWeek={firstDayOfWeek}
       fluid={!!fluid}
       onDateChange={onDateChange}
       onPickerChange={onPickerChange}
