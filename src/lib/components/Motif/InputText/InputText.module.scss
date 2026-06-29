@@ -129,7 +129,7 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
     gap: var(--base-sizing-#{$paddingV});
     padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
 
-    &.clearable .inputWrapper input {
+    &.clearable input {
       width: calc(100% - var(--base-sizing-#{$loaderRadius}));
     }
 

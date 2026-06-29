@@ -130,6 +130,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         success={success}
         error={error}
         disabled={disabled}
+        readOnly={readOnly}
         disableTyping
         value={typedValue}
         onClick={pickerShowHandler}

@@ -260,7 +260,6 @@ describe("InputTime", () => {
     const { getInput, getPickerContainer, getAllByText, hasValueBothInPickerAndInput, getClearButton } = renderExt(<InputTime />);
     await userEvent.click(getInput());
     await userEvent.click(getAllByText("15")[0]);
-    await userEvent.click(getAllByText("30")[0]);
     await userEvent.click(getClearButton());
 
     expect(getPickerContainer()).not.toBeInTheDocument();

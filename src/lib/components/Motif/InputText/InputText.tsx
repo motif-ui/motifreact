@@ -58,13 +58,13 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   const changeProcess = useCallback(
     (val: string, updateInputRefValue?: boolean) => {
-      if (!uncontrolled || clearable) setItemValue(val);
+      !uncontrolled && setItemValue(val);
       onChange?.(val);
       if (updateInputRefValue && inputRef.current) {
         inputRef.current.value = val;
       }
     },
-    [onChange, setItemValue, uncontrolled, clearable],
+    [onChange, setItemValue, uncontrolled],
   );
 
   const changeHandler = useCallback(
@@ -86,7 +86,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     disabled ? "disabled" : error ? "error" : success && "success",
     readOnly && "readOnly",
     pill && "pill",
-    clearable && "clearable",
+    clearable && itemValue && "clearable",
   ]);
 
   return (

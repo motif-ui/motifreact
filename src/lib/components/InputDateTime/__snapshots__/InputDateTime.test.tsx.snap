@@ -6,7 +6,7 @@ exports[`InputDateTime should be rendered with only required props and should ha
     class="Root"
   >
     <div
-      class="Root md clearable"
+      class="Root md"
       data-testid="inputItem"
     >
       <span

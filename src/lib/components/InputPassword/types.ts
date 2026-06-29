@@ -11,4 +11,5 @@ export type InputPasswordDefaultableProps = {
   toggleMask?: boolean;
   size?: InputSize;
   pill?: boolean;
+  clearable?: boolean;
 };
