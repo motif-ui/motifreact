@@ -1,3 +1,23 @@
+# [v0.4.2](https://github.com/motif-ui/motifreact/releases/tag/v0.4.2) (2026-06-26)
+
+## 🐛 Bug Fixes
+
+- fix: logo prop refactor to component based ([#85](https://github.com/motif-ui/motifreact/pull/85)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: select responsive issue ([#90](https://github.com/motif-ui/motifreact/pull/90)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Upload): value prop is added ([#89](https://github.com/motif-ui/motifreact/pull/89)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: clearable button feature is added for InputText component ([#82](https://github.com/motif-ui/motifreact/pull/82)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: library peer dependency version bug is fixed ([#87](https://github.com/motif-ui/motifreact/pull/87)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+## Other Changes
+
+- ci: github actions updated ([#93](https://github.com/motif-ui/motifreact/pull/93)) [@aktasmehmet](https://github.com/aktasmehmet)
+- test: add usePropsWithThemeDefaults tests ([#88](https://github.com/motif-ui/motifreact/pull/88)) [@ZehranurC](https://github.com/ZehranurC)
+- test(Stepper): component and useStepper tests are added ([#91](https://github.com/motif-ui/motifreact/pull/91)) [@aktasmehmet](https://github.com/aktasmehmet)
+- chore: maintenance 29260609 ([#83](https://github.com/motif-ui/motifreact/pull/83)) [@ZehranurC](https://github.com/ZehranurC)
+- test: localisaton tests are added based on features ([#77](https://github.com/motif-ui/motifreact/pull/77)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.1...v0.4.2)
+
 # [v0.4.1](https://github.com/motif-ui/motifreact/releases/tag/v0.4.1) (2026-06-08)
 
 ## 🐛 Bug Fixes
