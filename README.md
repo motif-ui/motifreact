@@ -1,3 +1,11 @@
+[![License](https://img.shields.io/github/license/motif-ui/motifreact?color=purple)](https://opensource.org/licenses/MIT)
+[![Website: Motif](https://img.shields.io/website?url=https://motif-ui.com&color=green)](https://motif-ui.com)
+[![npm version](https://img.shields.io/npm/v/@motif-ui/react?color=green&logo=npm)](https://www.npmjs.com/package/@motif-ui/react)
+![Last updated](https://img.shields.io/npm/last-update/@motif-ui/react?color=green)
+![Repo size](https://img.shields.io/github/repo-size/motif-ui/motifreact?color=blue&logo=github)
+![Top language](https://img.shields.io/github/languages/top/motif-ui/motifreact?color=blue)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-yellow.svg)](https://github.com/motif-ui/motifreact/pulls)
+
 # Motif UI React
 
 A comprehensive React component library initially designed for the [Turkish e-Government Gateway](https://turkiye.gov.tr)
