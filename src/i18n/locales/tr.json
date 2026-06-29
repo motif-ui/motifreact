@@ -14,7 +14,9 @@
     "previous": "Önceki",
     "next": "Sonraki",
     "finish": "Tamamla",
-    "x_message": "{{count}} mesaj"
+    "x_message": "{{count}} mesaj",
+    "ok": "OK",
+    "choosePlease": "Lütfen seçiniz"
   },
   "form": {
     "fieldError": "Lütfen bu alandaki hatayı giderin."
@@ -63,5 +65,18 @@
   "misc": {
     "playgroundDescription": "Burası component'lerin denenebileceği bölüm...",
     "localizationTestValue": null
+  },
+  "date": {
+    "months": ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
+    "monthsShort": ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"],
+    "weekDays": ["Pz", "Pt", "Sa", "Çr", "Pe", "Cu", "Ct"],
+    "last": "Son",
+    "days": "gün",
+    "today": "Bugün",
+    "hoursAbbr": "Sa",
+    "minutesAbbr": "Da",
+    "secondsAbbr": "Sn",
+    "am": "ÖÖ",
+    "pm": "ÖS"
   }
 }

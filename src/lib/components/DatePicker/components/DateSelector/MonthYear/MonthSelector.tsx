@@ -8,7 +8,6 @@ import MonthYearButton from "./MonthYearButton";
 
 const MonthSelector = () => {
   const { pickerDate, setPickerDate, setPicker, locale, onPickerChange, size } = useContext(DatePickerContext);
-
   const [activeDate] = useState(pickerDate);
 
   const prevClickHandler = useCallback(() => {
