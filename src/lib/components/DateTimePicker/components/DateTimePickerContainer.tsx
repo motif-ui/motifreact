@@ -31,6 +31,7 @@ const DateTimePickerContainer = (props: Props) => {
     currentTime,
     clearDateTimePicker,
     setSelectedTimePeriod,
+    firstDayOfWeek,
   } = useContext(DateTimePickerContext)!;
   const [activeDatePickerSubPicker, setActiveDatePickerSubPicker] = useState<DatePickerPickerType>("day");
 
@@ -50,6 +51,7 @@ const DateTimePickerContainer = (props: Props) => {
       )}
       {activeTab === "date" ? (
         <DatePicker
+          firstDayOfWeek={firstDayOfWeek}
           onDateChange={dateChangeHandler}
           value={selectedValue}
           onPickerChange={setActiveDatePickerSubPicker}

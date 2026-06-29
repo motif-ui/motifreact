@@ -1,4 +1,4 @@
-import { PickerPropsCommon, TimeFormat } from "../Motif/Pickers/types";
+import { DaysOfWeek, PickerPropsCommon, TimeFormat } from "../Motif/Pickers/types";
 import { Time, TimePeriod, TimePickerLocale } from "../TimePicker/types";
 import { Size4SM } from "../../types";
 import { DatePickerLocale } from "../DatePicker/types";
@@ -26,17 +26,18 @@ export type DateTimePickerDefaultableProps = {
    *   // 2 letters
    *   weekDays: string[];
    *
-   *   firstDayOfWeek: 0|1|2|3|4|5|6;
    * }
    * ```
    */
   locale?: DateTimePickerLocale;
+  firstDayOfWeek?: DaysOfWeek;
   removeActionButtons?: boolean;
   secondsEnabled?: boolean;
   timeFormat?: TimeFormat;
 } & PickerPropsCommon;
 
 export type DateTimePickerContextProps = {
+  firstDayOfWeek: DaysOfWeek;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
   size: Size4SM;
@@ -55,6 +56,7 @@ export type DateTimePickerContextProps = {
 };
 
 export type DateTimePickerProviderProps = {
+  firstDayOfWeek: DaysOfWeek;
   value: Date | undefined;
   locale: DateTimePickerLocale;
   size: Size4SM;

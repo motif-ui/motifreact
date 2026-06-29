@@ -22,9 +22,8 @@ type Props = {
 };
 
 const RangeInput = (props: Props) => {
-  const { locale } = useContext(DateRangePickerContext);
   const { index } = props;
-  const { size, dateCouple, onDateChange, setDateCouple, getDaysOfMonth, months, setMonths } = useContext(DateRangePickerContext);
+  const { size, dateCouple, onDateChange, setDateCouple, getDaysOfMonth, months, setMonths, locale } = useContext(DateRangePickerContext);
   const uniqueName = useId();
 
   const [value, setValue] = useState<string>("");
