@@ -151,7 +151,7 @@ describe("DateTimePicker", () => {
     expect(handleClearClick).toHaveBeenCalled();
   });
 
-  it("should trigger onOKClick event when the Submit button is clicked", () => {
+  it("should trigger onOKClick event when the OK button is clicked", () => {
     const handleOkClick = jest.fn();
     const date = new Date(2000, 10, 11, 12, 13, 14);
     const { getByText } = render(<DateTimePicker onOkClick={handleOkClick} value={date} />);
