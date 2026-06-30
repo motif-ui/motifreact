@@ -31,7 +31,7 @@ const TableBody = memo((props: Props) => {
           </td>
         </tr>
       ) : (
-        visibleRows.map((row, index) => <DataRow key={row.motifIndex} rowNumberStatic={index + 1} row={row} />)
+        visibleRows.map((row, index) => <DataRow key={row.motifIndex} rowNumberStatic={index + 1} row={row} rowIndex={index} />)
       )}
     </tbody>
   );
