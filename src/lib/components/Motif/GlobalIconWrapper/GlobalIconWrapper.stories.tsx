@@ -24,6 +24,7 @@ import Tab from "@/components/Tab/Tab";
 import Timeline from "@/components/Timeline/Timeline";
 import Toast from "@/components/Toast/Toast";
 import { iconObjects } from "../../../../../.storybook/utils.tsx";
+import InputNumber from "@/components/InputNumber";
 
 const meta: Meta = {
   title: "Chromatic/GlobalIconWrapper",
@@ -168,7 +169,17 @@ export const InputPasswordIcons: Story = {
   render: () => (
     <>
       {iconTypes.map((iconItem, idx) => (
-        <InputPassword key={"ip" + idx} icon={iconItem} placeholder="Placeholder" toggleMask size="lg" />
+        <InputPassword key={"ip" + idx} iconLeft={iconItem} placeholder="Placeholder" toggleMask size="lg" />
+      ))}
+    </>
+  ),
+};
+
+export const InputNumberIcons: Story = {
+  render: () => (
+    <>
+      {iconTypes.map((iconItem, idx) => (
+        <InputNumber key={"in" + idx} iconLeft={iconItem} value={55} size="lg" />
       ))}
     </>
   ),

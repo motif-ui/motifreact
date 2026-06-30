@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`InputNumber should render with only required props 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-testid="inputItem"
+  >
+    <input
+      inputmode="numeric"
+      type="text"
+      value=""
+    />
+    <div
+      class="numberButtons"
+    >
+      <button
+        type="button"
+      >
+        +
+      </button>
+      <button
+        type="button"
+      >
+        -
+      </button>
+    </div>
+  </div>
+</div>
+`;
