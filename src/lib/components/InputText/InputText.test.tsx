@@ -111,17 +111,4 @@ describe("InputText", () => {
     const { getByTestId } = render(<InputText pill />);
     expect(getByTestId("inputItem")).toHaveClass("pill");
   });
-
-  it("should render the input in given type", async () => {
-    const { getByTestId, rerender } = render(<InputText type="text" />);
-    expect(getByTestId("inputItem").querySelector("input")).toHaveAttribute("type", "text");
-
-    rerender(<InputText type="number" value="5" />);
-    expect(getByTestId("inputItem").querySelector("input")).toHaveAttribute("type", "number");
-    await userEvent.click(screen.getByText("+"));
-    expect(screen.getByDisplayValue("6")).toBeInTheDocument();
-    expect(screen.queryByDisplayValue("5")).not.toBeInTheDocument();
-    await userEvent.click(screen.getByText("-"));
-    expect(screen.getByDisplayValue("5")).toBeInTheDocument();
-  });
 });

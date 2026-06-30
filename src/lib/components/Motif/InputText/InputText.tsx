@@ -7,6 +7,7 @@ import { PropsWithRef } from "../../../types";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIconButton } from "@/components/Motif/Icon";
 import { InternalInputProps } from "@/components/Motif/InputText/types";
+import NumberSpinner from "@/components/Motif/InputText/components/NumberSpinner.tsx";
 
 const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const {
@@ -16,6 +17,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     placeholder,
     maxLength,
     type,
+    inputMode,
     pill,
     uncontrolled,
     clearable,
@@ -26,6 +28,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     disabled,
     readOnly,
     disableTyping,
+    numberSpinner,
     loader,
     error,
     success,
@@ -33,8 +36,10 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     onFocus,
     onKeyUp,
     onClick,
+    onBlur,
     onClearClick,
     onValueUpdated,
+    valueTransformer,
     ref,
     imperativeRef,
     className,
@@ -58,13 +63,27 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   const changeProcess = useCallback(
     (val: string, updateInputRefValue?: boolean) => {
+      if (valueTransformer) {
+        const processed = valueTransformer(val);
+        if (processed === undefined) {
+          // Transformer rejected the value — restore the DOM to the current valid state and don't trigger anything
+          if (inputRef.current) inputRef.current.value = itemValue;
+          return;
+        }
+        !uncontrolled && setItemValue(processed);
+        onChange?.(processed);
+        // Always sync the DOM when a transformer is active: React may dedupe setState when
+        // the filtered result equals the previous value, leaving raw input visible.
+        if (inputRef.current) inputRef.current.value = processed;
+        return;
+      }
       !uncontrolled && setItemValue(val);
       onChange?.(val);
       if (updateInputRefValue && inputRef.current) {
         inputRef.current.value = val;
       }
     },
-    [onChange, setItemValue, uncontrolled],
+    [onChange, setItemValue, uncontrolled, valueTransformer, itemValue],
   );
 
   const changeHandler = useCallback(
@@ -79,8 +98,6 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     onClearClick?.();
   }, [changeProcess, onClearClick]);
 
-  const adjustNumberValue = useCallback((v: number) => changeProcess(String(Number(inputRef.current?.value) + v), true), [changeProcess]);
-
   const classNames = sanitizeModuleRootClasses(styles, className, [
     size,
     disabled ? "disabled" : error ? "error" : success && "success",
@@ -94,6 +111,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
       <input
         id={id}
         type={type}
+        inputMode={inputMode}
         ref={inputRef}
         name={name}
         placeholder={placeholder}
@@ -104,6 +122,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         onClick={onClick}
         onFocus={onFocus}
         onKeyUp={onKeyUp}
+        onBlur={onBlur}
         {...controlledProps}
       />
       {loader ? (
@@ -126,15 +145,15 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
           {clearable && <MotifIconButton name="cancel_outline" disabled={disabled || readOnly} size={size} onClick={clearHandler} />}
         </>
       )}
-      {type === "number" && (
-        <div className={styles.numberButtons}>
-          <button type="button" onClick={() => adjustNumberValue(1)} disabled={disabled || readOnly}>
-            +
-          </button>
-          <button type="button" onClick={() => adjustNumberValue(-1)} disabled={disabled || readOnly}>
-            -
-          </button>
-        </div>
+      {numberSpinner && (
+        <NumberSpinner
+          value={itemValue}
+          min={numberSpinner.min}
+          max={numberSpinner.max}
+          step={numberSpinner.step}
+          disabled={disabled || readOnly}
+          onChange={changeProcess}
+        />
       )}
     </div>
   );
