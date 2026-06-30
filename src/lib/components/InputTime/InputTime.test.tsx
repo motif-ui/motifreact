@@ -4,6 +4,8 @@ import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
 import { Time } from "@/components/TimePicker/types";
 import { ReactNode } from "react";
+import { getDateLocale } from "src/i18n/helper.ts";
+import { t } from "../../../utils/testUtils";
 
 describe("InputTime", () => {
   const testTime: Time = { hours: 9, minutes: 15 };
@@ -73,7 +75,7 @@ describe("InputTime", () => {
   it("should render the seconds selection reel in the picker when secondsEnabled prop is true", async () => {
     const { getInput } = renderExt(<InputTime secondsEnabled />);
     await userEvent.click(getInput());
-    expect(screen.queryByText("Sn")).toBeInTheDocument();
+    expect(screen.queryByText("Sc")).toBeInTheDocument();
   });
 
   it("should render in a pill shape when pill prop is true", () => {
@@ -335,10 +337,10 @@ describe("InputTime", () => {
 
   it("should display the time in the given format in format prop", () => {
     const { getInput, rerender } = renderExt(<InputTime value={{ hours: 9, minutes: 15 }} format="12h" />);
-    expect(getInput()).toHaveValue("09:15 ÖÖ");
+    expect(getInput()).toHaveValue(`09:15 ${getDateLocale(t).am}`);
 
     rerender(<InputTime value={{ hours: 14, minutes: 15 }} format="12h" />);
-    expect(getInput()).toHaveValue("02:15 ÖS");
+    expect(getInput()).toHaveValue(`02:15 ${getDateLocale(t).pm}`);
 
     rerender(<InputTime value={{ hours: 14, minutes: 15 }} format="24h" />);
     expect(getInput()).toHaveValue("14:15");

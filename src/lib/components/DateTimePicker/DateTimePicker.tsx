@@ -1,16 +1,16 @@
 import { DateTimePickerProps } from "./types";
-import { LOCALE_DATE_TIME_TR_TR } from "./locale/tr_TR";
 import Picker from "@/components/Motif/Pickers/Picker";
 import { DateTimePickerProvider } from "./context/DateTimePickerProvider";
 import DateTimePickerContainer from "./components/DateTimePickerContainer";
 import { PropsWithRef } from "../../types";
+import { useDateLocale } from "src/i18n/useDateLocale.ts";
 
 const DateTimePicker = (props: PropsWithRef<DateTimePickerProps, HTMLDivElement>) => {
   const {
     size = "md",
     variant = "borderless",
     timeFormat = "24h",
-    locale = LOCALE_DATE_TIME_TR_TR,
+    locale: propsLocale,
     fluid,
     value,
     onDateChange,
@@ -19,14 +19,17 @@ const DateTimePicker = (props: PropsWithRef<DateTimePickerProps, HTMLDivElement>
     secondsEnabled,
     onClearClick,
     removeActionButtons,
+    firstDayOfWeek = 1,
     style,
     className,
     ref,
   } = props;
 
+  const locale = useDateLocale(propsLocale);
   return (
     <Picker size={size} variant={variant} fluid={fluid} ref={ref} style={style} className={`mtf-DateTimePicker ${className ?? ""}`.trim()}>
       <DateTimePickerProvider
+        firstDayOfWeek={firstDayOfWeek}
         size={size}
         value={value}
         onTimeChange={onTimeChange}

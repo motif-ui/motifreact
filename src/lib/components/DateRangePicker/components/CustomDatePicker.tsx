@@ -25,7 +25,6 @@ const CustomDatePicker = (props: Props) => {
     setMonths,
     getDaysOfMonth,
   } = useContext(DateRangePickerContext);
-
   const onDateClick = useCallback(
     (date: Date) => {
       const updatedDates = partialSelection ? orderDatesAndPutTimes([partialSelection, date]) : [new Date(date), undefined];

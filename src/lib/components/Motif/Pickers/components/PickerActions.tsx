@@ -2,6 +2,7 @@ import styles from "../Picker.module.scss";
 import Button from "@/components/Button";
 import { Size4SM } from "../../../../types";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
 
 type Props = {
   size: Size4SM;
@@ -12,13 +13,14 @@ type Props = {
 
 const PickerActions = (props: Props) => {
   const { size, onOkClick, onClearClick, spread } = props;
+  const { t } = useMotifContext();
 
   const classes = sanitizeModuleClasses(styles, "actions", spread && "actionsSpread");
 
   return (
     <div className={classes}>
-      <Button variant="secondary" label="Clear" size={size} onClick={onClearClick} />
-      <Button variant="primary" label="OK" size={size} onClick={onOkClick} />
+      <Button variant="secondary" label={t("g.clear")} size={size} onClick={onClearClick} />
+      <Button variant="primary" label={t("g.ok")} size={size} onClick={onOkClick} />
     </div>
   );
 };

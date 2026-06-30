@@ -47,7 +47,7 @@ import { DateUtils } from "src/utils/dateUtils.ts";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
-import { LOCALE_DATE_TR_TR } from "@/components/DatePicker/locale/tr_TR";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("Form", () => {
   it("should be rendered with only required props and items", () => {
@@ -364,8 +364,8 @@ describe("Form", () => {
     // Input Date
     const newDateValue = new Date(2024, 1, 21);
     await user.type(
-      screen.getByDisplayValue(formatDate(DateUtils.getTodayTimeless(), defaultDateFormat, LOCALE_DATE_TR_TR)),
-      formatDate(newDateValue, defaultDateFormat, LOCALE_DATE_TR_TR),
+      screen.getByDisplayValue(formatDate(DateUtils.getTodayTimeless(), defaultDateFormat, getDateLocale(t))),
+      formatDate(newDateValue, defaultDateFormat, getDateLocale(t)),
     );
 
     // Switch
@@ -466,7 +466,7 @@ describe("Form", () => {
     // Input Date
     const newDateValue = new Date(2024, 1, 21);
     expect(inputItems[8].children[1]).toHaveAttribute("readOnly");
-    await user.type(inputItems[8].lastElementChild!, formatDate(newDateValue, defaultDateFormat, LOCALE_DATE_TR_TR));
+    await user.type(inputItems[8].lastElementChild!, formatDate(newDateValue, defaultDateFormat, getDateLocale(t)));
 
     // Pin Code
     expect(inputItems[10].getElementsByTagName("input")[0]).toHaveAttribute("readonly");

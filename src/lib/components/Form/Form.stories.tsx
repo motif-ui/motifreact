@@ -20,8 +20,8 @@ import InputTime from "@/components/InputTime";
 import InputDateTime from "@/components/InputDateTime";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
-import { LocaleKey } from "src/i18n/types";
 import Button from "@/components/Button";
+import { LocaleKey } from "src/i18n/types.ts";
 import InputNumber from "@/components/InputNumber";
 
 const meta: Meta<typeof Form> = {

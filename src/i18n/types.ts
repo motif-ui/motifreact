@@ -1,4 +1,4 @@
-import { Locale, locales } from "./locales/index";
+import { Locale, locales } from "src/i18n/locales";
 import { DeepPartial, LocaleShape } from "../lib/types";
 
 /**
@@ -17,9 +17,11 @@ export type LocaleConfig = Locale | { locale?: Locale; texts?: DeepPartial<Local
 type DeepKeys<T, Prefix extends string = ""> = {
   [K in keyof T & string]: T[K] extends string
     ? `${Prefix}${K}`
-    : T[K] extends Record<string, unknown>
-      ? `${Prefix}${K}` | DeepKeys<T[K], `${Prefix}${K}.`>
-      : never;
+    : T[K] extends readonly string[]
+      ? `${Prefix}${K}`
+      : T[K] extends Record<string, unknown>
+        ? `${Prefix}${K}` | DeepKeys<T[K], `${Prefix}${K}.`>
+        : never;
 }[keyof T & string];
 
 /** Union of every valid translation key derived from the English locale file. */
@@ -33,3 +35,21 @@ export type LocaleKey = DeepKeys<typeof locales.en>;
  * can pass their own t to <MotifProvider t={t}> without type errors.
  */
 export type LibraryTranslateFn = (key: LocaleKey, params?: Record<string, unknown>) => string;
+
+/**
+ * Type definition for helper which declared as useDateLocale.
+ */
+export type DateLocale = {
+  months: string[];
+  monthsShort: string[];
+  weekDays: string[];
+  today: string;
+  last: string;
+  days: string;
+  choose: string;
+  hoursAbbr: string;
+  minutesAbbr: string;
+  secondsAbbr: string;
+  am: string;
+  pm: string;
+};

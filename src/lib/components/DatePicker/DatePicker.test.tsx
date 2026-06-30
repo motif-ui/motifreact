@@ -1,8 +1,9 @@
 import DatePicker from "@/components/DatePicker/DatePicker";
 import { render, act } from "@testing-library/react";
-import { LOCALE_DATE_TR_TR } from "./locale/tr_TR";
 import { DatePickerLocale } from "./types";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
+import { t } from "../../../utils/testUtils";
+import { getDateLocale } from "src/i18n/helper.ts";
 
 export const runDatePickerCommonTests = () => {
   describe("DatePickerCommon", () => {
@@ -22,7 +23,7 @@ export const runDatePickerCommonTests = () => {
 
       act(() => getByText("arrow_forward").click());
 
-      const nextMonth = getByText(LOCALE_DATE_TR_TR.months[(month + 1) % 12]);
+      const nextMonth = getByText(getDateLocale(t).months[(month + 1) % 12]);
       expect(nextMonth).toBeInTheDocument();
     });
 
@@ -31,7 +32,7 @@ export const runDatePickerCommonTests = () => {
       const { getByText } = render(<DatePicker value={mockDate} />);
 
       act(() => getByText("arrow_forward").click());
-      const firstMonth = getByText(LOCALE_DATE_TR_TR.months[0]);
+      const firstMonth = getByText(getDateLocale(t).months[0]);
       expect(firstMonth).toBeInTheDocument();
       expect(getByText(mockDate.getFullYear() + 1)).toBeInTheDocument();
     });
@@ -40,7 +41,7 @@ export const runDatePickerCommonTests = () => {
       const { getByText } = render(<DatePicker />);
 
       act(() => getByText("arrow_back").click());
-      const previousMonth = getByText(LOCALE_DATE_TR_TR.months[(month - 1 + 12) % 12]);
+      const previousMonth = getByText(getDateLocale(t).months[(month - 1 + 12) % 12]);
       expect(previousMonth).toBeInTheDocument();
     });
 
@@ -49,7 +50,7 @@ export const runDatePickerCommonTests = () => {
       const { getByText } = render(<DatePicker value={mockDate} />);
 
       act(() => getByText("arrow_back").click());
-      const lastMonth = getByText(LOCALE_DATE_TR_TR.months[11]);
+      const lastMonth = getByText(getDateLocale(t).months[11]);
       expect(lastMonth).toBeInTheDocument();
       expect(getByText(mockDate.getFullYear() - 1)).toBeInTheDocument();
     });
@@ -57,7 +58,7 @@ export const runDatePickerCommonTests = () => {
     it("should show the next year in the picker when right arrow button in the Month Picker is clicked", () => {
       const { getByText } = render(<DatePicker />);
 
-      const monthButton = getByText(LOCALE_DATE_TR_TR.months[month]);
+      const monthButton = getByText(getDateLocale(t).months[month]);
       act(() => monthButton.click());
 
       act(() => getByText("arrow_forward").click());
@@ -113,7 +114,7 @@ export const runDatePickerCommonTests = () => {
     it("should open the Year Picker when the year in the Month Picker is clicked. Then it should return to the Month Picker when a year is clicked in the opened Year Picker", () => {
       const { getByText, getByTestId, queryByTestId, getAllByText } = render(<DatePicker />);
 
-      act(() => getByText(LOCALE_DATE_TR_TR.months[month]).click());
+      act(() => getByText(getDateLocale(t).months[month]).click());
       expect(getByTestId("DatePickerMonthsContainer")).toBeInTheDocument();
       act(() => getAllByText(year)[0].click());
       expect(getByTestId("DatePickerYearsContainer")).toBeInTheDocument();
@@ -176,12 +177,12 @@ export const runDatePickerCommonTests = () => {
     it("should render the Month Picker when the month name in the Day Picker is clicked. Then it should return to the Day Picker when a month is clicked in the opened Month Picker", () => {
       const { getByText, getByTestId, queryByTestId } = render(<DatePicker />);
 
-      act(() => getByText(LOCALE_DATE_TR_TR.months[month]).click());
+      act(() => getByText(getDateLocale(t).months[month]).click());
       expect(getByTestId("DatePickerMonthsContainer")).toBeInTheDocument();
 
-      act(() => getByText(LOCALE_DATE_TR_TR.monthsShort[month]).click());
+      act(() => getByText(getDateLocale(t).monthsShort[month]).click());
       expect(queryByTestId("DatePickerMonthsContainer")).not.toBeInTheDocument();
-      expect(getByText(LOCALE_DATE_TR_TR.months[month])).toBeInTheDocument();
+      expect(getByText(getDateLocale(t).months[month])).toBeInTheDocument();
     });
 
     it("should not show the same day of today in different style when the today is not in the currently visible month and year", () => {
@@ -225,17 +226,17 @@ export const runDatePickerCommonTests = () => {
     it("should show the current month as selected in the Month Picker", () => {
       const { getByText } = render(<DatePicker />);
 
-      act(() => getByText(LOCALE_DATE_TR_TR.months[month]).click());
+      act(() => getByText(getDateLocale(t).months[month]).click());
 
-      const monthButton = getByText(LOCALE_DATE_TR_TR.monthsShort[month]);
+      const monthButton = getByText(getDateLocale(t).monthsShort[month]);
       expect(monthButton).toHaveClass("selected");
     });
 
     it("should not show the name of the current month as selected when any arrow button in the Month Picker is clicked and the current year is changed", () => {
       const { getByText } = render(<DatePicker />);
 
-      act(() => getByText(LOCALE_DATE_TR_TR.months[month]).click());
-      const monthButton = getByText(LOCALE_DATE_TR_TR.monthsShort[month]);
+      act(() => getByText(getDateLocale(t).months[month]).click());
+      const monthButton = getByText(getDateLocale(t).monthsShort[month]);
       expect(monthButton).toHaveClass("selected");
 
       act(() => getByText("arrow_forward").click());
@@ -275,11 +276,11 @@ describe("DatePicker", () => {
     // variant: borderless
     expect(getByTestId("Picker")).toHaveClass("borderless");
 
-    // locale: Turkish
-    expect(getByText("Pt")).toBeInTheDocument();
-    expect(getByText("Sa")).toBeInTheDocument();
-    expect(getByText("Ct")).toBeInTheDocument();
-    expect(getByText(LOCALE_DATE_TR_TR.months[new Date(2000, 1).getMonth()])).toBeInTheDocument();
+    // locale: English
+    expect(getByText("Mo")).toBeInTheDocument();
+    expect(getByText("Tu")).toBeInTheDocument();
+    expect(getByText("We")).toBeInTheDocument();
+    expect(getByText(getDateLocale(t).months[new Date(2000, 1).getMonth()])).toBeInTheDocument();
 
     // size: md
     expect(getByTestId("Picker")).toHaveClass("md");
@@ -305,7 +306,7 @@ describe("DatePicker", () => {
     const onPickerChange = jest.fn();
     const { getByText, queryByText } = render(<DatePicker onPickerChange={onPickerChange} />);
 
-    const monthButton = getByText(LOCALE_DATE_TR_TR.months[month]);
+    const monthButton = getByText(getDateLocale(t).months[month]);
     act(() => monthButton.click());
     expect(onPickerChange).toHaveBeenNthCalledWith(1, "month");
 
@@ -321,10 +322,10 @@ describe("DatePicker", () => {
     const onPickerChange = jest.fn();
     const { getByText, queryByText } = render(<DatePicker onPickerChange={onPickerChange} />);
 
-    const monthButton = getByText(LOCALE_DATE_TR_TR.months[month]);
+    const monthButton = getByText(getDateLocale(t).months[month]);
     act(() => monthButton.click());
 
-    const newMonthButton = getByText(LOCALE_DATE_TR_TR.monthsShort[(month + 1) % 12]);
+    const newMonthButton = getByText(getDateLocale(t).monthsShort[(month + 1) % 12]);
     act(() => newMonthButton.click());
     expect(onPickerChange).toHaveBeenNthCalledWith(2, "day");
 
@@ -348,7 +349,7 @@ describe("DatePicker", () => {
     const newYear = parseInt(newYearInYearPicker!.textContent);
     act(() => newYearInYearPicker!.click());
 
-    const monthButton = getByText(LOCALE_DATE_TR_TR.months[month]);
+    const monthButton = getByText(getDateLocale(t).months[month]);
     act(() => monthButton.click());
 
     const yearButtonInMonthPicker = getByText(newYear);
@@ -407,16 +408,12 @@ describe("DatePicker", () => {
       months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
       monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
       weekDays: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-      firstDayOfWeek: 3 /* wednesday */,
     };
-    const { container, getByText } = render(<DatePicker locale={LOCALE_DATE_ES_ES} value={new Date(2025, 3, 10)} />);
+    const { getByText } = render(<DatePicker locale={LOCALE_DATE_ES_ES} value={new Date(2025, 3, 10)} />);
 
     // Weekdays
     expect(getByText("Do")).toBeInTheDocument();
     expect(getByText("Vi")).toBeInTheDocument();
-
-    // First day of week
-    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("Mi");
 
     // Month names
     const monthButton = getByText("Abril");
@@ -427,12 +424,17 @@ describe("DatePicker", () => {
     expect(getByText("Dic")).toBeInTheDocument();
   });
 
+  it("should reflect the day arrangement given in the firstDayOfWeek prop", () => {
+    const { container } = render(<DatePicker firstDayOfWeek={3} value={new Date(2025, 3, 10)} />);
+    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+  });
+
   it("should render the given value in the value prop as selected", () => {
     const dateToSelect = new Date(2018, 3, 10);
     const { getByText } = render(<DatePicker value={dateToSelect} />);
 
     expect(getByText(dateToSelect.getDate())).toHaveClass("selected");
-    expect(getByText(LOCALE_DATE_TR_TR.months[dateToSelect.getMonth()])).toBeInTheDocument();
+    expect(getByText(getDateLocale(t).months[dateToSelect.getMonth()])).toBeInTheDocument();
     expect(getByText(dateToSelect.getFullYear())).toBeInTheDocument();
   });
 });

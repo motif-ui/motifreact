@@ -12,6 +12,7 @@ const meta: Meta<typeof InputDateTime> = {
     size: { table: { defaultValue: { summary: "md" } } },
     timeFormat: { table: { defaultValue: { summary: "24h" } } },
     placeholder: { table: { defaultValue: { summary: "Reflects format prop and time placeholder" } } },
+    firstDayOfWeek: { table: { defaultValue: { summary: "1" } } },
   },
   args: {},
 };
