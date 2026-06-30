@@ -444,7 +444,7 @@ describe("Form", () => {
     await user.type(inputItems[1].querySelector("input")!, value);
 
     // Input Number
-    expect(inputItems[2].firstElementChild).toHaveAttribute("readonly");
+    expect(inputItems[2].querySelector("input")).toHaveAttribute("readonly");
     await user.type(inputItems[2].firstElementChild!, value);
 
     // Textarea
@@ -717,7 +717,7 @@ describe("Form", () => {
 
     await user.type(screen.getAllByTestId("inputItem")[0].querySelector("input")!, value);
     await user.type(screen.getAllByTestId("inputItem")[1].querySelector("input")!, value);
-    await user.type(screen.getAllByTestId("inputItem")[2].firstElementChild!, "42");
+    await user.type(screen.getAllByTestId("inputItem")[2].querySelector("input")!, "42");
     await user.type(screen.getByTestId("inputDate").querySelector("input")!, "12/12/2024");
     await user.type(screen.getByTestId("pinCode").querySelectorAll("input")[0], value);
     await user.click(screen.getByText("Black"));
