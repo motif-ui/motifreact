@@ -206,7 +206,7 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
   }
 
   &.rowBorders {
-    table:has(thead [colspan], thead [rowspan], tbody [colspan], tbody [rowspan]) {
+    table {
       border-collapse: collapse;
     }
     tr {

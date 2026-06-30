@@ -124,7 +124,7 @@ export const getFooterValue = ({ title, dataKey, footer }: Column, originalRows:
         ? (originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) / originalRows.length).toFixed(2)
         : undefined;
     case "sum":
-      return originalRows?.length ? originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) : undefined;
+      return originalRows?.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0);
     case "title":
       return title;
     default:

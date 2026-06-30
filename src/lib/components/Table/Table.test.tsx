@@ -950,6 +950,28 @@ describe("Table", () => {
     expect(within(rows[2]).getAllByRole("cell")).toHaveLength(1);
   });
 
+  it("should show the first absorbed footer column value when colSpan absorbs multiple footer columns", () => {
+    const { getFooterCells } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", colSpan: 3 },
+          { title: "Score", dataKey: "score", footer: { type: "sum" } },
+          { title: "Amount", dataKey: "amount", footer: { type: "sum" } },
+          { title: "City", dataKey: "city" },
+        ]}
+        data={[
+          { name: "Alice", score: 80, amount: 100 },
+          { name: "Bob", score: 90, amount: 200 },
+        ]}
+      />,
+    );
+
+    const footerCells = getFooterCells();
+    expect(footerCells).toHaveLength(2);
+    expect(footerCells[0]).toHaveAttribute("colspan", "3");
+    expect(footerCells[0]).toHaveTextContent("170");
+  });
+
   it("should add a spacer cell in the footer row to align with the selectable checkbox column", () => {
     const { getFooterCells } = renderExt(
       <Table
