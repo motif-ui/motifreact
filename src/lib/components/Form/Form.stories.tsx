@@ -22,6 +22,7 @@ import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
 import Button from "@/components/Button";
 import { LocaleKey } from "src/i18n/types.ts";
+import InputNumber from "@/components/InputNumber";
 
 const meta: Meta<typeof Form> = {
   title: "Components/Form",
@@ -82,7 +83,7 @@ export const Primary: Story = {
         <InputPassword />
       </Form.Field>
       <Form.Field name="inputAge" label="Age" helperText="Please enter as number" validations={[Validations.Required, Validations.Min(18)]}>
-        <InputText />
+        <InputNumber min={18} />
       </Form.Field>
       <Form.Field name="inputBirthday" label="Birthday" helperText="Your Birthday" validations={[Validations.Required]}>
         <InputDate />

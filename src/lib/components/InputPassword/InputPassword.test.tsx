@@ -77,8 +77,8 @@ describe("InputPassword", () => {
     expect(screen.getByTestId("inputItem")).toHaveClass("readOnly");
   });
 
-  it("should render icon when icon is set", () => {
-    const { getByText } = render(<InputPassword icon="check" />);
+  it("should render icon when iconLeft is set", () => {
+    const { getByText } = render(<InputPassword iconLeft="check" />);
     expect(getByText("check")).toBeInTheDocument();
   });
 
@@ -100,5 +100,16 @@ describe("InputPassword", () => {
   it("should render in a pill shape when pill prop is true", () => {
     const { getByTestId } = render(<InputPassword pill />);
     expect(getByTestId("inputItem")).toHaveClass("pill");
+  });
+
+  it("should display clearable icon when clearable prop is true", () => {
+    render(<InputPassword clearable />);
+    expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
+  });
+
+  it("should clear the input when clear button is clicked", async () => {
+    render(<InputPassword clearable value="Hello" />);
+    await userEvent.click(screen.getByTestId("iconButtonTestId"));
+    expect(screen.getByTestId("inputItem").querySelector("input")).toHaveValue("");
   });
 });

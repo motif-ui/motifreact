@@ -8,7 +8,7 @@ const meta: Meta<typeof InputPassword> = {
   argTypes: {
     value: { type: "string" },
     size: { table: { defaultValue: { summary: "md" } } },
-    icon: { table: { defaultValue: { summary: "vpn_key" } } },
+    iconLeft: { table: { defaultValue: { summary: "vpn_key" } } },
   },
   args: {
     placeholder: "Placeholder",
