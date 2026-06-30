@@ -38,6 +38,7 @@ import {
 import PinCode from "@/components/PinCode";
 import Select from "@/components/Select";
 import { Validations } from "@/components/Form/validation/validations";
+import InputNumber from "@/components/InputNumber";
 import InputDate from "@/components/InputDate";
 import InputTime from "@/components/InputTime";
 import InputDateTime from "@/components/InputDateTime";
@@ -241,6 +242,9 @@ describe("Form", () => {
         <Form.Field name="input">
           <InputText />
         </Form.Field>
+        <Form.Field name="inputNumber">
+          <InputNumber />
+        </Form.Field>
         <Form.Field name="inputSelect">
           <Select data={data} />
         </Form.Field>
@@ -347,13 +351,13 @@ describe("Form", () => {
     await user.type(textarea, value);
 
     // Checkbox
-    await user.click(inputItems[3].firstElementChild!);
-
-    // Radio Group
     await user.click(inputItems[4].firstElementChild!);
 
+    // Radio Group
+    await user.click(inputItems[5].firstElementChild!);
+
     // Select
-    expect(inputItems[6]).toHaveClass("disabled");
+    expect(inputItems[7]).toHaveClass("disabled");
     await user.click(screen.queryByRole("combobox")!);
     await user.click(screen.queryByText("Item 2")!);
 
@@ -365,11 +369,11 @@ describe("Form", () => {
     );
 
     // Switch
-    await user.click(inputItems[8].firstElementChild!);
+    await user.click(inputItems[9].firstElementChild!);
 
     // Pin Code
-    expect(inputItems[9].getElementsByTagName("input")[0]).toHaveAttribute("disabled");
-    await user.type(inputItems[9].getElementsByTagName("input")[0], value);
+    expect(inputItems[10].getElementsByTagName("input")[0]).toHaveAttribute("disabled");
+    await user.type(inputItems[10].getElementsByTagName("input")[0], value);
     await user.click(screen.getByText(t("g.submit")));
   });
 
@@ -387,7 +391,7 @@ describe("Form", () => {
     // Switch Item is sliced because switch component does not have success prop
     inputItems.slice(0, inputItems.length - 2).forEach(element => expect(element).toHaveClass("success"));
     // PinCode is added below
-    expect(inputItems[9].firstElementChild).toHaveClass("success");
+    expect(inputItems[10].firstElementChild).toHaveClass("success");
   });
 
   it("should render form in preview mode with all fields disabled and no submit button", () => {
@@ -439,30 +443,34 @@ describe("Form", () => {
     expect(inputItems[1].querySelector("input")).toHaveAttribute("readonly");
     await user.type(inputItems[1].querySelector("input")!, value);
 
-    // Textarea
+    // Input Number
     expect(inputItems[2].firstElementChild).toHaveAttribute("readonly");
     await user.type(inputItems[2].firstElementChild!, value);
 
-    // Checkbox
+    // Textarea
     expect(inputItems[3].firstElementChild).toHaveAttribute("readonly");
+    await user.type(inputItems[3].firstElementChild!, value);
+
+    // Checkbox
+    expect(inputItems[4].firstElementChild).toHaveAttribute("readonly");
 
     // Radio Group
-    expect(inputItems[4].firstElementChild).toHaveAttribute("readonly");
     expect(inputItems[5].firstElementChild).toHaveAttribute("readonly");
+    expect(inputItems[6].firstElementChild).toHaveAttribute("readonly");
 
     // Select
-    expect((inputItems[6].firstElementChild as HTMLDivElement).getAttribute("aria-readonly")).toBe("true");
+    expect((inputItems[7].firstElementChild as HTMLDivElement).getAttribute("aria-readonly")).toBe("true");
     await user.click(screen.queryByRole("combobox")!);
     await user.click(screen.queryByText("Item 2")!);
 
     // Input Date
     const newDateValue = new Date(2024, 1, 21);
-    expect(inputItems[7].querySelector("input")).toHaveAttribute("readOnly");
-    await user.type(inputItems[7].querySelector("input")!, formatDate(newDateValue, defaultDateFormat, getDateLocale(t)));
+    expect(inputItems[8].querySelector("input")).toHaveAttribute("readOnly");
+    await user.type(inputItems[8].querySelector("input")!, formatDate(newDateValue, defaultDateFormat, getDateLocale(t)));
 
     // Pin Code
-    expect(inputItems[9].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
-    await user.type(inputItems[9].getElementsByTagName("input")[0], value);
+    expect(inputItems[10].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
+    await user.type(inputItems[10].getElementsByTagName("input")[0], value);
 
     await user.click(screen.getByText(t("g.submit")));
   });
@@ -709,6 +717,7 @@ describe("Form", () => {
 
     await user.type(screen.getAllByTestId("inputItem")[0].querySelector("input")!, value);
     await user.type(screen.getAllByTestId("inputItem")[1].querySelector("input")!, value);
+    await user.type(screen.getAllByTestId("inputItem")[2].firstElementChild!, "42");
     await user.type(screen.getByTestId("inputDate").querySelector("input")!, "12/12/2024");
     await user.type(screen.getByTestId("pinCode").querySelectorAll("input")[0], value);
     await user.click(screen.getByText("Black"));

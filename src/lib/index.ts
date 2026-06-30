@@ -26,6 +26,7 @@ export { default as ImageUpload } from "./components/Upload/ImageUpload";
 export { default as InputDate } from "./components/InputDate";
 export { default as InputDateRange } from "./components/InputDateRange";
 export { default as InputDateTime } from "./components/InputDateTime";
+export { default as InputNumber } from "./components/InputNumber";
 export { default as InputPassword } from "./components/InputPassword";
 export { default as InputText } from "./components/InputText";
 export { default as InputTime } from "./components/InputTime";
