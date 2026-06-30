@@ -1,4 +1,5 @@
 import { Column, RowDetail, ResolvedCellSpan, RenderableColumn, SpannedCellKey, SpannedCellsMap } from "@/components/Table/types";
+import { getValueByChainedKey } from "src/utils/utils";
 
 // Constants
 export const SORT_DIRECTIONS: ("asc" | "desc" | undefined)[] = ["asc", "desc", undefined] as const;
@@ -10,7 +11,7 @@ const clampSpanValue = (span: number | undefined, maxSpan?: number): number => {
   return maxSpan != null ? Math.min(clamped, Math.max(Math.floor(maxSpan), 1)) : clamped;
 };
 
-export const resolveCellSpan = (
+const resolveCellSpan = (
   column: Column,
   rowData: object,
   limits?: {
@@ -112,4 +113,21 @@ const sortObjects = (a: unknown, b: unknown) => {
     return a === b ? 0 : !a ? -1 : 1;
   }
   return 0;
+};
+
+// Footer Utils
+export const getFooterValue = ({ title, dataKey, footer }: Column, originalRows: RowDetail[] | undefined) => {
+  const { type } = footer || {};
+  switch (type) {
+    case "avg":
+      return originalRows?.length
+        ? (originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) / originalRows.length).toFixed(2)
+        : undefined;
+    case "sum":
+      return originalRows?.length ? originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) : undefined;
+    case "title":
+      return title;
+    default:
+      return undefined;
+  }
 };

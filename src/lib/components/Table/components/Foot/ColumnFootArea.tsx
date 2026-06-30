@@ -1,8 +1,7 @@
 import { ReactNode, useContext, useMemo } from "react";
 import { TableContext } from "@/components/Table/TableContext";
 import { Column, RowBackground } from "@/components/Table/types";
-import { getRenderableHeaderColumns, getSpanProps } from "@/components/Table/helper";
-import { getValueByChainedKey } from "../../../../../utils/utils";
+import { getRenderableHeaderColumns, getSpanProps, getFooterValue } from "@/components/Table/helper";
 import styles from "../../Table.module.scss";
 
 type Props = {
@@ -21,29 +20,11 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
     [columns, showFixedRowNumbers, selectable],
   );
 
-  const getFooterValue = ({ title, dataKey, footer }: Column) => {
-    const { type } = footer || {};
-    switch (type) {
-      case "avg":
-        return originalRows?.length
-          ? (originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0) / originalRows.length).toFixed(2)
-          : undefined;
-      case "sum":
-        return originalRows?.length
-          ? originalRows.reduce((acc, row) => acc + getValueByChainedKey<number>(row.data, dataKey), 0)
-          : undefined;
-      case "title":
-        return title;
-      default:
-        return undefined;
-    }
-  };
-
   const buildFooterCells = (renderableColumns: ReturnType<typeof getRenderableHeaderColumns>, allColumns: Column[]) => {
     const { cells, pending } = renderableColumns.reduce<{ cells: ReactNode[]; pending: number }>(
       (acc, { column, index, colSpan }) => {
         if (column.footer) {
-          const value = getFooterValue(column);
+          const value = getFooterValue(column, originalRows);
           return {
             cells: [
               ...acc.cells,
@@ -66,7 +47,7 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
         const absorbedFooterCol = spanCount > 1 ? allColumns.slice(index + 1, index + spanCount).find(c => c.footer) : undefined;
 
         if (absorbedFooterCol) {
-          const value = getFooterValue(absorbedFooterCol);
+          const value = getFooterValue(absorbedFooterCol, originalRows);
           return {
             cells: [
               ...acc.cells,
@@ -92,7 +73,7 @@ const ColumnFootArea = ({ background, customFooter }: Props) => {
 
   return (
     <tfoot className={styles[background]} data-testid="TableFooter">
-      {footerCells && <tr>{footerCells.filter(Boolean)}</tr>}
+      {footerCells && <tr>{footerCells}</tr>}
       {customFooter && (
         <tr>
           <th className={styles.customFooter} colSpan={numberOfVisibleColumns}>
