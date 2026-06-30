@@ -1,6 +1,5 @@
 import { PickerPropsCommon } from "../Motif/Pickers/types";
 import { Size4SM } from "../../types";
-import { LOCALE_DATE_RANGE_TR_TR } from "@/components/DateRangePicker/locale/tr_TR";
 import { Dispatch, SetStateAction } from "react";
 import { DatePickerLocale } from "../DatePicker/types";
 
@@ -23,8 +22,6 @@ export type DateRangePickerDefaultableProps = {
    *
    *   // 2 letters
    *   weekDays: string[];
-   *
-   *   firstDayOfWeek: 0|1|2|3|4|5|6;
    *
    *   // 'Today' text in selector
    *   today: string;
@@ -75,7 +72,6 @@ export type DateRangePickerLocale = {
 } & DatePickerLocale;
 
 export const datePickerContextDefaultValues: DateRangePickerContextProps = {
-  locale: LOCALE_DATE_RANGE_TR_TR,
   size: "md",
   dateCouple: [undefined, undefined],
   setSliding: () => {},
@@ -86,4 +82,13 @@ export const datePickerContextDefaultValues: DateRangePickerContextProps = {
   setDateCouple: () => {},
   getDaysOfMonth: () => [],
   initialMonths: [],
+  locale: {
+    months: [],
+    monthsShort: [],
+    weekDays: [],
+    today: "",
+    last: "",
+    days: "",
+    choose: "",
+  },
 };

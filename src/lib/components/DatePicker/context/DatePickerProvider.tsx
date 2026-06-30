@@ -7,7 +7,7 @@ import { DateUtils } from "../../../../utils/dateUtils";
 export const DatePickerContext = createContext<DatePickerContextProps>(datePickerContextDefaultValues);
 
 export const DatePickerProvider = (props: PropsWithChildren<DatePickerProviderProps>) => {
-  const { children, value, size, locale, fluid, onDateChange, onPickerChange, onClearClick } = props;
+  const { children, value, size, locale, fluid, onDateChange, onPickerChange, onClearClick, firstDayOfWeek } = props;
 
   const [picker, setPicker] = useState<DatePickerPickerType>("day");
   const [previousTab, setPreviousTab] = useState<"day" | "month">("day");
@@ -52,6 +52,7 @@ export const DatePickerProvider = (props: PropsWithChildren<DatePickerProviderPr
       setPicker,
       onDateChange,
       onPickerChange,
+      firstDayOfWeek,
     }),
     [
       clearDatePicker,
@@ -66,6 +67,7 @@ export const DatePickerProvider = (props: PropsWithChildren<DatePickerProviderPr
       previousTab,
       selectedDate,
       size,
+      firstDayOfWeek,
     ],
   );
 

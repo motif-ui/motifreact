@@ -1,5 +1,5 @@
 import { InputCommonProps, InputSize } from "../Form/types";
-import { DateFormat } from "../Motif/Pickers/types";
+import { DateFormat, DaysOfWeek } from "../Motif/Pickers/types";
 import { DatePickerLocale } from "../DatePicker/types";
 
 export type InputDateDefaultableProps = {
@@ -9,6 +9,7 @@ export type InputDateDefaultableProps = {
   pill?: boolean;
   size?: InputSize;
   locale?: DatePickerLocale;
+  firstDayOfWeek?: DaysOfWeek;
 };
 
 export type InputDateProps = InputCommonProps & InputDateDefaultableProps;

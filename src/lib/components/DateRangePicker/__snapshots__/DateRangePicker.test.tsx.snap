@@ -21,7 +21,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
             type="button"
           >
             <span>
-              Lütfen seçiniz
+              Please choose
             </span>
             <span
               class="Root md motifIconsDefault Button-DropdownIcon"
@@ -94,7 +94,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
                 disabled=""
                 type="button"
               >
-                Ocak
+                January
               </button>
               <button
                 disabled=""
@@ -108,25 +108,25 @@ exports[`DateRangePicker should be rendered with only required props and should 
             class="weekDays"
           >
             <span>
-              Pt
+              Mo
+            </span>
+            <span>
+              Tu
+            </span>
+            <span>
+              We
+            </span>
+            <span>
+              Th
+            </span>
+            <span>
+              Fr
             </span>
             <span>
               Sa
             </span>
             <span>
-              Çr
-            </span>
-            <span>
-              Pe
-            </span>
-            <span>
-              Cu
-            </span>
-            <span>
-              Ct
-            </span>
-            <span>
-              Pz
+              Su
             </span>
           </div>
           <div
@@ -401,7 +401,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
                 disabled=""
                 type="button"
               >
-                Şubat
+                February
               </button>
               <button
                 disabled=""
@@ -415,25 +415,25 @@ exports[`DateRangePicker should be rendered with only required props and should 
             class="weekDays"
           >
             <span>
-              Pt
+              Mo
+            </span>
+            <span>
+              Tu
+            </span>
+            <span>
+              We
+            </span>
+            <span>
+              Th
+            </span>
+            <span>
+              Fr
             </span>
             <span>
               Sa
             </span>
             <span>
-              Çr
-            </span>
-            <span>
-              Pe
-            </span>
-            <span>
-              Cu
-            </span>
-            <span>
-              Ct
-            </span>
-            <span>
-              Pz
+              Su
             </span>
           </div>
           <div
@@ -663,7 +663,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
                 disabled=""
                 type="button"
               >
-                Mart
+                March
               </button>
               <button
                 disabled=""
@@ -689,25 +689,25 @@ exports[`DateRangePicker should be rendered with only required props and should 
             class="weekDays"
           >
             <span>
-              Pt
+              Mo
+            </span>
+            <span>
+              Tu
+            </span>
+            <span>
+              We
+            </span>
+            <span>
+              Th
+            </span>
+            <span>
+              Fr
             </span>
             <span>
               Sa
             </span>
             <span>
-              Çr
-            </span>
-            <span>
-              Pe
-            </span>
-            <span>
-              Cu
-            </span>
-            <span>
-              Ct
-            </span>
-            <span>
-              Pz
+              Su
             </span>
           </div>
           <div
@@ -935,7 +935,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
                 disabled=""
                 type="button"
               >
-                Nisan
+                April
               </button>
               <button
                 disabled=""
@@ -949,25 +949,25 @@ exports[`DateRangePicker should be rendered with only required props and should 
             class="weekDays"
           >
             <span>
-              Pt
+              Mo
+            </span>
+            <span>
+              Tu
+            </span>
+            <span>
+              We
+            </span>
+            <span>
+              Th
+            </span>
+            <span>
+              Fr
             </span>
             <span>
               Sa
             </span>
             <span>
-              Çr
-            </span>
-            <span>
-              Pe
-            </span>
-            <span>
-              Cu
-            </span>
-            <span>
-              Ct
-            </span>
-            <span>
-              Pz
+              Su
             </span>
           </div>
           <div

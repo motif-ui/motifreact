@@ -174,7 +174,7 @@ const ThemeShowcase = () => {
           <Grid.Col>
             <Text variant="h4" text="Pickers" />
             <div className={styles.flexHorizontal1Rem}>
-              <DatePicker variant="bordered" />
+              <DatePicker variant="bordered" value={new Date(2001, 1, 18)} />
               <TimePicker variant="bordered" secondsEnabled value={{ hours: 6, minutes: 3, seconds: 1 }} />
             </div>
           </Grid.Col>

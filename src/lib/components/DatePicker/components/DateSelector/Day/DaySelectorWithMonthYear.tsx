@@ -8,11 +8,11 @@ import Day from "@/components/DatePicker/components/DateSelector/Day/Day";
 import DaySelector from "@/components/DatePicker/components/DateSelector/Day/DaySelector";
 
 const DaySelectorWithMonthYear = () => {
-  const { size, locale, pickerDate, today, selectedDate, setPickerDate, onDateChange, setSelectedDate } = useContext(DatePickerContext);
-
+  const { size, locale, pickerDate, today, selectedDate, setPickerDate, onDateChange, setSelectedDate, firstDayOfWeek } =
+    useContext(DatePickerContext);
   const calculatedWeeks = useMemo(
-    () => calculateWeeks(pickerDate.getFullYear(), pickerDate.getMonth(), locale.firstDayOfWeek),
-    [pickerDate, locale.firstDayOfWeek],
+    () => calculateWeeks(pickerDate.getFullYear(), pickerDate.getMonth(), firstDayOfWeek),
+    [pickerDate, firstDayOfWeek],
   );
 
   const [displayedWeeks, setDisplayedWeeks] = useState<Date[][]>(calculatedWeeks);
