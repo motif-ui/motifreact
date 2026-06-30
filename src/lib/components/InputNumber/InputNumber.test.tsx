@@ -82,11 +82,18 @@ describe("InputNumber", () => {
     expect(screen.queryByText("-")).not.toBeInTheDocument();
   });
 
-  it("should call onChange with the typed value", () => {
+  it("should call onChange with the typed value as a number", () => {
     const handleChange = jest.fn();
     render(<InputNumber onChange={handleChange} />);
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "42" } });
-    expect(handleChange).toHaveBeenCalledWith("42");
+    expect(handleChange).toHaveBeenCalledWith(42);
+  });
+
+  it("should call onChange with undefined when the field is cleared", () => {
+    const handleChange = jest.fn();
+    render(<InputNumber onChange={handleChange} value={5} />);
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "" } });
+    expect(handleChange).toHaveBeenCalledWith(undefined);
   });
 
   it("should filter out non-numeric characters", () => {
@@ -207,6 +214,14 @@ describe("InputNumber", () => {
     render(<InputNumber value={5} />);
     fireEvent.click(screen.getByText("-"));
     expect(screen.getByRole("textbox")).toHaveValue("4");
+  });
+
+  it("should increment and decrement by the given step value", () => {
+    render(<InputNumber value={5} step={0.5} allowDecimals />);
+    fireEvent.click(screen.getByText("+"));
+    expect(screen.getByRole("textbox")).toHaveValue("5.5");
+    fireEvent.click(screen.getByText("-"));
+    expect(screen.getByRole("textbox")).toHaveValue("5");
   });
 
   it("should not decrement below 0 when allowNegative is not set", () => {

@@ -150,6 +150,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
           value={itemValue}
           min={numberSpinner.min}
           max={numberSpinner.max}
+          step={numberSpinner.step}
           disabled={disabled || readOnly}
           onChange={changeProcess}
         />

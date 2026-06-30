@@ -4,6 +4,7 @@ import styles from "./InputNumber.module.scss";
 import { useRef } from "react";
 import type { FocusEvent } from "react";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
+import type { InputValue } from "@/components/Form/types.ts";
 import { PropsWithRef } from "../../types";
 import { InputNumberProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -13,13 +14,24 @@ import { InternalInputHandle } from "@/components/Motif/InputText/types.ts";
 import { applyNumberFilter } from "@/components/InputNumber/helper.ts";
 
 const InputNumber = (p: PropsWithRef<InputNumberProps, HTMLDivElement>) => {
-  const { removeSpinner, allowDecimals, allowNegative, decimalScale, min, max, maxLength, ...props } = usePropsWithThemeDefaults(
-    "InputNumber",
-    p,
-  );
+  const {
+    removeSpinner,
+    allowDecimals,
+    allowNegative,
+    decimalScale,
+    step = 1,
+    min,
+    max,
+    maxLength,
+    onChange: onChangeFromProps,
+    ...props
+  } = usePropsWithThemeDefaults("InputNumber", p);
+
+  const onChangeAdapter = (strVal?: InputValue) => onChangeFromProps?.(strVal === "" || strVal === undefined ? undefined : Number(strVal));
+
   const internalInputRef = useRef<InternalInputHandle>(null);
   const { onFormFieldValueUpdate, ...propsFromForm } = useRegisterFormField({
-    props,
+    props: { ...props, onChange: onChangeAdapter },
     defaultValue: "",
     valueStateSetter: () => internalInputRef.current?.valueStateSetter(""),
   });
@@ -77,7 +89,7 @@ const InputNumber = (p: PropsWithRef<InputNumberProps, HTMLDivElement>) => {
       onBlur={handleBlur}
       type="text"
       inputMode={allowDecimals ? "decimal" : "numeric"}
-      numberSpinner={!removeSpinner ? { min: !allowNegative ? Math.max(0, min ?? 0) : min, max } : undefined}
+      numberSpinner={!removeSpinner ? { min: !allowNegative ? Math.max(0, min ?? 0) : min, max, step } : undefined}
       imperativeRef={internalInputRef}
       className={classNames}
     />

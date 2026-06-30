@@ -5,15 +5,17 @@ type Props = {
   value?: string;
   min?: number;
   max?: number;
+  step?: number;
   onChange: (value: string, updateInputRefValue?: boolean) => void;
   disabled?: boolean;
 };
 
 const NumberSpinner = (props: Props) => {
-  const { value, min, max, onChange, disabled } = props;
+  const { value, min, max, step = 1, onChange, disabled } = props;
   const adjustNumberValue = useCallback(
     (v: number) => {
-      const raw = (Number(value) || 0) + v;
+      const current = value === undefined ? 0 : Number(value);
+      const raw = current + v;
       const clampedMin = min !== undefined ? Math.max(min, raw) : raw;
       const next = max !== undefined ? Math.min(max, clampedMin) : clampedMin;
       onChange(String(next), true);
@@ -23,10 +25,10 @@ const NumberSpinner = (props: Props) => {
 
   return (
     <div className={styles.numberButtons}>
-      <button type="button" onClick={() => adjustNumberValue(1)} disabled={disabled}>
+      <button type="button" onClick={() => adjustNumberValue(step)} disabled={disabled}>
         +
       </button>
-      <button type="button" onClick={() => adjustNumberValue(-1)} disabled={disabled}>
+      <button type="button" onClick={() => adjustNumberValue(-step)} disabled={disabled}>
         -
       </button>
     </div>

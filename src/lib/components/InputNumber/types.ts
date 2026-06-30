@@ -4,10 +4,11 @@ import { InputTextCommonProps } from "@/components/InputText/types.ts";
 
 export type InputNumberProps = {
   value?: number;
+  onChange?: (value?: number) => void;
   min?: number;
   max?: number;
-} & Omit<InputCommonProps, "value"> &
-  InputTextCommonProps &
+} & Omit<InputCommonProps, "value" | "onChange"> &
+  Omit<InputTextCommonProps, "pill" | "clearable" | "iconLeft" | "iconRight"> &
   InputNumberDefaultableProps;
 
 export type InputNumberDefaultableProps = {
@@ -20,4 +21,5 @@ export type InputNumberDefaultableProps = {
   allowDecimals?: boolean;
   allowNegative?: boolean;
   decimalScale?: number;
+  step?: number;
 };

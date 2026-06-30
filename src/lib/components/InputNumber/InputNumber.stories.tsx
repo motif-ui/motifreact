@@ -7,6 +7,7 @@ const meta: Meta<typeof InputNumber> = {
   component: InputNumber,
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
+    step: { table: { defaultValue: { summary: "1" } } },
   },
   args: {
     value: 2008,

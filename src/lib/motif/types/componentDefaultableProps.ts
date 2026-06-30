@@ -110,7 +110,6 @@ export type ComponentDefaultableProps = {
   Select?: SelectDefaultableProps;
   Slider?: SliderDefaultableProps;
   SliderRange?: SliderRangeDefaultableProps;
-  //  Skeleton?: SkeletonDefaultableProps;
   Stepper?: StepperDefaultableProps;
   Switch?: SwitchDefaultableProps;
   Tab?: TabDefaultableProps;

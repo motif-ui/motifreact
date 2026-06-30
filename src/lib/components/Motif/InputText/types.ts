@@ -23,6 +23,7 @@ export type InternalInputProps = {
   numberSpinner?: {
     min?: number;
     max?: number;
+    step?: number;
   };
   loader?: boolean;
   success?: boolean;
