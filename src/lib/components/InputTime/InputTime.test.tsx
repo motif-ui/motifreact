@@ -178,7 +178,7 @@ describe("InputTime", () => {
     const { getInput, getAllByText, getClearButton } = renderExt(<InputTime />);
     await userEvent.click(getInput());
     await userEvent.click(getAllByText("23")[0]);
-    expect(getClearButton()).not.toBeInTheDocument();
+    expect(getClearButton()).toBeInTheDocument();
 
     await userEvent.click(getAllByText("59")[0]);
     expect(getClearButton()).toBeInTheDocument();

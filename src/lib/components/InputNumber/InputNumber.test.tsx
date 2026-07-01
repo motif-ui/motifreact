@@ -65,8 +65,8 @@ describe("InputNumber", () => {
     expect(screen.getByText("person")).toBeInTheDocument();
   });
 
-  it("should show the clear button when clearable prop is given", () => {
-    render(<InputNumber clearable />);
+  it("should show the clear button when clearable prop and value is given", () => {
+    render(<InputNumber value={1} clearable />);
     expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
   });
 

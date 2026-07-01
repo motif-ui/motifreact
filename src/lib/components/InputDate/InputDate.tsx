@@ -104,13 +104,8 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   );
 
   const clearClickHandler = useCallback(() => {
-    if (isValueValid) {
-      applyChanges(undefined);
-    }
-    setTypedValue("");
-    setIsValueValid(false);
     setPickerVisible(false);
-  }, [applyChanges, isValueValid]);
+  }, []);
 
   const pickerShowHandler = useCallback(() => {
     !readOnly && !disabled && setPickerVisible(true);
@@ -122,7 +117,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     <div ref={innerRef} className={classNames} style={style} data-testid="inputDate">
       <InputText
         iconLeft={<MotifIcon name="calendar_month" size={size} />}
-        buttonRight={typedValue && !disabled && !readOnly ? { name: "cancel_outline", onClick: clearClickHandler } : undefined}
+        clearable
         name={name}
         size={size}
         pill={pill}
@@ -136,6 +131,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
         onChange={onInputChange}
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
+        onClearClick={clearClickHandler}
       />
       {pickerVisible && (
         <DatePicker

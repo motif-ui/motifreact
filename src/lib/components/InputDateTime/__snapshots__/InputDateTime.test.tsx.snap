@@ -16,11 +16,15 @@ exports[`InputDateTime should be rendered with only required props and should ha
       >
         event
       </span>
-      <input
-        placeholder="DD/MM/YYYY __:__"
-        readonly=""
-        value=""
-      />
+      <div
+        class="inputWrapper"
+      >
+        <input
+          placeholder="DD/MM/YYYY __:__"
+          readonly=""
+          value=""
+        />
+      </div>
     </div>
   </div>
 </div>

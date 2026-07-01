@@ -103,28 +103,34 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     disabled ? "disabled" : error ? "error" : success && "success",
     readOnly && "readOnly",
     pill && "pill",
+    clearable && itemValue && "clearable",
   ]);
 
   return (
     <div className={classNames} ref={ref} data-testid="inputItem" style={style}>
       {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.icon} size={size} />}
-      <input
-        id={id}
-        type={type}
-        inputMode={inputMode}
-        ref={inputRef}
-        name={name}
-        placeholder={placeholder}
-        onChange={changeHandler}
-        disabled={disabled}
-        readOnly={readOnly || disableTyping}
-        maxLength={maxLength}
-        onClick={onClick}
-        onFocus={onFocus}
-        onKeyUp={onKeyUp}
-        onBlur={onBlur}
-        {...controlledProps}
-      />
+      <div className={styles.inputWrapper}>
+        <input
+          id={id}
+          type={type}
+          inputMode={inputMode}
+          ref={inputRef}
+          name={name}
+          placeholder={placeholder}
+          onChange={changeHandler}
+          disabled={disabled}
+          readOnly={readOnly || disableTyping}
+          maxLength={maxLength}
+          onClick={onClick}
+          onFocus={onFocus}
+          onKeyUp={onKeyUp}
+          onBlur={onBlur}
+          {...controlledProps}
+        />
+        {!disabled && !readOnly && clearable && itemValue && (
+          <MotifIconButton name="cancel_outline" size={size} onClick={clearHandler} className={styles.clearButton} />
+        )}
+      </div>
       {loader ? (
         <svg className={styles.loader} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <circle
@@ -142,7 +148,6 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         <>
           {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.icon} size={size} />}
           {buttonRight && <MotifIconButton name={buttonRight.name} className={styles.icon} size={size} onClick={buttonRight.onClick} />}
-          {clearable && <MotifIconButton name="cancel_outline" disabled={disabled || readOnly} size={size} onClick={clearHandler} />}
         </>
       )}
       {numberSpinner && (

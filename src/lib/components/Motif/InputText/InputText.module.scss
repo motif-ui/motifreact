@@ -105,6 +105,17 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
   }
 }
 
+.inputWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.clearButton {
+  position: absolute;
+  right: 0;
+}
+
 .loader {
   color: var(--theme-color-border-primary-default);
   circle {
@@ -117,6 +128,10 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
   .#{$size} {
     gap: var(--base-sizing-#{$paddingV});
     padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+
+    &.clearable input {
+      width: calc(100% - var(--base-sizing-#{$loaderRadius}));
+    }
 
     input {
       @include font("body", $size);

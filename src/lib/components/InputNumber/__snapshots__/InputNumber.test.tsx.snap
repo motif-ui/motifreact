@@ -6,11 +6,15 @@ exports[`InputNumber should render with only required props 1`] = `
     class="Root md"
     data-testid="inputItem"
   >
-    <input
-      inputmode="numeric"
-      type="text"
-      value=""
-    />
+    <div
+      class="inputWrapper"
+    >
+      <input
+        inputmode="numeric"
+        type="text"
+        value=""
+      />
+    </div>
     <div
       class="numberButtons"
     >

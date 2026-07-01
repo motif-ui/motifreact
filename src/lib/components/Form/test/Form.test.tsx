@@ -436,15 +436,15 @@ describe("Form", () => {
     const inputItems = getAllInputItems();
 
     // Input Text
-    expect(inputItems[0].firstElementChild).toHaveAttribute("readonly");
-    await user.type(inputItems[0].firstElementChild!, value);
+    expect(inputItems[0].querySelector("input")).toHaveAttribute("readonly");
+    await user.type(inputItems[0].querySelector("input")!, value);
 
     // Input Password
-    expect(inputItems[1].lastElementChild).toHaveAttribute("readonly");
-    await user.type(inputItems[1].lastElementChild!, value);
+    expect(inputItems[1].querySelector("input")).toHaveAttribute("readonly");
+    await user.type(inputItems[1].querySelector("input")!, value);
 
     // Input Number
-    expect(inputItems[2].firstElementChild).toHaveAttribute("readonly");
+    expect(inputItems[2].querySelector("input")).toHaveAttribute("readonly");
     await user.type(inputItems[2].firstElementChild!, value);
 
     // Textarea
@@ -465,8 +465,8 @@ describe("Form", () => {
 
     // Input Date
     const newDateValue = new Date(2024, 1, 21);
-    expect(inputItems[8].children[1]).toHaveAttribute("readOnly");
-    await user.type(inputItems[8].lastElementChild!, formatDate(newDateValue, defaultDateFormat, getDateLocale(t)));
+    expect(inputItems[8].querySelector("input")).toHaveAttribute("readOnly");
+    await user.type(inputItems[8].querySelector("input")!, formatDate(newDateValue, defaultDateFormat, getDateLocale(t)));
 
     // Pin Code
     expect(inputItems[10].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
@@ -715,10 +715,10 @@ describe("Form", () => {
       );
     });
 
-    await user.type(screen.getAllByTestId("inputItem")[0].firstElementChild!, value);
-    await user.type(screen.getAllByTestId("inputItem")[1].lastElementChild!, value);
-    await user.type(screen.getAllByTestId("inputItem")[2].firstElementChild!, "42");
-    await user.type(screen.getByTestId("inputDate").firstElementChild!.children[1], "12/12/2024");
+    await user.type(screen.getAllByTestId("inputItem")[0].querySelector("input")!, value);
+    await user.type(screen.getAllByTestId("inputItem")[1].querySelector("input")!, value);
+    await user.type(screen.getAllByTestId("inputItem")[2].querySelector("input")!, "42");
+    await user.type(screen.getByTestId("inputDate").querySelector("input")!, "12/12/2024");
     await user.type(screen.getByTestId("pinCode").querySelectorAll("input")[0], value);
     await user.click(screen.getByText("Black"));
     await user.click(screen.queryByRole("combobox")!);

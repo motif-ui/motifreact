@@ -19,10 +19,14 @@ exports[`Form should be rendered with only required props and items 1`] = `
             class="Root md inFormField"
             data-testid="inputItem"
           >
-            <input
-              name="inputName"
-              value=""
-            />
+            <div
+              class="inputWrapper"
+            >
+              <input
+                name="inputName"
+                value=""
+              />
+            </div>
           </div>
           <span
             class="helper"
@@ -40,10 +44,14 @@ exports[`Form should be rendered with only required props and items 1`] = `
             class="Root md inFormField"
             data-testid="inputItem"
           >
-            <input
-              name="inputName2"
-              value=""
-            />
+            <div
+              class="inputWrapper"
+            >
+              <input
+                name="inputName2"
+                value=""
+              />
+            </div>
           </div>
           <span
             class="helper"
