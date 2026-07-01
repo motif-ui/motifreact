@@ -1,8 +1,9 @@
 name: UI
 
 on:
-  pull_request_target:
-    types: [opened, synchronize, reopened]
+  workflow_run:
+    workflows: ["Build Storybook"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -17,29 +18,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-          persist-credentials: 'false'
 
       - name: Setup Node & Cache
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/download-artifact@v4 # v4
         with:
-          node-version: 24.11.0
-          cache: 'npm'
-
-      - name: Install deps
-        run: npm ci --ignore-scripts
-        shell: bash
+          name: storybook-static
+          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Run Chromatic
         uses: chromaui/action@7804f34e4e59c0d9b3c856848f46ad96d7897429 # v17.5.0
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
-          buildScriptName: 'build:storybook'
+          storybookBuildDir: storybook-static/
           zip: true
           skip: "dependabot/**"
           autoAcceptChanges: "main"
-          #exitOnceUploaded: true
+          exitOnceUploaded: true
