@@ -2,9 +2,8 @@
 
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
 import { getNextItemInArray, getTextFromNode, getValueByChainedKey } from "../../../utils/utils";
-import { sortByType } from "@/components/Table/sorting";
+import { sortByType, SORT_DIRECTIONS, getSpannedCellsMap } from "@/components/Table/helper";
 import { ColumState, RowDetail, TableContextDefaultValues, TableContextProps, TableContextType } from "@/components/Table/types";
-import { SORT_DIRECTIONS } from "@/components/Table/constants";
 
 export const TableContext = createContext<TableContextType>(TableContextDefaultValues);
 
@@ -80,6 +79,8 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     [currentPage, usableRows, pagination],
   );
 
+  const spannedCellsMap = useMemo(() => getSpannedCellsMap(columns, visibleRows), [columns, visibleRows]);
+
   const refillOriginalRows = useCallback(() => {
     const mappedData = dataRaw?.map(mapDataToMotifTableRow);
     setOriginalRows(mappedData);
@@ -149,6 +150,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       updateSortState,
       visibleRows,
       columns,
+      spannedCellsMap,
       columnStates,
       showFixedRowNumbers,
       setCurrentPage,
@@ -170,6 +172,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     updateSortState,
     visibleRows,
     columns,
+    spannedCellsMap,
     columnStates,
     showFixedRowNumbers,
     currentPage,

@@ -1,5 +1,19 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
+export type ResolvedCellSpan = {
+  colSpan: number;
+  rowSpan: number;
+};
+
+export type SpannedCellKey = `${number}-${number}`;
+export type SpannedCellsMap = Map<SpannedCellKey, ResolvedCellSpan | undefined>;
+
+export type RenderableColumn = {
+  column: Column;
+  index: number;
+  colSpan?: number;
+};
+
 export type TableProps<T = object> = {
   columns: Column[];
   data?: T[];
@@ -38,6 +52,8 @@ export type Column = {
   footer?: Footer;
   width?: string;
   filter?: boolean;
+  colSpan?: number | ((rowData: object) => number);
+  rowSpan?: number | ((rowData: object) => number);
 };
 
 export type Sorting = {
@@ -82,6 +98,7 @@ export type TableContextType = {
   visibleRows?: RowDetail[];
   totalRecords: number;
   columns: Column[];
+  spannedCellsMap: SpannedCellsMap;
   updateSortState: (columnIndex: number) => void;
   columnStates: ColumState[];
   showFixedRowNumbers?: boolean;
@@ -118,6 +135,7 @@ export const TableContextDefaultValues: TableContextType = {
   columnStates: [],
   currentPage: 1,
   numberOfVisibleColumns: 0,
+  spannedCellsMap: new Map(),
 };
 
 //

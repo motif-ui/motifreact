@@ -8,13 +8,15 @@ export type InputTextDefaultableProps = {
   clearable?: boolean;
 };
 
-export type InputTextProps = {
+export type InputTextProps = InputTextCommonProps & InputCommonProps & InputTextDefaultableProps;
+
+export type InputTextCommonProps = {
   placeholder?: string;
+  pill?: boolean;
+  clearable?: boolean;
   iconLeft?: IconGlobalType;
   iconRight?: IconGlobalType;
   maxLength?: number;
   onClick?: MouseEventHandler<HTMLInputElement>;
   onFocus?: FocusEventHandler<HTMLInputElement>;
-  type?: "text" | "number";
-} & InputCommonProps &
-  InputTextDefaultableProps;
+};

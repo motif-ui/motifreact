@@ -413,11 +413,7 @@ export const Filtering: Story = {
       { title: "Full Name", dataKey: "name", filter: true },
       { title: "Age", dataKey: "age", filter: true },
     ];
-    return (
-      <div style={{ width: 600 }}>
-        <Table data={data} columns={columns} filterableTable />
-      </div>
-    );
+    return <Table data={data} columns={columns} filterableTable />;
   },
 };
 
@@ -448,9 +444,7 @@ export const Selection: Story = {
       { title: "Age", dataKey: "age", sorting: {} },
     ];
     return (
-      <div style={{ width: 600 }}>
-        <Table data={data} columns={columns} selectable selectionKey="selected" onSelect={selection => alert(JSON.stringify(selection))} />
-      </div>
+      <Table data={data} columns={columns} selectable selectionKey="selected" onSelect={selection => alert(JSON.stringify(selection))} />
     );
   },
 };
@@ -526,11 +520,7 @@ export const RowNumbers: Story = {
       { title: "Name", dataKey: "name", sorting: {} },
       { title: "Age", dataKey: "age", sorting: {} },
     ];
-    return (
-      <div style={{ width: 600 }}>
-        <Table data={data} columns={columns} />
-      </div>
-    );
+    return <Table data={data} columns={columns} />;
   },
 };
 
@@ -561,13 +551,64 @@ export const RowColoring: Story = {
       { title: "Age", dataKey: "age" },
     ];
     return (
-      <div style={{ width: 600 }}>
-        <Table
-          data={data}
-          columns={columns}
-          rowColorCallback={rowData => (rowData.age > 80 ? "danger" : rowData.age < 30 ? "success" : undefined)}
-        />
-      </div>
+      <Table
+        data={data}
+        columns={columns}
+        rowColorCallback={rowData => (rowData.age > 80 ? "danger" : rowData.age < 30 ? "success" : undefined)}
+      />
     );
+  },
+};
+
+export const Colspan: Story = {
+  render: () => {
+    type RowData = { fullName: string; age: number; city: string; merged: boolean };
+    const data: RowData[] = [
+      { fullName: "John Doe", age: 28, city: "New York", merged: true },
+      { fullName: "Jane Smith", age: 34, city: "Los Angeles", merged: true },
+      { fullName: "Alice Johnson", age: 29, city: "Chicago", merged: false },
+      { fullName: "Bob Williams", age: 42, city: "Houston", merged: false },
+    ];
+    const columns = [
+      {
+        title: "Personal Info",
+        dataKey: "fullName",
+        colSpan: (row: unknown) => ((row as RowData).merged ? 2 : 1),
+      },
+      {
+        title: "Age",
+        dataKey: "age",
+      },
+      {
+        title: "City",
+        dataKey: "city",
+      },
+    ];
+    return <Table data={data} columns={columns} border="cellBorders" />;
+  },
+};
+
+export const Rowspan: Story = {
+  render: () => {
+    type RowData = { name: string; surname: string; age: number };
+    const data = [
+      { name: "Name 1", surname: "Surname 1", age: 25 },
+      { name: "Name 1", surname: "Surname 2", age: 30 },
+      { name: "Name 2", surname: "Surname 3", age: 22 },
+      { name: "Name 2", surname: "Surname 4", age: 28 },
+    ];
+    const columns = [
+      {
+        title: "Name",
+        dataKey: "name",
+        rowSpan: (row: object) => {
+          const rowData = row as RowData;
+          return rowData.surname === "Surname 1" || rowData.surname === "Surname 3" ? 2 : 1;
+        },
+      },
+      { title: "Surname", dataKey: "surname" },
+      { title: "Age", dataKey: "age" },
+    ];
+    return <Table data={data} columns={columns} border="cellBorders" />;
   },
 };

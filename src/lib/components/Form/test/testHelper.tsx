@@ -1,5 +1,6 @@
 import InputText from "@/components/InputText";
 import InputPassword from "@/components/InputPassword";
+import InputNumber from "@/components/InputNumber";
 import Textarea from "@/components/Textarea";
 import Checkbox from "@/components/Checkbox";
 import RadioGroup from "@/components/RadioGroup";
@@ -33,6 +34,7 @@ export const expectedSubmitResponse = {
     testGroup: {
       inputText: "Input Text",
       inputPassword: "Input Password",
+      inputNumber: 42,
       textarea: "Input Textarea",
       football: false,
       radioGroupBW: "radioBlack",
@@ -70,6 +72,7 @@ export const getAllInputItems = () => {
 
   inputs.push(screen.getAllByTestId("inputItem")[0]);
   inputs.push(screen.getAllByTestId("inputItem")[1]);
+  inputs.push(screen.getAllByTestId("inputItem")[2]);
   inputs.push(screen.getByTestId("textareaItem").parentElement!);
   screen.getAllByTestId("checkbox").forEach(element => inputs.push(element));
   screen.getAllByTestId("radioItem").forEach(element => inputs.push(element));
@@ -84,6 +87,7 @@ export const getAllInputItems = () => {
 export const groupItems = [
   <InputText key="inputText" name="inputText" value="Input Text" />,
   <InputPassword key="inputPassword" name="inputPassword" value="Input Password" />,
+  <InputNumber key="inputNumber" name="inputNumber" value={42} />,
   <Textarea key="textarea" name="textarea" value="Input Textarea" />,
   <Checkbox label="Football" name="football" key="football" />,
   <RadioGroup key="radioGroupBW" name="radioGroupBW" value="radioBlack">
@@ -102,6 +106,7 @@ export const groupItems = [
 export const formItems: ReactElement<InputCommonProps>[] = [
   <InputText key="inputText" name="inputText" />,
   <InputPassword key="inputPassword" name="inputPassword" />,
+  <InputNumber key="inputNumber" name="inputNumber" />,
   <RadioGroup key="radioGroupBW" name="radioGroupBW">
     <Radio value="radioBlack" label="Black" />
     <Radio value="radioWhite" label="White" />
