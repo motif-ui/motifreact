@@ -87,7 +87,6 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
       const validatedDate = parseDate(typedValue, format, locale);
       if (isValueValid !== !!validatedDate || (!!validatedDate && itemValue?.getTime() !== validatedDate.getTime())) {
         setIsValueValid(!!validatedDate);
-        setIsValueValid(!!validatedDate);
         applyChanges(validatedDate);
       }
     },
