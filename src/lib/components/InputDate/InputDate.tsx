@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./InputDate.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { defaultDateFormat } from "../Motif/Pickers/types";
 import { InputDateProps } from "./types";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
@@ -34,7 +34,6 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     [format, props.placeholder],
   );
 
-  const clearedByInputRef = useRef(false);
   const [pickerVisible, setPickerVisible] = useState(false);
   const [itemValue, setItemValue] = useState<Date | undefined>(value as Date);
   const [typedValue, setTypedValue] = useState<string>(formatDate(itemValue, format, locale));
@@ -71,10 +70,10 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   }, [format, locale, onFormFieldValueUpdate, value]);
 
   const applyChanges = useCallback(
-    (date?: Date) => {
+    (date?: Date, preventOnChangeTrigger?: boolean) => {
       setItemValue(date);
       onFormFieldValueUpdate?.(date);
-      onChange?.(date);
+      !preventOnChangeTrigger && onChange?.(date);
     },
     [onChange, onFormFieldValueUpdate],
   );
@@ -83,18 +82,12 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     (value?: InputValue) => {
       const typedValue = value as string;
       setTypedValue(typedValue);
-      clearedByInputRef.current = false;
 
       // if there is a change in validation status
       const validatedDate = parseDate(typedValue, format, locale);
       if (isValueValid !== !!validatedDate || (!!validatedDate && itemValue?.getTime() !== validatedDate.getTime())) {
         setIsValueValid(!!validatedDate);
         applyChanges(validatedDate);
-        // InputText calls onChange then onClearClick synchronously; mark that we already
-        // called applyChanges(undefined) so clearClickHandler won't fire onChange a second time.
-        if (typedValue === "") {
-          clearedByInputRef.current = true;
-        }
       }
     },
     [applyChanges, format, isValueValid, itemValue, locale],
@@ -111,12 +104,10 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   );
 
   const clearClickHandler = useCallback(() => {
-    if (!clearedByInputRef.current && isValueValid) {
-      applyChanges(undefined);
+    if (isValueValid) {
+      applyChanges(undefined, true);
+      setIsValueValid(false);
     }
-    clearedByInputRef.current = false;
-    setTypedValue("");
-    setIsValueValid(false);
     setPickerVisible(false);
   }, [applyChanges, isValueValid]);
 
