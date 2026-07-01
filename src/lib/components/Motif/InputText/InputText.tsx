@@ -127,14 +127,8 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
           onBlur={onBlur}
           {...controlledProps}
         />
-        {clearable && itemValue && (
-          <MotifIconButton
-            name="cancel_outline"
-            disabled={disabled || readOnly}
-            size={size}
-            onClick={clearHandler}
-            className={styles.clearButton}
-          />
+        {!disabled && !readOnly && clearable && itemValue && (
+          <MotifIconButton name="cancel_outline" size={size} onClick={clearHandler} className={styles.clearButton} />
         )}
       </div>
       {loader ? (

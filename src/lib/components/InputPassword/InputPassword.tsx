@@ -12,7 +12,7 @@ import InputText from "@/components/Motif/InputText/InputText.tsx";
 import { InternalInputHandle } from "@/components/Motif/InputText/types.ts";
 
 const InputPassword = (p: PropsWithRef<InputPasswordProps, HTMLDivElement>) => {
-  const { iconLeft, toggleMask, clearable, ...props } = usePropsWithThemeDefaults("InputPassword", p);
+  const { iconLeft, toggleMask, ...props } = usePropsWithThemeDefaults("InputPassword", p);
   const internalInputRef = useRef<InternalInputHandle>(null);
   const { inFormField, onFormFieldValueUpdate, ...propsFromForm } = useRegisterFormField({
     props,
@@ -32,7 +32,6 @@ const InputPassword = (p: PropsWithRef<InputPasswordProps, HTMLDivElement>) => {
       onValueUpdated={onFormFieldValueUpdate}
       imperativeRef={internalInputRef}
       className={classNames}
-      clearable={clearable}
       buttonRight={
         toggleMask
           ? {
