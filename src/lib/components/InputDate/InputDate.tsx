@@ -86,6 +86,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
       // if there is a change in validation status
       const validatedDate = parseDate(typedValue, format, locale);
       if (isValueValid !== !!validatedDate || (!!validatedDate && itemValue?.getTime() !== validatedDate.getTime())) {
+        console.log("!!validatedDate", !!validatedDate);
         setIsValueValid(!!validatedDate);
         applyChanges(validatedDate);
       }
@@ -104,12 +105,8 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   );
 
   const clearClickHandler = useCallback(() => {
-    if (isValueValid) {
-      applyChanges(undefined, true);
-      setIsValueValid(false);
-    }
     setPickerVisible(false);
-  }, [applyChanges, isValueValid]);
+  }, []);
 
   const pickerShowHandler = useCallback(() => {
     !readOnly && !disabled && setPickerVisible(true);
