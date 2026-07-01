@@ -70,10 +70,10 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   }, [format, locale, onFormFieldValueUpdate, value]);
 
   const applyChanges = useCallback(
-    (date?: Date, preventOnChangeTrigger?: boolean) => {
+    (date?: Date) => {
       setItemValue(date);
       onFormFieldValueUpdate?.(date);
-      !preventOnChangeTrigger && onChange?.(date);
+      onChange?.(date);
     },
     [onChange, onFormFieldValueUpdate],
   );
