@@ -169,3 +169,58 @@ will be called for each row. This function should return a string which is the c
 type.
 
 <Canvas of={Table.RowColoring} />
+
+## ColSpan
+
+**colSpan** merges adjacent cells horizontally within a row. It can be provided as either a static number or a function.
+
+#### Static colSpan
+
+A static number merges the column with the given number of following columns everywhere — header, filter row, and body
+cells all collapse together. The absorbed columns' header labels and filter inputs are hidden, since they no longer have
+a visible cell to render into.
+
+```tsx
+const columns = [
+  { title: "Personal Info", dataKey: "fullName", colSpan: 2 },
+  { title: "Age", dataKey: "age" },
+  { title: "City", dataKey: "city" },
+];
+```
+
+If an absorbed column has a **footer**, its computed value (sum, avg, etc.) is still surfaced inside the spanning footer
+cell, so aggregated data is never silently lost.
+
+#### Function colSpan
+
+When **colSpan** is a function, it receives the row's data object and returns the span value for that row. This form
+applies **only to body cells** — the header and filter row always show all column labels, since they have no row data
+to evaluate the function with. This makes function colSpan ideal for row-dependent merging where some rows should be
+collapsed and others should not.
+
+<Canvas of={Table.Colspan} />
+
+## RowSpan
+
+**rowSpan** merges a cell downward across consecutive rows. Like colSpan, it can be provided as a static number or a
+function that receives the row's data object.
+
+A common pattern is to span grouped rows together: when the first row of a group returns the group size as the span
+value, subsequent rows in the group return 1 (or omit the prop), and the first row's cell visually covers all of them.
+
+```tsx
+const columns = [
+  {
+    title: "Name",
+    dataKey: "name",
+    rowSpan: (row) => row.surname === "Surname 1" || row.surname === "Surname 3" ? 2 : 1,
+  },
+  { title: "Surname", dataKey: "surname" },
+  { title: "Age", dataKey: "age" },
+];
+```
+
+The table automatically suppresses the covered cells so the DOM stays valid. RowSpan is clamped to the number of
+remaining rows on the current page, so spans never bleed across pagination boundaries.
+
+<Canvas of={Table.Rowspan} />
