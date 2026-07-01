@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  actions: read
 
 jobs:
   chromatic:
@@ -18,12 +19,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: '0'
 
-      - name: Setup Node & Cache
-        uses: actions/download-artifact@v4 # v4
+      - name: Download Storybook artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: storybook-static
+          path: storybook-static/
           run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Chromatic
         uses: chromaui/action@7804f34e4e59c0d9b3c856848f46ad96d7897429 # v17.5.0
