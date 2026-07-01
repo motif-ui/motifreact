@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   chromatic:
+    if: github.event.workflow_run.conclusion == 'success'
     name: Chromatic
     runs-on: ubuntu-latest
     environment: development
