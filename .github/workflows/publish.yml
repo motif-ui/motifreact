@@ -16,12 +16,12 @@ jobs:
     steps:
       - name: Generate bot app token
         id: generate_token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@d72941d797fd3113feb6b93fd0dec494b13a2547 # v1
         with:
           app-id: ${{ secrets.RELEASER_ID }}
           private-key: ${{ secrets.RELEASER_PRIVATE_KEY }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: main
           token: ${{ steps.generate_token.outputs.token }}
@@ -96,7 +96,7 @@ jobs:
         run: npm publish --provenance --access public
 
       - name: Deploy Storybook
-        uses: cloudflare/wrangler-action@v3.14.1
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

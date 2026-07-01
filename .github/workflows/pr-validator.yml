@@ -17,10 +17,8 @@ jobs:
     name: PR Compliance Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
           persist-credentials: 'false'
           fetch-depth: 0
 
@@ -33,7 +31,7 @@ jobs:
 
       # 2. LINT PR TITLE
       - name: Validate PR title
-        uses: amannn/action-semantic-pull-request@v5
+        uses: amannn/action-semantic-pull-request@e32d7e603df1aa1ba07e981f2a23455dee596825 # v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -53,7 +51,7 @@ jobs:
 
       # 3. SYNC RELEASE LABELS
       - name: Sync release labels
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
             const title = context.payload.pull_request.title;
@@ -93,7 +91,7 @@ jobs:
       # 4. CHECK INTERNAL ISSUE REFERENCE
       - name: Check internal issue reference
         if: steps.team-check.outputs.is-internal == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
             const prBody = context.payload.pull_request.body || '';

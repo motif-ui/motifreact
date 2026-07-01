@@ -2,8 +2,7 @@ import type { Preview } from "@storybook/nextjs";
 import type { ArgTypesEnhancer } from "storybook/internal/types";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
 import { iconOptions, iconDecorator, themeChangeDecorator } from "./utils.tsx";
-
-export const RESET_THEME_BUTTON_VAL = "_reset";
+import { RESET_THEME_BUTTON_VAL } from "./constants";
 
 const preview: Preview = {
   globalTypes: {

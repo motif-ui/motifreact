@@ -12,7 +12,7 @@ jobs:
   assign-and-review:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: 'false'
 
@@ -24,4 +24,4 @@ jobs:
 
       - name: Assign PR to author
         if: steps.check_team.outputs.is-internal == 'true'
-        uses: toshimaru/auto-author-assign@v3.0.1
+        uses: toshimaru/auto-author-assign@4d585cc37690897bd9015942ed6e766aa7cdb97f # v3.0.1
