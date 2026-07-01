@@ -15,8 +15,12 @@ describe("InputText", () => {
     expect(screen.getByDisplayValue(value));
   });
 
-  it("should display clearable icon when clearable prop is true", () => {
-    render(<InputText clearable />);
+  it("should toggle clearable icon visibility when input value changes", async () => {
+    render(<InputText clearable placeholder="Test" />);
+    const user = userEvent.setup();
+    expect(screen.queryByTestId("iconButtonTestId")).not.toBeInTheDocument();
+    const input = screen.getByPlaceholderText("Test");
+    await user.type(input, "Hello");
     expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
   });
 

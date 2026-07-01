@@ -43,12 +43,16 @@ exports[`DateRangePicker should be rendered with only required props and should 
           >
             calendar_month
           </span>
-          <input
-            maxlength="10"
-            name="_r_0_"
-            placeholder="__ / __ / ____"
-            value="15/02/2000"
-          />
+          <div
+            class="inputWrapper"
+          >
+            <input
+              maxlength="10"
+              name="_r_0_"
+              placeholder="__ / __ / ____"
+              value="15/02/2000"
+            />
+          </div>
         </div>
         <div
           class="Root md"
@@ -61,12 +65,16 @@ exports[`DateRangePicker should be rendered with only required props and should 
           >
             calendar_month
           </span>
-          <input
-            maxlength="10"
-            name="_r_1_"
-            placeholder="__ / __ / ____"
-            value="18/02/2000"
-          />
+          <div
+            class="inputWrapper"
+          >
+            <input
+              maxlength="10"
+              name="_r_1_"
+              placeholder="__ / __ / ____"
+              value="18/02/2000"
+            />
+          </div>
         </div>
       </div>
       <div

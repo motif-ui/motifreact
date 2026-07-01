@@ -102,8 +102,8 @@ describe("InputPassword", () => {
     expect(getByTestId("inputItem")).toHaveClass("pill");
   });
 
-  it("should display clearable icon when clearable prop is true", () => {
-    render(<InputPassword clearable />);
+  it("should display clearable icon when clearable prop is true and value is given", () => {
+    render(<InputPassword value="pass" clearable />);
     expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
   });
 

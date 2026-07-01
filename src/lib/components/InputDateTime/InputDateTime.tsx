@@ -138,8 +138,9 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
     <div ref={innerRef} className={classNames} style={style}>
       <InputText
         iconLeft={<MotifIcon name="event" size={size} />}
-        buttonRight={typedValue && !disabled && !readOnly ? { name: "cancel_outline", onClick: clearClickHandler } : undefined}
         name={name}
+        onClearClick={clearClickHandler}
+        clearable
         size={size}
         pill={pill}
         placeholder={placeholder}

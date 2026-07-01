@@ -16,11 +16,15 @@ exports[`InputDateRange should be rendered with only required props and should h
       >
         calendar_expand_horizontal
       </span>
-      <input
-        placeholder="__ / __ / ____ ⮕ __ / __ / ____"
-        readonly=""
-        value=""
-      />
+      <div
+        class="inputWrapper"
+      >
+        <input
+          placeholder="__ / __ / ____ ⮕ __ / __ / ____"
+          readonly=""
+          value=""
+        />
+      </div>
     </div>
   </div>
 </div>
