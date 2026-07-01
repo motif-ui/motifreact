@@ -42,4 +42,4 @@ jobs:
           zip: true
           skip: "dependabot/**"
           autoAcceptChanges: "main"
-          exitOnceUploaded: true
+          #exitOnceUploaded: true
