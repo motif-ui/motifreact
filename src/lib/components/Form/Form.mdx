@@ -57,6 +57,50 @@ type CustomType = {
 </Form>
 ```
 
+### User Defined Errors
+
+Besides the built-in `validations` system, `<Form>` accepts a declarative `externalErrors` prop to display error
+messages that come from outside the form - for example after an async server response returns field-level errors, or to
+show errors that are already known when the form is first displayed.
+
+`externalErrors` is a plain object keyed by the `name` of a `<Form.Field>` or `<Form.FieldGroup>`, mapping to the error
+message to display:
+
+```tsx
+type FormFields = { email: string; };
+const [serverErrors, setServerErrors] = useState<Record<string, string>>({});
+
+const onSubmit = async ({ values, isValid }: FormSubmitData<FormFields>) => {
+  if (!isValid) return;
+
+  const response = await submitToServer(values);
+  if (!response.ok) {
+    setServerErrors(response.fieldErrors); // e.g. { email: "This email is already taken" }
+  }
+};
+
+<Form onSubmit={onSubmit} externalErrors={serverErrors}>
+  <Form.Field name="email" label="Email"><InputText /></Form.Field>
+</Form>
+```
+
+A few things to keep in mind:
+
+- `externalErrors` is an external error layer. It renders exactly like a validation error but does **not** affect
+  `validate()`'s `isValid` result on the next submit. It's up to the consumer to decide what a resubmission should do.
+- An error set through `externalErrors` is cleared automatically as soon as the user edits that field, the same way a
+  validation error would be.
+- Errors are keyed at the same granularity as `validations`/`groupValidations` - i.e. by the name of the
+  `<Form.Field>`/`<Form.FieldGroup>`, not by individual inputs nested inside a group.
+- By default the form does **not** clear its values after a submit and values only get cleared when you set
+  `resetIfValidatedOnSubmit`. If you use `resetIfValidatedOnSubmit` together with `externalErrors`, be aware that
+  `resetIfValidatedOnSubmit` fires synchronously right after a client-side-valid submit, before an `await`ed server call
+  can resolve. So, avoid combining `resetIfValidatedOnSubmit` with an async `onSubmit` that sets `externalErrors` from
+  the response, since the values will already be cleared by the time the error arrives.
+- If a field currently has its own internal error (e.g. Upload's own file validation), an `externalErrors` update for
+  that same field is held back until the internal error clears - the internal one stays on screen since it's the more
+  immediately-actionable problem, and it's what's actually keeping the field invalid.
+
 ### Use with `<Grid>`
 
 Using **Form.Field** directly inside **Form** is the easiest way to create a form with the default layout order. There is

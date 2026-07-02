@@ -193,7 +193,7 @@ describe("Form", () => {
     expect(screen.queryByText(clearButtonLabel)).toBeInTheDocument();
   });
 
-  it("should clear form values by default when it is submitted and the form is valid", async () => {
+  it("should not clear form values by default when it is submitted and the form is valid", async () => {
     render(
       <Form onSubmit={jest.fn}>
         <Form.Field name="input" validations={[Validations.MinLength(5)]}>
@@ -210,12 +210,12 @@ describe("Form", () => {
 
     await user.type(inputItem as Element, "ut value");
     await user.click(screen.getByText(t("g.submit")));
-    expect(inputItem).toHaveValue("");
+    expect(inputItem).toHaveValue("input value");
   });
 
-  it("should not clear form values when dontClearOnSubmit is true", async () => {
+  it("should clear form values when resetIfValidatedOnSubmit is true", async () => {
     render(
-      <Form onSubmit={jest.fn} dontClearOnSubmit>
+      <Form onSubmit={jest.fn} resetIfValidatedOnSubmit>
         <Form.Field name="input" validations={[Validations.MinLength(5)]}>
           <InputText value="inp" />
         </Form.Field>
@@ -230,7 +230,7 @@ describe("Form", () => {
 
     await user.type(inputItem as Element, "ut value");
     await user.click(screen.getByText(t("g.submit")));
-    expect(inputItem).toHaveValue("input value");
+    expect(inputItem).toHaveValue("");
   });
 
   it("should render all form fields and elements in the given size unless it is set explicitly by the input itself", () => {
@@ -937,7 +937,7 @@ describe("Form", () => {
       };
 
       return (
-        <Form onSubmit={handleSubmit} dontClearOnSubmit>
+        <Form onSubmit={handleSubmit}>
           <Form.Field name="inputText1">
             <InputText value={value} onChange={newValue => setValue(newValue as string)} />
           </Form.Field>
@@ -1030,7 +1030,7 @@ describe("Form", () => {
 
       return (
         <>
-          <Form onSubmit={handleSubmit} dontClearOnSubmit>
+          <Form onSubmit={handleSubmit}>
             <Form.Field name="inputText1">
               <InputText value="Value Text 1" />
             </Form.Field>
@@ -1408,5 +1408,216 @@ describe("Form", () => {
     expect(getFormField(0)).not.toHaveClass("error");
     expect(getFormField(1)).not.toHaveClass("error");
     expect(getFormField(2)).not.toHaveClass("error");
+  });
+
+  it("should show the errors passed through externalErrors prop on initial render", () => {
+    render(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "Server said no" }}>
+        <Form.Field name="inputName">
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+
+    expect(getFormField(0)).toHaveClass("error");
+    expect(getFormField(0)).toHaveTextContent("Server said no");
+  });
+
+  it("should update the displayed error when the errors prop changes", () => {
+    const { rerender } = render(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "First error" }}>
+        <Form.Field name="inputName">
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).toHaveTextContent("First error");
+
+    rerender(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "Second error" }}>
+        <Form.Field name="inputName">
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).toHaveClass("error");
+    expect(getFormField(0)).toHaveTextContent("Second error");
+  });
+
+  it("should clear the external error when it is removed from the errors prop", () => {
+    const { rerender } = render(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "Server said no" }}>
+        <Form.Field name="inputName" helperText="Helper text">
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).toHaveClass("error");
+
+    rerender(
+      <Form onSubmit={mockFunction} externalErrors={{}}>
+        <Form.Field name="inputName" helperText="Helper text">
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).not.toHaveClass("error");
+    expect(getFormField(0)).toHaveTextContent("Helper text");
+  });
+
+  it("should clear the external error when the user edits the field", async () => {
+    render(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "Server said no" }}>
+        <Form.Field name="inputName" helperText="Helper text">
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).toHaveClass("error");
+
+    const user = userEvent.setup();
+    await user.type(screen.getAllByTestId("inputItem")[0].querySelector("input")!, "a");
+
+    expect(getFormField(0)).not.toHaveClass("error");
+    expect(getFormField(0)).toHaveTextContent("Helper text");
+  });
+
+  it("should show the external error on a Form.FieldGroup keyed by its name", () => {
+    render(
+      <Form onSubmit={mockFunction} externalErrors={{ inputCheckboxGroup: "At least one option is invalid" }}>
+        <Form.FieldGroup name="inputCheckboxGroup" label="Group">
+          <Checkbox label="Voleybol" name="volleyball" />
+          <Checkbox label="Basketbol" name="basketball" />
+        </Form.FieldGroup>
+      </Form>,
+    );
+
+    expect(getFormFieldGroup(0)).toHaveClass("error");
+    expect(getFormFieldGroup(0)).toHaveTextContent("At least one option is invalid");
+  });
+
+  it("should apply an already-known external error to a field that registers after the errors prop was set", () => {
+    const ConditionalField = () => {
+      const [show, setShow] = useState(false);
+      return (
+        <Form onSubmit={mockFunction} externalErrors={{ lateField: "Late error" }}>
+          <Button label="Show" onClick={() => setShow(true)} />
+          {show && (
+            <Form.Field name="lateField">
+              <InputText name="lateField" />
+            </Form.Field>
+          )}
+        </Form>
+      );
+    };
+
+    render(<ConditionalField />);
+    expect(getFormField(0)).toBeUndefined();
+    fireEvent.click(screen.getByText("Show"));
+
+    expect(getFormField(0)).toHaveClass("error");
+    expect(getFormField(0)).toHaveTextContent("Late error");
+  });
+
+  it("should not affect validate()'s isValid when an external error is active", async () => {
+    const handleSubmit = jest.fn();
+    render(
+      <Form onSubmit={handleSubmit} externalErrors={{ inputName: "Server said no" }}>
+        <Form.Field name="inputName">
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+
+    await userEvent.setup().click(screen.getByText(t("g.submit")));
+
+    expect(handleSubmit).toHaveBeenCalledWith(expect.objectContaining({ isValid: true }), expect.anything());
+  });
+
+  it("should clear a field's external error when its value is reset via resetIfValidatedOnSubmit", async () => {
+    render(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "Server said no" }} resetIfValidatedOnSubmit>
+        <Form.Field name="inputName">
+          <InputText name="inputName" value="existing value" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).toHaveClass("error");
+
+    await userEvent.setup().click(screen.getByText(t("g.submit")));
+
+    expect(getFormField(0)).not.toHaveClass("error");
+    expect(screen.getAllByTestId("inputItem")[0].querySelector("input")).toHaveValue("");
+  });
+
+  it("should not show an external error on a disabled field", () => {
+    const { rerender } = render(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "Server said no" }}>
+        <Form.Field name="inputName" disabled>
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).not.toHaveClass("error");
+
+    rerender(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "Different message" }}>
+        <Form.Field name="inputName" disabled>
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).not.toHaveClass("error");
+  });
+
+  it("should not apply an external error to a disabled field that registers after the errors prop was set", () => {
+    const ConditionalDisabledField = () => {
+      const [show, setShow] = useState(false);
+      return (
+        <Form onSubmit={mockFunction} externalErrors={{ lateField: "Late error" }}>
+          <Button label="Show" onClick={() => setShow(true)} />
+          {show && (
+            <Form.Field name="lateField" disabled>
+              <InputText name="lateField" />
+            </Form.Field>
+          )}
+        </Form>
+      );
+    };
+
+    render(<ConditionalDisabledField />);
+    fireEvent.click(screen.getByText("Show"));
+
+    expect(getFormField(0)).not.toHaveClass("error");
+  });
+
+  it("should keep a field's internal error on screen instead of an externalErrors update while it's still active", async () => {
+    const maxSize = 1000000;
+
+    const { rerender } = render(
+      <Form onSubmit={mockFunction} externalErrors={{}}>
+        <Form.Field name="files">
+          <UploadInput {...requiredProps} name="files" maxSize={maxSize} />
+        </Form.Field>
+      </Form>,
+    );
+
+    const uploadItem = screen.getAllByTestId("uploadInputItem")[0];
+    const fileInput = uploadItem.parentElement?.children[1];
+    await act(() => fireEvent.change(fileInput!, { target: { files: [MOCK.filePng2mb] } }));
+
+    expect(uploadItem).toHaveClass("error");
+    expect(getFormField(0)).toHaveTextContent(t("form.fieldError"));
+
+    rerender(
+      <Form onSubmit={mockFunction} externalErrors={{ files: "Server says: this file was already used before" }}>
+        <Form.Field name="files">
+          <UploadInput {...requiredProps} name="files" maxSize={maxSize} />
+        </Form.Field>
+      </Form>,
+    );
+
+    expect(getFormField(0)).toHaveTextContent(t("form.fieldError"));
+    expect(getFormField(0)).not.toHaveTextContent("Server says: this file was already used before");
   });
 });

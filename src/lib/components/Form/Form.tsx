@@ -19,11 +19,12 @@ const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormP
     buttonPosition = "right",
     enableClearButton,
     clearButtonLabel = t("g.clear"),
-    dontClearOnSubmit,
+    resetIfValidatedOnSubmit,
     title,
     validateOnChange,
     alternateButtons,
     preview,
+    externalErrors,
     ref,
     style,
     className,
@@ -36,6 +37,7 @@ const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormP
       labelOrientation={labelOrientation}
       validateOnChange={validateOnChange}
       preview={preview}
+      externalErrors={externalErrors}
     >
       <FormComponent
         ref={ref}
@@ -44,7 +46,7 @@ const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormP
         buttonPosition={buttonPosition}
         clearButtonLabel={clearButtonLabel}
         enableClearButton={enableClearButton}
-        dontClearOnSubmit={dontClearOnSubmit}
+        resetIfValidatedOnSubmit={resetIfValidatedOnSubmit}
         title={title}
         alternateButtons={alternateButtons}
         style={style}

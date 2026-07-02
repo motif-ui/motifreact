@@ -28,8 +28,8 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
     className,
     style,
   } = usePropsWithThemeDefaults("FormFieldGroup", props);
-  const { size, formOrientation, labelOrientation } = formContext;
-  const [error, setError] = useState<string>();
+  const { size, formOrientation, labelOrientation, getInitialExternalError } = formContext;
+  const [error, setError] = useState<string | undefined>(() => getInitialExternalError(name, disabled));
 
   const isRequired = groupValidations?.some(validation => validation.requiredValidation);
 

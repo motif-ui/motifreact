@@ -19,8 +19,8 @@ const FormField = (props: PropsWithRef<FormFieldProps, HTMLDivElement>) => {
     "FormField",
     props,
   );
-  const { size, formOrientation, labelOrientation } = formContext;
-  const [error, setError] = useState<string>();
+  const { size, formOrientation, labelOrientation, getInitialExternalError } = formContext;
+  const [error, setError] = useState<string | undefined>(() => getInitialExternalError(name, disabled));
 
   const isRequired = validations?.some(validation => validation.requiredValidation);
   const classNames = useMemo(
