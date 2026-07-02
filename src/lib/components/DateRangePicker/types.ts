@@ -46,6 +46,7 @@ export type DateRangePickerProviderProps = {
   locale: DateRangePickerLocale;
   size: Size4SM;
   onDateChange?: (dates: (Date | undefined)[]) => void;
+  isCompactView?: boolean;
 };
 
 export type DateRangePickerContextProps = {
@@ -62,6 +63,7 @@ export type DateRangePickerContextProps = {
   getDaysOfMonth: (month: Date) => Date[];
   initialMonths: Date[][];
   partialSelection?: Date;
+  isCompactView?: boolean;
 };
 
 export type DateRangePickerLocale = {
@@ -82,6 +84,7 @@ export const datePickerContextDefaultValues: DateRangePickerContextProps = {
   setDateCouple: () => {},
   getDaysOfMonth: () => [],
   initialMonths: [],
+  isCompactView: false,
   locale: {
     months: [],
     monthsShort: [],
