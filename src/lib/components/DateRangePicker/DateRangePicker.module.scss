@@ -130,3 +130,68 @@ $sizes: (
     margin-left: var(--base-sizing-2x);
   }
 }
+
+@include screen-width("below", "md") {
+  .rangeSelector {
+    gap: var(--base-sizing-8x);
+  }
+
+  .selectionBar {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--base-sizing-1x);
+
+    > div:first-child {
+      display: none;
+    }
+
+    > div:not(:first-child) {
+      width: auto;
+      margin-left: 0;
+      flex: 1 1 0;
+      min-width: 0;
+      overflow: hidden;
+    }
+  }
+
+  // Mobile: show only picker 1
+  .datePickers.datePickers {
+    transform: translateX(0);
+  }
+
+  .datePickers {
+    display: flex;
+    gap: var(--base-sizing-4x);
+
+    > div:nth-child(1),
+    > div:nth-child(3),
+    > div:nth-child(4) {
+      display: none;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+  :global {
+    .mtf-DateRangePicker div[class*="header"] {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--base-sizing-2x);
+
+      > button[class*="arrowButton"]:first-of-type {
+        order: 2;
+      }
+
+      > button[class*="arrowButton"]:last-of-type {
+        order: 3;
+      }
+
+      > div[class*="headerMonthYear"] {
+        order: 1;
+        flex: 1 1 auto;
+      }
+    }
+  }
+}

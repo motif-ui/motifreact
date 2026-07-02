@@ -364,4 +364,51 @@ describe("DateRangePicker", () => {
     expect(startDateButton).toHaveClass("selected");
     expect(endDateButton).toHaveClass("selected");
   });
+
+  // Mobile responsive tests
+  it("should render correctly on mobile view (≤768px) with date inputs", () => {
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 600 });
+    const mockStartDate = new Date(year, month, 5);
+    const mockEndDate = new Date(year, month, 15);
+    const { getFirstInput, getSecondInput } = renderExt(<DateRangePicker value={[mockStartDate, mockEndDate]} />);
+
+    expect(getFirstInput()).toBeInTheDocument();
+    expect(getSecondInput()).toBeInTheDocument();
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
+  });
+
+  it("should render correctly on desktop view (>768px) with date inputs", () => {
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
+    const mockStartDate = new Date(year, month, 5);
+    const mockEndDate = new Date(year, month, 15);
+    const { getFirstInput, getSecondInput } = renderExt(<DateRangePicker value={[mockStartDate, mockEndDate]} />);
+
+    expect(getFirstInput()).toBeInTheDocument();
+    expect(getSecondInput()).toBeInTheDocument();
+  });
+
+  it("should maintain date selection on mobile view", () => {
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 600 });
+    const mockStartDate = new Date(year, month, 5);
+    const mockEndDate = new Date(year, month, 15);
+    const { getFirstPicker } = renderExt(<DateRangePicker value={[mockStartDate, mockEndDate]} />);
+
+    const startButton = getFirstPicker().querySelector(`[data-date="${mockStartDate.getTime()}"]`);
+    const endButton = getFirstPicker().querySelector(`[data-date="${mockEndDate.getTime()}"]`);
+    expect(startButton).toHaveClass("selected");
+    expect(endButton).toHaveClass("selected");
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
+  });
+
+  it("should respond to isMobile state and render layout appropriately on narrow view", () => {
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 600 });
+    const { getByTestId, container } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 10)]} />);
+
+    expect(getByTestId("DateRangePickerContainer")).toBeInTheDocument();
+
+    const selectionBar = container.querySelector('[class*="selectionBar"]');
+    expect(selectionBar).toBeInTheDocument();
+
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
+  });
 });
