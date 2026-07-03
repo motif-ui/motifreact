@@ -1620,4 +1620,19 @@ describe("Form", () => {
     expect(getFormField(0)).toHaveTextContent(t("form.fieldError"));
     expect(getFormField(0)).not.toHaveTextContent("Server says: this file was already used before");
   });
+
+  it("should clear a field's error for a genuine value change even before the pending-init window closes", () => {
+    render(
+      <Form onSubmit={mockFunction} externalErrors={{ inputName: "Server said no" }}>
+        <Form.Field name="inputName">
+          <InputText name="inputName" />
+        </Form.Field>
+      </Form>,
+    );
+    expect(getFormField(0)).toHaveClass("error");
+
+    fireEvent.change(screen.getAllByTestId("inputItem")[0].querySelector("input")!, { target: { value: "autofilled" } });
+
+    expect(getFormField(0)).not.toHaveClass("error");
+  });
 });

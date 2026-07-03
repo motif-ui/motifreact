@@ -40,6 +40,7 @@ jobs:
             - Performance considerations
 
             Note: The PR branch is already checked out in the current working directory.
+            Note: Do not try to run test, tsc, lint or similar scripts, as those are already run in the CI pipeline. Focus on code review and analysis.
 
             Use `gh pr comment` for top-level feedback.
             Use `mcp__github_inline_comment__create_inline_comment` (with `confirmed: true`) to highlight specific code issues.

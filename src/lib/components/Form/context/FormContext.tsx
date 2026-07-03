@@ -212,9 +212,10 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
    * This callback is used in the inputs the lift the value state up to the form by updating the form state. It also
    * removes the error state of the input if it has any.
    *
-   * Some inputs (e.g. Checkbox) echo their initial value on mount via their own effect. While the field is still in
-   * pendingInitFields, that echo is not a genuine user-driven change, so it must not clear any error that was already
-   * seeded for the field's first render (mirrors the same guard already used for validateOnChange below).
+   * Some inputs (e.g. Checkbox) echo their initial value on mount via their own effect. That echo always carries the
+   * same value already captured at registration, so it's identified by comparing against the field's previous value
+   * rather than by a time window - that way an actual value change landing early (e.g. browser autofill firing right
+   * after mount) still correctly clears a seeded error, instead of being mistaken for the echo.
    *
    * @param {string} name - name of the input
    * @param {string} groupName - name of the group if the input is in a group
@@ -223,15 +224,26 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
   const notifyFormForFieldValueChange = useCallback(
     (name: string, groupName: string | undefined, value?: InputValue) => {
       const nameToUpdate = groupName ?? name;
-      formStateRef.current.values[nameToUpdate] = groupName
-        ? { ...(formStateRef.current.values[nameToUpdate] as object), [name]: value }
-        : value;
+      const prevValue = formStateRef.current.values[nameToUpdate];
+      const prevGroupValue = groupName ? (prevValue as Record<string, InputValue> | undefined) : undefined;
+      const isGenuineChange = groupName ? prevGroupValue?.[name] !== value : prevValue !== value;
       const field = formStateRef.current.fields[nameToUpdate];
-      if (field && !formStateRef.current.pendingInitFields.has(nameToUpdate)) {
-        field.errorSetter?.(undefined);
-        field.hasInternalError = undefined;
 
-        validateOnChange && _validateField(nameToUpdate);
+      formStateRef.current = {
+        ...formStateRef.current,
+        values: {
+          ...formStateRef.current.values,
+          [nameToUpdate]: groupName ? { ...prevGroupValue, [name]: value } : value,
+        },
+        fields: {
+          ...formStateRef.current.fields,
+          ...(field && isGenuineChange && { [nameToUpdate]: { ...field, hasInternalError: undefined } }),
+        },
+      };
+
+      if (field) {
+        isGenuineChange && field.errorSetter?.(undefined);
+        validateOnChange && !formStateRef.current.pendingInitFields.has(nameToUpdate) && _validateField(nameToUpdate);
       }
     },
     [_validateField, validateOnChange],
