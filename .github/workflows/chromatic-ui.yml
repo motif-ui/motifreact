@@ -1,45 +1,35 @@
 name: UI
 
 on:
-  workflow_run:
-    workflows: ["Build Storybook"]
-    types: [completed]
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
-  pull-requests: read
-  actions: read
 
 jobs:
   chromatic:
-    if: github.event.workflow_run.conclusion == 'success'
     name: Chromatic
     runs-on: ubuntu-latest
     environment: development
-    continue-on-error: true
     steps:
-      - name: Checkout
+      - name: Checkout PR head
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
-          repository: ${{ github.event.workflow_run.head_repository.full_name }}
-          ref: ${{ github.event.workflow_run.head_branch }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: '0'
+          persist-credentials: 'false'
 
-      - name: Download Storybook artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: storybook-static
-          path: storybook-static/
-          run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ./.github/actions/setup-node-deps
 
       - name: Run Chromatic
-        uses: chromaui/action@7804f34e4e59c0d9b3c856848f46ad96d7897429 # v17.5.0
+        uses: chromaui/action@94713c544284a14195de3b50ef24301579f1877e # v18.0.1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
-          storybookBuildDir: storybook-static/
           zip: true
+          buildScriptName: "build:storybook"
           skip: "dependabot/**"
           autoAcceptChanges: "main"
           exitOnceUploaded: true
