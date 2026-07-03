@@ -1,3 +1,11 @@
+# [v0.4.4](https://github.com/motif-ui/motifreact/releases/tag/v0.4.4) (2026-07-03)
+
+## 🐛 Bug Fixes
+
+- revert: storybook build script ([#99](https://github.com/motif-ui/motifreact/pull/99)) [@aktasmehmet](https://github.com/aktasmehmet)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.3...v0.4.4)
+
 # [v0.4.3](https://github.com/motif-ui/motifreact/releases/tag/v0.4.3) (2026-07-03)
 
 ## 🐛 Bug Fixes
