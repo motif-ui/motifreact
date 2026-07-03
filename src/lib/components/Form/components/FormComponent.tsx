@@ -15,7 +15,7 @@ type Props<T> = {
   buttonPosition: "left" | "center" | "right";
   enableClearButton?: boolean;
   clearButtonLabel: string;
-  dontClearOnSubmit?: boolean;
+  resetIfValidatedOnSubmit?: boolean;
   onSubmit?: (data: FormSubmitData<T>, event: FormEvent<HTMLFormElement>) => void;
   title?: string;
   alternateButtons?: ReactElement<ButtonProps>[];
@@ -29,7 +29,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
     buttonPosition,
     clearButtonLabel,
     enableClearButton,
-    dontClearOnSubmit,
+    resetIfValidatedOnSubmit,
     title,
     alternateButtons,
     ref,
@@ -49,9 +49,9 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
       event.preventDefault();
       const data = validate();
       onSubmit?.(data, event);
-      !dontClearOnSubmit && data.isValid && resetValues();
+      resetIfValidatedOnSubmit && data.isValid && resetValues();
     },
-    [dontClearOnSubmit, onSubmit, resetValues, validate],
+    [resetIfValidatedOnSubmit, onSubmit, resetValues, validate],
   );
 
   const classNames = sanitizeModuleRootClasses(styles, className, [size, formOrientation, labelOrientation + "Labels"]);

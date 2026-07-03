@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
+import { useState } from "react";
 import Form from "@/components/Form";
 import { Validations } from "@/components/Form/validation/validations";
 import InputText from "@/components/InputText";
@@ -218,6 +219,31 @@ export const Primary: Story = {
       </Form.Field>
     </Form>
   ),
+};
+
+export const ExternalErrors: Story = {
+  render: () => {
+    type FormFields = { email: string };
+    const ExternalErrorsComponent = () => {
+      const [errors, setErrors] = useState<Record<string, string>>({});
+
+      const onSubmit = (data: FormSubmitData<FormFields>) => {
+        if (!data.isValid) return;
+        // Simulates a server response coming back with a field-level error.
+        setErrors({ email: "This email is already taken" });
+      };
+
+      return (
+        <Form onSubmit={onSubmit} externalErrors={errors}>
+          <Form.Field name="email" label="Email" helperText="Your email address" validations={[Validations.Required]}>
+            <InputText />
+          </Form.Field>
+        </Form>
+      );
+    };
+
+    return <ExternalErrorsComponent />;
+  },
 };
 
 const onSubmitMock = (data: FormSubmitData, event: unknown) => {
