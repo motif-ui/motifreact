@@ -1,3 +1,21 @@
+# [v0.4.3](https://github.com/motif-ui/motifreact/releases/tag/v0.4.3) (2026-07-03)
+
+## 🐛 Bug Fixes
+
+- fix(Form): externalErrors prop is added ([#98](https://github.com/motif-ui/motifreact/pull/98)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(Tooltip): z-index issue solution inside Modal and Tooltip ([#96](https://github.com/motif-ui/motifreact/pull/96)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: security updates for GitHub actions are completed ([#86](https://github.com/motif-ui/motifreact/pull/86)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: input components clear icon enchantment ([#94](https://github.com/motif-ui/motifreact/pull/94)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: add colspan and rowspan support ([#79](https://github.com/motif-ui/motifreact/pull/79)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: new component InputNumber created 🧩 ([#95](https://github.com/motif-ui/motifreact/pull/95)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: localization support for date components and refactoring for tests ([#81](https://github.com/motif-ui/motifreact/pull/81)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+## Other Changes
+
+- docs: internal icon adding process update ([#92](https://github.com/motif-ui/motifreact/pull/92)) [@ZehranurC](https://github.com/ZehranurC)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.2...v0.4.3)
+
 # [v0.4.2](https://github.com/motif-ui/motifreact/releases/tag/v0.4.2) (2026-06-26)
 
 ## 🐛 Bug Fixes
