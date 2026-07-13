@@ -25,6 +25,16 @@ export type RequestSettings = {
   url: string;
   method: HttpMethods;
   headers?: KeyValue[];
+  /**
+   * ```
+   * in milliseconds, uploadRequest only
+   * ```
+   * Aborts the upload if no upload-progress event arrives for this long while data is still
+   * being sent — this is what detects a stalled/hung connection. Resets on every progress tick;
+   * stops applying once the upload phase completes (from then on we're just waiting on the
+   * server's response). Falls back to DEFAULT_UPLOAD_STALL_TIMEOUT_MS.
+   */
+  stallTimeout?: number;
 };
 
 export type UploadMessages = {
