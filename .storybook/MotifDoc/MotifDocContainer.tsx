@@ -7,7 +7,7 @@ import { MotifDocContainerProps } from "./types";
 
 export const MotifDocContainer = (props: PropsWithChildren<MotifDocContainerProps>) => {
   const { context, children } = props;
-  const isMdxFile = !!context.attachedCSFFiles?.size;
+  const isMdxFile = context.filterByAutodocs === false;
 
   return (
     <DocsContainer context={context}>
