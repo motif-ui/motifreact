@@ -2,7 +2,7 @@
 
 $sizes: (
   //size, padding, inputSize, gap
-  ("xs", "4x", "18x", "4x"),
+  ("xs", "4x", "20x", "4x"),
   ("sm", "6x", "20x", "8x"),
   ("md", "8x", "22x", "12x"),
   ("lg", "10x", "24x", "16x")
@@ -13,9 +13,9 @@ $sizes: (
     gap: var(--base-sizing-#{$gap});
     .input input {
       @include font("body", $size);
-      width: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}) + var(--base-sizing-2x));
-      height: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}) + var(--base-sizing-2x));
-      padding: var(--base-sizing-#{$padding});
+      width: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}) - var(--base-sizing-2x));
+      height: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}) - var(--base-sizing-2x));
+      padding: 0;
     }
   }
 }
