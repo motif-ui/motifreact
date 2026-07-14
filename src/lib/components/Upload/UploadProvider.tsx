@@ -209,6 +209,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
             ? {
                 ...file,
                 status: STATUS.DELETE_FAIL,
+                deleting: false,
                 messages: [t(MESSAGE.DELETE_ERROR)],
               }
             : file,
@@ -379,13 +380,16 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
 
   const removeFiles = useCallback(
     (filesToRemove: FileType[]) => {
-      const filesOnTheServer = filesToRemove.filter(f => f.uploaded);
+      // Files already mid-delete are skipped instead of re-sent — the delete buttons are disabled
+      // while `deleting` is true, but this guards against any other path re-triggering removeFiles.
+      const filesOnTheServer = filesToRemove.filter(f => f.uploaded && !f.deleting);
       const filesOnTheClient = filesToRemove.filter(f => !f.uploaded);
 
       if (filesOnTheClient.length) {
         setSelectedFiles(files => files.filter(f => !filesToRemove.some(file => file.id === f.id)));
       }
       if (filesOnTheServer.length) {
+        setSelectedFiles(files => files.map(f => (filesOnTheServer.some(file => file.id === f.id) ? { ...f, deleting: true } : f)));
         _deleteFilesFromServer(filesOnTheServer);
       }
       if (hiddenInputRef.current) {

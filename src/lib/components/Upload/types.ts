@@ -11,6 +11,8 @@ export type FileType = {
   request?: XMLHttpRequest;
   download?: () => void;
   addedByValue?: boolean;
+  /** True while a server-side delete request for this file is in flight. */
+  deleting?: boolean;
 };
 
 /**
