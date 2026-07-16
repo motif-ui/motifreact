@@ -11,11 +11,18 @@ $sizes: (
 @each $size, $padding, $inputSize, $gap in $sizes {
   .#{$size} {
     gap: var(--base-sizing-#{$gap});
+    .input {
+      width: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}));
+      height: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}));
+      padding: var(--base-sizing-#{$padding});
+      box-sizing: border-box;
+    }
     .input input {
       @include font("body", $size);
-      width: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}) - var(--base-sizing-2x));
-      height: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}) - var(--base-sizing-2x));
+      width: var(--base-sizing-#{$inputSize});
+      height: var(--base-sizing-#{$inputSize});
       padding: 0;
+      flex: none;
     }
   }
 }
@@ -23,7 +30,7 @@ $sizes: (
 .Root {
   display: inline-flex;
   .input input {
-    box-sizing: content-box;
+    box-sizing: border-box;
     text-align: center;
   }
 }
