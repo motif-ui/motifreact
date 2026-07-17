@@ -18,6 +18,7 @@ export type NavBarProps = {
    *   onResultClick?: (value?: string) => void;
    *   results: { text: string; value?: string; }[];
    *   visibleContainerSize?: Size3;
+   *   clearable?: boolean;
    * }
    * ```
    */
@@ -99,6 +100,7 @@ export type NavBarMenuContextProps = {
 export type NavBarSearchProps = {
   placeholder?: string;
   pill?: boolean;
+  clearable?: boolean;
   onPressEnter?: (query: string) => void;
   onButtonClick?: (query: string) => void;
   searching?: boolean;

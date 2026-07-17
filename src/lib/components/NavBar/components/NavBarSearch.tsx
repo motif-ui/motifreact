@@ -13,6 +13,7 @@ const NavBarSearch = (props: NavBarSearchProps) => {
     placeholder = t("g.search"),
     onPressEnter,
     pill,
+    clearable,
     results = [],
     onResultClick,
     onButtonClick,
@@ -49,8 +50,10 @@ const NavBarSearch = (props: NavBarSearchProps) => {
       <InputText
         size="md"
         pill={pill}
+        clearable={clearable}
         placeholder={placeholder}
         onChange={val => setSearchQuery(val as string)}
+        onClearClick={() => setMaybeShowResults(false)}
         onClick={results.length && !maybeShowResults ? () => setMaybeShowResults(true) : undefined}
         ref={ref}
         buttonRight={{
