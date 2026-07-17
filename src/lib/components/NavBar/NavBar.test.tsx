@@ -168,9 +168,7 @@ describe("NavBar", () => {
   });
 
   it("should clear the search input and close the results dropdown when the clear button is clicked", async () => {
-    const { getByRole, getByText, queryByText } = render(
-      <NavBar search={{ clearable: true, results: [{ text: "Result 1" }] }} />,
-    );
+    const { getByRole, getByText, queryByText } = render(<NavBar search={{ clearable: true, results: [{ text: "Result 1" }] }} />);
     const searchInput = getByRole("textbox") as HTMLInputElement;
     await userEvent.type(searchInput, "test query");
     expect(queryByText("Result 1")).toBeInTheDocument();
