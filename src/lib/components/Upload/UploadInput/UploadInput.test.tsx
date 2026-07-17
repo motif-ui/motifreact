@@ -388,6 +388,18 @@ describe("UploadInput", () => {
     expect(getBrowseButton()).toBeDisabled();
   });
 
+  it("should hide the delete button but keep showing the file name when a value file is present and disabled is true", () => {
+    const { getFileItem, getDeleteButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} disabled />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+    expect(getDeleteButton()).not.toBeInTheDocument();
+  });
+
+  it("should hide the delete button but keep showing the file name when a value file is present and readOnly is true", () => {
+    const { getFileItem, getDeleteButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} readOnly />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+    expect(getDeleteButton()).not.toBeInTheDocument();
+  });
+
   it("should send a delete request and clear the component when the delete button is clicked for a value file", async () => {
     const xhrSpy = mockXHRs(200);
     const { getDeleteButton, getBrowseButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
@@ -416,5 +428,19 @@ describe("UploadInput", () => {
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getDeleteButton()).not.toBeInTheDocument());
     xhrSpy.mockRestore();
+  });
+
+  it("should not reflect value prop changes after mount", () => {
+    const { rerender, getFileItem } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+
+    rerender(<UploadInput {...requiredProps} value={[serverFile2]} />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+    expect(getFileItem()).not.toHaveTextContent(serverFile2.name);
+  });
+
+  it("should not render a download action even when onDownloadClick is provided in value", () => {
+    renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} />);
+    expect(screen.queryByText("download")).not.toBeInTheDocument();
   });
 });

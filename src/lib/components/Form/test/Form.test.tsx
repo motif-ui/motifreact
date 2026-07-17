@@ -21,6 +21,7 @@ import { MOCK } from "../../Upload/mock";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { FileType } from "@/components/Upload/types";
 import { t, mockXHRs } from "src/utils/testUtils.tsx";
+import { simulateChooseFiles } from "@/components/Upload/testHelper";
 
 import {
   data,
@@ -1408,6 +1409,107 @@ describe("Form", () => {
     expect(getFormField(0)).not.toHaveClass("error");
     expect(getFormField(1)).not.toHaveClass("error");
     expect(getFormField(2)).not.toHaveClass("error");
+  });
+
+  it("should keep value files visible but hide their delete actions when UploadInput, UploadList, and UploadDragger fields are disabled", async () => {
+    const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
+    // Disabled fields are excluded from form submit data, like native disabled form controls.
+    const handleSubmit = (data: FormSubmitData) => {
+      expect(data.values.uploadInput).toBeUndefined();
+      expect(data.values.uploadList).toBeUndefined();
+      expect(data.values.uploadDragger).toBeUndefined();
+    };
+
+    render(
+      <Form onSubmit={handleSubmit}>
+        <Form.Field name="uploadInput" disabled>
+          <UploadInput {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+        <Form.Field name="uploadList" disabled>
+          <UploadList {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+        <Form.Field name="uploadDragger" disabled>
+          <UploadDragger {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+      </Form>,
+    );
+
+    //files are should be current
+    expect(screen.queryAllByText(serverFile.name)).toHaveLength(3);
+    //when field is disabled delete button is not shown
+    expect(screen.queryAllByText("delete")).toHaveLength(0);
+
+    await userEvent.setup().click(screen.getByText(t("g.submit")));
+  });
+
+  it("should keep value files visible but hide their delete actions when UploadInput, UploadList, and UploadDragger fields are readOnly", async () => {
+    const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
+    const handleSubmit = (data: FormSubmitData) => {
+      [data.values.uploadInput, data.values.uploadList, data.values.uploadDragger].forEach(files => {
+        expect(files as FileType[]).toHaveLength(1);
+      });
+    };
+
+    render(
+      <Form onSubmit={handleSubmit}>
+        <Form.Field name="uploadInput" readOnly>
+          <UploadInput {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+        <Form.Field name="uploadList" readOnly>
+          <UploadList {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+        <Form.Field name="uploadDragger" readOnly>
+          <UploadDragger {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+      </Form>,
+    );
+
+    expect(screen.queryAllByText(serverFile.name)).toHaveLength(3);
+    expect(screen.queryAllByText("delete")).toHaveLength(0);
+
+    await userEvent.setup().click(screen.getByText(t("g.submit")));
+  });
+
+  it("should include both value files and newly added files in submit data for UploadList and UploadDragger", async () => {
+    const xhrSpy = mockXHRs();
+    const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
+    const handleSubmit = jest.fn((data: FormSubmitData) => {
+      /* data.values = {
+      uploadList:    [ serverFile, test.pdf ],   
+      uploadDragger: [ serverFile, test.pdf ],   
+    } */
+      [data.values.uploadList as FileType[], data.values.uploadDragger as FileType[]].forEach(files => {
+        expect(files).toHaveLength(2);
+        expect(files[0].id).toBe(serverFile.id);
+        expect(files[0].uploaded).toBe(true);
+        expect(files[1].file.name).toBe(MOCK.filePdf1kb.name);
+        expect(files[1].status).toBe(STATUS.SUCCESS);
+      });
+    });
+
+    const { container } = render(
+      <Form onSubmit={handleSubmit}>
+        <Form.Field name="uploadList">
+          <UploadList {...requiredProps} value={[serverFile]} maxFile={2} />
+        </Form.Field>
+        <Form.Field name="uploadDragger">
+          <UploadDragger {...requiredProps} value={[serverFile]} maxFile={2} />
+        </Form.Field>
+      </Form>,
+    );
+
+    const fileInputs = container.querySelectorAll('input[type="file"]');
+    expect(fileInputs).toHaveLength(2);
+    // Uploads run one after the other: the shared XHR mock in mockXHRs cannot track two in-flight requests at once
+    await simulateChooseFiles(fileInputs[0], [MOCK.filePdf1kb]);
+    await waitFor(() => expect(screen.queryAllByText(t(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(1));
+    await simulateChooseFiles(fileInputs[1], [MOCK.filePdf1kb]);
+    await waitFor(() => expect(screen.queryAllByText(t(MESSAGE.UPLOAD_SUCCESS))).toHaveLength(2));
+
+    await userEvent.setup().click(screen.getByText(t("g.submit")));
+    expect(handleSubmit).toHaveBeenCalledTimes(1);
+
+    xhrSpy.mockRestore();
   });
 
   it("should show the errors passed through externalErrors prop on initial render", () => {
