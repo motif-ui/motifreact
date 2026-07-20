@@ -55,7 +55,7 @@ const TableContainer = (props: PropsWithRef<Props, HTMLDivElement>) => {
       <TableTitleSection title={title} subtitle={subtitle} />
       <table>
         <TableHead background={headerColsBackground} header={header} />
-        <TableBody loading={loading} emptyMessage={emptyMessage} striped={striped} />
+        <TableBody loading={loading} emptyMessage={emptyMessage} striped={striped} hoverable={hoverable} />
         <ColumnFootArea background={footerColsBackground} customFooter={footer} />
       </table>
       {!loading && <FooterForNumbers hideTotalRecordsMessage={hideTotalRecords} loading={loading} />}

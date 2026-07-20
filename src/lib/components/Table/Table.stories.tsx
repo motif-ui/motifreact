@@ -612,3 +612,111 @@ export const Rowspan: Story = {
     return <Table data={data} columns={columns} border="cellBorders" />;
   },
 };
+
+export const RowspanStriped: Story = {
+  render: () => {
+    type MaintenanceRow = {
+      span: number;
+      equipment: string;
+      location: string;
+      servicedAt: string;
+      finding: string;
+      action: string;
+      owner: string;
+      dueDate: string;
+      status: string;
+    };
+
+    const group = (
+      span: number,
+      equipment: string,
+      location: string,
+      servicedAt: string,
+      findings: [string, string, string, string, string][],
+    ): MaintenanceRow[] =>
+      findings.map(([finding, action, owner, dueDate, status], index) => ({
+        span: index === 0 ? span : 1,
+        equipment,
+        location,
+        servicedAt,
+        finding,
+        action,
+        owner,
+        dueDate,
+        status,
+      }));
+
+    const data: MaintenanceRow[] = [
+      ...group(3, "EQ-1042", "Hat 1 / Presleme", "12.03.2026", [
+        ["Hidrolik hatta basınç düşüşü gözlendi", "Sızdırmazlık contası değiştirildi", "A. Yılmaz", "20.03.2026", "Tamamlandı"],
+        ["Yağ sıcaklığı eşik değerin üzerinde", "Soğutma fanı temizliği yapıldı", "A. Yılmaz", "22.03.2026", "Tamamlandı"],
+        ["Titreşim sensörü kalibrasyon dışı", "Sensör yeniden kalibre edilecek", "M. Demir", "05.04.2026", "Devam ediyor"],
+      ]),
+      ...group(2, "EQ-1043", "Hat 1 / Kesim", "14.03.2026", [
+        ["Bıçak aşınması tolerans sınırında", "Bıçak seti yenilendi", "S. Kaya", "18.03.2026", "Tamamlandı"],
+        ["Koruma kapağı kilidi geç tepki veriyor", "Emniyet rölesi değişimi planlandı", "S. Kaya", "10.04.2026", "Beklemede"],
+      ]),
+      ...group(3, "EQ-1051", "Hat 2 / Kaynak", "19.03.2026", [
+        ["Kaynak akımında dalgalanma", "Güç ünitesi kartı değiştirildi", "E. Aydın", "25.03.2026", "Tamamlandı"],
+        ["Gaz debisi düşük okunuyor", "Regülatör revizyona gönderildi", "E. Aydın", "02.04.2026", "Devam ediyor"],
+        ["Torç kablosunda yalıtım aşınması", "Kablo demeti komple yenilenecek", "B. Şahin", "15.04.2026", "Beklemede"],
+      ]),
+      ...group(2, "EQ-1077", "Hat 2 / Montaj", "21.03.2026", [
+        ["Konveyör hız sapması %4", "Sürücü parametreleri güncellendi", "B. Şahin", "24.03.2026", "Tamamlandı"],
+        ["Rulman sesi normalin üzerinde", "Rulman değişimi için parça bekleniyor", "M. Demir", "12.04.2026", "Beklemede"],
+      ]),
+      ...group(3, "EQ-1080", "Hat 3 / Boyama", "26.03.2026", [
+        ["Filtre doluluk oranı %92", "Filtre kaseti değiştirildi", "Z. Öztürk", "28.03.2026", "Tamamlandı"],
+        ["Nem oranı proses aralığının dışında", "Nem alma ünitesi devreye alındı", "Z. Öztürk", "01.04.2026", "Tamamlandı"],
+        ["Püskürtme başlığında tıkanma", "Başlık sökülüp ultrasonik temizlik yapılacak", "A. Yılmaz", "18.04.2026", "Devam ediyor"],
+      ]),
+      ...group(2, "EQ-1095", "Hat 3 / Paketleme", "30.03.2026", [
+        ["Etiket okuyucu hatalı okuma veriyor", "Optik kafa temizlendi ve test edildi", "S. Kaya", "03.04.2026", "Tamamlandı"],
+        ["Bantlama ünitesinde kaçık hizalama", "Mekanik ayar ve merkezleme yapılacak", "E. Aydın", "20.04.2026", "Beklemede"],
+      ]),
+    ];
+
+    const groupedColumn = (title: string, dataKey: string) => ({
+      title,
+      dataKey,
+      rowSpan: (row: object) => (row as MaintenanceRow).span,
+    });
+
+    const columns = [
+      groupedColumn("Ekipman", "equipment"),
+      groupedColumn("Lokasyon", "location"),
+      groupedColumn("Bakım Tarihi", "servicedAt"),
+      { title: "Bulgu", dataKey: "finding" },
+      { title: "Aksiyon", dataKey: "action" },
+      { title: "Sorumlu", dataKey: "owner" },
+      { title: "Termin", dataKey: "dueDate" },
+      { title: "Durum", dataKey: "status" },
+    ];
+
+    return <Table data={data} columns={columns} border="cellBorders" striped showFixedRowNumbers hoverable />;
+  },
+};
+
+export const RowspanOverlapping: Story = {
+  render: () => {
+    type ShiftRow = { regionSpan: number; crewSpan: number; region: string; crew: string; task: string; hours: number };
+
+    const data: ShiftRow[] = [
+      { regionSpan: 3, crewSpan: 1, region: "Kuzey", crew: "Ekip A", task: "Pano kontrolü", hours: 4 },
+      { regionSpan: 1, crewSpan: 3, region: "Kuzey", crew: "Ekip B", task: "Kablo çekimi", hours: 6 },
+      { regionSpan: 1, crewSpan: 1, region: "Kuzey", crew: "Ekip B", task: "Topraklama ölçümü", hours: 3 },
+      { regionSpan: 2, crewSpan: 1, region: "Güney", crew: "Ekip B", task: "Trafo bakımı", hours: 8 },
+      { regionSpan: 1, crewSpan: 2, region: "Güney", crew: "Ekip C", task: "Sigorta değişimi", hours: 2 },
+      { regionSpan: 1, crewSpan: 1, region: "Güney", crew: "Ekip C", task: "Raporlama", hours: 1 },
+    ];
+
+    const columns = [
+      { title: "Bölge", dataKey: "region", rowSpan: (row: object) => (row as ShiftRow).regionSpan },
+      { title: "Ekip", dataKey: "crew", rowSpan: (row: object) => (row as ShiftRow).crewSpan },
+      { title: "İş", dataKey: "task" },
+      { title: "Saat", dataKey: "hours" },
+    ];
+
+    return <Table data={data} columns={columns} border="cellBorders" striped showFixedRowNumbers hoverable />;
+  },
+};
