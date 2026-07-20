@@ -1,7 +1,6 @@
 import styles from "../ImageUpload.module.scss";
 import { STATUS } from "@/components/Upload/constants";
 import { useContext } from "react";
-import { FileType } from "@/components/Upload/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { shortenText } from "src/utils/utils.ts";
@@ -10,15 +9,17 @@ import Preview from "@/components/Upload/ImageUpload/components/Preview";
 import useToggle from "../../../../hooks/useToggle";
 import ProgressBar from "@/components/ProgressBar";
 
+import { FileType } from "@/components/Upload/types";
+
 type Props = {
   file: FileType;
 };
 
-export const Image = ({ file: { status, progress, file } }: Props) => {
+export const Image = ({ file: { status, progress, file, src, addedByValue } }: Props) => {
   const { selectedFiles, removeFiles } = useContext(UploadContext);
-  const image = URL.createObjectURL(file as File);
+  const image = src || (file instanceof File ? URL.createObjectURL(file) : undefined);
   const { visible, show, hide } = useToggle(false);
-  const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL;
+  const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL || (addedByValue && !src);
   const deleteFailed = status === STATUS.DELETE_FAIL;
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
 
@@ -56,7 +57,7 @@ export const Image = ({ file: { status, progress, file } }: Props) => {
           <div className={styles.iconContainer}>{deleteIcon}</div>
         </div>
       )}
-      {visible && <Preview image={image} onClose={hide} />}
+      {visible && image && <Preview image={image} onClose={hide} />}
     </>
   );
 };

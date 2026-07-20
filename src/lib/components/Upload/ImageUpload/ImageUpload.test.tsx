@@ -715,4 +715,68 @@ describe("ImageUpload", () => {
     expect(screen.queryByText(/Only.*format files can be uploaded/)).not.toBeInTheDocument();
     expect(getThumbnail()).not.toBeInTheDocument();
   });
+
+  it("should display database image as thumbnail when using value prop", async () => {
+    const dbSrc = "https://example.com/pic.jpg";
+    const { getThumbnail } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={[
+          {
+            id: "db-1",
+            name: "existing.jpg",
+            size: 102400,
+            type: "image/jpeg",
+            src: dbSrc,
+          },
+        ]}
+      />,
+    );
+    await waitFor(() => {
+      expect(getThumbnail()).toBeInTheDocument();
+      expect(getThumbnail()).toHaveAttribute("src", dbSrc);
+    });
+  });
+
+  it("should open preview for database image", async () => {
+    const dbSrc = "https://example.com/pic.jpg";
+    renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={[
+          {
+            id: "db-1",
+            name: "existing.jpg",
+            size: 102400,
+            type: "image/jpeg",
+            src: dbSrc,
+          },
+        ]}
+      />,
+    );
+    await userEvent.click(screen.getByText("visibility"));
+    const previewImg = screen.queryByAltText("Image Preview")!;
+    await waitFor(() => expect(previewImg).toBeInTheDocument());
+  });
+
+  it("should delete database image when delete button is clicked", async () => {
+    xhrSpy = mockXHRs(200, 200);
+    const { getDeleteButton, getThumbnail } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={[
+          {
+            id: "db-1",
+            name: "existing.jpg",
+            size: 102400,
+            type: "image/jpeg",
+            src: "https://example.com/pic.jpg",
+          },
+        ]}
+      />,
+    );
+    await waitFor(() => expect(getThumbnail()).toBeInTheDocument());
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getThumbnail()).not.toBeInTheDocument());
+  });
 });

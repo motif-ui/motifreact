@@ -11,6 +11,7 @@ export type FileType = {
   request?: XMLHttpRequest;
   download?: () => void;
   addedByValue?: boolean;
+  src?: string;
 };
 
 /**
@@ -19,6 +20,7 @@ export type FileType = {
 export type FileObject = {
   id: string;
   onDownloadClick?: () => void;
+  src?: string;
 } & Pick<File, "name" | "size" | "type">;
 
 export type RequestSettings = {
