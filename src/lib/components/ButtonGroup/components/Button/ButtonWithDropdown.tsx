@@ -12,11 +12,23 @@ const ButtonWithDropdown = (props: PropsWithChildren<ButtonGroupItemProps>) => {
 
   return (
     <div className={`${styles.buttonDropdownContainer} ${disabled ? styles.disabled : ""}`} ref={ref}>
-      <Button label={label} icon={icon} disabled={disabled} action={action} type="multiple" />
-      <ButtonGroupItemProvider>
-        <Button icon="keyboard_arrow_down" type="dropdown" action={() => setOpen(!open)} />
-        {open && <div className={styles.button__dropdownItem}>{children}</div>}
-      </ButtonGroupItemProvider>
+      <Button
+        label={label}
+        icon={icon}
+        disabled={disabled}
+        dropdownIcon
+        open={open}
+        action={e => {
+          action?.(e);
+          setOpen(!open);
+        }}
+        type="dropdown"
+      />
+      {open && (
+        <ButtonGroupItemProvider>
+          <div className={styles.button__dropdownItem}>{children}</div>
+        </ButtonGroupItemProvider>
+      )}
     </div>
   );
 };
