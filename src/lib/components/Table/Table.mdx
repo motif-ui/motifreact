@@ -117,9 +117,9 @@ in it.
 
 There are two ways to provide filtering feature:
 
-- **filterableTable** prop enables a text input on top of the table to filter the data. This option searches for the given query in all columns.
+- **filterableTable** prop enables a text input on top of the table to filter the data. This option searches for the given query in all columns. The placeholder of this input can be customized via the **filterPlaceholder** prop on Table.
 
-- Other option is to provide the **filter** prop in each column item which gives more flexibility to search the given queries only in the data of the related column.
+- Other option is to provide the **filter** prop in each column item which gives more flexibility to search the given queries only in the data of the related column. The placeholder of the column filter input can be customized via the **filterPlaceholder** field on the column definition.
 
 All the filtering queries may work together. If both **filterableTable** and **filter** prop in columns are provided, the queries are combined with an AND operation. This is also the same for the queries for different columns.
 
