@@ -10,7 +10,7 @@ $sizes: (("xs", "4x", "4x", "10x", "128x"), ("sm", "6x", "6x", "12x", "128x"), (
   background: var(--theme-color-surface-base-bg-light);
 
   &.inFormField {
-    min-width: var(--base-sizing-256x);
+    @include retain-scoped-class;
   }
 
   &.disabled {
@@ -162,7 +162,6 @@ $sizes: (("xs", "4x", "4x", "10x", "128x"), ("sm", "6x", "6x", "12x", "128x"), (
     }
     .label {
       @include font("body", $size);
-      min-width: var(--base-sizing-#{$labelMinWidth});
       padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
       &.hasSuffix {
         padding-right: calc(3 * var(--base-sizing-#{$paddingH}));

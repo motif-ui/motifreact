@@ -1,3 +1,5 @@
+@use "@styles" as *;
+
 .Root.inFormField {
-  min-width: var(--base-sizing-190x);
+  @include retain-scoped-class;
 }
