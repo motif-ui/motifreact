@@ -1,7 +1,7 @@
 import "./globals.css";
 import "../lib/styles/themes/default-theme.css";
 import type { ReactNode } from "react";
-import { MotifProvider } from "../lib";
+import MotifProvider from "../lib/motif/context/MotifProvider";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
