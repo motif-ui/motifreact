@@ -6,13 +6,23 @@ import { NPM_LOGO_URL } from "../../src/utils/constants";
 
 const ExternalLinksToolbar = () => {
   return (
-    <div style={{ display: "flex", gap: "8px" }}>
-      <IconButton key="github" title="GitHub Repository" onClick={() => window.open("https://github.com/motif-ui/motifreact", "_blank")}>
-        <GithubIcon />
+    <div style={{ display: "flex", gap: 16 }}>
+      <IconButton
+        key="github"
+        title="GitHub Repository"
+        onClick={() => window.open("https://github.com/motif-ui/motifreact", "_blank")}
+        style={{ width: 40 }}
+      >
+        <GithubIcon width={18} height={18} />
       </IconButton>
 
-      <IconButton key="npm" title="NPM Package" onClick={() => window.open("https://www.npmjs.com/package/@motif-ui/react", "_blank")}>
-        <img src={NPM_LOGO_URL} width={14} alt="Npm Logo" />
+      <IconButton
+        key="npm"
+        title="NPM Package"
+        onClick={() => window.open("https://www.npmjs.com/package/@motif-ui/react", "_blank")}
+        style={{ width: 40 }}
+      >
+        <img src={NPM_LOGO_URL} width={18} height={18} alt="Npm Logo" />
       </IconButton>
     </div>
   );

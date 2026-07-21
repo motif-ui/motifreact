@@ -30,5 +30,5 @@ const Col = (props: PropsWithRefAndChildren<ColProps, HTMLDivElement>) => {
   );
 };
 
-Col.displayName = "Grid.Col";
+Col.displayName = "Col";
 export default Col;

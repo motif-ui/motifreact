@@ -1,24 +1,322 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <style>
-  .sb-bar > div > div:first-child {
-    flex: 1;
+  /* ------------------------------------------------------------------
+     Motif UI docs redesign — manager chrome layer.
+     Selectors target Storybook internals and are NOT stable API;
+     .storybook/__tests__/storybookInternals.contract.test.ts guards them.
+
+     Sidebar tree levels (.sidebar-level-1/-2, .nested-component[-child])
+     are computed in manager.tsx, not here — see the comment there for why.
+     ------------------------------------------------------------------ */
+  :root {
+    --mtfdocs-purple: #975a9d;
+    --mtfdocs-purple-strong: #7f4588;
+    --mtfdocs-purple-rgb: 151, 90, 157;
+    --mtfdocs-border: #e7e6ef;
+    --mtfdocs-border-strong: #e5e9f1;
+    --mtfdocs-white-rgb: 255, 255, 255;
+    --mtfdocs-ink-rgb: 15, 23, 42;
+    --mtfdocs-radius-sm: 14px;
+    --mtfdocs-radius-xs: 9px;
+    --mtfdocs-pill: 999px;
   }
-  .sb-bar button[aria-label*="Global theme for components"] {
-    margin-left: auto !important;
+
+  /* ---------------------------
+        Sidebar - Search Field
+    --------------------------- */
+  header.container.sidebar-container div[role="search"] {
+    align-items: center;
   }
+  .search-field {
+    box-shadow: none !important;
+    height: 44px !important;
+    border: 1px solid #d8d4e5 !important;
+    background: rgba(var(--mtfdocs-white-rgb), 0.92) !important;
+    padding: 0 8px !important;
+    outline: none !important;
+    gap: 6px !important;
+
+    &:has(input:focus) {
+      border-color: rgba(var(--mtfdocs-purple-rgb), 0.34) !important;
+      box-shadow: 0 0 0 4px rgba(var(--mtfdocs-purple-rgb), 0.08) !important;
+    }
+    input {
+      outline: none;
+      color: #23263b;
+      font-size: 16px;
+    }
+    /* Shortcut hint (⌘K) */
+    code {
+      padding: 3px 7px;
+      border-radius: 8px;
+      border: 1px solid var(--mtfdocs-border);
+      background: #f4f2f8;
+      color: #8a8fa8;
+      font-size: 12px;
+      font-weight: 600;
+      height: initial;
+    }
+  }
+
+  /* ---------------------------
+        Sidebar - Brand Block
+    --------------------------- */
   .sidebar-header {
     padding: 0 8px !important;
+
+    > div {
+      margin: 0;
+    }
+    a[href] {
+      margin: 0;
+      justify-content: center;
+    }
+    button[aria-label="Settings"] {
+      display: none !important;
+    }
   }
-  .sidebar-header > div {
-    margin: 0;
+
+  /* ---------------------------
+        Sidebar - Surface
+    --------------------------- */
+  @media (min-width: 600px) {
+    .sidebar-container {
+      background: linear-gradient(180deg, rgba(var(--mtfdocs-white-rgb), 0.92), rgba(251, 248, 255, 0.95)) !important;
+      backdrop-filter: blur(10px);
+      border-right: 1px solid var(--mtfdocs-border);
+    }
   }
-  .sidebar-header a[href] {
-    margin: 0;
-    justify-content: center;
+
+  /* ---------------------------
+        Sidebar - Nav Items
+    --------------------------- */
+  .sidebar-item {
+    min-height: 40px !important;
+    border-radius: 12px !important;
+    align-items: stretch !important;
+    cursor: pointer !important;
+    transition:
+      background-color 0.2s ease,
+      background 0.2s ease,
+      color 0.2s ease;
+    /* Default nav text size; root captions stay 12px via the rule below. */
+    font-size: 16px !important;
+
+    /* Context menus on the right */
+    > :not(:first-child) {
+      display: none !important;
+    }
+    svg {
+      transition: 0.2s ease;
+      color: var(--mtfdocs-purple-strong);
+    }
+    /* Item CTA */
+    button,
+    a {
+      all: unset;
+      display: flex;
+      gap: 10px;
+      padding: 0 12px;
+      align-items: center;
+      flex: 1;
+
+      /* Icons wrapper on the left side of Item */
+      > div:first-child {
+        margin-top: 0;
+      }
+    }
+    /* Item (hover) */
+    &:hover:not([data-selected="true"]) {
+      background: rgba(var(--mtfdocs-purple-rgb), 0.06) !important;
+      color: var(--mtfdocs-purple-strong) !important;
+    }
   }
-  .sidebar-header button[aria-label="Settings"] {
-    display: none !important;
+  /* Item (selected) */
+  .sidebar-item[data-selected="true"],
+  .sidebar-item[data-selected="true"] svg {
+    color: #ffffff !important;
+    background: var(--mtfdocs-purple) !important;
+    box-shadow: 0 10px 22px rgba(var(--mtfdocs-purple-rgb), 0.2) !important;
   }
-  .search-field button[aria-label="Tag filters"] {
-    display: none !important;
+
+  /* Tree levels: classes assigned in manager.tsx from data-nodetype / data-parent-id — see that file for the exact
+     predicate each mirrors. */
+
+  /* Root category captions (e.g. "Getting Started") */
+  .sidebar-item[data-nodetype="group"]:not([data-parent-id]) {
+    text-transform: uppercase;
+    margin-top: 8px;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #565f78 !important;
+    letter-spacing: 0.075rem;
+
+    div > div:has(svg) {
+      display: none;
+    }
+    &:has(button#components) {
+      color: var(--mtfdocs-purple-strong) !important;
+    }
+  }
+  /* Component / top-level doc rows */
+  .sidebar-item.sidebar-level-1 {
+    color: #454c64;
+    padding-left: 20px;
+    font-weight: 500 !important;
+    margin-top: 4px;
+  }
+  /* Story rows, a component's "Docs" row right before its "Primary" story,
+     and nested-component group headers (which also keep Level 1's text
+     styling above — Grid's "Row"/"Col" need both, hence two classes). */
+  .sidebar-item.sidebar-level-2 {
+    margin: 4px 0 0 56px !important;
+    padding-left: 0 !important;
+  }
+  /* A nested component's own Docs/Primary rows, one indent deeper still. */
+  .sidebar-item.nested-component-child {
+    margin: 4px 0 0 92px !important;
+  }
+
+  /* 'Run Tests' Container */
+  #storybook-testing-module {
+    border: solid 1px var(--mtfdocs-purple-strong);
+  }
+
+  /* ---------------------------
+               Navbar
+    --------------------------- */
+  .sb-bar {
+    min-height: 84px;
+    gap: 20px;
+    padding: 0 28px;
+    background: rgba(var(--mtfdocs-white-rgb), 0.88);
+    backdrop-filter: blur(12px);
+
+    > div {
+      gap: 16px;
+
+      > div {
+        gap: 16px;
+
+        &:first-child {
+          flex: 1;
+        }
+      }
+    }
+    button,
+    a {
+      border-radius: 12px !important;
+      font-size: 16px;
+      gap: 10px;
+      height: 40px !important;
+      padding: 0 14px;
+      font-weight: 700;
+      border: solid 1px rgba(var(--mtfdocs-purple-rgb), 0.28);
+      box-shadow: none !important;
+
+      &:hover {
+        background: rgba(var(--mtfdocs-purple-rgb), 0.14);
+      }
+    }
+    button[aria-label*="Global theme for components"] {
+      margin-left: auto !important;
+    }
+    /* Breadcrumb */
+    nav {
+      gap: 10px !important;
+      color: #7d849c !important;
+      font-size: 16px !important;
+    }
+  }
+
+  /* ---------------------------
+        Controls Addon Panel — Args Table
+    --------------------------- */
+
+  /* A standalone story's Controls panel renders the same ArgsTable block as
+     the component's Docs page, but into the manager's own top-level
+     document (under #storybook-panel-root), not into the preview iframe —
+     so preview-head.html's `.sbdocs.sbdocs-content .docblock-argstable`
+     rule never reaches it. This mirrors that rule's visual design
+     one-for-one; scoped to #storybook-panel-root instead of .sbdocs-content
+     since that ancestor doesn't exist here. */
+  #storybook-panel-root .docblock-argstable {
+    td,
+    th {
+      color: #3d465d;
+      padding: 16px !important;
+    }
+    td:not(:last-of-type) {
+      border-right: 1px solid var(--mtfdocs-border-strong);
+    }
+    th:first-of-type {
+      border-left: 1px solid var(--mtfdocs-border-strong);
+    }
+    .docblock-argstable-head {
+      min-height: 48px;
+
+      th {
+        border-top: 1px solid var(--mtfdocs-border-strong);
+        border-right: 1px solid var(--mtfdocs-border-strong);
+        padding-top: 11px;
+        padding-bottom: 11px;
+        font-size: 11px;
+        background: linear-gradient(180deg, #fbf8ff 0%, #f6f1fa 100%);
+        color: #6a728c;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+    }
+    .docblock-argstable-body {
+      filter: none;
+
+      /* inputs */
+      button {
+        background: none;
+        border-radius: var(--mtfdocs-radius-xs);
+        color: #343c52;
+        &:hover {
+          background: rgba(var(--mtfdocs-purple-rgb), 0.06) !important;
+          border-color: var(--mtfdocs-border-strong);
+        }
+      }
+      textarea,
+      select,
+      input[type="number"] {
+        border-radius: var(--mtfdocs-radius-xs);
+        border: 1px solid #d4dce9;
+        box-shadow: 0 1px 2px rgba(var(--mtfdocs-ink-rgb), 0.03);
+        resize: none;
+        background: none;
+        color: #343c52;
+        &:focus {
+          border-color: var(--mtfdocs-purple);
+          box-shadow: 0 0 0 3px rgba(var(--mtfdocs-purple-rgb), 0.1);
+        }
+      }
+      input[type="radio"] {
+        accent-color: var(--mtfdocs-purple);
+      }
+      label:has(input[type="checkbox"]) {
+        margin-bottom: 0;
+        padding: 4px;
+        border-radius: var(--mtfdocs-pill);
+      }
+      input[type="checkbox"] {
+        border: 1px solid #dfe5ef;
+        &:checked ~ span:last-of-type,
+        &:not(:checked) ~ span:first-of-type {
+          color: var(--mtfdocs-purple-strong);
+          box-shadow: 0 2px 7px rgba(var(--mtfdocs-ink-rgb), 0.08);
+        }
+        &:focus {
+          border-color: var(--mtfdocs-purple);
+          box-shadow: 0 0 0 3px rgba(var(--mtfdocs-purple-rgb), 0.1) !important;
+        }
+      }
+    }
   }
 </style>

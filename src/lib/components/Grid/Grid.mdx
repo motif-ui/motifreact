@@ -43,7 +43,6 @@ Most of the contents below 420px might still look good, but it isn't `<Grid>`'s 
 `<Grid>` itself is a pretty simple component which only accepts `<Grid.Row>` as children. In order to correctly place the
 content, it provides two additional components to help:
 
-<br />
 ### `<Grid.Row>`
 
 **Row** is the wrapper for those 12 columns mentioned above. It (literally) provides a row container which only
@@ -55,7 +54,7 @@ Alignment of the content can be set using `<Grid.Row>` in case all 12 columns ar
 <Grid.Row justifyCols="center">...</Grid.Row>
 ```
 
-<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC" } }}>
+<GridComponent style={{ background: "#FFFFFF", padding: 24, border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC" } }}>
   <Row justifyCols="center">
     <Col size={2}>My content</Col>
   </Row>
@@ -68,7 +67,7 @@ depending on their content. **colsAuto** is used for this.
 <Grid.Row colsAuto>...</Grid.Row>
 ```
 
-<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
+<GridComponent style={{ background: "#FFFFFF", padding: 24, border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
   <Row colsAuto>
     <Col>My short content</Col>
     <Col>My medium medium content</Col>
@@ -76,7 +75,6 @@ depending on their content. **colsAuto** is used for this.
   </Row>
 </GridComponent>
 
-<br />
 ### `<Grid.Col>`
 
 The most important component in the grid system is `<Grid.Col>`. This component is the container of the real content.
@@ -88,7 +86,7 @@ the content in terms of columns.
 <Grid.Col size={6}>Six column content</Grid.Col>
 ```
 
-<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
+<GridComponent style={{ background: "#FFFFFF", padding: 24, border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
   <Row>
     <Col size={3}>Three column content</Col>
     <Col size={6}>Six column content</Col>
@@ -113,7 +111,7 @@ In order to check this example, you may want resize you browser to change the wi
 <Grid.Col size={8} md={6} sm={12}>Your content</Grid.Col>
 ```
 
-<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
+<GridComponent style={{ background: "#FFFFFF", padding: 24, border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
   <Row>
     <Col size={4} md={6} sm={12}>My content</Col>
     <Col size={8} md={6} sm={12}>Your content</Col>
@@ -127,14 +125,13 @@ All size props are optional. `<Grid.Col>` fills the remaining space if no size p
 <Grid.Col>I am filling it!</Grid.Col>
 ```
 
-<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
+<GridComponent style={{ background: "#FFFFFF", padding: 24, border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 } }}>
   <Row>
     <Col size={4}>My content</Col>
     <Col>I am filling it!</Col>
   </Row>
 </GridComponent>
 
-<br />
 ### A Complete Example
 
 ```tsx
@@ -193,7 +190,7 @@ All size props are optional. `<Grid.Col>` fills the remaining space if no size p
 </Grid>
 ```
 
-<GridComponent style={{ background: "#FAFAFA", padding: 10 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 }, alignItems: "center" }}>
+<GridComponent style={{ background: "#FFFFFF", padding: 24, border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 }, alignItems: "center" }}>
   <Row>
     <Col sm={6} lg={8}>small-6 large-8</Col>
     <Col lg={4} size={6}><div>large-4 size-6</div></Col>

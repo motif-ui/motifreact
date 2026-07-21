@@ -12,9 +12,12 @@
 }
 
 .icon {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   object-fit: contain;
+  border-radius: 999px;
+  background-color: #f6f7fb;
+  padding: 10px;
 }
 
 .name {
@@ -22,12 +25,11 @@
 }
 
 .version {
-  font-size: 1.3rem !important;
   font-weight: 700 !important;
-  color: #0177ec !important;
+  color: #0083cb !important;
 }
 
 .coverage {
-  font-size: 0.85rem !important;
+  font-size: 12px !important;
   color: #00000099 !important;
 }

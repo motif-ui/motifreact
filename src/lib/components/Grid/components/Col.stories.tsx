@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import Grid from "@/components/Grid/Grid";
 
 const meta: Meta<typeof Grid.Col> = {
-  title: "Components/Grid/Col",
+  title: "Components/Grid/Grid.Col",
   component: Grid.Col,
   argTypes: {},
   args: {

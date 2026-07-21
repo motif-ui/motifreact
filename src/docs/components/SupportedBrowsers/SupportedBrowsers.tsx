@@ -57,8 +57,8 @@ const SupportedBrowsers = () => {
 
   return (
     <div className={styles.container}>
-      <BrowserList browserType="🖥️ Desktop" browsers={groupedBrowsers.desktop} />
-      <BrowserList browserType="📱 Mobile" browsers={groupedBrowsers.mobile} />
+      <BrowserList browserType="🖥️ DESKTOP" browsers={groupedBrowsers.desktop} />
+      <BrowserList browserType="📱 MOBILE" browsers={groupedBrowsers.mobile} />
     </div>
   );
 };
