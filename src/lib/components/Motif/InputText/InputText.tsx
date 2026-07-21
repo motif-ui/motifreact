@@ -8,6 +8,7 @@ import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIconButton } from "@/components/Motif/Icon";
 import { InternalInputProps } from "@/components/Motif/InputText/types";
 import NumberSpinner from "@/components/Motif/InputText/components/NumberSpinner.tsx";
+import { applyTextTransform } from "@/components/Motif/InputText/helper.ts";
 
 const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const {
@@ -40,6 +41,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     onClearClick,
     onValueUpdated,
     valueTransformer,
+    textTransform,
     ref,
     imperativeRef,
     className,
@@ -63,8 +65,9 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   const changeProcess = useCallback(
     (val: string, updateInputRefValue?: boolean) => {
+      const transformedVal = textTransform ? applyTextTransform(val, textTransform) : val;
       if (valueTransformer) {
-        const processed = valueTransformer(val);
+        const processed = valueTransformer(transformedVal);
         if (processed === undefined) {
           // Transformer rejected the value — restore the DOM to the current valid state and don't trigger anything
           if (inputRef.current) inputRef.current.value = itemValue;
@@ -77,13 +80,13 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         if (inputRef.current) inputRef.current.value = processed;
         return;
       }
-      !uncontrolled && setItemValue(val);
-      onChange?.(val);
-      if (updateInputRefValue && inputRef.current) {
-        inputRef.current.value = val;
+      !uncontrolled && setItemValue(transformedVal);
+      onChange?.(transformedVal);
+      if ((updateInputRefValue || textTransform) && inputRef.current) {
+        inputRef.current.value = transformedVal;
       }
     },
-    [onChange, setItemValue, uncontrolled, valueTransformer, itemValue],
+    [onChange, setItemValue, uncontrolled, valueTransformer, itemValue, textTransform],
   );
 
   const changeHandler = useCallback(

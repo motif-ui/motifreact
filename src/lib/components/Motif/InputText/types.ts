@@ -40,6 +40,7 @@ export type InternalInputProps = {
   inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
   clearable?: boolean;
   imperativeRef?: RefObject<InternalInputHandle | null>;
+  textTransform?: "uppercase" | "lowercase" | "capitalize";
 };
 
 export type InternalInputHandle = { valueStateSetter: Dispatch<SetStateAction<string>> };
