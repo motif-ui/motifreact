@@ -13,7 +13,11 @@ const FilterColumnsRow = () => {
       {showFixedRowNumbers && <th />}
       {getRenderableHeaderColumns(columns).map(({ column, index, colSpan }) => {
         const key = "0-filter" + index;
-        return column.filter ? <FilterCell index={index} key={key} colSpan={colSpan} /> : <th key={key} {...getSpanProps(colSpan)} />;
+        return column.filter ? (
+          <FilterCell index={index} key={key} colSpan={colSpan} placeholder={column.filterPlaceholder} />
+        ) : (
+          <th key={key} {...getSpanProps(colSpan)} />
+        );
       })}
     </tr>
   );

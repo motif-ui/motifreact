@@ -39,6 +39,7 @@ export type TableDefaultableProps = {
   showFixedRowNumbers?: boolean;
   emptyMessage?: ReactNode;
   filterableTable?: boolean;
+  filterPlaceholder?: string;
   hideTotalRecords?: boolean;
   distributeColsEvenly?: boolean;
   fluid?: boolean;
@@ -52,6 +53,7 @@ export type Column = {
   footer?: Footer;
   width?: string;
   filter?: boolean;
+  filterPlaceholder?: string;
   colSpan?: number | ((rowData: object) => number);
   rowSpan?: number | ((rowData: object) => number);
 };
@@ -88,6 +90,7 @@ export type TableContextProps = {
   selectionKey?: string;
   onSelect?: (selection: { all: object[]; current?: object }) => void;
   filterableTable?: boolean;
+  filterPlaceholder?: string;
   reflectDataChanges?: boolean;
   rowColorCallback?: (rowData: object) => RowColor | undefined;
 };
@@ -108,6 +111,7 @@ export type TableContextType = {
   selectable?: boolean;
   selectHandler?: (selection: { row?: RowDetail; all?: "select" | "deselect" }) => void;
   filterableTable?: boolean;
+  filterPlaceholder?: string;
   filterableColumns?: boolean;
   updateFilterState: (query: string, columnIndex?: number) => void;
   setMainFilterQuery: (query: string) => void;

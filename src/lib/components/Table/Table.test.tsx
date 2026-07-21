@@ -13,7 +13,8 @@ describe("Table", () => {
     const result = render(ui);
     const { getByTestId, getAllByTestId, queryByTestId, getByRole, container } = result;
     const getTableContainer = () => getByRole("table").parentElement as HTMLDivElement;
-    const getFilterableTableInput = () => getByTestId("inputItem").querySelector("input") as HTMLInputElement;
+    const getFilterableTableInput = () =>
+      (getByTestId("TableHead").firstElementChild as HTMLTableRowElement).querySelector("input") as HTMLInputElement;
     const getCheckboxes = () => getAllByTestId("checkbox") as HTMLDivElement[];
     const getSelectAllCheckbox = () => getCheckboxes()[0].firstElementChild as HTMLInputElement;
     const getPaginationBar = () => queryByTestId("pagination") as HTMLDivElement;
@@ -23,6 +24,8 @@ describe("Table", () => {
     const getCountText = () => getByTestId("FooterForNumbers").firstElementChild as HTMLDivElement;
     const getHeaderCells = () => within(getByTestId("TableHead").firstElementChild as HTMLTableRowElement).getAllByRole("columnheader");
     const getFilterCells = () => (getByTestId("TableHead").lastElementChild as HTMLTableRowElement).querySelectorAll("th");
+    const getColumnFilterInputs = () =>
+      Array.from((getByTestId("TableHead").lastElementChild as HTMLTableRowElement).querySelectorAll("input"));
     const getBodyCells = () => within(getFirstRow()).getAllByRole("cell");
     const getFooterCells = () => within(getByTestId("TableFooter").firstElementChild as HTMLTableRowElement).getAllByRole("columnheader");
 
@@ -39,6 +42,7 @@ describe("Table", () => {
       getTableContainer,
       getHeaderCells,
       getFilterCells,
+      getColumnFilterInputs,
       getBodyCells,
       getFooterCells,
     };
@@ -298,7 +302,7 @@ describe("Table", () => {
   });
 
   it("should render fixed row numbers in the first column before the data, with the header of '#', regardless of the data, sorting or filtering when showFixedRowNumbers is true", async () => {
-    const { getFirstRow, getSortButton, getByTestId, getFilterableTableInput } = renderExt(
+    const { getFirstRow, getSortButton, getByTestId, getColumnFilterInputs } = renderExt(
       <Table columns={[{ title: "Test Title", dataKey: "testData", sorting: {}, filter: true }]} data={data} showFixedRowNumbers />,
     );
     expect(within(getByTestId("TableHead").firstElementChild as HTMLDivElement).getByText("#")).toBeInTheDocument();
@@ -309,7 +313,7 @@ describe("Table", () => {
     expect(within(getFirstRow()).getByText("1")).toBeInTheDocument();
     expect(within(getFirstRow()).getByText("A Test")).toBeInTheDocument();
 
-    await userEvent.type(getFilterableTableInput(), "Z");
+    await userEvent.type(getColumnFilterInputs()[0], "Z");
     expect(within(getFirstRow()).getByText("1")).toBeInTheDocument();
     expect(within(getFirstRow()).getByText("Z Test")).toBeInTheDocument();
   });
@@ -320,7 +324,7 @@ describe("Table", () => {
       { title: "Test Title", dataKey: "testData", sorting: {}, filter: true },
     ];
 
-    const { getFirstRow, getSortButton, getByTestId, getFilterableTableInput } = renderExt(
+    const { getFirstRow, getSortButton, getByTestId, getColumnFilterInputs } = renderExt(
       <Table columns={columnsForDataRowNumber} data={data} />,
     );
     expect(within(getByTestId("TableHead").firstElementChild as HTMLDivElement).getByText("Seq")).toBeInTheDocument();
@@ -331,7 +335,7 @@ describe("Table", () => {
     expect(within(getFirstRow()).getByText("2")).toBeInTheDocument();
     expect(within(getFirstRow()).getByText("A Test")).toBeInTheDocument();
 
-    await userEvent.type(getFilterableTableInput(), "Z");
+    await userEvent.type(getColumnFilterInputs()[0], "Z");
     expect(within(getFirstRow()).getByText("3")).toBeInTheDocument();
     expect(within(getFirstRow()).getByText("Z Test")).toBeInTheDocument();
   });
@@ -1006,5 +1010,48 @@ describe("Table", () => {
     expect(footerCells).toHaveLength(2);
     expect(footerCells[0]).toHaveAttribute("colspan", "2");
     expect(footerCells[1]).toHaveTextContent("100");
+  });
+
+  it("should show locale default as placeholder in the global search input when filterPlaceholder prop is not given", () => {
+    const { getFilterableTableInput } = renderExt(<Table columns={cols} data={data} filterableTable />);
+    const filterInput = getFilterableTableInput();
+    expect(filterInput).toHaveAttribute("placeholder", t("g.search"));
+  });
+
+  it("should show the custom filterPlaceholder prop value in the global search input", () => {
+    const customPlaceholder = "Tabloda ara...";
+    const { getFilterableTableInput } = renderExt(
+      <Table columns={cols} data={data} filterableTable filterPlaceholder={customPlaceholder} />,
+    );
+    const filterInput = getFilterableTableInput();
+    expect(filterInput).toHaveAttribute("placeholder", customPlaceholder);
+  });
+
+  it("should show the filterPlaceholder defined on the column in the corresponding column filter input", () => {
+    const colsWithFilter = [
+      { title: "Name", dataKey: "name", filter: true, filterPlaceholder: "İsme göre ara..." },
+      { title: "SurName", dataKey: "surname", filter: true, filterPlaceholder: "Soyada göre ara..." },
+    ];
+    const { getColumnFilterInputs } = renderExt(<Table columns={colsWithFilter} data={data} />);
+    expect(getColumnFilterInputs()[0]).toHaveAttribute("placeholder", "İsme göre ara...");
+    expect(getColumnFilterInputs()[1]).toHaveAttribute("placeholder", "Soyada göre ara...");
+  });
+
+  it("should not set a placeholder on the column filter input when filterPlaceholder is not defined on the column", () => {
+    const colsWithFilter = [{ title: "Name", dataKey: "name", filter: true }];
+    const { getColumnFilterInputs } = renderExt(<Table columns={colsWithFilter} data={data} />);
+    expect(getColumnFilterInputs()[0]).not.toHaveAttribute("placeholder");
+  });
+
+  it("should use filterPlaceholder on global search and column filterPlaceholders simultaneously without conflict", () => {
+    const colsWithFilter = [{ title: "Name", dataKey: "name", filter: true, filterPlaceholder: "İsme göre ara..." }];
+    const customPlaceholder = "Tabloda ara...";
+
+    const { getFilterableTableInput, getColumnFilterInputs } = renderExt(
+      <Table columns={colsWithFilter} data={data} filterableTable filterPlaceholder={customPlaceholder} />,
+    );
+    const filterInput = getFilterableTableInput();
+    expect(filterInput).toHaveAttribute("placeholder", customPlaceholder);
+    expect(getColumnFilterInputs()[0]).toHaveAttribute("placeholder", "İsme göre ara...");
   });
 });
