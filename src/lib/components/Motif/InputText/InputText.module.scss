@@ -18,7 +18,7 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
   }
 
   input {
-    flex: 1;
+    display: block;
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -113,7 +113,9 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
 
 .clearButton {
   position: absolute;
+  top: 50%;
   right: 0;
+  transform: translateY(-50%);
 }
 
 .loader {
