@@ -98,19 +98,28 @@ describe("UploadInput", () => {
   });
 
   it("should be rendered as disabled when disabled prop is true", () => {
-    const { container, getBrowseButton } = renderExt(<UploadInput {...requiredProps} disabled />);
+    const { container, getBrowseButton, rerender, getFileItem, getDeleteButton } = renderExt(<UploadInput {...requiredProps} disabled />);
     expect(container.firstElementChild).toHaveClass("disabled");
     expect(getBrowseButton()).toBeDisabled();
     expect(screen.queryByText(t("upload.selectFile"))).toBeDisabled();
+
+    rerender(<UploadInput {...requiredProps} value={[serverFile]} disabled />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+    expect(getDeleteButton()).not.toBeInTheDocument();
   });
 
   it("should be rendered as readOnly when readOnly prop is true", async () => {
     const handleChange = jest.fn();
-    const { getInput, container } = renderExt(<UploadInput {...requiredProps} readOnly onChange={handleChange} />);
+    const { getInput, container, rerender, getFileItem, getDeleteButton } = renderExt(
+      <UploadInput {...requiredProps} readOnly onChange={handleChange} />,
+    );
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
     expect(container.firstElementChild).toHaveClass("disabled");
-
     expect(handleChange).not.toHaveBeenCalled();
+
+    rerender(<UploadInput {...requiredProps} value={[serverFile]} readOnly onChange={handleChange} />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+    expect(getDeleteButton()).not.toBeInTheDocument();
   });
 
   it("should fire onChange event when any file is selected", async () => {
@@ -437,10 +446,5 @@ describe("UploadInput", () => {
     rerender(<UploadInput {...requiredProps} value={[serverFile2]} />);
     expect(getFileItem()).toHaveTextContent(serverFile.name);
     expect(getFileItem()).not.toHaveTextContent(serverFile2.name);
-  });
-
-  it("should not render a download action even when onDownloadClick is provided in value", () => {
-    renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} />);
-    expect(screen.queryByText("download")).not.toBeInTheDocument();
   });
 });

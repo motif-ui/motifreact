@@ -472,7 +472,7 @@ describe("UploadList", () => {
     expect(getFileList()?.childNodes).toHaveLength(1);
   });
 
-  it("should show both the value file and a newly added file together and upload only the new one", async () => {
+  it("should upload only the new file when value prop is not undefined and a new file is browsed and added", async () => {
     const { getInput, getFileList, getFileItemFirst, getFileItemLast } = renderExt(
       <UploadList {...requiredProps} value={[serverFile]} maxFile={2} />,
     );
@@ -481,6 +481,9 @@ describe("UploadList", () => {
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
     expect(getFileList()?.childNodes).toHaveLength(2);
     await waitForSuccessfulUpload(getFileItemLast());
+
+    expect(getFileItemLast()).toHaveTextContent(MOCK.filePdf1kb.name);
+    expect(getFileItemLast()).toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
 
     expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
     expect(getFileItemFirst()).toHaveTextContent(formatBytes(serverFile.size));

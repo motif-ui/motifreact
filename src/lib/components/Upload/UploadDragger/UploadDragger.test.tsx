@@ -425,7 +425,7 @@ describe("UploadDragger", () => {
     expect(getFileList()?.childNodes).toHaveLength(1);
   });
 
-  it("should show both the value file and a newly dropped file together and upload only the new one", async () => {
+  it("should upload only the new file when value prop is not undefined and a new file is browsed and added", async () => {
     const { getDragArea, getFileList, getFileItemFirst, getFileItemLast } = renderExt(
       <UploadDragger {...requiredProps} value={[serverFile]} maxFile={2} />,
     );
@@ -435,12 +435,15 @@ describe("UploadDragger", () => {
     expect(getFileList()?.childNodes).toHaveLength(2);
     await waitForSuccessfulUpload(getFileItemLast());
 
+    expect(getFileItemLast()).toHaveTextContent(MOCK.filePdf1kb.name);
+    expect(getFileItemLast()).toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
+
     expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
     expect(getFileItemFirst()).toHaveTextContent(formatBytes(serverFile.size));
     expect(getFileItemFirst()).not.toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
   });
 
-  it("should remove the disabled state of the drag area when the value file filling the maxFile limit is deleted", async () => {
+  it("should re-enable the drag area after deleting the value file that was filling the maxFile limit", async () => {
     const { getDragArea, getDeleteButton, getFileList } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} maxFile={1} />);
     expect(getDragArea()).toHaveClass("disabled");
 
@@ -451,7 +454,6 @@ describe("UploadDragger", () => {
     });
   });
 
-  //value stays consistent ?
   it("should not reflect value prop changes after mount", () => {
     const { rerender, getFileList } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} maxFile={2} />);
     expect(getFileList()?.childNodes).toHaveLength(1);
