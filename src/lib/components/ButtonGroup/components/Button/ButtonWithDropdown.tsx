@@ -16,7 +16,6 @@ const ButtonWithDropdown = (props: PropsWithChildren<ButtonGroupItemProps>) => {
         label={label}
         icon={icon}
         disabled={disabled}
-        dropdownIcon
         open={open}
         action={e => {
           action?.(e);

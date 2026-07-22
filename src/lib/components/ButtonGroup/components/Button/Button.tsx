@@ -2,20 +2,20 @@ import styles from "../../ButtonGroup.module.scss";
 import Icon from "@/components/Icon";
 import { memo } from "react";
 import { ButtonGroupItemProps } from "@/components/ButtonGroup/components/ButtonGroupItem/ButtonGroupItem";
+import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
 
 type Props = ButtonGroupItemProps & {
-  type: "single" | "multiple" | "dropdown";
-  dropdownIcon?: boolean;
+  type: "single" | "dropdown";
   open?: boolean;
 };
 
 const Button = memo((props: Props) => {
-  const { label, disabled, action, icon, type, dropdownIcon, open } = props;
+  const { label, disabled, action, icon, type, open } = props;
 
   return (
     <button className={`${styles.button} ${styles[`button__${type}`]}`} type="button" disabled={disabled} onClick={action}>
       {icon && <Icon name={icon} className={styles.icon} />} {label}
-      {dropdownIcon && <Icon name="keyboard_arrow_down" className={`${styles.dropdownIcon} ${open ? styles.open : ""}`} />}
+      {type === "dropdown" && <Icon name="keyboard_arrow_down" className={sanitizeModuleClasses(styles, "dropdownIcon", open && "open")} />}
     </button>
   );
 });
