@@ -454,13 +454,13 @@ describe("UploadDragger", () => {
     });
   });
 
-  it("should not reflect value prop changes after mount", () => {
+  it("should reflect value prop changes after mount", () => {
     const { rerender, getFileList } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} maxFile={2} />);
     expect(getFileList()?.childNodes).toHaveLength(1);
 
     rerender(<UploadDragger {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
-    expect(getFileList()?.childNodes).toHaveLength(1);
+    expect(getFileList()?.childNodes).toHaveLength(2);
     expect(getFileList()).toHaveTextContent(serverFile.name);
-    expect(getFileList()).not.toHaveTextContent(serverFile2.name);
+    expect(getFileList()).toHaveTextContent(serverFile2.name);
   });
 });

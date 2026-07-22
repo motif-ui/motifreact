@@ -439,12 +439,12 @@ describe("UploadInput", () => {
     xhrSpy.mockRestore();
   });
 
-  it("should not reflect value prop changes after mount", () => {
+  it("should reflect value prop changes after mount", () => {
     const { rerender, getFileItem } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
     expect(getFileItem()).toHaveTextContent(serverFile.name);
 
     rerender(<UploadInput {...requiredProps} value={[serverFile2]} />);
-    expect(getFileItem()).toHaveTextContent(serverFile.name);
-    expect(getFileItem()).not.toHaveTextContent(serverFile2.name);
+    expect(getFileItem()).toHaveTextContent(serverFile2.name);
+    expect(getFileItem()).not.toHaveTextContent(serverFile.name);
   });
 });

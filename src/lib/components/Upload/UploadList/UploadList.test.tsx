@@ -431,6 +431,18 @@ describe("UploadList", () => {
     xhrSpy.mockRestore();
   });
 
+  it("should preserve a value file's delete-error state when the value prop changes", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { rerender, getFileList, getDeleteButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} maxFile={2} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument());
+
+    rerender(<UploadList {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument();
+    xhrSpy.mockRestore();
+  });
+
   it("should render the download button when onDownloadClick is provided in value", () => {
     const { unmount, getDownloadButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
     expect(getDownloadButton()).not.toBeInTheDocument();
@@ -501,13 +513,13 @@ describe("UploadList", () => {
     });
   });
 
-  it("should not reflect value prop changes after mount", () => {
+  it("should reflect value prop changes after mount", () => {
     const { rerender, getFileList } = renderExt(<UploadList {...requiredProps} value={[serverFile]} maxFile={2} />);
     expect(getFileList()?.childNodes).toHaveLength(1);
 
     rerender(<UploadList {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
-    expect(getFileList()?.childNodes).toHaveLength(1);
+    expect(getFileList()?.childNodes).toHaveLength(2);
     expect(getFileList()).toHaveTextContent(serverFile.name);
-    expect(getFileList()).not.toHaveTextContent(serverFile2.name);
+    expect(getFileList()).toHaveTextContent(serverFile2.name);
   });
 });
