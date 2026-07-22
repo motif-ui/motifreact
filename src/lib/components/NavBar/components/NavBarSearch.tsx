@@ -52,7 +52,10 @@ const NavBarSearch = (props: NavBarSearchProps) => {
         clearable
         placeholder={placeholder}
         onChange={val => setSearchQuery(val as string)}
-        onClearClick={() => setSearchQuery("")}
+        onClearClick={() => {
+          setSearchQuery("");
+          setMaybeShowResults(false);
+        }}
         onClick={results.length && !maybeShowResults ? () => setMaybeShowResults(true) : undefined}
         ref={ref}
         buttonRight={{
