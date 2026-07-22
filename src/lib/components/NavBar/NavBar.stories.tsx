@@ -23,7 +23,6 @@ const argValues: NavBarProps = {
     onButtonClick: () => alert("Check 'NavBar/Search' menu on the left for more detail!"),
     onPressEnter: () => alert("Check 'NavBar/Search' menu on the left for more detail!"),
     results: [],
-    clearable: true,
   },
   actionMenu: {
     items: [{ label: "User", icon: "person", items: [{ label: "Profile" }, { label: "Logout", icon: "close" }] }],
@@ -115,7 +114,6 @@ return (
       onResultClick: result => alert("Clicked: " + result),
       results,
       searching,
-      clearable: true,
     }}
   />
 );
@@ -147,7 +145,6 @@ return (
             onResultClick: result => alert("Clicked: " + result),
             results,
             searching,
-            clearable: true,
           }}
         />
       );

@@ -153,14 +153,8 @@ describe("NavBar", () => {
     expect(queryByText("Result 1")).toBeInTheDocument();
   });
 
-  it("should not render a clear button in the search input when clearable is not set in the search prop", async () => {
+  it("should render a clear button in the search input only after text has been typed", async () => {
     const { getByRole, queryByText } = render(<NavBar search={{}} />);
-    await userEvent.type(getByRole("textbox"), "test query");
-    expect(queryByText("cancel_outline")).not.toBeInTheDocument();
-  });
-
-  it("should render a clear button in the search input when clearable is true in the search prop and text has been typed", async () => {
-    const { getByRole, queryByText } = render(<NavBar search={{ clearable: true }} />);
     const searchInput = getByRole("textbox") as HTMLInputElement;
     expect(queryByText("cancel_outline")).not.toBeInTheDocument();
     await userEvent.type(searchInput, "test query");
@@ -168,7 +162,7 @@ describe("NavBar", () => {
   });
 
   it("should clear the search input and close the results dropdown when the clear button is clicked", async () => {
-    const { getByRole, getByText, queryByText } = render(<NavBar search={{ clearable: true, results: [{ text: "Result 1" }] }} />);
+    const { getByRole, getByText, queryByText } = render(<NavBar search={{ results: [{ text: "Result 1" }] }} />);
     const searchInput = getByRole("textbox") as HTMLInputElement;
     await userEvent.type(searchInput, "test query");
     expect(queryByText("Result 1")).toBeInTheDocument();
