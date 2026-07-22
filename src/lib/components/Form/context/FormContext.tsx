@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, PropsWithChildren, useCallback, useContext, useRef } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef } from "react";
 import {
   FormContextType,
   FormFieldInfo,
@@ -18,13 +18,14 @@ export const useForm = () => useContext(FormContext);
 
 export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
   const { t } = useMotifContext();
-  const { formOrientation, labelOrientation, size, children, validateOnChange, preview } = props;
+  const { formOrientation, labelOrientation, size, children, validateOnChange, preview, externalErrors } = props;
   const formStateRef = useRef<FormStateRefProps>({
     fields: {},
     values: {},
     validationRules: {},
     isValid: true,
     pendingInitFields: new Set(),
+    externalErrors: externalErrors || {},
   });
 
   /**
@@ -209,7 +210,12 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
 
   /**
    * This callback is used in the inputs the lift the value state up to the form by updating the form state. It also
-   * removes the error state of the input if it has any
+   * removes the error state of the input if it has any.
+   *
+   * Some inputs (e.g. Checkbox) echo their initial value on mount via their own effect. That echo always carries the
+   * same value already captured at registration, so it's identified by comparing against the field's previous value
+   * rather than by a time window - that way an actual value change landing early (e.g. browser autofill firing right
+   * after mount) still correctly clears a seeded error, instead of being mistaken for the echo.
    *
    * @param {string} name - name of the input
    * @param {string} groupName - name of the group if the input is in a group
@@ -218,14 +224,25 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
   const notifyFormForFieldValueChange = useCallback(
     (name: string, groupName: string | undefined, value?: InputValue) => {
       const nameToUpdate = groupName ?? name;
-      formStateRef.current.values[nameToUpdate] = groupName
-        ? { ...(formStateRef.current.values[nameToUpdate] as object), [name]: value }
-        : value;
+      const prevValue = formStateRef.current.values[nameToUpdate];
+      const prevGroupValue = groupName ? (prevValue as Record<string, InputValue> | undefined) : undefined;
+      const isGenuineChange = groupName ? prevGroupValue?.[name] !== value : prevValue !== value;
       const field = formStateRef.current.fields[nameToUpdate];
-      if (field) {
-        field.errorSetter?.(undefined);
-        field.hasInternalError = undefined;
 
+      formStateRef.current = {
+        ...formStateRef.current,
+        values: {
+          ...formStateRef.current.values,
+          [nameToUpdate]: groupName ? { ...prevGroupValue, [name]: value } : value,
+        },
+        fields: {
+          ...formStateRef.current.fields,
+          ...(field && isGenuineChange && { [nameToUpdate]: { ...field, hasInternalError: undefined } }),
+        },
+      };
+
+      if (field) {
+        isGenuineChange && field.errorSetter?.(undefined);
         validateOnChange && !formStateRef.current.pendingInitFields.has(nameToUpdate) && _validateField(nameToUpdate);
       }
     },
@@ -241,6 +258,27 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
   const clearFieldFromPendingInit = useCallback((name: string) => {
     formStateRef.current.pendingInitFields.delete(name);
   }, []);
+
+  /**
+   * Reads a field/group's externally-supplied error synchronously, for seeding a field's error state on its very
+   * first render (avoids a flash of "no error" before an effect can push the value in after the initial paint).
+   * Disabled fields never seed an error, same as the errors-sync effect skips them once registered.
+   *
+   * `disabled` must be passed in by the caller (FormField/FormFieldGroup) - registration hasn't happened yet at the
+   * point this runs, so formStateRef doesn't know the field's disabled state until after this call.
+   *
+   * Note: a field that unmounts after dismissing its error (by being edited or reset) and later remounts with the
+   * same name will show the error again if `errors` still has it - dismissal isn't remembered across a remount.
+   * That's an accepted trade-off in exchange for not tracking a separate "dismissed" set alongside `externalErrors`.
+   *
+   * @param {string} name - field or group name
+   * @param {boolean} disabled - the field's current disabled state
+   * @returns {string | undefined} the error to seed, if any
+   */
+  const getInitialExternalError = useCallback(
+    (name: string, disabled?: boolean) => (disabled ? undefined : formStateRef.current.externalErrors[name]),
+    [],
+  );
 
   /**
    * This callback is used to lift the error state of inputs up to the form by updating the form state
@@ -276,27 +314,41 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
         }
 
         if (field.groupInputs) {
-          // Handle grouped inputs
-          const groupValues = Object.entries(field.groupInputs).reduce(
+          // Handle grouped inputs. hasClearableItem tracks, in the same pass, whether at least one item's
+          // value is actually reset - the group's displayed error should only clear when that's the case.
+          const { values: groupValues, hasClearableItem } = Object.entries(field.groupInputs).reduce(
             (groupAcc, [groupItemName, groupItem]) => {
               if (!groupItem) return groupAcc;
               // Execute clearValueCallback for group items if available
               !groupItem.nonClearable && groupItem.clearValueCallback && clearCallbackToFire.push(groupItem.clearValueCallback);
 
               return {
-                ...groupAcc,
-                [groupItemName]: groupItem.nonClearable
-                  ? (formStateRef.current.values[name] as Record<string, InputValue> | undefined)?.[groupItemName]
-                  : groupItem.defaultValue,
+                values: {
+                  ...groupAcc.values,
+                  [groupItemName]: groupItem.nonClearable
+                    ? (formStateRef.current.values[name] as Record<string, InputValue> | undefined)?.[groupItemName]
+                    : groupItem.defaultValue,
+                },
+                hasClearableItem: groupAcc.hasClearableItem || !groupItem.nonClearable,
               };
             },
-            {} as Record<string, InputValue>,
+            { values: {}, hasClearableItem: false } as { values: Record<string, InputValue>; hasClearableItem: boolean },
           );
+
+          if (hasClearableItem) {
+            field.errorSetter?.(undefined);
+            field.hasInternalError = undefined;
+          }
 
           return { ...acc, [name]: groupValues };
         }
 
         // Handle regular fields
+        if (!field.nonClearable) {
+          field.errorSetter?.(undefined);
+          field.hasInternalError = undefined;
+        }
+
         return {
           ...acc,
           [name]: field.nonClearable ? formStateRef.current.values[name] : field.defaultValue,
@@ -307,6 +359,26 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
 
     clearCallbackToFire.forEach(cb => cb());
   }, []);
+
+  /**
+   * Syncs `externalErrors` prop into the fields.
+   * Disabled fields are skipped, same as `_validateField` never sets an error on a disabled field.
+   * A field with an active internal error (e.g. Upload components) keeps it on screen instead of being overridden
+   */
+  useEffect(() => {
+    const nextErrors = externalErrors || {};
+    const prevErrors = formStateRef.current.externalErrors;
+    const allNames = new Set([...Object.keys(prevErrors), ...Object.keys(nextErrors)]);
+
+    allNames.forEach(name => {
+      const field = formStateRef.current.fields[name];
+      if (prevErrors[name] !== nextErrors[name] && !field?.disabled && !field?.hasInternalError) {
+        field?.errorSetter?.(nextErrors[name] || undefined);
+      }
+    });
+
+    formStateRef.current.externalErrors = nextErrors;
+  }, [externalErrors]);
 
   return (
     <FormContext
@@ -323,6 +395,7 @@ export const FormProvider = (props: PropsWithChildren<FormProviderProps>) => {
         unregisterGroupFieldItem,
         resetValues,
         clearFieldFromPendingInit,
+        getInitialExternalError,
         preview,
       }}
     >

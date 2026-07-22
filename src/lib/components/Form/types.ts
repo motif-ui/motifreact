@@ -9,6 +9,7 @@ export type FormProps<T> = {
   alternateButtons?: ReactElement<ButtonProps>[];
   title?: string;
   preview?: boolean;
+  externalErrors?: Partial<Record<keyof T, string>>;
 } & FormDefaultableProps;
 
 export type FormDefaultableProps = {
@@ -19,7 +20,7 @@ export type FormDefaultableProps = {
   buttonPosition?: "left" | "center" | "right";
   enableClearButton?: boolean;
   clearButtonLabel?: string;
-  dontClearOnSubmit?: boolean;
+  resetIfValidatedOnSubmit?: boolean;
   validateOnChange?: boolean;
 };
 
@@ -86,6 +87,7 @@ export type FormProviderProps = {
   labelOrientation: Orientation;
   validateOnChange?: boolean;
   preview?: boolean;
+  externalErrors?: Partial<Record<string, string>>;
 };
 
 // Type of the form state reference
@@ -95,6 +97,7 @@ export type FormStateRefProps = {
   validationRules: { [name: string]: InputValidation[] | undefined };
   isValid: boolean;
   pendingInitFields: Set<string>;
+  externalErrors: Partial<Record<string, string>>;
 };
 
 // Props that are provided to the fields via FieldContext
@@ -111,6 +114,7 @@ export type FormContextType<T> = {
   validate: () => FormSubmitData<T>;
   resetValues: () => void;
   clearFieldFromPendingInit: (name: string) => void;
+  getInitialExternalError: (name: string, disabled?: boolean) => string | undefined;
   preview?: boolean;
 };
 
