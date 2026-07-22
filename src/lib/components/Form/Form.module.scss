@@ -37,8 +37,6 @@ $sizes: (
   }
 
   .submitArea {
-    margin-top: var(--base-sizing-10x);
-
     &.submitArea_align_left {
       justify-content: flex-start;
     }
