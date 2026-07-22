@@ -14,7 +14,6 @@ $sizes: (("xs", "4x", "8x", "xs"), ("sm", "6x", "12x", "sm"), ("md", "8x", "16x"
     @include transition(border-color);
     width: 100%;
     display: inline-flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
