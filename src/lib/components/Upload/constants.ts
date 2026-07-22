@@ -1,5 +1,7 @@
 import { LocaleKey } from "../../../i18n/types";
 
+export const DEFAULT_UPLOAD_STALL_TIMEOUT_MS = 20_000;
+
 export const STATUS = {
   IDLE: 0, // Validated and ready to upload
   UPLOADING: 1, // Uploading
@@ -15,6 +17,7 @@ export const MESSAGE: Record<string, LocaleKey> = {
   MAX_FILE: "upload.maxFileError",
   MIME_TYPE: "upload.mimeTypeError",
   UPLOAD_ERROR: "upload.uploadError",
+  UPLOAD_STALLED_ERROR: "upload.uploadStalledError",
   DELETE_ERROR: "upload.deleteError",
   PLEASE_DROP: "upload.pleaseDrop",
   PLEASE_CLICK_OR_DROP: "upload.pleaseClickOrDrop",

@@ -51,6 +51,7 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
               variant="secondary"
               size={iconSize}
               className={`${styles.icon} ${styles.iconDelete}`}
+              disabled={file.deleting}
               onClick={() => removeFiles([file])}
             />
           )}
