@@ -21,6 +21,7 @@ $partial-check-svg-path: '<line x1="3" y1="12" x2="20" y2="12" stroke-width="2" 
     .input {
       width: var(--base-sizing-#{$size});
       height: var(--base-sizing-#{$size});
+      min-width: var(--base-sizing-#{$size});
       min-height: var(--base-sizing-#{$size});
       &::before {
         mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$svg-path}</svg>');

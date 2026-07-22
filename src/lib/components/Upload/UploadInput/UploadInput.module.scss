@@ -9,10 +9,6 @@ $sizes: (("xs", "4x", "4x", "10x", "128x"), ("sm", "6x", "6x", "12x", "128x"), (
   border-radius: var(--theme-sizing-radius-default);
   background: var(--theme-color-surface-base-bg-light);
 
-  &.inFormField {
-    @include retain-scoped-class;
-  }
-
   &.disabled {
     background: var(--theme-color-surface-base-base1);
     border-color: var(--theme-color-border-light-disabled);

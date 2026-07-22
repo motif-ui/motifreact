@@ -13,10 +13,6 @@ $sizes: (
   flex-direction: column;
 }
 
-.inFormField {
-  @include retain-scoped-class;
-}
-
 .disabled {
   .textArea,
   .counterArea {

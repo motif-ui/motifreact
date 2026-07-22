@@ -19,10 +19,6 @@ $sizes: (
     }
   }
 
-  &.inFormField {
-    @include retain-scoped-class;
-  }
-
   @include transition(border-color);
 
   &.error .input {
