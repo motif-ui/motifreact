@@ -434,8 +434,14 @@ describe("Form", () => {
   });
 
   it("should prevent typing or editing all items in FormFieldGroup when readOnly prop is given", async () => {
+    const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
     const handleSubmit = (data: FormSubmitData) => {
-      expect(JSON.stringify(data)).toBe(JSON.stringify(expectedSubmitResponse));
+      expect(data.isValid).toBe(true);
+      expect(JSON.stringify(data.values.testGroup)).toBe(JSON.stringify(expectedSubmitResponse.values.testGroup));
+      // Upload Components: readOnly fields are still included in submit (unlike disabled), each with its value file.
+      [data.values.uploadInput, data.values.uploadList, data.values.uploadDragger].forEach(files => {
+        expect(files as FileType[]).toHaveLength(1);
+      });
     };
 
     render(
@@ -443,12 +449,26 @@ describe("Form", () => {
         <Form.FieldGroup name="testGroup" readOnly>
           {groupItems}
         </Form.FieldGroup>
+        {/* Upload Components */}
+        <Form.Field name="uploadInput" readOnly>
+          <UploadInput {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+        <Form.Field name="uploadList" readOnly>
+          <UploadList {...requiredProps} value={[serverFile]} />
+        </Form.Field>
+        <Form.Field name="uploadDragger" readOnly>
+          <UploadDragger {...requiredProps} value={[serverFile]} />
+        </Form.Field>
       </Form>,
     );
 
     const user = userEvent.setup();
     const value = "Entered Text";
     const inputItems = getAllInputItems();
+
+    // Upload Components: value files stay visible but their delete actions are hidden.
+    expect(screen.queryAllByText(serverFile.name)).toHaveLength(3);
+    expect(screen.queryAllByText("delete")).toHaveLength(0);
 
     // Input Text
     expect(inputItems[0].querySelector("input")).toHaveAttribute("readonly");
@@ -1423,34 +1443,6 @@ describe("Form", () => {
     expect(getFormField(0)).not.toHaveClass("error");
     expect(getFormField(1)).not.toHaveClass("error");
     expect(getFormField(2)).not.toHaveClass("error");
-  });
-
-  it("should keep value files visible but hide their delete actions when UploadInput, UploadList, and UploadDragger fields are readOnly", async () => {
-    const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
-    const handleSubmit = (data: FormSubmitData) => {
-      [data.values.uploadInput, data.values.uploadList, data.values.uploadDragger].forEach(files => {
-        expect(files as FileType[]).toHaveLength(1);
-      });
-    };
-
-    render(
-      <Form onSubmit={handleSubmit}>
-        <Form.Field name="uploadInput" readOnly>
-          <UploadInput {...requiredProps} value={[serverFile]} />
-        </Form.Field>
-        <Form.Field name="uploadList" readOnly>
-          <UploadList {...requiredProps} value={[serverFile]} />
-        </Form.Field>
-        <Form.Field name="uploadDragger" readOnly>
-          <UploadDragger {...requiredProps} value={[serverFile]} />
-        </Form.Field>
-      </Form>,
-    );
-
-    expect(screen.queryAllByText(serverFile.name)).toHaveLength(3);
-    expect(screen.queryAllByText("delete")).toHaveLength(0);
-
-    await userEvent.setup().click(screen.getByText(t("g.submit")));
   });
 
   it("should show the errors passed through externalErrors prop on initial render", () => {

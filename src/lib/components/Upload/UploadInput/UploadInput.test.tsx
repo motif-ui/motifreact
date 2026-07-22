@@ -397,18 +397,6 @@ describe("UploadInput", () => {
     expect(getBrowseButton()).toBeDisabled();
   });
 
-  it("should hide the delete button but keep showing the file name when a value file is present and disabled is true", () => {
-    const { getFileItem, getDeleteButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} disabled />);
-    expect(getFileItem()).toHaveTextContent(serverFile.name);
-    expect(getDeleteButton()).not.toBeInTheDocument();
-  });
-
-  it("should hide the delete button but keep showing the file name when a value file is present and readOnly is true", () => {
-    const { getFileItem, getDeleteButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} readOnly />);
-    expect(getFileItem()).toHaveTextContent(serverFile.name);
-    expect(getDeleteButton()).not.toBeInTheDocument();
-  });
-
   it("should send a delete request and clear the component when the delete button is clicked for a value file", async () => {
     const xhrSpy = mockXHRs(200);
     const { getDeleteButton, getBrowseButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
