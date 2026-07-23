@@ -15,6 +15,22 @@ export type RenderableColumn = {
 };
 
 export type TableProps<T = object> = {
+  /**
+   * ```
+   * {
+   *   title: string;
+   *   dataKey?: string;
+   *   sorting?: Sorting;
+   *   render?: (data: never) => ReactNode;
+   *   footer?: Footer;
+   *   width?: string;
+   *   filter?: boolean;
+   *   filterPlaceholder?: string;
+   *   colSpan?: number | ((rowData: object) => number);
+   *   rowSpan?: number | ((rowData: object) => number);
+   * }[]
+   * ```
+   */
   columns: Column[];
   data?: T[];
   title?: string;

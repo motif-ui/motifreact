@@ -1018,8 +1018,8 @@ describe("Table", () => {
     expect(filterInput).toHaveAttribute("placeholder", t("g.search"));
   });
 
-  it("should show the custom filterPlaceholder prop value in the global search input", () => {
-    const customPlaceholder = "Tabloda ara...";
+  it("should render filterPlaceholder value as global filter search box placeholder", () => {
+    const customPlaceholder = "Search in table...";
     const { getFilterableTableInput } = renderExt(
       <Table columns={cols} data={data} filterableTable filterPlaceholder={customPlaceholder} />,
     );
@@ -1027,14 +1027,16 @@ describe("Table", () => {
     expect(filterInput).toHaveAttribute("placeholder", customPlaceholder);
   });
 
-  it("should show the filterPlaceholder defined on the column in the corresponding column filter input", () => {
+  it("should render filterPlaceholder of column object value as filter search box placeholder for the corresponding column", () => {
+    const namePlaceholder = "Search by name...";
+    const surnamePlaceholder = "Search by surname...";
     const colsWithFilter = [
-      { title: "Name", dataKey: "name", filter: true, filterPlaceholder: "İsme göre ara..." },
-      { title: "SurName", dataKey: "surname", filter: true, filterPlaceholder: "Soyada göre ara..." },
+      { title: "Name", dataKey: "name", filter: true, filterPlaceholder: namePlaceholder },
+      { title: "SurName", dataKey: "surname", filter: true, filterPlaceholder: surnamePlaceholder },
     ];
     const { getColumnFilterInputs } = renderExt(<Table columns={colsWithFilter} data={data} />);
-    expect(getColumnFilterInputs()[0]).toHaveAttribute("placeholder", "İsme göre ara...");
-    expect(getColumnFilterInputs()[1]).toHaveAttribute("placeholder", "Soyada göre ara...");
+    expect(getColumnFilterInputs()[0]).toHaveAttribute("placeholder", namePlaceholder);
+    expect(getColumnFilterInputs()[1]).toHaveAttribute("placeholder", surnamePlaceholder);
   });
 
   it("should not set a placeholder on the column filter input when filterPlaceholder is not defined on the column", () => {
@@ -1044,14 +1046,15 @@ describe("Table", () => {
   });
 
   it("should use filterPlaceholder on global search and column filterPlaceholders simultaneously without conflict", () => {
-    const colsWithFilter = [{ title: "Name", dataKey: "name", filter: true, filterPlaceholder: "İsme göre ara..." }];
-    const customPlaceholder = "Tabloda ara...";
+    const namePlaceholder = "Search by name...";
+    const customPlaceholder = "Search in table...";
+    const colsWithFilter = [{ title: "Name", dataKey: "name", filter: true, filterPlaceholder: namePlaceholder }];
 
     const { getFilterableTableInput, getColumnFilterInputs } = renderExt(
       <Table columns={colsWithFilter} data={data} filterableTable filterPlaceholder={customPlaceholder} />,
     );
     const filterInput = getFilterableTableInput();
     expect(filterInput).toHaveAttribute("placeholder", customPlaceholder);
-    expect(getColumnFilterInputs()[0]).toHaveAttribute("placeholder", "İsme göre ara...");
+    expect(getColumnFilterInputs()[0]).toHaveAttribute("placeholder", namePlaceholder);
   });
 });
