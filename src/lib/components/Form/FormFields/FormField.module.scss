@@ -67,6 +67,15 @@ $sizes: (
   .label {
     white-space: nowrap;
   }
+  .inputContainer {
+    min-width: var(--base-sizing-128x);
+  }
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+  .inputContainer:has(:global(.mtf-UploadDragger)),
+/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+.inputContainer:has(:global(.mtf-UploadList)) {
+    min-width: var(--base-sizing-256x);
+  }
 }
 
 .verticalForm.horizontalLabel {
