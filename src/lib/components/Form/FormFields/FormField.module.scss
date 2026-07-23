@@ -1,11 +1,11 @@
 @use "@styles" as *;
 
 $sizes: (
-  //sizeName, helperSize, gapVLabel, gapHLabel, marginTopHLabel, gapHGroupItems, gapVGroupItems
-  ("xs", "xxs", "2x", "8x", "4x", "20x", "2x"),
-  ("sm", "xxs", "4x", "12x", "6x", "24x", "4x"),
-  ("md", "xs", "6x", "16x", "8x", "28x", "6x"),
-  ("lg", "sm", "8x", "20x", "10x", "32x", "8x")
+  //sizeName, helperSize, gapVLabel, gapHLabel, marginTopHLabel, gapHGroupItems
+  ("xs", "xxs", "2x", "8x", "4x", "20x"),
+  ("sm", "xxs", "4x", "12x", "6x", "24x"),
+  ("md", "xs", "6x", "16x", "8x", "28x"),
+  ("lg", "sm", "8x", "20x", "10x", "32x")
 );
 
 .Root {
@@ -104,7 +104,7 @@ $sizes: (
   }
 }
 
-@each $size, $helperSize, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems, $gapVGroupItems in $sizes {
+@each $size, $helperSize, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems in $sizes {
   .#{$size} {
     &.verticalLabel {
       gap: var(--base-sizing-#{$gapVLabel});
@@ -135,7 +135,7 @@ $sizes: (
     }
 
     &.horizontalGroup .groupItems {
-      gap: var(--base-sizing-#{$gapVGroupItems}) var(--base-sizing-#{$gapHGroupItems});
+      gap: var(--base-sizing-#{$gapVLabel}) var(--base-sizing-#{$gapHGroupItems});
     }
 
     .label {
