@@ -24,6 +24,7 @@ const CustomDatePicker = (props: Props) => {
     setSliding,
     setMonths,
     getDaysOfMonth,
+    isCompactView,
   } = useContext(DateRangePickerContext);
   const onDateClick = useCallback(
     (date: Date) => {
@@ -101,7 +102,7 @@ const CustomDatePicker = (props: Props) => {
       renderDay={renderDay}
       dates={months[order]}
       onPrevClick={order === 1 ? onPrevClick : undefined}
-      onNextClick={order === 2 ? onNextClick : undefined}
+      onNextClick={order === 2 || (order === 1 && isCompactView) ? onNextClick : undefined}
     />
   );
 };

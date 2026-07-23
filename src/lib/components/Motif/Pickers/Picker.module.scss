@@ -7,13 +7,15 @@ $sizes-picker: (("xs", "4x"), ("sm", "8x"), ("md", "12x"), ("lg", "16x"));
 
 @each $name, $padding in $sizes-picker {
   .#{$name} {
+    $width: map.get(pickerValues.$size, $name, "width");
+
     &:not(.wide) {
-      min-width: map.get(pickerValues.$size, $name, "width");
-      max-width: map.get(pickerValues.$size, $name, "width");
+      min-width: $width;
+      max-width: $width;
     }
     &.wide {
-      min-width: calc(map.get(pickerValues.$size, $name, "width") * 2);
-      max-width: calc(map.get(pickerValues.$size, $name, "width") * 2);
+      min-width: calc($width * 2);
+      max-width: calc($width * 2);
     }
     padding: var(--base-sizing-#{$padding});
     gap: map.get(pickerValues.$size, $name, "gapV");
@@ -21,6 +23,13 @@ $sizes-picker: (("xs", "4x"), ("sm", "8x"), ("md", "12x"), ("lg", "16x"));
     .actions {
       padding-top: map.get(pickerValues.$size, $name, "gapV");
       gap: map.get(pickerValues.$size, $name, "gapV");
+    }
+
+    @include screen-width("below", "md") {
+      &.wide {
+        min-width: $width;
+        max-width: $width;
+      }
     }
   }
 }

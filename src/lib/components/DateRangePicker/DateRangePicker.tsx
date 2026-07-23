@@ -5,6 +5,7 @@ import { DateRangePickerProps } from "./types";
 import DateRangePickerContainer from "@/components/DateRangePicker/components/DateRangePickerContainer";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
+import useScreenSize from "../../hooks/useScreenSize";
 
 const DateRangePicker = (props: PropsWithRef<DateRangePickerProps, HTMLDivElement>) => {
   const {
@@ -21,10 +22,13 @@ const DateRangePicker = (props: PropsWithRef<DateRangePickerProps, HTMLDivElemen
     style,
   } = usePropsWithThemeDefaults("DateRangePicker", props);
 
+  const screenSize = useScreenSize();
+  const isCompactView = screenSize.width > 0 ? screenSize.width <= 768 : false;
+
   const locale = useDateLocale(propsLocale);
   return (
     <Picker size={size} variant={variant} wide ref={ref} style={style} className={`mtf-DateRangePicker ${className ?? ""}`.trim()}>
-      <DateRangePickerProvider value={value} size={size} locale={locale} onDateChange={onDateChange}>
+      <DateRangePickerProvider value={value} size={size} locale={locale} onDateChange={onDateChange} isCompactView={isCompactView}>
         <DateRangePickerContainer removeActionButtons={removeActionButtons} onOkClick={onOkClick} onClearClick={onClearClick} />
       </DateRangePickerProvider>
     </Picker>
