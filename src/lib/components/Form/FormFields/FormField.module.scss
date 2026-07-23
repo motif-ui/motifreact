@@ -96,6 +96,9 @@ $sizes: (
 .groupItems {
   display: flex;
   flex-wrap: wrap;
+  .horizontalGroup & {
+    align-items: flex-start;
+  }
   .verticalGroup & {
     flex-direction: column;
   }
