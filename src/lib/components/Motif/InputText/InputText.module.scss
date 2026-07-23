@@ -18,7 +18,6 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
   }
 
   input {
-    flex: 1;
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -108,6 +107,7 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
 .inputWrapper {
   position: relative;
   flex: 1;
+  display: flex;
   min-width: 0;
 }
 
