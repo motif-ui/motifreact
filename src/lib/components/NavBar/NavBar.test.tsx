@@ -161,15 +161,23 @@ describe("NavBar", () => {
     expect(queryByText("cancel_outline")).toBeInTheDocument();
   });
 
-  it("should clear the search input and close the results dropdown when the clear button is clicked", async () => {
-    const { getByRole, getByText, queryByText } = render(<NavBar search={{ results: [{ text: "Result 1" }] }} />);
+  it("should clear only the search query when the clear button is clicked", async () => {
+    const { getByRole, getByText } = render(<NavBar search={{}} />);
     const searchInput = getByRole("textbox") as HTMLInputElement;
     await userEvent.type(searchInput, "test query");
-    expect(queryByText("Result 1")).toBeInTheDocument();
 
     fireEvent.click(getByText("cancel_outline"));
     expect(searchInput.value).toBe("");
-    expect(queryByText("Result 1")).not.toBeInTheDocument();
+  });
+
+  it("should fire onClear in search props when the clear button is clicked", async () => {
+    const mockOnClear = jest.fn();
+    const { getByRole, getByText } = render(<NavBar search={{ onClear: mockOnClear }} />);
+    const searchInput = getByRole("textbox");
+    await userEvent.type(searchInput, "test query");
+
+    fireEvent.click(getByText("cancel_outline"));
+    expect(mockOnClear).toHaveBeenCalledTimes(1);
   });
 
   it("should render the search box with the given placeholder in the search prop", () => {

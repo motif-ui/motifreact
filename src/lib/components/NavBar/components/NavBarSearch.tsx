@@ -16,6 +16,7 @@ const NavBarSearch = (props: NavBarSearchProps) => {
     results = [],
     onResultClick,
     onButtonClick,
+    onClear,
     searching,
     visibleContainerSize = "md",
   } = props;
@@ -54,7 +55,7 @@ const NavBarSearch = (props: NavBarSearchProps) => {
         onChange={val => setSearchQuery(val as string)}
         onClearClick={() => {
           setSearchQuery("");
-          setMaybeShowResults(false);
+          onClear?.();
         }}
         onClick={results.length && !maybeShowResults ? () => setMaybeShowResults(true) : undefined}
         ref={ref}
