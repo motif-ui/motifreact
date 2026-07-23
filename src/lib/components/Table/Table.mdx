@@ -120,7 +120,8 @@ There are two ways to provide filtering feature:
 - **filterableTable** prop enables a text input on top of the table to filter the data. This option searches for the given query in all columns.
 
 - Other option is to provide the **filter** prop in each column item which gives more flexibility to search the given queries only in the data of the related column.
-  All the filtering queries may work together. If both **filterableTable** and **filter** prop in columns are provided, the queries are combined with an AND operation. This is also the same for the queries for different columns.
+
+All the filtering queries may work together. If both **filterableTable** and **filter** prop in columns are provided, the queries are combined with an AND operation. This is also the same for the queries for different columns.
 
 **Important note:** Filtering only works for the columns which have a string-searchable data in it. This means, the data in the row object should point to a searchable primitive data type. For example, if the data to use in a custom render function it only searches the text content of the render output.
 
