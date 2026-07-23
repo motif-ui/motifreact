@@ -4,9 +4,9 @@ import { capitalizeFirstLetter } from "src/utils/utils.ts";
 export const applyTextTransform = (value: string, textTransform: TextTransform) => {
   switch (textTransform) {
     case "uppercase":
-      return value.toUpperCase();
+      return value.toLocaleUpperCase();
     case "lowercase":
-      return value.toLowerCase();
+      return value.toLocaleLowerCase();
     case "capitalize":
       return capitalizeFirstLetter(value);
     default:
