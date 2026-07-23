@@ -115,4 +115,14 @@ describe("InputText", () => {
     const { getByTestId } = render(<InputText pill />);
     expect(getByTestId("inputItem")).toHaveClass("pill");
   });
+
+  it("should apply textTransform without moving the caret when editing mid-string", async () => {
+    render(<InputText textTransform="uppercase" value="ABC" onChange={jest.fn()} placeholder="Test" />);
+    const input = screen.getByDisplayValue<HTMLInputElement>("ABC");
+    await userEvent.type(input, "x", { initialSelectionStart: 1, initialSelectionEnd: 1 });
+
+    expect(input).toHaveValue("AXBC");
+    expect(input.selectionStart).toBe(2);
+    expect(input.selectionEnd).toBe(2);
+  });
 });

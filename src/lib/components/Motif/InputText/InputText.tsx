@@ -2,7 +2,7 @@
 
 import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "./InputText.module.scss";
-import { ChangeEvent, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import { PropsWithRef } from "../../../types";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIconButton } from "@/components/Motif/Icon";
@@ -50,10 +50,23 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const prevValueRef = useRef(value);
+  const pendingSelectionRef = useRef<{ start: number; end: number } | null>(null);
   useImperativeHandle(imperativeRef, () => ({ valueStateSetter: setItemValue }));
 
   const [itemValue, setItemValue] = useState(value);
   const controlledProps = uncontrolled ? { defaultValue: value } : { value: itemValue };
+
+  // React writes the transformed value to the DOM to keep the controlled input in sync, and
+  // that native write resets the caret to the end whenever textTransform changes the typed
+  // characters (e.g. lowercase -> uppercase), even though the length is unchanged. Restore
+  // the caret right after that DOM write commits, before the browser paints.
+  useLayoutEffect(() => {
+    if (pendingSelectionRef.current && inputRef.current) {
+      const { start, end } = pendingSelectionRef.current;
+      inputRef.current.setSelectionRange(start, end);
+      pendingSelectionRef.current = null;
+    }
+  }, [itemValue]);
 
   useEffect(() => {
     if (!uncontrolled && value !== prevValueRef.current) {
@@ -64,10 +77,10 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   }, [onValueUpdated, uncontrolled, value]);
 
   const changeProcess = useCallback(
-    (val: string, updateInputRefValue?: boolean) => {
-      const transformedVal = textTransform ? applyTextTransform(val, textTransform) : val;
+    (typedVal: string, updateInputRefValue?: boolean) => {
+      const val = textTransform ? applyTextTransform(typedVal, textTransform) : typedVal;
       if (valueTransformer) {
-        const processed = valueTransformer(transformedVal);
+        const processed = valueTransformer(val);
         if (processed === undefined) {
           // Transformer rejected the value — restore the DOM to the current valid state and don't trigger anything
           if (inputRef.current) inputRef.current.value = itemValue;
@@ -80,10 +93,20 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         if (inputRef.current) inputRef.current.value = processed;
         return;
       }
-      !uncontrolled && setItemValue(transformedVal);
-      onChange?.(transformedVal);
-      if ((updateInputRefValue || textTransform) && inputRef.current) {
-        inputRef.current.value = transformedVal;
+      const selectionStartBeforeWrite = textTransform && inputRef.current ? inputRef.current.selectionStart : null;
+      const selectionEndBeforeWrite = textTransform && inputRef.current ? inputRef.current.selectionEnd : null;
+      !uncontrolled && setItemValue(val);
+      onChange?.(val);
+      if (uncontrolled && (updateInputRefValue || textTransform) && inputRef.current) {
+        const inputEl = inputRef.current;
+        const { selectionStart, selectionEnd } = inputEl;
+        const lengthDelta = val.length - inputEl.value.length;
+        inputEl.value = val;
+        if (selectionStart !== null && selectionEnd !== null) {
+          inputEl.setSelectionRange(Math.max(0, selectionStart + lengthDelta), Math.max(0, selectionEnd + lengthDelta));
+        }
+      } else if (!uncontrolled && selectionStartBeforeWrite !== null && selectionEndBeforeWrite !== null) {
+        pendingSelectionRef.current = { start: selectionStartBeforeWrite, end: selectionEndBeforeWrite };
       }
     },
     [onChange, setItemValue, uncontrolled, valueTransformer, itemValue, textTransform],
