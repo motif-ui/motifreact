@@ -13,12 +13,9 @@ import { calculateWeeksFlat } from "@/components/DatePicker/components/helper";
 export const DateRangePickerContext = createContext<DateRangePickerContextProps>(datePickerContextDefaultValues);
 
 export const DateRangePickerProvider = (props: PropsWithChildren<DateRangePickerProviderProps>) => {
-  const { value, locale, size, onDateChange, children } = props;
+  const { value, locale, size, firstDayOfWeek, onDateChange, children } = props;
 
-  //TODO: With the changes of firstDayOfWeek seperation inside DatePicker, reaching out from local.firstDayOfWeek is
-  // not possible, so default value is given inside this method to convert back to normal when task is completed.
-  // Issue number is: 1441
-  const getDaysOfMonth = useCallback((month: Date) => calculateWeeksFlat(month, 1), []);
+  const getDaysOfMonth = useCallback((month: Date) => calculateWeeksFlat(month, firstDayOfWeek), [firstDayOfWeek]);
   const today = useMemo(() => DateUtils.getTodayTimeless(), []);
   const initialMonths = useMemo(
     () => [
@@ -52,6 +49,7 @@ export const DateRangePickerProvider = (props: PropsWithChildren<DateRangePicker
     () => ({
       locale,
       size,
+      firstDayOfWeek,
       dateCouple,
       setDateCouple,
       sliding,
@@ -64,7 +62,7 @@ export const DateRangePickerProvider = (props: PropsWithChildren<DateRangePicker
       initialMonths,
       partialSelection,
     }),
-    [locale, size, dateCouple, sliding, months, today, onDateChange, getDaysOfMonth, initialMonths, partialSelection],
+    [locale, size, firstDayOfWeek, dateCouple, sliding, months, today, onDateChange, getDaysOfMonth, initialMonths, partialSelection],
   );
 
   return <DateRangePickerContext value={contextValue}>{children}</DateRangePickerContext>;
