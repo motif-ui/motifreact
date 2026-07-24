@@ -100,8 +100,8 @@ const CustomDatePicker = (props: Props) => {
       daysRef={daysRef}
       renderDay={renderDay}
       dates={months[order]}
-      onPrevClick={order === 1 ? onPrevClick : undefined}
-      onNextClick={order === 2 ? onNextClick : undefined}
+      onPrevClick={onPrevClick}
+      onNextClick={onNextClick}
     />
   );
 };

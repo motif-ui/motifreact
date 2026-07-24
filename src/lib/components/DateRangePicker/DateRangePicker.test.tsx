@@ -107,9 +107,9 @@ describe("DateRangePicker", () => {
   });
 
   it("should render the end date in one of the pickers visible when an item from the dropdown is clicked and picker is showing past date", async () => {
-    const { getByText, getByTestId, container } = renderExt(<DateRangePicker />);
+    const { getAllByText, getByText, getByTestId, container } = renderExt(<DateRangePicker />);
     for (let i = 0; i < 10; i++) {
-      await userEvent.click(getByText("arrow_back"));
+      await userEvent.click(getAllByText("arrow_back")[0]);
     }
 
     const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
@@ -241,18 +241,20 @@ describe("DateRangePicker", () => {
   });
 
   it("should swipe the months to the left and render the previous month in the first picker when left arrow button is clicked", async () => {
-    const { getByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
+    const { getAllByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
     const previousMonthLabel = getDateLocale(t).months[today.getMonth() - 1];
-    await userEvent.click(getByText("arrow_back"));
+    const arrowBackButtons = getAllByText("arrow_back");
+    await userEvent.click(arrowBackButtons[0]);
     const firstVisiblePicker = Array.from(getByTestId("DateRangePickerContainer").children)[0] as HTMLElement;
     const pastMonth = within(firstVisiblePicker).getByText(previousMonthLabel);
     expect(pastMonth).toBeInTheDocument();
   });
 
   it("should swipe the months to the right and render the next month in the second picker when right arrow button is clicked", async () => {
-    const { getByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
+    const { getAllByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
     const futureMonthLabel = getDateLocale(t).months[today.getMonth() + 2];
-    await userEvent.click(getByText("arrow_forward"));
+    const arrowForwardButtons = getAllByText("arrow_forward");
+    await userEvent.click(arrowForwardButtons[0]);
     const lastPicker = Array.from(getByTestId("DateRangePickerContainer").children)[3] as HTMLElement;
     const futureMonth = within(lastPicker).getByText(futureMonthLabel);
     expect(futureMonth).toBeInTheDocument();
@@ -363,5 +365,52 @@ describe("DateRangePicker", () => {
 
     expect(startDateButton).toHaveClass("selected");
     expect(endDateButton).toHaveClass("selected");
+  });
+
+  // Mobile responsive tests
+  it("should render correctly on mobile view (≤768px) with date inputs", () => {
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 600 });
+    const mockStartDate = new Date(year, month, 5);
+    const mockEndDate = new Date(year, month, 15);
+    const { getFirstInput, getSecondInput } = renderExt(<DateRangePicker value={[mockStartDate, mockEndDate]} />);
+
+    expect(getFirstInput()).toBeInTheDocument();
+    expect(getSecondInput()).toBeInTheDocument();
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
+  });
+
+  it("should render correctly on desktop view (>768px) with date inputs", () => {
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
+    const mockStartDate = new Date(year, month, 5);
+    const mockEndDate = new Date(year, month, 15);
+    const { getFirstInput, getSecondInput } = renderExt(<DateRangePicker value={[mockStartDate, mockEndDate]} />);
+
+    expect(getFirstInput()).toBeInTheDocument();
+    expect(getSecondInput()).toBeInTheDocument();
+  });
+
+  it("should maintain date selection on mobile view", () => {
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 600 });
+    const mockStartDate = new Date(year, month, 5);
+    const mockEndDate = new Date(year, month, 15);
+    const { getFirstPicker } = renderExt(<DateRangePicker value={[mockStartDate, mockEndDate]} />);
+
+    const startButton = getFirstPicker().querySelector(`[data-date="${mockStartDate.getTime()}"]`);
+    const endButton = getFirstPicker().querySelector(`[data-date="${mockEndDate.getTime()}"]`);
+    expect(startButton).toHaveClass("selected");
+    expect(endButton).toHaveClass("selected");
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
+  });
+
+  it("should respond to isMobile state and render layout appropriately on narrow view", () => {
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 600 });
+    const { getByTestId, container } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 10)]} />);
+
+    expect(getByTestId("DateRangePickerContainer")).toBeInTheDocument();
+
+    const selectionBar = container.querySelector('[class*="selectionBar"]');
+    expect(selectionBar).toBeInTheDocument();
+
+    Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
   });
 });

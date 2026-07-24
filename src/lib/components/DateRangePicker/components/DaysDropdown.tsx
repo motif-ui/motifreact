@@ -1,6 +1,7 @@
 import Dropdown from "@/components/Dropdown";
 import { useCallback, useContext, useMemo, useState } from "react";
 import { DateRangePickerContext } from "@/components/DateRangePicker/context/DateRangePickerProvider";
+import styles from "@/components/DateRangePicker/DateRangePicker.module.scss";
 
 const days = [1, 7, 30, 180, 365] as const;
 
@@ -31,7 +32,7 @@ const DaysDropdown = () => {
     [changeHandler, locale.days, locale.last, locale.today],
   );
 
-  return <Dropdown size={size} items={items} variant="secondary" label={label} />;
+  return <Dropdown size={size} items={items} variant="secondary" label={label} className={styles.rangeSelectDropdown} />;
 };
 
 export default DaysDropdown;

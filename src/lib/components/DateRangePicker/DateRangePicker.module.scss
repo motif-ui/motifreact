@@ -130,3 +130,26 @@ $sizes: (
     margin-left: var(--base-sizing-2x);
   }
 }
+
+@include screen-width("below", "md") {
+  .selectionBar {
+    text-align: initial;
+    display: flex;
+  }
+  .rangeSelectDropdown {
+    display: none !important;
+  }
+  .datePickers {
+    gap: var(--base-sizing-24x);
+    transform: translateX(calc(-100% - var(--base-sizing-24x))) !important;
+    > div:nth-child(2) > div:first-of-type > button:last-of-type {
+      display: block !important;
+    }
+    &.slideLeft {
+      transform: translateX(0) !important;
+    }
+    &.slideRight {
+      transform: translateX(0) !important;
+    }
+  }
+}
