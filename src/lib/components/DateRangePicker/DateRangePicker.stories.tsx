@@ -10,6 +10,7 @@ const meta: Meta<typeof DateRangePicker> = {
   argTypes: {
     variant: { table: { defaultValue: { summary: "borderless" } } },
     size: { table: { defaultValue: { summary: "md" } } },
+    firstDayOfWeek: { table: { defaultValue: { summary: "1" } } },
   },
   args: {
     variant: "shadow",
