@@ -4,7 +4,7 @@ $variants: "primary", "secondary", "info", "success", "warning", "danger";
 $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
 
 .Root {
-  display: inline;
+  display: inline-flex;
   vertical-align: top;
   user-select: none;
   font-size: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
