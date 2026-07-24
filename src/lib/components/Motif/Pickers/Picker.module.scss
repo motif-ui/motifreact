@@ -60,3 +60,10 @@ $sizes-picker: (("xs", "4x"), ("sm", "8x"), ("md", "12x"), ("lg", "16x"));
     justify-content: space-between;
   }
 }
+
+@include screen-width("below", "md") {
+  .wide {
+    max-width: (var(--base-sizing-342x)) !important;
+    min-width: (var(--base-sizing-342x)) !important;
+  }
+}
