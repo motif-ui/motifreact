@@ -31,7 +31,7 @@ We chose Figma as our design system platform because it offers:
 
 All Motif UI components are designed in Figma with full fidelity to the implemented code. Here's an example of how the **Button** component is structured:
 
-<Canvas of={Figma.FigmaInspect} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+<Canvas of={Figma.FigmaInspect} layout="fullscreen" className="no-border story-no-margin" sourceState="none" />
 > **Note:**  Each component variant in Figma corresponds to a prop combination in the React component. For example, `variant="primary"` and `size="lg"` match the Primary/Large variant in Figma.
 
 ## Design Tokens
@@ -39,8 +39,6 @@ All Motif UI components are designed in Figma with full fidelity to the implemen
 Design tokens are the foundation of our design system. They ensure consistency across all platforms and make it easy to maintain and scale the design system. Instead of hardcoding values like colors, spacing, or font sizes throughout the codebase, we use tokens that can be updated centrally.
 
 > **Note:** For a complete reference of all available design tokens and their usage in code, see the [Design Tokens](/docs/design-design-tokens--docs) documentation.
-
-<br />
 
 ### Exporting Tokens
 

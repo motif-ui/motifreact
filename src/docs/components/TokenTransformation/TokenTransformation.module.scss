@@ -2,7 +2,7 @@
   padding: 2rem;
   overflow-wrap: anywhere;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 8px;
+  border-radius: 22px;
   margin: 1.5rem 0;
   display: flex;
   align-items: center;
@@ -24,9 +24,7 @@
 .label {
   font-size: 0.75rem;
   color: #6b7280;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  padding-bottom: 16px;
   font-weight: 600;
 }
 
@@ -42,6 +40,7 @@
   overflow-x: auto;
   max-width: 100%;
   word-break: break-all;
+  border-radius: 18px;
 }
 
 .arrow {

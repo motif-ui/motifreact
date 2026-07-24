@@ -17,9 +17,9 @@ const DesignTokenNamingDiagram = () => {
         {/* SVG Lines */}
         <svg width="100%" height="110" className={styles.connectingLines} viewBox="0 0 100 110" preserveAspectRatio="none">
           <line
-            x1="24%"
+            x1="20%"
             y1="0"
-            x2="15%"
+            x2="12%"
             y2="100"
             stroke="rgba(255, 255, 255, 0.4)"
             strokeWidth="2"
@@ -27,9 +27,9 @@ const DesignTokenNamingDiagram = () => {
             vectorEffect="non-scaling-stroke"
           />
           <line
-            x1="35%"
+            x1="34%"
             y1="0"
-            x2="33%"
+            x2="30%"
             y2="100"
             stroke="rgba(255, 255, 255, 0.4)"
             strokeWidth="2"
@@ -39,7 +39,7 @@ const DesignTokenNamingDiagram = () => {
           <line
             x1="48%"
             y1="0"
-            x2="50%"
+            x2="49%"
             y2="100"
             stroke="rgba(255, 255, 255, 0.4)"
             strokeWidth="2"
@@ -57,9 +57,9 @@ const DesignTokenNamingDiagram = () => {
             vectorEffect="non-scaling-stroke"
           />
           <line
-            x1="76%"
+            x1="78%"
             y1="0"
-            x2="86%"
+            x2="88%"
             y2="100"
             stroke="rgba(255, 255, 255, 0.4)"
             strokeWidth="2"

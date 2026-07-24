@@ -57,8 +57,6 @@ There are some rules and some best practices to follow for a perfect coloring. T
 
 > **Rule:** Always use theme-prefixed tokens in components. Base colors are for design system internals.
 
-<br />
-
 ## Color Types
 
 Every theme **must** provide a full set of color tokens stated below. At minimum, each theme should define:
@@ -95,8 +93,6 @@ Every theme **must** provide a full set of color tokens stated below. At minimum
 ```
 
 > For theme authors; the full checklist of required semantic families, tones, and overlays lives in the **[Design Tokens](/docs/design-design-tokens--docs)** section.
-
-<br />
 
 ### Tonal Steps
 
@@ -138,7 +134,7 @@ Each tone has **6 states** for interactions:
 
 > Which tokens color this button?
 
-<Canvas of={ColorPaletteStories.Solid} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+<Canvas of={ColorPaletteStories.Solid} layout="fullscreen" className="no-border story-no-margin" sourceState="none" />
 
 ```
 ┌─────────────┐
@@ -153,7 +149,7 @@ Each tone has **6 states** for interactions:
 
 > Which tokens color this button?
 
-<Canvas of={ColorPaletteStories.Outline} layout="fullscreen" className="no-border story-less-margin" sourceState="none" />
+<Canvas of={ColorPaletteStories.Outline} layout="fullscreen" className="no-border story-no-margin" sourceState="none" />
 
 ```
 ┌─────────────┐
@@ -173,4 +169,4 @@ Each tone has **6 states** for interactions:
 This section shows all the available semantic colors in **Default Theme**. Each theme provides its own color values for
 the same token names. If you wish to discover all available themes, please visit **[Design/Themes](/docs/design-themes--docs)** section.
 
-<Canvas of={ColorPaletteStories.Primary} layout="fullscreen" className="no-border" sourceState="none" />
+<Canvas of={ColorPaletteStories.Primary} layout="fullscreen" className="no-border story-no-margin" sourceState="none" />

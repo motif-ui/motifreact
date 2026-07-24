@@ -10,7 +10,7 @@ import styles from "./DesignTokens.module.scss";
 The Motif UI is built using **Design Tokens** - basically a naming convention of colors, typography, spacing, and other
 design elements. Values defined by designers in Figma are reflected easily to the code.
 
-## What Are Design Tokens?
+## What are Design Tokens?
 
 Design tokens are abstract design values (like colors or spacing) that act as the source of truth for a design system.
 They are not CSS variables themselves, but can be transformed into CSS variables for use in web applications. Design
@@ -28,7 +28,7 @@ across design systems, though they may vary slightly from library to library. Be
 Motif UI:
 
 <div style={{ minWidth: "320px", overflowX: "auto" }}>
-  <Canvas of={DesignTokenNamingDiagram.Primary} layout="fullscreen" className="no-border" sourceState="none" />
+  <Canvas of={DesignTokenNamingDiagram.Primary} layout="fullscreen" className="no-border story-no-margin" sourceState="none" />
 </div>
 
 Each token branches itself after each section. While color tokens have their own sub-sections, typography tokens have theirs, and so on. These possible breakdowns, samples and other related documentation are stated below.
@@ -129,9 +129,7 @@ This is the phase where Style Dictionary jumps in. The exported JSON file is con
 
 Those processes create the necessary css variables. Those variables are used to style Motif UI components. When a theme
 file is created/imported with those variables, they are ready to use in the components. A theme file is a combination of
-css variables and some necessary styling. Detailed steps for the theme creation can be found in
-
-<a href="../?path=/docs/customization-theming--docs">**Customization/Theming**</a> section.
+css variables and some necessary styling. Detailed steps for the theme creation can be found in <a href="../?path=/docs/customization-theming--docs">**Customization/Theming**</a> section.
 
 ##### Theme File
 
@@ -177,23 +175,26 @@ components and derived from the semantic colors.
 **--base-colors-**<i className={styles.tokenFamily}>[color]</i>**-**<i className={styles.tokenState}>[color-tone]</i>
 
 <i className={styles.tokenFamily}>color:</i> `white` `black` `bluetheme` `gray` `lightgray` `darkgray` `purple` `blue` `red` `green` `yellow` `redflag`
-<br />
+
 <i className={styles.tokenState}>color-tone:</i> `50` `100` `200` `300` `400` `500` `600` `700` `800` `900` `overlay10` `overlay15` `overlay20` `overlay25`
 `overlay40` `overlay50` `overlay75` `overlay90`
+<br />
 
 **--theme-color-semantic-**<i className={styles.tokenFamily}>[variant]</i>**-**<i className={styles.tokenState}>[variant-tone]</i>
 
 <i className={styles.tokenFamily}>variant:</i> `primary` `secondary` `success` `warning` `danger` `info` `neutral` `accent`
-<br />
+
 <i className={styles.tokenState}>variant-tone:</i> `default` `50` `100` `200` `300` `400` `500` `600` `700` `800` `900`
+<br />
 
 **--theme-color-**<i className={styles.tokenCategory}>[type]</i>**-**<i className={styles.tokenFamily}>[variant]</i>**-**<i className={styles.tokenState}>[state]</i>
 
 <i className={styles.tokenCategory}>type:</i> `border` `surface` `text`
-<br />
+
 <i className={styles.tokenFamily}>variant:</i> `primary` `secondary` `success` `warning` `danger` `info` `neutral` `accent`
-<br />
+
 <i className={styles.tokenState}>state:</i> `default` `hover` `active` `disabled`
+<br />
 
 ```css
 --base-colors-purple-purple-100: #d1c6e1ff;
@@ -214,9 +215,8 @@ Heading tokens define the font size, weight, and spacing for all major headings,
 **--typography-heading-**<i className={styles.tokenFamily}>[size]</i>**-**<i className={styles.tokenState}>[property]</i>
 
 <i className={styles.tokenFamily}>size:</i> `heading1` `heading2` `heading3` `heading4` `heading5` `heading6`
-<br />
-<i className={styles.tokenState}>property:</i> `font-size` `font-weight` `line-height` `letter-spacing`
 
+<i className={styles.tokenState}>property:</i> `font-size` `font-weight` `line-height` `letter-spacing`
 ```css
 --typography-heading-heading3-font-size: 1.75rem
 --typography-heading-heading3-font-weight: 700
@@ -231,7 +231,7 @@ Body tokens define the font size, weight, and spacing for paragraphs and standar
 **--typography-body-**<i className={styles.tokenFamily}>[size]</i>**-**<i className={styles.tokenState}>[property]</i>
 
 <i className={styles.tokenFamily}>size:</i> `xxs` `xs` `sm` `md` `lg`
-<br />
+
 <i className={styles.tokenState}>property:</i> `font-size` `font-weight` `line-height` `letter-spacing`
 
 ```css
@@ -248,7 +248,7 @@ Display tokens are used for prominent, eye-catching headings or numbers, providi
 **--typography-display-**<i className={styles.tokenFamily}>[size]</i>**-**<i className={styles.tokenState}>[property]</i>
 
 <i className={styles.tokenFamily}>size:</i> `sm` `md` `lg`
-<br />
+
 <i className={styles.tokenState}>property:</i> `font-size` `font-weight` `line-height` `letter-spacing`
 
 ```css
@@ -279,7 +279,7 @@ Box shadow tokens that create visual depth and hierarchy. Each elevation type ha
 **--theme-elevation-**<i className={styles.tokenFamily}>[type]</i>**-**<i className={styles.tokenState}>[property]</i>
 
 <i className={styles.tokenFamily}>type:</i> `elevation1` `elevation2` `elevation3` `elevation4` `elevation5` `elevation6` `focusring` `focusring-white`
-<br />
+
 <i className={styles.tokenState}>property:</i> `x` `y` `blur` `spread` `color`
 
 ```css

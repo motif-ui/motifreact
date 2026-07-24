@@ -2,13 +2,14 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 0.5rem;
+  align-items: baseline;
 
   .gridItem {
-    padding: 6px 10px;
-    background-color: var(--theme-color-surface-base-base2);
-    border-radius: 6px;
-    font-size: 13px;
-    border: 1px solid var(--theme-color-border-light-default);
-    color: var(--theme-color-text-base-title, #333333);
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 12px !important;
+    border: 1px solid rgb(151 90 157 / 14%);
+    color: #333333;
+    overflow-wrap: break-word;
   }
 }

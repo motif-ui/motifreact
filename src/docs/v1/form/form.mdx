@@ -28,8 +28,6 @@ mediator components are responsible for the communication between the inputs and
 > **[Form ↗](?path=/docs/components-form--docs)** , **[FormField ↗](?path=/docs/components-form-form-field--docs)** ,
 > **[FormFieldGroup ↗](?path=/docs/components-form-form-fieldgroup--docs)**
 
-<br />
-
 ### `<Form.Field>`
 
 This is the controlling component for the inputs. It provides validation, label and helper text to the wrapped input
@@ -40,8 +38,7 @@ item. Some input oriented props like `readOnly`, `disabled`, `success` may also 
 It is similiar to Form.Field but is used when more than one input is needed to be grouped together. `readOnly`,
 `disabled` and `success` props are passed to the inputs to affect them all at once.
 
-- `orientation` prop is used to determine which direction the items are rendered. It can be `horizontal` or `vertical`.
-  <br />
+`orientation` prop is used to determine which direction the items are rendered. It can be `horizontal` or `vertical`.
 
 ## Rules
 
@@ -55,7 +52,6 @@ It is similiar to Form.Field but is used when more than one input is needed to b
 - Form has builtin submit and reset buttons. There is no need to add extra buttons for those actions.
 - Use the provided methods in the form ref to programmatically control the form (e.g., clearing the form).
 - Form clearing does not affect the upload inputs, since the files might be sent to the server. **They should be cleared manually**.
-  <br />
 
 ## Submitting
 
@@ -100,14 +96,10 @@ type CustomType = {
 </Form>
 ```
 
-<br />
-
 ## Validation
 
 Form provides a flexible validation system using the `validations` prop available in `<Form.Field>` and
 `<Form.FieldGroup>`. Please refer to **[Validation ↗](?path=/docs/form-validation--docs)** section for detailed information.
-
-<br />
 
 ## Ref Object
 
@@ -141,8 +133,8 @@ function MyComponent() {
 A customized reference type **FormRefType** is provided for the typescript users, which includes custom props in
 addition to standard html form props.
 
-- **clearForm()**: Exposed method to clear the form. Since `<Form>` manages the form values internally; `clearForm`
-  function should be used when needed, instead of using the default reset function of the html form,
+**clearForm()**: Exposed method to clear the form. Since `<Form>` manages the form values internally; `clearForm`
+function should be used when needed, instead of using the default reset function of the html form,
 
 ```tsx
 const formRef = useRef<FormRefType>(null);
@@ -157,8 +149,6 @@ const formRef = useRef<FormRefType>(null);
   </Form.Field>
 </Form>;
 ```
-
-<br />
 
 ## Orientations
 
@@ -191,8 +181,6 @@ Component level orientation refers to the inherent layout of individual input co
 
 <Canvas of={FormOrientation.RadioGroupOrientationComparison} layout="fullscreen" />
 
-<br />
-
 ## Use with `<Grid>`
 
 Using **Form.Field** directly inside **Form** is the easiest way to create a form with the default layout order. There is
@@ -201,8 +189,6 @@ also a layout customization option using the `<Grid>` component inside **Form**.
 <Canvas of={FormOrientation.FormWithGrid} layout="fullscreen" sourceState="shown" />
 
 ## Troubleshooting
-
-<br />
 
 #### Form not submitting
 
