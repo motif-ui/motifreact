@@ -17,6 +17,7 @@ const DateRangePicker = (props: PropsWithRef<DateRangePickerProps, HTMLDivElemen
     onOkClick,
     onClearClick,
     removeActionButtons,
+    firstDayOfWeek = 1,
     className,
     style,
   } = usePropsWithThemeDefaults("DateRangePicker", props);
@@ -24,7 +25,7 @@ const DateRangePicker = (props: PropsWithRef<DateRangePickerProps, HTMLDivElemen
   const locale = useDateLocale(propsLocale);
   return (
     <Picker size={size} variant={variant} wide ref={ref} style={style} className={`mtf-DateRangePicker ${className ?? ""}`.trim()}>
-      <DateRangePickerProvider value={value} size={size} locale={locale} onDateChange={onDateChange}>
+      <DateRangePickerProvider value={value} size={size} locale={locale} firstDayOfWeek={firstDayOfWeek} onDateChange={onDateChange}>
         <DateRangePickerContainer removeActionButtons={removeActionButtons} onOkClick={onOkClick} onClearClick={onClearClick} />
       </DateRangePickerProvider>
     </Picker>
