@@ -8,7 +8,7 @@ import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIconButton } from "@/components/Motif/Icon";
 import { InternalInputProps } from "@/components/Motif/InputText/types";
 import NumberSpinner from "@/components/Motif/InputText/components/NumberSpinner.tsx";
-import { applyTextTransform } from "@/components/Motif/InputText/helper.ts";
+import { useTextTransform } from "@/components/Motif/InputText/helper.ts";
 
 const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const {
@@ -48,6 +48,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     style,
   } = props;
 
+  const applyTextTransform = useTextTransform();
   const inputRef = useRef<HTMLInputElement>(null);
   const prevValueRef = useRef(value);
   const pendingSelectionRef = useRef<{ start: number; end: number } | null>(null);
@@ -109,7 +110,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         pendingSelectionRef.current = { start: selectionStartBeforeWrite, end: selectionEndBeforeWrite };
       }
     },
-    [onChange, setItemValue, uncontrolled, valueTransformer, itemValue, textTransform],
+    [onChange, setItemValue, uncontrolled, valueTransformer, itemValue, textTransform, applyTextTransform],
   );
 
   const changeHandler = useCallback(
