@@ -114,6 +114,8 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
 .clearButton {
   position: absolute;
   right: 0;
+  display: inline-flex;
+  align-items: center;
 }
 
 .loader {
