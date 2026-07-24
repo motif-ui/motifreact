@@ -74,6 +74,7 @@ describe("UploadList", () => {
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
     expect(getFileItemFirst()).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
+    expect(screen.queryByText(t("g.upload"))).not.toBeInTheDocument();
   });
 
   it("should be rendered as disabled when disabled prop is true", async () => {
@@ -430,6 +431,18 @@ describe("UploadList", () => {
     xhrSpy.mockRestore();
   });
 
+  it("should preserve a value file's delete-error state when the value prop changes", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { rerender, getFileList, getDeleteButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} maxFile={2} />);
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument());
+
+    rerender(<UploadList {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument();
+    xhrSpy.mockRestore();
+  });
+
   it("should render the download button when onDownloadClick is provided in value", () => {
     const { unmount, getDownloadButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
     expect(getDownloadButton()).not.toBeInTheDocument();
@@ -469,5 +482,44 @@ describe("UploadList", () => {
     expect(getFileList()?.childNodes).toHaveLength(1);
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
     expect(getFileList()?.childNodes).toHaveLength(1);
+  });
+
+  it("should upload only the new file when value prop is not undefined and a new file is browsed and added", async () => {
+    const { getInput, getFileList, getFileItemFirst, getFileItemLast } = renderExt(
+      <UploadList {...requiredProps} value={[serverFile]} maxFile={2} />,
+    );
+    expect(getFileList()?.childNodes).toHaveLength(1);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    await waitForSuccessfulUpload(getFileItemLast());
+
+    expect(getFileItemLast()).toHaveTextContent(MOCK.filePdf1kb.name);
+    expect(getFileItemLast()).toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
+
+    expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
+    expect(getFileItemFirst()).toHaveTextContent(formatBytes(serverFile.size));
+    expect(getFileItemFirst()).not.toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
+  });
+
+  it("should re-enable the browse button when the value file occupying the maxFile limit is deleted", async () => {
+    const { getBrowseButton, getDeleteButton, getFileList } = renderExt(<UploadList {...requiredProps} value={[serverFile]} maxFile={1} />);
+    expect(getBrowseButton()).toBeDisabled();
+
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => {
+      expect(getFileList()).not.toBeInTheDocument();
+      expect(getBrowseButton()).not.toBeDisabled();
+    });
+  });
+
+  it("should reflect value prop changes after mount", () => {
+    const { rerender, getFileList } = renderExt(<UploadList {...requiredProps} value={[serverFile]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(1);
+
+    rerender(<UploadList {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    expect(getFileList()).toHaveTextContent(serverFile.name);
+    expect(getFileList()).toHaveTextContent(serverFile2.name);
   });
 });

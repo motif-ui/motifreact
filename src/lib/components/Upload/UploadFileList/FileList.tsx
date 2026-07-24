@@ -24,7 +24,7 @@ const FileList = ({ disabled, readOnly }: Props) => {
             <FileListRow file={file} disabled={disabled} readOnly={readOnly} key={file.id} />
           ))}
         </div>
-        {!disabled && <UploadButtonArea />}
+        {!disabled && !readOnly && <UploadButtonArea />}
       </div>
     )
   );
