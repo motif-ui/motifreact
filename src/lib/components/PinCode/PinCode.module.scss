@@ -12,8 +12,6 @@ $sizes: (
   .#{$size} {
     gap: var(--base-sizing-#{$gap});
     .input {
-      width: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}));
-      height: calc(var(--base-sizing-#{$inputSize}) + 2 * var(--base-sizing-#{$padding}));
       padding: var(--base-sizing-#{$padding});
       box-sizing: border-box;
     }
