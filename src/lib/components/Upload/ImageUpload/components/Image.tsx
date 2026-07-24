@@ -15,11 +15,11 @@ type Props = {
   file: FileType;
 };
 
-export const Image = ({ file: { status, progress, file, src, addedByValue } }: Props) => {
+export const Image = ({ file: { status, progress, file, src } }: Props) => {
   const { selectedFiles, removeFiles } = useContext(UploadContext);
   const image = src || (file instanceof File ? URL.createObjectURL(file) : undefined);
   const { visible, show, hide } = useToggle(false);
-  const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL || (addedByValue && !src);
+  const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL;
   const deleteFailed = status === STATUS.DELETE_FAIL;
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
 

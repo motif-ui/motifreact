@@ -3,13 +3,14 @@ import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
 import { formatBytes, generateUUIDV4, shortenText } from "../../../utils/utils";
 import { useMotifContext } from "../../motif/context/MotifProvider";
+import { normalizeValue } from "@/components/Upload/helper";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
 export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, value }: UploadProviderProps) => {
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFiles, setSelectedFiles] = useState<FileType[]>(value ?? []);
+  const [selectedFiles, setSelectedFiles] = useState<FileType[]>(normalizeValue(value));
   const { t } = useMotifContext();
 
   const selectedFilesEqualityString = selectedFiles.map(f => f.id + f.file.name + f.file.type + f.status).join(",");
@@ -279,6 +280,15 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accept, autoUpload, isUploadInput, maxFile, maxSize, messages, selectedFilesEqualityString, uploadV2]);
+
+  // Sync value-based files when value prop changes
+  useEffect(() => {
+    const normalized = normalizeValue(value);
+    setSelectedFiles(prevState => {
+      const nonValueFiles = prevState.filter(f => !f.addedByValue);
+      return [...nonValueFiles, ...normalized];
+    });
+  }, [value]);
 
   // Re-translate stored error messages when locale changes
   useEffect(() => {

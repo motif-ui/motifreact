@@ -716,7 +716,7 @@ describe("ImageUpload", () => {
     expect(getThumbnail()).not.toBeInTheDocument();
   });
 
-  it("should display database image as thumbnail when using value prop", async () => {
+  it("should display the value-given image", async () => {
     const dbSrc = "https://example.com/pic.jpg";
     const { getThumbnail } = renderExt(
       <ImageUpload
@@ -738,7 +738,7 @@ describe("ImageUpload", () => {
     });
   });
 
-  it("should open preview for database image", async () => {
+  it("should show the preview of the value-given image", async () => {
     const dbSrc = "https://example.com/pic.jpg";
     renderExt(
       <ImageUpload
@@ -756,10 +756,13 @@ describe("ImageUpload", () => {
     );
     await userEvent.click(screen.getByText("visibility"));
     const previewImg = screen.queryByAltText("Image Preview")!;
-    await waitFor(() => expect(previewImg).toBeInTheDocument());
+    await waitFor(() => {
+      expect(previewImg).toBeInTheDocument();
+      expect(previewImg).toHaveAttribute("src", dbSrc);
+    });
   });
 
-  it("should delete database image when delete button is clicked", async () => {
+  it("should delete the value-given image when delete button is clicked", async () => {
     xhrSpy = mockXHRs(200, 200);
     const { getDeleteButton, getThumbnail } = renderExt(
       <ImageUpload
@@ -778,5 +781,32 @@ describe("ImageUpload", () => {
     await waitFor(() => expect(getThumbnail()).toBeInTheDocument());
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getThumbnail()).not.toBeInTheDocument());
+  });
+
+  it("should display value-given image when value prop changes after initial render", async () => {
+    const dbSrc = "https://example.com/pic.jpg";
+    const { getThumbnail, rerender } = renderExt(<ImageUpload {...requiredProps} value={undefined} />);
+
+    expect(getThumbnail()).not.toBeInTheDocument();
+
+    rerender(
+      <ImageUpload
+        {...requiredProps}
+        value={[
+          {
+            id: "db-1",
+            name: "existing.jpg",
+            size: 102400,
+            type: "image/jpeg",
+            src: dbSrc,
+          },
+        ]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(getThumbnail()).toBeInTheDocument();
+      expect(getThumbnail()).toHaveAttribute("src", dbSrc);
+    });
   });
 });

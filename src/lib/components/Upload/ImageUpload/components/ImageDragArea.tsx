@@ -44,11 +44,7 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
           ? t(MESSAGE.DELETE_ERROR)
           : t(MESSAGE.UPLOAD_ERROR),
     );
-  const failed =
-    status === STATUS.CHECK_FAIL ||
-    status === STATUS.UPLOAD_FAIL ||
-    status === STATUS.DELETE_FAIL ||
-    (selectedImage && selectedImage.addedByValue && !selectedImage.src);
+  const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL || status === STATUS.DELETE_FAIL;
   const maybeShowThumbnail = status !== undefined;
   const innerClasses = sanitizeModuleClasses(
     styles,

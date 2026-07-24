@@ -1,6 +1,7 @@
 "use client";
 import styles from "./UploadInput.module.scss";
 import { useCallback, useContext, useEffect, useMemo } from "react";
+import { normalizeValue } from "@/components/Upload/helper.ts";
 import { useMotifContext } from "../../../motif/context/MotifProvider";
 import { InputState, UploadProps } from "../types";
 import { STATUS } from "@/components/Upload/constants";
@@ -14,7 +15,7 @@ import { UploadInputProps, UploadInputWrapperProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIcon } from "@/components/Motif/Icon";
-import { mapExternalValue, toFormValue } from "@/components/Upload/helper.ts";
+import { toFormValue } from "@/components/Upload/helper.ts";
 
 const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("UploadInput", p);
@@ -30,7 +31,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     value: externalValue,
     ...inputCommonProps
   } = props;
-  const mappedValue = mapExternalValue(externalValue);
+  const mappedValue = normalizeValue(externalValue);
 
   const { size, error, success, onError, disabled, readOnly, onFormFieldValueUpdate, inFormField, name, onChange } = useRegisterFormField({
     props: { ...inputCommonProps, value: toFormValue(mappedValue) },

@@ -26,7 +26,7 @@ type Story = StoryObj<typeof ImageUpload>;
 
 export const Primary: Story = {};
 
-export const WithDatabaseImage: Story = {
+export const WithValueGivenImage: Story = {
   args: {
     value: [
       {
@@ -37,6 +37,6 @@ export const WithDatabaseImage: Story = {
         src: "https://picsum.photos/200/300",
       },
     ],
-    deleteRequest: { url: "https://httpbin.org/delete", method: "DELETE" },
+    deleteRequest: { url, method },
   },
 };

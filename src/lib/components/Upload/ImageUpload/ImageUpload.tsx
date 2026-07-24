@@ -5,11 +5,11 @@ import ImageDragArea from "@/components/Upload/ImageUpload/components/ImageDragA
 import { MIME_TYPES } from "../constants";
 import { ImageUploadProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
-import { mapExternalValue } from "@/components/Upload/helper";
+import { normalizeValue } from "@/components/Upload/helper";
 
 const ImageUpload = (props: PropsWithRef<ImageUploadProps, HTMLDivElement>) => {
   const { size, style, ref, className, value: externalValue, ...rest } = usePropsWithThemeDefaults("ImageUpload", props);
-  const mappedValue = mapExternalValue(externalValue);
+  const mappedValue = normalizeValue(externalValue);
 
   return (
     <UploadProvider props={{ ...rest, accept: MIME_TYPES.IMAGE, maxFile: 1 }} size={size} value={mappedValue}>
