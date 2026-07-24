@@ -81,29 +81,6 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
   }
 }
 
-.button__multiple {
-  border-width: var(--base-sizing-1x) 0;
-  background-color: var(--theme-color-surface-light-default);
-
-  &:hover,
-  &:active {
-    &,
-    .icon {
-      color: var(--theme-color-text-base-text-light);
-    }
-  }
-
-  &:hover {
-    background-color: var(--theme-color-surface-primary-hover);
-    border-color: var(--theme-color-border-primary-hover);
-  }
-
-  &:active {
-    background-color: var(--theme-color-surface-primary-active);
-    border-color: var(--theme-color-border-primary-active);
-  }
-}
-
 .button__dropdown {
   border-width: var(--base-sizing-1x) 0;
   background-color: var(--theme-color-surface-light-default);
@@ -139,6 +116,14 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
     .icon {
       color: var(--theme-color-text-base-text-light);
     }
+  }
+}
+
+.dropdownIcon {
+  @include transition(rotate);
+
+  &.open {
+    rotate: 180deg;
   }
 }
 

@@ -15,6 +15,7 @@ const CustomDatePicker = (props: Props) => {
   const {
     size,
     locale,
+    firstDayOfWeek,
     dateCouple: [startDate, endDate],
     today,
     months,
@@ -94,6 +95,7 @@ const CustomDatePicker = (props: Props) => {
     <DaySelector
       size={size}
       locale={locale}
+      firstDayOfWeek={firstDayOfWeek}
       month={pickerDate.getMonth()}
       year={pickerDate.getFullYear()}
       disabledMonthYearClick
