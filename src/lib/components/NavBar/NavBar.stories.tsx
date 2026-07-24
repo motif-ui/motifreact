@@ -112,6 +112,7 @@ return (
       onPressEnter: doSearch,
       onButtonClick: doSearch,
       onResultClick: result => alert("Clicked: " + result),
+      onClear: () => setResults([]),
       results,
       searching,
     }}
@@ -143,6 +144,7 @@ return (
             onPressEnter: doSearch,
             onButtonClick: doSearch,
             onResultClick: result => alert("Clicked: " + result),
+            onClear: () => setResults([]),
             results,
             searching,
           }}
