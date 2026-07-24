@@ -15,7 +15,9 @@ const Button = memo((props: Props) => {
   return (
     <button className={`${styles.button} ${styles[`button__${type}`]}`} type="button" disabled={disabled} onClick={action}>
       {icon && <Icon name={icon} className={styles.icon} />} {label}
-      {type === "dropdown" && <Icon name="keyboard_arrow_down" className={sanitizeModuleClasses(styles, "dropdownIcon", open && "open")} />}
+      {type === "dropdown" && (
+        <Icon name="keyboard_arrow_down" className={sanitizeModuleClasses(styles, "icon", "dropdownIcon", open && "open")} />
+      )}
     </button>
   );
 });
