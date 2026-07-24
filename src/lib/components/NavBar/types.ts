@@ -14,6 +14,7 @@ export type NavBarProps = {
    *   pill?: boolean;
    *   onPressEnter?: (query: string) => void;
    *   onButtonClick?: (query: string) => void;
+   *   onClear?: () => void;
    *   searching?: boolean;
    *   onResultClick?: (value?: string) => void;
    *   results: { text: string; value?: string; }[];
@@ -101,6 +102,7 @@ export type NavBarSearchProps = {
   pill?: boolean;
   onPressEnter?: (query: string) => void;
   onButtonClick?: (query: string) => void;
+  onClear?: () => void;
   searching?: boolean;
 } & NavBarSearchResultsProps;
 
