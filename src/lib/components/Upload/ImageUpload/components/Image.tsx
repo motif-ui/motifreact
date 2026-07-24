@@ -15,7 +15,7 @@ type Props = {
   file: FileType;
 };
 
-export const Image = ({ file: { status, progress, file, src } }: Props) => {
+export const Image = ({ file: { status, progress, file, src, deleting } }: Props) => {
   const { selectedFiles, removeFiles } = useContext(UploadContext);
   const image = src || (file instanceof File ? URL.createObjectURL(file) : undefined);
   const { visible, show, hide } = useToggle(false);
@@ -24,7 +24,13 @@ export const Image = ({ file: { status, progress, file, src } }: Props) => {
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
 
   const deleteIcon = (
-    <MotifIconButton name="delete" variant="danger" className={styles.icon} onClick={() => removeFiles([selectedFiles[0]])} />
+    <MotifIconButton
+      name="delete"
+      variant="danger"
+      className={styles.icon}
+      disabled={deleting}
+      onClick={() => removeFiles([selectedFiles[0]])}
+    />
   );
 
   return (
