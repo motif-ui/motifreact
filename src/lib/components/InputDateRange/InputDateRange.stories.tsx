@@ -17,6 +17,7 @@ const meta: Meta<typeof InputDateRange> = {
     locale: { table: { defaultValue: { summary: "Turkish" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     placeholder: { table: { defaultValue: { summary: "Reflects format prop" } } },
+    firstDayOfWeek: { table: { defaultValue: { summary: "1" } } },
   },
   args: {
     value: [new Date(today), new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7)],
