@@ -72,7 +72,7 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
       hyphens: auto;
     }
     &.striped {
-      :where(tr:nth-child(even)) {
+      :where(tr.stripedRow) {
         background-color: var(--theme-color-surface-base-base2);
       }
     }
@@ -125,9 +125,11 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
       }
     }
   }
-
-  &.hoverable tbody tr:hover {
-    background-color: var(--theme-color-surface-light-default);
+  &.hoverable tbody {
+    tr:hover,
+    td.hovered {
+      background-color: var(--theme-color-surface-light-default);
+    }
   }
 }
 

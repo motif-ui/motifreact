@@ -86,6 +86,36 @@ export const getSpannedCellsMap = (columns: Column[], rows?: RowDetail[]): Spann
   return map;
 };
 
+export const hasRowSpan = (spannedCellsMap: SpannedCellsMap): boolean => {
+  let found = false;
+  spannedCellsMap.forEach(span => {
+    if (span && span.rowSpan > 1) found = true;
+  });
+  return found;
+};
+
+export const getRowStripeGroups = (spannedCellsMap: SpannedCellsMap, rowCount: number): number[] => {
+  const continuationRows = new Set<number>();
+
+  spannedCellsMap.forEach((span, key) => {
+    if (!span || span.rowSpan <= 1) return;
+
+    const rowIndex = Number(key.split("-")[0]);
+    for (let r = 1; r < span.rowSpan; r++) {
+      continuationRows.add(rowIndex + r);
+    }
+  });
+
+  const groups: number[] = [];
+  let group = 0;
+  for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+    if (rowIndex > 0 && !continuationRows.has(rowIndex)) group++;
+    groups[rowIndex] = group;
+  }
+
+  return groups;
+};
+
 // Sorting Utils
 export const sortByType = (a: unknown, b: unknown, type: string) => {
   switch (type) {
