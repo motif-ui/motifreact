@@ -43,7 +43,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     ref: outerRef,
   } = props;
   const [selectedItems, setSelectedItems] = useState<SelectItem[]>();
-  const { size, error, readOnly, success, disabled, onFormFieldValueUpdate, name, inFormField } = useRegisterFormField({
+  const { size, error, readOnly, success, disabled, onFormFieldValueUpdate, name } = useRegisterFormField({
     props,
     defaultValue: multiple ? [] : undefined,
     valueStateSetter: setSelectedItems,
@@ -176,7 +176,6 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className, [
     size,
     !readOnly && expanded && "expanded",
-    inFormField && "inFormField",
     loading && "loading",
     expanded && "active",
     disabled || readOnly || loading ? "disabled" : error ? "error" : success && "success",

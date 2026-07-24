@@ -13,10 +13,6 @@ $sizes: (
   flex-direction: column;
 }
 
-.inFormField {
-  min-width: var(--base-sizing-190x);
-}
-
 .disabled {
   .textArea,
   .counterArea {

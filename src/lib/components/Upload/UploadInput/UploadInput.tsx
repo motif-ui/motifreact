@@ -32,7 +32,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
   } = props;
   const mappedValue = mapExternalValue(externalValue);
 
-  const { size, error, success, onError, disabled, readOnly, onFormFieldValueUpdate, inFormField, name, onChange } = useRegisterFormField({
+  const { size, error, success, onError, disabled, readOnly, onFormFieldValueUpdate, name, onChange } = useRegisterFormField({
     props: { ...inputCommonProps, value: toFormValue(mappedValue) },
     defaultValue: undefined,
     defaultValidations: [Validations.UploadItemSyncValidation],
@@ -58,7 +58,6 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     readOnly,
     name,
     onFormFieldValueUpdate,
-    inFormField,
     onChange,
   };
 
@@ -70,7 +69,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
 };
 
 const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDivElement>) => {
-  const { ref, onChange, disabled, size, success, error, onError, onFormFieldValueUpdate, inFormField, readOnly, style, className } = props;
+  const { ref, onChange, disabled, size, success, error, onError, onFormFieldValueUpdate, readOnly, style, className } = props;
   const {
     selectedFiles,
     browse,
@@ -129,7 +128,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
 
   const uploadHandler = useCallback(() => uploadV2(selectedFiles, true), [selectedFiles, uploadV2]);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [styleVariant, inFormField && "inFormField", size]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [styleVariant, size]);
 
   return (
     <div ref={ref} className={classNames} style={style} data-testid="uploadInputItem">
