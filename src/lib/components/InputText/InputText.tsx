@@ -30,7 +30,7 @@ const InputText = (p: PropsWithRef<InputTextProps, HTMLDivElement>) => {
       {...propsFromForm}
       value={props.value as string}
       onValueUpdated={onFormFieldValueUpdate}
-      valueTransformer={textTransform ? (v: string) => applyTextTransform(v, textTransform, locale) : undefined}
+      valueTransformer={textTransform ? v => applyTextTransform(v, textTransform, locale) : undefined}
       imperativeRef={internalInputRef}
       className={classNames}
     />

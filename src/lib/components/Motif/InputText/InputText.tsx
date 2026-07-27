@@ -2,7 +2,7 @@
 
 import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "./InputText.module.scss";
-import { ChangeEvent, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { PropsWithRef } from "../../../types";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIconButton } from "@/components/Motif/Icon";
@@ -48,24 +48,10 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const prevValueRef = useRef(value);
-  const pendingSelectionRef = useRef<{ start: number; end: number } | null>(null);
   useImperativeHandle(imperativeRef, () => ({ valueStateSetter: setItemValue }));
 
   const [itemValue, setItemValue] = useState(() => (valueTransformer ? (valueTransformer(value) ?? value) : value));
   const controlledProps = uncontrolled ? { defaultValue: value } : { value: itemValue };
-
-  // React writes the transformed value to the DOM to keep the controlled input in sync, and
-  // that native write resets the caret to the end whenever valueTransformer changes the typed
-  // characters (e.g. lowercase -> uppercase), even though the length is unchanged. Restore
-  // the caret right after that DOM write commits, before the browser paints.
-  useLayoutEffect(() => {
-    if (pendingSelectionRef.current && inputRef.current) {
-      const { start, end } = pendingSelectionRef.current;
-      inputRef.current.setSelectionRange(start, end);
-      pendingSelectionRef.current = null;
-    }
-  }, [itemValue]);
-
   useEffect(() => {
     if (!uncontrolled && value !== prevValueRef.current) {
       prevValueRef.current = value;
