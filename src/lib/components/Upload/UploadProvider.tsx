@@ -129,7 +129,6 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       const request = new XMLHttpRequest();
       activeRequestsRef.current.add(request);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const stallTimeoutMs = uploadRequest.stallTimeout ?? DEFAULT_UPLOAD_STALL_TIMEOUT_MS;
       const stallState: { timer: ReturnType<typeof setTimeout> | undefined; stalled: boolean } = {
         timer: undefined,
@@ -144,7 +143,6 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
         stallState.timer = setTimeout(() => {
           stallState.stalled = true;
           request.abort();
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         }, stallTimeoutMs);
       };
 
@@ -305,9 +303,9 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       return;
     }
     setSelectedFiles(prev => {
-      const previousValueFilesById = new Map(prev.filter(f => f.addedByValue).map(f => [f.id, f]));
+      const prevFilesById = new Map(prev.map(f => [f.id, f]));
       const nextValueFiles = (value ?? []).map(valueFile => {
-        const previous = previousValueFilesById.get(valueFile.id);
+        const previous = prevFilesById.get(valueFile.id);
         return previous && (previous.deleting || previous.status === STATUS.DELETE_FAIL) ? previous : valueFile;
       });
       const localFiles = prev.filter(f => !f.addedByValue);

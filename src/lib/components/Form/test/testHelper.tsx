@@ -18,10 +18,13 @@ import { ReactElement } from "react";
 import { InputCommonProps } from "../../Form/types";
 import InputDate from "@/components/InputDate";
 import { DateUtils } from "../../../../utils/dateUtils";
+import { STATUS } from "@/components/Upload/constants";
 
 export const mockFunction = jest.fn();
 
 export const requiredProps = { uploadRequest: MOCK.uploadRequest, deleteRequest: MOCK.deleteRequest };
+
+export const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
 
 export const data: (SelectGroupItem | SelectItem)[] = [
   { label: "Item 1", value: "i1" },
@@ -42,6 +45,30 @@ export const expectedSubmitResponse = {
       inputDate: DateUtils.getTodayTimeless(),
       switch: false,
       pinCode: ["a", "b"],
+      uploadInput: [
+        {
+          id: serverFile.id,
+          file: { name: serverFile.name, type: serverFile.type, size: serverFile.size },
+          status: STATUS.SUCCESS,
+          uploaded: true,
+        },
+      ],
+      uploadList: [
+        {
+          id: serverFile.id,
+          file: { name: serverFile.name, type: serverFile.type, size: serverFile.size },
+          status: STATUS.SUCCESS,
+          uploaded: true,
+        },
+      ],
+      uploadDragger: [
+        {
+          id: serverFile.id,
+          file: { name: serverFile.name, type: serverFile.type, size: serverFile.size },
+          status: STATUS.SUCCESS,
+          uploaded: true,
+        },
+      ],
     },
   },
 };
@@ -101,6 +128,9 @@ export const groupItems = [
     <PinCode.Item />
     <PinCode.Item />
   </PinCode>,
+  <UploadInput {...requiredProps} name="uploadInput" value={[serverFile]} key="uploadInput" />,
+  <UploadList {...requiredProps} name="uploadList" value={[serverFile]} key="uploadList" />,
+  <UploadDragger {...requiredProps} name="uploadDragger" value={[serverFile]} key="uploadDragger" />,
 ];
 
 export const formItems: ReactElement<InputCommonProps>[] = [

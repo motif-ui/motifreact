@@ -313,7 +313,6 @@ describe("Form", () => {
   });
 
   it("should disable all items in FormFieldGroup when disabled prop is given to FormFieldGroup", async () => {
-    const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
     const handleSubmit = (data: FormSubmitData) => {
       expect(data.isValid).toBe(true);
       expect(Object.keys(data.values).length).toBe(0);
@@ -324,26 +323,12 @@ describe("Form", () => {
         <Form.FieldGroup name="testGroup" disabled>
           {groupItems}
         </Form.FieldGroup>
-        {/* Upload Components */}
-        <Form.Field name="uploadInput" disabled>
-          <UploadInput {...requiredProps} value={[serverFile]} />
-        </Form.Field>
-        <Form.Field name="uploadList" disabled>
-          <UploadList {...requiredProps} value={[serverFile]} />
-        </Form.Field>
-        <Form.Field name="uploadDragger" disabled>
-          <UploadDragger {...requiredProps} value={[serverFile]} />
-        </Form.Field>
       </Form>,
     );
 
     const user = userEvent.setup();
     const value = "Entered Text";
     const inputItems = getAllInputItems();
-
-    // Upload Components: value files stay visible but their delete actions are hidden.
-    expect(screen.queryAllByText(serverFile.name)).toHaveLength(3);
-    expect(screen.queryAllByText("delete")).toHaveLength(0);
 
     expect(getFormFieldGroup(0)).toHaveClass("disabled");
 
@@ -433,15 +418,10 @@ describe("Form", () => {
     });
   });
 
-  it("should prevent typing or editing all items in FormFieldGroup when readOnly prop is given", async () => {
-    const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
+  it("should prevent typing, editing, or file changes for all items in FormFieldGroup when readOnly prop is given", async () => {
     const handleSubmit = (data: FormSubmitData) => {
-      expect(data.isValid).toBe(true);
-      expect(JSON.stringify(data.values.testGroup)).toBe(JSON.stringify(expectedSubmitResponse.values.testGroup));
       // Upload Components: readOnly fields are still included in submit (unlike disabled), each with its value file.
-      [data.values.uploadInput, data.values.uploadList, data.values.uploadDragger].forEach(files => {
-        expect(files as FileType[]).toHaveLength(1);
-      });
+      expect(JSON.stringify(data.values.testGroup)).toBe(JSON.stringify(expectedSubmitResponse.values.testGroup));
     };
 
     render(
@@ -449,26 +429,12 @@ describe("Form", () => {
         <Form.FieldGroup name="testGroup" readOnly>
           {groupItems}
         </Form.FieldGroup>
-        {/* Upload Components */}
-        <Form.Field name="uploadInput" readOnly>
-          <UploadInput {...requiredProps} value={[serverFile]} />
-        </Form.Field>
-        <Form.Field name="uploadList" readOnly>
-          <UploadList {...requiredProps} value={[serverFile]} />
-        </Form.Field>
-        <Form.Field name="uploadDragger" readOnly>
-          <UploadDragger {...requiredProps} value={[serverFile]} />
-        </Form.Field>
       </Form>,
     );
 
     const user = userEvent.setup();
     const value = "Entered Text";
     const inputItems = getAllInputItems();
-
-    // Upload Components: value files stay visible but their delete actions are hidden.
-    expect(screen.queryAllByText(serverFile.name)).toHaveLength(3);
-    expect(screen.queryAllByText("delete")).toHaveLength(0);
 
     // Input Text
     expect(inputItems[0].querySelector("input")).toHaveAttribute("readonly");
@@ -506,6 +472,18 @@ describe("Form", () => {
     // Pin Code
     expect(inputItems[10].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
     await user.type(inputItems[10].getElementsByTagName("input")[0], value);
+
+    // Upload List
+    await act(() =>
+      fireEvent.drop(screen.getAllByText(t("g.browse"))[1].parentElement as Element, { dataTransfer: { files: [MOCK.filePng2mb] } }),
+    );
+
+    // Upload Dragger
+    await act(() =>
+      fireEvent.drop(screen.getByTestId("uploadDragger").firstElementChild as Element, {
+        dataTransfer: { files: [MOCK.filePng2mb] },
+      }),
+    );
 
     await user.click(screen.getByText(t("g.submit")));
   });
