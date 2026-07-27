@@ -816,7 +816,7 @@ describe("Table", () => {
     Array.from(getTableBody().children).forEach(row => expect(row).not.toHaveClass("stripedRow"));
   });
 
-  it("should highlight a rowSpan cell while any row it covers is hovered", async () => {
+  it("should mark a row as groupStart when one of its columns has a rowSpan", () => {
     const { getTableBody } = renderExt(
       <Table
         columns={[
@@ -833,43 +833,12 @@ describe("Table", () => {
     );
 
     const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
-    const spannedCell = within(rows[0]).getAllByRole("cell")[0];
-
-    await userEvent.hover(rows[1]);
-    expect(spannedCell).toHaveClass("hovered");
-
-    await userEvent.hover(rows[2]);
-    expect(spannedCell).toHaveClass("hovered");
-
-    await userEvent.unhover(rows[2]);
-    expect(spannedCell).not.toHaveClass("hovered");
+    expect(rows[0]).toHaveClass("groupStart");
+    expect(rows[1]).not.toHaveClass("groupStart");
+    expect(rows[2]).not.toHaveClass("groupStart");
   });
 
-  it("should not highlight a rowSpan cell from a row outside its span", async () => {
-    const { getTableBody } = renderExt(
-      <Table
-        columns={[
-          { title: "Name", dataKey: "name", rowSpan: 2 },
-          { title: "Age", dataKey: "age" },
-        ]}
-        data={[
-          { name: "John", age: 30 },
-          { name: "John", age: 25 },
-          { name: "Jane", age: 40 },
-          { name: "Jane", age: 41 },
-        ]}
-        hoverable
-      />,
-    );
-
-    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
-    const firstBlockCell = within(rows[0]).getAllByRole("cell")[0];
-
-    await userEvent.hover(rows[2]);
-    expect(firstBlockCell).not.toHaveClass("hovered");
-  });
-
-  it("should not track hover in JS when no rowSpan is present", async () => {
+  it("should not mark a row as groupStart when no rowSpan is present", () => {
     const { getTableBody } = renderExt(
       <Table
         columns={[
@@ -884,11 +853,7 @@ describe("Table", () => {
       />,
     );
 
-    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
-    await userEvent.hover(rows[0]);
-    within(rows[0])
-      .getAllByRole("cell")
-      .forEach(cell => expect(cell).not.toHaveClass("hovered"));
+    Array.from(getTableBody().children).forEach(row => expect(row).not.toHaveClass("groupStart"));
   });
 
   it("should not render cells covered by previous colspan", () => {

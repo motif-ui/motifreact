@@ -11,18 +11,24 @@ type Props = {
   row: RowDetail;
   rowIndex: number;
   isStripe?: boolean;
-  hoveredRowIndex?: number;
-  onHover?: (rowIndex?: number) => void;
 };
 
 const DataRow = (props: Props) => {
-  const { rowNumberStatic, row, rowIndex, isStripe, hoveredRowIndex, onHover } = props;
+  const { rowNumberStatic, row, rowIndex, isStripe } = props;
   const { columns, showFixedRowNumbers, selectable, selectHandler, rowColorCallback, spannedCellsMap } = useContext(TableContext);
 
-  const className = sanitizeModuleClasses(styles, isStripe && "stripedRow", row.isSelected && "selected", rowColorCallback?.(row.data));
+  const isGroupStart = columns.some((_, cIndex) => (spannedCellsMap.get(`${rowIndex}-${cIndex}`)?.rowSpan ?? 1) > 1);
+
+  const className = sanitizeModuleClasses(
+    styles,
+    isStripe && "stripedRow",
+    row.isSelected && "selected",
+    isGroupStart && "groupStart",
+    rowColorCallback?.(row.data),
+  );
 
   return (
-    <tr className={className} onMouseEnter={onHover && (() => onHover(rowIndex))} onMouseLeave={onHover && (() => onHover(undefined))}>
+    <tr className={className}>
       {selectable && (
         <td className={styles.selectable}>
           <Checkbox size="sm" onChange={() => selectHandler?.({ row })} checked={row.isSelected} />
@@ -31,18 +37,7 @@ const DataRow = (props: Props) => {
       {showFixedRowNumbers ? <td>{rowNumberStatic}</td> : null}
       {columns.map((column, cIndex) => {
         const span = spannedCellsMap.get(`${rowIndex}-${cIndex}`);
-        return (
-          span && (
-            <DataCell
-              key={`${row.motifIndex}-${cIndex}`}
-              column={column}
-              rowData={row.data}
-              span={span}
-              rowIndex={rowIndex}
-              hoveredRowIndex={hoveredRowIndex}
-            />
-          )
-        );
+        return span && <DataCell key={`${row.motifIndex}-${cIndex}`} column={column} rowData={row.data} span={span} />;
       })}
     </tr>
   );

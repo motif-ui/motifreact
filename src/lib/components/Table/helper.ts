@@ -86,14 +86,6 @@ export const getSpannedCellsMap = (columns: Column[], rows?: RowDetail[]): Spann
   return map;
 };
 
-export const hasRowSpan = (spannedCellsMap: SpannedCellsMap): boolean => {
-  let found = false;
-  spannedCellsMap.forEach(span => {
-    if (span && span.rowSpan > 1) found = true;
-  });
-  return found;
-};
-
 export const getRowStripeGroups = (spannedCellsMap: SpannedCellsMap, rowCount: number): number[] => {
   const continuationRows = new Set<number>();
 
