@@ -52,6 +52,7 @@ const DaySelectorWithMonthYear = () => {
     <DaySelector
       size={size}
       locale={locale}
+      firstDayOfWeek={firstDayOfWeek}
       month={pickerDate.getMonth()}
       year={pickerDate.getFullYear()}
       dates={displayedWeeks.flat()}
