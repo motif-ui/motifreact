@@ -26,7 +26,14 @@
   }
 
   /* Global fixes & helpers */
-  :where(div:not(.sb-anchor, .sb-unstyled, .sb-unstyled *)) {
+  /* Scoped to .sbdocs-wrapper (docs pages only, never present on a
+     standalone story view) so this can't reach a real component's own
+     divs there — the .sb-unstyled exclusion alone doesn't help in that
+     view: Storybook only wraps embedded stories in .sb-unstyled on docs
+     pages, not when a story is opened standalone. Confirmed live: without
+     this scope, every <div> in a standalone story's rendered output got
+     font-family: Inter forced onto it, exception-free. */
+  .sbdocs.sbdocs-wrapper :where(div:not(.sb-anchor, .sb-unstyled, .sb-unstyled *)) {
     font-family: "Inter", sans-serif !important;
   }
   .sbdocs.sbdocs-preview,
@@ -36,9 +43,6 @@
   }
   .docs-story > div {
     z-index: 1;
-    &:first-child {
-      padding: 32px 16px 42px;
-    }
   }
   .no-border {
     border: none !important;
@@ -69,6 +73,18 @@
     symbols: "•";
     suffix: "  ";
   }
+  /* Same mechanism as the `<p>`/`<table>` font-family rules further down:
+     Storybook sets its own direct font-family on every heading level via a
+     generated .css-* class (confirmed live via matched CSS rules), which
+     wins over inheritance from .sbdocs-wrapper's Inter override — so each
+     heading level needs this explicitly, not just inherited. */
+  .sbdocs-content h1:not(.sb-unstyled h1),
+  .sbdocs-content h2:not(.sb-unstyled h2),
+  .sbdocs-content h3:not(.sb-unstyled h3),
+  .sbdocs-content h4:not(.sb-unstyled h4),
+  .sbdocs-content h5:not(.sb-unstyled h5) {
+    font-family: "Inter", sans-serif !important;
+  }
   .sbdocs-content h1:not(.sb-unstyled h1),
   .sbdocs-content h2:not(.sb-unstyled h2),
   .sbdocs-content h3:not(.sb-unstyled h3) {
@@ -78,22 +94,38 @@
   .sbdocs-content h2:not(.sb-unstyled h2) {
     color: #292d42;
   }
-  .sbdocs-content h4:not(.sb-unstyled h1)::before,
-  .sbdocs-content h5:not(.sb-unstyled h2)::before {
+  .sbdocs-content h4:not(.sb-unstyled h4)::before {
     content: "❯\00a0";
     font-size: 13px;
+    position: absolute;
+    left: 0;
+    top: calc(50% - 4px);
+  }
+  .sbdocs-content h5:not(.sb-unstyled h5)::before {
+    content: "❯\00a0";
+    font-size: 11px;
+    position: absolute;
+    left: 0;
+    top: calc(50% - 7px);
   }
   .sbdocs-content h1:not(.sb-unstyled h1) a:not(.sbdocs-a),
   .sbdocs-content h2:not(.sb-unstyled h2) a:not(.sbdocs-a),
-  .sbdocs-content h3:not(.sb-unstyled h3) a:not(.sbdocs-a),
-  .sbdocs-content h4:not(.sb-unstyled h4) a:not(.sbdocs-a),
-  .sbdocs-content h5:not(.sb-unstyled h5) a:not(.sbdocs-a) {
-    padding-right: 0;
-    margin-left: -18px;
+  .sbdocs-content h3:not(.sb-unstyled h3) a:not(.sbdocs-a) {
+    margin: 0 -4px 0 0;
+    padding: 0;
+    &:hover {
+      background: none;
+      color: var(--mtfdocs-purple);
+    }
   }
   .sbdocs-content h4:not(.sb-unstyled h4) a:not(.sbdocs-a),
   .sbdocs-content h5:not(.sb-unstyled h5) a:not(.sbdocs-a) {
-    margin-top: 4px;
+    margin: 0 7px 0 0;
+    padding: 0;
+    &:hover {
+      background: none;
+      color: var(--mtfdocs-purple);
+    }
   }
   .sbdocs-content {
     h1:not(.sb-unstyled h1) {
@@ -111,8 +143,11 @@
     }
     h4:not(.sb-unstyled h4) {
       font-weight: 900;
-      font-size: 16px;
-      padding: 12px 0 4px;
+      font-size: 15px;
+      padding: 12px 12px 4px;
+    }
+    h5:not(.sb-unstyled h5) {
+      padding-left: 10px;
     }
     p:not(.sb-unstyled p) {
       color: #4f586f;
@@ -170,6 +205,7 @@
 
     /* Copy button */
     > div:last-child {
+      position: absolute;
       bottom: 8px;
       right: 8px;
       background: none;
@@ -241,7 +277,10 @@
     }
     /* Table */
     :where(table:not(.sb-anchor, .sb-unstyled, .sb-unstyled *)) {
-      width: 100%;
+      display: block;
+      overflow-x: auto;
+      width: fit-content;
+      max-width: 100%;
       /* Confirmed live: without this, table text falls back to Storybook's default font. This line just isn't optional. */
       font-family: "Inter", sans-serif !important;
       box-shadow: var(--mtfdocs-shadow-soft);
@@ -399,7 +438,7 @@
 
   /* Table of Contents */
   aside.sbdocs.sbdocs-toc--custom {
-    width: 232px;
+    width: 200px;
 
     nav {
       width: 200px;
@@ -491,41 +530,8 @@
 
     .docs-story {
       border-radius: var(--mtfdocs-radius-md);
-
-      .docblock-code-toggle {
-        justify-content: center;
-        transition: color 0.2s;
-        padding: 8px 12px;
-        color: #536078;
-        font-weight: 850;
-        box-shadow: 0 -8px 22px var(--mtfdocs-preview-shadow);
-
-        &:not(.docblock-code-toggle--expanded) {
-          border-radius: 12px 0 var(--mtfdocs-radius-md) 0;
-        }
-        &.docblock-code-toggle--expanded {
-          border-radius: 12px 0 0 0;
-          border-color: rgba(var(--mtfdocs-purple-rgb), 0.34);
-          background: rgba(var(--mtfdocs-purple-rgb), 0.1);
-          color: var(--mtfdocs-purple-strong);
-        }
-        &:focus {
-          box-shadow: none;
-        }
-        &:hover {
-          color: var(--mtfdocs-purple-strong);
-        }
-      }
-      div:has(.docblock-code-toggle:not(.docblock-code-toggle--expanded)) {
-        border-bottom-right-radius: var(--mtfdocs-radius-md);
-      }
     }
-    /* Expanded code panel */
-    pre.prismjs {
-      background: linear-gradient(180deg, #312845 0%, #261f38 100%);
-    }
-    /* Preview toolbar */
-    > div:first-child {
+    [role="toolbar"] {
       border-top-left-radius: var(--mtfdocs-radius-md);
       border-top-right-radius: var(--mtfdocs-radius-md);
 
@@ -534,6 +540,9 @@
         color: var(--mtfdocs-purple-strong);
         background: rgba(var(--mtfdocs-purple-rgb), 0.06);
       }
+    }
+    pre.prismjs {
+      background: linear-gradient(180deg, #312845 0%, #261f38 100%);
     }
   }
   .sbdocs.sbdocs-preview div:has(pre):last-child {
@@ -559,6 +568,20 @@
       background: none;
       right: 12px;
       bottom: 12px;
+    }
+  }
+  .sbdocs-preview-actions {
+    button {
+      border-radius: var(--mtfdocs-radius-xs);
+      &:hover {
+        color: var(--mtfdocs-purple-strong);
+        background: rgba(var(--mtfdocs-purple-rgb), 0.06);
+        border-color: rgba(var(--mtfdocs-purple-rgb), 0.34);
+      }
+      &.docblock-code-toggle--expanded {
+        background: rgba(var(--mtfdocs-purple-rgb), 1);
+        color: white;
+      }
     }
   }
 </style>
