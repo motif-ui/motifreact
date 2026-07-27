@@ -364,4 +364,11 @@ describe("DateRangePicker", () => {
     expect(startDateButton).toHaveClass("selected");
     expect(endDateButton).toHaveClass("selected");
   });
+
+  it("should reflect the day arrangement given in the firstDayOfWeek prop", () => {
+    const mockStartDate = new Date(year - 20, month, 1);
+    const mockEndDate = new Date(year - 20, month + 1, 25);
+    const { container } = render(<DateRangePicker firstDayOfWeek={3} value={[mockStartDate, mockEndDate]} />);
+    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+  });
 });

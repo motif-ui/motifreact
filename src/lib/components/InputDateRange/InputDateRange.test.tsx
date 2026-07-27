@@ -319,6 +319,12 @@ describe("InputDateRange", () => {
     expect(getDateRangeInput()).toHaveValue(testDateString);
   });
 
+  it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
+    const { getDateRangeInput } = renderExt(<InputDateRange firstDayOfWeek={3} value={testDateArr} />);
+    await userEvent.click(getDateRangeInput());
+    expect(document.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+  });
+
   const alignmentCases = [
     { label: "top-left region of the viewport", anchorRect: {}, expected: "bottomLeft" },
     { label: "near the right edge", anchorRect: { left: 800, right: 1000 }, expected: "bottomRight" },

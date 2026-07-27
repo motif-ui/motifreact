@@ -33,7 +33,7 @@ export const pickerSizeMap = {
 
 const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDateRange", p);
-  const { pill, value, onChange, locale: propsLocale, ref, style, className } = props;
+  const { pill, value, onChange, locale: propsLocale, ref, style, className, firstDayOfWeek } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
   const datePlaceholder = format.order.map(part => format[`${part}Format`]?.replace(/[DMY]/g, "_")).join(` ${format.delimiter} `);
   const placeholder = useMemo(
@@ -148,6 +148,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         createPortal(
           <DateRangePicker
             ref={pickerRef}
+            firstDayOfWeek={firstDayOfWeek}
             variant="bordered"
             size={pickerSizeMap[size]}
             value={itemValue}
