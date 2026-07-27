@@ -40,7 +40,6 @@ export type InternalInputProps = {
   inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
   clearable?: boolean;
   imperativeRef?: RefObject<InternalInputHandle | null>;
-  textTransform?: TextTransform;
 };
 
 export type TextTransform = "uppercase" | "lowercase" | "capitalize";

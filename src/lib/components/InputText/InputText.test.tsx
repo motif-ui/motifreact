@@ -146,7 +146,7 @@ describe("InputText", () => {
     }
   });
 
-  it("should apply locale-aware textTransform when locale is set to tr", async () => {
+  it("should apply textTransform locale-aware based on the locale value of the lib", async () => {
     const cases: { textTransform: TextTransform; typed: string; expected: string }[] = [
       { textTransform: "uppercase", typed: "istanbul", expected: "İSTANBUL" },
       { textTransform: "lowercase", typed: "ISTANBUL", expected: "ıstanbul" },
@@ -161,6 +161,34 @@ describe("InputText", () => {
       );
       const input = screen.getByPlaceholderText("Test");
       await userEvent.type(input, typed);
+
+      expect(input).toHaveValue(expected);
+      unmount();
+    }
+  });
+
+  it("should apply textTransform to the given value prop", () => {
+    const cases: { textTransform: TextTransform; value: string; expected: string }[] = [
+      { textTransform: "uppercase", value: "hello world", expected: "HELLO WORLD" },
+      { textTransform: "lowercase", value: "HELLO WORLD", expected: "hello world" },
+      { textTransform: "capitalize", value: "hello world", expected: "Hello World" },
+    ];
+
+    for (const { textTransform, value, expected } of cases) {
+      const { unmount } = render(<InputText textTransform={textTransform} value={value} onChange={jest.fn()} placeholder="Test" />);
+      const input = screen.getByPlaceholderText("Test");
+
+      expect(input).toHaveValue(expected);
+      unmount();
+    }
+
+    // When value prop is updated
+    for (const { textTransform, value, expected } of cases) {
+      const { rerender, unmount } = render(<InputText textTransform={textTransform} value="" onChange={jest.fn()} placeholder="Test" />);
+      const input = screen.getByPlaceholderText("Test");
+      expect(input).toHaveValue("");
+
+      rerender(<InputText textTransform={textTransform} value={value} onChange={jest.fn()} placeholder="Test" />);
 
       expect(input).toHaveValue(expected);
       unmount();

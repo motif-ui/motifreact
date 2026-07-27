@@ -9,9 +9,12 @@ import { InputTextProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import InternalInputText from "@/components/Motif/InputText/InputText";
 import { InternalInputHandle } from "@/components/Motif/InputText/types";
+import { applyTextTransform } from "@/components/Motif/InputText/helper.ts";
+import { useMotifContext } from "src/lib/motif/context/MotifProvider.tsx";
 
 const InputText = (p: PropsWithRef<InputTextProps, HTMLDivElement>) => {
-  const props = usePropsWithThemeDefaults("InputText", p);
+  const { textTransform, ...props } = usePropsWithThemeDefaults("InputText", p);
+  const { locale } = useMotifContext();
   const internalInputRef = useRef<InternalInputHandle>(null);
   const { inFormField, onFormFieldValueUpdate, ...propsFromForm } = useRegisterFormField({
     props,
@@ -27,6 +30,7 @@ const InputText = (p: PropsWithRef<InputTextProps, HTMLDivElement>) => {
       {...propsFromForm}
       value={props.value as string}
       onValueUpdated={onFormFieldValueUpdate}
+      valueTransformer={textTransform ? (v: string) => applyTextTransform(v, textTransform, locale) : undefined}
       imperativeRef={internalInputRef}
       className={classNames}
     />

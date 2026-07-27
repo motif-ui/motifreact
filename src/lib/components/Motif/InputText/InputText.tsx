@@ -8,7 +8,6 @@ import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIconButton } from "@/components/Motif/Icon";
 import { InternalInputProps } from "@/components/Motif/InputText/types";
 import NumberSpinner from "@/components/Motif/InputText/components/NumberSpinner.tsx";
-import { useTextTransform } from "@/components/Motif/InputText/helper.ts";
 
 const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const {
@@ -41,24 +40,22 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     onClearClick,
     onValueUpdated,
     valueTransformer,
-    textTransform,
     ref,
     imperativeRef,
     className,
     style,
   } = props;
 
-  const applyTextTransform = useTextTransform();
   const inputRef = useRef<HTMLInputElement>(null);
   const prevValueRef = useRef(value);
   const pendingSelectionRef = useRef<{ start: number; end: number } | null>(null);
   useImperativeHandle(imperativeRef, () => ({ valueStateSetter: setItemValue }));
 
-  const [itemValue, setItemValue] = useState(value);
+  const [itemValue, setItemValue] = useState(() => (valueTransformer ? (valueTransformer(value) ?? value) : value));
   const controlledProps = uncontrolled ? { defaultValue: value } : { value: itemValue };
 
   // React writes the transformed value to the DOM to keep the controlled input in sync, and
-  // that native write resets the caret to the end whenever textTransform changes the typed
+  // that native write resets the caret to the end whenever valueTransformer changes the typed
   // characters (e.g. lowercase -> uppercase), even though the length is unchanged. Restore
   // the caret right after that DOM write commits, before the browser paints.
   useLayoutEffect(() => {
@@ -72,45 +69,46 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   useEffect(() => {
     if (!uncontrolled && value !== prevValueRef.current) {
       prevValueRef.current = value;
-      setItemValue(value);
-      onValueUpdated?.(value);
+      const nextValue = valueTransformer ? (valueTransformer(value) ?? value) : value;
+      setItemValue(nextValue);
+      onValueUpdated?.(nextValue);
     }
-  }, [onValueUpdated, uncontrolled, value]);
+  }, [onValueUpdated, uncontrolled, value, valueTransformer]);
 
   const changeProcess = useCallback(
-    (typedVal: string, updateInputRefValue?: boolean) => {
-      const val = textTransform ? applyTextTransform(typedVal, textTransform) : typedVal;
+    (typedValue: string, updateInputRefValue?: boolean) => {
+      const inputEl = inputRef.current;
+
       if (valueTransformer) {
-        const processed = valueTransformer(val);
+        // 1. Save current cursor positions
+        const start = inputEl?.selectionStart ?? null;
+        const end = inputEl?.selectionEnd ?? null;
+
+        const processed = valueTransformer(typedValue);
         if (processed === undefined) {
-          // Transformer rejected the value — restore the DOM to the current valid state and don't trigger anything
-          if (inputRef.current) inputRef.current.value = itemValue;
+          if (inputEl) inputEl.value = itemValue;
           return;
         }
         !uncontrolled && setItemValue(processed);
         onChange?.(processed);
-        // Always sync the DOM when a transformer is active: React may dedupe setState when
-        // the filtered result equals the previous value, leaving raw input visible.
-        if (inputRef.current) inputRef.current.value = processed;
+        if (inputEl) {
+          inputEl.value = processed;
+          // 2. Restore cursor position if input value was modified
+          if (start !== null && end !== null) {
+            inputEl.setSelectionRange(start, end);
+          }
+        }
         return;
       }
-      const selectionStartBeforeWrite = textTransform && inputRef.current ? inputRef.current.selectionStart : null;
-      const selectionEndBeforeWrite = textTransform && inputRef.current ? inputRef.current.selectionEnd : null;
-      !uncontrolled && setItemValue(val);
-      onChange?.(val);
-      if (uncontrolled && (updateInputRefValue || textTransform) && inputRef.current) {
-        const inputEl = inputRef.current;
-        const { selectionStart, selectionEnd } = inputEl;
-        const lengthDelta = val.length - inputEl.value.length;
-        inputEl.value = val;
-        if (selectionStart !== null && selectionEnd !== null) {
-          inputEl.setSelectionRange(Math.max(0, selectionStart + lengthDelta), Math.max(0, selectionEnd + lengthDelta));
-        }
-      } else if (!uncontrolled && selectionStartBeforeWrite !== null && selectionEndBeforeWrite !== null) {
-        pendingSelectionRef.current = { start: selectionStartBeforeWrite, end: selectionEndBeforeWrite };
+
+      !uncontrolled && setItemValue(typedValue);
+      onChange?.(typedValue);
+
+      if (updateInputRefValue && inputEl) {
+        inputEl.value = typedValue;
       }
     },
-    [onChange, setItemValue, uncontrolled, valueTransformer, itemValue, textTransform, applyTextTransform],
+    [onChange, setItemValue, uncontrolled, valueTransformer, itemValue],
   );
 
   const changeHandler = useCallback(
