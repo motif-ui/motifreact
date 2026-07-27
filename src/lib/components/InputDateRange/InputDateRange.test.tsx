@@ -1,5 +1,16 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, renderHook, screen } from "@testing-library/react";
+import type { RefObject } from "react";
 import InputDateRange, { RANGE_ARROW } from "@/components/InputDateRange/InputDateRange";
+import { usePickerPortal } from "@/components/InputDateRange/usePickerPortal";
+import { usePopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
+
+jest.mock("@/components/Popover/hooks/usePopoverPosition", () => {
+  const real = jest.requireActual<typeof import("@/components/Popover/hooks/usePopoverPosition")>(
+    "@/components/Popover/hooks/usePopoverPosition",
+  );
+  return { usePopoverPosition: jest.fn(real.usePopoverPosition) };
+});
+
 import { formatDate } from "@/components/InputDate/helper";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
@@ -14,6 +25,21 @@ describe("InputDateRange", () => {
   const testDateArr = [new Date(2025, 4, 12), new Date(2025, 4, 21)];
   const placeholder = "__ / __ / ____"; // default formata göre "DD/MM/YYYY"
 
+  const mockedPosition = jest.mocked(usePopoverPosition);
+  const mockStartShowing = jest.fn();
+  const mockStartHiding = jest.fn();
+
+  beforeEach(() => {
+    Object.defineProperty(window, "innerWidth", { value: 1024, writable: true });
+    Object.defineProperty(window, "innerHeight", { value: 768, writable: true });
+  });
+
+  afterEach(() => {
+    mockedPosition.mockClear();
+    mockStartShowing.mockClear();
+    mockStartHiding.mockClear();
+  });
+
   const createDateRangeString = (inputDate1: Date | undefined, inputDate2: Date | undefined) => {
     const date1 = formatDate(inputDate1, defaultDateFormat, getDateLocale(t));
     const date2 = formatDate(inputDate2, defaultDateFormat, getDateLocale(t));
@@ -25,7 +51,7 @@ describe("InputDateRange", () => {
 
     const getInputText = () => result.container.firstElementChild?.firstElementChild;
     const getDateRangeInput = () => result.container.firstElementChild!.querySelector("input") as HTMLInputElement;
-    const getDateButton = (date: Date) => result.container.querySelector('[data-date="' + date.getTime() + '"]') as HTMLButtonElement;
+    const getDateButton = (date: Date) => document.body.querySelector('[data-date="' + date.getTime() + '"]') as HTMLButtonElement;
     const getPickerContainer = () => screen.queryByTestId("Picker");
 
     return {
@@ -36,6 +62,37 @@ describe("InputDateRange", () => {
       getDateButton,
     };
   };
+
+  const makeRefs = (anchorRect?: Partial<DOMRect>) => {
+    const anchorEl = document.createElement("div");
+    jest.spyOn(anchorEl, "getBoundingClientRect").mockReturnValue({
+      top: 100,
+      bottom: 150,
+      left: 50,
+      right: 200,
+      width: 150,
+      height: 50,
+      x: 50,
+      y: 100,
+      toJSON: () => {},
+      ...anchorRect,
+    });
+    const pickerEl = document.createElement("div");
+    return {
+      anchorRef: { current: anchorEl } as RefObject<HTMLElement>,
+      pickerRef: { current: pickerEl } as RefObject<HTMLDivElement>,
+      pickerEl,
+    };
+  };
+
+  const mockPositionReturn = (positionStyle: Record<string, number> = { top: 100, left: 50 }) =>
+    mockedPosition.mockReturnValue({
+      startShowing: mockStartShowing,
+      startHiding: mockStartHiding,
+      attached: false,
+      visible: false,
+      positionStyle,
+    });
 
   it("should be rendered with only required props and should have default prop values stated here", () => {
     const { container, getByText, getDateRangeInput, getInputText } = renderExt(<InputDateRange />);
@@ -260,5 +317,22 @@ describe("InputDateRange", () => {
     const testDateString = createDateRangeString(testDateArr[0], testDateArr[1]);
     const { getDateRangeInput } = renderExt(<InputDateRange value={testDateArr.reverse()} />);
     expect(getDateRangeInput()).toHaveValue(testDateString);
+  });
+
+  const alignmentCases = [
+    { label: "top-left region of the viewport", anchorRect: {}, expected: "bottomLeft" },
+    { label: "near the right edge", anchorRect: { left: 800, right: 1000 }, expected: "bottomRight" },
+    { label: "near the bottom edge", anchorRect: { top: 600, bottom: 650 }, expected: "topLeft" },
+    { label: "bottom-right corner", anchorRect: { top: 600, bottom: 650, left: 800, right: 1000 }, expected: "topRight" },
+  ];
+
+  it.each(alignmentCases)("should pick $expected when anchor is in the $label", ({ anchorRect, expected }) => {
+    mockPositionReturn();
+    const { anchorRef, pickerRef } = makeRefs(anchorRect);
+    const { result } = renderHook(() => usePickerPortal(anchorRef, pickerRef, false, jest.fn()));
+
+    act(() => result.current.openPicker());
+
+    expect(mockedPosition).toHaveBeenCalledWith(anchorRef, pickerRef, expected, 0);
   });
 });
