@@ -1,4 +1,4 @@
-import { PickerPropsCommon } from "../Motif/Pickers/types";
+import { DaysOfWeek, PickerPropsCommon } from "../Motif/Pickers/types";
 import { Size4SM } from "../../types";
 import { Dispatch, SetStateAction } from "react";
 import { DatePickerLocale } from "../DatePicker/types";
@@ -39,18 +39,21 @@ export type DateRangePickerDefaultableProps = {
    */
   locale?: DateRangePickerLocale;
   removeActionButtons?: boolean;
+  firstDayOfWeek?: DaysOfWeek;
 } & Omit<PickerPropsCommon, "fluid">;
 
 export type DateRangePickerProviderProps = {
   value: (Date | undefined)[] | undefined;
   locale: DateRangePickerLocale;
   size: Size4SM;
+  firstDayOfWeek: DaysOfWeek;
   onDateChange?: (dates: (Date | undefined)[]) => void;
 };
 
 export type DateRangePickerContextProps = {
   locale: DateRangePickerLocale;
   size: Size4SM;
+  firstDayOfWeek: DaysOfWeek;
   dateCouple: (Date | undefined)[];
   setDateCouple: Dispatch<SetStateAction<(Date | undefined)[]>>;
   sliding: "slideLeft" | "slideRight" | undefined;
@@ -73,6 +76,7 @@ export type DateRangePickerLocale = {
 
 export const datePickerContextDefaultValues: DateRangePickerContextProps = {
   size: "md",
+  firstDayOfWeek: 1,
   dateCouple: [undefined, undefined],
   setSliding: () => {},
   sliding: undefined,
