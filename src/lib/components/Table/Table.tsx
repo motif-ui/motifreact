@@ -1,5 +1,3 @@
-"use client";
-
 import { RowColor, TableProps } from "./types";
 import { TableProvider } from "@/components/Table/TableContext";
 import TableContainer from "@/components/Table/components/TableContainer";
