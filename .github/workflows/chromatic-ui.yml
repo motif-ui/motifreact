@@ -71,3 +71,4 @@ jobs:
           skip: "dependabot/**"
           autoAcceptChanges: "main"
           exitOnceUploaded: true
+          ignoreLastBuildOnBranch: ${{ github.head_ref }}
