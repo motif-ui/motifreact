@@ -1,6 +1,7 @@
 import { InputCommonProps, InputSize, InputValue } from "../Form/types";
 import { TimePickerLocale } from "../TimePicker/types";
 import { TimeFormat } from "../Motif/Pickers/types";
+import type { IconGlobalType } from "../../types";
 
 export type InputTimeProps = {
   /**
@@ -24,4 +25,6 @@ export type InputTimeDefaultableProps = {
   size?: InputSize;
   format?: TimeFormat;
   locale?: TimePickerLocale;
+  icon?: IconGlobalType;
+  hideIcon?: boolean;
 };

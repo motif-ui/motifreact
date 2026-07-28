@@ -5,7 +5,7 @@ import { InputSize } from "../Form/types";
 import { Time } from "@/components/TimePicker/types";
 import { ReactNode } from "react";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t } from "../../../utils/testUtils";
+import { t, runIconPropTest } from "../../../utils/testUtils";
 
 describe("InputTime", () => {
   const testTime: Time = { hours: 9, minutes: 15 };
@@ -344,5 +344,9 @@ describe("InputTime", () => {
 
     rerender(<InputTime value={{ hours: 14, minutes: 15 }} format="24h" />);
     expect(getInput()).toHaveValue("14:15");
+  });
+
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<InputTime icon={icon} />));
   });
 });

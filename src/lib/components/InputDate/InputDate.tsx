@@ -25,7 +25,7 @@ const pickerSizeMap = {
 
 const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDate", p);
-  const { editable, pill, value, onChange, ref, style, className, locale: propsLocale, firstDayOfWeek } = props;
+  const { editable, pill, value, onChange, ref, style, className, locale: propsLocale, firstDayOfWeek, icon, hideIcon } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
   const locale = useDateLocale(propsLocale);
 
@@ -116,7 +116,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   return (
     <div ref={innerRef} className={classNames} style={style} data-testid="inputDate">
       <InputText
-        iconLeft={<MotifIcon name="calendar_month" size={size} />}
+        {...(!hideIcon && { iconLeft: icon ?? <MotifIcon name="calendar_month" size={size} /> })}
         clearable
         name={name}
         size={size}

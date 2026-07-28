@@ -5,7 +5,7 @@ import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
-import { t } from "../../../utils/testUtils";
+import { t, runIconPropTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
@@ -280,5 +280,9 @@ describe("InputDate", () => {
 
     fireEvent.change(getInput(), { target: { value: formatDateWithDefaultFormatAndTR(mockToday) } });
     expect(getByText(mockToday.getDate())).toHaveClass("selected");
+  });
+
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<InputDate icon={icon} />));
   });
 });

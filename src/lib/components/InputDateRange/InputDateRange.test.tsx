@@ -6,7 +6,7 @@ import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t } from "../../../utils/testUtils";
+import { t, runIconPropTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDateRange", () => {
@@ -260,5 +260,9 @@ describe("InputDateRange", () => {
     const testDateString = createDateRangeString(testDateArr[0], testDateArr[1]);
     const { getDateRangeInput } = renderExt(<InputDateRange value={testDateArr.reverse()} />);
     expect(getDateRangeInput()).toHaveValue(testDateString);
+  });
+
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<InputDateRange icon={icon} />));
   });
 });
