@@ -112,15 +112,17 @@ return (
       onPressEnter: doSearch,
       onButtonClick: doSearch,
       onResultClick: result => alert("Clicked: " + result),
+      onClear: () => setResults([]),
       results,
       searching,
     }}
   />
-);      
+);
   `,
       },
     },
   },
+
   render: args => {
     const SearchComponent = () => {
       const [results, setResults] = useState<{ text: string; value?: string }[]>([]);
@@ -142,6 +144,7 @@ return (
             onPressEnter: doSearch,
             onButtonClick: doSearch,
             onResultClick: result => alert("Clicked: " + result),
+            onClear: () => setResults([]),
             results,
             searching,
           }}
