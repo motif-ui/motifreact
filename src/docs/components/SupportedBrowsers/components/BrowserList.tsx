@@ -2,7 +2,7 @@ import BrowserBox, { BrowserProps } from "./BrowserBox";
 import styles from "./BrowserList.module.scss";
 
 type Props = {
-  browserType: "🖥️ Desktop" | "📱 Mobile";
+  browserType: "🖥️ DESKTOP" | "📱 MOBILE";
   browsers: BrowserProps[];
 };
 

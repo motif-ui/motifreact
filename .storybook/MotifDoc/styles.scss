@@ -1,25 +1,25 @@
 .mtfDoc-tab {
   &-header {
     display: flex;
-    border-bottom: solid 1px #88929bff;
-    margin-bottom: 20px !important;
-    margin-right: 32px;
+    gap: 26px;
+    border-bottom: solid 1px #d9deea;
+    margin: 24px 0 !important;
   }
 
   &--button {
-    padding: 12px 20px;
+    padding: 0 0 14px;
     border: none;
     background: transparent;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    color: #21272cff;
-    border-bottom: solid 2px transparent;
+    font-size: 15px;
+    font-weight: 800;
+    color: #68728a;
+    border-bottom: solid 3px transparent;
     transition: all 0.2s;
 
     &.active {
-      color: #0083cbff;
-      border-bottom: solid 2px #0083cbff;
+      color: #7f4588;
+      border-bottom: solid 3px #7f4588;
     }
   }
 }
