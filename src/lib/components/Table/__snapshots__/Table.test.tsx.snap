@@ -33,6 +33,38 @@ exports[`Table should render with only required props 1`] = `
               </button>
             </div>
           </th>
+          <th>
+            <div
+              class="thContent"
+            >
+              <span>
+                Şehir
+              </span>
+            </div>
+          </th>
+        </tr>
+        <tr
+          class="trColumnFilters"
+        >
+          <th />
+          <th>
+            <div
+              class="thFilterContent"
+            >
+              <div
+                class="Root sm"
+                data-testid="inputItem"
+              >
+                <div
+                  class="inputWrapper"
+                >
+                  <input
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody
@@ -42,16 +74,23 @@ exports[`Table should render with only required props 1`] = `
           <td>
             M Test
           </td>
+          <td>
+            İSTANBUL
+          </td>
         </tr>
         <tr>
           <td>
             A Test
+          </td>
+          <td>
+            BERLİN
           </td>
         </tr>
         <tr>
           <td>
             Z Test
           </td>
+          <td />
         </tr>
       </tbody>
       <tfoot

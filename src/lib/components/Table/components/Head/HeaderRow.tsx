@@ -26,7 +26,7 @@ const HeaderRow = ({ colspan, header }: Props) => {
                 className={styles.filterInput}
                 placeholder={filterPlaceholder ?? t("g.search")}
                 size="sm"
-                onChange={val => setMainFilterQuery((val as string).toLowerCase())}
+                onChange={val => setMainFilterQuery(val as string)}
               />
             )}
           </div>

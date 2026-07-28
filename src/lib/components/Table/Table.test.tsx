@@ -5,10 +5,14 @@ import { ReactNode } from "react";
 import { userEvent } from "@testing-library/user-event";
 import { RowColor } from "@/components/Table/types";
 import { t } from "./../../../utils/testUtils";
+import MotifProvider from "../../motif/context/MotifProvider";
 
 describe("Table", () => {
-  const cols = [{ title: "Test Title", dataKey: "testData", sorting: {} }];
-  const data = [{ testData: "M Test" }, { testData: "A Test" }, { testData: "Z Test" }];
+  const cols = [
+    { title: "Test Title", dataKey: "testData", sorting: {} },
+    { title: "Şehir", dataKey: "city", filter: true },
+  ];
+  const data = [{ testData: "M Test", city: "İSTANBUL" }, { testData: "A Test", city: "BERLİN" }, { testData: "Z Test" }];
   const renderExt = (ui: ReactNode) => {
     const result = render(ui);
     const { getByTestId, getAllByTestId, queryByTestId, getByRole, container } = result;
@@ -1085,5 +1089,23 @@ describe("Table", () => {
     const filterInput = getFilterableTableInput();
     expect(filterInput).toHaveAttribute("placeholder", customPlaceholder);
     expect(getColumnFilterInputs()[0]).toHaveAttribute("placeholder", namePlaceholder);
+  });
+
+  it("should match uppercase İSTANBUL when searching istanbul with locale=tr", async () => {
+    const { getFilterableTableInput } = renderExt(<Table columns={cols} data={data} filterableTable />);
+    await userEvent.type(getFilterableTableInput(), "istanbul");
+    expect(screen.getByText("İSTANBUL")).toBeInTheDocument();
+    expect(screen.queryByText("BERLİN")).not.toBeInTheDocument();
+  });
+
+  it("should match uppercase BERLİN when searching berlin with locale=en", async () => {
+    const { getFilterableTableInput } = renderExt(
+      <MotifProvider locale="en">
+        <Table columns={cols} data={data} filterableTable />
+      </MotifProvider>,
+    );
+    await userEvent.type(getFilterableTableInput(), "berlin");
+    expect(screen.getByText("BERLİN")).toBeInTheDocument();
+    expect(screen.queryByText("İSTANBUL")).not.toBeInTheDocument();
   });
 });
