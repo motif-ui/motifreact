@@ -31,12 +31,12 @@ describe("ExternalLinksToolbar", () => {
   it("opens the GitHub repository in a new tab when clicked", () => {
     render(<ExternalLinksToolbar />);
     screen.getByTitle("GitHub Repository").click();
-    expect(window.open).toHaveBeenCalledWith("https://github.com/motif-ui/motifreact", "_blank");
+    expect(window.open).toHaveBeenCalledWith("https://github.com/motif-ui/motifreact", "_blank", "noopener,noreferrer");
   });
 
   it("opens the npm package page in a new tab when clicked", () => {
     render(<ExternalLinksToolbar />);
     screen.getByTitle("NPM Package").click();
-    expect(window.open).toHaveBeenCalledWith("https://www.npmjs.com/package/@motif-ui/react", "_blank");
+    expect(window.open).toHaveBeenCalledWith("https://www.npmjs.com/package/@motif-ui/react", "_blank", "noopener,noreferrer");
   });
 });
