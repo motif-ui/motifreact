@@ -2,7 +2,7 @@ import { test, expect } from "@chromatic-com/playwright";
 
 const docsPages = [
   { name: "MotifProvider", path: "/?path=/docs/getting-started-motifprovider--docs" },
-  { name: "Table", path: "/?path=/docs/components-table--docs" },
+  { name: "ColorPalette", path: "/?path=/docs/design-color-palette--docs" },
 ];
 
 docsPages.forEach(({ name, path }) =>
