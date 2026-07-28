@@ -50,12 +50,12 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const prevValueRef = useRef(value);
   useImperativeHandle(imperativeRef, () => ({ valueStateSetter: setItemValue }));
 
-  const [itemValue, setItemValue] = useState(() => (valueTransformer ? (valueTransformer(value) ?? value) : value));
+  const [itemValue, setItemValue] = useState(() => valueTransformer?.(value) ?? value);
   const controlledProps = uncontrolled ? { defaultValue: value } : { value: itemValue };
   useEffect(() => {
     if (!uncontrolled && value !== prevValueRef.current) {
-      prevValueRef.current = value;
-      const nextValue = valueTransformer ? (valueTransformer(value) ?? value) : value;
+      const nextValue = valueTransformer?.(value) ?? value;
+      prevValueRef.current = nextValue;
       setItemValue(nextValue);
       onValueUpdated?.(nextValue);
     }

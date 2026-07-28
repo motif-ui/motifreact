@@ -128,21 +128,42 @@ describe("InputText", () => {
     expect(input.selectionEnd).toBe(2);
   });
 
-  it("should transform typed value according to the textTransform prop", async () => {
-    const cases: { textTransform: TextTransform; typed: string; expected: string }[] = [
-      { textTransform: "uppercase", typed: "hello world", expected: "HELLO WORLD" },
-      { textTransform: "lowercase", typed: "HELLO WORLD", expected: "hello world" },
-      { textTransform: "capitalize", typed: "hello world", expected: "Hello World" },
+  it("should apply textTransform consistently for value, typing and value-change scenarios", async () => {
+    const initialValue = "hElLo wORld";
+    const changedValue = "hElLo wORld 2";
+    const cases: { textTransform: TextTransform; expected: string; expectedAfterChange: string }[] = [
+      { textTransform: "uppercase", expected: "HELLO WORLD", expectedAfterChange: "HELLO WORLD 2" },
+      { textTransform: "lowercase", expected: "hello world", expectedAfterChange: "hello world 2" },
+      { textTransform: "capitalize", expected: "HElLo WORld", expectedAfterChange: "HElLo WORld 2" },
     ];
 
-    for (const { textTransform, typed, expected } of cases) {
-      const handleChange = jest.fn();
-      const { unmount } = render(<InputText textTransform={textTransform} value="" onChange={handleChange} placeholder="Test" />);
-      const input = screen.getByPlaceholderText("Test");
-      await userEvent.type(input, typed);
+    for (const { textTransform, expected, expectedAfterChange } of cases) {
+      // 1 - value control
+      const { unmount: unmountValueControl } = render(
+        <InputText textTransform={textTransform} value={initialValue} onChange={jest.fn()} placeholder="Test" />,
+      );
+      expect(screen.getByPlaceholderText("Test")).toHaveValue(expected);
+      unmountValueControl();
 
-      expect(input).toHaveValue(expected);
-      unmount();
+      // 2 - typing control
+      const { unmount: unmountTypingControl } = render(
+        <InputText textTransform={textTransform} value="" onChange={jest.fn()} placeholder="Test" />,
+      );
+      const typingInput = screen.getByPlaceholderText("Test");
+      await userEvent.type(typingInput, initialValue);
+      expect(typingInput).toHaveValue(expected);
+      unmountTypingControl();
+
+      // 3 - value change control (rerender)
+      const { rerender, unmount: unmountValueChangeControl } = render(
+        <InputText textTransform={textTransform} value={initialValue} onChange={jest.fn()} placeholder="Test" />,
+      );
+      const rerenderInput = screen.getByPlaceholderText("Test");
+      expect(rerenderInput).toHaveValue(expected);
+
+      rerender(<InputText textTransform={textTransform} value={changedValue} onChange={jest.fn()} placeholder="Test" />);
+      expect(rerenderInput).toHaveValue(expectedAfterChange);
+      unmountValueChangeControl();
     }
   });
 
@@ -161,34 +182,6 @@ describe("InputText", () => {
       );
       const input = screen.getByPlaceholderText("Test");
       await userEvent.type(input, typed);
-
-      expect(input).toHaveValue(expected);
-      unmount();
-    }
-  });
-
-  it("should apply textTransform to the given value prop", () => {
-    const cases: { textTransform: TextTransform; value: string; expected: string }[] = [
-      { textTransform: "uppercase", value: "hello world", expected: "HELLO WORLD" },
-      { textTransform: "lowercase", value: "HELLO WORLD", expected: "hello world" },
-      { textTransform: "capitalize", value: "hello world", expected: "Hello World" },
-    ];
-
-    for (const { textTransform, value, expected } of cases) {
-      const { unmount } = render(<InputText textTransform={textTransform} value={value} onChange={jest.fn()} placeholder="Test" />);
-      const input = screen.getByPlaceholderText("Test");
-
-      expect(input).toHaveValue(expected);
-      unmount();
-    }
-
-    // When value prop is updated
-    for (const { textTransform, value, expected } of cases) {
-      const { rerender, unmount } = render(<InputText textTransform={textTransform} value="" onChange={jest.fn()} placeholder="Test" />);
-      const input = screen.getByPlaceholderText("Test");
-      expect(input).toHaveValue("");
-
-      rerender(<InputText textTransform={textTransform} value={value} onChange={jest.fn()} placeholder="Test" />);
 
       expect(input).toHaveValue(expected);
       unmount();

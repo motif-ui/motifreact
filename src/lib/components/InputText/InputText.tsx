@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./InputText.module.scss";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
 import { PropsWithRef } from "../../types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
@@ -24,13 +24,18 @@ const InputText = (p: PropsWithRef<InputTextProps, HTMLDivElement>) => {
 
   const classNames = sanitizeModuleRootClasses(styles, props.className, [inFormField && "inFormField"]);
 
+  const valueTransformer = useMemo(
+    () => textTransform && ((v: string) => applyTextTransform(v, textTransform, locale)),
+    [textTransform, locale],
+  );
+
   return (
     <InternalInputText
       {...props}
       {...propsFromForm}
       value={props.value as string}
       onValueUpdated={onFormFieldValueUpdate}
-      valueTransformer={textTransform ? v => applyTextTransform(v, textTransform, locale) : undefined}
+      valueTransformer={valueTransformer}
       imperativeRef={internalInputRef}
       className={classNames}
     />
