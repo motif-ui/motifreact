@@ -10,7 +10,7 @@ const ExternalLinksToolbar = () => {
       <IconButton
         key="github"
         title="GitHub Repository"
-        onClick={() => window.open("https://github.com/motif-ui/motifreact", "_blank")}
+        onClick={() => window.open("https://github.com/motif-ui/motifreact", "_blank", "noopener,noreferrer")}
         style={{ width: 40 }}
       >
         <GithubIcon width={18} height={18} />
@@ -19,7 +19,7 @@ const ExternalLinksToolbar = () => {
       <IconButton
         key="npm"
         title="NPM Package"
-        onClick={() => window.open("https://www.npmjs.com/package/@motif-ui/react", "_blank")}
+        onClick={() => window.open("https://www.npmjs.com/package/@motif-ui/react", "_blank", "noopener,noreferrer")}
         style={{ width: 40 }}
       >
         <img src={NPM_LOGO_URL} width={18} height={18} alt="Npm Logo" />
