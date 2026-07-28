@@ -5,12 +5,14 @@ import styles from "../../../DatePicker.module.scss";
 import { DayProps } from "@/components/DatePicker/components/DateSelector/Day/Day";
 import { Size4SM } from "../../../../../types";
 import { DatePickerLocale } from "@/components/DatePicker/types";
+import { DaysOfWeek } from "@/components/Motif/Pickers/types";
 import Header from "@/components/DatePicker/components/Header/Header";
 import WeekDays from "@/components/DatePicker/components/DateSelector/Day/WeekDays";
 
 type Props = {
   size: Size4SM;
   locale: DatePickerLocale;
+  firstDayOfWeek: DaysOfWeek;
   month: number;
   year: number;
   onPrevClick?: () => void;
@@ -22,7 +24,7 @@ type Props = {
 };
 
 const DaySelector = (props: Props) => {
-  const { size, locale, month, year, onPrevClick, onNextClick, disabledMonthYearClick, daysRef, dates, renderDay } = props;
+  const { size, locale, firstDayOfWeek, month, year, onPrevClick, onNextClick, disabledMonthYearClick, daysRef, dates, renderDay } = props;
 
   return (
     <div className={`${styles.daySelector} ${styles[size]}`}>
@@ -34,7 +36,7 @@ const DaySelector = (props: Props) => {
         disableButtons={disabledMonthYearClick}
         size={size}
       />
-      <WeekDays locale={locale} />
+      <WeekDays locale={locale} firstDayOfWeek={firstDayOfWeek} />
       <div className={styles.days} ref={daysRef} data-testid="DatePickerDayContainer">
         {dates.map(renderDay)}
       </div>
