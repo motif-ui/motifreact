@@ -5,7 +5,13 @@ import { applyCustomCSSModuleNaming } from "../src/lib/styles/scripts/build.ts";
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   typescript: { reactDocgen: "react-docgen-typescript" },
-  features: { interactions: process.env.NODE_ENV === "development" },
+  features: {
+    interactions: process.env.NODE_ENV === "development",
+    backgrounds: false,
+    measure: false,
+    outline: false,
+    sidebarOnboardingChecklist: false,
+  },
   staticDirs: [{ from: "../src/lib/styles/themes", to: "/themes" }, "./public"],
   core: { disableTelemetry: true },
 
