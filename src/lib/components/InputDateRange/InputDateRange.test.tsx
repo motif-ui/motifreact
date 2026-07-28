@@ -271,4 +271,9 @@ describe("InputDateRange", () => {
     await userEvent.click(getDateRangeInput());
     expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
+
+  it("should not render an icon when hideIcon is set", () => {
+    render(<InputDateRange hideIcon />);
+    expect(screen.queryByText("calendar_expand_horizontal")).not.toBeInTheDocument();
+  });
 });

@@ -285,4 +285,9 @@ describe("InputDate", () => {
   it("should render the main icon given in the icon prop", () => {
     runIconPropTest(icon => render(<InputDate icon={icon} />));
   });
+
+  it("should not render an icon when hideIcon is set", () => {
+    render(<InputDate hideIcon />);
+    expect(screen.queryByText("calendar_month")).not.toBeInTheDocument();
+  });
 });

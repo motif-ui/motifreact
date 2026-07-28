@@ -349,4 +349,9 @@ describe("InputTime", () => {
   it("should render the main icon given in the icon prop", () => {
     runIconPropTest(icon => render(<InputTime icon={icon} />));
   });
+
+  it("should not render an icon when hideIcon is set", () => {
+    render(<InputTime hideIcon />);
+    expect(screen.queryByText("schedule")).not.toBeInTheDocument();
+  });
 });
