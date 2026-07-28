@@ -14,6 +14,7 @@ const Table = <T extends object>(props: PropsWithRef<TableProps<T>, HTMLDivEleme
     selectionKey,
     onSelect,
     filterableTable,
+    filterPlaceholder,
     reflectDataChanges,
     rowColorCallback,
     ref,
@@ -30,6 +31,7 @@ const Table = <T extends object>(props: PropsWithRef<TableProps<T>, HTMLDivEleme
       selectionKey={selectionKey}
       onSelect={onSelect as (selection: { all: object[]; current?: object }) => void}
       filterableTable={filterableTable}
+      filterPlaceholder={filterPlaceholder}
       reflectDataChanges={reflectDataChanges}
       rowColorCallback={rowColorCallback as (rowData: object) => RowColor | undefined}
     >
