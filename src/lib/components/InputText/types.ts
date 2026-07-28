@@ -6,6 +6,7 @@ export type InputTextDefaultableProps = {
   pill?: boolean;
   size?: InputSize;
   clearable?: boolean;
+  textTransform?: "uppercase" | "lowercase" | "capitalize";
 };
 
 export type InputTextProps = InputTextCommonProps & InputCommonProps & InputTextDefaultableProps;
