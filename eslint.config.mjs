@@ -79,7 +79,21 @@ export default [
     },
   },
   {
-    ignores: ["node_modules", "dist", "storybook-static", ".next", ".idea", ".vscode", ".git", ".gitlab", ".husky", ".swc"],
+    ignores: [
+      "node_modules",
+      "dist",
+      "storybook-static",
+      ".next",
+      ".idea",
+      ".vscode",
+      ".git",
+      ".gitlab",
+      ".husky",
+      ".swc",
+      "coverage",
+      "test-results",
+      "playwright-report",
+    ],
   },
   {
     // Configuration specific to TypeScript files
