@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import InputText from "@/components/InputText/InputText";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
@@ -119,7 +119,7 @@ describe("InputText", () => {
   });
 
   it("should apply textTransform without moving the caret when editing mid-string", async () => {
-    render(<InputText textTransform="uppercase" value="ABC" onChange={jest.fn()} placeholder="Test" />);
+    render(<InputText textTransform="uppercase" value="ABC" placeholder="Test" />);
     const input = screen.getByDisplayValue<HTMLInputElement>("ABC");
     await userEvent.type(input, "x", { initialSelectionStart: 1, initialSelectionEnd: 1 });
 
@@ -138,32 +138,23 @@ describe("InputText", () => {
     ];
 
     for (const { textTransform, expected, expectedAfterChange } of cases) {
-      // 1 - value control
-      const { unmount: unmountValueControl } = render(
-        <InputText textTransform={textTransform} value={initialValue} onChange={jest.fn()} placeholder="Test" />,
-      );
+      // 1 - initial value
+      render(<InputText textTransform={textTransform} value={initialValue} placeholder="Test" />);
       expect(screen.getByPlaceholderText("Test")).toHaveValue(expected);
-      unmountValueControl();
-
-      // 2 - typing control
-      const { unmount: unmountTypingControl } = render(
-        <InputText textTransform={textTransform} value="" onChange={jest.fn()} placeholder="Test" />,
-      );
+      cleanup();
+      // 2 - typing
+      render(<InputText textTransform={textTransform} value="" placeholder="Test" />);
       const typingInput = screen.getByPlaceholderText("Test");
       await userEvent.type(typingInput, initialValue);
       expect(typingInput).toHaveValue(expected);
-      unmountTypingControl();
-
-      // 3 - value change control (rerender)
-      const { rerender, unmount: unmountValueChangeControl } = render(
-        <InputText textTransform={textTransform} value={initialValue} onChange={jest.fn()} placeholder="Test" />,
-      );
+      cleanup();
+      // 3 - value change (rerender)
+      const { rerender } = render(<InputText textTransform={textTransform} value={initialValue} placeholder="Test" />);
       const rerenderInput = screen.getByPlaceholderText("Test");
       expect(rerenderInput).toHaveValue(expected);
-
-      rerender(<InputText textTransform={textTransform} value={changedValue} onChange={jest.fn()} placeholder="Test" />);
+      rerender(<InputText textTransform={textTransform} value={changedValue} placeholder="Test" />);
       expect(rerenderInput).toHaveValue(expectedAfterChange);
-      unmountValueChangeControl();
+      cleanup();
     }
   });
 
@@ -177,7 +168,7 @@ describe("InputText", () => {
     for (const { textTransform, typed, expected } of cases) {
       const { unmount } = render(
         <MotifProvider locale="tr">
-          <InputText textTransform={textTransform} value="" onChange={jest.fn()} placeholder="Test" />
+          <InputText textTransform={textTransform} placeholder="Test" />
         </MotifProvider>,
       );
       const input = screen.getByPlaceholderText("Test");

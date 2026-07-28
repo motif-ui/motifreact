@@ -11,6 +11,8 @@
 
 # testing
 /coverage
+/test-results
+/playwright-report
 
 # storybook
 /storybook-static
