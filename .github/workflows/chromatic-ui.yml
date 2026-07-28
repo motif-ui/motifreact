@@ -59,7 +59,7 @@ jobs:
         if: needs.detect-changes.outputs.storybook == 'true'
         run: npx playwright test
 
-      # --- Single Chromatic Execution ---
+      # --- Chromatic: Storybook build + TurboSnap ---
       - name: Run Chromatic
         uses: chromaui/action@94713c544284a14195de3b50ef24301579f1877e # v18.0.1
         with:
@@ -67,8 +67,21 @@ jobs:
           onlyChanged: true
           zip: true
           buildScriptName: "build:storybook"
-          playwright: ${{ needs.detect-changes.outputs.storybook == 'true' }}
           skip: "dependabot/**"
           autoAcceptChanges: "main"
           exitOnceUploaded: true
           ignoreLastBuildOnBranch: ${{ github.head_ref }}
+
+      # --- Chromatic: Playwright visual archive (separate invocation — cannot
+      #     share a call with the Storybook build above, see chromatic-ui.yml
+      #     history for why: TurboSnap's base-dir check reads the wrong module
+      #     manifest when `playwright` is combined with `onlyChanged`/`buildScriptName`) ---
+      - name: Upload Playwright snapshots to Chromatic
+        if: needs.detect-changes.outputs.storybook == 'true'
+        uses: chromaui/action@94713c544284a14195de3b50ef24301579f1877e # v18.0.1
+        with:
+          playwright: true
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          skip: "dependabot/**"
+          autoAcceptChanges: "main"
+          exitOnceUploaded: true
