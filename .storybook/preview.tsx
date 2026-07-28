@@ -3,6 +3,7 @@ import type { ArgTypesEnhancer } from "storybook/internal/types";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
 import { iconOptions, iconDecorator, themeChangeDecorator } from "./utils.tsx";
 import { RESET_THEME_BUTTON_VAL } from "./constants";
+import motifTheme from "./motifTheme";
 
 const preview: Preview = {
   globalTypes: {
@@ -53,6 +54,7 @@ const preview: Preview = {
     },
     docs: {
       container: MotifDocContainer,
+      theme: motifTheme,
       codePanel: true,
       toc: {
         title: "On this page",

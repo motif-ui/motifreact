@@ -1,4 +1,4 @@
-import { DateFormat } from "../Motif/Pickers/types";
+import { DateFormat, DaysOfWeek } from "../Motif/Pickers/types";
 import { InputCommonProps, InputSize } from "../Form/types";
 import type { DateRangePickerLocale } from "../DateRangePicker/types";
 import type { IconGlobalType } from "../../types";
@@ -13,4 +13,5 @@ export type InputDateRangeDefaultableProps = {
   locale?: DateRangePickerLocale;
   icon?: IconGlobalType;
   hideIcon?: boolean;
+  firstDayOfWeek?: DaysOfWeek;
 };

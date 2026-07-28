@@ -265,4 +265,10 @@ describe("InputDateRange", () => {
   it("should render the main icon given in the icon prop", () => {
     runIconPropTest(icon => render(<InputDateRange icon={icon} />));
   });
+
+  it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
+    const { container, getDateRangeInput } = renderExt(<InputDateRange firstDayOfWeek={3} value={testDateArr} />);
+    await userEvent.click(getDateRangeInput());
+    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+  });
 });
