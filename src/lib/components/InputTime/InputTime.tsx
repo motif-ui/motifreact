@@ -38,7 +38,6 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     style,
     className,
     icon,
-    hideIcon,
   } = props;
 
   const locale = useDateLocale(propsLocale);
@@ -133,7 +132,7 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     <div ref={innerRef} className={classNames} style={style}>
       <InputText
         name={name}
-        {...(!hideIcon && { iconLeft: icon ?? <MotifIcon name="schedule" size={size} /> })}
+        {...(icon && { iconLeft: icon === true ? <MotifIcon name="schedule" size={size} /> : icon })}
         clearable
         onClearClick={() => clearClickHandler(true)}
         size={size}

@@ -31,7 +31,7 @@ export const pickerSizeMap = {
 
 const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDateRange", p);
-  const { pill, value, onChange, locale: propsLocale, ref, style, className, icon, hideIcon, firstDayOfWeek } = props;
+  const { pill, value, onChange, locale: propsLocale, ref, style, className, icon, firstDayOfWeek } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
   const datePlaceholder = format.order.map(part => format[`${part}Format`]?.replace(/[DMY]/g, "_")).join(` ${format.delimiter} `);
   const placeholder = useMemo(
@@ -136,7 +136,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         value={typedValue}
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
-        {...(!hideIcon && { iconLeft: icon ?? <MotifIcon name="calendar_expand_horizontal" size={size} /> })}
+        {...(icon && { iconLeft: icon === true ? <MotifIcon name="calendar_expand_horizontal" size={size} /> : icon })}
         clearable
         onClearClick={onClearClickInInput}
       />

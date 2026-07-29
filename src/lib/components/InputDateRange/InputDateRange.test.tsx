@@ -38,14 +38,12 @@ describe("InputDateRange", () => {
   };
 
   it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getByText, getDateRangeInput, getInputText } = renderExt(<InputDateRange />);
+    const { container, getDateRangeInput, getInputText } = renderExt(<InputDateRange />);
     expect(container).toMatchSnapshot();
     // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
     expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);
     // size = md (default)
     expect(getInputText()).toHaveClass("md");
-    // icon
-    expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
   });
 
   it("should display the dates as given format in format prop with an arrow between them", () => {
@@ -272,8 +270,13 @@ describe("InputDateRange", () => {
     expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
 
-  it("should not render an icon when hideIcon is set", () => {
-    render(<InputDateRange hideIcon />);
+  it("should not render an icon when icon prop is not provided", () => {
+    render(<InputDateRange />);
     expect(screen.queryByText("calendar_expand_horizontal")).not.toBeInTheDocument();
+  });
+
+  it("should render the default icon when icon prop is true", () => {
+    render(<InputDateRange icon />);
+    expect(screen.getByText("calendar_expand_horizontal")).toBeInTheDocument();
   });
 });

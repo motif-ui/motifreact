@@ -12,9 +12,9 @@ import { PropsWithRef } from "../../types";
 import { InputValue } from "../Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import InputText from "@/components/Motif/InputText/InputText";
-import { MotifIcon } from "../Motif/Icon";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
+import { MotifIcon } from "../Motif/Icon";
 
 const pickerSizeMap = {
   xs: "xs",
@@ -25,7 +25,7 @@ const pickerSizeMap = {
 
 const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDate", p);
-  const { editable, pill, value, onChange, ref, style, className, locale: propsLocale, firstDayOfWeek, icon, hideIcon } = props;
+  const { editable, pill, value, onChange, ref, style, className, locale: propsLocale, firstDayOfWeek, icon } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
   const locale = useDateLocale(propsLocale);
 
@@ -116,7 +116,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   return (
     <div ref={innerRef} className={classNames} style={style} data-testid="inputDate">
       <InputText
-        {...(!hideIcon && { iconLeft: icon ?? <MotifIcon name="calendar_month" size={size} /> })}
+        {...(icon && { iconLeft: icon === true ? <MotifIcon name="calendar_month" size={size} /> : icon })}
         clearable
         name={name}
         size={size}

@@ -231,8 +231,8 @@ describe("InputTime", () => {
     });
   });
 
-  it("should display the time icon in the input field", () => {
-    render(<InputTime />);
+  it("should display the time icon in the input field when icon prop is true", () => {
+    render(<InputTime icon />);
     const timeIcon = screen.getByText("schedule");
     expect(timeIcon).toBeInTheDocument();
     expect(timeIcon).toHaveClass("icon");
@@ -350,8 +350,8 @@ describe("InputTime", () => {
     runIconPropTest(icon => render(<InputTime icon={icon} />));
   });
 
-  it("should not render an icon when hideIcon is set", () => {
-    render(<InputTime hideIcon />);
+  it("should not render an icon when icon prop is not provided", () => {
+    render(<InputTime />);
     expect(screen.queryByText("schedule")).not.toBeInTheDocument();
   });
 });
