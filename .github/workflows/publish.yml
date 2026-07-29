@@ -18,7 +18,7 @@ jobs:
         id: generate_token
         uses: actions/create-github-app-token@d72941d797fd3113feb6b93fd0dec494b13a2547 # v1
         with:
-          app-id: ${{ secrets.RELEASER_ID }}
+          app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.RELEASER_PRIVATE_KEY }}
 
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
