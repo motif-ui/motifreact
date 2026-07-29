@@ -55,11 +55,8 @@ const MyComponent = () => {
 ## Best Practices
 
 1. **Use refs sparingly**: Only use refs when you need direct DOM access. Most interactions should be handled through props and state.
-
 2. **Check for null**: Always check if the ref.current exists before accessing it, as it may be null during the initial render.
-
 3. **Avoid overriding styles**: When manipulating styles through refs, prefer using CSS classes and state management over direct style manipulation.
-
 4. **Clean up effects**: If you set up listeners or intervals using refs, make sure to clean them up in useEffect cleanup functions.
 
 ## Notes
