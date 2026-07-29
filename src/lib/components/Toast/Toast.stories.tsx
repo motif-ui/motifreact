@@ -38,10 +38,6 @@ const Toaster = (props: ToastProps) => {
   );
 };
 
-// Renders synchronously with no button/hook involved, so Chromatic (and docs) get a stable,
-// deterministic layout instead of racing a button click or an auto-dismiss timer. duration is kept
-// at 24h (rather than the real 3s default) so the progress bar renders while the auto-dismiss timer
-// never actually fires — the close icon stays visible no matter when the snapshot is taken.
 export const Primary: Story = {
   args: {
     id: "toast-primary",
