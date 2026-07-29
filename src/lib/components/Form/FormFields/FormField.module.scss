@@ -104,12 +104,25 @@ $sizes: (
 
 .groupItems {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   .horizontalGroup & {
     align-items: flex-start;
+
+    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+    > :global(.mtf-InputText),
+    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+    > :global(.mtf-Select),
+    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+    > :global(.mtf-Textarea) {
+      flex: 1 1 auto;
+      min-width: var(--base-sizing-128x);
+    }
   }
   .verticalGroup & {
     flex-direction: column;
+  }
+  .wrap & {
+    flex-wrap: wrap;
   }
 }
 

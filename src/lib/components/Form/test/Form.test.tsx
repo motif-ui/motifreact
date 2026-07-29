@@ -114,6 +114,22 @@ describe("Form", () => {
     expect(getFormFieldGroup(0)).toHaveClass("horizontalGroup");
   });
 
+  it("should not add the wrap class by default, and should add it when wrap is set to true", () => {
+    const formGroup = (wrap?: boolean) => (
+      <Form onSubmit={mockFunction}>
+        <Form.FieldGroup name="testGroup" wrap={wrap}>
+          <InputText key="textInput" name="textInput" />
+          <InputPassword key="passwordInput" name="passwordInput" />
+        </Form.FieldGroup>
+      </Form>
+    );
+    const { rerender } = render(formGroup());
+    expect(getFormFieldGroup(0)).not.toHaveClass("wrap");
+
+    rerender(formGroup(true));
+    expect(getFormFieldGroup(0)).toHaveClass("wrap");
+  });
+
   it("should display submit button text as given in the submitButtonLabel prop", () => {
     const submitButtonLabel = "Submit Form";
 

@@ -26,4 +26,9 @@ export type FormFieldGroupProps = Omit<FormFieldProps, "children" | "validations
 
 export type FormFieldGroupDefaultableProps = {
   orientation?: "horizontal" | "vertical";
+  /**
+   * Whether group items should wrap onto multiple lines when they don't fit on one.
+   * @default false
+   */
+  wrap?: boolean;
 };

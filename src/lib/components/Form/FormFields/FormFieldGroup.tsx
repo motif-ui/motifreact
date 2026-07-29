@@ -19,6 +19,7 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
     label,
     helperText,
     orientation = "horizontal",
+    wrap = false,
     groupValidations,
     children,
     disabled,
@@ -40,10 +41,11 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
         formOrientation + "Form",
         labelOrientation + "Label",
         orientation + "Group",
+        wrap && "wrap",
         isRequired && "required",
         error ? "error" : disabled || readOnly ? "disabled" : success && "success",
       ]),
-    [className, disabled, error, formOrientation, isRequired, labelOrientation, orientation, readOnly, size, success],
+    [className, disabled, error, formOrientation, isRequired, labelOrientation, orientation, readOnly, size, success, wrap],
   );
 
   return (
