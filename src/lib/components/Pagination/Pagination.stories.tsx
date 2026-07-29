@@ -24,10 +24,27 @@ type Story = StoryObj<typeof Pagination>;
 
 export const Primary: Story = {};
 
-export const UserListExample: Story = {
+export const InteractiveExample: Story = {
   render: () => <UserList />,
   parameters: {
     controls: { disable: true },
+    docs: {
+      source: {
+        code: `const [currentPage, setCurrentPage] = useState(1);
+
+const handlePageChange = (page: number) => {
+  setCurrentPage(page);
+  // fetch data for the new page, update list, etc.
+};
+
+<Pagination
+  total={50}
+  current={currentPage}
+  pageSize={10}
+  onChange={handlePageChange}
+/>`,
+      },
+    },
   },
 };
 
