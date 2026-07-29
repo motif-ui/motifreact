@@ -1,6 +1,7 @@
 @use "@styles" as *;
 
 $row-color-variants: "primary", "secondary", "light", "success", "danger", "warning", "info";
+$max-row-span: 20;
 
 .Root {
   display: table;
@@ -126,9 +127,19 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
     }
   }
   &.hoverable tbody {
-    tr:hover td,
-    tr.groupStart:has(~ tr:hover:not(.groupStart)):not(:has(~ tr.groupStart ~ tr:hover)) td[rowspan] {
+    tr:hover td {
       background-color: var(--theme-color-surface-light-default);
+    }
+
+    @for $row-span from 2 through $max-row-span {
+      $beyond-group: "";
+      @for $step from 1 through ($row-span - 1) {
+        $beyond-group: $beyond-group + "+ tr ";
+      }
+
+      tr.groupStart:has(~ tr:hover):not(:has(#{$beyond-group} ~ tr:hover)) td[rowspan="#{$row-span}"] {
+        background-color: var(--theme-color-surface-light-default);
+      }
     }
   }
 }
