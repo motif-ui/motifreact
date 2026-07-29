@@ -26,6 +26,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
   }, []); */
 
   const selectedFilesEqualityString = selectedFiles.map(f => f.id + f.file.name + f.file.type + f.status).join(",");
+  const valueEqualityString = (value ?? []).map(f => f.id + f.file.name + f.file.size + f.file.type).join(",");
 
   const _updateProgress = useCallback((fileIds: string[], e: ProgressEvent<XMLHttpRequestEventTarget>) => {
     // Some servers/proxies (chunked transfer-encoding, missing Content-Length) never make the
@@ -292,6 +293,25 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     },
     [isUploadInput, maxFile, selectedFiles],
   );
+
+  const isFirstValueSync = useRef(true);
+
+  // Keeps `selectedFiles` in sync with the caller-controlled `value` prop after mount
+  useEffect(() => {
+    if (isFirstValueSync.current) {
+      isFirstValueSync.current = false;
+      return;
+    }
+    setSelectedFiles(prev => {
+      const prevFilesById = new Map(prev.map(f => [f.id, f]));
+      const nextValueFiles = (value ?? []).map(valueFile => {
+        const previous = prevFilesById.get(valueFile.id);
+        return previous && (previous.deleting || previous.status === STATUS.DELETE_FAIL) ? previous : valueFile;
+      });
+      const localFiles = prev.filter(f => !f.addedByValue);
+      return maxFile > 1 ? [...nextValueFiles, ...localFiles] : nextValueFiles;
+    });
+  }, [valueEqualityString]);
 
   // The effect that handles file changes and their states and reflects them to the UI
   useEffect(() => {
