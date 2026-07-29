@@ -410,7 +410,7 @@ export const Filtering: Story = {
       { name: "Dummy Foo Bar", age: "35" },
     ];
     const columns = [
-      { title: "Full Name", dataKey: "name", filter: true },
+      { title: "Full Name", dataKey: "name", filter: true, filterPlaceholder: "Search full name.." },
       { title: "Age", dataKey: "age", filter: true },
     ];
     return <Table data={data} columns={columns} filterableTable />;

@@ -42,4 +42,5 @@ export type InternalInputProps = {
   imperativeRef?: RefObject<InternalInputHandle | null>;
 };
 
+export type TextTransform = "uppercase" | "lowercase" | "capitalize";
 export type InternalInputHandle = { valueStateSetter: Dispatch<SetStateAction<string>> };
