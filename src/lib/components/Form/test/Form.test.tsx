@@ -418,9 +418,10 @@ describe("Form", () => {
     });
   });
 
-  it("should prevent typing or editing all items in FormFieldGroup when readOnly prop is given", async () => {
+  it("should prevent typing, editing, or file changes for all items in FormFieldGroup when readOnly prop is given", async () => {
     const handleSubmit = (data: FormSubmitData) => {
-      expect(JSON.stringify(data)).toBe(JSON.stringify(expectedSubmitResponse));
+      // Upload Components: readOnly fields are still included in submit (unlike disabled), each with its value file.
+      expect(JSON.stringify(data.values.testGroup)).toBe(JSON.stringify(expectedSubmitResponse.values.testGroup));
     };
 
     render(
@@ -471,6 +472,18 @@ describe("Form", () => {
     // Pin Code
     expect(inputItems[10].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
     await user.type(inputItems[10].getElementsByTagName("input")[0], value);
+
+    // Upload List
+    await act(() =>
+      fireEvent.drop(screen.getAllByText(t("g.browse"))[1].parentElement as Element, { dataTransfer: { files: [MOCK.filePng2mb] } }),
+    );
+
+    // Upload Dragger
+    await act(() =>
+      fireEvent.drop(screen.getByTestId("uploadDragger").firstElementChild as Element, {
+        dataTransfer: { files: [MOCK.filePng2mb] },
+      }),
+    );
 
     await user.click(screen.getByText(t("g.submit")));
   });
