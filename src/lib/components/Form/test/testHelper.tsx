@@ -26,6 +26,13 @@ export const requiredProps = { uploadRequest: MOCK.uploadRequest, deleteRequest:
 
 export const serverFile = { id: "server-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
 
+export const uploadExpectedSubmitResponse = {
+  id: serverFile.id,
+  file: { name: serverFile.name, type: serverFile.type, size: serverFile.size },
+  status: STATUS.SUCCESS,
+  uploaded: true,
+};
+
 export const data: (SelectGroupItem | SelectItem)[] = [
   { label: "Item 1", value: "i1" },
   { label: "Item 2", value: "i2" },
@@ -45,30 +52,9 @@ export const expectedSubmitResponse = {
       inputDate: DateUtils.getTodayTimeless(),
       switch: false,
       pinCode: ["a", "b"],
-      uploadInput: [
-        {
-          id: serverFile.id,
-          file: { name: serverFile.name, type: serverFile.type, size: serverFile.size },
-          status: STATUS.SUCCESS,
-          uploaded: true,
-        },
-      ],
-      uploadList: [
-        {
-          id: serverFile.id,
-          file: { name: serverFile.name, type: serverFile.type, size: serverFile.size },
-          status: STATUS.SUCCESS,
-          uploaded: true,
-        },
-      ],
-      uploadDragger: [
-        {
-          id: serverFile.id,
-          file: { name: serverFile.name, type: serverFile.type, size: serverFile.size },
-          status: STATUS.SUCCESS,
-          uploaded: true,
-        },
-      ],
+      uploadInput: [uploadExpectedSubmitResponse],
+      uploadList: [uploadExpectedSubmitResponse],
+      uploadDragger: [uploadExpectedSubmitResponse],
     },
   },
 };
