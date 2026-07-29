@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen, act } from "@testing-library/react";
 import { runIconPropTest } from "../../../utils/testUtils";
 import { useToast } from "@/components/Toast/useToast";
+import Toast from "@/components/Toast/Toast";
 import { AddToastOptions, ToastVariant } from "@/components/Toast/types";
 import { useEffect } from "react";
 
@@ -112,6 +113,23 @@ describe("Toast", () => {
       jest.advanceTimersByTime(800);
     });
     expect(queryByText(content)).not.toBeInTheDocument();
+
+    jest.useRealTimers();
+  });
+
+  it("should not auto-dismiss and should not render a progress bar when duration is not given", () => {
+    jest.useFakeTimers();
+
+    const { getByText, queryByTestId } = render(
+      <Toast id="t1" onDismiss={() => {}} content={content} variant="info" position="topRight" closable />,
+    );
+    expect(getByText(content)).toBeInTheDocument();
+    expect(queryByTestId("progressBar")).not.toBeInTheDocument();
+
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+    expect(getByText(content)).toBeInTheDocument();
 
     jest.useRealTimers();
   });

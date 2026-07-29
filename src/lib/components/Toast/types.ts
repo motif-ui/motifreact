@@ -12,7 +12,7 @@ export type ToastProps = {
   content: string;
   variant: ToastVariant;
   position: ToastPosition;
-  duration: number;
+  duration?: number;
   closable: boolean;
   title?: string;
   icon?: IconGlobalType;

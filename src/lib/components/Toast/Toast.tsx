@@ -42,7 +42,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
     }, 300);
   }, [id, position, onDismiss]);
 
-  const timer = useTimeout(handleDismiss, duration);
+  const timer = useTimeout(handleDismiss, duration ?? 0);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
       timer.clear();
     };
 
-    if (closable) {
+    if (closable && duration !== undefined) {
       timer.start();
       return () => {
         clear();
@@ -98,7 +98,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
 
         {closable && <MotifIconButton name="close" onClick={handleDismiss} size="lg" />}
 
-        <ProgressBar size="sm" variant={variant} className={styles.progress} countdown={{ duration, paused }} />
+        {duration !== undefined && <ProgressBar size="sm" variant={variant} className={styles.progress} countdown={{ duration, paused }} />}
       </div>
     )
   );
