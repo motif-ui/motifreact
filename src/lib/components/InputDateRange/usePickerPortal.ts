@@ -1,10 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { RefObject } from "react";
-import { usePopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
-
-type PickerAlignment = "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
+import { usePopoverPosition, PopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
 
 const PICKER_TOP_OFFSET = 2;
 
@@ -14,20 +12,11 @@ export const usePickerPortal = (
   visible: boolean,
   onOpen: () => void,
 ) => {
-  const [alignment, setAlignment] = useState<PickerAlignment>("bottomLeft");
-  const { startShowing, startHiding, attached, positionStyle } = usePopoverPosition(anchorRef, pickerRef, alignment, 0);
-
-  // usePopoverPosition sets --caret-top/--caret-left directly on the DOM node after its
-  // own useLayoutEffect. We clear them in the next layoutEffect (hooks run in order).
-  useLayoutEffect(() => {
-    if (!pickerRef.current) return;
-    pickerRef.current.style.removeProperty("--caret-top");
-    pickerRef.current.style.removeProperty("--caret-left");
-  });
+  const [alignment, setAlignment] = useState<PopoverPosition>("bottomLeft");
+  const { startShowing, startHiding, attached, positionStyle } = usePopoverPosition(anchorRef, pickerRef, alignment, 0, false);
 
   useEffect(() => {
-    if (visible) startShowing();
-    else startHiding(true);
+    visible ? startShowing() : startHiding(true);
   }, [visible, startShowing, startHiding]);
 
   const pickerStyle = useMemo(() => {

@@ -1,11 +1,14 @@
 import { RefObject, useLayoutEffect, useCallback, useState, CSSProperties, useRef } from "react";
 import useDomReady from "../../../hooks/useDomReady";
 
+export type PopoverPosition = "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight" | "right" | "left";
+
 export const usePopoverPosition = (
   anchorRef: RefObject<HTMLElement | null>,
   itemRef: RefObject<HTMLElement | null>,
-  position: "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight" | "right" | "left",
+  position: PopoverPosition,
   transitionTime: number,
+  showCaret: boolean = true,
 ) => {
   const domReady = useDomReady();
   const [attached, setAttached] = useState(false);
@@ -71,14 +74,17 @@ export const usePopoverPosition = (
       const finalVisualTop = visualTop + diffY;
       const CARET_OFFSET = 6;
 
-      if (position === "left" || position === "right") {
-        const caretTop = anchorCenterY - finalVisualTop - CARET_OFFSET;
-        itemRef.current.style.setProperty("--caret-top", `${caretTop}px`);
-      } else {
-        const caretLeft = anchorCenterX - finalVisualLeft - CARET_OFFSET;
-        itemRef.current.style.setProperty("--caret-left", `${caretLeft}px`);
+      if (showCaret) {
+        if (position === "left" || position === "right") {
+          const caretTop = anchorCenterY - finalVisualTop - CARET_OFFSET;
+          itemRef.current.style.setProperty("--caret-top", `${caretTop}px`);
+        } else {
+          const caretLeft = anchorCenterX - finalVisualLeft - CARET_OFFSET;
+          itemRef.current.style.setProperty("--caret-left", `${caretLeft}px`);
+        }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [domReady, itemRef, position, anchorRef],
   );
 

@@ -25,21 +25,6 @@ describe("InputDateRange", () => {
   const testDateArr = [new Date(2025, 4, 12), new Date(2025, 4, 21)];
   const placeholder = "__ / __ / ____"; // default formata göre "DD/MM/YYYY"
 
-  const mockedPosition = jest.mocked(usePopoverPosition);
-  const mockStartShowing = jest.fn();
-  const mockStartHiding = jest.fn();
-
-  beforeEach(() => {
-    Object.defineProperty(window, "innerWidth", { value: 1024, writable: true });
-    Object.defineProperty(window, "innerHeight", { value: 768, writable: true });
-  });
-
-  afterEach(() => {
-    mockedPosition.mockClear();
-    mockStartShowing.mockClear();
-    mockStartHiding.mockClear();
-  });
-
   const createDateRangeString = (inputDate1: Date | undefined, inputDate2: Date | undefined) => {
     const date1 = formatDate(inputDate1, defaultDateFormat, getDateLocale(t));
     const date2 = formatDate(inputDate2, defaultDateFormat, getDateLocale(t));
@@ -84,15 +69,6 @@ describe("InputDateRange", () => {
       pickerEl,
     };
   };
-
-  const mockPositionReturn = (positionStyle: Record<string, number> = { top: 100, left: 50 }) =>
-    mockedPosition.mockReturnValue({
-      startShowing: mockStartShowing,
-      startHiding: mockStartHiding,
-      attached: false,
-      visible: false,
-      positionStyle,
-    });
 
   it("should be rendered with only required props and should have default prop values stated here", () => {
     const { container, getByText, getDateRangeInput, getInputText } = renderExt(<InputDateRange />);
@@ -333,12 +309,48 @@ describe("InputDateRange", () => {
   ];
 
   it.each(alignmentCases)("should pick $expected when anchor is in the $label", ({ anchorRect, expected }) => {
-    mockPositionReturn();
+    const realUsePopoverPosition = jest.requireActual<typeof import("@/components/Popover/hooks/usePopoverPosition")>(
+      "@/components/Popover/hooks/usePopoverPosition",
+    ).usePopoverPosition;
+    const mockedPosition = jest.mocked(usePopoverPosition);
+    mockedPosition.mockClear();
+    mockedPosition.mockReturnValue({
+      startShowing: jest.fn(),
+      startHiding: jest.fn(),
+      attached: false,
+      visible: false,
+      positionStyle: { top: 100, left: 50 },
+    });
+
     const { anchorRef, pickerRef } = makeRefs(anchorRect);
     const { result } = renderHook(() => usePickerPortal(anchorRef, pickerRef, false, jest.fn()));
 
     act(() => result.current.openPicker());
 
-    expect(mockedPosition).toHaveBeenCalledWith(anchorRef, pickerRef, expected, 0);
+    expect(mockedPosition).toHaveBeenCalledWith(anchorRef, pickerRef, expected, 0, false);
+    mockedPosition.mockImplementation(realUsePopoverPosition);
+  });
+
+  it("should close the datepicker when the page is scrolled", async () => {
+    const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
+
+    await user.click(getDateRangeInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await act(() => window.dispatchEvent(new Event("scroll")));
+    expect(getPickerContainer()).not.toBeInTheDocument();
+  });
+
+  it("should close the datepicker when the screen shrinks", async () => {
+    Object.defineProperty(window, "innerWidth", { value: 1024, writable: true });
+    Object.defineProperty(window, "innerHeight", { value: 768, writable: true });
+    const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
+
+    await user.click(getDateRangeInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    Object.defineProperty(window, "innerWidth", { value: 800, writable: true });
+    await act(() => window.dispatchEvent(new Event("resize")));
+    expect(getPickerContainer()).not.toBeInTheDocument();
   });
 });

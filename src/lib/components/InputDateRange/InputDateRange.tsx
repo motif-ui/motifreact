@@ -98,8 +98,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   }, [clearDateValues, hide, itemValue]);
 
   const pickerRef = useRef<HTMLDivElement>(null);
-  const pickerExcludedRefs = useMemo(() => [pickerRef], []);
-  const innerRef = useOutsideClick<HTMLDivElement>(outsideClickHandler, pickerExcludedRefs);
+  const innerRef = useOutsideClick<HTMLDivElement>(outsideClickHandler, [pickerRef]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useImperativeHandle(ref, () => innerRef.current!, []);
 
@@ -115,6 +114,24 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   const pickerShowHandler = useCallback(() => {
     !readOnly && !disabled && openPicker();
   }, [disabled, readOnly, openPicker]);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const baseWidth = window.innerWidth;
+    const baseHeight = window.innerHeight;
+    const handleResize = () => (window.innerWidth < baseWidth || window.innerHeight < baseHeight) && hide();
+    const handleScroll = () => hide();
+
+    window.addEventListener("scroll", handleScroll, { capture: true });
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll, { capture: true });
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [visible, hide]);
+
   useEffect(() => {
     setTypedValueWithFormat(value as MaybeDateRange);
     applyChanges(value as MaybeDateRange);
