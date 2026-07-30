@@ -30,19 +30,24 @@ export const InteractiveExample: Story = {
     controls: { disable: true },
     docs: {
       source: {
-        code: `const [currentPage, setCurrentPage] = useState(1);
-
-const handlePageChange = (page: number) => {
-  setCurrentPage(page);
-  // fetch data for the new page, update list, etc.
-};
-
-<Pagination
-  total={50}
-  current={currentPage}
-  pageSize={10}
-  onChange={handlePageChange}
-/>`,
+        code: `
+const users = Array.from({ length: 50 }, (_, i) => ({
+  id: i + 1,
+  name: "User " + (i + 1)},
+  email: "user" + (i + 1) + "@example.com,
+  role: "Admin", "Editor", "Viewer"][i % 3],
+  avatar: "https://i.pravatar.cc/150?img=" + ((i % 70) + 1),
+}));
+const [currentPage, setCurrentPage] = useState(1);
+return <>
+  <UserList users={users} />
+  <Pagination
+    total={users.length}
+    current={currentPage}
+    pageSize={3}
+    onChange={setCurrentPage}
+  />
+</>;`,
       },
     },
   },
