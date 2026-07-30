@@ -41,7 +41,7 @@ export const LabelArea = (props: Props) => {
   const aboutToUpload = autoUpload && !!selectedFiles.length && selectedFiles.every(f => f.status === STATUS.IDLE);
 
   const suffixType: LabelSuffix = errors?.length ? "errorTooltip" : error ? "error" : success ? "success" : null;
-  const enableDelete = !!errors?.length || (inputState !== "noFile" && inputState !== "uploading");
+  const enableDelete = !disabled && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
   const buttonDisabled = disabled || (inputState !== "noFile" && inputState !== "uploading");
   const numberOfSuffixes = (suffixType ? 1 : 0) + (enableDelete ? 1 : 0);
 
