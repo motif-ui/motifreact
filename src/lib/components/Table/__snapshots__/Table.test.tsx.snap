@@ -38,23 +38,17 @@ exports[`Table should render with only required props 1`] = `
       <tbody
         data-testid="TableBody"
       >
-        <tr
-          data-group-cont="false"
-        >
+        <tr>
           <td>
             M Test
           </td>
         </tr>
-        <tr
-          data-group-cont="false"
-        >
+        <tr>
           <td>
             A Test
           </td>
         </tr>
-        <tr
-          data-group-cont="false"
-        >
+        <tr>
           <td>
             Z Test
           </td>

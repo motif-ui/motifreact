@@ -29,7 +29,7 @@ const DataRow = (props: Props) => {
   );
 
   return (
-    <tr className={className} data-group-cont={isGroupContinuation ?? undefined}>
+    <tr className={className} data-group-cont={isGroupContinuation || undefined}>
       {selectable && (
         <td className={styles.selectable}>
           <Checkbox size="sm" onChange={() => selectHandler?.({ row })} checked={row.isSelected} />
