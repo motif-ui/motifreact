@@ -37,12 +37,14 @@ describe("InputDateRange", () => {
   };
 
   it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getDateRangeInput, getInputText } = renderExt(<InputDateRange />);
+    const { container, getDateRangeInput, getInputText, getByText } = renderExt(<InputDateRange />);
     expect(container).toMatchSnapshot();
     // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
     expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);
     // size = md (default)
     expect(getInputText()).toHaveClass("md");
+    // icon = calendar_expand_horizontal (default)
+    expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
   });
 
   it("should display the dates as given format in format prop with an arrow between them", () => {

@@ -45,6 +45,8 @@ describe("InputTime", () => {
     expect(container).toMatchSnapshot();
     expect(getInput()).toHaveAttribute("placeholder", "__:__");
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+    //icon = schedule (default)
+    expect(screen.queryByText("schedule")).toBeInTheDocument();
   });
 
   it("should let typing value to time input when editable prop is set true", async () => {

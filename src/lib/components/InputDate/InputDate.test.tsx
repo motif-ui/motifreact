@@ -46,6 +46,8 @@ describe("InputDate", () => {
     expect(getInput()).toHaveAttribute("placeholder", "DD/MM/YYYY");
     // size = md (default)
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+    // icon = calendar_month (default)
+    expect(screen.queryByText("calendar_month")).toBeInTheDocument();
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
