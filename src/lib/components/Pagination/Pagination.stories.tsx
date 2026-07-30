@@ -33,9 +33,9 @@ export const InteractiveExample: Story = {
         code: `
 const users = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
-  name: "User " + (i + 1)},
-  email: "user" + (i + 1) + "@example.com,
-  role: "Admin", "Editor", "Viewer"][i % 3],
+  name: "User " + (i + 1),
+  email: "user" + (i + 1) + "@example.com",
+  role: ["Admin", "Editor", "Viewer"][i % 3],
   avatar: "https://i.pravatar.cc/150?img=" + ((i % 70) + 1),
 }));
 const [currentPage, setCurrentPage] = useState(1);
