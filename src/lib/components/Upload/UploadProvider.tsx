@@ -383,15 +383,6 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accept, autoUpload, isUploadInput, maxFile, maxSize, messages, selectedFilesEqualityString, uploadV2]);
 
-  // Sync value-based files when value prop changes
-  useEffect(() => {
-    const normalized = normalizeValue(value);
-    setSelectedFiles(prevState => {
-      const nonValueFiles = prevState.filter(f => !f.addedByValue);
-      return [...nonValueFiles, ...normalized];
-    });
-  }, [value]);
-
   // Re-translate stored error messages when locale changes
   useEffect(() => {
     setSelectedFiles(prev =>
