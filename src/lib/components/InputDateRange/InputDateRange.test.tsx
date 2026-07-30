@@ -309,10 +309,8 @@ describe("InputDateRange", () => {
   ];
 
   it.each(alignmentCases)("should pick $expected when anchor is in the $label", ({ anchorRect, expected }) => {
-    const realUsePopoverPosition = jest.requireActual<typeof import("@/components/Popover/hooks/usePopoverPosition")>(
-      "@/components/Popover/hooks/usePopoverPosition",
-    ).usePopoverPosition;
     const mockedPosition = jest.mocked(usePopoverPosition);
+    const realUsePopoverPosition = mockedPosition.getMockImplementation()!;
     mockedPosition.mockClear();
     mockedPosition.mockReturnValue({
       startShowing: jest.fn(),
