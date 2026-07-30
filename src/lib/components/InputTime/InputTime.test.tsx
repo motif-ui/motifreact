@@ -24,8 +24,6 @@ describe("InputTime", () => {
 
     const getOkButton = () => screen.getByText("OK");
 
-    const getDefaultIcon = () => screen.queryByText("schedule") as HTMLDivElement;
-
     const hasValueBothInPickerAndInput = (expectedValue: string) => {
       expect(getInput()).toHaveValue(expectedValue);
       const pickerInput = screen.queryByDisplayValue(expectedValue);
@@ -38,7 +36,6 @@ describe("InputTime", () => {
       getInput,
       getClearButton,
       getOkButton,
-      getDefaultIcon,
       hasValueBothInPickerAndInput,
     };
   };
@@ -234,10 +231,6 @@ describe("InputTime", () => {
     });
   });
 
-  it("should display the default time icon in the input field when icon prop is undefined", () => {
-    const { getDefaultIcon } = renderExt(<InputTime />);
-    expect(getDefaultIcon()).toBeInTheDocument();
-  });
   it("should sync input and picker values when typing in editable input", async () => {
     const { getInput } = renderExt(<InputTime editable />);
     const input = getInput();
@@ -351,11 +344,11 @@ describe("InputTime", () => {
     runIconPropTest(icon => render(<InputTime icon={icon} />));
   });
 
-  it("should not render an icon when icon prop is empty string or null", () => {
-    const { rerender, getDefaultIcon } = renderExt(<InputTime icon="" />);
-    expect(getDefaultIcon()).not.toBeInTheDocument();
+  it("should not render any icon when icon prop is empty string or null", () => {
+    const { container, rerender } = renderExt(<InputTime icon="" />);
+    expect(container.querySelector(".icon")).not.toBeInTheDocument();
 
     rerender(<InputTime icon={null} />);
-    expect(getDefaultIcon()).not.toBeInTheDocument();
+    expect(container.querySelector(".icon")).not.toBeInTheDocument();
   });
 });

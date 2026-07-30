@@ -14,6 +14,7 @@ import { orderDatesAndPutTimes } from "@/components/DateRangePicker/helper";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputDateRangeProps } from "./types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import { isNullOrEmptyString } from "../../../utils/utils";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
@@ -136,7 +137,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         value={typedValue}
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
-        {...(icon !== null && icon !== "" && { iconLeft: icon || <MotifIcon name="calendar_expand_horizontal" size={size} /> })}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_expand_horizontal" size={size} />)}
         clearable
         onClearClick={onClearClickInInput}
       />

@@ -11,6 +11,7 @@ import { formatDate, parseDate } from "@/components/InputDate/helper";
 import { PropsWithRef } from "../../types";
 import { InputValue } from "../Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import { isNullOrEmptyString } from "../../../utils/utils";
 import InputText from "@/components/Motif/InputText/InputText";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
@@ -116,7 +117,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   return (
     <div ref={innerRef} className={classNames} style={style} data-testid="inputDate">
       <InputText
-        {...(icon !== null && icon !== "" && { iconLeft: icon || <MotifIcon name="calendar_month" size={size} /> })}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" size={size} />)}
         clearable
         name={name}
         size={size}

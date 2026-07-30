@@ -172,7 +172,7 @@ export const InputDateIcons: Story = {
   render: () => (
     <>
       {iconTypes.map((iconItem, idx) => (
-        <InputDate key={"id" + idx} icon={iconItem} />
+        <InputDate key={"id" + idx} icon={iconItem} size="lg" />
       ))}
     </>
   ),
@@ -182,7 +182,7 @@ export const InputDateRangeIcons: Story = {
   render: () => (
     <>
       {iconTypes.map((iconItem, idx) => (
-        <InputDateRange key={"idr" + idx} icon={iconItem} size="sm" />
+        <InputDateRange key={"idr" + idx} icon={iconItem} size="lg" />
       ))}
     </>
   ),
@@ -225,7 +225,7 @@ export const InputTimeIcons: Story = {
   render: () => (
     <>
       {iconTypes.map((iconItem, idx) => (
-        <InputTime key={"iti" + idx} icon={iconItem} size="sm" />
+        <InputTime key={"iti" + idx} icon={iconItem} size="lg" />
       ))}
     </>
   ),
