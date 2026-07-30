@@ -5,7 +5,7 @@ import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
-import { t } from "../../../utils/testUtils";
+import { t, runIconPropTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
@@ -46,6 +46,8 @@ describe("InputDate", () => {
     expect(getInput()).toHaveAttribute("placeholder", "DD/MM/YYYY");
     // size = md (default)
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+    // icon = calendar_month (default)
+    expect(screen.queryByText("calendar_month")).toBeInTheDocument();
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
@@ -280,5 +282,17 @@ describe("InputDate", () => {
 
     fireEvent.change(getInput(), { target: { value: formatDateWithDefaultFormatAndTR(mockToday) } });
     expect(getByText(mockToday.getDate())).toHaveClass("selected");
+  });
+
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<InputDate icon={icon} />));
+  });
+
+  it("should not render any icon when icon prop is empty string or null", () => {
+    const { container, rerender } = renderExt(<InputDate icon="" />);
+    expect(container.querySelector(".icon")).not.toBeInTheDocument();
+
+    rerender(<InputDate icon={null} />);
+    expect(container.querySelector(".icon")).not.toBeInTheDocument();
   });
 });
