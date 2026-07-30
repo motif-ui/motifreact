@@ -116,7 +116,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   return (
     <div ref={innerRef} className={classNames} style={style} data-testid="inputDate">
       <InputText
-        {...(icon && { iconLeft: icon === true ? <MotifIcon name="calendar_month" size={size} /> : icon })}
+        {...(icon !== null && icon !== "" && { iconLeft: icon || <MotifIcon name="calendar_month" size={size} /> })}
         clearable
         name={name}
         size={size}

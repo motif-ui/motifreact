@@ -11,6 +11,6 @@ export type InputDateRangeDefaultableProps = {
   size?: InputSize;
   format?: DateFormat;
   locale?: DateRangePickerLocale;
-  icon?: IconGlobalType | true;
+  icon?: IconGlobalType | null;
   firstDayOfWeek?: DaysOfWeek;
 };

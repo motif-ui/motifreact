@@ -27,13 +27,14 @@ describe("InputDateRange", () => {
     const getDateRangeInput = () => result.container.firstElementChild!.querySelector("input") as HTMLInputElement;
     const getDateButton = (date: Date) => result.container.querySelector('[data-date="' + date.getTime() + '"]') as HTMLButtonElement;
     const getPickerContainer = () => screen.queryByTestId("Picker");
-
+    const getDefaultIcon = () => screen.queryByText("calendar_expand_horizontal") as HTMLDivElement;
     return {
       ...result,
       getInputText,
       getDateRangeInput,
       getPickerContainer,
       getDateButton,
+      getDefaultIcon,
     };
   };
 
@@ -270,13 +271,16 @@ describe("InputDateRange", () => {
     expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
 
-  it("should not render an icon when icon prop is not provided", () => {
-    render(<InputDateRange />);
-    expect(screen.queryByText("calendar_expand_horizontal")).not.toBeInTheDocument();
+  it("should render the default icon when icon prop is undefined (not provided)", () => {
+    const { getDefaultIcon } = renderExt(<InputDateRange />);
+    expect(getDefaultIcon()).toBeInTheDocument();
   });
 
-  it("should render the default icon when icon prop is true", () => {
-    render(<InputDateRange icon />);
-    expect(screen.getByText("calendar_expand_horizontal")).toBeInTheDocument();
+  it("should not render an icon when icon prop is empty string or null", () => {
+    const { rerender, getDefaultIcon } = renderExt(<InputDateRange icon="" />);
+    expect(getDefaultIcon()).not.toBeInTheDocument();
+
+    rerender(<InputDateRange icon={null} />);
+    expect(getDefaultIcon()).not.toBeInTheDocument();
   });
 });

@@ -11,7 +11,7 @@ export type InputDateDefaultableProps = {
   size?: InputSize;
   locale?: DatePickerLocale;
   firstDayOfWeek?: DaysOfWeek;
-  icon?: IconGlobalType | true;
+  icon?: IconGlobalType | null;
 };
 
 export type InputDateProps = InputCommonProps & InputDateDefaultableProps;

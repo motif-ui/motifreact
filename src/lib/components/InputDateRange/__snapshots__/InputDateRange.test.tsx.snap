@@ -9,6 +9,13 @@ exports[`InputDateRange should be rendered with only required props and should h
       class="Root md"
       data-testid="inputItem"
     >
+      <span
+        class="Root md motifIconsDefault icon"
+        lang="en"
+        translate="no"
+      >
+        calendar_expand_horizontal
+      </span>
       <div
         class="inputWrapper"
       >

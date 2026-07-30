@@ -23,6 +23,8 @@ describe("InputDate", () => {
 
     const getOkButton = () => screen.getByText("OK");
 
+    const getDefaultIcon = () => screen.queryByText("calendar_month") as HTMLDivElement;
+
     const hasValueBothInPickerAndInput = (expectedValue: string) => {
       expect(getInput()).toHaveValue(expectedValue);
       const pickerInput = screen.queryByDisplayValue(expectedValue);
@@ -35,6 +37,7 @@ describe("InputDate", () => {
       getInput,
       getClearButton,
       getOkButton,
+      getDefaultIcon,
       hasValueBothInPickerAndInput,
     };
   };
@@ -286,13 +289,16 @@ describe("InputDate", () => {
     runIconPropTest(icon => render(<InputDate icon={icon} />));
   });
 
-  it("should not render an icon when icon prop is not provided", () => {
-    render(<InputDate />);
-    expect(screen.queryByText("calendar_month")).not.toBeInTheDocument();
+  it("should render the default icon when icon prop is undefined (not provided)", () => {
+    const { getDefaultIcon } = renderExt(<InputDate />);
+    expect(getDefaultIcon()).toBeInTheDocument();
   });
 
-  it("should render the default icon when icon prop is true", () => {
-    render(<InputDate icon />);
-    expect(screen.getByText("calendar_month")).toBeInTheDocument();
+  it("should not render an icon when icon prop is empty string or null", () => {
+    const { rerender, getDefaultIcon } = renderExt(<InputDate icon="" />);
+    expect(getDefaultIcon()).not.toBeInTheDocument();
+
+    rerender(<InputDate icon={null} />);
+    expect(getDefaultIcon()).not.toBeInTheDocument();
   });
 });

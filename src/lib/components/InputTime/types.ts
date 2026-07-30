@@ -25,5 +25,5 @@ export type InputTimeDefaultableProps = {
   size?: InputSize;
   format?: TimeFormat;
   locale?: TimePickerLocale;
-  icon?: IconGlobalType | true;
+  icon?: IconGlobalType | null;
 };

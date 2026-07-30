@@ -9,6 +9,13 @@ exports[`InputTime should be rendered with only required props and should have d
       class="Root md"
       data-testid="inputItem"
     >
+      <span
+        class="Root md motifIconsDefault icon"
+        lang="en"
+        translate="no"
+      >
+        schedule
+      </span>
       <div
         class="inputWrapper"
       >
