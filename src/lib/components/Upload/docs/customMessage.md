@@ -12,10 +12,8 @@ There are three types of messages with templates. Those messages and the paramet
 
 - **maxFileMessage:** _"Maximum %maxFile% files could be uploaded"_
   - "Maximum 3 files could be uploaded"
-
 - **maxSizeMessage:** _"Maximum file size should be %maxSize% . Size of %fileName% is: %fileSize% "_
   - "Maximum file size should be 3.8 MB. Size of test.png is: 7.2 MB"
-
 - **mimeTypeMessage:** _"Only %acceptType% types are allowed. Your file type is: %fileType%"_
   - "Only application/pdf types are allowed. Your file type is: image/jpeg"
 
@@ -60,3 +58,52 @@ import UploadList from "./UploadList";
   }}
 />;
 ```
+
+## Server Side Validation
+
+Some validation can only happen on the server (virus scanning, content inspection, business rules that depend on data the
+client doesn't have). This component surfaces those server-driven rejections directly in the file row, using the same
+response the upload request already returns — no extra endpoint or polling is required.
+
+### Type Definition
+
+```ts
+export type UploadServerResponse = {
+  status: "success" | "fail";
+  message?: string;
+};
+```
+
+### How It Works
+
+- Runs once the upload request settles, as soon as the server responds.
+- If the HTTP response status is **not 200**, the component tries to parse the response body as JSON matching
+  `UploadServerResponse`.
+- If parsing succeeds, **status** is `"fail"`, and a **message** is present, that exact message is shown on the file row.
+- If the body isn't valid JSON, doesn't match this shape, or has no message, the component falls back to
+  `messages?.uploadFailMessage` (if provided) or the default upload error message — the same fallback used for a plain
+  network/transport failure.
+- A **200** response is always treated as a success; server-side rejection requires a non-200 status.
+
+#### Example
+
+A server rejecting a file should respond with a non-200 status and a body matching `UploadServerResponse`:
+
+```ts
+// Example API route
+export const POST = async () => {
+  return Response.json({ status: "fail", message: "Uploaded file is rejected by the server." }, { status: 500 });
+};
+```
+
+```tsx
+import UploadList from "./UploadList";
+
+<UploadList
+  uploadRequest={{ url: "/api/upload", method: "POST" }}
+  deleteRequest={{ url: "/api/upload", method: "POST" }}
+/>;
+```
+
+See the **Server Validation** story under Upload List, Upload Dragger, and Upload Input in Storybook for a live,
+mocked example of this behavior.

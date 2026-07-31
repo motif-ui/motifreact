@@ -1,7 +1,14 @@
-import { ContextDefaultValues, FileType, UploadContextType, UploadPropsDefault, UploadProviderProps } from "@/components/Upload/types";
+import {
+  ContextDefaultValues,
+  FileType,
+  UploadContextType,
+  UploadPropsDefault,
+  UploadProviderProps,
+  UploadServerResponse,
+} from "@/components/Upload/types";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { DEFAULT_UPLOAD_STALL_TIMEOUT_MS, MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
-import { formatBytes, generateUUIDV4, shortenText } from "../../../utils/utils";
+import { formatBytes, generateUUIDV4, shortenText, tryParseJsonString } from "../../../utils/utils";
 import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
@@ -51,13 +58,18 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     (fileIds: string[], request: XMLHttpRequest) => {
       setSelectedFiles(prevState => {
         const status = request.status === 200 ? STATUS.SUCCESS : STATUS.UPLOAD_FAIL;
+
+        const maybeServerResponse = tryParseJsonString<UploadServerResponse>(request.responseText);
+        const serverFailMessage = maybeServerResponse?.status === "fail" ? maybeServerResponse.message : undefined;
+
         return prevState.map(file =>
           !fileIds.includes(file.id)
             ? file
             : {
                 ...file,
                 status,
-                messages: status === STATUS.SUCCESS ? [] : [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                messages: status === STATUS.SUCCESS ? [] : [serverFailMessage || messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                serverMessage: serverFailMessage,
                 uploaded: status === STATUS.SUCCESS,
               },
         );
@@ -76,6 +88,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
                 ...file,
                 status: STATUS.UPLOAD_FAIL,
                 messages: [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                serverMessage: undefined,
               },
         ),
       );
@@ -109,6 +122,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
                 ...file,
                 status: STATUS.UPLOAD_FAIL,
                 messages: [t(MESSAGE.UPLOAD_STALLED_ERROR)],
+                serverMessage: undefined,
               },
         ),
       );
@@ -388,7 +402,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       prev.map(f => {
         if (!f.messages?.length) return f;
         if (f.status === STATUS.UPLOAD_FAIL) {
-          return { ...f, messages: [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)] };
+          return { ...f, messages: [f.serverMessage || messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)] };
         }
         if (f.status === STATUS.DELETE_FAIL) {
           return { ...f, messages: [t(MESSAGE.DELETE_ERROR)] };
