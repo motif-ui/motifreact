@@ -14,6 +14,7 @@ import { orderDatesAndPutTimes } from "@/components/DateRangePicker/helper";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputDateRangeProps } from "./types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import { isNullOrEmptyString } from "../../../utils/utils";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
@@ -31,7 +32,7 @@ export const pickerSizeMap = {
 
 const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDateRange", p);
-  const { pill, value, onChange, locale: propsLocale, ref, style, className, firstDayOfWeek } = props;
+  const { pill, value, onChange, locale: propsLocale, ref, style, className, icon, firstDayOfWeek } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
   const datePlaceholder = format.order.map(part => format[`${part}Format`]?.replace(/[DMY]/g, "_")).join(` ${format.delimiter} `);
   const placeholder = useMemo(
@@ -136,7 +137,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         value={typedValue}
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
-        iconLeft={<MotifIcon name="calendar_expand_horizontal" size={size} />}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_expand_horizontal" size={size} />)}
         clearable
         onClearClick={onClearClickInInput}
       />

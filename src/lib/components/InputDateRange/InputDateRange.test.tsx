@@ -6,7 +6,7 @@ import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t } from "../../../utils/testUtils";
+import { t, runIconPropTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDateRange", () => {
@@ -27,7 +27,6 @@ describe("InputDateRange", () => {
     const getDateRangeInput = () => result.container.firstElementChild!.querySelector("input") as HTMLInputElement;
     const getDateButton = (date: Date) => result.container.querySelector('[data-date="' + date.getTime() + '"]') as HTMLButtonElement;
     const getPickerContainer = () => screen.queryByTestId("Picker");
-
     return {
       ...result,
       getInputText,
@@ -38,13 +37,13 @@ describe("InputDateRange", () => {
   };
 
   it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getByText, getDateRangeInput, getInputText } = renderExt(<InputDateRange />);
+    const { container, getDateRangeInput, getInputText, getByText } = renderExt(<InputDateRange />);
     expect(container).toMatchSnapshot();
     // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
     expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);
     // size = md (default)
     expect(getInputText()).toHaveClass("md");
-    // icon
+    // icon = calendar_expand_horizontal (default)
     expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
   });
 
@@ -262,9 +261,21 @@ describe("InputDateRange", () => {
     expect(getDateRangeInput()).toHaveValue(testDateString);
   });
 
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<InputDateRange icon={icon} />));
+  });
+
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
     const { container, getDateRangeInput } = renderExt(<InputDateRange firstDayOfWeek={3} value={testDateArr} />);
     await userEvent.click(getDateRangeInput());
     expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+  });
+
+  it("should not render any icon when icon prop is empty string or null", () => {
+    const { container, rerender } = renderExt(<InputDateRange icon="" />);
+    expect(container.querySelector(".icon")).not.toBeInTheDocument();
+
+    rerender(<InputDateRange icon={null} />);
+    expect(container.querySelector(".icon")).not.toBeInTheDocument();
   });
 });

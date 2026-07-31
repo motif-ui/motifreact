@@ -424,4 +424,43 @@ describe("UploadDragger", () => {
     await simulateDrop(getDragArea(), [MOCK.filePdf1kb]);
     expect(getFileList()?.childNodes).toHaveLength(1);
   });
+
+  it("should upload only the new file when value prop is not undefined and a new file is browsed and added", async () => {
+    const { getDragArea, getFileList, getFileItemFirst, getFileItemLast } = renderExt(
+      <UploadDragger {...requiredProps} value={[serverFile]} maxFile={2} />,
+    );
+    expect(getFileList()?.childNodes).toHaveLength(1);
+
+    await simulateDrop(getDragArea(), [MOCK.filePdf1kb]);
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    await waitForSuccessfulUpload(getFileItemLast());
+
+    expect(getFileItemLast()).toHaveTextContent(MOCK.filePdf1kb.name);
+    expect(getFileItemLast()).toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
+
+    expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
+    expect(getFileItemFirst()).toHaveTextContent(formatBytes(serverFile.size));
+    expect(getFileItemFirst()).not.toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
+  });
+
+  it("should re-enable the drag area after deleting the value file that was filling the maxFile limit", async () => {
+    const { getDragArea, getDeleteButton, getFileList } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} maxFile={1} />);
+    expect(getDragArea()).toHaveClass("disabled");
+
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => {
+      expect(getFileList()).not.toBeInTheDocument();
+      expect(getDragArea()).not.toHaveClass("disabled");
+    });
+  });
+
+  it("should reflect value prop changes after mount", () => {
+    const { rerender, getFileList } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(1);
+
+    rerender(<UploadDragger {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    expect(getFileList()).toHaveTextContent(serverFile.name);
+    expect(getFileList()).toHaveTextContent(serverFile2.name);
+  });
 });
