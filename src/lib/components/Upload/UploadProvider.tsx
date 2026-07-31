@@ -88,6 +88,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
                 ...file,
                 status: STATUS.UPLOAD_FAIL,
                 messages: [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                serverMessage: undefined,
               },
         ),
       );
@@ -121,6 +122,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
                 ...file,
                 status: STATUS.UPLOAD_FAIL,
                 messages: [t(MESSAGE.UPLOAD_STALLED_ERROR)],
+                serverMessage: undefined,
               },
         ),
       );

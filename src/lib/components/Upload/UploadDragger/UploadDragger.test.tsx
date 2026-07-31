@@ -220,6 +220,28 @@ describe("UploadDragger", () => {
     xhrSpy.mockRestore();
   });
 
+  it("should not resurrect a stale server message after a retry fails with a network error and the messages prop reference changes", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const uploadFailMessage = "Generic upload fail message";
+    const serverFailSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { rerender, getInput, getFileItemFirst } = renderExt(<UploadDragger {...requiredProps} messages={{ uploadFailMessage }} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(message));
+    serverFailSpy.mockRestore();
+
+    const networkFailSpy = mockXHRs(500); // fires the "error" event -> _transferFailed, unlike the server-response path above
+    await userEvent.click(screen.queryByText("autorenew")!);
+    await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(uploadFailMessage));
+
+    // Same content, new object reference — simulates a parent re-render passing `messages` inline.
+    rerender(<UploadDragger {...requiredProps} messages={{ uploadFailMessage }} />);
+    expect(getFileItemFirst()).toHaveTextContent(uploadFailMessage);
+    expect(getFileItemFirst()).not.toHaveTextContent(message);
+
+    networkFailSpy.mockRestore();
+  });
+
   it("should not upload file when same file is already uploaded", async () => {
     const { getInput, getDragArea, getFileList } = renderExt(<UploadDragger {...requiredProps} maxFile={2} />);
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
