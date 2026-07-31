@@ -721,15 +721,13 @@ describe("ImageUpload", () => {
     const { getThumbnail } = renderExt(
       <ImageUpload
         {...requiredProps}
-        value={[
-          {
-            id: "db-1",
-            name: "existing.jpg",
-            size: 102400,
-            type: "image/jpeg",
-            src: dbSrc,
-          },
-        ]}
+        value={{
+          id: "db-1",
+          name: "existing.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: dbSrc,
+        }}
       />,
     );
     await waitFor(() => {
@@ -743,15 +741,13 @@ describe("ImageUpload", () => {
     renderExt(
       <ImageUpload
         {...requiredProps}
-        value={[
-          {
-            id: "db-1",
-            name: "existing.jpg",
-            size: 102400,
-            type: "image/jpeg",
-            src: dbSrc,
-          },
-        ]}
+        value={{
+          id: "db-1",
+          name: "existing.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: dbSrc,
+        }}
       />,
     );
     await userEvent.click(screen.getByText("visibility"));
@@ -767,15 +763,13 @@ describe("ImageUpload", () => {
     const { getDeleteButton, getThumbnail } = renderExt(
       <ImageUpload
         {...requiredProps}
-        value={[
-          {
-            id: "db-1",
-            name: "existing.jpg",
-            size: 102400,
-            type: "image/jpeg",
-            src: "https://example.com/pic.jpg",
-          },
-        ]}
+        value={{
+          id: "db-1",
+          name: "existing.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: "https://example.com/pic.jpg",
+        }}
       />,
     );
     await waitFor(() => expect(getThumbnail()).toBeInTheDocument());
@@ -792,21 +786,42 @@ describe("ImageUpload", () => {
     rerender(
       <ImageUpload
         {...requiredProps}
-        value={[
-          {
-            id: "db-1",
-            name: "existing.jpg",
-            size: 102400,
-            type: "image/jpeg",
-            src: dbSrc,
-          },
-        ]}
+        value={{
+          id: "db-1",
+          name: "existing.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: dbSrc,
+        }}
       />,
     );
 
     await waitFor(() => {
       expect(getThumbnail()).toBeInTheDocument();
       expect(getThumbnail()).toHaveAttribute("src", dbSrc);
+    });
+  });
+
+  it("should handle value provided without src - show uploader and allow upload", async () => {
+    const { getInput, getThumbnail } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "db-no-src",
+          name: "no-preview.jpg",
+          size: 102400,
+          type: "image/jpeg",
+        }}
+      />,
+    );
+
+    expect(getThumbnail()).not.toBeInTheDocument();
+    expect(screen.getByText("Choose or drag an image")).toBeInTheDocument();
+
+    await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
+
+    await waitFor(() => {
+      expect(getThumbnail()).toBeInTheDocument();
     });
   });
 });

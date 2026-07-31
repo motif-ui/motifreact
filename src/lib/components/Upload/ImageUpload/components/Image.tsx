@@ -23,17 +23,14 @@ export const Image = ({ file: { status, progress, file, src, deleting } }: Props
   const deleteFailed = status === STATUS.DELETE_FAIL;
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
 
-  const deleteIcon = (
-    <MotifIconButton
-      name="delete"
-      variant="danger"
-      className={styles.icon}
-      disabled={deleting}
-      onClick={() => removeFiles([selectedFiles[0]])}
-    />
-  );
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    removeFiles([selectedFiles[0]]);
+  };
 
-  return (
+  const deleteIcon = <MotifIconButton name="delete" variant="danger" className={styles.icon} disabled={deleting} onClick={handleDelete} />;
+
+  return !image && (succeeded || deleteFailed) ? null : (
     <>
       {status === STATUS.UPLOADING && (
         <div className={styles.progress}>

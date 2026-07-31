@@ -11,7 +11,7 @@ const meta: Meta<typeof ImageUpload> = {
     size: { table: { defaultValue: { summary: "md" } } },
     value: {
       table: {
-        type: { summary: "{ id: string; name: string; size: number; type: string; src?: string; onDownloadClick?: () => void; }[]" },
+        type: { summary: "{ id: string; name: string; size: number; type: string; src?: string; onDownloadClick?: () => void; }" },
       },
     },
   },
@@ -28,15 +28,13 @@ export const Primary: Story = {};
 
 export const WithValueGivenImage: Story = {
   args: {
-    value: [
-      {
-        id: "db-1",
-        name: "profile.jpg",
-        size: 204800,
-        type: "image/jpeg",
-        src: "https://picsum.photos/200/300",
-      },
-    ],
+    value: {
+      id: "db-1",
+      name: "profile.jpg",
+      size: 204800,
+      type: "image/jpeg",
+      src: "https://picsum.photos/200/300",
+    },
     deleteRequest: { url, method },
   },
 };

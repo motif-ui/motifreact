@@ -11,7 +11,7 @@ import { PropsWithRef } from "../../../types";
 import { UploadDraggerProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { Validations } from "src/lib";
-import { normalizeValue, toFormValue } from "@/components/Upload/helper.ts";
+import { mapExternalValue, toFormValue } from "@/components/Upload/helper";
 import { FileType } from "@/components/Upload/types.ts";
 
 const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
@@ -33,7 +33,7 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
     className,
     style,
   } = props;
-  const mappedValue = normalizeValue(externalValue);
+  const mappedValue = mapExternalValue(externalValue);
 
   const { size, error, readOnly, success, disabled, onError, onFormFieldValueUpdate } = useRegisterFormField({
     props: { ...props, value: toFormValue(mappedValue) },

@@ -3,7 +3,6 @@ import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { DEFAULT_UPLOAD_STALL_TIMEOUT_MS, MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
 import { formatBytes, generateUUIDV4, shortenText } from "../../../utils/utils";
 import { useMotifContext } from "../../motif/context/MotifProvider";
-import { normalizeValue } from "@/components/Upload/helper";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
@@ -11,7 +10,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const activeRequestsRef = useRef<Set<XMLHttpRequest>>(new Set());
-  const [selectedFiles, setSelectedFiles] = useState<FileType[]>(normalizeValue(value));
+  const [selectedFiles, setSelectedFiles] = useState<FileType[]>(value ?? []);
   const { t } = useMotifContext();
 
   /*  //TODO: Task opened, it effects to work mechanism of
