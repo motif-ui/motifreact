@@ -12,6 +12,7 @@ import { InputTimeProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputValue } from "@/components/Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import { isNullOrEmptyString } from "../../../utils/utils";
 import InputText from "@/components/Motif/InputText/InputText";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
@@ -37,6 +38,7 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     ref,
     style,
     className,
+    icon,
   } = props;
 
   const locale = useDateLocale(propsLocale);
@@ -130,8 +132,8 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
   return (
     <div ref={innerRef} className={classNames} style={style}>
       <InputText
-        iconLeft={<MotifIcon name="schedule" size={size} />}
         name={name}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="schedule" size={size} />)}
         clearable
         onClearClick={() => clearClickHandler(true)}
         size={size}

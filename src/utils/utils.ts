@@ -58,3 +58,6 @@ export const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 
 
 /** Shortcut for Object.prototype.hasOwnProperty with safe checks */
 export const hasOwn = (o: unknown, k: string): boolean => isObj(o) && Object.prototype.hasOwnProperty.call(o, k);
+
+/** Check if value is null or empty string */
+export const isNullOrEmptyString = (item: unknown): boolean => item === null || item === "";

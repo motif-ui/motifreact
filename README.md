@@ -35,8 +35,7 @@ Application Development Department.
 npm i @motif-ui/react @fontsource/inter
 ```
 
-> [!NOTE]
-> Motif UI React requires `React 19.2.3` or higher. Make sure you have the matching packages installed:
+> **📝 Note:** Motif UI React requires `React 19.2.7` or higher. Make sure you have the matching packages installed:
 
 ### 2. Wrap with Provider
 
