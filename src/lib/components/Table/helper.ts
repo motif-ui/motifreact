@@ -86,7 +86,7 @@ export const getSpannedCellsMap = (columns: Column[], rows?: RowDetail[]): Spann
   return map;
 };
 
-export const getContinuationRows = (spannedCellsMap: SpannedCellsMap) => {
+const getContinuationRows = (spannedCellsMap: SpannedCellsMap) => {
   const continuationRows = new Set<number>();
 
   spannedCellsMap.forEach((span, key) => {

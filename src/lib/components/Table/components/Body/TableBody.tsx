@@ -3,7 +3,7 @@ import { TableContext } from "@/components/Table/TableContext";
 import styles from "../../Table.module.scss";
 import Skeleton from "@/components/Skeleton";
 import DataRow from "@/components/Table/components/Body/DataRow";
-import { getContinuationRows, getRowStripeGroups } from "@/components/Table/helper";
+import { getRowStripeGroups } from "@/components/Table/helper";
 import { sanitizeModuleClasses } from "src/utils/cssUtils";
 
 type Props = {
@@ -20,8 +20,6 @@ const TableBody = memo((props: Props) => {
     () => striped && getRowStripeGroups(spannedCellsMap, visibleRows?.length ?? 0),
     [striped, spannedCellsMap, visibleRows?.length],
   );
-
-  const continuationRows = useMemo(() => getContinuationRows(spannedCellsMap), [spannedCellsMap]);
 
   const className = sanitizeModuleClasses(styles, striped && "striped");
   return (
@@ -46,7 +44,6 @@ const TableBody = memo((props: Props) => {
             row={row}
             rowIndex={index}
             isStripe={!!stripeGroups && stripeGroups[index] % 2 === 1}
-            isGroupContinuation={continuationRows.has(index)}
           />
         ))
       )}

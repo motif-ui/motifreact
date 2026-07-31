@@ -126,8 +126,7 @@ $row-color-variants: "primary", "secondary", "light", "success", "danger", "warn
     }
   }
   &.hoverable tbody {
-    tr:hover td,
-    tr.groupStart:has(~ tr:hover[data-group-cont]):not(:has(~ tr.groupStart ~ tr:hover)) td[rowspan] {
+    tr:hover td:not([rowspan]) {
       background-color: var(--theme-color-surface-light-default);
     }
   }

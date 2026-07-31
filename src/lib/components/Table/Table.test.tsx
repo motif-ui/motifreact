@@ -364,6 +364,11 @@ describe("Table", () => {
   it("should stripe rows when striped prop is true", () => {
     const { getTableBody } = renderExt(<Table columns={cols} data={data} striped />);
     expect(getTableBody()).toHaveClass("striped");
+
+    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
+    expect(rows[0]).not.toHaveClass("stripedRow");
+    expect(rows[1]).toHaveClass("stripedRow");
+    expect(rows[2]).not.toHaveClass("stripedRow");
   });
 
   it("should make the rows hoverable when hoverable prop is true", () => {
@@ -773,87 +778,6 @@ describe("Table", () => {
     const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
     rows.slice(0, 3).forEach(row => expect(row).not.toHaveClass("stripedRow"));
     rows.slice(3, 6).forEach(row => expect(row).toHaveClass("stripedRow"));
-  });
-
-  it("should fall back to alternating every row when no rowSpan is present", () => {
-    const { getTableBody } = renderExt(
-      <Table
-        columns={[
-          { title: "Name", dataKey: "name" },
-          { title: "Age", dataKey: "age" },
-        ]}
-        data={[
-          { name: "John", age: 30 },
-          { name: "Jane", age: 25 },
-          { name: "Jack", age: 22 },
-          { name: "Jill", age: 40 },
-        ]}
-        striped
-      />,
-    );
-
-    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
-    expect(rows[0]).not.toHaveClass("stripedRow");
-    expect(rows[1]).toHaveClass("stripedRow");
-    expect(rows[2]).not.toHaveClass("stripedRow");
-    expect(rows[3]).toHaveClass("stripedRow");
-  });
-
-  it("should not stripe rows when striped prop is omitted", () => {
-    const { getTableBody } = renderExt(
-      <Table
-        columns={[
-          { title: "Name", dataKey: "name" },
-          { title: "Age", dataKey: "age" },
-        ]}
-        data={[
-          { name: "John", age: 30 },
-          { name: "Jane", age: 25 },
-        ]}
-      />,
-    );
-
-    Array.from(getTableBody().children).forEach(row => expect(row).not.toHaveClass("stripedRow"));
-  });
-
-  it("should mark a row as groupStart when one of its columns has a rowSpan", () => {
-    const { getTableBody } = renderExt(
-      <Table
-        columns={[
-          { title: "Name", dataKey: "name", rowSpan: 3 },
-          { title: "Age", dataKey: "age" },
-        ]}
-        data={[
-          { name: "John", age: 30 },
-          { name: "John", age: 25 },
-          { name: "John", age: 22 },
-        ]}
-        hoverable
-      />,
-    );
-
-    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
-    expect(rows[0]).toHaveClass("groupStart");
-    expect(rows[1]).not.toHaveClass("groupStart");
-    expect(rows[2]).not.toHaveClass("groupStart");
-  });
-
-  it("should not mark a row as groupStart when no rowSpan is present", () => {
-    const { getTableBody } = renderExt(
-      <Table
-        columns={[
-          { title: "Name", dataKey: "name" },
-          { title: "Age", dataKey: "age" },
-        ]}
-        data={[
-          { name: "John", age: 30 },
-          { name: "Jane", age: 25 },
-        ]}
-        hoverable
-      />,
-    );
-
-    Array.from(getTableBody().children).forEach(row => expect(row).not.toHaveClass("groupStart"));
   });
 
   it("should not render cells covered by previous colspan", () => {

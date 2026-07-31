@@ -11,25 +11,16 @@ type Props = {
   row: RowDetail;
   rowIndex: number;
   isStripe?: boolean;
-  isGroupContinuation?: boolean;
 };
 
 const DataRow = (props: Props) => {
-  const { rowNumberStatic, row, rowIndex, isStripe, isGroupContinuation } = props;
+  const { rowNumberStatic, row, rowIndex, isStripe } = props;
   const { columns, showFixedRowNumbers, selectable, selectHandler, rowColorCallback, spannedCellsMap } = useContext(TableContext);
 
-  const isGroupStart = columns.some((_, cIndex) => (spannedCellsMap.get(`${rowIndex}-${cIndex}`)?.rowSpan ?? 1) > 1);
-
-  const className = sanitizeModuleClasses(
-    styles,
-    isStripe && "stripedRow",
-    row.isSelected && "selected",
-    isGroupStart && "groupStart",
-    rowColorCallback?.(row.data),
-  );
+  const className = sanitizeModuleClasses(styles, isStripe && "stripedRow", row.isSelected && "selected", rowColorCallback?.(row.data));
 
   return (
-    <tr className={className} data-group-cont={isGroupContinuation || undefined}>
+    <tr className={className}>
       {selectable && (
         <td className={styles.selectable}>
           <Checkbox size="sm" onChange={() => selectHandler?.({ row })} checked={row.isSelected} />
