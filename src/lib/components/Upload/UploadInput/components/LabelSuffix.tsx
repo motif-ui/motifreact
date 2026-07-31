@@ -17,6 +17,7 @@ export type LabelSuffix = "error" | "errorTooltip" | "success" | null;
 export const LabelSuffix = memo((props: Props) => {
   const { size, errors, labelSuffix, enableDelete } = props;
   const { removeFiles, selectedFiles } = useContext(UploadContext);
+  const isDeleting = selectedFiles.some(f => f.deleting);
 
   return (
     <div className={styles.labelSuffixWrapper}>
@@ -25,6 +26,7 @@ export const LabelSuffix = memo((props: Props) => {
           onClick={() => removeFiles(selectedFiles)}
           name="delete"
           size={size}
+          disabled={isDeleting}
           className={`${styles.labelSuffix} ${styles.focusable} ${styles.delete}`}
         />
       )}

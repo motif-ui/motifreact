@@ -64,11 +64,13 @@
     ".next/types/**/*.ts",
     ".storybook/**/*.ts",
     ".storybook/**/*.tsx",
+    ".e2e/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "build",
-    "dist"
+    "dist",
+    ".next"
   ]
 }

@@ -6,7 +6,7 @@ import { MOCK } from "../mock";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
-import { mockXHRs, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
 describe("UploadInput", () => {
@@ -98,19 +98,28 @@ describe("UploadInput", () => {
   });
 
   it("should be rendered as disabled when disabled prop is true", () => {
-    const { container, getBrowseButton } = renderExt(<UploadInput {...requiredProps} disabled />);
+    const { container, getBrowseButton, rerender, getFileItem, getDeleteButton } = renderExt(<UploadInput {...requiredProps} disabled />);
     expect(container.firstElementChild).toHaveClass("disabled");
     expect(getBrowseButton()).toBeDisabled();
     expect(screen.queryByText(t("upload.selectFile"))).toBeDisabled();
+
+    rerender(<UploadInput {...requiredProps} value={[serverFile]} disabled />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+    expect(getDeleteButton()).not.toBeInTheDocument();
   });
 
   it("should be rendered as readOnly when readOnly prop is true", async () => {
     const handleChange = jest.fn();
-    const { getInput, container } = renderExt(<UploadInput {...requiredProps} readOnly onChange={handleChange} />);
+    const { getInput, container, rerender, getFileItem, getDeleteButton } = renderExt(
+      <UploadInput {...requiredProps} readOnly onChange={handleChange} />,
+    );
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
     expect(container.firstElementChild).toHaveClass("disabled");
-
     expect(handleChange).not.toHaveBeenCalled();
+
+    rerender(<UploadInput {...requiredProps} value={[serverFile]} readOnly onChange={handleChange} />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+    expect(getDeleteButton()).not.toBeInTheDocument();
   });
 
   it("should fire onChange event when any file is selected", async () => {
@@ -269,6 +278,58 @@ describe("UploadInput", () => {
     xhrSpy.mockRestore();
   });
 
+  it("should show the server-provided message when the server rejects an uploaded file", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { getInput, actHoverToErrorIcon, waitForUploadFailure } = renderExt(<UploadInput {...requiredProps} />);
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+
+    await waitForUploadFailure();
+    await actHoverToErrorIcon();
+    await waitFor(() => {
+      expect(screen.queryByText(message)).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
+    });
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should fall back to the default upload error message when the server response body isn't valid JSON", async () => {
+    const xhrSpy = mockXHRWithResponse(500, "not json");
+    const { getInput, actHoverToErrorIcon, waitForUploadFailure } = renderExt(<UploadInput {...requiredProps} />);
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+
+    await waitForUploadFailure();
+    await actHoverToErrorIcon();
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument());
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should keep showing the server-provided message after the messages prop is passed as a new object reference", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const uploadFailMessage = "Generic upload fail message";
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { rerender, getInput, actHoverToErrorIcon, waitForUploadFailure } = renderExt(
+      <UploadInput {...requiredProps} messages={{ uploadFailMessage }} />,
+    );
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+
+    await waitForUploadFailure();
+    await actHoverToErrorIcon();
+    await waitFor(() => expect(screen.queryByText(message)).toBeInTheDocument());
+
+    // Same content, new object reference — simulates a parent re-render passing `messages` inline.
+    rerender(<UploadInput {...requiredProps} messages={{ uploadFailMessage }} />);
+    await actHoverToErrorIcon();
+    await waitFor(() => {
+      expect(screen.queryByText(message)).toBeInTheDocument();
+      expect(screen.queryByText(uploadFailMessage)).not.toBeInTheDocument();
+    });
+
+    xhrSpy.mockRestore();
+  });
+
   it("should delete all uploaded files when delete icon is clicked", async () => {
     const xhrSpy = mockXHRs();
     const { getInput, getDeleteButton, waitForSuccessfulUpload, queryByText } = renderExt(<UploadInput {...requiredProps} maxFile={2} />);
@@ -416,5 +477,14 @@ describe("UploadInput", () => {
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getDeleteButton()).not.toBeInTheDocument());
     xhrSpy.mockRestore();
+  });
+
+  it("should reflect value prop changes after mount", () => {
+    const { rerender, getFileItem } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
+    expect(getFileItem()).toHaveTextContent(serverFile.name);
+
+    rerender(<UploadInput {...requiredProps} value={[serverFile2]} />);
+    expect(getFileItem()).toHaveTextContent(serverFile2.name);
+    expect(getFileItem()).not.toHaveTextContent(serverFile.name);
   });
 });

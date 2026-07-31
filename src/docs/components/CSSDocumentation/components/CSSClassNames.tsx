@@ -56,11 +56,13 @@ const CSSClassNames = () => {
         components for developing a custom theme or just customizing the component.
       </p>
       <div className={styles.grid}>
-        {extracted.map(item => (
-          <div className={styles.gridItem} key={item.className}>
-            {item.className}
-          </div>
-        ))}
+        {extracted
+          .toSorted((a, b) => a.suffix.localeCompare(b.suffix))
+          .map(item => (
+            <div className={styles.gridItem} key={item.className}>
+              {item.className}
+            </div>
+          ))}
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     selectionKey,
     onSelect,
     filterableTable,
+    filterPlaceholder,
     reflectDataChanges,
     rowColorCallback,
   } = props;
@@ -159,6 +160,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       selectable,
       selectHandler,
       filterableTable,
+      filterPlaceholder,
       filterableColumns: columns.some(c => c.filter),
       updateFilterState,
       totalRecords: originalRows?.length ?? 0,
@@ -180,6 +182,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     selectable,
     selectHandler,
     filterableTable,
+    filterPlaceholder,
     updateFilterState,
     handleMainFilterChange,
     rowColorCallback,
