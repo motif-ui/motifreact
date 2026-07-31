@@ -8,7 +8,7 @@ import { formatBytes, shortenText } from "../../../../utils/utils";
 import { MESSAGE } from "@/components/Upload/constants";
 import { MOCK } from "../mock";
 import { ReactNode } from "react";
-import { mockXHRs, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 
 describe("UploadList", () => {
@@ -220,6 +220,29 @@ describe("UploadList", () => {
       expect(screen.queryByText(messages.uploadFailMessage)).toBeInTheDocument();
       expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
     });
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should show the server-provided message when the server rejects an uploaded file", async () => {
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message: "Uploaded file is rejected by the server." }));
+    const { getInput, getFileItemFirst } = renderExt(<UploadList {...requiredProps} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    await waitFor(() => {
+      expect(getFileItemFirst()).toHaveTextContent("Uploaded file is rejected by the server.");
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
+    });
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should fall back to the default upload error message when the server response body isn't valid JSON", async () => {
+    const xhrSpy = mockXHRWithResponse(500, "not json");
+    const { getInput, getFileItemFirst } = renderExt(<UploadList {...requiredProps} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(t(MESSAGE.UPLOAD_ERROR)));
 
     xhrSpy.mockRestore();
   });
