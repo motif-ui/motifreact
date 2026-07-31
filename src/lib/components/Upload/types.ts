@@ -99,6 +99,11 @@ export type UploadProviderProps = {
   value?: FileType[];
 };
 
+export type UploadServerResponse = {
+  status: "success" | "fail";
+  message?: string;
+};
+
 export type InputState = "noFile" | "waitingToUpload" | "uploading" | "error" | "uploaded";
 
 export const ContextDefaultValues: UploadContextType = {

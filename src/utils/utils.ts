@@ -58,3 +58,12 @@ export const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 
 
 /** Shortcut for Object.prototype.hasOwnProperty with safe checks */
 export const hasOwn = (o: unknown, k: string): boolean => isObj(o) && Object.prototype.hasOwnProperty.call(o, k);
+
+/** Function to parse a given json string with the desired Generic type */
+export const tryParseJsonString = <T>(text: string): T | undefined => {
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    return undefined;
+  }
+};

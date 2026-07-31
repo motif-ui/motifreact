@@ -1,11 +1,18 @@
-import { ContextDefaultValues, FileType, UploadContextType, UploadPropsDefault, UploadProviderProps } from "@/components/Upload/types";
+import {
+  ContextDefaultValues,
+  FileType,
+  UploadContextType,
+  UploadPropsDefault,
+  UploadProviderProps,
+  UploadServerResponse,
+} from "@/components/Upload/types";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { DEFAULT_UPLOAD_STALL_TIMEOUT_MS, MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
-import { formatBytes, generateUUIDV4, shortenText } from "../../../utils/utils";
+import { formatBytes, generateUUIDV4, shortenText, tryParseJsonString } from "../../../utils/utils";
 import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
-
+//TODO - buna bi server side validation örneği koymak lazım storybook'a - 200 harici bir dönüş olacak ve bizim formatta mesaj gelecek
 export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, value }: UploadProviderProps) => {
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
@@ -51,13 +58,17 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     (fileIds: string[], request: XMLHttpRequest) => {
       setSelectedFiles(prevState => {
         const status = request.status === 200 ? STATUS.SUCCESS : STATUS.UPLOAD_FAIL;
+
+        const maybeServerResponse = tryParseJsonString<UploadServerResponse>(request.responseText);
+        const serverFailMessage = maybeServerResponse?.status === "fail" && maybeServerResponse.message;
+
         return prevState.map(file =>
           !fileIds.includes(file.id)
             ? file
             : {
                 ...file,
                 status,
-                messages: status === STATUS.SUCCESS ? [] : [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                messages: status === STATUS.SUCCESS ? [] : [serverFailMessage || messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
                 uploaded: status === STATUS.SUCCESS,
               },
         );
