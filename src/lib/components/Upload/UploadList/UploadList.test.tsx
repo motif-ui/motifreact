@@ -225,12 +225,13 @@ describe("UploadList", () => {
   });
 
   it("should show the server-provided message when the server rejects an uploaded file", async () => {
-    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message: "Uploaded file is rejected by the server." }));
+    const message = "Uploaded file is rejected by the server.";
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
     const { getInput, getFileItemFirst } = renderExt(<UploadList {...requiredProps} />);
 
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
     await waitFor(() => {
-      expect(getFileItemFirst()).toHaveTextContent("Uploaded file is rejected by the server.");
+      expect(getFileItemFirst()).toHaveTextContent(message);
       expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
     });
 
@@ -243,6 +244,23 @@ describe("UploadList", () => {
 
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
     await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(t(MESSAGE.UPLOAD_ERROR)));
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should keep showing the server-provided message after the messages prop is passed as a new object reference", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const uploadFailMessage = "Generic upload fail message";
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { rerender, getInput, getFileItemFirst } = renderExt(<UploadList {...requiredProps} messages={{ uploadFailMessage }} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(message));
+
+    // Same content, new object reference — simulates a parent re-render passing `messages` inline.
+    rerender(<UploadList {...requiredProps} messages={{ uploadFailMessage }} />);
+    expect(getFileItemFirst()).toHaveTextContent(message);
+    expect(getFileItemFirst()).not.toHaveTextContent(uploadFailMessage);
 
     xhrSpy.mockRestore();
   });

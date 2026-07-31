@@ -8,6 +8,7 @@ export type FileType = {
   uploaded?: boolean;
   progress?: number;
   messages?: string[];
+  serverMessage?: string;
   request?: XMLHttpRequest;
   download?: () => void;
   addedByValue?: boolean;

@@ -12,7 +12,7 @@ import { formatBytes, generateUUIDV4, shortenText, tryParseJsonString } from "..
 import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
-//TODO - buna bi server side validation örneği koymak lazım storybook'a - 200 harici bir dönüş olacak ve bizim formatta mesaj gelecek
+
 export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, value }: UploadProviderProps) => {
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
@@ -60,7 +60,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
         const status = request.status === 200 ? STATUS.SUCCESS : STATUS.UPLOAD_FAIL;
 
         const maybeServerResponse = tryParseJsonString<UploadServerResponse>(request.responseText);
-        const serverFailMessage = maybeServerResponse?.status === "fail" && maybeServerResponse.message;
+        const serverFailMessage = maybeServerResponse?.status === "fail" ? maybeServerResponse.message : undefined;
 
         return prevState.map(file =>
           !fileIds.includes(file.id)
@@ -69,6 +69,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
                 ...file,
                 status,
                 messages: status === STATUS.SUCCESS ? [] : [serverFailMessage || messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                serverMessage: serverFailMessage,
                 uploaded: status === STATUS.SUCCESS,
               },
         );
@@ -399,7 +400,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       prev.map(f => {
         if (!f.messages?.length) return f;
         if (f.status === STATUS.UPLOAD_FAIL) {
-          return { ...f, messages: [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)] };
+          return { ...f, messages: [f.serverMessage || messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)] };
         }
         if (f.status === STATUS.DELETE_FAIL) {
           return { ...f, messages: [t(MESSAGE.DELETE_ERROR)] };
