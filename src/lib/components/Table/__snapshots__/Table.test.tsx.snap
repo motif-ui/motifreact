@@ -74,17 +74,13 @@ exports[`Table should render with only required props 1`] = `
           <td>
             M Test
           </td>
-          <td>
-            İSTANBUL
-          </td>
+          <td />
         </tr>
         <tr>
           <td>
             A Test
           </td>
-          <td>
-            BERLİN
-          </td>
+          <td />
         </tr>
         <tr>
           <td>
