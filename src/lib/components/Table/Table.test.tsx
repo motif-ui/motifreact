@@ -12,7 +12,7 @@ describe("Table", () => {
     { title: "Test Title", dataKey: "testData", sorting: {} },
     { title: "Şehir", dataKey: "city", filter: true },
   ];
-  const data = [{ testData: "M Test", city: "İSTANBUL" }, { testData: "A Test", city: "BERLİN" }, { testData: "Z Test" }];
+  const data = [{ testData: "M Test" }, { testData: "A Test" }, { testData: "Z Test" }];
   const renderExt = (ui: ReactNode) => {
     const result = render(ui);
     const { getByTestId, getAllByTestId, queryByTestId, getByRole, container } = result;
