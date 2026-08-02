@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
-import { getNextItemInArray, getTextFromNode, getValueByChainedKey } from "../../../utils/utils";
+import { foldNormalize, getNextItemInArray, getTextFromNode, getValueByChainedKey } from "../../../utils/utils";
 import { sortByType, SORT_DIRECTIONS, getSpannedCellsMap } from "@/components/Table/helper";
 import { ColumState, RowDetail, TableContextDefaultValues, TableContextProps, TableContextType } from "@/components/Table/types";
 import { useMotifContext } from "../../motif/context/MotifProvider";
@@ -10,7 +10,7 @@ export const TableContext = createContext<TableContextType>(TableContextDefaultV
 
 export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
   const { locale } = useMotifContext();
-  const localeLower = useCallback((s: string) => caseNormalize(s, locale), [locale]);
+  const normalize = useCallback((s: string) => foldNormalize(s, locale), [locale]);
   const {
     dataRaw,
     columns,
@@ -27,8 +27,6 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [mainFilterQuery, setMainFilterQuery] = useState<string>("");
-  const caseNormalize = (s: string, locale: string): string =>
-    `${s}`.normalize("NFC").toLocaleLowerCase(locale).replace(/̇/g, "").replace(/ı/g, "i");
 
   const mapDataToMotifTableRow: (row: object, index: number) => RowDetail = useCallback(
     (row: object, index: number) => ({
@@ -52,14 +50,14 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
         const data = getValueByChainedKey<never>(row.data, column.dataKey);
         const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
         const columnQuery = columnStates[index]?.filterQuery;
-        return columnQuery ? !localeLower(contentToBeSearched).includes(localeLower(columnQuery)) : false;
+        return columnQuery ? !normalize(contentToBeSearched).includes(normalize(columnQuery)) : false;
       });
 
       const mainFilterMatches = mainFilterQuery
         ? columns.some(column => {
             const data = getValueByChainedKey<never>(row.data, column.dataKey);
             const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
-            return localeLower(contentToBeSearched).includes(localeLower(mainFilterQuery));
+            return normalize(contentToBeSearched).includes(normalize(mainFilterQuery));
           })
         : true;
 
@@ -77,7 +75,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
           })
         : acc;
     }, filteredRows);
-  }, [originalRows, columnStates, columns, mainFilterQuery, localeLower]);
+  }, [originalRows, columnStates, columns, mainFilterQuery, normalize]);
 
   // Data that is visible in the table. It can be less than usableRows if pagination is enabled.
   const visibleRows = useMemo(

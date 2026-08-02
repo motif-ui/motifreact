@@ -58,3 +58,11 @@ export const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 
 
 /** Shortcut for Object.prototype.hasOwnProperty with safe checks */
 export const hasOwn = (o: unknown, k: string): boolean => isObj(o) && Object.prototype.hasOwnProperty.call(o, k);
+
+/** Normalizes a string for case-insensitive comparison: lowercases, strips diacritics, and handles locale-specific characters (e.g. Turkish dotless-i). */
+export const foldNormalize = (s: string, locale: string): string =>
+  `${s}`
+    .toLocaleLowerCase(locale)
+    .normalize("NFKD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/\u0131/g, "i"); // \u0131 (dotless-i) has no NFKD decomposition; fold to i only in Turkish locale
