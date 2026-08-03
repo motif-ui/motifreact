@@ -6,7 +6,7 @@ import { MOCK } from "../mock";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
-import { mockXHRs, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
 describe("UploadInput", () => {
@@ -273,6 +273,58 @@ describe("UploadInput", () => {
     await waitFor(() => {
       expect(screen.queryByText(messages.uploadFailMessage)).toBeInTheDocument();
       expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
+    });
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should show the server-provided message when the server rejects an uploaded file", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { getInput, actHoverToErrorIcon, waitForUploadFailure } = renderExt(<UploadInput {...requiredProps} />);
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+
+    await waitForUploadFailure();
+    await actHoverToErrorIcon();
+    await waitFor(() => {
+      expect(screen.queryByText(message)).toBeInTheDocument();
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
+    });
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should fall back to the default upload error message when the server response body isn't valid JSON", async () => {
+    const xhrSpy = mockXHRWithResponse(500, "not json");
+    const { getInput, actHoverToErrorIcon, waitForUploadFailure } = renderExt(<UploadInput {...requiredProps} />);
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+
+    await waitForUploadFailure();
+    await actHoverToErrorIcon();
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument());
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should keep showing the server-provided message after the messages prop is passed as a new object reference", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const uploadFailMessage = "Generic upload fail message";
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { rerender, getInput, actHoverToErrorIcon, waitForUploadFailure } = renderExt(
+      <UploadInput {...requiredProps} messages={{ uploadFailMessage }} />,
+    );
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+
+    await waitForUploadFailure();
+    await actHoverToErrorIcon();
+    await waitFor(() => expect(screen.queryByText(message)).toBeInTheDocument());
+
+    // Same content, new object reference — simulates a parent re-render passing `messages` inline.
+    rerender(<UploadInput {...requiredProps} messages={{ uploadFailMessage }} />);
+    await actHoverToErrorIcon();
+    await waitFor(() => {
+      expect(screen.queryByText(message)).toBeInTheDocument();
+      expect(screen.queryByText(uploadFailMessage)).not.toBeInTheDocument();
     });
 
     xhrSpy.mockRestore();
