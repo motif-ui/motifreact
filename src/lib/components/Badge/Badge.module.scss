@@ -12,7 +12,7 @@ $positions: ("top-left", "top-right", "bottom-left", "bottom-right");
 
   #{$vertical}: 0;
   #{$horizontal}: 0;
-  transform: translateX(if($horizontal == "left", -50%, 50%)) translateY(if($vertical == "top", -75%, 75%));
+  transform: translateX(if(sass($horizontal == "left"): -50%; else: 50%)) translateY(if(sass($vertical == "top"): -75%; else: 75%));
 }
 
 .Root {
@@ -46,8 +46,8 @@ $positions: ("top-left", "top-right", "bottom-left", "bottom-right");
 
   @each $variant in $variants {
     .#{$variant} & {
-      background-color: if($variant == "secondary", var(--theme-color-surface-base-base7), var(--theme-color-surface-#{$variant}-default));
-      color: if($variant == "warning", var(--theme-color-text-base-global-dark), var(--theme-color-text-base-global-light));
+      background-color: if(sass($variant == "secondary"): var(--theme-color-surface-base-base7); else: var(--theme-color-surface-#{$variant}-default));
+      color: if(sass($variant == "warning"): var(--theme-color-text-base-global-dark); else: var(--theme-color-text-base-global-light));
     }
   }
 
