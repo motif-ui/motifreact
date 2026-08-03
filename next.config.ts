@@ -4,9 +4,6 @@ import { applyCustomCSSModuleNaming } from "@styles/scripts/build";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-  sassOptions: {
-    silenceDeprecations: ["if-function"],
-  },
   turbopack: {},
   compiler: {
     reactRemoveProperties:

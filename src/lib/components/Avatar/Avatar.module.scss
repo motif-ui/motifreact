@@ -50,6 +50,6 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 }
 @each $variant in $variants {
   .#{$variant} {
-    background-color: if($variant == "secondary", var(--theme-color-surface-base-base7), var(--theme-color-surface-#{$variant}-default));
+    background-color: if(sass($variant == "secondary"): var(--theme-color-surface-base-base7); else: var(--theme-color-surface-#{$variant}-default));
   }
 }
