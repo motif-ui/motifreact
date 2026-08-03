@@ -101,3 +101,54 @@ export const mockXHRs = (...statusCodes: number[]) => {
   };
   return spy;
 };
+
+/**
+ * Mocks XMLHttpRequest to complete with a given HTTP status and response body. Unlike `mockXHRs`,
+ * this always fires the "load" event (a real XHR only fires "error" for network-level failures —
+ * a non-2xx HTTP response, like a server rejecting an upload with a 500, still fires "load"), so
+ * it's suited for testing response-body parsing (e.g. server-side validation messages).
+ *
+ * @param status The HTTP status code the request should resolve with.
+ * @param responseText The response body to expose as `request.responseText`.
+ * @return A jest spy on the XMLHttpRequest constructor that returns a mocked XMLHttpRequest object.
+ */
+export const mockXHRWithResponse = (status: number, responseText: string) => {
+  const mockProgressEventLoad = new ProgressEvent("load", { loaded: 100 });
+  const pendingTimers: ReturnType<typeof setTimeout>[] = [];
+
+  const mockXHR: unknown = {
+    open: jest.fn(),
+    setRequestHeader: jest.fn(),
+    responseText,
+    upload: {
+      addEventListener: jest.fn(),
+    },
+    send: jest.fn(function (this: XMLHttpRequest) {
+      Object.defineProperty(this, "status", { value: status, writable: true });
+
+      const timer = setTimeout(() => {
+        pendingTimers.splice(pendingTimers.indexOf(timer), 1);
+        this.onload!(mockProgressEventLoad);
+      }, 0);
+      pendingTimers.push(timer);
+    }),
+    addEventListener: jest.fn(function (this: XMLHttpRequest, event: string, callback: () => void) {
+      if (event === "load") {
+        this.onload = callback;
+      } else if (event === "error") {
+        this.onerror = callback;
+      } else if (event === "abort") {
+        this.onabort = callback;
+      }
+    }),
+  };
+
+  const spy = jest.spyOn(window, "XMLHttpRequest").mockImplementation(() => mockXHR as XMLHttpRequest);
+  const originalMockRestore = spy.mockRestore.bind(spy);
+  spy.mockRestore = () => {
+    pendingTimers.forEach(clearTimeout);
+    pendingTimers.length = 0;
+    originalMockRestore();
+  };
+  return spy;
+};

@@ -20,9 +20,8 @@ $variants: (
 );
 @mixin text-color-on-surface($variant, $textColor, $state: null) {
   color: if(
-    $variant == "warning" and $state == "disabled",
-    var(--theme-color-text-base-dark-overlay50),
-    if($variant == "secondary" and $state != null, var(--theme-color-text-light-#{$state}), var($textColor))
+    sass($variant == "warning" and $state == "disabled"): var(--theme-color-text-base-dark-overlay50);
+      else: if(sass($variant == "secondary" and $state != null): var(--theme-color-text-light-#{$state}); else: var($textColor))
   );
 }
 @mixin state-background-color($color, $state, $shape) {

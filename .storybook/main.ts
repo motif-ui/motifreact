@@ -17,8 +17,8 @@ const config: StorybookConfig = {
 
   addons:
     process.env.NODE_ENV === "production"
-      ? ["@storybook/addon-links", "@storybook/addon-docs"]
-      : ["@storybook/addon-links", "@storybook/addon-docs", "@chromatic-com/storybook"],
+      ? ["@storybook/addon-links", "@storybook/addon-docs", "msw-storybook-addon"]
+      : ["@storybook/addon-links", "@storybook/addon-docs", "msw-storybook-addon", "@chromatic-com/storybook"],
 
   framework: {
     name: "@storybook/nextjs",
