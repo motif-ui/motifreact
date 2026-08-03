@@ -81,10 +81,10 @@ $sizes: (("xs", "4x", "4x", "8x", "xs", "xxs"), ("sm", "6x", "6x", "12x", "xs", 
   &:hover {
     background: var(--theme-color-surface-base-base2);
     .icon {
-      &.iconDelete {
+      &.iconDelete:not(:disabled) {
         color: var(--theme-color-text-danger-default);
       }
-      &.iconPositiveAction {
+      &.iconPositiveAction:not(:disabled) {
         color: var(--theme-color-text-primary-default);
       }
     }

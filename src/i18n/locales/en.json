@@ -50,6 +50,7 @@
     "maxFileError": "You can upload a maximum of {{maxFile}} files.",
     "mimeTypeError": "Only '{{acceptType}}' format files can be uploaded. Your file format: '{{fileType}}'",
     "uploadError": "An error occurred while uploading the file. Please try again.",
+    "uploadStalledError": "The upload appears to be stuck and hasn't made progress in a while. Please check your connection and try again.",
     "deleteError": "An error occurred while deleting the file. Please try again.",
     "pleaseDrop": "Drop files here to upload",
     "pleaseClickOrDrop": "Click this area or drop files here to upload.",

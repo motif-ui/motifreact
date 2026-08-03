@@ -1,7 +1,14 @@
-import { ContextDefaultValues, FileType, UploadContextType, UploadPropsDefault, UploadProviderProps } from "@/components/Upload/types";
+import {
+  ContextDefaultValues,
+  FileType,
+  UploadContextType,
+  UploadPropsDefault,
+  UploadProviderProps,
+  UploadServerResponse,
+} from "@/components/Upload/types";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import { MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
-import { formatBytes, generateUUIDV4, shortenText } from "../../../utils/utils";
+import { DEFAULT_UPLOAD_STALL_TIMEOUT_MS, MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
+import { formatBytes, generateUUIDV4, shortenText, tryParseJsonString } from "../../../utils/utils";
 import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
@@ -9,13 +16,31 @@ export const UploadContext = createContext<UploadContextType>(ContextDefaultValu
 export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, value }: UploadProviderProps) => {
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
+  const activeRequestsRef = useRef<Set<XMLHttpRequest>>(new Set());
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(value ?? []);
   const { t } = useMotifContext();
 
+  /*  //TODO: Task opened, it effects to work mechanism of
+         error condition deletion after filling with correct details.
+  // Abort any in-flight requests left over when the provider unmounts, instead of
+  // letting them keep running and later call setState on an unmounted component.
+  useEffect(() => {
+    const activeRequests = activeRequestsRef.current;
+    return () => {
+      activeRequests.forEach(request => request.abort());
+      activeRequests.clear();
+    };
+  }, []); */
+
   const selectedFilesEqualityString = selectedFiles.map(f => f.id + f.file.name + f.file.type + f.status).join(",");
+  const valueEqualityString = (value ?? []).map(f => f.id + f.file.name + f.file.size + f.file.type).join(",");
 
   const _updateProgress = useCallback((fileIds: string[], e: ProgressEvent<XMLHttpRequestEventTarget>) => {
-    const percentCompleted = Math.round((e.loaded / e.total) * 100);
+    // Some servers/proxies (chunked transfer-encoding, missing Content-Length) never make the
+    // total computable. Skip those ticks instead of writing NaN/Infinity into progress, which
+    // would freeze the progress bar even though the transfer is still moving.
+    if (!e.lengthComputable || e.total === 0) return;
+    const percentCompleted = Math.min(100, Math.max(0, Math.round((e.loaded / e.total) * 100)));
     setSelectedFiles(prevState =>
       prevState.map(file =>
         !fileIds.includes(file.id)
@@ -33,13 +58,18 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     (fileIds: string[], request: XMLHttpRequest) => {
       setSelectedFiles(prevState => {
         const status = request.status === 200 ? STATUS.SUCCESS : STATUS.UPLOAD_FAIL;
+
+        const maybeServerResponse = tryParseJsonString<UploadServerResponse>(request.responseText);
+        const serverFailMessage = maybeServerResponse?.status === "fail" ? maybeServerResponse.message : undefined;
+
         return prevState.map(file =>
           !fileIds.includes(file.id)
             ? file
             : {
                 ...file,
                 status,
-                messages: status === STATUS.SUCCESS ? [] : [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                messages: status === STATUS.SUCCESS ? [] : [serverFailMessage || messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                serverMessage: serverFailMessage,
                 uploaded: status === STATUS.SUCCESS,
               },
         );
@@ -58,6 +88,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
                 ...file,
                 status: STATUS.UPLOAD_FAIL,
                 messages: [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)],
+                serverMessage: undefined,
               },
         ),
       );
@@ -81,6 +112,24 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     [],
   );
 
+  const _transferStalled = useCallback(
+    (fileIds: string[]) => {
+      setSelectedFiles(prevState =>
+        prevState.map(file =>
+          !fileIds.includes(file.id)
+            ? file
+            : {
+                ...file,
+                status: STATUS.UPLOAD_FAIL,
+                messages: [t(MESSAGE.UPLOAD_STALLED_ERROR)],
+                serverMessage: undefined,
+              },
+        ),
+      );
+    },
+    [t],
+  );
+
   const _prepareRequestAndSend = useCallback(
     (files: FileType[], bulk?: boolean) => {
       if (!files.length) return;
@@ -92,10 +141,40 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       }
 
       const request = new XMLHttpRequest();
-      request.addEventListener("load", () => _transferComplete(fileIds, request));
-      request.addEventListener("error", () => _transferFailed(fileIds));
-      request.addEventListener("abort", () => _transferAborted(fileIds));
-      request.upload.addEventListener("progress", e => _updateProgress(fileIds, e));
+      activeRequestsRef.current.add(request);
+
+      const stallTimeoutMs = uploadRequest.stallTimeout ?? DEFAULT_UPLOAD_STALL_TIMEOUT_MS;
+      const stallState: { timer: ReturnType<typeof setTimeout> | undefined; stalled: boolean } = {
+        timer: undefined,
+        stalled: false,
+      };
+      const clearStallTimer = () => {
+        if (stallState.timer) clearTimeout(stallState.timer);
+        stallState.timer = undefined;
+      };
+      const armStallTimer = () => {
+        clearStallTimer();
+        stallState.timer = setTimeout(() => {
+          stallState.stalled = true;
+          request.abort();
+        }, stallTimeoutMs);
+      };
+
+      const settle = (handler: () => void) => {
+        clearStallTimer();
+        activeRequestsRef.current.delete(request);
+        handler();
+      };
+      request.addEventListener("load", () => settle(() => _transferComplete(fileIds, request)));
+      request.addEventListener("error", () => settle(() => _transferFailed(fileIds)));
+      request.addEventListener("abort", () => settle(() => (stallState.stalled ? _transferStalled(fileIds) : _transferAborted(fileIds))));
+      request.upload.addEventListener("progress", e => {
+        armStallTimer();
+        _updateProgress(fileIds, e);
+      });
+      // Upload phase itself has finished (success or failure) — no more progress ticks will ever
+      // arrive, so stop watching for them. From here we're just waiting on the server's response.
+      request.upload.addEventListener("loadend", clearStallTimer);
 
       request.open(uploadRequest.method, uploadRequest.url);
 
@@ -118,16 +197,21 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
         prevState.map(file => (!fileIds.includes(file.id) ? file : { ...file, status: STATUS.UPLOADING, request })),
       );
 
+      // Arm before send() too, so a connection that never gets going (e.g. stuck in DNS/TLS
+      // setup, no bytes ever leave the client) is also caught by the stall watchdog.
+      armStallTimer();
       request.send(data);
     },
     [
       _transferAborted,
       _transferComplete,
       _transferFailed,
+      _transferStalled,
       _updateProgress,
       deleteRequest.url,
       uploadRequest.headers,
       uploadRequest.method,
+      uploadRequest.stallTimeout,
       uploadRequest.url,
     ],
   );
@@ -140,6 +224,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
             ? {
                 ...file,
                 status: STATUS.DELETE_FAIL,
+                deleting: false,
                 messages: [t(MESSAGE.DELETE_ERROR)],
               }
             : file,
@@ -152,17 +237,23 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
   const _deleteFilesFromServer = useCallback(
     (filesToDelete: FileType[]) => {
       const request = new XMLHttpRequest();
-      request.addEventListener("load", () => {
-        if (request.status === 200) {
-          setSelectedFiles(prevState => prevState.filter(file => !filesToDelete.some(f => f.id === file.id)));
-        } else {
-          _deleteOnTheServerErrorHandler(filesToDelete);
-        }
-      });
+      activeRequestsRef.current.add(request);
+      const settle = (handler: () => void) => {
+        activeRequestsRef.current.delete(request);
+        handler();
+      };
 
-      request.addEventListener("error", () => {
-        _deleteOnTheServerErrorHandler(filesToDelete);
-      });
+      request.addEventListener("load", () =>
+        settle(() => {
+          if (request.status === 200) {
+            setSelectedFiles(prevState => prevState.filter(file => !filesToDelete.some(f => f.id === file.id)));
+          } else {
+            _deleteOnTheServerErrorHandler(filesToDelete);
+          }
+        }),
+      );
+
+      request.addEventListener("error", () => settle(() => _deleteOnTheServerErrorHandler(filesToDelete)));
 
       request.open(deleteRequest.method, deleteRequest.url);
 
@@ -217,52 +308,77 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     [isUploadInput, maxFile, selectedFiles],
   );
 
+  const isFirstValueSync = useRef(true);
+
+  // Keeps `selectedFiles` in sync with the caller-controlled `value` prop after mount
+  useEffect(() => {
+    if (isFirstValueSync.current) {
+      isFirstValueSync.current = false;
+      return;
+    }
+    setSelectedFiles(prev => {
+      const prevFilesById = new Map(prev.map(f => [f.id, f]));
+      const nextValueFiles = (value ?? []).map(valueFile => {
+        const previous = prevFilesById.get(valueFile.id);
+        return previous && (previous.deleting || previous.status === STATUS.DELETE_FAIL) ? previous : valueFile;
+      });
+      const localFiles = prev.filter(f => !f.addedByValue);
+      return maxFile > 1 ? [...nextValueFiles, ...localFiles] : nextValueFiles;
+    });
+  }, [valueEqualityString]);
+
   // The effect that handles file changes and their states and reflects them to the UI
   useEffect(() => {
-    let filesIteratedWithoutError = 0;
-    const filesAfterVerification = selectedFiles.map(f => {
-      // Uploading or uploaded files should not be checked again
-      if (f.status === STATUS.UPLOADING || f.uploaded) {
-        filesIteratedWithoutError++;
-        return f;
-      }
+    const { files: filesAfterVerification } = selectedFiles.reduce(
+      (acc, f) => {
+        // Uploading or uploaded files should not be checked again
+        if (f.status === STATUS.UPLOADING || f.uploaded) {
+          return { filesIteratedWithoutError: acc.filesIteratedWithoutError + 1, files: [...acc.files, f] };
+        }
 
-      const maxSizeError =
-        maxSize &&
-        f.file.size > maxSize &&
-        (messages?.maxSizeMessage ??
-          t(MESSAGE.MAX_SIZE_ERROR, {
-            maxSize: formatBytes(maxSize),
-            fileName: shortenText(f.file.name, 30),
-            fileSize: formatBytes(f.file.size),
-          }));
+        const maxSizeError =
+          maxSize &&
+          f.file.size > maxSize &&
+          (messages?.maxSizeMessage ??
+            t(MESSAGE.MAX_SIZE_ERROR, {
+              maxSize: formatBytes(maxSize),
+              fileName: shortenText(f.file.name, 30),
+              fileSize: formatBytes(f.file.size),
+            }));
 
-      // Mime Type Check
-      const mimeTypeMessage =
-        accept &&
-        !accept.includes(MIME_TYPES.ALL) &&
-        !accept.includes(f.file.type) &&
-        (messages?.mimeTypeMessage ?? t(MESSAGE.MIME_TYPE, { acceptType: accept.toString(), fileType: f.file.type }));
+        // Mime Type Check
+        const mimeTypeMessage =
+          accept &&
+          !accept.includes(MIME_TYPES.ALL) &&
+          !accept.includes(f.file.type) &&
+          (messages?.mimeTypeMessage ?? t(MESSAGE.MIME_TYPE, { acceptType: accept.toString(), fileType: f.file.type }));
 
-      // Max File Check
-      const maxFileError =
-        maxFile && filesIteratedWithoutError >= maxFile && (messages?.maxFileMessage ?? t(MESSAGE.MAX_FILE, { maxFile }));
+        // Max File Check
+        const maxFileError =
+          maxFile && acc.filesIteratedWithoutError >= maxFile && (messages?.maxFileMessage ?? t(MESSAGE.MAX_FILE, { maxFile }));
 
-      // Custom Validation
-      const { errorMessage: customValidationError, isValid: customValidationValid } = customValidation?.(f.file as File) || {};
-      const customValidationMessage =
-        customValidationValid === false ? customValidationError || t(MESSAGE.CUSTOM_VALIDATION_ERROR) : undefined;
+        // Custom Validation
+        const { errorMessage: customValidationError, isValid: customValidationValid } = customValidation?.(f.file as File) || {};
+        const customValidationMessage =
+          customValidationValid === false ? customValidationError || t(MESSAGE.CUSTOM_VALIDATION_ERROR) : undefined;
 
-      const errors = [maxSizeError, maxFileError, mimeTypeMessage, customValidationMessage].filter(Boolean) as string[];
+        const errors = [maxSizeError, maxFileError, mimeTypeMessage, customValidationMessage].filter(Boolean) as string[];
 
-      !errors.length && filesIteratedWithoutError++;
-      return {
-        ...f,
-        ...(errors.length
-          ? { status: STATUS.CHECK_FAIL, messages: errors }
-          : { status: f.status === STATUS.CHECK_FAIL ? STATUS.IDLE : f.status }),
-      };
-    });
+        return {
+          filesIteratedWithoutError: errors.length ? acc.filesIteratedWithoutError : acc.filesIteratedWithoutError + 1,
+          files: [
+            ...acc.files,
+            {
+              ...f,
+              ...(errors.length
+                ? { status: STATUS.CHECK_FAIL, messages: errors }
+                : { status: f.status === STATUS.CHECK_FAIL ? STATUS.IDLE : f.status }),
+            },
+          ],
+        };
+      },
+      { filesIteratedWithoutError: 0, files: [] as FileType[] },
+    );
 
     const anyChanged =
       filesAfterVerification.length !== selectedFiles.length || filesAfterVerification.some((f, i) => f !== selectedFiles[i]);
@@ -286,7 +402,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       prev.map(f => {
         if (!f.messages?.length) return f;
         if (f.status === STATUS.UPLOAD_FAIL) {
-          return { ...f, messages: [messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)] };
+          return { ...f, messages: [f.serverMessage || messages?.uploadFailMessage || t(MESSAGE.UPLOAD_ERROR)] };
         }
         if (f.status === STATUS.DELETE_FAIL) {
           return { ...f, messages: [t(MESSAGE.DELETE_ERROR)] };
@@ -298,13 +414,16 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
 
   const removeFiles = useCallback(
     (filesToRemove: FileType[]) => {
-      const filesOnTheServer = filesToRemove.filter(f => f.uploaded);
+      // Files already mid-delete are skipped instead of re-sent — the delete buttons are disabled
+      // while `deleting` is true, but this guards against any other path re-triggering removeFiles.
+      const filesOnTheServer = filesToRemove.filter(f => f.uploaded && !f.deleting);
       const filesOnTheClient = filesToRemove.filter(f => !f.uploaded);
 
       if (filesOnTheClient.length) {
         setSelectedFiles(files => files.filter(f => !filesToRemove.some(file => file.id === f.id)));
       }
       if (filesOnTheServer.length) {
+        setSelectedFiles(files => files.map(f => (filesOnTheServer.some(file => file.id === f.id) ? { ...f, deleting: true } : f)));
         _deleteFilesFromServer(filesOnTheServer);
       }
       if (hiddenInputRef.current) {
