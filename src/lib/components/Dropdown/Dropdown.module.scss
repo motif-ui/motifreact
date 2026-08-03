@@ -105,10 +105,10 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
   }
 
   @each $variant in $variants {
-    $color: if($variant == "secondary", "light", $variant);
+    $color: if(sass($variant == "secondary"): "light"; else: $variant);
     .solid.#{$variant} & {
       background-color: var(--theme-color-surface-#{$color}-default);
-      color: if($variant == "secondary" or $variant == "warning", var(--theme-color-text-base-title), var(--theme-color-text-base-global-light));
+      color: if(sass($variant == "secondary" or $variant == "warning"): var(--theme-color-text-base-title); else: var(--theme-color-text-base-global-light));
 
       @each $state in $states {
         &:#{$state} {

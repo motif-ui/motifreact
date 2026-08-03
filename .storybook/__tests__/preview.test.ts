@@ -16,6 +16,10 @@ jest.mock("@storybook/addon-docs/blocks", () => ({
 // motifTheme.ts imports storybook/theming/create, which has the same
 // ESM-only problem. Its actual theme values are irrelevant to this test.
 jest.mock("../motifTheme", () => ({ default: {} }));
+// msw-storybook-addon/csf3 ships ESM-only too. This test only exercises
+// argTypesEnhancers, which has no dependency on MSW loading, so a stub is
+// enough to let the module load.
+jest.mock("msw-storybook-addon/csf3", () => ({ mswLoader: () => () => ({}) }));
 
 import { argTypesEnhancers } from "../preview";
 

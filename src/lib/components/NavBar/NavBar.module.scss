@@ -215,34 +215,33 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
 // =============================================================================
 @each $variant in $variants {
   .#{$variant} {
-    background-color: if($variant == "neutral", var(--theme-color-surface-base-base4), var(--theme-color-surface-#{$variant}-default));
+    background-color: if(sass($variant == "neutral"): var(--theme-color-surface-base-base4); else: var(--theme-color-surface-#{$variant}-default));
 
     .hamburger,
     .menuBarItem > a {
-      color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-subtitle), var(--theme-color-text-base-light-overlay75));
+      color: if(sass($variant == "neutral" or $variant == "warning"): var(--theme-color-text-base-subtitle); else: var(--theme-color-text-base-light-overlay75));
     }
     .hamburger:hover,
     .menuBarItem > a:hover,
     .menuBarItem.active > a {
-      color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-text-dark), var(--theme-color-text-base-global-light));
+      color: if(sass($variant == "neutral" or $variant == "warning"): var(--theme-color-text-base-text-dark); else: var(--theme-color-text-base-global-light));
     }
 
     @include screen-width("below", "sm") {
       .mainMenu {
         :has(.subMenu) > a {
-          color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-text-dark), var(--theme-color-text-base-global-light));
+          color: if(sass($variant == "neutral" or $variant == "warning"): var(--theme-color-text-base-text-dark); else: var(--theme-color-text-base-global-light));
         }
         .menuBarItem > a {
-          border-color: if($variant == "neutral", var(--theme-color-border-light-default), var(--theme-color-surface-base-light-overlay50));
+          border-color: if(sass($variant == "neutral"): var(--theme-color-border-light-default); else: var(--theme-color-surface-base-light-overlay50));
         }
         .subMenuItem a {
-          color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-subtitle), var(--theme-color-text-base-light-overlay75));
+          color: if(sass($variant == "neutral" or $variant == "warning"): var(--theme-color-text-base-subtitle); else: var(--theme-color-text-base-light-overlay75));
           &:hover {
-            color: if($variant == "neutral" or $variant == "warning", var(--theme-color-text-base-text-dark), var(--theme-color-text-base-global-light));
+            color: if(sass($variant == "neutral" or $variant == "warning"): var(--theme-color-text-base-text-dark); else: var(--theme-color-text-base-global-light));
             background-color: if(
-              $variant == "neutral",
-              var(--theme-color-surface-light-hover),
-              if($variant == "warning", var(--theme-color-surface-base-light-overlay25), var(--theme-color-surface-base-dark-overlay15))
+              sass($variant == "neutral"): var(--theme-color-surface-light-hover);
+                else: if(sass($variant == "warning"): var(--theme-color-surface-base-light-overlay25); else: var(--theme-color-surface-base-dark-overlay15))
             );
           }
         }

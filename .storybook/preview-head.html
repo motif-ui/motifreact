@@ -66,7 +66,7 @@
   @counter-style purple-bullet {
     system: cyclic;
     symbols: "●";
-    suffix: "    ";
+    suffix: "  ";
   }
   @counter-style purple-bullet-nested {
     system: cyclic;
@@ -157,7 +157,7 @@
       /* Storybook sets its own direct font-size on <p> via a generated .css-* class, which wins over whatever Needs its own explicit value. */
       font-size: 16px;
     }
-    & > ul {
+    & ul:not(.sb-unstyled ul) {
       list-style-type: purple-bullet;
       li:not(.sb-unstyled li) {
         font-size: 15px;
@@ -175,10 +175,10 @@
         }
       }
     }
-    & > ol {
+    & ol:not(.sb-unstyled ol) {
       padding-left: 20px;
     }
-    & > ol li:not(.sb-unstyled li) {
+    & ol:not(.sb-unstyled ol) li:not(.sb-unstyled li) {
       font-size: 15px;
       margin-top: 0.5em;
     }
@@ -202,6 +202,10 @@
     border: 1px dashed rgba(var(--mtfdocs-purple-rgb), 0.12);
     background: linear-gradient(180deg, #fcfcff, #faf8ff);
     box-shadow: inset 0 1px 0 rgba(var(--mtfdocs-white-rgb), 0.7);
+
+    div[data-radix-scroll-area-viewport] {
+      outline: none;
+    }
 
     /* Copy button */
     > div:last-child {
@@ -334,9 +338,23 @@
     }
 
     /* Args Table */
+    div:has(> .docblock-argstable) {
+      overflow-x: auto;
+      margin: 25px 0 40px;
+
+      /* reset button */
+      > div:first-of-type:has(button) {
+        top: 16px;
+        button:hover {
+          color: var(--mtfdocs-purple-strong);
+          background-color: transparent;
+        }
+      }
+    }
     .docblock-argstable {
+      display: block;
       border-radius: var(--mtfdocs-radius-sm);
-      box-shadow: 0 10px 26px rgba(var(--mtfdocs-ink-rgb), 0.035);
+      margin: 0;
 
       td,
       th {
