@@ -17,7 +17,7 @@ exports[`Form should be rendered with only required props and items 1`] = `
         >
           <div
             class="Root md"
-            data-mtf-component="input-text"
+            data-mtf-component="mtf-input-text"
             data-testid="inputItem"
           >
             <div
@@ -43,7 +43,7 @@ exports[`Form should be rendered with only required props and items 1`] = `
         >
           <div
             class="Root md"
-            data-mtf-component="input-text"
+            data-mtf-component="mtf-input-text"
             data-testid="inputItem"
           >
             <div

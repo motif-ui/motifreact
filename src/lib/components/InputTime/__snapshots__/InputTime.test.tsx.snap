@@ -7,7 +7,7 @@ exports[`InputTime should be rendered with only required props and should have d
   >
     <div
       class="Root md"
-      data-mtf-component="input-text"
+      data-mtf-component="mtf-input-text"
       data-testid="inputItem"
     >
       <span

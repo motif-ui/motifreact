@@ -34,7 +34,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
         </div>
         <div
           class="Root md"
-          data-mtf-component="input-text"
+          data-mtf-component="mtf-input-text"
           data-testid="inputItem"
         >
           <span
@@ -57,7 +57,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
         </div>
         <div
           class="Root md"
-          data-mtf-component="input-text"
+          data-mtf-component="mtf-input-text"
           data-testid="inputItem"
         >
           <span

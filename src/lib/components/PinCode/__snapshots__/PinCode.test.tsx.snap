@@ -8,7 +8,7 @@ exports[`PinCode should render with only required props and have default prop va
   >
     <div
       class="Root input"
-      data-mtf-component="input-text"
+      data-mtf-component="mtf-input-text"
       data-testid="inputItem"
     >
       <div
@@ -23,7 +23,7 @@ exports[`PinCode should render with only required props and have default prop va
     </div>
     <div
       class="Root input"
-      data-mtf-component="input-text"
+      data-mtf-component="mtf-input-text"
       data-testid="inputItem"
     >
       <div

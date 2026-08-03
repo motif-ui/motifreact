@@ -118,7 +118,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   ]);
 
   return (
-    <div className={classNames} ref={ref} data-testid="inputItem" data-mtf-component="input-text" style={style}>
+    <div className={classNames} ref={ref} data-testid="inputItem" data-mtf-component="mtf-input-text" style={style}>
       {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.icon} size={size} />}
       <div className={styles.inputWrapper}>
         <input

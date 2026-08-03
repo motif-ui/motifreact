@@ -114,10 +114,10 @@ $sizes: (
   .horizontalGroup & {
     align-items: flex-start;
 
-    > [data-mtf-component="input-text"],
+    > [data-mtf-component="mtf-input-text"],
     > [data-mtf-component="select"],
     > [data-mtf-component="textarea"] {
-      flex: 1 1 auto;
+      flex: 1;
       min-width: var(--base-sizing-128x);
     }
   }

@@ -4,7 +4,7 @@ exports[`InputText should be rendered with only required props 1`] = `
 <div>
   <div
     class="Root md"
-    data-mtf-component="input-text"
+    data-mtf-component="mtf-input-text"
     data-testid="inputItem"
   >
     <div
