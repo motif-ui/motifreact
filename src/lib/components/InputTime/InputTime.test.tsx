@@ -5,7 +5,7 @@ import { InputSize } from "../Form/types";
 import { Time } from "@/components/TimePicker/types";
 import { ReactNode } from "react";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t } from "../../../utils/testUtils";
+import { t, runIconPropTest } from "../../../utils/testUtils";
 
 describe("InputTime", () => {
   const testTime: Time = { hours: 9, minutes: 15 };
@@ -45,6 +45,8 @@ describe("InputTime", () => {
     expect(container).toMatchSnapshot();
     expect(getInput()).toHaveAttribute("placeholder", "__:__");
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+    //icon = schedule (default)
+    expect(screen.queryByText("schedule")).toBeInTheDocument();
   });
 
   it("should let typing value to time input when editable prop is set true", async () => {
@@ -231,12 +233,6 @@ describe("InputTime", () => {
     });
   });
 
-  it("should display the time icon in the input field", () => {
-    render(<InputTime />);
-    const timeIcon = screen.getByText("schedule");
-    expect(timeIcon).toBeInTheDocument();
-    expect(timeIcon).toHaveClass("icon");
-  });
   it("should sync input and picker values when typing in editable input", async () => {
     const { getInput } = renderExt(<InputTime editable />);
     const input = getInput();
@@ -344,5 +340,17 @@ describe("InputTime", () => {
 
     rerender(<InputTime value={{ hours: 14, minutes: 15 }} format="24h" />);
     expect(getInput()).toHaveValue("14:15");
+  });
+
+  it("should render the main icon given in the icon prop", () => {
+    runIconPropTest(icon => render(<InputTime icon={icon} />));
+  });
+
+  it("should not render any icon when icon prop is empty string or null", () => {
+    const { container, rerender } = renderExt(<InputTime icon="" />);
+    expect(container.querySelector(".icon")).not.toBeInTheDocument();
+
+    rerender(<InputTime icon={null} />);
+    expect(container.querySelector(".icon")).not.toBeInTheDocument();
   });
 });

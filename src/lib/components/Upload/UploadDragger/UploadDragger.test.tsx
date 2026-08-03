@@ -4,7 +4,7 @@ import { simulateDrop, simulateChooseFiles, renderExtUploadFileList, waitForSucc
 import { MESSAGE } from "@/components/Upload/constants";
 import UploadDragger from "@/components/Upload/UploadDragger/UploadDragger";
 import { MOCK } from "../mock";
-import { mockXHRs, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
 import { userEvent } from "@testing-library/user-event";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
@@ -177,6 +177,69 @@ describe("UploadDragger", () => {
       expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
     });
     mockXhr.mockRestore();
+  });
+
+  it("should show the server-provided message when the server rejects an uploaded file", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { getInput, getFileItemFirst } = renderExt(<UploadDragger {...requiredProps} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    await waitFor(() => {
+      expect(getFileItemFirst()).toHaveTextContent(message);
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).not.toBeInTheDocument();
+    });
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should fall back to the default upload error message when the server response body isn't valid JSON", async () => {
+    const xhrSpy = mockXHRWithResponse(500, "not json");
+    const { getInput, getFileItemFirst } = renderExt(<UploadDragger {...requiredProps} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(t(MESSAGE.UPLOAD_ERROR)));
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should keep showing the server-provided message after the messages prop is passed as a new object reference", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const uploadFailMessage = "Generic upload fail message";
+    const xhrSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { rerender, getInput, getFileItemFirst } = renderExt(<UploadDragger {...requiredProps} messages={{ uploadFailMessage }} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(message));
+
+    // Same content, new object reference — simulates a parent re-render passing `messages` inline.
+    rerender(<UploadDragger {...requiredProps} messages={{ uploadFailMessage }} />);
+    expect(getFileItemFirst()).toHaveTextContent(message);
+    expect(getFileItemFirst()).not.toHaveTextContent(uploadFailMessage);
+
+    xhrSpy.mockRestore();
+  });
+
+  it("should not resurrect a stale server message after a retry fails with a network error and the messages prop reference changes", async () => {
+    const message = "Uploaded file is rejected by the server.";
+    const uploadFailMessage = "Generic upload fail message";
+    const serverFailSpy = mockXHRWithResponse(500, JSON.stringify({ status: "fail", message }));
+    const { rerender, getInput, getFileItemFirst } = renderExt(<UploadDragger {...requiredProps} messages={{ uploadFailMessage }} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(message));
+    serverFailSpy.mockRestore();
+
+    const networkFailSpy = mockXHRs(500); // fires the "error" event -> _transferFailed, unlike the server-response path above
+    await userEvent.click(screen.queryByText("autorenew")!);
+    await waitFor(() => expect(getFileItemFirst()).toHaveTextContent(uploadFailMessage));
+
+    // Same content, new object reference — simulates a parent re-render passing `messages` inline.
+    rerender(<UploadDragger {...requiredProps} messages={{ uploadFailMessage }} />);
+    expect(getFileItemFirst()).toHaveTextContent(uploadFailMessage);
+    expect(getFileItemFirst()).not.toHaveTextContent(message);
+
+    networkFailSpy.mockRestore();
   });
 
   it("should not upload file when same file is already uploaded", async () => {
@@ -423,5 +486,44 @@ describe("UploadDragger", () => {
     expect(getFileList()?.childNodes).toHaveLength(1);
     await simulateDrop(getDragArea(), [MOCK.filePdf1kb]);
     expect(getFileList()?.childNodes).toHaveLength(1);
+  });
+
+  it("should upload only the new file when value prop is not undefined and a new file is browsed and added", async () => {
+    const { getDragArea, getFileList, getFileItemFirst, getFileItemLast } = renderExt(
+      <UploadDragger {...requiredProps} value={[serverFile]} maxFile={2} />,
+    );
+    expect(getFileList()?.childNodes).toHaveLength(1);
+
+    await simulateDrop(getDragArea(), [MOCK.filePdf1kb]);
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    await waitForSuccessfulUpload(getFileItemLast());
+
+    expect(getFileItemLast()).toHaveTextContent(MOCK.filePdf1kb.name);
+    expect(getFileItemLast()).toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
+
+    expect(getFileItemFirst()).toHaveTextContent(serverFile.name);
+    expect(getFileItemFirst()).toHaveTextContent(formatBytes(serverFile.size));
+    expect(getFileItemFirst()).not.toHaveTextContent(t(MESSAGE.UPLOAD_SUCCESS));
+  });
+
+  it("should re-enable the drag area after deleting the value file that was filling the maxFile limit", async () => {
+    const { getDragArea, getDeleteButton, getFileList } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} maxFile={1} />);
+    expect(getDragArea()).toHaveClass("disabled");
+
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => {
+      expect(getFileList()).not.toBeInTheDocument();
+      expect(getDragArea()).not.toHaveClass("disabled");
+    });
+  });
+
+  it("should reflect value prop changes after mount", () => {
+    const { rerender, getFileList } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(1);
+
+    rerender(<UploadDragger {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
+    expect(getFileList()?.childNodes).toHaveLength(2);
+    expect(getFileList()).toHaveTextContent(serverFile.name);
+    expect(getFileList()).toHaveTextContent(serverFile2.name);
   });
 });

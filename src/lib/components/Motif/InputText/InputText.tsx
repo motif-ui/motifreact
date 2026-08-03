@@ -50,37 +50,48 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const prevValueRef = useRef(value);
   useImperativeHandle(imperativeRef, () => ({ valueStateSetter: setItemValue }));
 
-  const [itemValue, setItemValue] = useState(value);
+  const [itemValue, setItemValue] = useState(() => valueTransformer?.(value) ?? value);
   const controlledProps = uncontrolled ? { defaultValue: value } : { value: itemValue };
-
   useEffect(() => {
     if (!uncontrolled && value !== prevValueRef.current) {
-      prevValueRef.current = value;
-      setItemValue(value);
-      onValueUpdated?.(value);
+      const nextValue = valueTransformer?.(value) ?? value;
+      prevValueRef.current = nextValue;
+      setItemValue(nextValue);
+      onValueUpdated?.(nextValue);
     }
-  }, [onValueUpdated, uncontrolled, value]);
+  }, [onValueUpdated, uncontrolled, value, valueTransformer]);
 
   const changeProcess = useCallback(
-    (val: string, updateInputRefValue?: boolean) => {
+    (typedValue: string, updateInputRefValue?: boolean) => {
+      const inputEl = inputRef.current;
+
       if (valueTransformer) {
-        const processed = valueTransformer(val);
+        // 1. Save current cursor positions
+        const start = inputEl?.selectionStart ?? null;
+        const end = inputEl?.selectionEnd ?? null;
+
+        const processed = valueTransformer(typedValue);
         if (processed === undefined) {
-          // Transformer rejected the value — restore the DOM to the current valid state and don't trigger anything
-          if (inputRef.current) inputRef.current.value = itemValue;
+          if (inputEl) inputEl.value = itemValue;
           return;
         }
         !uncontrolled && setItemValue(processed);
         onChange?.(processed);
-        // Always sync the DOM when a transformer is active: React may dedupe setState when
-        // the filtered result equals the previous value, leaving raw input visible.
-        if (inputRef.current) inputRef.current.value = processed;
+        if (inputEl) {
+          inputEl.value = processed;
+          // 2. Restore cursor position if input value was modified
+          if (start !== null && end !== null) {
+            inputEl.setSelectionRange(start, end);
+          }
+        }
         return;
       }
-      !uncontrolled && setItemValue(val);
-      onChange?.(val);
-      if (updateInputRefValue && inputRef.current) {
-        inputRef.current.value = val;
+
+      !uncontrolled && setItemValue(typedValue);
+      onChange?.(typedValue);
+
+      if (updateInputRefValue && inputEl) {
+        inputEl.value = typedValue;
       }
     },
     [onChange, setItemValue, uncontrolled, valueTransformer, itemValue],

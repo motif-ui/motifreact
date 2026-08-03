@@ -25,6 +25,9 @@ import Timeline from "@/components/Timeline/Timeline";
 import Toast from "@/components/Toast/Toast";
 import { iconObjects } from "../../../../../.storybook/utils.tsx";
 import InputNumber from "@/components/InputNumber";
+import InputDate from "@/components/InputDate/InputDate";
+import InputDateRange from "@/components/InputDateRange/InputDateRange";
+import InputTime from "@/components/InputTime/InputTime";
 
 const meta: Meta = {
   title: "Chromatic/GlobalIconWrapper",
@@ -165,11 +168,21 @@ export const IconButtonIcons: Story = {
   ),
 };
 
-export const InputPasswordIcons: Story = {
+export const InputDateIcons: Story = {
   render: () => (
     <>
       {iconTypes.map((iconItem, idx) => (
-        <InputPassword key={"ip" + idx} iconLeft={iconItem} placeholder="Placeholder" toggleMask size="lg" />
+        <InputDate key={"id" + idx} icon={iconItem} size="lg" />
+      ))}
+    </>
+  ),
+};
+
+export const InputDateRangeIcons: Story = {
+  render: () => (
+    <>
+      {iconTypes.map((iconItem, idx) => (
+        <InputDateRange key={"idr" + idx} icon={iconItem} size="lg" />
       ))}
     </>
   ),
@@ -180,6 +193,16 @@ export const InputNumberIcons: Story = {
     <>
       {iconTypes.map((iconItem, idx) => (
         <InputNumber key={"in" + idx} iconLeft={iconItem} value={55} size="lg" />
+      ))}
+    </>
+  ),
+};
+
+export const InputPasswordIcons: Story = {
+  render: () => (
+    <>
+      {iconTypes.map((iconItem, idx) => (
+        <InputPassword key={"ip" + idx} iconLeft={iconItem} placeholder="Placeholder" toggleMask size="lg" />
       ))}
     </>
   ),
@@ -196,6 +219,16 @@ export const InputTextIcons: Story = {
       </>
     );
   },
+};
+
+export const InputTimeIcons: Story = {
+  render: () => (
+    <>
+      {iconTypes.map((iconItem, idx) => (
+        <InputTime key={"iti" + idx} icon={iconItem} size="lg" />
+      ))}
+    </>
+  ),
 };
 
 export const LinkIcons: Story = {
