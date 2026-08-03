@@ -1,3 +1,33 @@
+# [v0.4.5](https://github.com/motif-ui/motifreact/releases/tag/v0.4.5) (2026-07-31)
+
+## 🐛 Bug Fixes
+
+- fix(Upload): server side validation is introduced ([#126](https://github.com/motif-ui/motifreact/pull/126)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix: README.md file supported sentence syntax fix ([#125](https://github.com/motif-ui/motifreact/pull/125)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Pagination): add usage story with onChange interaction code example ([#123](https://github.com/motif-ui/motifreact/pull/123)) [@hatesalp](https://github.com/hatesalp)
+- fix(InputDate, InputDateRange, InputTime): add custom icon support ([#122](https://github.com/motif-ui/motifreact/pull/122)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(InputText): clear button icon click area overflow fix ([#100](https://github.com/motif-ui/motifreact/pull/100)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Storybook): complete design change ([#110](https://github.com/motif-ui/motifreact/pull/110)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(PinCode): correct sizing calculations and match Figma designs ([#103](https://github.com/motif-ui/motifreact/pull/103)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(InputText): text transform feature is added ([#109](https://github.com/motif-ui/motifreact/pull/109)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(NavBarSearch): clearable button is added ([#104](https://github.com/motif-ui/motifreact/pull/104)) [@emreekiziltoprak](https://github.com/emreekiziltoprak)
+- fix(ButtonGroup): update dropdown button functionality ([#108](https://github.com/motif-ui/motifreact/pull/108)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Table): Add filterPlaceholder support for global and column search inputs ([#115](https://github.com/motif-ui/motifreact/pull/115)) [@hatesalp](https://github.com/hatesalp)
+- fix(DateRangePicker, InputDateRange): firstDayOfWeek support ([#116](https://github.com/motif-ui/motifreact/pull/116)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(InputText): InputText and Select's different height problem is solved ([#111](https://github.com/motif-ui/motifreact/pull/111)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Form): submit area margin top value is decreased ([#112](https://github.com/motif-ui/motifreact/pull/112)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Toast): toast loader time sync problem is fixed ([#113](https://github.com/motif-ui/motifreact/pull/113)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Upload): Timeout misbehave and progress issue refactors and improvements ([#101](https://github.com/motif-ui/motifreact/pull/101)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+## Other Changes
+
+- docs: support page documentation is written ([#119](https://github.com/motif-ui/motifreact/pull/119)) [@atakanbayrak](https://github.com/atakanbayrak)
+- test(Form, Upload): tests are added for value props ([#105](https://github.com/motif-ui/motifreact/pull/105)) [@emreekiziltoprak](https://github.com/emreekiziltoprak)
+- ci: NPM publish releaser app secret name refactored ([#118](https://github.com/motif-ui/motifreact/pull/118)) [@atakanbayrak](https://github.com/atakanbayrak)
+- chore: weekly maintenance is completed ([#102](https://github.com/motif-ui/motifreact/pull/102)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.4...v0.4.5)
+
 # [v0.4.4](https://github.com/motif-ui/motifreact/releases/tag/v0.4.4) (2026-07-03)
 
 ## 🐛 Bug Fixes

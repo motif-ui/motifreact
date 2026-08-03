@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import UploadInput from "@/components/Upload/UploadInput";
 import { MIME_TYPES } from "@/components/Upload/constants";
+import { serverValidationRequest, serverValidationMswParameters, WithFakeUploadProgress } from "../docs/serverValidationStory";
 
 const url = "https://httpbin.org/post";
 const method = "POST";
@@ -26,3 +27,12 @@ export default meta;
 type Story = StoryObj<typeof UploadInput>;
 
 export const Primary: Story = {};
+
+export const ServerValidation: Story = {
+  decorators: [WithFakeUploadProgress],
+  parameters: serverValidationMswParameters,
+  args: {
+    uploadRequest: serverValidationRequest,
+    deleteRequest: serverValidationRequest,
+  },
+};
