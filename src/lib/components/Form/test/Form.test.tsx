@@ -114,7 +114,7 @@ describe("Form", () => {
     expect(getFormFieldGroup(0)).toHaveClass("horizontalGroup");
   });
 
-  it("should not add the wrap class by default, and should add it when wrap is set to true", () => {
+  it("should wrap group items when wrap is set as true for Form.FieldGroup", () => {
     const formGroup = (wrap?: boolean) => (
       <Form onSubmit={mockFunction}>
         <Form.FieldGroup name="testGroup" wrap={wrap}>

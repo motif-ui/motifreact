@@ -19,7 +19,7 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
     label,
     helperText,
     orientation = "horizontal",
-    wrap = false,
+    wrap,
     groupValidations,
     children,
     disabled,

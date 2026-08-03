@@ -42,7 +42,7 @@ const Textarea = (p: PropsWithRef<TextareaProps, HTMLDivElement>) => {
   ]);
 
   return (
-    <div className={classNames} ref={ref} style={style}>
+    <div className={classNames} ref={ref} data-mtf-component="textarea" style={style}>
       <textarea
         name={name}
         data-testid="textareaItem"

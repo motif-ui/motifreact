@@ -181,7 +181,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     disabled || readOnly || loading ? "disabled" : error ? "error" : success && "success",
   ]);
   return (
-    <div ref={ref} className={classNames} data-testid="selectItem" style={style}>
+    <div ref={ref} className={classNames} data-testid="selectItem" data-mtf-component="select" style={style}>
       {renderInputButton()}
       {expanded && !disabled && !readOnly && !loading && (
         <ul className={styles.dropdown} role="listbox" id={name}>

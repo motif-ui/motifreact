@@ -64,16 +64,16 @@ $sizes: (
 }
 
 .horizontalForm {
+  flex: 1;
+
   .label {
     white-space: nowrap;
   }
   .inputContainer {
     min-width: var(--base-sizing-128x);
   }
-  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
-  .inputContainer:has(:global(.mtf-UploadDragger)),
-/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
-.inputContainer:has(:global(.mtf-UploadList)) {
+  .inputContainer:has([data-mtf-component="upload-dragger"]),
+  .inputContainer:has([data-mtf-component="upload-list"]) {
     min-width: var(--base-sizing-256x);
   }
 }
@@ -83,6 +83,12 @@ $sizes: (
     width: var(--base-sizing-128x);
     min-width: var(--base-sizing-128x);
   }
+  .inputContainer {
+    flex: 1;
+  }
+}
+
+.horizontalForm.horizontalLabel {
   .inputContainer {
     flex: 1;
   }
@@ -108,12 +114,9 @@ $sizes: (
   .horizontalGroup & {
     align-items: flex-start;
 
-    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
-    > :global(.mtf-InputText),
-    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
-    > :global(.mtf-Select),
-    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
-    > :global(.mtf-Textarea) {
+    > [data-mtf-component="input-text"],
+    > [data-mtf-component="select"],
+    > [data-mtf-component="textarea"] {
       flex: 1 1 auto;
       min-width: var(--base-sizing-128x);
     }
