@@ -612,27 +612,3 @@ export const Rowspan: Story = {
     return <Table data={data} columns={columns} border="cellBorders" />;
   },
 };
-
-export const RowspanOverlapping: Story = {
-  render: () => {
-    type ShiftRow = { regionSpan: number; crewSpan: number; region: string; crew: string; task: string; hours: number };
-
-    const data: ShiftRow[] = [
-      { regionSpan: 3, crewSpan: 1, region: "Kuzey", crew: "Ekip A", task: "Pano kontrolü", hours: 4 },
-      { regionSpan: 1, crewSpan: 3, region: "Kuzey", crew: "Ekip B", task: "Kablo çekimi", hours: 6 },
-      { regionSpan: 1, crewSpan: 1, region: "Kuzey", crew: "Ekip B", task: "Topraklama ölçümü", hours: 3 },
-      { regionSpan: 2, crewSpan: 1, region: "Güney", crew: "Ekip B", task: "Trafo bakımı", hours: 8 },
-      { regionSpan: 1, crewSpan: 2, region: "Güney", crew: "Ekip C", task: "Sigorta değişimi", hours: 2 },
-      { regionSpan: 1, crewSpan: 1, region: "Güney", crew: "Ekip C", task: "Raporlama", hours: 1 },
-    ];
-
-    const columns = [
-      { title: "Bölge", dataKey: "region", rowSpan: (row: object) => (row as ShiftRow).regionSpan },
-      { title: "Ekip", dataKey: "crew", rowSpan: (row: object) => (row as ShiftRow).crewSpan },
-      { title: "İş", dataKey: "task" },
-      { title: "Saat", dataKey: "hours" },
-    ];
-
-    return <Table data={data} columns={columns} border="cellBorders" striped showFixedRowNumbers hoverable />;
-  },
-};

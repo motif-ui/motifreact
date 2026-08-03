@@ -86,32 +86,23 @@ export const getSpannedCellsMap = (columns: Column[], rows?: RowDetail[]): Spann
   return map;
 };
 
-const getContinuationRows = (spannedCellsMap: SpannedCellsMap) => {
-  const continuationRows = new Set<number>();
+export const getRowStripeGroups = (spannedCellsMap: SpannedCellsMap, rowCount: number) => {
+  const continuation = Array(rowCount).fill(false);
 
-  spannedCellsMap.forEach((span, key) => {
-    if (!span || span.rowSpan <= 1) return;
+  for (const [key, span] of spannedCellsMap) {
+    if (!span || span.rowSpan <= 1) continue;
 
-    const rowIndex = Number(key.split("-")[0]);
-    for (let r = 1; r < span.rowSpan; r++) {
-      continuationRows.add(rowIndex + r);
+    const row = Number.parseInt(key, 10);
+    for (let i = 1; i < span.rowSpan && row + i < rowCount; i++) {
+      continuation[row + i] = true;
     }
-  });
+  }
 
-  return continuationRows;
-};
-
-export const getRowStripeGroups = (spannedCellsMap: SpannedCellsMap, rowCount: number): number[] => {
-  const continuationRows = getContinuationRows(spannedCellsMap);
-
-  const groups: number[] = [];
-  Array.from({ length: rowCount }).reduce((group: number, _, rowIndex) => {
-    const nextGroup = rowIndex > 0 && !continuationRows.has(rowIndex) ? group + 1 : group;
-    groups[rowIndex] = nextGroup;
-    return nextGroup;
-  }, 0);
-
-  return groups;
+  return Array.from({ length: rowCount }).reduce<number[]>((groups, _, row) => {
+    const isGroupStart = !continuation[row];
+    groups[row] = row === 0 ? 0 : groups[row - 1] + Number(isGroupStart);
+    return groups;
+  }, []);
 };
 
 // Sorting Utils
