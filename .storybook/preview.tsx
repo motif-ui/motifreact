@@ -1,11 +1,13 @@
 import type { Preview } from "@storybook/nextjs";
 import type { ArgTypesEnhancer } from "storybook/internal/types";
+import { mswLoader } from "msw-storybook-addon/csf3";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
 import { iconOptions, iconDecorator, themeChangeDecorator } from "./utils.tsx";
 import { RESET_THEME_BUTTON_VAL } from "./constants";
 import motifTheme from "./motifTheme";
 
 const preview: Preview = {
+  loaders: [mswLoader()],
   globalTypes: {
     theme: {
       name: "Theme",
