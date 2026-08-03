@@ -368,6 +368,11 @@ describe("Table", () => {
   it("should stripe rows when striped prop is true", () => {
     const { getTableBody } = renderExt(<Table columns={cols} data={data} striped />);
     expect(getTableBody()).toHaveClass("striped");
+
+    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
+    expect(rows[0]).not.toHaveClass("stripedRow");
+    expect(rows[1]).toHaveClass("stripedRow");
+    expect(rows[2]).not.toHaveClass("stripedRow");
   });
 
   it("should make the rows hoverable when hoverable prop is true", () => {
@@ -753,6 +758,30 @@ describe("Table", () => {
     const secondRowCells = within(getTableBody().children[1] as HTMLTableRowElement).getAllByRole("cell");
     expect(secondRowCells).toHaveLength(1);
     expect(secondRowCells[0]).toHaveTextContent("25");
+  });
+
+  it("should keep every row of a rowSpan block in the same stripe group", () => {
+    const { getTableBody } = renderExt(
+      <Table
+        columns={[
+          { title: "Name", dataKey: "name", rowSpan: 3 },
+          { title: "Age", dataKey: "age" },
+        ]}
+        data={[
+          { name: "John", age: 30 },
+          { name: "John", age: 25 },
+          { name: "John", age: 22 },
+          { name: "Jane", age: 40 },
+          { name: "Jane", age: 41 },
+          { name: "Jane", age: 42 },
+        ]}
+        striped
+      />,
+    );
+
+    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
+    rows.slice(0, 3).forEach(row => expect(row).not.toHaveClass("stripedRow"));
+    rows.slice(3, 6).forEach(row => expect(row).toHaveClass("stripedRow"));
   });
 
   it("should not render cells covered by previous colspan", () => {

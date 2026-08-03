@@ -10,13 +10,14 @@ type Props = {
   rowNumberStatic: number;
   row: RowDetail;
   rowIndex: number;
+  isStripe?: boolean;
 };
 
 const DataRow = (props: Props) => {
-  const { rowNumberStatic, row, rowIndex } = props;
+  const { rowNumberStatic, row, rowIndex, isStripe } = props;
   const { columns, showFixedRowNumbers, selectable, selectHandler, rowColorCallback, spannedCellsMap } = useContext(TableContext);
 
-  const className = sanitizeModuleClasses(styles, row.isSelected && "selected", rowColorCallback?.(row.data));
+  const className = sanitizeModuleClasses(styles, isStripe && "stripedRow", row.isSelected && "selected", rowColorCallback?.(row.data));
 
   return (
     <tr className={className}>
