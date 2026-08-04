@@ -16,13 +16,13 @@ const InputText = (p: PropsWithRef<InputTextProps, HTMLDivElement>) => {
   const { textTransform, ...props } = usePropsWithThemeDefaults("InputText", p);
   const { locale } = useMotifContext();
   const internalInputRef = useRef<InternalInputHandle>(null);
-  const { inFormField, onFormFieldValueUpdate, ...propsFromForm } = useRegisterFormField({
+  const { onFormFieldValueUpdate, ...propsFromForm } = useRegisterFormField({
     props,
     defaultValue: "",
     valueStateSetter: () => internalInputRef.current?.valueStateSetter(""),
   });
 
-  const classNames = sanitizeModuleRootClasses(styles, props.className, [inFormField && "inFormField"]);
+  const classNames = sanitizeModuleRootClasses(styles, props.className);
 
   const valueTransformer = useMemo(
     () => textTransform && ((v: string) => applyTextTransform(v, textTransform, locale)),
