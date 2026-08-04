@@ -49,7 +49,7 @@ const preview: Preview = {
     },
     controls: {
       expanded: true,
-      sort: "alpha",
+      sort: "requiredFirst",
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/,
@@ -60,7 +60,7 @@ const preview: Preview = {
       theme: motifTheme,
       codePanel: true,
       controls: {
-        sort: "alpha",
+        sort: "requiredFirst",
       },
       toc: {
         title: "On this page",
