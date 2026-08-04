@@ -131,7 +131,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
   const classNames = sanitizeModuleRootClasses(styles, className, [styleVariant, size]);
 
   return (
-    <div ref={ref} className={classNames} style={style} data-testid="uploadInputItem">
+    <div ref={ref} className={classNames} style={style} data-testid="uploadInputItem" data-mtf-component="upload-input">
       <button className={styles.browseButton} onClick={browse} disabled={isBrowseButtonDisabled} type="button">
         <MotifIcon name="search" size={size} />
         {t("g.browse")}

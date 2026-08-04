@@ -73,7 +73,8 @@ $sizes: (
     min-width: var(--base-sizing-128x);
   }
   .inputContainer:has([data-mtf-component="upload-dragger"]),
-  .inputContainer:has([data-mtf-component="upload-list"]) {
+  .inputContainer:has([data-mtf-component="upload-list"]),
+  .inputContainer:has([data-mtf-component="upload-input"]) {
     min-width: var(--base-sizing-256x);
   }
 }
@@ -88,16 +89,13 @@ $sizes: (
   }
 }
 
-.horizontalForm.horizontalLabel {
-  .inputContainer {
-    flex: 1;
-  }
-}
-
 .horizontalLabel {
   align-items: flex-start;
   &.required .label::before {
     content: "*";
+  }
+  &.horizontalForm .inputContainer {
+    flex: 1;
   }
 }
 
