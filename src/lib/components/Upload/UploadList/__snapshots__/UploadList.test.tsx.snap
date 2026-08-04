@@ -4,6 +4,7 @@ exports[`UploadList should be rendered with only required props 1`] = `
 <div>
   <div
     class="Root md"
+    data-mtf-component="upload-list"
   >
     <div
       class="dragArea"

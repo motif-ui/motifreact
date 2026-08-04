@@ -36,7 +36,6 @@ $color-types: (
   .#{$size} {
     &.Root {
       min-height: var(--base-sizing-#{$thumbHover});
-      min-width: var(--base-sizing-128x);
 
       &.inFormField {
         margin: var(--base-sizing-#{$marginTop}) var(--base-sizing-#{$horizontalPadding}) 0;
@@ -50,10 +49,6 @@ $color-types: (
     .mRangeContainer::after {
       height: var(--base-sizing-#{$progressHeight});
     }
-    .mRangeContainer {
-      min-width: var(--base-sizing-#{$thumb});
-    }
-
     .mRange {
       &::-webkit-slider-thumb {
         @include slider-size-thumb($thumb, $thumbBorder, $thumbHover);

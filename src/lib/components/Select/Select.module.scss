@@ -19,10 +19,6 @@ $sizes: (
     }
   }
 
-  &.inFormField {
-    min-width: var(--base-sizing-190x);
-  }
-
   @include transition(border-color);
 
   &.error .input {

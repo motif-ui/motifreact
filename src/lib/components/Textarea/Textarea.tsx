@@ -11,7 +11,7 @@ const Textarea = (p: PropsWithRef<TextareaProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("Textarea", p);
   const { placeholder, maxLength, rows = 4, style, value = "", onChange, ref, className } = props;
   const [itemValue, setItemValue] = useState(value as string);
-  const { size, error, readOnly, success, disabled, onFormFieldValueUpdate, name, inFormField } = useRegisterFormField({
+  const { size, error, readOnly, success, disabled, onFormFieldValueUpdate, name } = useRegisterFormField({
     props,
     defaultValue: "",
     valueStateSetter: setItemValue,
@@ -37,13 +37,12 @@ const Textarea = (p: PropsWithRef<TextareaProps, HTMLDivElement>) => {
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     size,
-    inFormField && "inFormField",
     hasMaxLength && "hasCounter",
     disabled || readOnly ? "disabled" : error ? "error" : success && "success",
   ]);
 
   return (
-    <div className={classNames} ref={ref} style={style}>
+    <div className={classNames} ref={ref} data-mtf-component="textarea" style={style}>
       <textarea
         name={name}
         data-testid="textareaItem"
