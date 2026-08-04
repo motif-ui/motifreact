@@ -8,10 +8,7 @@ import { t } from "./../../../utils/testUtils";
 import MotifProvider from "../../motif/context/MotifProvider";
 
 describe("Table", () => {
-  const cols = [
-    { title: "Test Title", dataKey: "testData", sorting: {} },
-    { title: "Şehir", dataKey: "city", filter: true },
-  ];
+  const cols = [{ title: "Test Title", dataKey: "testData", sorting: {} }];
   const data = [{ testData: "M Test" }, { testData: "A Test" }, { testData: "Z Test" }];
   const renderExt = (ui: ReactNode) => {
     const result = render(ui);
@@ -1104,12 +1101,12 @@ describe("Table", () => {
       ü: "ÜRGÜP",
       Ü: "ÜRGÜP",
     };
-
+    const localeCols = [{ title: "Şehir", dataKey: "city", filter: true }];
     const localeData = cities.map((city, i) => ({ testData: `Row ${i + 1}`, city }));
     for (const locale of ["tr", "en"] as const) {
       const { getFilterableTableInput, getColumnFilterInputs, unmount } = renderExt(
         <MotifProvider locale={locale}>
-          <Table columns={cols} data={localeData} filterableTable />
+          <Table columns={localeCols} data={localeData} filterableTable />
         </MotifProvider>,
       );
 

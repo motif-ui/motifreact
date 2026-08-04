@@ -10,7 +10,6 @@ export const TableContext = createContext<TableContextType>(TableContextDefaultV
 
 export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
   const { locale } = useMotifContext();
-  const normalize = useCallback((s: string) => foldNormalize(s, locale), [locale]);
   const {
     dataRaw,
     columns,
@@ -45,19 +44,23 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
   const usableRows = useMemo(() => {
     if (!originalRows) return undefined;
 
+    const normalize = (s: string) => foldNormalize(s, locale);
+    const normalizedMainQuery = mainFilterQuery && normalize(mainFilterQuery);
+    const normalizedColumnQueries = columnStates.map(s => s.filterQuery && normalize(s.filterQuery));
+
     const filteredRows = originalRows.filter(row => {
       const columnMatches = !columns.some((column, index) => {
         const data = getValueByChainedKey<never>(row.data, column.dataKey);
         const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
-        const columnQuery = columnStates[index]?.filterQuery;
-        return columnQuery ? !normalize(contentToBeSearched).includes(normalize(columnQuery)) : false;
+        const columnQuery = normalizedColumnQueries[index];
+        return !!columnQuery && !normalize(contentToBeSearched).includes(columnQuery);
       });
 
-      const mainFilterMatches = mainFilterQuery
+      const mainFilterMatches = normalizedMainQuery
         ? columns.some(column => {
             const data = getValueByChainedKey<never>(row.data, column.dataKey);
             const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
-            return normalize(contentToBeSearched).includes(normalize(mainFilterQuery));
+            return normalize(contentToBeSearched).includes(normalizedMainQuery);
           })
         : true;
 
@@ -75,7 +78,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
           })
         : acc;
     }, filteredRows);
-  }, [originalRows, columnStates, columns, mainFilterQuery, normalize]);
+  }, [originalRows, columnStates, columns, mainFilterQuery, locale]);
 
   // Data that is visible in the table. It can be less than usableRows if pagination is enabled.
   const visibleRows = useMemo(
