@@ -8,6 +8,7 @@ export type FileType = {
   uploaded?: boolean;
   progress?: number;
   messages?: string[];
+  serverMessage?: string;
   request?: XMLHttpRequest;
   download?: () => void;
   addedByValue?: boolean;
@@ -99,6 +100,11 @@ export type UploadProviderProps = {
   size?: Size4SM;
   name?: string;
   value?: FileType[];
+};
+
+export type UploadServerResponse = {
+  status: "success" | "fail";
+  message?: string;
 };
 
 export type InputState = "noFile" | "waitingToUpload" | "uploading" | "error" | "uploaded";

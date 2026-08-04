@@ -17,18 +17,18 @@ $variants: (
   background-color: var(--theme-color-border-light-default);
 
   @if $orientation == "vertical" {
-    min-height: if($half, var(--base-sizing-12x), var(--base-sizing-24x));
+    min-height: if(sass($half): var(--base-sizing-12x); else: var(--base-sizing-24x));
     width: var(--base-sizing-1x);
   } @else if $orientation == "horizontal" {
-    min-width: if($half, var(--base-sizing-12x), var(--base-sizing-24x));
+    min-width: if(sass($half): var(--base-sizing-12x); else: var(--base-sizing-24x));
     height: var(--base-sizing-1x);
   }
 }
 
 @mixin marker-variant($variant, $fill-text-token, $self: false) {
-  $base: if($self, "&", "");
-  $outlined-disabled: if($self, "&.disabled.outlined", ".item.disabled.outlined");
-  $filled-disabled: if($self, "&.disabled.filled", ".item.disabled.filled");
+  $base: if(sass($self): "&"; else: "");
+  $outlined-disabled: if(sass($self): "&.disabled.outlined"; else: ".item.disabled.outlined");
+  $filled-disabled: if(sass($self): "&.disabled.filled"; else: ".item.disabled.filled");
 
   #{$base}.outlined .marker span {
     border-color: var(--theme-color-border-#{$variant}-default);
@@ -41,12 +41,15 @@ $variants: (
   }
 
   #{$outlined-disabled} .marker span {
-    border-color: if($variant == "light", var(--theme-color-border-light-default), if($variant == "secondary", var(--theme-color-surface-base-base7), var(--theme-color-border-#{$variant}-disabled)));
-    color: if($variant == "light", var(--theme-color-text-secondary-disabled), var(--theme-color-text-#{$variant}-disabled));
+    border-color: if(
+      sass($variant == "light"): var(--theme-color-border-light-default);
+        else: if(sass($variant == "secondary"): var(--theme-color-surface-base-base7); else: var(--theme-color-border-#{$variant}-disabled))
+    );
+    color: if(sass($variant == "light"): var(--theme-color-text-secondary-disabled); else: var(--theme-color-text-#{$variant}-disabled));
   }
 
   #{$filled-disabled} .marker span {
-    background-color: if($variant == "secondary", var(--theme-color-surface-base-base7), var(--theme-color-surface-#{$variant}-disabled));
+    background-color: if(sass($variant == "secondary"): var(--theme-color-surface-base-base7); else: var(--theme-color-surface-#{$variant}-disabled));
     @if $variant == "warning" {
       color: var(--theme-color-text-base-dark-overlay25);
     } @else if $variant == "light" {
