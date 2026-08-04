@@ -120,9 +120,7 @@ describe("Toast", () => {
   it("should not auto-dismiss and should not render a progress bar when duration is not given", () => {
     jest.useFakeTimers();
 
-    const { getByText, queryByTestId } = render(
-      <Toast id="t1" onDismiss={() => {}} content={content} variant="info" position="topRight" closable />,
-    );
+    const { getByText, queryByTestId } = render(<Toast id="t1" content={content} variant="info" position="topRight" closable />);
     expect(getByText(content)).toBeInTheDocument();
     expect(queryByTestId("progressBar")).not.toBeInTheDocument();
 

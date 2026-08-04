@@ -1,10 +1,10 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
-const useTimeout = (callback: () => void, delay: number) => {
+const useTimeout = (callback: () => void, delay: number | undefined) => {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined);
   const startTime = useRef<number>(undefined);
-  const remainingTime = useRef<number>(delay);
+  const remainingTime = useRef<number | undefined>(delay);
   const savedCallback = useRef(callback);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const useTimeout = (callback: () => void, delay: number) => {
 
   const pause = useCallback(() => {
     clearTimeout(timeoutId.current);
-    if (startTime.current) {
+    if (startTime.current && remainingTime.current !== undefined) {
       remainingTime.current -= new Date().getTime() - startTime.current;
     }
   }, []);
@@ -25,6 +25,7 @@ const useTimeout = (callback: () => void, delay: number) => {
   }, [delay]);
 
   const start = useCallback(() => {
+    if (remainingTime.current === undefined) return;
     timeoutId.current = setTimeout(() => {
       savedCallback.current();
       clear();
