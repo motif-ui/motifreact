@@ -38,7 +38,12 @@ item. Some input oriented props like `readOnly`, `disabled`, `success` may also 
 It is similiar to Form.Field but is used when more than one input is needed to be grouped together. `readOnly`,
 `disabled` and `success` props are passed to the inputs to affect them all at once.
 
-`orientation` prop is used to determine which direction the items are rendered. It can be `horizontal` or `vertical`.
+- `orientation` prop is used to determine which direction the items are rendered. It can be `horizontal` or `vertical`.
+- `wrap` prop controls whether grouped items flow onto multiple lines when they don't fit on one row. It defaults to
+  `false`, so items stay on a single line — this keeps a couple of wider items (e.g. a `RadioGroup` next to an input)
+  side by side instead of stacking. Set `wrap` to `true` to let items wrap instead of overflowing, which is handy for
+  groups with many small items (such as checkboxes) in a narrow container.
+  <br />
 
 ## Rules
 
@@ -172,6 +177,8 @@ Label orientation controls how labels are positioned relative to their input fie
 ### Group
 
 Group level orientation is used when multiple inputs are grouped together using `<Form.FieldGroup>`. It determines the arrangement of the grouped inputs, either vertically or horizontally.
+
+In a horizontal group, fillable inputs (text inputs, selects, textareas) keep a readable minimum width and share the available space, while compact controls such as checkboxes and radios stay at their natural size. By default the items are kept on a single line; use the `wrap` prop if you would rather they wrap onto multiple lines than stay in one row.
 
 <Canvas of={FormOrientation.GroupOrientationComparison} layout="fullscreen" />
 

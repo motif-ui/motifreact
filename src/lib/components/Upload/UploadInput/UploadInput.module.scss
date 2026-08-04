@@ -1,17 +1,13 @@
 @use "@styles" as *;
 
-// size, gap, paddingV, paddingH, labelMinWidth
-$sizes: (("xs", "4x", "4x", "10x", "128x"), ("sm", "6x", "6x", "12x", "128x"), ("md", "8x", "8x", "16x", "160x"), ("lg", "8x", "10x", "20x", "190x"));
+// size, gap, paddingV, paddingH
+$sizes: (("xs", "4x", "4x", "10x"), ("sm", "6x", "6x", "12x"), ("md", "8x", "8x", "16x"), ("lg", "8x", "10x", "20x"));
 
 .Root {
   display: flex;
   border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
   border-radius: var(--theme-sizing-radius-default);
   background: var(--theme-color-surface-base-bg-light);
-
-  &.inFormField {
-    min-width: var(--base-sizing-256x);
-  }
 
   &.disabled {
     background: var(--theme-color-surface-base-base1);
@@ -153,7 +149,7 @@ $sizes: (("xs", "4x", "4x", "10x", "128x"), ("sm", "6x", "6x", "12x", "128x"), (
   }
 }
 
-@each $size, $gap, $paddingV, $paddingH, $labelMinWidth in $sizes {
+@each $size, $gap, $paddingV, $paddingH in $sizes {
   .#{$size} {
     > button {
       padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
@@ -162,7 +158,6 @@ $sizes: (("xs", "4x", "4x", "10x", "128x"), ("sm", "6x", "6x", "12x", "128x"), (
     }
     .label {
       @include font("body", $size);
-      min-width: var(--base-sizing-#{$labelMinWidth});
       padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
       &.hasSuffix {
         padding-right: calc(3 * var(--base-sizing-#{$paddingH}));

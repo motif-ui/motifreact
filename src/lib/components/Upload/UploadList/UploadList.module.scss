@@ -6,7 +6,6 @@ $sizes: (("xs", "4x", "8x", "xs"), ("sm", "6x", "12x", "sm"), ("md", "8x", "16x"
 .Root {
   display: inline-block;
   width: auto;
-  min-width: var(--base-sizing-216x);
   max-width: 100%;
   flex-grow: 1;
   box-sizing: border-box;
