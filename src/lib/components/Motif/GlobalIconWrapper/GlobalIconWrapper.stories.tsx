@@ -31,7 +31,7 @@ import InputTime from "@/components/InputTime/InputTime";
 
 const meta: Meta = {
   title: "Chromatic/GlobalIconWrapper",
-  // tags: ["!autodocs", "!dev"],
+  tags: ["!autodocs", "!dev"],
   parameters: { layout: "padded" },
   decorators: [
     Story => (
