@@ -10,7 +10,6 @@ export type UploadInputDefaultableProps = {
 
 export type UploadInputWrapperProps = UploadInputProps & {
   onFormFieldValueUpdate?: (value?: InputValue) => void;
-  inFormField?: boolean;
   readOnly?: boolean;
   size: InputSize;
 };

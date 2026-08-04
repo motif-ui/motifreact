@@ -14,7 +14,7 @@ import { InternalInputHandle } from "@/components/Motif/InputText/types.ts";
 const InputPassword = (p: PropsWithRef<InputPasswordProps, HTMLDivElement>) => {
   const { iconLeft, toggleMask, ...props } = usePropsWithThemeDefaults("InputPassword", p);
   const internalInputRef = useRef<InternalInputHandle>(null);
-  const { inFormField, onFormFieldValueUpdate, ...propsFromForm } = useRegisterFormField({
+  const { onFormFieldValueUpdate, ...propsFromForm } = useRegisterFormField({
     props,
     defaultValue: "",
     valueStateSetter: () => internalInputRef.current?.valueStateSetter(""),
@@ -22,7 +22,7 @@ const InputPassword = (p: PropsWithRef<InputPasswordProps, HTMLDivElement>) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const classNames = sanitizeModuleRootClasses(styles, props.className, [inFormField && "inFormField"]);
+  const classNames = sanitizeModuleRootClasses(styles, props.className);
 
   return (
     <InputText

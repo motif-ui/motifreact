@@ -13,10 +13,6 @@ $sizes: (
   flex-direction: column;
 }
 
-.inFormField {
-  min-width: var(--base-sizing-190x);
-}
-
 .disabled {
   .textArea,
   .counterArea {
@@ -28,6 +24,9 @@ $sizes: (
 
 .textArea {
   @include transition(border-color);
+
+  width: 100%;
+  min-width: 0;
   color: var(--theme-color-text-base-title);
   background-color: var(--theme-color-surface-base-bg-light);
   border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
