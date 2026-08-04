@@ -55,7 +55,7 @@ $variants: (
           background-color: var(--theme-color-surface-#{$color}-hover);
           &,
           .icon-close {
-            color: if($variant == "secondary", var(--theme-color-text-light-hover), var(--theme-color-text-#{$colorSolid}));
+            color: if(sass($variant == "secondary"): var(--theme-color-text-light-hover); else: var(--theme-color-text-#{$colorSolid}));
           }
         }
       }
@@ -63,7 +63,7 @@ $variants: (
 
     &.outline {
       border: solid var(--base-sizing-1x) var(--theme-color-border-#{$color}-default);
-      color: if($variant == "warning", var(--theme-color-text-warning-hover), var(--theme-color-text-#{$color}-default));
+      color: if(sass($variant == "warning"): var(--theme-color-text-warning-hover); else: var(--theme-color-text-#{$color}-default));
 
       &.closable {
         @include transition(color border-color);
@@ -74,7 +74,7 @@ $variants: (
           border-color: var(--theme-color-border-#{$color}-hover);
           &,
           .icon-close {
-            color: if($variant == "warning", var(--theme-color-text-warning-active), var(--theme-color-text-#{$color}-hover));
+            color: if(sass($variant == "warning"): var(--theme-color-text-warning-active); else: var(--theme-color-text-#{$color}-hover));
           }
         }
       }

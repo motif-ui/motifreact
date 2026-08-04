@@ -202,7 +202,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 
     &.completed {
       .title {
-        color: if($variant == "secondary", var(--theme-color-text-#{$variant}-hover), var(--theme-color-text-#{$variant}-default));
+        color: if(sass($variant == "secondary"): var(--theme-color-text-#{$variant}-hover); else: var(--theme-color-text-#{$variant}-default));
       }
       .stepIndicator {
         background-color: var(--theme-color-surface-#{$variant}-default);
