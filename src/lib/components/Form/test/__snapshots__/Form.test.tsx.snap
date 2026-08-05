@@ -16,7 +16,8 @@ exports[`Form should be rendered with only required props and items 1`] = `
           class="inputContainer"
         >
           <div
-            class="Root md inFormField"
+            class="Root md"
+            data-mtf-component="mtf-input-text"
             data-testid="inputItem"
           >
             <div
@@ -41,7 +42,8 @@ exports[`Form should be rendered with only required props and items 1`] = `
           class="inputContainer"
         >
           <div
-            class="Root md inFormField"
+            class="Root md"
+            data-mtf-component="mtf-input-text"
             data-testid="inputItem"
           >
             <div

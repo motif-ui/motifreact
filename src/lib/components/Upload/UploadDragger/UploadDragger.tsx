@@ -61,7 +61,7 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
       name={name}
       disabled={disabled}
     >
-      <div className={classes} style={style} ref={ref} data-testid="uploadDragger">
+      <div className={classes} style={style} ref={ref} data-testid="uploadDragger" data-mtf-component="upload-dragger">
         <DragArea disabled={disabled || readOnly} error={error} success={success} onChange={changeHandler} onError={onError} />
         <FileList disabled={disabled} readOnly={readOnly} />
       </div>

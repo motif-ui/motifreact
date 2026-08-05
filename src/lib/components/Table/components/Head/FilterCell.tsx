@@ -16,7 +16,7 @@ const FilterCell = ({ index, colSpan, placeholder }: Props) => {
   return (
     <th {...getSpanProps(colSpan)}>
       <div className={styles.thFilterContent}>
-        <InputText size="sm" placeholder={placeholder} onChange={val => updateFilterState((val as string).toLowerCase(), index)} />
+        <InputText size="sm" placeholder={placeholder} onChange={val => updateFilterState(val as string, index)} />
       </div>
     </th>
   );
