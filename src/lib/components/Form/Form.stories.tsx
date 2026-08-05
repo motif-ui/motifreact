@@ -3,7 +3,7 @@ import { useState } from "react";
 import Form from "@/components/Form";
 import { Validations } from "@/components/Form/validation/validations";
 import InputText from "@/components/InputText";
-import { FormSubmitData } from "@/components/Form/types";
+import { FormSubmitData, Orientation } from "@/components/Form/types";
 import Select from "@/components/Select";
 import Checkbox from "@/components/Checkbox";
 import Textarea from "@/components/Textarea";
@@ -261,3 +261,65 @@ const onSubmitMock = (data: FormSubmitData, event: unknown) => {
     console.log(data, event);
   }
 };
+
+export const SubmitAreaWrap_FormVertical_LabelVertical_GroupVertical: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: () => renderSubmitAreaWrapForm("vertical", "vertical", "vertical"),
+};
+
+export const SubmitAreaWrap_FormVertical_LabelVertical_GroupHorizontal: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: () => renderSubmitAreaWrapForm("vertical", "vertical", "horizontal"),
+};
+
+export const SubmitAreaWrap_FormVertical_LabelHorizontal_GroupVertical: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: () => renderSubmitAreaWrapForm("vertical", "horizontal", "vertical"),
+};
+
+export const SubmitAreaWrap_FormVertical_LabelHorizontal_GroupHorizontal: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: () => renderSubmitAreaWrapForm("vertical", "horizontal", "horizontal"),
+};
+
+export const SubmitAreaWrap_FormHorizontal_LabelVertical_GroupVertical: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: () => renderSubmitAreaWrapForm("horizontal", "vertical", "vertical"),
+};
+
+export const SubmitAreaWrap_FormHorizontal_LabelVertical_GroupHorizontal: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: () => renderSubmitAreaWrapForm("horizontal", "vertical", "horizontal"),
+};
+
+export const SubmitAreaWrap_FormHorizontal_LabelHorizontal_GroupVertical: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: () => renderSubmitAreaWrapForm("horizontal", "horizontal", "vertical"),
+};
+
+export const SubmitAreaWrap_FormHorizontal_LabelHorizontal_GroupHorizontal: Story = {
+  tags: ["!autodocs", "!dev"],
+  render: () => renderSubmitAreaWrapForm("horizontal", "horizontal", "horizontal"),
+};
+
+const renderSubmitAreaWrapForm = (formOrientation: Orientation, labelOrientation: Orientation, groupOrientation: Orientation) => (
+  <Form
+    onSubmit={onSubmitMock}
+    enableClearButton
+    formOrientation={formOrientation}
+    labelOrientation={labelOrientation}
+    alternateButtons={[
+      <Button key="1" label="Custom Action 1" onClick={() => alert("Custom 1")} variant="secondary" />,
+      <Button key="2" label="Custom Action 2" onClick={() => alert("Custom 2")} variant="secondary" />,
+      <Button key="3" label="Custom Action 3" onClick={() => alert("Custom 3")} variant="secondary" />,
+    ]}
+  >
+    <Form.Field name="inputName" label="Name" helperText="Your name and surname" validations={[Validations.Required]}>
+      <InputText iconLeft="person" />
+    </Form.Field>
+    <Form.FieldGroup name="sports" label="Sports" helperText="Please choose your favourite sports" orientation={groupOrientation}>
+      <Checkbox label="Football" name="football" />
+      <Checkbox label="Basketball" name="basketball" />
+    </Form.FieldGroup>
+  </Form>
+);
