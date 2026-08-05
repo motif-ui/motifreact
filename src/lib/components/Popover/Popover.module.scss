@@ -100,7 +100,7 @@ $caret-margin: var(--base-sizing-12x);
   .popover {
     &::before {
       border-width: map.get($values, "borderWidth");
-      border-#{map.get($values, "caretPosition")}-color: if($borderColor, $borderColor, $color);
+      border-#{map.get($values, "caretPosition")}-color: if(sass($borderColor): $borderColor; else: $color);
       inset: map.get($values, "beforePos");
       margin: map.get($values, "margin");
 

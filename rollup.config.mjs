@@ -93,7 +93,6 @@ export default [
         },
         sass: {
           includePaths: [path.resolve(__dirname, "src/lib/styles")],
-          silenceDeprecations: ["if-function"],
           importer: [
             function (url) {
               // resolves @styles/... imports

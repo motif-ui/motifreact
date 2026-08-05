@@ -26,4 +26,5 @@ export type FormFieldGroupProps = Omit<FormFieldProps, "children" | "validations
 
 export type FormFieldGroupDefaultableProps = {
   orientation?: "horizontal" | "vertical";
+  wrap?: boolean;
 };

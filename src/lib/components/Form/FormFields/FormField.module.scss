@@ -64,8 +64,18 @@ $sizes: (
 }
 
 .horizontalForm {
+  flex: 1;
+
   .label {
     white-space: nowrap;
+  }
+  .inputContainer {
+    min-width: var(--base-sizing-128x);
+  }
+  .inputContainer:has([data-mtf-component="upload-dragger"]),
+  .inputContainer:has([data-mtf-component="upload-list"]),
+  .inputContainer:has([data-mtf-component="upload-input"]) {
+    min-width: var(--base-sizing-256x);
   }
 }
 
@@ -84,6 +94,9 @@ $sizes: (
   &.required .label::before {
     content: "*";
   }
+  &.horizontalForm .inputContainer {
+    flex: 1;
+  }
 }
 
 .verticalLabel {
@@ -95,8 +108,22 @@ $sizes: (
 
 .groupItems {
   display: flex;
+  flex-wrap: nowrap;
+  .horizontalGroup & {
+    align-items: flex-start;
+
+    > [data-mtf-component="mtf-input-text"],
+    > [data-mtf-component="select"],
+    > [data-mtf-component="textarea"] {
+      flex: 1;
+      min-width: var(--base-sizing-128x);
+    }
+  }
   .verticalGroup & {
     flex-direction: column;
+  }
+  .wrap & {
+    flex-wrap: wrap;
   }
 }
 
@@ -131,7 +158,7 @@ $sizes: (
     }
 
     &.horizontalGroup .groupItems {
-      gap: var(--base-sizing-#{$gapHGroupItems});
+      gap: var(--base-sizing-#{$gapVLabel}) var(--base-sizing-#{$gapHGroupItems});
     }
 
     .label {

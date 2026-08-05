@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { userEvent } from "@testing-library/user-event";
 import { RowColor } from "@/components/Table/types";
 import { t } from "./../../../utils/testUtils";
+import MotifProvider from "../../motif/context/MotifProvider";
 
 describe("Table", () => {
   const cols = [{ title: "Test Title", dataKey: "testData", sorting: {} }];
@@ -1085,5 +1086,45 @@ describe("Table", () => {
     const filterInput = getFilterableTableInput();
     expect(filterInput).toHaveAttribute("placeholder", customPlaceholder);
     expect(getColumnFilterInputs()[0]).toHaveAttribute("placeholder", namePlaceholder);
+  });
+
+  it("should apply locale-aware filtering in both global and column based search inputs", async () => {
+    // 'i' is omitted: İ, ı, I all normalize to 'i', so the İ case already covers bidirectional matching
+    const chars = ["İ", "ı", "I", "ö", "Ö", "ü", "Ü"];
+    const cities = ["ISPARTA", "SÖKE", "ÜRGÜP"];
+    const charExpectedCity: Record<string, string> = {
+      İ: "ISPARTA",
+      ı: "ISPARTA",
+      I: "ISPARTA",
+      ö: "SÖKE",
+      Ö: "SÖKE",
+      ü: "ÜRGÜP",
+      Ü: "ÜRGÜP",
+    };
+    const localeCols = [{ title: "Şehir", dataKey: "city", filter: true }];
+    const localeData = cities.map((city, i) => ({ testData: `Row ${i + 1}`, city }));
+    for (const locale of ["tr", "en"] as const) {
+      const { getFilterableTableInput, getColumnFilterInputs, unmount } = renderExt(
+        <MotifProvider locale={locale}>
+          <Table columns={localeCols} data={localeData} filterableTable />
+        </MotifProvider>,
+      );
+
+      const globalInput = getFilterableTableInput();
+      const columnInput = getColumnFilterInputs()[0];
+
+      for (const char of chars) {
+        await userEvent.clear(columnInput);
+        await userEvent.type(columnInput, char);
+        expect(screen.getByText(charExpectedCity[char])).toBeInTheDocument();
+      }
+      await userEvent.clear(columnInput);
+
+      await userEvent.type(globalInput, "İ");
+      expect(screen.getByText("ISPARTA")).toBeInTheDocument();
+      expect(screen.queryByText("SÖKE")).not.toBeInTheDocument();
+
+      unmount();
+    }
   });
 });

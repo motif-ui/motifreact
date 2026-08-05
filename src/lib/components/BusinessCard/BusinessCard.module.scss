@@ -91,7 +91,7 @@ $variants: (("neutral", "light"), ("primary", "primary"), ("secondary", "seconda
         .link,
         .icon,
         .iconButton {
-          $tone: if($variant == "warning", "dark", "light");
+          $tone: if(sass($variant == "warning"): "dark"; else: "light");
           color: var(--theme-color-text-base-global-#{$tone});
         }
       } @else {
