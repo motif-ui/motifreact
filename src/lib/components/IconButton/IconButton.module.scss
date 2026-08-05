@@ -5,6 +5,7 @@ $states: "hover", "active", "disabled";
 $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
 
 .Root {
+  overflow: hidden;
   border: 0;
   background: none;
   padding: 0;
