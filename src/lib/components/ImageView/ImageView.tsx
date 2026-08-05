@@ -5,7 +5,7 @@ import { PropsWithRef } from "../../types";
 import { ImageViewProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import { BROKEN_IMG_SRC } from "@/components/ImageView/constants";
+import { BROKEN_IMG_SRC } from "src/lib/constants";
 
 const ImageView = (props: PropsWithRef<ImageViewProps, HTMLImageElement>) => {
   const {

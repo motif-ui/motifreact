@@ -1,6 +1,6 @@
 import { render, screen, waitFor, act } from "@testing-library/react";
 import ImageView from "./ImageView";
-import { BROKEN_IMG_SRC } from "./constants";
+import { BROKEN_IMG_SRC } from "src/lib/constants";
 
 const src = "https://picsum.photos/seed/motifui/200";
 

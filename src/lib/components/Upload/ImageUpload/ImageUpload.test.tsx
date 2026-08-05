@@ -8,6 +8,7 @@ import { MOCK } from "../mock";
 import { mockXHRs, t } from "../../../../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 import { ReactElement } from "react";
+import { BROKEN_IMG_SRC } from "src/lib/constants";
 
 type ImageUploadRequiredProps = Pick<ImageUploadProps, "uploadRequest" | "deleteRequest">;
 
@@ -822,6 +823,35 @@ describe("ImageUpload", () => {
 
     await waitFor(() => {
       expect(getThumbnail()).toBeInTheDocument();
+    });
+  });
+
+  it("should show broken image placeholder when image fails to load", async () => {
+    const brokenSrc = "https://invalid-url.example.com/image.jpg";
+    const { getThumbnail, getDeleteButton, queryByText } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "broken-1",
+          name: "broken.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: brokenSrc,
+        }}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(getThumbnail()!).toBeInTheDocument();
+    });
+
+    const imgElement = getThumbnail()!;
+    imgElement.dispatchEvent(new Event("error"));
+
+    await waitFor(() => {
+      expect(imgElement.getAttribute("src")).toBe(BROKEN_IMG_SRC);
+      expect(queryByText("visibility")).not.toBeInTheDocument();
+      expect(getDeleteButton()).toBeInTheDocument();
     });
   });
 });

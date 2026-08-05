@@ -1,6 +1,6 @@
 import styles from "../ImageUpload.module.scss";
 import { STATUS } from "@/components/Upload/constants";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { shortenText } from "src/utils/utils.ts";
@@ -10,6 +10,7 @@ import useToggle from "../../../../hooks/useToggle";
 import ProgressBar from "@/components/ProgressBar";
 
 import { FileType } from "@/components/Upload/types";
+import { BROKEN_IMG_SRC } from "src/lib/constants";
 
 type Props = {
   file: FileType;
@@ -17,11 +18,17 @@ type Props = {
 
 export const Image = ({ file: { status, progress, file, src, deleting } }: Props) => {
   const { selectedFiles, removeFiles } = useContext(UploadContext);
-  const image = src || (file instanceof File ? URL.createObjectURL(file) : undefined);
+  const [image, setImage] = useState<string>();
+  const [imageLoaded, setImageLoaded] = useState(true);
   const { visible, show, hide } = useToggle(false);
   const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL;
   const deleteFailed = status === STATUS.DELETE_FAIL;
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
+
+  useEffect(() => {
+    setImage(src || (file instanceof File ? URL.createObjectURL(file) : undefined));
+    setImageLoaded(true);
+  }, []);
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -29,8 +36,7 @@ export const Image = ({ file: { status, progress, file, src, deleting } }: Props
   };
 
   const deleteIcon = <MotifIconButton name="delete" variant="danger" className={styles.icon} disabled={deleting} onClick={handleDelete} />;
-
-  return !image && (succeeded || deleteFailed) ? null : (
+  return (
     <>
       {status === STATUS.UPLOADING && (
         <div className={styles.progress}>
@@ -38,17 +44,19 @@ export const Image = ({ file: { status, progress, file, src, deleting } }: Props
           <ProgressBar progress={progress} variant="primary" />
         </div>
       )}
-      {(succeeded || deleteFailed) && (
+      {(succeeded || deleteFailed) && image && (
         <div className={styles.fileItem}>
           <div className={styles.content}>
-            <img src={image} alt="Image Thumbnail" />
+            {imageLoaded ? (
+              <img src={image} alt="Image Thumbnail" onError={() => setImageLoaded(false)} />
+            ) : (
+              <img src={BROKEN_IMG_SRC} alt="Image failed to load" />
+            )}
           </div>
-          {!visible && (
-            <div className={styles.iconContainer}>
-              <MotifIconButton className={styles.icon} variant="primary" name="visibility" onClick={show} />
-              {deleteIcon}
-            </div>
-          )}
+          <div className={styles.iconContainer}>
+            {!visible && imageLoaded && <MotifIconButton className={styles.icon} variant="primary" name="visibility" onClick={show} />}
+            {deleteIcon}
+          </div>
         </div>
       )}
       {failed && (
