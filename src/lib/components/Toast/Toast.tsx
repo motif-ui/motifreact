@@ -46,20 +46,21 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    const clear = () => {
-      closingTimeoutRef.current && clearTimeout(closingTimeoutRef.current);
-      timer.clear();
-    };
-
     if (closable) {
       timer.start();
       return () => {
-        clear();
+        timer.clear();
       };
     } else {
-      clear();
+      timer.clear();
     }
   }, [closable, timer]);
+
+  useEffect(() => {
+    return () => {
+      closingTimeoutRef.current && clearTimeout(closingTimeoutRef.current);
+    };
+  }, []);
 
   const handleEnter = useCallback(() => {
     timer.pause();

@@ -117,7 +117,7 @@ describe("Toast", () => {
     jest.useRealTimers();
   });
 
-  it("should not auto-dismiss and should not render a progress bar when duration is not given", () => {
+  it("should not auto-dismiss and render a progress bar when duration is undefined", () => {
     jest.useFakeTimers();
 
     const { getByText, queryByTestId } = render(<Toast id="t1" content={content} variant="info" position="topRight" closable />);
@@ -128,6 +128,34 @@ describe("Toast", () => {
       jest.advanceTimersByTime(10000);
     });
     expect(getByText(content)).toBeInTheDocument();
+
+    jest.useRealTimers();
+  });
+
+  it("should not start a progress bar, timer and dismiss by mouse enter and exits when duration is undefined", () => {
+    jest.useFakeTimers();
+
+    const onDismiss = jest.fn();
+    const { getByText, getByTestId, queryByTestId } = render(
+      <Toast id="t1" content={content} variant="info" position="topRight" closable onDismiss={onDismiss} />,
+    );
+    expect(queryByTestId("progressBar")).not.toBeInTheDocument();
+
+    fireEvent.mouseEnter(getByTestId("toast"));
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+    expect(getByText(content)).toBeInTheDocument();
+    expect(queryByTestId("progressBar")).not.toBeInTheDocument();
+    expect(onDismiss).not.toHaveBeenCalled();
+
+    fireEvent.mouseLeave(getByTestId("toast"));
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+    expect(getByText(content)).toBeInTheDocument();
+    expect(queryByTestId("progressBar")).not.toBeInTheDocument();
+    expect(onDismiss).not.toHaveBeenCalled();
 
     jest.useRealTimers();
   });

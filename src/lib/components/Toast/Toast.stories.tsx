@@ -11,13 +11,8 @@ const meta: Meta<typeof Toast> = {
   argTypes: {
     id: { table: { disable: true } },
     onDismiss: { table: { disable: true } },
-    position: {
-      table: { defaultValue: { summary: "topRight" } },
-      type: { name: "string", required: false },
-      control: { type: "select" },
-      options: ["topLeft", "topRight", "top", "bottomLeft", "bottomRight", "bottom"],
-    },
-    duration: { table: { defaultValue: { summary: "3000" } }, type: { name: "number", required: false }, control: false },
+    position: { table: { defaultValue: { summary: "topRight" } } },
+    duration: { table: { defaultValue: { summary: "3000" } }, type: { name: "number", required: false } },
     closable: { table: { defaultValue: { summary: "true" } }, type: { name: "boolean", required: false } },
   },
   args: {
@@ -44,10 +39,13 @@ const Toaster = (props: ToastProps) => {
 };
 
 export const Primary: Story = {
+  argTypes: {
+    duration: { control: false },
+    position: { control: false },
+  },
   args: {
     id: "toast-primary",
     position: "topRight",
-    duration: 24 * 60 * 60 * 1000,
     closable: true,
     onDismiss: () => {},
   },
