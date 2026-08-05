@@ -13,7 +13,6 @@ $sizes: (
 @each $size, $pickerGap, $minWidthDropdown, $inputWidth in $sizes {
   .#{$size} {
     gap: map.get(pickerValues.$size, $size, "gapV");
-    --date-pickers-gap: var(--base-sizing-#{$pickerGap});
 
     .selectionBar {
       padding-bottom: map.get(pickerValues.$size, $size, "gapV");
@@ -27,7 +26,7 @@ $sizes: (
 
     .datePickers {
       gap: calc(var(--base-sizing-#{$pickerGap}));
-      transform: translateX(calc(-50% - var(--base-sizing-#{$pickerGap}) / 2 + var(--base-sizing-1x)));
+      transform: translateX(calc(-50% - var(--base-sizing-#{$pickerGap}) / 2 + var(--base-sizing-2x)));
 
       &.slideLeft {
         transform: translateX(calc(-100% - var(--base-sizing-#{$pickerGap}) + var(--base-sizing-3x)));
@@ -144,17 +143,21 @@ $sizes: (
   .rangeSelectDropdown {
     display: none !important;
   }
-  .datePickers {
-    gap: var(--date-pickers-gap);
-    transform: translateX(calc(-100% - var(--date-pickers-gap))) !important;
-    > div:nth-child(2) > div:first-child > button:last-of-type {
-      display: block !important;
-    }
-    &.slideLeft {
-      transform: translateX(calc(-200% - 2 * var(--date-pickers-gap))) !important;
-    }
-    &.slideRight {
-      transform: translateX(0) !important;
+  .datePickers > div:nth-child(2) > div:first-child > button:last-of-type {
+    display: block;
+  }
+  @each $size, $pickerGap in $sizes {
+    .#{$size} {
+      .datePickers {
+        gap: var(--base-sizing-#{$pickerGap});
+        transform: translateX(calc(-100% - var(--base-sizing-#{$pickerGap}) + var(--base-sizing-2x)));
+        &.slideLeft {
+          transform: translateX(calc(-200% - 2 * var(--base-sizing-#{$pickerGap}) + var(--base-sizing-3x)));
+        }
+        &.slideRight {
+          transform: translateX(0);
+        }
+      }
     }
   }
 }
