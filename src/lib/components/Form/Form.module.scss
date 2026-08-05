@@ -12,10 +12,6 @@ $sizes: (
   flex-direction: column;
 }
 
-.vertical {
-  display: flex;
-}
-
 .submitArea {
   display: flex;
   flex-wrap: wrap;
@@ -36,6 +32,8 @@ $sizes: (
 }
 
 .vertical {
+  display: flex;
+
   .fields {
     display: flex;
     flex-direction: column;
