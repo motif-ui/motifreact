@@ -103,7 +103,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useImperativeHandle(ref, () => innerRef.current!, []);
 
-  const { attached, pickerStyle, openPicker } = usePickerPortal(innerRef, pickerRef, visible, show);
+  const { attached, pickerStyle, openPicker, handleTabNavigation } = usePickerPortal(innerRef, pickerRef, visible, show, hide);
 
   const dateChangeHandler = useCallback(
     (dates: MaybeDateRange) => {
@@ -117,23 +117,6 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   }, [disabled, readOnly, openPicker]);
 
   useEffect(() => {
-    if (!visible) return;
-
-    const baseWidth = window.innerWidth;
-    const baseHeight = window.innerHeight;
-    const handleResize = () => (window.innerWidth < baseWidth || window.innerHeight < baseHeight) && hide();
-    const handleScroll = () => hide();
-
-    window.addEventListener("scroll", handleScroll, { capture: true });
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll, { capture: true });
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [visible, hide]);
-
-  useEffect(() => {
     setTypedValueWithFormat(value as MaybeDateRange);
     applyChanges(value as MaybeDateRange);
 
@@ -144,7 +127,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
-    <div ref={innerRef} className={classNames} style={style}>
+    <div ref={innerRef} className={classNames} style={style} onKeyDown={handleTabNavigation}>
       <InputText
         name={name}
         size={size}

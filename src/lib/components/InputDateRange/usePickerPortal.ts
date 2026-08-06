@@ -1,23 +1,77 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { RefObject } from "react";
+import type { KeyboardEvent, RefObject } from "react";
 import { usePopoverPosition, PopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
-
-const PICKER_TOP_OFFSET = 2;
 
 export const usePickerPortal = (
   anchorRef: RefObject<HTMLElement | null>,
   pickerRef: RefObject<HTMLDivElement | null>,
   visible: boolean,
   onOpen: () => void,
+  onHide: () => void,
 ) => {
   const [alignment, setAlignment] = useState<PopoverPosition>("bottomLeft");
   const { startShowing, startHiding, attached, positionStyle } = usePopoverPosition(anchorRef, pickerRef, alignment, 0, false);
 
   useEffect(() => {
-    visible ? startShowing() : startHiding(true);
-  }, [visible, startShowing, startHiding]);
+    if (visible) {
+      startShowing();
+    } else {
+      startHiding(true);
+      anchorRef.current?.querySelector("input")?.blur();
+    }
+  }, [visible, startShowing, startHiding, anchorRef]);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const handleResize = () => onHide();
+    const handleScroll = () => {
+      if (pickerRef.current?.contains(document.activeElement)) return;
+      onHide();
+    };
+
+    window.addEventListener("scroll", handleScroll, { capture: true });
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll, { capture: true });
+      window.removeEventListener("resize", handleResize);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, onHide]);
+
+  const handleTabNavigation = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !visible || !pickerRef.current || !anchorRef.current) return;
+
+      const sel = 'button, input, [tabindex]:not([tabindex="-1"])';
+      const wrapperEls = Array.from(anchorRef.current.querySelectorAll<HTMLElement>(sel));
+      const pickerEls = Array.from(pickerRef.current.querySelectorAll<HTMLElement>(sel));
+      const lastInWrapper = wrapperEls.at(-1);
+      const firstInPicker = pickerEls.at(0);
+      const lastInPicker = pickerEls.at(-1);
+      const inPicker = pickerRef.current.contains(e.target as Node);
+
+      if (!e.shiftKey && e.target === lastInWrapper && firstInPicker) {
+        e.preventDefault();
+        firstInPicker.focus({ preventScroll: true });
+      } else if (inPicker && e.shiftKey && e.target === firstInPicker) {
+        e.preventDefault();
+        lastInWrapper?.focus({ preventScroll: true });
+      } else if (inPicker && !e.shiftKey && e.target === lastInPicker) {
+        const allEls = Array.from(document.querySelectorAll<HTMLElement>(sel)).filter(el => !pickerRef.current!.contains(el));
+        const nextEl = allEls.at(allEls.findLastIndex(el => anchorRef.current!.contains(el)) + 1);
+        e.preventDefault();
+        onHide();
+        nextEl?.focus({ preventScroll: true });
+      }
+    },
+    // anchorRef and pickerRef are stable refs — safe to omit from deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [visible, onHide],
+  );
 
   const pickerStyle = useMemo(() => {
     const isTop = alignment.startsWith("top");
@@ -25,7 +79,8 @@ export const usePickerPortal = (
       ...positionStyle,
       maxWidth: undefined,
       maxHeight: undefined,
-      ...(isTop && typeof positionStyle?.top === "number" && { top: positionStyle.top - PICKER_TOP_OFFSET, marginTop: 0 }),
+      ...(isTop &&
+        typeof positionStyle?.top === "number" && { top: `calc(${positionStyle.top}px - var(--base-sizing-2x) )`, marginTop: 0 }),
     };
   }, [alignment, positionStyle]);
 
@@ -39,5 +94,5 @@ export const usePickerPortal = (
     onOpen();
   }, [anchorRef, onOpen]);
 
-  return { attached, pickerStyle, openPicker };
+  return { attached, pickerStyle, openPicker, handleTabNavigation };
 };
