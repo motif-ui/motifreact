@@ -27,7 +27,8 @@ export const Image = ({ file: { status, progress, file, src, deleting, addedByVa
   useEffect(() => {
     const image = addedByValue ? src : file instanceof File ? URL.createObjectURL(file) : undefined;
     image ? setImage(image) : setMaybeBrokenSrc(true);
-  }, [addedByValue, file, src]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDelete = (e: MouseEvent) => {
     e.stopPropagation();
