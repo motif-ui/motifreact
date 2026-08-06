@@ -1,7 +1,6 @@
 import styles from "../ImageUpload.module.scss";
 import { STATUS } from "@/components/Upload/constants";
-import { useContext } from "react";
-import { FileType } from "@/components/Upload/types";
+import { useContext, useEffect, useState, MouseEvent } from "react";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { shortenText } from "src/utils/utils.ts";
@@ -9,29 +8,39 @@ import { MotifIconButton } from "@/components/Motif/Icon";
 import Preview from "@/components/Upload/ImageUpload/components/Preview";
 import useToggle from "../../../../hooks/useToggle";
 import ProgressBar from "@/components/ProgressBar";
+import { FileType } from "@/components/Upload/types";
+import { BROKEN_IMG_SRC } from "src/lib/constants";
 
 type Props = {
   file: FileType;
 };
 
-export const Image = ({ file: { status, progress, file, deleting } }: Props) => {
+export const Image = ({ file: { status, progress, file, src, deleting, addedByValue } }: Props) => {
   const { selectedFiles, removeFiles } = useContext(UploadContext);
-  const image = URL.createObjectURL(file as File);
+  const [image, setImage] = useState<string>();
+  const [maybeBrokenSrc, setMaybeBrokenSrc] = useState(false);
   const { visible, show, hide } = useToggle(false);
   const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL;
   const deleteFailed = status === STATUS.DELETE_FAIL;
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
 
-  const deleteIcon = (
-    <MotifIconButton
-      name="delete"
-      variant="danger"
-      className={styles.icon}
-      disabled={deleting}
-      onClick={() => removeFiles([selectedFiles[0]])}
-    />
-  );
+  useEffect(() => {
+    const objectUrl = !addedByValue && file instanceof File ? URL.createObjectURL(file) : undefined;
+    const image = addedByValue ? src : objectUrl;
 
+    image ? setImage(image) : setMaybeBrokenSrc(true);
+
+    return () => {
+      objectUrl && URL.revokeObjectURL(objectUrl);
+    };
+  }, [addedByValue, file, src]);
+
+  const handleDelete = (e: MouseEvent) => {
+    e.stopPropagation();
+    removeFiles([selectedFiles[0]]);
+  };
+
+  const deleteIcon = <MotifIconButton name="delete" variant="danger" className={styles.icon} disabled={deleting} onClick={handleDelete} />;
   return (
     <>
       {status === STATUS.UPLOADING && (
@@ -43,14 +52,16 @@ export const Image = ({ file: { status, progress, file, deleting } }: Props) => 
       {(succeeded || deleteFailed) && (
         <div className={styles.fileItem}>
           <div className={styles.content}>
-            <img src={image} alt="Image Thumbnail" />
+            {maybeBrokenSrc ? (
+              <img src={BROKEN_IMG_SRC} alt="Broken Image" />
+            ) : (
+              image && <img src={image} alt="Image Thumbnail" onError={() => setMaybeBrokenSrc(true)} />
+            )}
           </div>
-          {!visible && (
-            <div className={styles.iconContainer}>
-              <MotifIconButton className={styles.icon} variant="primary" name="visibility" onClick={show} />
-              {deleteIcon}
-            </div>
-          )}
+          <div className={styles.iconContainer}>
+            {!visible && !maybeBrokenSrc && <MotifIconButton className={styles.icon} variant="primary" name="visibility" onClick={show} />}
+            {deleteIcon}
+          </div>
         </div>
       )}
       {failed && (
@@ -62,7 +73,7 @@ export const Image = ({ file: { status, progress, file, deleting } }: Props) => 
           <div className={styles.iconContainer}>{deleteIcon}</div>
         </div>
       )}
-      {visible && <Preview image={image} onClose={hide} />}
+      {visible && image && <Preview image={image} onClose={hide} />}
     </>
   );
 };

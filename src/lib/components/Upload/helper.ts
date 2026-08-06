@@ -15,6 +15,7 @@ export const mapExternalValue = (value?: InputValue) =>
         uploaded: true,
         download: f.onDownloadClick,
         addedByValue: true,
+        src: f.src,
       }))
     : [];
 

@@ -12,6 +12,7 @@ export type FileType = {
   request?: XMLHttpRequest;
   download?: () => void;
   addedByValue?: boolean;
+  src?: string;
   /** True while a server-side delete request for this file is in flight. */
   deleting?: boolean;
 };
@@ -22,6 +23,7 @@ export type FileType = {
 export type FileObject = {
   id: string;
   onDownloadClick?: () => void;
+  src?: string;
 } & Pick<File, "name" | "size" | "type">;
 
 export type RequestSettings = {
