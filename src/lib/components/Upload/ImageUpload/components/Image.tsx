@@ -25,19 +25,14 @@ export const Image = ({ file: { status, progress, file, src, deleting, addedByVa
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
 
   useEffect(() => {
-    if (addedByValue) {
-      src && setImage(src);
-      return;
-    }
+    const objectUrl = !addedByValue && file instanceof File ? URL.createObjectURL(file) : undefined;
+    const image = addedByValue ? src : objectUrl;
 
-    if (file instanceof File) {
-      const objectUrl = URL.createObjectURL(file);
-      setImage(objectUrl);
+    image ? setImage(image) : setMaybeBrokenSrc(true);
 
-      return () => URL.revokeObjectURL(objectUrl);
-    }
-
-    setMaybeBrokenSrc(true);
+    return () => {
+      objectUrl && URL.revokeObjectURL(objectUrl);
+    };
   }, [addedByValue, file, src]);
 
   const handleDelete = (e: MouseEvent) => {
