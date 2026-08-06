@@ -11,7 +11,7 @@ import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDef
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { UploadListProps } from "./types";
 import { Validations } from "src/lib";
-import { mapExternalValue, toFormValue } from "@/components/Upload/helper.ts";
+import { mapExternalValue, toFormValue } from "@/components/Upload/helper";
 import { FileType } from "@/components/Upload/types.ts";
 
 const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
