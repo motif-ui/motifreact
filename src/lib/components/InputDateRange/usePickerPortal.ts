@@ -46,9 +46,10 @@ export const usePickerPortal = (
     (e: KeyboardEvent) => {
       if (e.key !== "Tab" || !visible || !pickerRef.current || !anchorRef.current) return;
 
-      const sel = 'button, input, [tabindex]:not([tabindex="-1"])';
-      const wrapperEls = Array.from(anchorRef.current.querySelectorAll<HTMLElement>(sel));
-      const pickerEls = Array.from(pickerRef.current.querySelectorAll<HTMLElement>(sel));
+      const focusableSelector = 'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      const isVisible = (el: HTMLElement) => el.offsetParent !== null;
+      const wrapperEls = Array.from(anchorRef.current.querySelectorAll<HTMLElement>(focusableSelector)).filter(isVisible);
+      const pickerEls = Array.from(pickerRef.current.querySelectorAll<HTMLElement>(focusableSelector)).filter(isVisible);
       const lastInWrapper = wrapperEls.at(-1);
       const firstInPicker = pickerEls.at(0);
       const lastInPicker = pickerEls.at(-1);
@@ -61,14 +62,15 @@ export const usePickerPortal = (
         e.preventDefault();
         lastInWrapper?.focus({ preventScroll: true });
       } else if (inPicker && !e.shiftKey && e.target === lastInPicker) {
-        const allEls = Array.from(document.querySelectorAll<HTMLElement>(sel)).filter(el => !pickerRef.current!.contains(el));
+        const allEls = Array.from(document.querySelectorAll<HTMLElement>(focusableSelector)).filter(el => !pickerRef.current!.contains(el));
         const nextEl = allEls.at(allEls.findLastIndex(el => anchorRef.current!.contains(el)) + 1);
-        e.preventDefault();
         onHide();
-        nextEl?.focus({ preventScroll: true });
+        if (nextEl) {
+          e.preventDefault();
+          nextEl.focus({ preventScroll: true });
+        }
       }
     },
-    // anchorRef and pickerRef are stable refs — safe to omit from deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [visible, onHide],
   );
