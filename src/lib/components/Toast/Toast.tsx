@@ -46,7 +46,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (closable) {
+    if (closable && duration !== undefined) {
       timer.start();
       return () => {
         timer.clear();
@@ -54,7 +54,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
     } else {
       timer.clear();
     }
-  }, [closable, timer]);
+  }, [closable, duration, timer]);
 
   useEffect(() => {
     return () => {

@@ -13,7 +13,7 @@ const meta: Meta<typeof Toast> = {
     onDismiss: { table: { disable: true } },
     position: { table: { defaultValue: { summary: "topRight" } } },
     duration: { table: { defaultValue: { summary: "3000" } }, type: { name: "number", required: false } },
-    closable: { table: { defaultValue: { summary: "true" } }, type: { name: "boolean", required: false } },
+    closable: { table: { defaultValue: { summary: "true" } } },
   },
   args: {
     variant: "warning",
