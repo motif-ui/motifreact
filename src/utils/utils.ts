@@ -70,3 +70,11 @@ export const tryParseJsonString = <T>(text: string): T | undefined => {
     return undefined;
   }
 };
+
+/** Normalizes a string for case-insensitive comparison: lowercases, strips diacritics, and handles locale-specific characters (e.g. Turkish dotless-i). */
+export const foldNormalize = (s: string, locale: string) =>
+  `${s}`
+    .toLocaleLowerCase(locale)
+    .normalize("NFKD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/\u0131/g, "i");

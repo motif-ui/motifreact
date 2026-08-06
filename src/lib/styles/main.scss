@@ -60,6 +60,10 @@
   }
 }
 
+@mixin retain-scoped-class {
+  --mtf-empty-rule-anchor: 1;
+}
+
 @function url-encoded-color($color) {
   $hex-encoded: str-replace($color, "#", "%23"); // Encode the hex color
   $final-encoded: str-replace($hex-encoded, ",", "%2C"); // Encode the commas for rgb

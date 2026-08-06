@@ -13,7 +13,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
         class="selectionBar"
       >
         <div
-          class="Root md secondary solid"
+          class="Root md secondary solid rangeSelectDropdown"
           data-testid="Dropdown"
         >
           <button
@@ -34,6 +34,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
         </div>
         <div
           class="Root md"
+          data-mtf-component="mtf-input-text"
           data-testid="inputItem"
         >
           <span
@@ -56,6 +57,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
         </div>
         <div
           class="Root md"
+          data-mtf-component="mtf-input-text"
           data-testid="inputItem"
         >
           <span
@@ -87,6 +89,18 @@ exports[`DateRangePicker should be rendered with only required props and should 
           <div
             class="header"
           >
+            <button
+              class="arrowButton"
+              type="button"
+            >
+              <span
+                class="Root md motifIconsDefault"
+                lang="en"
+                translate="no"
+              >
+                arrow_back
+              </span>
+            </button>
             <div
               class="headerMonthYearButtonContainer"
             >
@@ -103,6 +117,18 @@ exports[`DateRangePicker should be rendered with only required props and should 
                 2000
               </button>
             </div>
+            <button
+              class="arrowButton"
+              type="button"
+            >
+              <span
+                class="Root md motifIconsDefault"
+                lang="en"
+                translate="no"
+              >
+                arrow_forward
+              </span>
+            </button>
           </div>
           <div
             class="weekDays"
@@ -410,6 +436,18 @@ exports[`DateRangePicker should be rendered with only required props and should 
                 2000
               </button>
             </div>
+            <button
+              class="arrowButton"
+              type="button"
+            >
+              <span
+                class="Root md motifIconsDefault"
+                lang="en"
+                translate="no"
+              >
+                arrow_forward
+              </span>
+            </button>
           </div>
           <div
             class="weekDays"
@@ -656,6 +694,18 @@ exports[`DateRangePicker should be rendered with only required props and should 
           <div
             class="header"
           >
+            <button
+              class="arrowButton"
+              type="button"
+            >
+              <span
+                class="Root md motifIconsDefault"
+                lang="en"
+                translate="no"
+              >
+                arrow_back
+              </span>
+            </button>
             <div
               class="headerMonthYearButtonContainer"
             >
@@ -928,6 +978,18 @@ exports[`DateRangePicker should be rendered with only required props and should 
           <div
             class="header"
           >
+            <button
+              class="arrowButton"
+              type="button"
+            >
+              <span
+                class="Root md motifIconsDefault"
+                lang="en"
+                translate="no"
+              >
+                arrow_back
+              </span>
+            </button>
             <div
               class="headerMonthYearButtonContainer"
             >
@@ -944,6 +1006,18 @@ exports[`DateRangePicker should be rendered with only required props and should 
                 2000
               </button>
             </div>
+            <button
+              class="arrowButton"
+              type="button"
+            >
+              <span
+                class="Root md motifIconsDefault"
+                lang="en"
+                translate="no"
+              >
+                arrow_forward
+              </span>
+            </button>
           </div>
           <div
             class="weekDays"

@@ -49,6 +49,7 @@ const preview: Preview = {
     },
     controls: {
       expanded: true,
+      sort: "requiredFirst",
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/,
@@ -58,6 +59,9 @@ const preview: Preview = {
       container: MotifDocContainer,
       theme: motifTheme,
       codePanel: true,
+      controls: {
+        sort: "requiredFirst",
+      },
       toc: {
         title: "On this page",
         headingSelector: "h2, h3",
