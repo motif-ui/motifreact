@@ -11,26 +11,32 @@ const useTimeout = (callback: () => void, delay: number | undefined) => {
     savedCallback.current = callback;
   }, [callback]);
 
-  const pause = useCallback(() => {
+  const stop = useCallback(() => {
     clearTimeout(timeoutId.current);
-    if (startTime.current && remainingTime.current !== undefined) {
-      remainingTime.current -= new Date().getTime() - startTime.current;
-    }
+    timeoutId.current = undefined;
   }, []);
 
+  const pause = useCallback(() => {
+    const elapsedSince = startTime.current;
+    if (timeoutId.current === undefined || elapsedSince === undefined || remainingTime.current === undefined) return;
+    stop();
+    remainingTime.current -= Date.now() - elapsedSince;
+    startTime.current = undefined;
+  }, [stop]);
+
   const clear = useCallback(() => {
-    timeoutId.current && clearTimeout(timeoutId.current);
+    stop();
     startTime.current = undefined;
     remainingTime.current = delay;
-  }, [delay]);
+  }, [stop, delay]);
 
   const start = useCallback(() => {
-    if (remainingTime.current === undefined) return;
+    if (remainingTime.current === undefined || timeoutId.current !== undefined) return;
     timeoutId.current = setTimeout(() => {
       savedCallback.current();
       clear();
     }, remainingTime.current);
-    startTime.current = new Date().getTime();
+    startTime.current = Date.now();
   }, [clear]);
 
   return useMemo(() => ({ start, pause, clear }), [start, pause, clear]);

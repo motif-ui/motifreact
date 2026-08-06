@@ -10,9 +10,8 @@ const meta: Meta<typeof Toast> = {
   component: Toast,
   argTypes: {
     id: { table: { disable: true } },
-    onDismiss: { table: { disable: true } },
     position: { table: { defaultValue: { summary: "topRight" } } },
-    duration: { table: { defaultValue: { summary: "3000" } }, type: { name: "number", required: false } },
+    duration: { table: { defaultValue: { summary: "3000" } } },
     closable: { table: { defaultValue: { summary: "true" } } },
   },
   args: {
@@ -20,6 +19,7 @@ const meta: Meta<typeof Toast> = {
     title: "Be Careful!",
     content: "This is a test warning",
     icon: "info",
+    closable: true,
   },
 };
 
@@ -45,8 +45,6 @@ export const Primary: Story = {
   },
   args: {
     id: "toast-primary",
-    position: "topRight",
-    closable: true,
   },
   render: args => <Toast {...args} />,
 };
