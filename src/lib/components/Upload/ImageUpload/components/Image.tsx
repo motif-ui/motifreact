@@ -1,6 +1,6 @@
 import styles from "../ImageUpload.module.scss";
 import { STATUS } from "@/components/Upload/constants";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, MouseEvent } from "react";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { shortenText } from "src/utils/utils.ts";
@@ -8,7 +8,6 @@ import { MotifIconButton } from "@/components/Motif/Icon";
 import Preview from "@/components/Upload/ImageUpload/components/Preview";
 import useToggle from "../../../../hooks/useToggle";
 import ProgressBar from "@/components/ProgressBar";
-
 import { FileType } from "@/components/Upload/types";
 import { BROKEN_IMG_SRC } from "src/lib/constants";
 
@@ -16,21 +15,21 @@ type Props = {
   file: FileType;
 };
 
-export const Image = ({ file: { status, progress, file, src, deleting } }: Props) => {
+export const Image = ({ file: { status, progress, file, src, deleting, addedByValue } }: Props) => {
   const { selectedFiles, removeFiles } = useContext(UploadContext);
   const [image, setImage] = useState<string>();
-  const [imageLoaded, setImageLoaded] = useState(true);
+  const [maybeBrokenSrc, setMaybeBrokenSrc] = useState(false);
   const { visible, show, hide } = useToggle(false);
   const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL;
   const deleteFailed = status === STATUS.DELETE_FAIL;
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;
 
   useEffect(() => {
-    setImage(src || (file instanceof File ? URL.createObjectURL(file) : undefined));
-    setImageLoaded(true);
-  }, []);
+    const image = addedByValue ? src : file instanceof File ? URL.createObjectURL(file) : undefined;
+    image ? setImage(image) : setMaybeBrokenSrc(true);
+  }, [addedByValue, file, src]);
 
-  const handleDelete = (e: React.MouseEvent) => {
+  const handleDelete = (e: MouseEvent) => {
     e.stopPropagation();
     removeFiles([selectedFiles[0]]);
   };
@@ -44,17 +43,17 @@ export const Image = ({ file: { status, progress, file, src, deleting } }: Props
           <ProgressBar progress={progress} variant="primary" />
         </div>
       )}
-      {(succeeded || deleteFailed) && image && (
+      {(succeeded || deleteFailed) && (
         <div className={styles.fileItem}>
           <div className={styles.content}>
-            {imageLoaded ? (
-              <img src={image} alt="Image Thumbnail" onError={() => setImageLoaded(false)} />
+            {maybeBrokenSrc ? (
+              <img src={BROKEN_IMG_SRC} alt="Broken Image" />
             ) : (
-              <img src={BROKEN_IMG_SRC} alt="Image failed to load" />
+              image && <img src={image} alt="Image Thumbnail" onError={() => setMaybeBrokenSrc(true)} />
             )}
           </div>
           <div className={styles.iconContainer}>
-            {!visible && imageLoaded && <MotifIconButton className={styles.icon} variant="primary" name="visibility" onClick={show} />}
+            {!visible && !maybeBrokenSrc && <MotifIconButton className={styles.icon} variant="primary" name="visibility" onClick={show} />}
             {deleteIcon}
           </div>
         </div>

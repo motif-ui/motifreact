@@ -23,8 +23,7 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
   const { t } = useMotifContext();
   const selectedImage = selectedFiles[0] as FileType | undefined;
   const status = selectedImage?.status;
-  const hasImageSource = !!(selectedImage?.src || selectedImage?.file instanceof File);
-  const disabled = (!!selectedImage?.uploaded && hasImageSource) || status === STATUS.CHECK_FAIL;
+  const disabled = selectedImage?.uploaded || status === STATUS.CHECK_FAIL;
 
   const { handleDragOver, handleDragLeave, hovered, handleDrop } = useUploadDragDrop({
     disabled,
@@ -46,7 +45,7 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
           : t(MESSAGE.UPLOAD_ERROR),
     );
   const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL || status === STATUS.DELETE_FAIL;
-  const maybeShowThumbnail = status !== undefined && hasImageSource;
+  const maybeShowThumbnail = status !== undefined;
   const innerClasses = sanitizeModuleClasses(
     styles,
     "dragArea",

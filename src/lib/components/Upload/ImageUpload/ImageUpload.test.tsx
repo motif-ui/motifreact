@@ -803,8 +803,8 @@ describe("ImageUpload", () => {
     });
   });
 
-  it("should handle value provided without src - show uploader and allow upload", async () => {
-    const { getInput, getThumbnail } = renderExt(
+  it("should show broken image placeholder when src of value-given image is not provided", async () => {
+    const { queryByAltText } = renderExt(
       <ImageUpload
         {...requiredProps}
         value={{
@@ -816,13 +816,10 @@ describe("ImageUpload", () => {
       />,
     );
 
-    expect(getThumbnail()).not.toBeInTheDocument();
-    expect(screen.getByText("Choose or drag an image")).toBeInTheDocument();
-
-    await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
-
     await waitFor(() => {
-      expect(getThumbnail()).toBeInTheDocument();
+      const brokenImage = queryByAltText("Broken Image");
+      expect(brokenImage).toBeInTheDocument();
+      expect(brokenImage).toHaveAttribute("src", BROKEN_IMG_SRC);
     });
   });
 
@@ -852,6 +849,35 @@ describe("ImageUpload", () => {
       expect(imgElement.getAttribute("src")).toBe(BROKEN_IMG_SRC);
       expect(queryByText("visibility")).not.toBeInTheDocument();
       expect(getDeleteButton()).toBeInTheDocument();
+    });
+  });
+
+  it("should not render view button when an image cannot be loaded", async () => {
+    const { getDeleteButton, getInput } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "db-no-src",
+          name: "no-preview.jpg",
+          size: 102400,
+          type: "image/jpeg",
+        }}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+    });
+
+    expect(getDeleteButton()).toBeInTheDocument();
+    await userEvent.click(getDeleteButton());
+    expect(screen.getByText(t("upload.chooseOrDragImage"))).toBeInTheDocument();
+
+    xhrSpy = mockXHRs(500);
+    await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
+    await waitFor(() => {
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
+      expect(screen.queryByText("visibility")).not.toBeInTheDocument();
     });
   });
 });
