@@ -324,7 +324,7 @@ describe("InputDateRange", () => {
     });
 
     const { anchorRef, pickerRef } = makeRefs(anchorRect);
-    const { result } = renderHook(() => usePickerPortal(anchorRef, pickerRef, false, jest.fn()));
+    const { result } = renderHook(() => usePickerPortal(anchorRef, pickerRef, false, jest.fn(), jest.fn()));
 
     act(() => result.current.openPicker());
 
@@ -342,15 +342,12 @@ describe("InputDateRange", () => {
     expect(getPickerContainer()).not.toBeInTheDocument();
   });
 
-  it("should close the datepicker when the screen shrinks", async () => {
-    Object.defineProperty(window, "innerWidth", { value: 1024, writable: true });
-    Object.defineProperty(window, "innerHeight", { value: 768, writable: true });
+  it("should close the datepicker when the window is resized", async () => {
     const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
 
     await user.click(getDateRangeInput());
     expect(getPickerContainer()).toBeInTheDocument();
 
-    Object.defineProperty(window, "innerWidth", { value: 800, writable: true });
     await act(() => window.dispatchEvent(new Event("resize")));
     expect(getPickerContainer()).not.toBeInTheDocument();
   });
