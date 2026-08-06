@@ -331,7 +331,6 @@ export const ToastIcons: Story = {
           variant="success"
           position="topRight"
           closable
-          onDismiss={() => {}}
         />
       ))}
     </>

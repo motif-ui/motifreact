@@ -47,7 +47,6 @@ export const Primary: Story = {
     id: "toast-primary",
     position: "topRight",
     closable: true,
-    onDismiss: () => {},
   },
   render: args => <Toast {...args} />,
 };
