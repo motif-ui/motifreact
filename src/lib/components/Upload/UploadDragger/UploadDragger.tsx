@@ -11,7 +11,7 @@ import { PropsWithRef } from "../../../types";
 import { UploadDraggerProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { Validations } from "src/lib";
-import { mapExternalValue, toFormValue } from "@/components/Upload/helper.ts";
+import { mapExternalValue, toFormValue } from "@/components/Upload/helper";
 import { FileType } from "@/components/Upload/types.ts";
 
 const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
