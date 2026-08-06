@@ -107,9 +107,9 @@ describe("DateRangePicker", () => {
   });
 
   it("should render the end date in one of the pickers visible when an item from the dropdown is clicked and picker is showing past date", async () => {
-    const { getByText, getByTestId, container } = renderExt(<DateRangePicker />);
+    const { getAllByText, getByText, getByTestId, container } = renderExt(<DateRangePicker />);
     for (let i = 0; i < 10; i++) {
-      await userEvent.click(getByText("arrow_back"));
+      await userEvent.click(getAllByText("arrow_back")[0]);
     }
 
     const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
@@ -241,18 +241,20 @@ describe("DateRangePicker", () => {
   });
 
   it("should swipe the months to the left and render the previous month in the first picker when left arrow button is clicked", async () => {
-    const { getByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
+    const { getAllByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
     const previousMonthLabel = getDateLocale(t).months[today.getMonth() - 1];
-    await userEvent.click(getByText("arrow_back"));
+    const arrowBackButtons = getAllByText("arrow_back");
+    await userEvent.click(arrowBackButtons[0]);
     const firstVisiblePicker = Array.from(getByTestId("DateRangePickerContainer").children)[0] as HTMLElement;
     const pastMonth = within(firstVisiblePicker).getByText(previousMonthLabel);
     expect(pastMonth).toBeInTheDocument();
   });
 
   it("should swipe the months to the right and render the next month in the second picker when right arrow button is clicked", async () => {
-    const { getByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
+    const { getAllByText, getByTestId } = renderExt(<DateRangePicker value={[new Date(year, month, 1), new Date(year, month, 18)]} />);
     const futureMonthLabel = getDateLocale(t).months[today.getMonth() + 2];
-    await userEvent.click(getByText("arrow_forward"));
+    const arrowForwardButtons = getAllByText("arrow_forward");
+    await userEvent.click(arrowForwardButtons[0]);
     const lastPicker = Array.from(getByTestId("DateRangePickerContainer").children)[3] as HTMLElement;
     const futureMonth = within(lastPicker).getByText(futureMonthLabel);
     expect(futureMonth).toBeInTheDocument();
