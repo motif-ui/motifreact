@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import InputDateRange from "@/components/InputDateRange/InputDateRange";
-import React from "react";
+import type { ComponentProps } from "react";
 
 const today = new Date();
 
@@ -27,7 +27,7 @@ const meta: Meta<typeof InputDateRange> = {
 export default meta;
 type Story = StoryObj<typeof InputDateRange>;
 
-const renderInputDateRange = (args: React.ComponentProps<typeof InputDateRange>, value?: [Date, Date]) => (
+const renderInputDateRange = (args: ComponentProps<typeof InputDateRange>, value?: [Date, Date]) => (
   <InputDateRange {...args} value={value} />
 );
 
