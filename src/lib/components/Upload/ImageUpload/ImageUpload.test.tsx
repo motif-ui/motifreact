@@ -8,6 +8,7 @@ import { MOCK } from "../mock";
 import { mockXHRs, t } from "../../../../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 import { ReactElement } from "react";
+import { BROKEN_IMG_SRC } from "src/lib/constants";
 
 type ImageUploadRequiredProps = Pick<ImageUploadProps, "uploadRequest" | "deleteRequest">;
 
@@ -714,5 +715,169 @@ describe("ImageUpload", () => {
     expect(screen.queryByText(messages.mimeTypeMessage)).toBeInTheDocument();
     expect(screen.queryByText(/Only.*format files can be uploaded/)).not.toBeInTheDocument();
     expect(getThumbnail()).not.toBeInTheDocument();
+  });
+
+  it("should display the value-given image", async () => {
+    const dbSrc = "https://example.com/pic.jpg";
+    const { getThumbnail } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "db-1",
+          name: "existing.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: dbSrc,
+        }}
+      />,
+    );
+    await waitFor(() => {
+      expect(getThumbnail()).toBeInTheDocument();
+      expect(getThumbnail()).toHaveAttribute("src", dbSrc);
+    });
+  });
+
+  it("should show the preview of the value-given image", async () => {
+    const dbSrc = "https://example.com/pic.jpg";
+    renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "db-1",
+          name: "existing.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: dbSrc,
+        }}
+      />,
+    );
+    await userEvent.click(screen.getByText("visibility"));
+    const previewImg = screen.queryByAltText("Image Preview")!;
+    await waitFor(() => {
+      expect(previewImg).toBeInTheDocument();
+      expect(previewImg).toHaveAttribute("src", dbSrc);
+    });
+  });
+
+  it("should delete the value-given image when delete button is clicked", async () => {
+    xhrSpy = mockXHRs(200, 200);
+    const { getDeleteButton, getThumbnail } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "db-1",
+          name: "existing.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: "https://example.com/pic.jpg",
+        }}
+      />,
+    );
+    await waitFor(() => expect(getThumbnail()).toBeInTheDocument());
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getThumbnail()).not.toBeInTheDocument());
+  });
+
+  it("should display value-given image when value prop changes after initial render", async () => {
+    const dbSrc = "https://example.com/pic.jpg";
+    const { getThumbnail, rerender } = renderExt(<ImageUpload {...requiredProps} value={undefined} />);
+
+    expect(getThumbnail()).not.toBeInTheDocument();
+
+    rerender(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "db-1",
+          name: "existing.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: dbSrc,
+        }}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(getThumbnail()).toBeInTheDocument();
+      expect(getThumbnail()).toHaveAttribute("src", dbSrc);
+    });
+  });
+
+  it("should show broken image placeholder when src of value-given image is not provided", async () => {
+    const { queryByAltText } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "db-no-src",
+          name: "no-preview.jpg",
+          size: 102400,
+          type: "image/jpeg",
+        }}
+      />,
+    );
+
+    await waitFor(() => {
+      const brokenImage = queryByAltText("Broken Image");
+      expect(brokenImage).toBeInTheDocument();
+      expect(brokenImage).toHaveAttribute("src", BROKEN_IMG_SRC);
+    });
+  });
+
+  it("should show broken image placeholder when image fails to load", async () => {
+    const brokenSrc = "https://invalid-url.example.com/image.jpg";
+    const { getThumbnail, getDeleteButton, queryByText } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "broken-1",
+          name: "broken.jpg",
+          size: 102400,
+          type: "image/jpeg",
+          src: brokenSrc,
+        }}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(getThumbnail()!).toBeInTheDocument();
+    });
+
+    const imgElement = getThumbnail()!;
+    imgElement.dispatchEvent(new Event("error"));
+
+    await waitFor(() => {
+      expect(imgElement.getAttribute("src")).toBe(BROKEN_IMG_SRC);
+      expect(queryByText("visibility")).not.toBeInTheDocument();
+      expect(getDeleteButton()).toBeInTheDocument();
+    });
+  });
+
+  it("should not render view button when an image cannot be loaded", async () => {
+    const { getDeleteButton, getInput } = renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{
+          id: "db-no-src",
+          name: "no-preview.jpg",
+          size: 102400,
+          type: "image/jpeg",
+        }}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+    });
+
+    expect(getDeleteButton()).toBeInTheDocument();
+    await userEvent.click(getDeleteButton());
+    expect(screen.getByText(t("upload.chooseOrDragImage"))).toBeInTheDocument();
+
+    xhrSpy = mockXHRs(500);
+    await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
+    await waitFor(() => {
+      expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
+      expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+    });
   });
 });

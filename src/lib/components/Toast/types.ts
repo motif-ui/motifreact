@@ -8,12 +8,12 @@ export type ToastVariant = "secondary" | "error" | "warning" | "info" | "success
 
 export type ToastProps = {
   id: string;
-  onDismiss: (id: string, position: ToastPosition) => void;
+  onDismiss?: (id: string, position: ToastPosition) => void;
   content: string;
   variant: ToastVariant;
   position: ToastPosition;
-  duration: number;
-  closable: boolean;
+  duration?: number;
+  closable?: boolean;
   title?: string;
   icon?: IconGlobalType;
   maxContentLength?: number;

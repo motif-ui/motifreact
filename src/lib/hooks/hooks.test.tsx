@@ -64,4 +64,42 @@ describe("useTimeout", () => {
 
     jest.runAllTimers();
   });
+
+  it("should not fire early when pause() is called twice in a row without an intervening start()", () => {
+    const callback = jest.fn();
+    const { result } = renderHook(() => useTimeout(callback, 1000));
+
+    act(() => result.current.start());
+    act(() => jest.advanceTimersByTime(300));
+
+    // Simulate a duplicate pause, e.g. mouseenter and touchstart both firing for one hover.
+    act(() => result.current.pause());
+    act(() => result.current.pause());
+
+    act(() => result.current.start());
+
+    // 700ms should remain. Without an idempotent pause(), the second pause() would
+    // subtract the elapsed time again and the timer would fire almost immediately.
+    act(() => jest.advanceTimersByTime(699));
+    expect(callback).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(1));
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  it("should ignore a duplicate start() call while already running instead of rescheduling the timer", () => {
+    const callback = jest.fn();
+    const { result } = renderHook(() => useTimeout(callback, 1000));
+
+    act(() => result.current.start());
+    act(() => jest.advanceTimersByTime(500));
+
+    act(() => result.current.start());
+
+    act(() => jest.advanceTimersByTime(499));
+    expect(callback).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(1));
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
 });
