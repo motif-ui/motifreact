@@ -1,5 +1,16 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, renderHook, screen } from "@testing-library/react";
+import type { RefObject } from "react";
 import InputDateRange, { RANGE_ARROW } from "@/components/InputDateRange/InputDateRange";
+import { usePickerPortal } from "@/components/InputDateRange/usePickerPortal";
+import { usePopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
+
+jest.mock("@/components/Popover/hooks/usePopoverPosition", () => {
+  const real = jest.requireActual<typeof import("@/components/Popover/hooks/usePopoverPosition")>(
+    "@/components/Popover/hooks/usePopoverPosition",
+  );
+  return { usePopoverPosition: jest.fn(real.usePopoverPosition) };
+});
+
 import { formatDate } from "@/components/InputDate/helper";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
@@ -25,7 +36,7 @@ describe("InputDateRange", () => {
 
     const getInputText = () => result.container.firstElementChild?.firstElementChild;
     const getDateRangeInput = () => result.container.firstElementChild!.querySelector("input") as HTMLInputElement;
-    const getDateButton = (date: Date) => result.container.querySelector('[data-date="' + date.getTime() + '"]') as HTMLButtonElement;
+    const getDateButton = (date: Date) => document.body.querySelector('[data-date="' + date.getTime() + '"]') as HTMLButtonElement;
     const getPickerContainer = () => screen.queryByTestId("Picker");
     return {
       ...result,
@@ -33,6 +44,28 @@ describe("InputDateRange", () => {
       getDateRangeInput,
       getPickerContainer,
       getDateButton,
+    };
+  };
+
+  const makeRefs = (anchorRect?: Partial<DOMRect>) => {
+    const anchorEl = document.createElement("div");
+    jest.spyOn(anchorEl, "getBoundingClientRect").mockReturnValue({
+      top: 100,
+      bottom: 150,
+      left: 50,
+      right: 200,
+      width: 150,
+      height: 50,
+      x: 50,
+      y: 100,
+      toJSON: () => {},
+      ...anchorRect,
+    });
+    const pickerEl = document.createElement("div");
+    return {
+      anchorRef: { current: anchorEl } as RefObject<HTMLElement>,
+      pickerRef: { current: pickerEl } as RefObject<HTMLDivElement>,
+      pickerEl,
     };
   };
 
@@ -266,9 +299,57 @@ describe("InputDateRange", () => {
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
-    const { container, getDateRangeInput } = renderExt(<InputDateRange firstDayOfWeek={3} value={testDateArr} />);
+    const { getDateRangeInput } = renderExt(<InputDateRange firstDayOfWeek={3} value={testDateArr} />);
     await userEvent.click(getDateRangeInput());
-    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+    expect(document.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+  });
+
+  const alignmentCases = [
+    { label: "top-left region of the viewport", anchorRect: {}, expected: "bottomLeft" },
+    { label: "near the right edge", anchorRect: { left: 800, right: 1000 }, expected: "bottomRight" },
+    { label: "near the bottom edge", anchorRect: { top: 600, bottom: 650 }, expected: "topLeft" },
+    { label: "bottom-right corner", anchorRect: { top: 600, bottom: 650, left: 800, right: 1000 }, expected: "topRight" },
+  ];
+
+  it.each(alignmentCases)("should pick $expected when anchor is in the $label", ({ anchorRect, expected }) => {
+    const mockedPosition = jest.mocked(usePopoverPosition);
+    const realUsePopoverPosition = mockedPosition.getMockImplementation()!;
+    mockedPosition.mockClear();
+    mockedPosition.mockReturnValue({
+      startShowing: jest.fn(),
+      startHiding: jest.fn(),
+      attached: false,
+      visible: false,
+      positionStyle: { top: 100, left: 50 },
+    });
+
+    const { anchorRef, pickerRef } = makeRefs(anchorRect);
+    const { result } = renderHook(() => usePickerPortal(anchorRef, pickerRef, false, jest.fn(), jest.fn()));
+
+    act(() => result.current.openPicker());
+
+    expect(mockedPosition).toHaveBeenCalledWith(anchorRef, pickerRef, expected, 0, false);
+    mockedPosition.mockImplementation(realUsePopoverPosition);
+  });
+
+  it("should close the datepicker when the page is scrolled", async () => {
+    const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
+
+    await user.click(getDateRangeInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await act(() => window.dispatchEvent(new Event("scroll")));
+    expect(getPickerContainer()).not.toBeInTheDocument();
+  });
+
+  it("should close the datepicker when the window is resized", async () => {
+    const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
+
+    await user.click(getDateRangeInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await act(() => window.dispatchEvent(new Event("resize")));
+    expect(getPickerContainer()).not.toBeInTheDocument();
   });
 
   it("should not render any icon when icon prop is empty string or null", () => {
