@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/addon-docs/blocks";
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
 import * as Toast from "./Toast.stories";
 
 <Meta of={Toast} />
@@ -29,3 +29,7 @@ const Home = () => {
   );
 };
 ```
+
+You can click the button below to see the toast in action:
+
+<Canvas of={Toast.Interactive} sourceState="shown" />
