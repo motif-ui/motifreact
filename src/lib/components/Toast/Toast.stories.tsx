@@ -10,16 +10,16 @@ const meta: Meta<typeof Toast> = {
   component: Toast,
   argTypes: {
     id: { table: { disable: true } },
-    onDismiss: { table: { disable: true } },
-    position: { table: { defaultValue: { summary: "topRight" } }, type: { name: "string", required: false } },
-    duration: { table: { defaultValue: { summary: "3000" } }, type: { name: "number", required: false } },
-    closable: { table: { defaultValue: { summary: "true" } }, type: { name: "boolean", required: false } },
+    position: { table: { defaultValue: { summary: "topRight" } } },
+    duration: { table: { defaultValue: { summary: "3000" } } },
+    closable: { table: { defaultValue: { summary: "true" } } },
   },
   args: {
     variant: "warning",
     title: "Be Careful!",
     content: "This is a test warning",
     icon: "info",
+    closable: true,
   },
 };
 
@@ -39,7 +39,34 @@ const Toaster = (props: ToastProps) => {
 };
 
 export const Primary: Story = {
-  render: args => {
-    return <Toaster {...args} />;
+  argTypes: {
+    duration: { control: false },
+    position: { control: false },
   },
+  args: {
+    id: "toast-primary",
+  },
+  render: args => <Toast {...args} />,
+};
+
+export const Interactive: Story = {
+  tags: ["!test"],
+  parameters: {
+    docs: {
+      source: {
+        type: "code",
+        code: `
+const { warning, toasts } = useToast();
+
+return (
+  <>
+    <Button label="Show Toast" onClick={() => warning("This is a test warning", { title: "Be Careful!", icon: "info" })} />
+    {toasts}
+  </>
+);
+        `,
+      },
+    },
+  },
+  render: args => <Toaster {...args} />,
 };

@@ -330,9 +330,7 @@ export const ToastIcons: Story = {
           content="Toast message"
           variant="success"
           position="topRight"
-          duration={3000}
           closable
-          onDismiss={() => {}}
         />
       ))}
     </>
