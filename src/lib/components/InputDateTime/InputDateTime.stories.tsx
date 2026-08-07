@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { InputDateTime } from "../../index";
-import React from "react";
+import type { ComponentProps } from "react";
 
 const meta: Meta<typeof InputDateTime> = {
   title: "Components/InputDateTime",
@@ -20,7 +20,7 @@ const meta: Meta<typeof InputDateTime> = {
 export default meta;
 type Story = StoryObj<typeof InputDateTime>;
 
-const renderInputDateTime = (args: React.ComponentProps<typeof InputDateTime>, value?: Date) => <InputDateTime {...args} value={value} />;
+const renderInputDateTime = (args: ComponentProps<typeof InputDateTime>, value?: Date) => <InputDateTime {...args} value={value} />;
 
 export const Primary: Story = {
   parameters: {

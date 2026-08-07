@@ -1,4 +1,4 @@
-import { Locale, locales } from "src/i18n/locales";
+import { Locale, locales } from "./locales";
 import { DeepPartial, LocaleShape } from "../lib/types";
 
 /**
