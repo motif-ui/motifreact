@@ -27,7 +27,7 @@ const loaderSizeMap = {
 } as const;
 
 const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
-  const { t } = useMotifContext();
+  const { t, locale } = useMotifContext();
   const props = usePropsWithThemeDefaults("Select", p);
   const {
     data = [],
@@ -98,9 +98,9 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
   useEffect(
     // Filters data when query changes
     () => {
-      filterable && setDataFiltered(query ? filterItems(data, query) : data);
+      filterable && setDataFiltered(query ? filterItems(data, query, locale) : data);
     },
-    [data, query, filterable],
+    [data, query, filterable, locale],
   );
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import { InputSize } from "../Form/types";
 import Form from "@/components/Form";
 import { useEffect, useState } from "react";
 import { t } from "./../../../utils/testUtils";
+import MotifProvider from "../../motif/context/MotifProvider";
 
 describe("Select", () => {
   const data: (SelectGroupItem | SelectItem)[] = [
@@ -422,5 +423,40 @@ describe("Select", () => {
     await user.click(screen.queryByRole("combobox")!);
     expect(screen.queryByText("i1")).toBeInTheDocument();
     expect(screen.queryByText("Item 2")).toBeInTheDocument();
+  });
+
+  it("should apply locale-aware filtering", async () => {
+    const chars = ["İ", "ı", "I", "ö", "Ö", "ü", "Ü"];
+    const cities = ["ISPARTA", "SÖKE", "ÜRGÜP"];
+    const charExpectedCity: Record<string, string> = {
+      İ: "ISPARTA",
+      ı: "ISPARTA",
+      I: "ISPARTA",
+      ö: "SÖKE",
+      Ö: "SÖKE",
+      ü: "ÜRGÜP",
+      Ü: "ÜRGÜP",
+    };
+    const localeData = cities.map(city => ({ label: city, value: city }));
+
+    for (const locale of ["tr", "en"] as const) {
+      const { unmount } = render(
+        <MotifProvider locale={locale}>
+          <Select data={localeData} filterable />
+        </MotifProvider>,
+      );
+
+      await userEvent.click(screen.queryByRole("combobox")!);
+      const input = screen.queryByRole("textbox")!;
+
+      for (const char of chars) {
+        fireEvent.change(input, { target: { value: char } });
+        const expected = charExpectedCity[char];
+        expect(screen.getByText(expected)).toBeInTheDocument();
+        cities.filter(c => c !== expected).forEach(other => expect(screen.queryByText(other)).not.toBeInTheDocument());
+      }
+
+      unmount();
+    }
   });
 });

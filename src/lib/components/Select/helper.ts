@@ -1,12 +1,14 @@
 import { SelectGroupItem, SelectItem, SelectOrGroupItem } from "@/components/Select/types";
+import { foldNormalize } from "../../../utils/utils";
 
-export const filterItems = (items: SelectOrGroupItem[], q: string) => {
-  const query = q.toLowerCase();
+export const filterItems = (items: SelectOrGroupItem[], q: string, locale?: string) => {
+  const normalize = (s: string) => foldNormalize(s, locale ?? "");
+  const query = normalize(q);
 
-  const filterItem = (item: SelectItem) => (item.label ?? item.value).toLowerCase().includes(query);
+  const filterItem = (item: SelectItem) => normalize(item.label ?? item.value).includes(query);
 
   const filterGroup = (group: SelectGroupItem) => {
-    const inGroupLabel = group.groupLabel.toLowerCase().includes(query);
+    const inGroupLabel = normalize(group.groupLabel).includes(query);
     if (inGroupLabel) {
       return group;
     }
