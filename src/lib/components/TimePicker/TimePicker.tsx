@@ -1,7 +1,4 @@
-import { useContext } from "react";
-import { TimePickerProvider } from "./context/TimePickerProvider";
 import { TimePickerProps } from "./types";
-import { DateTimePickerContext } from "@/components/DateTimePicker/context/DateTimePickerProvider";
 import { PropsWithRef } from "../../types";
 import TimePickerContainer from "@/components/TimePicker/components/TimePickerContainer";
 import Picker from "@/components/Motif/Pickers/Picker";
@@ -25,28 +22,22 @@ const TimePicker = (props: PropsWithRef<TimePickerProps, HTMLDivElement>) => {
     style,
     ref,
   } = usePropsWithThemeDefaults("TimePicker", props);
-  const externalPickerContext = useContext(DateTimePickerContext);
 
   const locale = useDateLocale(propsLocale);
   return (
-    <TimePickerProvider
-      size={size}
-      secondsEnabled={!!secondsEnabled}
-      locale={locale}
-      onTimeChange={onTimeChange}
-      onPeriodChange={onPeriodChange}
-      value={value}
-      format={format}
-      onClearClick={onClearClick}
-    >
-      {externalPickerContext ? (
-        <TimePickerContainer removeLabel removeActionButtons {...(className && { className })} />
-      ) : (
-        <Picker size={size} variant={variant} fluid={fluid} ref={ref} className={`mtf-TimePicker ${className ?? ""}`.trim()} style={style}>
-          <TimePickerContainer onOkClick={onOkClick} />
-        </Picker>
-      )}
-    </TimePickerProvider>
+    <Picker size={size} variant={variant} fluid={fluid} ref={ref} className={`mtf-TimePicker ${className ?? ""}`.trim()} style={style}>
+      <TimePickerContainer
+        size={size}
+        secondsEnabled={!!secondsEnabled}
+        locale={locale}
+        onTimeChange={onTimeChange}
+        onPeriodChange={onPeriodChange}
+        value={value}
+        format={format}
+        onClearClick={onClearClick}
+        onOkClick={onOkClick}
+      />
+    </Picker>
   );
 };
 

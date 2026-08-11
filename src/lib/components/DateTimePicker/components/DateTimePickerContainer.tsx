@@ -3,8 +3,8 @@
 import { useCallback, useContext, useState } from "react";
 import { DateTimePickerContext } from "@/components/DateTimePicker/context/DateTimePickerProvider";
 import DateTimeInfo from "@/components/DateTimePicker/components/DateTimeInfo";
-import DatePicker from "../../DatePicker";
-import TimePicker from "@/components/TimePicker";
+import DateSelector from "@/components/DatePicker/components/DateSelector/DateSelector";
+import TimePickerContainer from "@/components/TimePicker/components/TimePickerContainer";
 import { DatePickerPickerType } from "@/components/DatePicker/types";
 import PickerActions from "@/components/Motif/Pickers/components/PickerActions";
 import styles from "../DateTimePicker.module.scss";
@@ -50,25 +50,28 @@ const DateTimePickerContainer = (props: Props) => {
         </>
       )}
       {activeTab === "date" ? (
-        <DatePicker
+        <DateSelector
           firstDayOfWeek={firstDayOfWeek}
           onDateChange={dateChangeHandler}
           value={selectedValue}
           onPickerChange={setActiveDatePickerSubPicker}
-          fluid={fluid}
+          fluid={!!fluid}
           locale={locale}
           size={size}
+          removeActionButtons
         />
       ) : (
-        <TimePicker
+        <TimePickerContainer
           className={styles.timePicker}
           onTimeChange={timeChangeHandler}
           value={currentTime}
-          secondsEnabled={secondsEnabled}
+          secondsEnabled={!!secondsEnabled}
           format={timeFormat}
           size={size}
           locale={locale}
           onPeriodChange={setSelectedTimePeriod}
+          removeLabel
+          removeActionButtons
         />
       )}
       {!removeActionButtons && activeDatePickerSubPicker === "day" && (

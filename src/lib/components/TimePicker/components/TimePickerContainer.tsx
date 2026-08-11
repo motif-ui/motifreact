@@ -2,19 +2,25 @@ import { useCallback, useContext } from "react";
 import TimeLabel from "@/components/TimePicker/components/TimeLabel";
 import TimeSelector from "@/components/TimePicker/components/TimeSelector/TimeSelector";
 import TimePeriodSelector from "@/components/TimePicker/components/TimePeriodSelector";
-import { TimePickerContext } from "@/components/TimePicker/context/TimePickerProvider";
-import { Time } from "@/components/TimePicker/types";
+import { TimePickerContext, TimePickerProvider } from "@/components/TimePicker/context/TimePickerProvider";
+import { Time, TimePickerProviderProps } from "@/components/TimePicker/types";
 import PickerActions from "@/components/Motif/Pickers/components/PickerActions";
 import styles from "../TimePicker.module.scss";
 import { StandardProps } from "../../../types";
 
-type Props = {
+type Props = TimePickerProviderProps & {
   onOkClick?: (time?: Time) => void;
   removeActionButtons?: boolean;
   removeLabel?: boolean;
 } & StandardProps;
 
-const TimePickerContainer = (props: Props) => {
+type ContentProps = {
+  onOkClick?: (time?: Time) => void;
+  removeActionButtons?: boolean;
+  removeLabel?: boolean;
+} & StandardProps;
+
+const TimePickerContainerContent = (props: ContentProps) => {
   const { onOkClick, removeLabel, removeActionButtons, className } = props;
   const { size, resetTime, time, timePeriod } = useContext(TimePickerContext);
 
@@ -27,6 +33,21 @@ const TimePickerContainer = (props: Props) => {
       {timePeriod && <TimePeriodSelector />}
       {!removeActionButtons && <PickerActions size={size} onOkClick={okClickHandler} onClearClick={resetTime} spread />}
     </div>
+  );
+};
+
+const TimePickerContainer = (props: Props) => {
+  const { onOkClick, removeLabel, removeActionButtons, className, ...providerProps } = props;
+
+  return (
+    <TimePickerProvider {...providerProps}>
+      <TimePickerContainerContent
+        onOkClick={onOkClick}
+        removeLabel={removeLabel}
+        removeActionButtons={removeActionButtons}
+        className={className}
+      />
+    </TimePickerProvider>
   );
 };
 
