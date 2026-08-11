@@ -85,12 +85,12 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
       <Button onClick={browse} disabled={isDisabled} label={t("g.browse")} variant="primary" shape="solid" size={size} />
       <span className={styles.infoText}>
         {isUploading
-          ? t(MESSAGE.FILES_BEING_UPLOADED)
+          ? t(MESSAGE.FILES_BEING_UPLOADED, { count: maxFile })
           : hovered && maxFileReached
             ? t(MESSAGE.MAX_FILE, { maxFile })
             : !autoUpload && isWaitingToUpload
               ? t(MESSAGE.WAITING_TO_UPLOAD)
-              : t(MESSAGE.PLEASE_DROP)}
+              : t(MESSAGE.PLEASE_DROP, { count: maxFile })}
       </span>
     </div>
   );
