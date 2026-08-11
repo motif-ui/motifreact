@@ -14,6 +14,7 @@ export const mapExternalValue = (value?: InputValue) =>
         status: STATUS.SUCCESS,
         uploaded: true,
         download: f.onDownloadClick,
+        action: f.action,
         addedByValue: true,
         src: f.src,
       }))
