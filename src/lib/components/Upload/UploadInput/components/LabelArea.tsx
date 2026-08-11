@@ -42,8 +42,9 @@ export const LabelArea = (props: Props) => {
 
   const suffixType: LabelSuffix = errors?.length ? "errorTooltip" : error ? "error" : success ? "success" : null;
   const enableDelete = !disabled && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
+  const enableDownload = !noFiles && selectedFiles.some(f => !!f.download);
   const buttonDisabled = disabled || (inputState !== "noFile" && inputState !== "uploading");
-  const numberOfSuffixes = (suffixType ? 1 : 0) + (enableDelete ? 1 : 0);
+  const numberOfSuffixes = (suffixType ? 1 : 0) + (enableDelete ? 1 : 0) + (enableDownload ? 1 : 0);
 
   const wrapperClassNames = sanitizeModuleClasses(
     styles,
@@ -57,7 +58,7 @@ export const LabelArea = (props: Props) => {
     "label",
     noFiles && "placeholder",
     (autoUpload || noFiles) && "roundedEnd",
-    numberOfSuffixes === 1 ? "hasSuffix" : numberOfSuffixes === 2 && "hasSuffixes",
+    numberOfSuffixes === 1 ? "hasSuffix" : numberOfSuffixes === 2 ? "hasSuffixes" : numberOfSuffixes === 3 && "hasThreeSuffixes",
   );
   return (
     <div className={wrapperClassNames}>
@@ -68,7 +69,7 @@ export const LabelArea = (props: Props) => {
           <button className={classNames} onClick={browse} disabled={buttonDisabled} type="button">
             {text}
           </button>
-          <LabelSuffix size={size} errors={errors} labelSuffix={suffixType} enableDelete={enableDelete} />
+          <LabelSuffix size={size} errors={errors} labelSuffix={suffixType} enableDelete={enableDelete} enableDownload={enableDownload} />
         </>
       )}
     </div>
