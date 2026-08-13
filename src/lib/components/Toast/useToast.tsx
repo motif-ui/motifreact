@@ -56,7 +56,7 @@ export const useToast: () => UseToastProps = () => {
     success: createToast("success"),
     warning: createToast("warning"),
     info: createToast("info"),
-    error: createToast("error"),
+    danger: createToast("danger"),
     secondary: createToast("secondary"),
     toasts: (
       <>
