@@ -42,7 +42,7 @@ export const LabelArea = (props: Props) => {
 
   const suffixType: LabelSuffix = errors?.length ? "errorTooltip" : error ? "error" : success ? "success" : null;
   const enableDelete = !disabled && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
-  const enableDownload = !noFiles && selectedFiles.some(f => !!f.download);
+  const enableDownload = selectedFiles.some(f => !!f.download);
   const buttonDisabled = disabled || (inputState !== "noFile" && inputState !== "uploading");
   const numberOfSuffixes = (suffixType ? 1 : 0) + (enableDelete ? 1 : 0) + (enableDownload ? 1 : 0);
 
@@ -58,7 +58,7 @@ export const LabelArea = (props: Props) => {
     "label",
     noFiles && "placeholder",
     (autoUpload || noFiles) && "roundedEnd",
-    numberOfSuffixes === 1 ? "hasSuffix" : numberOfSuffixes === 2 ? "hasSuffixes" : numberOfSuffixes === 3 && "hasThreeSuffixes",
+    numberOfSuffixes > 0 && `hasSuffix_${numberOfSuffixes}`,
   );
   return (
     <div className={wrapperClassNames}>

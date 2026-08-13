@@ -159,14 +159,10 @@ $sizes: (("xs", "4x", "4x", "10x"), ("sm", "6x", "6x", "12x"), ("md", "8x", "8x"
     .label {
       @include font("body", $size);
       padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
-      &.hasSuffix {
-        padding-right: calc(3 * var(--base-sizing-#{$paddingH}));
-      }
-      &.hasSuffixes {
-        padding-right: calc(5 * var(--base-sizing-#{$paddingH}));
-      }
-      &.hasThreeSuffixes {
-        padding-right: calc(7 * var(--base-sizing-#{$paddingH}));
+      @for $i from 1 through 3 {
+        &.hasSuffix_#{$i} {
+          padding-right: calc(#{2 * $i + 1} * var(--base-sizing-#{$paddingH}));
+        }
       }
     }
     .labelSuffixWrapper {

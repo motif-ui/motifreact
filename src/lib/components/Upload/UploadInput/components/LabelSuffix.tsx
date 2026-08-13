@@ -9,8 +9,8 @@ type Props = {
   size: InputSize;
   errors?: string[];
   labelSuffix: LabelSuffix;
-  enableDelete?: boolean;
-  enableDownload?: boolean;
+  enableDelete: boolean;
+  enableDownload: boolean;
 };
 
 export type LabelSuffix = "error" | "errorTooltip" | "success" | null;
