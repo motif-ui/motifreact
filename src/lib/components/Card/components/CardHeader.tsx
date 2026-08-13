@@ -3,7 +3,7 @@ import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 import type { MouseEvent } from "react";
-import type { IconGlobalType } from "../../../types";
+import type { IconGlobalType, Variants } from "../../../types";
 import ImageView from "@/components/ImageView";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
   image?: string;
   imagePosition?: "left" | "right";
   action?: { icon: IconGlobalType; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
-  variant: "primary" | "secondary" | "info" | "success" | "warning" | "danger";
+  variant: Variants;
 };
 
 const CardHeader = (props: Props) => {
