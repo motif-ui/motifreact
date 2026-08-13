@@ -37,8 +37,13 @@ const getPluralSuffix = (locale: Locale, count: number): string => {
   return rule === "other" ? "" : `_${rule}`;
 };
 
-const lookupText = (key: string, locale: Locale, localeTexts?: DeepPartial<LocaleShape>): string | string[] | undefined =>
-  (localeTexts && getNestedValue(localeTexts, key)) ?? getNestedValue(locales[locale], key);
+const lookup = (key: string, ...sources: (Record<string, unknown> | undefined)[]) => {
+  for (const source of sources) {
+    if (!source) continue;
+    const val = getNestedValue(source, key);
+    if (val !== undefined) return val;
+  }
+};
 
 export const createTranslator =
   (locale: Locale, localeTexts?: DeepPartial<LocaleShape>): LibraryTranslateFn =>
@@ -46,9 +51,10 @@ export const createTranslator =
     const suffix = typeof params?.count === "number" ? getPluralSuffix(locale, params.count) : "";
     const pluralKey = suffix ? `${key}${suffix}` : undefined;
     const template =
-      (pluralKey && lookupText(pluralKey, locale, localeTexts)) ??
-      lookupText(key, locale, localeTexts) ??
-      getNestedValue(locales.en, key) ??
+      (pluralKey && lookup(pluralKey, localeTexts)) ??
+      lookup(key, localeTexts) ??
+      (pluralKey && lookup(pluralKey, locales[locale])) ??
+      lookup(key, locales[locale], locales.en) ??
       key;
     return interpolate(template, params) as string;
   };
