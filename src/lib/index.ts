@@ -60,10 +60,3 @@ export { default as Tooltip } from "./components/Tooltip";
 export { default as UploadList } from "./components/Upload/UploadList";
 export { default as UploadDragger } from "./components/Upload/UploadDragger";
 export { default as UploadInput } from "./components/Upload/UploadInput";
-
-export type { ButtonProps, ButtonDefaultableProps } from "./components/Button/types";
-export type { FormProps, FormDefaultableProps, InputCommonProps, InputSize, InputValue, NameInputValue } from "./components/Form/types";
-export type { TableProps, TableDefaultableProps } from "./components/Table/types";
-export type { UploadProps, UploadDefaultableProps } from "./components/Upload/types";
-export type * from "./types";
-export { locales, type Locale } from "../i18n/locales";
