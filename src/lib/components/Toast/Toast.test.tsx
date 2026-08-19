@@ -89,11 +89,11 @@ describe("Toast", () => {
   });
 
   it("should be rendered in the variant given in the variant prop", () => {
-    const variants = ["secondary", "error", "warning", "info", "success"] as const;
+    const variants = ["secondary", "danger", "warning", "info", "success"] as const;
 
     variants.forEach((variant, i) => {
       render(<Toaster content={content} variant={variant} />);
-      expect(screen.getAllByTestId("toast")[i]).toHaveClass(variant === "error" ? "danger" : variant);
+      expect(screen.getAllByTestId("toast")[i]).toHaveClass(variant);
     });
   });
 

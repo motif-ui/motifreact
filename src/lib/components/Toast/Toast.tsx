@@ -11,22 +11,7 @@ import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import ProgressBar from "@/components/ProgressBar";
 
 const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
-  const {
-    variant: toastVariant,
-    title,
-    content,
-    duration,
-    closable,
-    icon,
-    onDismiss,
-    position,
-    maxContentLength,
-    ref,
-    id,
-    style,
-    className,
-  } = props;
-  const variant = toastVariant === "error" ? "danger" : toastVariant;
+  const { variant, title, content, duration, closable, icon, onDismiss, position, maxContentLength, ref, id, style, className } = props;
 
   const [dismissed, setDismissed] = useState(false);
   const [closing, setClosing] = useState(false);
