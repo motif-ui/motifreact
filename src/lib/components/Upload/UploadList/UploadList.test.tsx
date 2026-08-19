@@ -550,17 +550,21 @@ describe("UploadList", () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it("should show the action button but hide action buttons when readOnly or disabled", () => {
-    const { getDeleteButton, unmount } = renderExt(
-      <UploadList {...requiredProps} value={[{ ...serverFile, action: { icon: "visibility", onClick: jest.fn() } }]} readOnly />,
-    );
+  it("should show the action button but hide action buttons when readOnly or disabled", async () => {
+    const onClick = jest.fn();
+    const value = [{ ...serverFile, action: { icon: "visibility", onClick } }];
+    const { rerender, getDeleteButton } = renderExt(<UploadList {...requiredProps} value={value} readOnly />);
     expect(screen.queryByText("visibility")).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
-    unmount();
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    onClick.mockClear();
 
-    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, action: { icon: "visibility", onClick: jest.fn() } }]} disabled />);
+    rerender(<UploadList {...requiredProps} value={value} disabled />);
     expect(screen.queryByText("visibility")).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it("should disable the browse button when the maxFile limit is already reached by value files", () => {
