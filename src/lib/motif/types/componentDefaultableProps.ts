@@ -1,5 +1,6 @@
 import { AccordionDefaultableProps } from "../../components/Accordion/types";
 import { AlertDefaultableProps } from "../../components/Alert/types";
+import { AlertModalDefaultableProps } from "../../components/AlertModal/types";
 import { AvatarDefaultableProps } from "../../components/Avatar/types";
 import { BadgeDefaultableProps } from "../../components/Badge/types";
 import { BreadcrumbDefaultableProps } from "../../components/Breadcrumb/types";
@@ -63,6 +64,7 @@ import { ImageUploadDefaultableProps } from "../../components/Upload/ImageUpload
 export type ComponentDefaultableProps = {
   Accordion?: AccordionDefaultableProps;
   Alert?: AlertDefaultableProps;
+  AlertModal?: AlertModalDefaultableProps;
   Avatar?: AvatarDefaultableProps;
   Badge?: BadgeDefaultableProps;
   Breadcrumb?: BreadcrumbDefaultableProps;

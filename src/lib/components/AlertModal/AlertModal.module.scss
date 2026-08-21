@@ -1,0 +1,135 @@
+@use "@styles" as *;
+@use "sass:list";
+
+$sizes: (("sm", "320x"), ("md", "480x"), ("lg", "720x"));
+$content-positions: (
+  "left": (
+    row,
+    flex-start,
+    left
+  ),
+  "center": (
+    column,
+    center,
+    center
+  ),
+  "right": (
+    row-reverse,
+    initial,
+    right
+  )
+);
+$button-positions: (
+  "left": flex-start,
+  "center": center,
+  "right": flex-end
+);
+
+.Root {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--base-colors-black-black-overlay50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: var(--base-sizing-8x);
+  @include fade-default;
+
+  &.show {
+    @include fade-in;
+
+    .alertModal {
+      @include pop-in;
+    }
+  }
+
+  &.noBackdrop {
+    background-color: transparent;
+  }
+
+  &.elevated .alertModal {
+    @include shadow(6);
+  }
+
+  &.bordered .alertModal {
+    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  }
+
+  @each $size, $width in $sizes {
+    &.#{$size} .alertModal {
+      width: var(--base-sizing-#{$width});
+    }
+  }
+
+  .alertModal {
+    display: flex;
+    flex-direction: column;
+    background: var(--theme-color-surface-base-bg-light);
+    color: var(--theme-color-text-base-title);
+    padding: var(--base-sizing-8x);
+    border-radius: var(--theme-sizing-radius-default);
+    max-width: calc(100% - 4rem);
+    @include shadow(4);
+    @include pop-default;
+  }
+}
+
+.content {
+  display: flex;
+  gap: var(--base-sizing-8x);
+  padding: var(--base-sizing-16x);
+
+  @each $position, $vals in $content-positions {
+    &.#{$position} {
+      flex-direction: list.nth($vals, 1);
+      align-items: list.nth($vals, 2);
+      text-align: list.nth($vals, 3);
+    }
+  }
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-sizing-4x);
+}
+
+.title {
+  color: var(--theme-color-text-base-title);
+  @include font("heading", "heading5");
+}
+
+.subtitle {
+  @include font("body", "md");
+}
+
+.divider {
+  margin: 0 !important;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-16x);
+
+  &.spread {
+    justify-content: space-between;
+  }
+
+  &.stretch {
+    & > * {
+      flex: 1;
+    }
+  }
+
+  @each $position, $val in $button-positions {
+    &.#{$position} {
+      justify-content: $val;
+      align-items: $val;
+    }
+  }
+}
