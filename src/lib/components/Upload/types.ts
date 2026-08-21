@@ -1,6 +1,11 @@
 import { HttpMethods, KeyValue, Size4SM } from "../../types";
 import { ReactNode } from "react";
 
+export type FileAction = {
+  icon: string;
+  onClick: () => void;
+};
+
 export type FileType = {
   id: string;
   file: Pick<File, "name" | "size" | "type">;
@@ -11,6 +16,7 @@ export type FileType = {
   serverMessage?: string;
   request?: XMLHttpRequest;
   download?: () => void;
+  action?: FileAction;
   addedByValue?: boolean;
   src?: string;
   /** True while a server-side delete request for this file is in flight. */
@@ -23,6 +29,7 @@ export type FileType = {
 export type FileObject = {
   id: string;
   onDownloadClick?: () => void;
+  action?: FileAction;
   src?: string;
 } & Pick<File, "name" | "size" | "type">;
 
