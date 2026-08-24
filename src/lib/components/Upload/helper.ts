@@ -14,6 +14,7 @@ export const mapExternalValue = (value?: InputValue) =>
         status: STATUS.SUCCESS,
         uploaded: true,
         download: f.onDownloadClick,
+        action: f.action,
         addedByValue: true,
         src: f.src,
       }))
@@ -22,5 +23,6 @@ export const mapExternalValue = (value?: InputValue) =>
 /**
  * It is used to strip out some internal props out of the type which is sent to the form submit value.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const toFormValue = (files: FileType[]) => files.map(({ download: _d, addedByValue: _a, request: _r, ...rest }) => rest);
+export const toFormValue = (files: FileType[]) =>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  files.map(({ download: _d, addedByValue: _a, request: _r, action: _act, ...rest }) => rest);

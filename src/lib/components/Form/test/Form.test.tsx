@@ -865,7 +865,7 @@ describe("Form", () => {
     // Upload List - Error State 1
     await user.click(button);
 
-    const uploadItem = screen.queryByText(t(MESSAGE.PLEASE_DROP))?.parentElement;
+    const uploadItem = screen.queryByText(t(MESSAGE.PLEASE_DROP, { count: 1 }))?.parentElement;
     expect(uploadItem).not.toHaveClass("error");
     expect(getFormField(0)).toHaveTextContent(inputHelperText);
 

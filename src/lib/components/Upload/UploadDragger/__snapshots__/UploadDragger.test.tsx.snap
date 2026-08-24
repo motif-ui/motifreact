@@ -23,7 +23,7 @@ exports[`UploadDragger should be rendered with only required props 1`] = `
         <span
           class="dragText"
         >
-          Click this area or drop files here to upload.
+          Click this area or drop the file here to upload.
         </span>
         <span
           class="dragInfo"
