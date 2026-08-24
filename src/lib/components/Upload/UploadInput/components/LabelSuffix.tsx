@@ -9,18 +9,23 @@ type Props = {
   size: InputSize;
   errors?: string[];
   labelSuffix: LabelSuffix;
-  enableDelete?: boolean;
+  enableDelete: boolean;
+  enableDownload: boolean;
 };
 
 export type LabelSuffix = "error" | "errorTooltip" | "success" | null;
 
 export const LabelSuffix = memo((props: Props) => {
-  const { size, errors, labelSuffix, enableDelete } = props;
+  const { size, errors, labelSuffix, enableDelete, enableDownload } = props;
   const { removeFiles, selectedFiles } = useContext(UploadContext);
   const isDeleting = selectedFiles.some(f => f.deleting);
+  const downloadAll = () => selectedFiles.forEach(f => f.download?.());
 
   return (
     <div className={styles.labelSuffixWrapper}>
+      {enableDownload && (
+        <MotifIconButton onClick={downloadAll} name="download" size={size} className={`${styles.labelSuffix} ${styles.focusable}`} />
+      )}
       {enableDelete && (
         <MotifIconButton
           onClick={() => removeFiles(selectedFiles)}
