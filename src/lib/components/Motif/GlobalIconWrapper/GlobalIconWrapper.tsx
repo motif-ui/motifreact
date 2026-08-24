@@ -8,14 +8,16 @@ type GlobalIconWrapperProps = {
   variant?: "primary" | "secondary" | "info" | "success" | "warning" | "danger";
   className?: string;
   style?: CSSProperties;
+  iconClass?: string;
 };
 
-const GlobalIconWrapper = ({ icon, className, style, size, variant }: GlobalIconWrapperProps) => (
+const GlobalIconWrapper = ({ icon, className, style, size, variant, iconClass }: GlobalIconWrapperProps) => (
   <Icon
     size={size}
     variant={variant}
     className={className}
     style={style}
+    iconClass={iconClass}
     {...(!icon || typeof icon === "string" ? { name: icon } : { children: icon })}
   />
 );

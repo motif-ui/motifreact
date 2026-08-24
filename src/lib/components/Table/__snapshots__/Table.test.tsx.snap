@@ -24,7 +24,7 @@ exports[`Table should render with only required props 1`] = `
                 type="button"
               >
                 <span
-                  class="Root mtf-ui-icons sm"
+                  class="Root motifIconsDefault sm"
                   lang="en"
                   translate="no"
                 >

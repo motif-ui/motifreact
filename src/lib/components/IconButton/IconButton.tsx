@@ -31,7 +31,7 @@ const IconButton = (props: PropsWithRef<IconButtonProps, HTMLButtonElement>) => 
       type="button"
       ref={ref}
     >
-      {name && <GlobalIconWrapper icon={name} className={styles[size]} />}
+      {name && <GlobalIconWrapper icon={name} className={styles[size]} iconClass={iconClass ?? baseIconClass} />}
     </button>
   );
 };
