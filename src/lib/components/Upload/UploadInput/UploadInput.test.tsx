@@ -21,6 +21,8 @@ describe("UploadInput", () => {
 
     const getDeleteButton = () => screen.queryByText("delete") as HTMLButtonElement;
 
+    const getDownloadButton = () => screen.queryByText("download") as HTMLButtonElement;
+
     const getUploadButton = () => screen.queryByText(t("g.upload")) as HTMLButtonElement;
 
     const getBrowseButton = () => screen.queryByText(t("g.browse")) as HTMLButtonElement;
@@ -60,6 +62,7 @@ describe("UploadInput", () => {
       getFileItem,
       getErrorIcon,
       getDeleteButton,
+      getDownloadButton,
       getUploadButton,
       getBrowseButton,
       actHoverToErrorIcon,
@@ -486,5 +489,61 @@ describe("UploadInput", () => {
     rerender(<UploadInput {...requiredProps} value={[serverFile2]} />);
     expect(getFileItem()).toHaveTextContent(serverFile2.name);
     expect(getFileItem()).not.toHaveTextContent(serverFile.name);
+  });
+
+  it("should render the download button when onDownloadClick is provided in value", () => {
+    const { unmount, getDownloadButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
+    expect(getDownloadButton()).not.toBeInTheDocument();
+    unmount();
+    renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} />);
+    expect(getDownloadButton()).toBeInTheDocument();
+  });
+
+  it("should call onDownloadClick when the download button is clicked", async () => {
+    const onDownloadClick = jest.fn();
+    const { getDownloadButton } = renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick }]} />);
+    await userEvent.click(getDownloadButton());
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should call onDownloadClick for all files when the download button is clicked with multiple value files", async () => {
+    const onDownloadClick1 = jest.fn();
+    const onDownloadClick2 = jest.fn();
+    const { getDownloadButton } = renderExt(
+      <UploadInput
+        {...requiredProps}
+        maxFile={2}
+        value={[
+          { ...serverFile, onDownloadClick: onDownloadClick1 },
+          { ...serverFile2, onDownloadClick: onDownloadClick2 },
+        ]}
+      />,
+    );
+    await userEvent.click(getDownloadButton());
+    expect(onDownloadClick1).toHaveBeenCalledTimes(1);
+    expect(onDownloadClick2).toHaveBeenCalledTimes(1);
+  });
+
+  it("should show the download button but hide the delete button when disabled or readOnly", () => {
+    const { unmount, getDownloadButton, getDeleteButton } = renderExt(
+      <UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} disabled />,
+    );
+    expect(getDownloadButton()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    unmount();
+
+    renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} readOnly />);
+    expect(getDownloadButton()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+  });
+
+  it("should not show download button after value file is deleted", async () => {
+    const xhrSpy = mockXHRs(200);
+    const { getDownloadButton, getDeleteButton } = renderExt(
+      <UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} />,
+    );
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getDownloadButton()).not.toBeInTheDocument());
+    xhrSpy.mockRestore();
   });
 });

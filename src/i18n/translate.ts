@@ -1,4 +1,4 @@
-import { Locale, locales } from "./locales/index.ts";
+﻿import { Locale, locales } from "./locales/index.ts";
 import { LibraryTranslateFn, LocaleKey } from "./types";
 import { DeepPartial, LocaleShape } from "../lib/types";
 
@@ -25,10 +25,36 @@ const interpolate = (template: string | string[], params?: Record<string, unknow
   });
 };
 
+// Locales where Intl.PluralRules returns "other" for all counts (Turkish has no built-in singular category).
+// For these, count === 1 is explicitly mapped to "_one".
+const SINGULAR_OVERRIDE_LOCALES: readonly Locale[] = ["tr"];
+
+const getPluralSuffix = (locale: Locale, count: number): string => {
+  if (SINGULAR_OVERRIDE_LOCALES.includes(locale)) {
+    return count === 1 ? "_one" : "";
+  }
+  const rule = new Intl.PluralRules(locale).select(count);
+  return rule === "other" ? "" : `_${rule}`;
+};
+
+const lookup = (key: string, ...sources: (Record<string, unknown> | undefined)[]) => {
+  for (const source of sources) {
+    if (!source) continue;
+    const val = getNestedValue(source, key);
+    if (val !== undefined) return val;
+  }
+};
+
 export const createTranslator =
   (locale: Locale, localeTexts?: DeepPartial<LocaleShape>): LibraryTranslateFn =>
   (key: LocaleKey, params?: Record<string, unknown>) => {
+    const suffix = typeof params?.count === "number" ? getPluralSuffix(locale, params.count) : "";
+    const pluralKey = suffix ? `${key}${suffix}` : undefined;
     const template =
-      (localeTexts && getNestedValue(localeTexts, key)) ?? getNestedValue(locales[locale], key) ?? getNestedValue(locales.en, key) ?? key;
+      (pluralKey && lookup(pluralKey, localeTexts)) ??
+      lookup(key, localeTexts) ??
+      (pluralKey && lookup(pluralKey, locales[locale])) ??
+      lookup(key, locales[locale], locales.en) ??
+      key;
     return interpolate(template, params) as string;
   };

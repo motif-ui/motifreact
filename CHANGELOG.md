@@ -1,3 +1,23 @@
+# [v0.4.6](https://github.com/motif-ui/motifreact/releases/tag/v0.4.6) (2026-08-07)
+
+## 🐛 Bug Fixes
+
+- fix(Toast): duration prop is set as optional ([#124](https://github.com/motif-ui/motifreact/pull/124)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(ImageUpload): implement value prop ([#106](https://github.com/motif-ui/motifreact/pull/106)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(DateRangePicker): implement responsive design ([#117](https://github.com/motif-ui/motifreact/pull/117)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Form): wrap feature is added for buttons ([#131](https://github.com/motif-ui/motifreact/pull/131)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Icon): inline-flex overflow issue ([#130](https://github.com/motif-ui/motifreact/pull/130)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(Form Inputs): min-width's are removed ([#114](https://github.com/motif-ui/motifreact/pull/114)) [@emreekiziltoprak](https://github.com/emreekiziltoprak)
+- fix(Table): locale-aware case normalization for filter matching ([#128](https://github.com/motif-ui/motifreact/pull/128)) [@hatesalp](https://github.com/hatesalp)
+- fix: sass if function deprecation ([#127](https://github.com/motif-ui/motifreact/pull/127)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Table): solved the issue with rowspan and striped  ([#107](https://github.com/motif-ui/motifreact/pull/107)) [@emreekiziltoprak](https://github.com/emreekiziltoprak)
+
+## Other Changes
+
+- docs(Storybook): args table props are sorted alphabetically ([#129](https://github.com/motif-ui/motifreact/pull/129)) [@hatesalp](https://github.com/hatesalp)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.5...v0.4.6)
+
 # [v0.4.5](https://github.com/motif-ui/motifreact/releases/tag/v0.4.5) (2026-07-31)
 
 ## 🐛 Bug Fixes
