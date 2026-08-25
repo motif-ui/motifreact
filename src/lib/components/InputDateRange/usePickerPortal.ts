@@ -13,7 +13,7 @@ export const usePickerPortal = (
   onHide: () => void,
 ) => {
   const [alignment, setAlignment] = useState<OverlayPosition>("bottomLeft");
-  const { startShowing, startHiding, attached, positionStyle } = usePopoverPosition(anchorRef, pickerRef, alignment, 0, true);
+  const { startShowing, startHiding, attached, positionStyle } = usePopoverPosition(anchorRef, pickerRef, alignment, 0);
 
   useEffect(() => {
     if (visible) {
@@ -48,7 +48,7 @@ export const usePickerPortal = (
       if (e.key !== "Tab" || !visible || !pickerRef.current || !anchorRef.current) return;
 
       const focusableSelector = 'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
-      const isVisible = (el: HTMLElement) => el.offsetParent !== null;
+      const isVisible = (el: HTMLElement) => el.offsetParent !== null && !el.closest("[inert]");
       const wrapperEls = Array.from(anchorRef.current.querySelectorAll<HTMLElement>(focusableSelector)).filter(isVisible);
       const pickerEls = Array.from(pickerRef.current.querySelectorAll<HTMLElement>(focusableSelector)).filter(isVisible);
       const lastInWrapper = wrapperEls.at(-1);

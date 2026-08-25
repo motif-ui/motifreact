@@ -328,7 +328,7 @@ describe("InputDateRange", () => {
 
     act(() => result.current.openPicker());
 
-    expect(mockedPosition).toHaveBeenCalledWith(anchorRef, pickerRef, expected, 0, false);
+    expect(mockedPosition).toHaveBeenCalledWith(anchorRef, pickerRef, expected, 0);
     mockedPosition.mockImplementation(realUsePopoverPosition);
   });
 

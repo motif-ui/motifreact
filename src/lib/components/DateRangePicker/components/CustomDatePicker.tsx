@@ -22,10 +22,14 @@ const CustomDatePicker = (props: Props) => {
     setDateCouple,
     onDateChange,
     partialSelection,
+    sliding,
     setSliding,
     setMonths,
     getDaysOfMonth,
   } = useContext(DateRangePickerContext);
+
+  const isBuffer =
+    order === 0 ? sliding !== "slideRight" : order === 3 ? sliding !== "slideLeft" : sliding === (order === 1 ? "slideLeft" : "slideRight");
   const onDateClick = useCallback(
     (date: Date) => {
       const updatedDates = partialSelection ? orderDatesAndPutTimes([partialSelection, date]) : [new Date(date), undefined];
@@ -104,6 +108,7 @@ const CustomDatePicker = (props: Props) => {
       dates={months[order]}
       onPrevClick={onPrevClick}
       onNextClick={onNextClick}
+      nonInteractive={isBuffer}
     />
   );
 };

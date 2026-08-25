@@ -7,7 +7,6 @@ export const usePopoverPosition = (
   itemRef: RefObject<HTMLElement | null>,
   position: OverlayPosition,
   transitionTime: number,
-  showCaret: boolean = true,
 ) => {
   const domReady = useDomReady();
   const [attached, setAttached] = useState(false);
@@ -73,17 +72,15 @@ export const usePopoverPosition = (
       const finalVisualTop = visualTop + diffY;
       const CARET_OFFSET = 6;
 
-      if (showCaret) {
-        if (position === "left" || position === "right") {
-          const caretTop = anchorCenterY - finalVisualTop - CARET_OFFSET;
-          itemRef.current.style.setProperty("--caret-top", `${caretTop}px`);
-        } else {
-          const caretLeft = anchorCenterX - finalVisualLeft - CARET_OFFSET;
-          itemRef.current.style.setProperty("--caret-left", `${caretLeft}px`);
-        }
+      if (position === "left" || position === "right") {
+        const caretTop = anchorCenterY - finalVisualTop - CARET_OFFSET;
+        itemRef.current.style.setProperty("--caret-top", `${caretTop}px`);
+      } else {
+        const caretLeft = anchorCenterX - finalVisualLeft - CARET_OFFSET;
+        itemRef.current.style.setProperty("--caret-left", `${caretLeft}px`);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [domReady, itemRef, position, anchorRef],
   );
 
