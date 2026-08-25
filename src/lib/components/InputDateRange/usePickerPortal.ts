@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { KeyboardEvent, RefObject } from "react";
-import { usePopoverPosition, PopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
+import { usePopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
+import { OverlayPosition } from "src/lib/types";
 
 export const usePickerPortal = (
   anchorRef: RefObject<HTMLElement | null>,
@@ -11,8 +12,8 @@ export const usePickerPortal = (
   onOpen: () => void,
   onHide: () => void,
 ) => {
-  const [alignment, setAlignment] = useState<PopoverPosition>("bottomLeft");
-  const { startShowing, startHiding, attached, positionStyle } = usePopoverPosition(anchorRef, pickerRef, alignment, 0, false);
+  const [alignment, setAlignment] = useState<OverlayPosition>("bottomLeft");
+  const { startShowing, startHiding, attached, positionStyle } = usePopoverPosition(anchorRef, pickerRef, alignment, 0, true);
 
   useEffect(() => {
     if (visible) {

@@ -25,6 +25,13 @@ describe("InputDateRange", () => {
   const testDateArr = [new Date(2025, 4, 12), new Date(2025, 4, 21)];
   const placeholder = "__ / __ / ____"; // default formata göre "DD/MM/YYYY"
 
+  const alignmentCases = [
+    { label: "top-left region of the viewport", anchorRect: {}, expected: "bottomLeft" },
+    { label: "near the right edge", anchorRect: { left: 800, right: 1000 }, expected: "bottomRight" },
+    { label: "near the bottom edge", anchorRect: { top: 600, bottom: 650 }, expected: "topLeft" },
+    { label: "bottom-right corner", anchorRect: { top: 600, bottom: 650, left: 800, right: 1000 }, expected: "topRight" },
+  ];
+
   const createDateRangeString = (inputDate1: Date | undefined, inputDate2: Date | undefined) => {
     const date1 = formatDate(inputDate1, defaultDateFormat, getDateLocale(t));
     const date2 = formatDate(inputDate2, defaultDateFormat, getDateLocale(t));
@@ -304,13 +311,6 @@ describe("InputDateRange", () => {
     expect(document.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
 
-  const alignmentCases = [
-    { label: "top-left region of the viewport", anchorRect: {}, expected: "bottomLeft" },
-    { label: "near the right edge", anchorRect: { left: 800, right: 1000 }, expected: "bottomRight" },
-    { label: "near the bottom edge", anchorRect: { top: 600, bottom: 650 }, expected: "topLeft" },
-    { label: "bottom-right corner", anchorRect: { top: 600, bottom: 650, left: 800, right: 1000 }, expected: "topRight" },
-  ];
-
   it.each(alignmentCases)("should pick $expected when anchor is in the $label", ({ anchorRect, expected }) => {
     const mockedPosition = jest.mocked(usePopoverPosition);
     const realUsePopoverPosition = mockedPosition.getMockImplementation()!;
@@ -350,6 +350,16 @@ describe("InputDateRange", () => {
 
     await act(() => window.dispatchEvent(new Event("resize")));
     expect(getPickerContainer()).not.toBeInTheDocument();
+  });
+
+  it("should focus inside the picker when picker is opened and then tab key is pressed", async () => {
+    const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
+
+    await user.click(getDateRangeInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await user.tab();
+    expect(getPickerContainer()?.contains(document.activeElement)).toBe(true);
   });
 
   it("should not render any icon when icon prop is empty string or null", () => {

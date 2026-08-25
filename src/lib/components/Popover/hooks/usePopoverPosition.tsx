@@ -1,12 +1,11 @@
 import { RefObject, useLayoutEffect, useCallback, useState, CSSProperties, useRef } from "react";
 import useDomReady from "../../../hooks/useDomReady";
-
-export type PopoverPosition = "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight" | "right" | "left";
+import { OverlayPosition } from "src/lib/types";
 
 export const usePopoverPosition = (
   anchorRef: RefObject<HTMLElement | null>,
   itemRef: RefObject<HTMLElement | null>,
-  position: PopoverPosition,
+  position: OverlayPosition,
   transitionTime: number,
   showCaret: boolean = true,
 ) => {
