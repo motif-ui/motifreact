@@ -22,12 +22,12 @@ exports[`InputNumber should render with only required props 1`] = `
       <button
         type="button"
       >
-        +
+        -
       </button>
       <button
         type="button"
       >
-        -
+        +
       </button>
     </div>
   </div>
