@@ -95,8 +95,7 @@ $sizes: (("xs", "8x", "4x", "18x", "28x"), ("sm", "12x", "6x", "20x", "32x"), ("
     border-left: var(--base-sizing-1x) solid var(--theme-color-border-light-disabled);
 
     &:last-child {
-      border-top-right-radius: var(--theme-sizing-radius-default);
-      border-bottom-right-radius: var(--theme-sizing-radius-default);
+      border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
     }
     &:hover {
       background-color: var(--theme-color-surface-light-hover);
