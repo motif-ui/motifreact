@@ -55,7 +55,7 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
   );
 
   const [rangeValue, setRangeValue] = useState<number>(value);
-  const { size, disabled, onFormFieldValueUpdate, name, inFormField } = useRegisterFormField({
+  const { size, disabled, readOnly, onFormFieldValueUpdate, name, inFormField } = useRegisterFormField({
     props: { ...props, value },
     defaultValue: min,
     valueStateSetter: setRangeValue,
@@ -69,6 +69,7 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
 
   const handleValueChange = useCallback(
     (valueRetrieved: number) => {
+      if (readOnly) return;
       const correctValue = getCorrectValue(valueRetrieved);
       if (correctValue !== rangeValue) {
         setRangeValue(correctValue);
@@ -76,7 +77,7 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
         onFormFieldValueUpdate?.(correctValue);
       }
     },
-    [getCorrectValue, onChange, onFormFieldValueUpdate, rangeValue],
+    [getCorrectValue, onChange, onFormFieldValueUpdate, rangeValue, readOnly],
   );
 
   const onClick = useCallback(
@@ -110,10 +111,21 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
     };
   }, [end, max, min, start]);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [variant, size, disabled && "disabled", inFormField && "inFormField"]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [
+    variant,
+    size,
+    (disabled || readOnly) && "disabled",
+    inFormField && "inFormField",
+  ]);
 
   return (
-    <div className={classNames} style={style} {...(!inRangeSelector && !disabled && { onClick })} data-testid="slider" ref={ref}>
+    <div
+      className={classNames}
+      style={style}
+      {...(!inRangeSelector && !disabled && !readOnly && { onClick })}
+      data-testid="slider"
+      ref={ref}
+    >
       <div className={styles.track} />
       <div className={styles.fill} style={fillStyle} />
       <div className={styles.mRangeContainer} style={rangeContainerStyle}>
@@ -127,6 +139,7 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
           onChange={e => handleValueChange(Number(e.target.value))}
           value={rangeValue}
           disabled={disabled}
+          readOnly={readOnly}
         />
         {!hideTooltip && (
           <div className={styles.tooltip} style={{ left: calculateTooltipPosition(rangeValue) }}>
