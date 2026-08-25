@@ -80,7 +80,6 @@ export const usePopoverPosition = (
         itemRef.current.style.setProperty("--caret-left", `${caretLeft}px`);
       }
     },
-
     [domReady, itemRef, position, anchorRef],
   );
 

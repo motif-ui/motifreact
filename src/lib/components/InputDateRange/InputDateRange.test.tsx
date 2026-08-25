@@ -360,6 +360,7 @@ describe("InputDateRange", () => {
 
     await user.tab();
     expect(getPickerContainer()?.contains(document.activeElement)).toBe(true);
+    expect(document.activeElement?.closest("[inert]")).toBeNull();
   });
 
   it("should not render any icon when icon prop is empty string or null", () => {
