@@ -1,5 +1,5 @@
 import type { MouseEvent, ReactElement } from "react";
-import type { IconGlobalType } from "../../types";
+import type { IconGlobalType, Variants } from "../../types";
 import { ButtonProps } from "../Button/types";
 import { LinkProps } from "../Link/types";
 import { IconButtonProps } from "../IconButton/types";
@@ -25,6 +25,6 @@ export type CardProps = {
 export type CardDefaultableProps = {
   outlined?: boolean;
   elevated?: boolean;
-  variant?: "primary" | "secondary" | "info" | "success" | "warning" | "danger";
+  variant?: Variants;
   imagePosition?: "left" | "right";
 };

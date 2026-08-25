@@ -4,7 +4,7 @@ import { PropsWithRef } from "../../types";
 
 export type ToastPosition = "topLeft" | "topRight" | "top" | "bottomLeft" | "bottomRight" | "bottom";
 
-export type ToastVariant = "secondary" | "error" | "warning" | "info" | "success";
+export type ToastVariant = "secondary" | "danger" | "warning" | "info" | "success";
 
 export type ToastProps = {
   id: string;
