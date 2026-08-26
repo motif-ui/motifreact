@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import { NavBarLogoProps } from "./components/NavBarLogo";
 import { NavBarButtonProps } from "./components/NavBarButton";
 import { MenuProps } from "./components/NavBarMenu/types";
-import { Size3 } from "src/lib/types.ts";
+import { Size3 } from "../../types";
 
 export type NavBarVariant = "neutral" | "primary" | "secondary" | "info" | "success" | "warning" | "danger";
 
