@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import DateTimePicker from "./DateTimePicker";
-import React from "react";
+import type { ComponentProps } from "react";
 
 const meta: Meta<typeof DateTimePicker> = {
   title: "Components/DateTimePicker",
@@ -28,9 +28,7 @@ const meta: Meta<typeof DateTimePicker> = {
 export default meta;
 type Story = StoryObj<typeof DateTimePicker>;
 
-const renderDateTimePicker = (args: React.ComponentProps<typeof DateTimePicker>, value?: Date) => (
-  <DateTimePicker {...args} value={value} />
-);
+const renderDateTimePicker = (args: ComponentProps<typeof DateTimePicker>, value?: Date) => <DateTimePicker {...args} value={value} />;
 
 export const Primary: Story = {
   parameters: {

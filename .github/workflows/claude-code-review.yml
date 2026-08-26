@@ -25,6 +25,8 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_ACCESS_TOKEN }}
           track_progress: true
+          use_sticky_comment: true
+          include_fix_links: false
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
@@ -38,13 +40,29 @@ jobs:
             - Breaking changes in component APIs
             - Security implications
             - Performance considerations
+            
+            Pay attention to the following guidelines:
+            - Do not allow "var" or "let" in the codebase, and prefer "const" and functional programming patterns.
+            - Avoid using "any" type in TypeScript, and prefer explicit types or generics.
+            - ES6+ syntax should be used throughout the codebase: arrow functions, destructuring, template literals, 
+              nullish coalescing, dual ampersand, optional chaining...
+            - Do not allow usages like "React.MouseEvent". "React" should be imported along with other imports.
+            
+            In tests:
+            - Each component test suite should start with a test: "should be rendered with only required props and 
+              should have default prop values stated here" which should test the component with only required props and 
+              check for default prop values.
+            - Force to create consts instead of using the same hardcoded text multiple times.
+            - Avoid unrelated-unnecessary props in tests, and only use props that are relevant to the test case.
+            
 
             Note: The PR branch is already checked out in the current working directory.
             Note: Do not try to run test, tsc, lint or similar scripts, as those are already run in the CI pipeline. Focus on code review and analysis.
 
-            Use `gh pr comment` for top-level feedback.
+            Use `mcp__github_comment__update_claude_comment` for top-level feedback - this updates your single tracking comment
+            in place, so do not use `gh pr comment` for the summary.
             Use `mcp__github_inline_comment__create_inline_comment` (with `confirmed: true`) to highlight specific code issues.
             Only post GitHub comments - don't submit review text as messages.
 
           claude_args: |
-            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
+            --allowedTools "mcp__github_comment__update_claude_comment,mcp__github_inline_comment__create_inline_comment,Bash(gh pr diff:*),Bash(gh pr view:*)"

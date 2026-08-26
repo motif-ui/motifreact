@@ -21,13 +21,27 @@ type Props = {
   daysRef?: RefObject<HTMLDivElement | null>;
   dates: Date[];
   renderDay: (date: Date) => ReactElement<DayProps>;
+  nonInteractive?: boolean;
 };
 
 const DaySelector = (props: Props) => {
-  const { size, locale, firstDayOfWeek, month, year, onPrevClick, onNextClick, disabledMonthYearClick, daysRef, dates, renderDay } = props;
+  const {
+    size,
+    locale,
+    firstDayOfWeek,
+    month,
+    year,
+    onPrevClick,
+    onNextClick,
+    disabledMonthYearClick,
+    daysRef,
+    dates,
+    renderDay,
+    nonInteractive,
+  } = props;
 
   return (
-    <div className={`${styles.daySelector} ${styles[size]}`}>
+    <div className={`${styles.daySelector} ${styles[size]}`} inert={nonInteractive}>
       <Header
         month={locale.months[month]}
         year={year.toString()}
