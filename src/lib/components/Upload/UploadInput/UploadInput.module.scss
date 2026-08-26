@@ -132,11 +132,9 @@ $sizes: (("xs", "4x", "4x", "10x"), ("sm", "6x", "6x", "12x"), ("md", "8x", "8x"
   }
 
   .labelSuffixWrapper {
-    position: absolute;
     display: flex;
     background: none;
-    top: 50%;
-    transform: translateY(-50%);
+    align-self: center;
     border-radius: var(--theme-sizing-radius-default);
     border: solid var(--base-sizing-1x) transparent;
     @include transition(color);
@@ -161,7 +159,7 @@ $sizes: (("xs", "4x", "4x", "10x"), ("sm", "6x", "6x", "12x"), ("md", "8x", "8x"
       padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
     }
     .labelSuffixWrapper {
-      right: var(--base-sizing-#{$paddingH});
+      padding-right: var(--base-sizing-#{$paddingH});
       gap: var(--base-sizing-#{$paddingV});
     }
     .progress {

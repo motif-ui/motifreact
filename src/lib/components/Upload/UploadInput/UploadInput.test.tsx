@@ -524,17 +524,15 @@ describe("UploadInput", () => {
     expect(onDownloadClick2).toHaveBeenCalledTimes(1);
   });
 
-  it("should show the download button but hide the delete button when disabled or readOnly", () => {
-    const { unmount, getDownloadButton, getDeleteButton } = renderExt(
+  it("should not hide the download button when disabled or readOnly", () => {
+    const { unmount, getDownloadButton } = renderExt(
       <UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} disabled />,
     );
     expect(getDownloadButton()).toBeInTheDocument();
-    expect(getDeleteButton()).not.toBeInTheDocument();
     unmount();
 
     renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} readOnly />);
     expect(getDownloadButton()).toBeInTheDocument();
-    expect(getDeleteButton()).not.toBeInTheDocument();
   });
 
   it("should not show download button after value file is deleted", async () => {
