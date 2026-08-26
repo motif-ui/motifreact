@@ -42,24 +42,16 @@ export const LabelArea = (props: Props) => {
 
   const suffixType: LabelSuffix = errors?.length ? "errorTooltip" : error ? "error" : success ? "success" : null;
   const enableDelete = !disabled && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
-  const enableDownload = selectedFiles.some(f => !!f.download);
+  const enableDownload = selectedFiles.some(f => !!f.download && (f.status === STATUS.SUCCESS || f.status === STATUS.DELETE_FAIL));
   const buttonDisabled = disabled || (inputState !== "noFile" && inputState !== "uploading");
-  const numberOfSuffixes = (suffixType ? 1 : 0) + (enableDelete ? 1 : 0) + (enableDownload ? 1 : 0);
 
   const wrapperClassNames = sanitizeModuleClasses(
     styles,
     "labelArea",
-    "focusable",
     disabled ? "disabled" : error || errors?.length ? "error" : success && "success",
   );
 
-  const classNames = sanitizeModuleClasses(
-    styles,
-    "label",
-    noFiles && "placeholder",
-    (autoUpload || noFiles) && "roundedEnd",
-    numberOfSuffixes > 0 && `hasSuffix_${numberOfSuffixes}`,
-  );
+  const classNames = sanitizeModuleClasses(styles, "label", noFiles && "placeholder", (autoUpload || noFiles) && "roundedEnd");
   return (
     <div className={wrapperClassNames}>
       {aboutToUpload || uploading ? (
