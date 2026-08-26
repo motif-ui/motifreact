@@ -1,3 +1,17 @@
+# [v0.4.7](https://github.com/motif-ui/motifreact/releases/tag/v0.4.7) (2026-08-25)
+
+## 🐛 Bug Fixes
+
+- fix(InputDateRange): datepicker clipping in overflow-hidden containers ([#120](https://github.com/motif-ui/motifreact/pull/120)) [@hatesalp](https://github.com/hatesalp)
+- fix(Select): add locale-aware filtering ([#133](https://github.com/motif-ui/motifreact/pull/133)) [@hatesalp](https://github.com/hatesalp)
+- fix(UploadInput): add download button for pre-uploaded files ([#139](https://github.com/motif-ui/motifreact/pull/139)) [@hatesalp](https://github.com/hatesalp)
+- fix(i18n): add plural support for upload component translations ([#138](https://github.com/motif-ui/motifreact/pull/138)) [@hatesalp](https://github.com/hatesalp)
+- fix(Upload): action button is added for pre-uploaded files ([#137](https://github.com/motif-ui/motifreact/pull/137)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: union type for variants ([#135](https://github.com/motif-ui/motifreact/pull/135)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Toast): variant renaming -> error & danger ([#136](https://github.com/motif-ui/motifreact/pull/136)) [@atakanbayrak](https://github.com/atakanbayrak)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.6...v0.4.7)
+
 # [v0.4.6](https://github.com/motif-ui/motifreact/releases/tag/v0.4.6) (2026-08-07)
 
 ## 🐛 Bug Fixes

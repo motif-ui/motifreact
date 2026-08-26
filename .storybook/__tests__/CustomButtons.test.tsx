@@ -18,6 +18,7 @@ jest.mock("@storybook/icons", () => ({
 }));
 
 describe("ExternalLinksToolbar", () => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const originalOpen = window.open;
 
   beforeEach(() => {
@@ -31,12 +32,14 @@ describe("ExternalLinksToolbar", () => {
   it("opens the GitHub repository in a new tab when clicked", () => {
     render(<ExternalLinksToolbar />);
     screen.getByTitle("GitHub Repository").click();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(window.open).toHaveBeenCalledWith("https://github.com/motif-ui/motifreact", "_blank", "noopener,noreferrer");
   });
 
   it("opens the npm package page in a new tab when clicked", () => {
     render(<ExternalLinksToolbar />);
     screen.getByTitle("NPM Package").click();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(window.open).toHaveBeenCalledWith("https://www.npmjs.com/package/@motif-ui/react", "_blank", "noopener,noreferrer");
   });
 });
