@@ -292,4 +292,37 @@ describe("Localization", () => {
       expect(typeof t(key as Parameters<typeof t>[0])).toBe("string");
     });
   });
+  it("should use the singular form when count is 1", () => {
+    const t = createTranslator("en");
+    expect(t("upload.filesBeingUploaded", { count: 1 })).toBe(en.upload.filesBeingUploaded_one);
+  });
+
+  it("should use the base key as the plural form when count is not 1", () => {
+    const t = createTranslator("en");
+    expect(t("upload.filesBeingUploaded", { count: 3 })).toBe(en.upload.filesBeingUploaded);
+  });
+
+  it("should resolve the correct plural form for Turkish", () => {
+    const t = createTranslator("tr");
+    expect(t("upload.pleaseDrop", { count: 1 })).toBe(tr.upload.pleaseDrop_one);
+    expect(t("upload.pleaseDrop", { count: 5 })).toBe(tr.upload.pleaseDrop);
+  });
+
+  it("should ignore pluralization when count is not provided", () => {
+    const t = createTranslator("en");
+    expect(t("upload.filesBeingUploaded")).toBe(en.upload.filesBeingUploaded);
+  });
+
+  it("should prefer an overridden plural form over the built-in one", () => {
+    const override = "Bir dosya yükleniyor";
+    const t = createTranslator("en", { upload: { filesBeingUploaded_one: override } });
+    expect(t("upload.filesBeingUploaded", { count: 1 })).toBe(override);
+    expect(t("upload.filesBeingUploaded", { count: 3 })).toBe(en.upload.filesBeingUploaded);
+  });
+
+  it("should fall back to the base key when no plural form exists for the key", () => {
+    const t = createTranslator("en");
+    expect(t("g.save", { count: 1 })).toBe(en.g.save);
+    expect(t("g.save", { count: 3 })).toBe(en.g.save);
+  });
 });
