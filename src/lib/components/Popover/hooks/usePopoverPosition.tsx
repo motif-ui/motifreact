@@ -1,10 +1,11 @@
 import { RefObject, useLayoutEffect, useCallback, useState, CSSProperties, useRef } from "react";
 import useDomReady from "../../../hooks/useDomReady";
+import { OverlayPosition } from "src/lib/types";
 
 export const usePopoverPosition = (
   anchorRef: RefObject<HTMLElement | null>,
   itemRef: RefObject<HTMLElement | null>,
-  position: "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight" | "right" | "left",
+  position: OverlayPosition,
   transitionTime: number,
 ) => {
   const domReady = useDomReady();
