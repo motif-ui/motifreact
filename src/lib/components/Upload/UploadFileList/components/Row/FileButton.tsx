@@ -17,6 +17,15 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
 
   return (
     <>
+      {file.action && (
+        <MotifIconButton
+          name={file.action.icon}
+          variant="secondary"
+          size={iconSize}
+          className={`${styles.icon} ${styles.iconPositiveAction}`}
+          onClick={file.action.onClick}
+        />
+      )}
       {file.download && (
         <MotifIconButton
           name="download"

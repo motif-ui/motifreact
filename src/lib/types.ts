@@ -15,6 +15,8 @@ export type Size4LG = Size3 | "xl";
 export type Size5 = "xs" | Size3 | "xl";
 export type Size7 = "xxs" | Size5 | "xxl";
 
+export type Variants = "primary" | "secondary" | "info" | "success" | "warning" | "danger";
+export type OverlayPosition = "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight" | "right" | "left";
 export type StandardProps = {
   className?: string;
   style?: CSSProperties;

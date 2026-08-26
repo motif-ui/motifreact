@@ -85,6 +85,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
       >
         <div
           class="daySelector md"
+          inert=""
         >
           <div
             class="header"
@@ -974,6 +975,7 @@ exports[`DateRangePicker should be rendered with only required props and should 
         </div>
         <div
           class="daySelector md"
+          inert=""
         >
           <div
             class="header"

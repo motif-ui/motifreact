@@ -534,6 +534,39 @@ describe("UploadList", () => {
     expect(getDeleteButton()).not.toBeInTheDocument();
   });
 
+  it("should render the action button with the given icon when action is provided in value", () => {
+    const { unmount } = renderExt(<UploadList {...requiredProps} value={[serverFile]} />);
+    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+    unmount();
+
+    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, action: { icon: "visibility", onClick: jest.fn() } }]} />);
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
+  });
+
+  it("should call the action's onClick when the action button is clicked", async () => {
+    const onClick = jest.fn();
+    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, action: { icon: "visibility", onClick } }]} />);
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should show the action button but hide action buttons when readOnly or disabled", async () => {
+    const onClick = jest.fn();
+    const value = [{ ...serverFile, action: { icon: "visibility", onClick } }];
+    const { rerender, getDeleteButton } = renderExt(<UploadList {...requiredProps} value={value} readOnly />);
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    onClick.mockClear();
+
+    rerender(<UploadList {...requiredProps} value={value} disabled />);
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
   it("should disable the browse button when the maxFile limit is already reached by value files", () => {
     const { getBrowseButton } = renderExt(<UploadList {...requiredProps} value={[serverFile]} maxFile={1} />);
     expect(getBrowseButton()).toBeDisabled();

@@ -101,4 +101,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           preCommands: npm run build:storybook
-          command: pages deploy ./storybook-static --project-name=motif-storybook
+          command: pages deploy ./storybook-static --project-name=motif-storybook --branch=main --commit-dirty=true
+          

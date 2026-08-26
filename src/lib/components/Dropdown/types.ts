@@ -1,6 +1,6 @@
 import type { IconGlobalType } from "../../types";
 import type { MouseEvent } from "react";
-import { Size4SM } from "../../types";
+import { Size4SM, Variants } from "../../types";
 
 export type Spacing = "withGap" | "callout" | "noSpace";
 
@@ -25,7 +25,7 @@ export type DropdownProps = {
 
 export type DropdownDefaultableProps = {
   shape?: "solid" | "textOnly";
-  variant?: "primary" | "secondary" | "success" | "danger" | "warning" | "info";
+  variant?: Variants;
   size?: Size4SM;
   pill?: boolean;
   spacing?: Spacing;
