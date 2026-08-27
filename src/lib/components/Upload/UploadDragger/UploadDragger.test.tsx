@@ -56,6 +56,14 @@ describe("UploadDragger", () => {
     expect(handleChange).not.toHaveBeenCalled();
   });
 
+  it("should not add a file selected via the native input when readOnly prop is true", async () => {
+    const handleChange = jest.fn();
+    const { getInput, getFileList } = renderExt(<UploadDragger {...requiredProps} readOnly onChange={handleChange} />);
+    await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
+    expect(getFileList()).not.toBeInTheDocument();
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
   it("should keep error styling after file is added", async () => {
     const { getDragArea, getInput } = renderExt(<UploadDragger {...requiredProps} error autoUpload={false} />);
     expect(getDragArea()).toHaveClass("error");

@@ -45,10 +45,10 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
   const changeHandler = useCallback(
     (val: InputValue) => {
       const sanitizedValue = toFormValue(val as FileType[]);
-      onChange?.(sanitizedValue);
+      !readOnly && onChange?.(sanitizedValue);
       onFormFieldValueUpdate?.(sanitizedValue);
     },
-    [onChange, onFormFieldValueUpdate],
+    [onChange, onFormFieldValueUpdate, readOnly],
   );
   const classes = sanitizeModuleRootClasses(styles, className, [size]);
 
@@ -59,6 +59,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
       size={size}
       name={name}
       disabled={disabled}
+      readOnly={readOnly}
     >
       <div className={classes} style={style} ref={ref} data-mtf-component="upload-list">
         <DragArea disabled={disabled || readOnly} error={error} success={success} onChange={changeHandler} onError={onError} />

@@ -62,7 +62,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
   };
 
   return (
-    <UploadProvider props={uploadProps} isUploadInput name={name} disabled={disabled} value={mappedValue}>
+    <UploadProvider props={uploadProps} isUploadInput name={name} disabled={disabled} readOnly={readOnly} value={mappedValue}>
       <UploadInputWrapper {...uploadProps} {...inputCommonPropsAfterRegister} />
     </UploadProvider>
   );
