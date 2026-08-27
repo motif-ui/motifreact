@@ -1,8 +1,8 @@
-import { HttpMethods, KeyValue, Size4SM } from "../../types";
+import { HttpMethods, IconGlobalType, KeyValue, Size4SM } from "../../types";
 import { ReactNode } from "react";
 
 export type FileAction = {
-  icon: string;
+  icon: IconGlobalType;
   onClick: () => void;
 };
 
