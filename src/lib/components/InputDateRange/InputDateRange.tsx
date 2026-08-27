@@ -1,7 +1,8 @@
 "use client";
 
 import styles from "./InputDateRange.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import { PropsWithRef } from "../../types";
@@ -18,6 +19,7 @@ import { isNullOrEmptyString } from "../../../utils/utils";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
+import { usePickerPortal } from "./usePickerPortal";
 
 export type MaybeDateRange = (Date | undefined)[] | undefined;
 
@@ -96,9 +98,12 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     !validateRange(itemValue) && clearDateValues();
   }, [clearDateValues, hide, itemValue]);
 
-  const innerRef = useOutsideClick<HTMLDivElement>(outsideClickHandler);
+  const pickerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useOutsideClick<HTMLDivElement>(outsideClickHandler, [pickerRef]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useImperativeHandle(ref, () => innerRef.current!, []);
+
+  const { attached, pickerStyle, openPicker, handleTabNavigation } = usePickerPortal(innerRef, pickerRef, visible, show, hide);
 
   const dateChangeHandler = useCallback(
     (dates: MaybeDateRange) => {
@@ -107,10 +112,9 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     },
     [applyChanges, setTypedValueWithFormat],
   );
-
   const pickerShowHandler = useCallback(() => {
-    !readOnly && !disabled && show();
-  }, [disabled, readOnly, show]);
+    !readOnly && !disabled && openPicker();
+  }, [disabled, readOnly, openPicker]);
 
   useEffect(() => {
     setTypedValueWithFormat(value as MaybeDateRange);
@@ -123,7 +127,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
-    <div ref={innerRef} className={classNames} style={style}>
+    <div ref={innerRef} className={classNames} style={style} onKeyDown={handleTabNavigation}>
       <InputText
         name={name}
         size={size}
@@ -141,18 +145,22 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         clearable
         onClearClick={onClearClickInInput}
       />
-      {visible && (
-        <DateRangePicker
-          firstDayOfWeek={firstDayOfWeek}
-          variant="bordered"
-          size={pickerSizeMap[size]}
-          value={itemValue}
-          onDateChange={dateChangeHandler}
-          onOkClick={hide}
-          className={styles.dateRangePicker}
-          locale={locale}
-        />
-      )}
+      {attached &&
+        createPortal(
+          <DateRangePicker
+            ref={pickerRef}
+            firstDayOfWeek={firstDayOfWeek}
+            variant="bordered"
+            size={pickerSizeMap[size]}
+            value={itemValue}
+            onDateChange={dateChangeHandler}
+            onOkClick={hide}
+            className={styles.dateRangePicker}
+            style={pickerStyle}
+            locale={locale}
+          />,
+          document.body,
+        )}
     </div>
   );
 };
