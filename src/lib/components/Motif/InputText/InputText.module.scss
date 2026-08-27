@@ -86,18 +86,19 @@ $sizes: (("xs", "8x", "4x", "18x", "28x"), ("sm", "12x", "6x", "20x", "32x"), ("
   align-self: stretch;
   button {
     all: unset;
-    @include transition(background-color);
+    @include transition(background-color color);
     @include flex-center;
-    cursor: pointer;
     color: var(--theme-color-text-base-subtitle);
     background-color: var(--theme-color-surface-light-default);
     flex: 1;
     border-left: var(--base-sizing-1x) solid var(--theme-color-border-light-disabled);
 
     &:last-child {
-      border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
+      border-top-right-radius: var(--theme-sizing-radius-default);
+      border-bottom-right-radius: var(--theme-sizing-radius-default);
     }
     &:hover {
+      color: var(--theme-color-text-base-title);
       background-color: var(--theme-color-surface-light-hover);
     }
   }
@@ -144,11 +145,10 @@ $sizes: (("xs", "8x", "4x", "18x", "28x"), ("sm", "12x", "6x", "20x", "32x"), ("
     }
 
     .numberButtons {
-      width: calc(2 * var(--base-sizing-#{$inputNumberSize}));
       margin: calc(-1 * var(--base-sizing-#{$paddingV})) calc(-1 * var(--base-sizing-#{$paddingH})) calc(-1 * var(--base-sizing-#{$paddingV})) 0;
       button {
-        @include font("body", $size);
-        line-height: 1;
+        @include font("base", $size, "600");
+        min-width: var(--base-sizing-#{$inputNumberSize});
       }
     }
   }
