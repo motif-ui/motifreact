@@ -115,8 +115,10 @@ describe("SliderRange", () => {
 
     expect(slider1).toHaveClass("disabled");
     expect(input1).not.toBeDisabled();
+    expect(input1).toHaveAttribute("aria-readonly", "true");
     expect(slider2).toHaveClass("disabled");
     expect(input2).not.toBeDisabled();
+    expect(input2).toHaveAttribute("aria-readonly", "true");
 
     fireEvent.click(container.firstElementChild!, { clientX: 10 });
     expect(input1).toHaveValue("14");

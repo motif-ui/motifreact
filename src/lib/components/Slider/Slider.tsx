@@ -140,6 +140,7 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
           value={rangeValue}
           disabled={disabled}
           readOnly={readOnly}
+          aria-readonly={readOnly}
         />
         {!hideTooltip && (
           <div className={styles.tooltip} style={{ left: calculateTooltipPosition(rangeValue) }}>

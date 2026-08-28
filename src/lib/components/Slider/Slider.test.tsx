@@ -105,6 +105,7 @@ describe("Slider", () => {
 
     expect(screen.getByTestId("slider")).toHaveClass("disabled");
     expect(slider).not.toBeDisabled();
+    expect(slider).toHaveAttribute("aria-readonly", "true");
 
     fireEvent.click(screen.getByTestId("slider"), { clientX: 80 });
     expect(slider).toHaveValue("14");

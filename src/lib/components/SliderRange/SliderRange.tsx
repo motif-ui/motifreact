@@ -64,7 +64,6 @@ const SliderRange = (p: PropsWithRef<SliderRangeProps, HTMLDivElement>) => {
 
   const onClick = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
-      if (readOnly) return;
       e.stopPropagation();
       if (e.target instanceof HTMLInputElement) return;
 
@@ -81,7 +80,7 @@ const SliderRange = (p: PropsWithRef<SliderRangeProps, HTMLDivElement>) => {
         }
       }
     },
-    [applyValueUpdates, getCorrectValue, end, start, rangeValue, readOnly],
+    [applyValueUpdates, getCorrectValue, end, start, rangeValue],
   );
 
   const changeHandler = useCallback(

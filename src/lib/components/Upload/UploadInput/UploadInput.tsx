@@ -124,7 +124,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
 
   const isBrowseButtonDisabled =
     disabled || readOnly || !!selectedFiles.filter(f => f.status === STATUS.UPLOADING || f.status === STATUS.SUCCESS).length;
-  const isUploadButtonDisabled = disabled || selectedFiles.some(f => f.status !== STATUS.IDLE);
+  const isUploadButtonDisabled = disabled || readOnly || selectedFiles.some(f => f.status !== STATUS.IDLE);
 
   const uploadHandler = useCallback(() => uploadV2(selectedFiles, true), [selectedFiles, uploadV2]);
 

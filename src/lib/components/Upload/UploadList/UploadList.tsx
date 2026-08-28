@@ -45,10 +45,10 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
   const changeHandler = useCallback(
     (val: InputValue) => {
       const sanitizedValue = toFormValue(val as FileType[]);
-      !readOnly && onChange?.(sanitizedValue);
+      onChange?.(sanitizedValue);
       onFormFieldValueUpdate?.(sanitizedValue);
     },
-    [onChange, onFormFieldValueUpdate, readOnly],
+    [onChange, onFormFieldValueUpdate],
   );
   const classes = sanitizeModuleRootClasses(styles, className, [size]);
 

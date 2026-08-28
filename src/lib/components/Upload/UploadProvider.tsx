@@ -283,8 +283,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
 
   const addNewFiles = useCallback(
     (files: FileList | null) => {
-      if (readOnly) return;
-      if (files?.length) {
+      if (!disabled && !readOnly && files?.length) {
         if (isUploadInput) {
           setSelectedFiles(Array.from(files).map(file => ({ file, id: generateUUIDV4(), status: STATUS.IDLE })));
         } else {
