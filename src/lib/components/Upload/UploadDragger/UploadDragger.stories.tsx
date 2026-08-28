@@ -13,7 +13,14 @@ const meta: Meta<typeof UploadDragger> = {
     accept: { table: { defaultValue: { summary: MIME_TYPES.ALL } } },
     maxFile: { table: { defaultValue: { summary: "1" } } },
     autoUpload: { table: { defaultValue: { summary: "true" } } },
-    value: { table: { type: { summary: "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; }[]" } } },
+    value: {
+      table: {
+        type: {
+          summary:
+            "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; action?: { icon: IconGlobalType; onClick: () => void }; }[]",
+        },
+      },
+    },
   },
   args: {
     uploadRequest: { url, method, headers: [{ key: "mtf", value: "ui" }] },
