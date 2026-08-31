@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync } from "fs";
-import { join } from "path";
+import { dirname, join } from "path";
 
 /**
  * Contract tests for the Storybook internals our custom UI layer depends on.
@@ -172,7 +172,14 @@ describe.each([
 describe("motifTheme.ts → storybook theming API", () => {
   const themeSource = readFileSync(join(ROOT, ".storybook/motifTheme.ts"), "utf-8");
   const themeKeys = unique(themeSource.matchAll(/^ {2}([A-Za-z]\w*):/gm));
-  const createDts = readFileSync(join(ROOT, "node_modules/storybook/dist/theming/create.d.ts"), "utf-8");
+  const createDtsPath = join(ROOT, "node_modules/storybook/dist/theming/create.d.ts");
+  const createDts = readFileSync(createDtsPath, "utf-8");
+  const themeVarsDts = [
+    createDts,
+    ...[...createDts.matchAll(/from\s+["'](\.[^"']+)\.js["']/g)].map(([, relativePath]) =>
+      readFileSync(join(dirname(createDtsPath), `${relativePath}.d.ts`), "utf-8"),
+    ),
+  ].join("\n");
 
   it("extracts a plausible key set (guards against a silent parser regression)", () => {
     expect(themeKeys).toContain("base");
@@ -180,7 +187,7 @@ describe("motifTheme.ts → storybook theming API", () => {
   });
 
   it("only uses theme keys the installed ThemeVars type still declares", () => {
-    const missingKeys = themeKeys.filter(key => !new RegExp(`\\b${key}\\??:`).test(createDts));
+    const missingKeys = themeKeys.filter(key => !new RegExp(`\\b${key}\\??:`).test(themeVarsDts));
     expect(missingKeys).toEqual([]);
   });
 });

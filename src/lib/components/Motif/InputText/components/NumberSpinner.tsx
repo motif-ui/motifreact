@@ -25,11 +25,11 @@ const NumberSpinner = (props: Props) => {
 
   return (
     <div className={styles.numberButtons}>
-      <button type="button" onClick={() => adjustNumberValue(step)} disabled={disabled}>
-        +
-      </button>
       <button type="button" onClick={() => adjustNumberValue(-step)} disabled={disabled}>
         -
+      </button>
+      <button type="button" onClick={() => adjustNumberValue(step)} disabled={disabled}>
+        +
       </button>
     </div>
   );

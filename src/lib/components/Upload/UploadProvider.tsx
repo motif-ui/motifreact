@@ -325,6 +325,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
       const localFiles = prev.filter(f => !f.addedByValue);
       return maxFile > 1 ? [...nextValueFiles, ...localFiles] : nextValueFiles;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueEqualityString]);
 
   // The effect that handles file changes and their states and reflects them to the UI

@@ -1,6 +1,6 @@
 import type { IconGlobalType } from "../../types";
 import { InputCommonProps, InputSize } from "../Form/types";
-import { InputTextCommonProps } from "@/components/InputText/types.ts";
+import { InputTextCommonProps } from "../InputText/types";
 
 export type InputNumberProps = {
   value?: number;
