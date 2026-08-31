@@ -305,7 +305,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
         }
       }
     },
-    [isUploadInput, maxFile, readOnly, selectedFiles],
+    [disabled, isUploadInput, maxFile, readOnly, selectedFiles],
   );
 
   const isFirstValueSync = useRef(true);
