@@ -64,7 +64,7 @@ exports[`Carousel should be rendered with only required props and should have de
       <li />
     </ul>
     <button
-      class="Root xxl secondary motifIconsDefault prev"
+      class="Root xxl secondary prev"
       data-testid="iconButtonTestId"
       type="button"
     >
@@ -77,7 +77,7 @@ exports[`Carousel should be rendered with only required props and should have de
       </span>
     </button>
     <button
-      class="Root xxl secondary motifIconsDefault next"
+      class="Root xxl secondary next"
       data-testid="iconButtonTestId"
       type="button"
     >

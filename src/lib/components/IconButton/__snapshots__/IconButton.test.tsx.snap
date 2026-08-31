@@ -3,7 +3,7 @@
 exports[`IconButton should be rendered with only required props 1`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -21,7 +21,7 @@ exports[`IconButton should be rendered with only required props 1`] = `
 exports[`IconButton should render all icons in motifIcons set 1`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -39,7 +39,7 @@ exports[`IconButton should render all icons in motifIcons set 1`] = `
 exports[`IconButton should render all icons in motifIcons set 2`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -57,7 +57,7 @@ exports[`IconButton should render all icons in motifIcons set 2`] = `
 exports[`IconButton should render all icons in motifIcons set 3`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -75,7 +75,7 @@ exports[`IconButton should render all icons in motifIcons set 3`] = `
 exports[`IconButton should render all icons in motifIcons set 4`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -93,7 +93,7 @@ exports[`IconButton should render all icons in motifIcons set 4`] = `
 exports[`IconButton should render all icons in motifIcons set 5`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -111,7 +111,7 @@ exports[`IconButton should render all icons in motifIcons set 5`] = `
 exports[`IconButton should render all icons in motifIcons set 6`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -129,7 +129,7 @@ exports[`IconButton should render all icons in motifIcons set 6`] = `
 exports[`IconButton should render all icons in motifIcons set 7`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -147,7 +147,7 @@ exports[`IconButton should render all icons in motifIcons set 7`] = `
 exports[`IconButton should render all icons in motifIcons set 8`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -165,7 +165,7 @@ exports[`IconButton should render all icons in motifIcons set 8`] = `
 exports[`IconButton should render all icons in motifIcons set 9`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -183,7 +183,7 @@ exports[`IconButton should render all icons in motifIcons set 9`] = `
 exports[`IconButton should render all icons in motifIcons set 10`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -201,7 +201,7 @@ exports[`IconButton should render all icons in motifIcons set 10`] = `
 exports[`IconButton should render all icons in motifIcons set 11`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -219,7 +219,7 @@ exports[`IconButton should render all icons in motifIcons set 11`] = `
 exports[`IconButton should render all icons in motifIcons set 12`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -237,7 +237,7 @@ exports[`IconButton should render all icons in motifIcons set 12`] = `
 exports[`IconButton should render all icons in motifIcons set 13`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -255,7 +255,7 @@ exports[`IconButton should render all icons in motifIcons set 13`] = `
 exports[`IconButton should render all icons in motifIcons set 14`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -273,7 +273,7 @@ exports[`IconButton should render all icons in motifIcons set 14`] = `
 exports[`IconButton should render all icons in motifIcons set 15`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -291,7 +291,7 @@ exports[`IconButton should render all icons in motifIcons set 15`] = `
 exports[`IconButton should render all icons in motifIcons set 16`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -309,7 +309,7 @@ exports[`IconButton should render all icons in motifIcons set 16`] = `
 exports[`IconButton should render all icons in motifIcons set 17`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -327,7 +327,7 @@ exports[`IconButton should render all icons in motifIcons set 17`] = `
 exports[`IconButton should render all icons in motifIcons set 18`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -345,7 +345,7 @@ exports[`IconButton should render all icons in motifIcons set 18`] = `
 exports[`IconButton should render all icons in motifIcons set 19`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -363,7 +363,7 @@ exports[`IconButton should render all icons in motifIcons set 19`] = `
 exports[`IconButton should render all icons in motifIcons set 20`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -381,7 +381,7 @@ exports[`IconButton should render all icons in motifIcons set 20`] = `
 exports[`IconButton should render all icons in motifIcons set 21`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -399,7 +399,7 @@ exports[`IconButton should render all icons in motifIcons set 21`] = `
 exports[`IconButton should render all icons in motifIcons set 22`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -417,7 +417,7 @@ exports[`IconButton should render all icons in motifIcons set 22`] = `
 exports[`IconButton should render all icons in motifIcons set 23`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -435,7 +435,7 @@ exports[`IconButton should render all icons in motifIcons set 23`] = `
 exports[`IconButton should render all icons in motifIcons set 24`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -453,7 +453,7 @@ exports[`IconButton should render all icons in motifIcons set 24`] = `
 exports[`IconButton should render all icons in motifIcons set 25`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -471,7 +471,7 @@ exports[`IconButton should render all icons in motifIcons set 25`] = `
 exports[`IconButton should render all icons in motifIcons set 26`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -489,7 +489,7 @@ exports[`IconButton should render all icons in motifIcons set 26`] = `
 exports[`IconButton should render all icons in motifIcons set 27`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -507,7 +507,7 @@ exports[`IconButton should render all icons in motifIcons set 27`] = `
 exports[`IconButton should render all icons in motifIcons set 28`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -525,7 +525,7 @@ exports[`IconButton should render all icons in motifIcons set 28`] = `
 exports[`IconButton should render all icons in motifIcons set 29`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -543,7 +543,7 @@ exports[`IconButton should render all icons in motifIcons set 29`] = `
 exports[`IconButton should render all icons in motifIcons set 30`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -561,7 +561,7 @@ exports[`IconButton should render all icons in motifIcons set 30`] = `
 exports[`IconButton should render all icons in motifIcons set 31`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -579,7 +579,7 @@ exports[`IconButton should render all icons in motifIcons set 31`] = `
 exports[`IconButton should render all icons in motifIcons set 32`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -597,7 +597,7 @@ exports[`IconButton should render all icons in motifIcons set 32`] = `
 exports[`IconButton should render all icons in motifIcons set 33`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -615,7 +615,7 @@ exports[`IconButton should render all icons in motifIcons set 33`] = `
 exports[`IconButton should render all icons in motifIcons set 34`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -633,7 +633,7 @@ exports[`IconButton should render all icons in motifIcons set 34`] = `
 exports[`IconButton should render all icons in motifIcons set 35`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -651,7 +651,7 @@ exports[`IconButton should render all icons in motifIcons set 35`] = `
 exports[`IconButton should render all icons in motifIcons set 36`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -669,7 +669,7 @@ exports[`IconButton should render all icons in motifIcons set 36`] = `
 exports[`IconButton should render all icons in motifIcons set 37`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -687,7 +687,7 @@ exports[`IconButton should render all icons in motifIcons set 37`] = `
 exports[`IconButton should render all icons in motifIcons set 38`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -705,7 +705,7 @@ exports[`IconButton should render all icons in motifIcons set 38`] = `
 exports[`IconButton should render all icons in motifIcons set 39`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -723,7 +723,7 @@ exports[`IconButton should render all icons in motifIcons set 39`] = `
 exports[`IconButton should render all icons in motifIcons set 40`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -741,7 +741,7 @@ exports[`IconButton should render all icons in motifIcons set 40`] = `
 exports[`IconButton should render all icons in motifIcons set 41`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -759,7 +759,7 @@ exports[`IconButton should render all icons in motifIcons set 41`] = `
 exports[`IconButton should render all icons in motifIcons set 42`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -777,7 +777,7 @@ exports[`IconButton should render all icons in motifIcons set 42`] = `
 exports[`IconButton should render all icons in motifIcons set 43`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -795,7 +795,7 @@ exports[`IconButton should render all icons in motifIcons set 43`] = `
 exports[`IconButton should render all icons in motifIcons set 44`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -813,7 +813,7 @@ exports[`IconButton should render all icons in motifIcons set 44`] = `
 exports[`IconButton should render all icons in motifIcons set 45`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -831,7 +831,7 @@ exports[`IconButton should render all icons in motifIcons set 45`] = `
 exports[`IconButton should render all icons in motifIcons set 46`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -849,7 +849,7 @@ exports[`IconButton should render all icons in motifIcons set 46`] = `
 exports[`IconButton should render all icons in motifIcons set 47`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -867,7 +867,7 @@ exports[`IconButton should render all icons in motifIcons set 47`] = `
 exports[`IconButton should render all icons in motifIcons set 48`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -885,7 +885,7 @@ exports[`IconButton should render all icons in motifIcons set 48`] = `
 exports[`IconButton should render all icons in motifIcons set 49`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -903,7 +903,7 @@ exports[`IconButton should render all icons in motifIcons set 49`] = `
 exports[`IconButton should render all icons in motifIcons set 50`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -921,7 +921,7 @@ exports[`IconButton should render all icons in motifIcons set 50`] = `
 exports[`IconButton should render all icons in motifIcons set 51`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -939,7 +939,7 @@ exports[`IconButton should render all icons in motifIcons set 51`] = `
 exports[`IconButton should render all icons in motifIcons set 52`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -957,7 +957,7 @@ exports[`IconButton should render all icons in motifIcons set 52`] = `
 exports[`IconButton should render all icons in motifIcons set 53`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -975,7 +975,7 @@ exports[`IconButton should render all icons in motifIcons set 53`] = `
 exports[`IconButton should render all icons in motifIcons set 54`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -993,7 +993,7 @@ exports[`IconButton should render all icons in motifIcons set 54`] = `
 exports[`IconButton should render all icons in motifIcons set 55`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1011,7 +1011,7 @@ exports[`IconButton should render all icons in motifIcons set 55`] = `
 exports[`IconButton should render all icons in motifIcons set 56`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1029,7 +1029,7 @@ exports[`IconButton should render all icons in motifIcons set 56`] = `
 exports[`IconButton should render all icons in motifIcons set 57`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1047,7 +1047,7 @@ exports[`IconButton should render all icons in motifIcons set 57`] = `
 exports[`IconButton should render all icons in motifIcons set 58`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1065,7 +1065,7 @@ exports[`IconButton should render all icons in motifIcons set 58`] = `
 exports[`IconButton should render all icons in motifIcons set 59`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1083,7 +1083,7 @@ exports[`IconButton should render all icons in motifIcons set 59`] = `
 exports[`IconButton should render all icons in motifIcons set 60`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1101,7 +1101,7 @@ exports[`IconButton should render all icons in motifIcons set 60`] = `
 exports[`IconButton should render all icons in motifIcons set 61`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1119,7 +1119,7 @@ exports[`IconButton should render all icons in motifIcons set 61`] = `
 exports[`IconButton should render all icons in motifIcons set 62`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1137,7 +1137,7 @@ exports[`IconButton should render all icons in motifIcons set 62`] = `
 exports[`IconButton should render all icons in motifIcons set 63`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1155,7 +1155,7 @@ exports[`IconButton should render all icons in motifIcons set 63`] = `
 exports[`IconButton should render all icons in motifIcons set 64`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1173,7 +1173,7 @@ exports[`IconButton should render all icons in motifIcons set 64`] = `
 exports[`IconButton should render all icons in motifIcons set 65`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1191,7 +1191,7 @@ exports[`IconButton should render all icons in motifIcons set 65`] = `
 exports[`IconButton should render all icons in motifIcons set 66`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1209,7 +1209,7 @@ exports[`IconButton should render all icons in motifIcons set 66`] = `
 exports[`IconButton should render all icons in motifIcons set 67`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1227,7 +1227,7 @@ exports[`IconButton should render all icons in motifIcons set 67`] = `
 exports[`IconButton should render all icons in motifIcons set 68`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1245,7 +1245,7 @@ exports[`IconButton should render all icons in motifIcons set 68`] = `
 exports[`IconButton should render all icons in motifIcons set 69`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1263,7 +1263,7 @@ exports[`IconButton should render all icons in motifIcons set 69`] = `
 exports[`IconButton should render all icons in motifIcons set 70`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1281,7 +1281,7 @@ exports[`IconButton should render all icons in motifIcons set 70`] = `
 exports[`IconButton should render all icons in motifIcons set 71`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1299,7 +1299,7 @@ exports[`IconButton should render all icons in motifIcons set 71`] = `
 exports[`IconButton should render all icons in motifIcons set 72`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1317,7 +1317,7 @@ exports[`IconButton should render all icons in motifIcons set 72`] = `
 exports[`IconButton should render all icons in motifIcons set 73`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1335,7 +1335,7 @@ exports[`IconButton should render all icons in motifIcons set 73`] = `
 exports[`IconButton should render all icons in motifIcons set 74`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1353,7 +1353,7 @@ exports[`IconButton should render all icons in motifIcons set 74`] = `
 exports[`IconButton should render all icons in motifIcons set 75`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1371,7 +1371,7 @@ exports[`IconButton should render all icons in motifIcons set 75`] = `
 exports[`IconButton should render all icons in motifIcons set 76`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1389,7 +1389,7 @@ exports[`IconButton should render all icons in motifIcons set 76`] = `
 exports[`IconButton should render all icons in motifIcons set 77`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1407,7 +1407,7 @@ exports[`IconButton should render all icons in motifIcons set 77`] = `
 exports[`IconButton should render all icons in motifIcons set 78`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1425,7 +1425,7 @@ exports[`IconButton should render all icons in motifIcons set 78`] = `
 exports[`IconButton should render all icons in motifIcons set 79`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1443,7 +1443,7 @@ exports[`IconButton should render all icons in motifIcons set 79`] = `
 exports[`IconButton should render all icons in motifIcons set 80`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1461,7 +1461,7 @@ exports[`IconButton should render all icons in motifIcons set 80`] = `
 exports[`IconButton should render all icons in motifIcons set 81`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1479,7 +1479,7 @@ exports[`IconButton should render all icons in motifIcons set 81`] = `
 exports[`IconButton should render all icons in motifIcons set 82`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1497,7 +1497,7 @@ exports[`IconButton should render all icons in motifIcons set 82`] = `
 exports[`IconButton should render all icons in motifIcons set 83`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1515,7 +1515,7 @@ exports[`IconButton should render all icons in motifIcons set 83`] = `
 exports[`IconButton should render all icons in motifIcons set 84`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1533,7 +1533,7 @@ exports[`IconButton should render all icons in motifIcons set 84`] = `
 exports[`IconButton should render all icons in motifIcons set 85`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1551,7 +1551,7 @@ exports[`IconButton should render all icons in motifIcons set 85`] = `
 exports[`IconButton should render all icons in motifIcons set 86`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1569,7 +1569,7 @@ exports[`IconButton should render all icons in motifIcons set 86`] = `
 exports[`IconButton should render all icons in motifIcons set 87`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1587,7 +1587,7 @@ exports[`IconButton should render all icons in motifIcons set 87`] = `
 exports[`IconButton should render all icons in motifIcons set 88`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1605,7 +1605,7 @@ exports[`IconButton should render all icons in motifIcons set 88`] = `
 exports[`IconButton should render all icons in motifIcons set 89`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1623,7 +1623,7 @@ exports[`IconButton should render all icons in motifIcons set 89`] = `
 exports[`IconButton should render all icons in motifIcons set 90`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1641,7 +1641,7 @@ exports[`IconButton should render all icons in motifIcons set 90`] = `
 exports[`IconButton should render all icons in motifIcons set 91`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1659,7 +1659,7 @@ exports[`IconButton should render all icons in motifIcons set 91`] = `
 exports[`IconButton should render all icons in motifIcons set 92`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1677,7 +1677,7 @@ exports[`IconButton should render all icons in motifIcons set 92`] = `
 exports[`IconButton should render all icons in motifIcons set 93`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1695,7 +1695,7 @@ exports[`IconButton should render all icons in motifIcons set 93`] = `
 exports[`IconButton should render all icons in motifIcons set 94`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1713,7 +1713,7 @@ exports[`IconButton should render all icons in motifIcons set 94`] = `
 exports[`IconButton should render all icons in motifIcons set 95`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1731,7 +1731,7 @@ exports[`IconButton should render all icons in motifIcons set 95`] = `
 exports[`IconButton should render all icons in motifIcons set 96`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1749,7 +1749,7 @@ exports[`IconButton should render all icons in motifIcons set 96`] = `
 exports[`IconButton should render all icons in motifIcons set 97`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1767,7 +1767,7 @@ exports[`IconButton should render all icons in motifIcons set 97`] = `
 exports[`IconButton should render all icons in motifIcons set 98`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1785,7 +1785,7 @@ exports[`IconButton should render all icons in motifIcons set 98`] = `
 exports[`IconButton should render all icons in motifIcons set 99`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1803,7 +1803,7 @@ exports[`IconButton should render all icons in motifIcons set 99`] = `
 exports[`IconButton should render all icons in motifIcons set 100`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1821,7 +1821,7 @@ exports[`IconButton should render all icons in motifIcons set 100`] = `
 exports[`IconButton should render all icons in motifIcons set 101`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1839,7 +1839,7 @@ exports[`IconButton should render all icons in motifIcons set 101`] = `
 exports[`IconButton should render all icons in motifIcons set 102`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1857,7 +1857,7 @@ exports[`IconButton should render all icons in motifIcons set 102`] = `
 exports[`IconButton should render all icons in motifIcons set 103`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1875,7 +1875,7 @@ exports[`IconButton should render all icons in motifIcons set 103`] = `
 exports[`IconButton should render all icons in motifIcons set 104`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1893,7 +1893,7 @@ exports[`IconButton should render all icons in motifIcons set 104`] = `
 exports[`IconButton should render all icons in motifIcons set 105`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1911,7 +1911,7 @@ exports[`IconButton should render all icons in motifIcons set 105`] = `
 exports[`IconButton should render all icons in motifIcons set 106`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1929,7 +1929,7 @@ exports[`IconButton should render all icons in motifIcons set 106`] = `
 exports[`IconButton should render all icons in motifIcons set 107`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1947,7 +1947,7 @@ exports[`IconButton should render all icons in motifIcons set 107`] = `
 exports[`IconButton should render all icons in motifIcons set 108`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1965,7 +1965,7 @@ exports[`IconButton should render all icons in motifIcons set 108`] = `
 exports[`IconButton should render all icons in motifIcons set 109`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -1983,7 +1983,7 @@ exports[`IconButton should render all icons in motifIcons set 109`] = `
 exports[`IconButton should render all icons in motifIcons set 110`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2001,7 +2001,7 @@ exports[`IconButton should render all icons in motifIcons set 110`] = `
 exports[`IconButton should render all icons in motifIcons set 111`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2019,7 +2019,7 @@ exports[`IconButton should render all icons in motifIcons set 111`] = `
 exports[`IconButton should render all icons in motifIcons set 112`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2037,7 +2037,7 @@ exports[`IconButton should render all icons in motifIcons set 112`] = `
 exports[`IconButton should render all icons in motifIcons set 113`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2055,7 +2055,7 @@ exports[`IconButton should render all icons in motifIcons set 113`] = `
 exports[`IconButton should render all icons in motifIcons set 114`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2073,7 +2073,7 @@ exports[`IconButton should render all icons in motifIcons set 114`] = `
 exports[`IconButton should render all icons in motifIcons set 115`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2091,7 +2091,7 @@ exports[`IconButton should render all icons in motifIcons set 115`] = `
 exports[`IconButton should render all icons in motifIcons set 116`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2109,7 +2109,7 @@ exports[`IconButton should render all icons in motifIcons set 116`] = `
 exports[`IconButton should render all icons in motifIcons set 117`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2127,7 +2127,7 @@ exports[`IconButton should render all icons in motifIcons set 117`] = `
 exports[`IconButton should render all icons in motifIcons set 118`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2145,7 +2145,7 @@ exports[`IconButton should render all icons in motifIcons set 118`] = `
 exports[`IconButton should render all icons in motifIcons set 119`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2163,7 +2163,7 @@ exports[`IconButton should render all icons in motifIcons set 119`] = `
 exports[`IconButton should render all icons in motifIcons set 120`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2181,7 +2181,7 @@ exports[`IconButton should render all icons in motifIcons set 120`] = `
 exports[`IconButton should render all icons in motifIcons set 121`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2199,7 +2199,7 @@ exports[`IconButton should render all icons in motifIcons set 121`] = `
 exports[`IconButton should render all icons in motifIcons set 122`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2217,7 +2217,7 @@ exports[`IconButton should render all icons in motifIcons set 122`] = `
 exports[`IconButton should render all icons in motifIcons set 123`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2235,7 +2235,7 @@ exports[`IconButton should render all icons in motifIcons set 123`] = `
 exports[`IconButton should render all icons in motifIcons set 124`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2253,7 +2253,7 @@ exports[`IconButton should render all icons in motifIcons set 124`] = `
 exports[`IconButton should render all icons in motifIcons set 125`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2271,7 +2271,7 @@ exports[`IconButton should render all icons in motifIcons set 125`] = `
 exports[`IconButton should render all icons in motifIcons set 126`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2289,7 +2289,7 @@ exports[`IconButton should render all icons in motifIcons set 126`] = `
 exports[`IconButton should render all icons in motifIcons set 127`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2307,7 +2307,7 @@ exports[`IconButton should render all icons in motifIcons set 127`] = `
 exports[`IconButton should render all icons in motifIcons set 128`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2325,7 +2325,7 @@ exports[`IconButton should render all icons in motifIcons set 128`] = `
 exports[`IconButton should render all icons in motifIcons set 129`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2343,7 +2343,7 @@ exports[`IconButton should render all icons in motifIcons set 129`] = `
 exports[`IconButton should render all icons in motifIcons set 130`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2361,7 +2361,7 @@ exports[`IconButton should render all icons in motifIcons set 130`] = `
 exports[`IconButton should render all icons in motifIcons set 131`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2379,7 +2379,7 @@ exports[`IconButton should render all icons in motifIcons set 131`] = `
 exports[`IconButton should render all icons in motifIcons set 132`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2397,7 +2397,7 @@ exports[`IconButton should render all icons in motifIcons set 132`] = `
 exports[`IconButton should render all icons in motifIcons set 133`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2415,7 +2415,7 @@ exports[`IconButton should render all icons in motifIcons set 133`] = `
 exports[`IconButton should render all icons in motifIcons set 134`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2433,7 +2433,7 @@ exports[`IconButton should render all icons in motifIcons set 134`] = `
 exports[`IconButton should render all icons in motifIcons set 135`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2451,7 +2451,7 @@ exports[`IconButton should render all icons in motifIcons set 135`] = `
 exports[`IconButton should render all icons in motifIcons set 136`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2469,7 +2469,7 @@ exports[`IconButton should render all icons in motifIcons set 136`] = `
 exports[`IconButton should render all icons in motifIcons set 137`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2487,7 +2487,7 @@ exports[`IconButton should render all icons in motifIcons set 137`] = `
 exports[`IconButton should render all icons in motifIcons set 138`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2505,7 +2505,7 @@ exports[`IconButton should render all icons in motifIcons set 138`] = `
 exports[`IconButton should render all icons in motifIcons set 139`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2523,7 +2523,7 @@ exports[`IconButton should render all icons in motifIcons set 139`] = `
 exports[`IconButton should render all icons in motifIcons set 140`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2541,7 +2541,7 @@ exports[`IconButton should render all icons in motifIcons set 140`] = `
 exports[`IconButton should render all icons in motifIcons set 141`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2559,7 +2559,7 @@ exports[`IconButton should render all icons in motifIcons set 141`] = `
 exports[`IconButton should render all icons in motifIcons set 142`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2577,7 +2577,7 @@ exports[`IconButton should render all icons in motifIcons set 142`] = `
 exports[`IconButton should render all icons in motifIcons set 143`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2595,7 +2595,7 @@ exports[`IconButton should render all icons in motifIcons set 143`] = `
 exports[`IconButton should render all icons in motifIcons set 144`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2613,7 +2613,7 @@ exports[`IconButton should render all icons in motifIcons set 144`] = `
 exports[`IconButton should render all icons in motifIcons set 145`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2631,7 +2631,7 @@ exports[`IconButton should render all icons in motifIcons set 145`] = `
 exports[`IconButton should render all icons in motifIcons set 146`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2649,7 +2649,7 @@ exports[`IconButton should render all icons in motifIcons set 146`] = `
 exports[`IconButton should render all icons in motifIcons set 147`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2667,7 +2667,7 @@ exports[`IconButton should render all icons in motifIcons set 147`] = `
 exports[`IconButton should render all icons in motifIcons set 148`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2685,7 +2685,7 @@ exports[`IconButton should render all icons in motifIcons set 148`] = `
 exports[`IconButton should render all icons in motifIcons set 149`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2703,7 +2703,7 @@ exports[`IconButton should render all icons in motifIcons set 149`] = `
 exports[`IconButton should render all icons in motifIcons set 150`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2721,7 +2721,7 @@ exports[`IconButton should render all icons in motifIcons set 150`] = `
 exports[`IconButton should render all icons in motifIcons set 151`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2739,7 +2739,7 @@ exports[`IconButton should render all icons in motifIcons set 151`] = `
 exports[`IconButton should render all icons in motifIcons set 152`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2757,7 +2757,7 @@ exports[`IconButton should render all icons in motifIcons set 152`] = `
 exports[`IconButton should render all icons in motifIcons set 153`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2775,7 +2775,7 @@ exports[`IconButton should render all icons in motifIcons set 153`] = `
 exports[`IconButton should render all icons in motifIcons set 154`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2793,7 +2793,7 @@ exports[`IconButton should render all icons in motifIcons set 154`] = `
 exports[`IconButton should render all icons in motifIcons set 155`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2811,7 +2811,7 @@ exports[`IconButton should render all icons in motifIcons set 155`] = `
 exports[`IconButton should render all icons in motifIcons set 156`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2829,7 +2829,7 @@ exports[`IconButton should render all icons in motifIcons set 156`] = `
 exports[`IconButton should render all icons in motifIcons set 157`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2847,7 +2847,7 @@ exports[`IconButton should render all icons in motifIcons set 157`] = `
 exports[`IconButton should render all icons in motifIcons set 158`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2865,7 +2865,7 @@ exports[`IconButton should render all icons in motifIcons set 158`] = `
 exports[`IconButton should render all icons in motifIcons set 159`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2883,7 +2883,7 @@ exports[`IconButton should render all icons in motifIcons set 159`] = `
 exports[`IconButton should render all icons in motifIcons set 160`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2901,7 +2901,7 @@ exports[`IconButton should render all icons in motifIcons set 160`] = `
 exports[`IconButton should render all icons in motifIcons set 161`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2919,7 +2919,7 @@ exports[`IconButton should render all icons in motifIcons set 161`] = `
 exports[`IconButton should render all icons in motifIcons set 162`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2937,7 +2937,7 @@ exports[`IconButton should render all icons in motifIcons set 162`] = `
 exports[`IconButton should render all icons in motifIcons set 163`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2955,7 +2955,7 @@ exports[`IconButton should render all icons in motifIcons set 163`] = `
 exports[`IconButton should render all icons in motifIcons set 164`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2973,7 +2973,7 @@ exports[`IconButton should render all icons in motifIcons set 164`] = `
 exports[`IconButton should render all icons in motifIcons set 165`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -2991,7 +2991,7 @@ exports[`IconButton should render all icons in motifIcons set 165`] = `
 exports[`IconButton should render all icons in motifIcons set 166`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3009,7 +3009,7 @@ exports[`IconButton should render all icons in motifIcons set 166`] = `
 exports[`IconButton should render all icons in motifIcons set 167`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3027,7 +3027,7 @@ exports[`IconButton should render all icons in motifIcons set 167`] = `
 exports[`IconButton should render all icons in motifIcons set 168`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3045,7 +3045,7 @@ exports[`IconButton should render all icons in motifIcons set 168`] = `
 exports[`IconButton should render all icons in motifIcons set 169`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3063,7 +3063,7 @@ exports[`IconButton should render all icons in motifIcons set 169`] = `
 exports[`IconButton should render all icons in motifIcons set 170`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3081,7 +3081,7 @@ exports[`IconButton should render all icons in motifIcons set 170`] = `
 exports[`IconButton should render all icons in motifIcons set 171`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3099,7 +3099,7 @@ exports[`IconButton should render all icons in motifIcons set 171`] = `
 exports[`IconButton should render all icons in motifIcons set 172`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3117,7 +3117,7 @@ exports[`IconButton should render all icons in motifIcons set 172`] = `
 exports[`IconButton should render all icons in motifIcons set 173`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3135,7 +3135,7 @@ exports[`IconButton should render all icons in motifIcons set 173`] = `
 exports[`IconButton should render all icons in motifIcons set 174`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3153,7 +3153,7 @@ exports[`IconButton should render all icons in motifIcons set 174`] = `
 exports[`IconButton should render all icons in motifIcons set 175`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3171,7 +3171,7 @@ exports[`IconButton should render all icons in motifIcons set 175`] = `
 exports[`IconButton should render all icons in motifIcons set 176`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3189,7 +3189,7 @@ exports[`IconButton should render all icons in motifIcons set 176`] = `
 exports[`IconButton should render all icons in motifIcons set 177`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3207,7 +3207,7 @@ exports[`IconButton should render all icons in motifIcons set 177`] = `
 exports[`IconButton should render all icons in motifIcons set 178`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3225,7 +3225,7 @@ exports[`IconButton should render all icons in motifIcons set 178`] = `
 exports[`IconButton should render all icons in motifIcons set 179`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3243,7 +3243,7 @@ exports[`IconButton should render all icons in motifIcons set 179`] = `
 exports[`IconButton should render all icons in motifIcons set 180`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3261,7 +3261,7 @@ exports[`IconButton should render all icons in motifIcons set 180`] = `
 exports[`IconButton should render all icons in motifIcons set 181`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3279,7 +3279,7 @@ exports[`IconButton should render all icons in motifIcons set 181`] = `
 exports[`IconButton should render all icons in motifIcons set 182`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3297,7 +3297,7 @@ exports[`IconButton should render all icons in motifIcons set 182`] = `
 exports[`IconButton should render all icons in motifIcons set 183`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3315,7 +3315,7 @@ exports[`IconButton should render all icons in motifIcons set 183`] = `
 exports[`IconButton should render all icons in motifIcons set 184`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3333,7 +3333,7 @@ exports[`IconButton should render all icons in motifIcons set 184`] = `
 exports[`IconButton should render all icons in motifIcons set 185`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3351,7 +3351,7 @@ exports[`IconButton should render all icons in motifIcons set 185`] = `
 exports[`IconButton should render all icons in motifIcons set 186`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3369,7 +3369,7 @@ exports[`IconButton should render all icons in motifIcons set 186`] = `
 exports[`IconButton should render all icons in motifIcons set 187`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3387,7 +3387,7 @@ exports[`IconButton should render all icons in motifIcons set 187`] = `
 exports[`IconButton should render all icons in motifIcons set 188`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3405,7 +3405,7 @@ exports[`IconButton should render all icons in motifIcons set 188`] = `
 exports[`IconButton should render all icons in motifIcons set 189`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3423,7 +3423,7 @@ exports[`IconButton should render all icons in motifIcons set 189`] = `
 exports[`IconButton should render all icons in motifIcons set 190`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3441,7 +3441,7 @@ exports[`IconButton should render all icons in motifIcons set 190`] = `
 exports[`IconButton should render all icons in motifIcons set 191`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3459,7 +3459,7 @@ exports[`IconButton should render all icons in motifIcons set 191`] = `
 exports[`IconButton should render all icons in motifIcons set 192`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3477,7 +3477,7 @@ exports[`IconButton should render all icons in motifIcons set 192`] = `
 exports[`IconButton should render all icons in motifIcons set 193`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3495,7 +3495,7 @@ exports[`IconButton should render all icons in motifIcons set 193`] = `
 exports[`IconButton should render all icons in motifIcons set 194`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3513,7 +3513,7 @@ exports[`IconButton should render all icons in motifIcons set 194`] = `
 exports[`IconButton should render all icons in motifIcons set 195`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3531,7 +3531,7 @@ exports[`IconButton should render all icons in motifIcons set 195`] = `
 exports[`IconButton should render all icons in motifIcons set 196`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3549,7 +3549,7 @@ exports[`IconButton should render all icons in motifIcons set 196`] = `
 exports[`IconButton should render all icons in motifIcons set 197`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3567,7 +3567,7 @@ exports[`IconButton should render all icons in motifIcons set 197`] = `
 exports[`IconButton should render all icons in motifIcons set 198`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3585,7 +3585,7 @@ exports[`IconButton should render all icons in motifIcons set 198`] = `
 exports[`IconButton should render all icons in motifIcons set 199`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3603,7 +3603,7 @@ exports[`IconButton should render all icons in motifIcons set 199`] = `
 exports[`IconButton should render all icons in motifIcons set 200`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3621,7 +3621,7 @@ exports[`IconButton should render all icons in motifIcons set 200`] = `
 exports[`IconButton should render all icons in motifIcons set 201`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3639,7 +3639,7 @@ exports[`IconButton should render all icons in motifIcons set 201`] = `
 exports[`IconButton should render all icons in motifIcons set 202`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3657,7 +3657,7 @@ exports[`IconButton should render all icons in motifIcons set 202`] = `
 exports[`IconButton should render all icons in motifIcons set 203`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3675,7 +3675,7 @@ exports[`IconButton should render all icons in motifIcons set 203`] = `
 exports[`IconButton should render all icons in motifIcons set 204`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3693,7 +3693,7 @@ exports[`IconButton should render all icons in motifIcons set 204`] = `
 exports[`IconButton should render all icons in motifIcons set 205`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3711,7 +3711,7 @@ exports[`IconButton should render all icons in motifIcons set 205`] = `
 exports[`IconButton should render all icons in motifIcons set 206`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3729,7 +3729,7 @@ exports[`IconButton should render all icons in motifIcons set 206`] = `
 exports[`IconButton should render all icons in motifIcons set 207`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3747,7 +3747,7 @@ exports[`IconButton should render all icons in motifIcons set 207`] = `
 exports[`IconButton should render all icons in motifIcons set 208`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3765,7 +3765,7 @@ exports[`IconButton should render all icons in motifIcons set 208`] = `
 exports[`IconButton should render all icons in motifIcons set 209`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3783,7 +3783,7 @@ exports[`IconButton should render all icons in motifIcons set 209`] = `
 exports[`IconButton should render all icons in motifIcons set 210`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3801,7 +3801,7 @@ exports[`IconButton should render all icons in motifIcons set 210`] = `
 exports[`IconButton should render all icons in motifIcons set 211`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3819,7 +3819,7 @@ exports[`IconButton should render all icons in motifIcons set 211`] = `
 exports[`IconButton should render all icons in motifIcons set 212`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3837,7 +3837,7 @@ exports[`IconButton should render all icons in motifIcons set 212`] = `
 exports[`IconButton should render all icons in motifIcons set 213`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3855,7 +3855,7 @@ exports[`IconButton should render all icons in motifIcons set 213`] = `
 exports[`IconButton should render all icons in motifIcons set 214`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3873,7 +3873,7 @@ exports[`IconButton should render all icons in motifIcons set 214`] = `
 exports[`IconButton should render all icons in motifIcons set 215`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3891,7 +3891,7 @@ exports[`IconButton should render all icons in motifIcons set 215`] = `
 exports[`IconButton should render all icons in motifIcons set 216`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3909,7 +3909,7 @@ exports[`IconButton should render all icons in motifIcons set 216`] = `
 exports[`IconButton should render all icons in motifIcons set 217`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3927,7 +3927,7 @@ exports[`IconButton should render all icons in motifIcons set 217`] = `
 exports[`IconButton should render all icons in motifIcons set 218`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3945,7 +3945,7 @@ exports[`IconButton should render all icons in motifIcons set 218`] = `
 exports[`IconButton should render all icons in motifIcons set 219`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3963,7 +3963,7 @@ exports[`IconButton should render all icons in motifIcons set 219`] = `
 exports[`IconButton should render all icons in motifIcons set 220`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3981,7 +3981,7 @@ exports[`IconButton should render all icons in motifIcons set 220`] = `
 exports[`IconButton should render all icons in motifIcons set 221`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -3999,7 +3999,7 @@ exports[`IconButton should render all icons in motifIcons set 221`] = `
 exports[`IconButton should render all icons in motifIcons set 222`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4017,7 +4017,7 @@ exports[`IconButton should render all icons in motifIcons set 222`] = `
 exports[`IconButton should render all icons in motifIcons set 223`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4035,7 +4035,7 @@ exports[`IconButton should render all icons in motifIcons set 223`] = `
 exports[`IconButton should render all icons in motifIcons set 224`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4053,7 +4053,7 @@ exports[`IconButton should render all icons in motifIcons set 224`] = `
 exports[`IconButton should render all icons in motifIcons set 225`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4071,7 +4071,7 @@ exports[`IconButton should render all icons in motifIcons set 225`] = `
 exports[`IconButton should render all icons in motifIcons set 226`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4089,7 +4089,7 @@ exports[`IconButton should render all icons in motifIcons set 226`] = `
 exports[`IconButton should render all icons in motifIcons set 227`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4107,7 +4107,7 @@ exports[`IconButton should render all icons in motifIcons set 227`] = `
 exports[`IconButton should render all icons in motifIcons set 228`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4125,7 +4125,7 @@ exports[`IconButton should render all icons in motifIcons set 228`] = `
 exports[`IconButton should render all icons in motifIcons set 229`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4143,7 +4143,7 @@ exports[`IconButton should render all icons in motifIcons set 229`] = `
 exports[`IconButton should render all icons in motifIcons set 230`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4161,7 +4161,7 @@ exports[`IconButton should render all icons in motifIcons set 230`] = `
 exports[`IconButton should render all icons in motifIcons set 231`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4179,7 +4179,7 @@ exports[`IconButton should render all icons in motifIcons set 231`] = `
 exports[`IconButton should render all icons in motifIcons set 232`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4197,7 +4197,7 @@ exports[`IconButton should render all icons in motifIcons set 232`] = `
 exports[`IconButton should render all icons in motifIcons set 233`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4215,7 +4215,7 @@ exports[`IconButton should render all icons in motifIcons set 233`] = `
 exports[`IconButton should render all icons in motifIcons set 234`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4233,7 +4233,7 @@ exports[`IconButton should render all icons in motifIcons set 234`] = `
 exports[`IconButton should render all icons in motifIcons set 235`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4251,7 +4251,7 @@ exports[`IconButton should render all icons in motifIcons set 235`] = `
 exports[`IconButton should render all icons in motifIcons set 236`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4269,7 +4269,7 @@ exports[`IconButton should render all icons in motifIcons set 236`] = `
 exports[`IconButton should render all icons in motifIcons set 237`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4287,7 +4287,7 @@ exports[`IconButton should render all icons in motifIcons set 237`] = `
 exports[`IconButton should render all icons in motifIcons set 238`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4305,7 +4305,7 @@ exports[`IconButton should render all icons in motifIcons set 238`] = `
 exports[`IconButton should render all icons in motifIcons set 239`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4323,7 +4323,7 @@ exports[`IconButton should render all icons in motifIcons set 239`] = `
 exports[`IconButton should render all icons in motifIcons set 240`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4341,7 +4341,7 @@ exports[`IconButton should render all icons in motifIcons set 240`] = `
 exports[`IconButton should render all icons in motifIcons set 241`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4359,7 +4359,7 @@ exports[`IconButton should render all icons in motifIcons set 241`] = `
 exports[`IconButton should render all icons in motifIcons set 242`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4377,7 +4377,7 @@ exports[`IconButton should render all icons in motifIcons set 242`] = `
 exports[`IconButton should render all icons in motifIcons set 243`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4395,7 +4395,7 @@ exports[`IconButton should render all icons in motifIcons set 243`] = `
 exports[`IconButton should render all icons in motifIcons set 244`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4413,7 +4413,7 @@ exports[`IconButton should render all icons in motifIcons set 244`] = `
 exports[`IconButton should render all icons in motifIcons set 245`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4431,7 +4431,7 @@ exports[`IconButton should render all icons in motifIcons set 245`] = `
 exports[`IconButton should render all icons in motifIcons set 246`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4449,7 +4449,7 @@ exports[`IconButton should render all icons in motifIcons set 246`] = `
 exports[`IconButton should render all icons in motifIcons set 247`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4467,7 +4467,7 @@ exports[`IconButton should render all icons in motifIcons set 247`] = `
 exports[`IconButton should render all icons in motifIcons set 248`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4485,7 +4485,7 @@ exports[`IconButton should render all icons in motifIcons set 248`] = `
 exports[`IconButton should render all icons in motifIcons set 249`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4503,7 +4503,7 @@ exports[`IconButton should render all icons in motifIcons set 249`] = `
 exports[`IconButton should render all icons in motifIcons set 250`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4521,7 +4521,7 @@ exports[`IconButton should render all icons in motifIcons set 250`] = `
 exports[`IconButton should render all icons in motifIcons set 251`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4539,7 +4539,7 @@ exports[`IconButton should render all icons in motifIcons set 251`] = `
 exports[`IconButton should render all icons in motifIcons set 252`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4557,7 +4557,7 @@ exports[`IconButton should render all icons in motifIcons set 252`] = `
 exports[`IconButton should render all icons in motifIcons set 253`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4575,7 +4575,7 @@ exports[`IconButton should render all icons in motifIcons set 253`] = `
 exports[`IconButton should render all icons in motifIcons set 254`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4593,7 +4593,7 @@ exports[`IconButton should render all icons in motifIcons set 254`] = `
 exports[`IconButton should render all icons in motifIcons set 255`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4611,7 +4611,7 @@ exports[`IconButton should render all icons in motifIcons set 255`] = `
 exports[`IconButton should render all icons in motifIcons set 256`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4629,7 +4629,7 @@ exports[`IconButton should render all icons in motifIcons set 256`] = `
 exports[`IconButton should render all icons in motifIcons set 257`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4647,7 +4647,7 @@ exports[`IconButton should render all icons in motifIcons set 257`] = `
 exports[`IconButton should render all icons in motifIcons set 258`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4665,7 +4665,7 @@ exports[`IconButton should render all icons in motifIcons set 258`] = `
 exports[`IconButton should render all icons in motifIcons set 259`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4683,7 +4683,7 @@ exports[`IconButton should render all icons in motifIcons set 259`] = `
 exports[`IconButton should render all icons in motifIcons set 260`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4701,7 +4701,7 @@ exports[`IconButton should render all icons in motifIcons set 260`] = `
 exports[`IconButton should render all icons in motifIcons set 261`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4719,7 +4719,7 @@ exports[`IconButton should render all icons in motifIcons set 261`] = `
 exports[`IconButton should render all icons in motifIcons set 262`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4737,7 +4737,7 @@ exports[`IconButton should render all icons in motifIcons set 262`] = `
 exports[`IconButton should render all icons in motifIcons set 263`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4755,7 +4755,7 @@ exports[`IconButton should render all icons in motifIcons set 263`] = `
 exports[`IconButton should render all icons in motifIcons set 264`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4773,7 +4773,7 @@ exports[`IconButton should render all icons in motifIcons set 264`] = `
 exports[`IconButton should render all icons in motifIcons set 265`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4791,7 +4791,7 @@ exports[`IconButton should render all icons in motifIcons set 265`] = `
 exports[`IconButton should render all icons in motifIcons set 266`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4809,7 +4809,7 @@ exports[`IconButton should render all icons in motifIcons set 266`] = `
 exports[`IconButton should render all icons in motifIcons set 267`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4827,7 +4827,7 @@ exports[`IconButton should render all icons in motifIcons set 267`] = `
 exports[`IconButton should render all icons in motifIcons set 268`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4845,7 +4845,7 @@ exports[`IconButton should render all icons in motifIcons set 268`] = `
 exports[`IconButton should render all icons in motifIcons set 269`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4863,7 +4863,7 @@ exports[`IconButton should render all icons in motifIcons set 269`] = `
 exports[`IconButton should render all icons in motifIcons set 270`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4881,7 +4881,7 @@ exports[`IconButton should render all icons in motifIcons set 270`] = `
 exports[`IconButton should render all icons in motifIcons set 271`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
@@ -4899,7 +4899,7 @@ exports[`IconButton should render all icons in motifIcons set 271`] = `
 exports[`IconButton should render all icons in motifIcons set 272`] = `
 <div>
   <button
-    class="Root md secondary mtf-ui-icons"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >

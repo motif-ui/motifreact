@@ -19,7 +19,7 @@ exports[`Table should render with only required props 1`] = `
                 Test Title
               </span>
               <button
-                class="Root sm secondary motifIconsDefault sortButton"
+                class="Root sm secondary sortButton"
                 data-testid="iconButtonTestId"
                 type="button"
               >

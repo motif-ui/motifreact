@@ -1,11 +1,11 @@
 import type { CSSProperties } from "react";
 import Icon from "../../Icon";
-import { IconGlobalType, Size7 } from "../../../types";
+import { IconGlobalType, Size7, Variants } from "../../../types";
 
 type GlobalIconWrapperProps = {
   icon: IconGlobalType;
   size?: Size7;
-  variant?: "primary" | "secondary" | "info" | "success" | "warning" | "danger";
+  variant?: Variants;
   className?: string;
   style?: CSSProperties;
   iconClass?: string;
