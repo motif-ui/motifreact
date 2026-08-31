@@ -544,4 +544,9 @@ describe("UploadInput", () => {
     await waitFor(() => expect(getDownloadButton()).not.toBeInTheDocument());
     xhrSpy.mockRestore();
   });
+
+  it("should not render the suffix area when there is no file and no error or success prop", () => {
+    renderExt(<UploadInput {...requiredProps} />);
+    expect(screen.queryByTestId("labelSuffix")).not.toBeInTheDocument();
+  });
 });

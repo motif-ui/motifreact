@@ -126,9 +126,6 @@ $sizes: (("xs", "4x", "4x", "10x"), ("sm", "6x", "6x", "12x"), ("md", "8x", "8x"
     &:disabled {
       pointer-events: none;
     }
-    &:hover {
-      border-color: var(--theme-color-border-light-hover);
-    }
   }
 
   .labelSuffixWrapper {
@@ -160,6 +157,7 @@ $sizes: (("xs", "4x", "4x", "10x"), ("sm", "6x", "6x", "12x"), ("md", "8x", "8x"
     }
     .labelSuffixWrapper {
       padding-right: var(--base-sizing-#{$paddingH});
+      padding-left: var(--base-sizing-#{$paddingV});
       gap: var(--base-sizing-#{$paddingV});
     }
     .progress {

@@ -22,7 +22,7 @@ export const LabelSuffix = memo((props: Props) => {
   const downloadAll = () => selectedFiles.forEach(f => f.download?.());
 
   return (
-    <div className={styles.labelSuffixWrapper}>
+    <div className={styles.labelSuffixWrapper} data-testid="labelSuffix">
       {enableDownload && <MotifIconButton onClick={downloadAll} name="download" size={size} />}
       {enableDelete && <MotifIconButton onClick={() => removeFiles(selectedFiles)} name="delete" size={size} disabled={isDeleting} />}
       {labelSuffix === "errorTooltip" ? (

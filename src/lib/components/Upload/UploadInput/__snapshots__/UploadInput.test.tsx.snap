@@ -29,9 +29,6 @@ exports[`UploadInput should be rendered with only required props and should have
       >
         Select file
       </button>
-      <div
-        class="labelSuffixWrapper"
-      />
     </div>
   </div>
   <input
