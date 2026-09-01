@@ -1,5 +1,6 @@
 import { TimePickerProps } from "./types";
 import { PropsWithRef } from "../../types";
+import { TimePickerProvider } from "@/components/TimePicker/context/TimePickerProvider";
 import TimePickerContainer from "@/components/TimePicker/components/TimePickerContainer";
 import Picker from "@/components/Motif/Pickers/Picker";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -26,7 +27,7 @@ const TimePicker = (props: PropsWithRef<TimePickerProps, HTMLDivElement>) => {
   const locale = useDateLocale(propsLocale);
   return (
     <Picker size={size} variant={variant} fluid={fluid} ref={ref} className={`mtf-TimePicker ${className ?? ""}`.trim()} style={style}>
-      <TimePickerContainer
+      <TimePickerProvider
         size={size}
         secondsEnabled={!!secondsEnabled}
         locale={locale}
@@ -35,8 +36,9 @@ const TimePicker = (props: PropsWithRef<TimePickerProps, HTMLDivElement>) => {
         value={value}
         format={format}
         onClearClick={onClearClick}
-        onOkClick={onOkClick}
-      />
+      >
+        <TimePickerContainer onOkClick={onOkClick} />
+      </TimePickerProvider>
     </Picker>
   );
 };

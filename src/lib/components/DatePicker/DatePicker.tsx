@@ -1,6 +1,7 @@
 import Picker from "../Motif/Pickers/Picker";
 import { DatePickerProps } from "./types";
-import DateSelector from "@/components/DatePicker/components/DateSelector/DateSelector";
+import { DatePickerProvider } from "@/components/DatePicker/context/DatePickerProvider";
+import DatePickerContainer from "@/components/DatePicker/components/DatePickerContainer";
 import { PropsWithRef } from "../../types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
@@ -25,7 +26,7 @@ export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>)
   const locale = useDateLocale(propsLocale);
   return (
     <Picker size={size} variant={variant} fluid={fluid} ref={ref} style={style} className={`mtf-DatePicker ${className ?? ""}`.trim()}>
-      <DateSelector
+      <DatePickerProvider
         size={size}
         value={value}
         locale={locale}
@@ -34,9 +35,9 @@ export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>)
         onDateChange={onDateChange}
         onPickerChange={onPickerChange}
         onClearClick={onClearClick}
-        onOkClick={onOkClick}
-        removeActionButtons={removeActionButtons}
-      />
+      >
+        <DatePickerContainer onOkClick={onOkClick} removeActionButtons={removeActionButtons} />
+      </DatePickerProvider>
     </Picker>
   );
 };
