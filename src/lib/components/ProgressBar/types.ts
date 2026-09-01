@@ -1,4 +1,4 @@
-import { Size5, Variants } from "../../types";
+import { Size5, Variant } from "../../types";
 
 export type ProgressBarProps = {
   progress?: number;
@@ -7,7 +7,7 @@ export type ProgressBarProps = {
 } & ProgressBarDefaultableProps;
 
 export type ProgressBarDefaultableProps = {
-  variant?: Variants;
+  variant?: Variant;
   size?: Size5;
   indeterminate?: boolean;
   showPercentage?: boolean;
