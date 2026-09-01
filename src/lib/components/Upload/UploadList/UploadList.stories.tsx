@@ -18,7 +18,7 @@ const meta: Meta<typeof UploadList> = {
       table: {
         type: {
           summary:
-            "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; action?: { icon: string; onClick: () => void }; }[]",
+            "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; action?: { icon: IconGlobalType; onClick: () => void }; }[]",
         },
       },
     },
