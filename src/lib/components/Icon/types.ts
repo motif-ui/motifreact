@@ -1,4 +1,4 @@
-import { Size7, Variants } from "../../types";
+import { Size7, Variant } from "../../types";
 
 export type IconProps = {
   iconClass?: string;
@@ -7,7 +7,7 @@ export type IconProps = {
    */
   name?: string;
   size?: Size7;
-  variant?: Variants;
+  variant?: Variant;
   className?: string;
   color?: string;
   svgColorType?: "fill" | "stroke";
