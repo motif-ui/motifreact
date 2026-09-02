@@ -59,6 +59,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
       size={size}
       name={name}
       disabled={disabled}
+      readOnly={readOnly}
     >
       <div className={classes} style={style} ref={ref} data-mtf-component="upload-list">
         <DragArea disabled={disabled || readOnly} error={error} success={success} onChange={changeHandler} onError={onError} />

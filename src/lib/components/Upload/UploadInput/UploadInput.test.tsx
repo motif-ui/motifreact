@@ -125,6 +125,22 @@ describe("UploadInput", () => {
     expect(getDeleteButton()).not.toBeInTheDocument();
   });
 
+  it("should disable the upload button and not send a request when readOnly is toggled on after a file is already selected (autoUpload false)", async () => {
+    const xhrSpy = mockXHRs();
+    const { getInput, getUploadButton, rerender } = renderExt(<UploadInput {...requiredProps} autoUpload={false} />);
+
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(getUploadButton()).not.toBeDisabled();
+
+    rerender(<UploadInput {...requiredProps} autoUpload={false} readOnly />);
+    expect(getUploadButton()).toBeDisabled();
+
+    fireEvent.click(getUploadButton());
+    expect(xhrSpy).not.toHaveBeenCalled();
+
+    xhrSpy.mockRestore();
+  });
+
   it("should fire onChange event when any file is selected", async () => {
     const handleChange = jest.fn();
     const { getInput } = renderExt(<UploadInput {...requiredProps} onChange={handleChange} />);

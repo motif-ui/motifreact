@@ -97,6 +97,25 @@ describe("Slider", () => {
     cleanup();
   });
 
+  it("should be rendered as readOnly and not change value on click or native input change", () => {
+    const onChange = jest.fn();
+
+    render(<Slider value={14} readOnly onChange={onChange} />);
+    const slider = screen.getByRole("slider");
+
+    expect(screen.getByTestId("slider")).toHaveClass("disabled");
+    expect(slider).not.toBeDisabled();
+    expect(slider).toHaveAttribute("aria-readonly", "true");
+
+    fireEvent.click(screen.getByTestId("slider"), { clientX: 80 });
+    expect(slider).toHaveValue("14");
+
+    fireEvent.change(slider, { target: { value: 50 } });
+    expect(slider).toHaveValue("14");
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it("should set value with a mouse click", async () => {
     render(<Slider step={10} />);
     const slider = screen.getByRole("slider");
