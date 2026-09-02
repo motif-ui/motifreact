@@ -1,6 +1,7 @@
 export { default as MotifProvider, useMotifContext } from "./motif/context/MotifProvider";
 export { default as Accordion } from "./components/Accordion";
 export { default as Alert } from "./components/Alert";
+export { default as AlertModal } from "./components/AlertModal";
 export { default as Avatar } from "./components/Avatar";
 export { default as Badge } from "./components/Badge";
 export { default as Breadcrumb } from "./components/Breadcrumb";
