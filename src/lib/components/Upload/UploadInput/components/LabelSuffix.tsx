@@ -22,27 +22,17 @@ export const LabelSuffix = memo((props: Props) => {
   const downloadAll = () => selectedFiles.forEach(f => f.download?.());
 
   return (
-    <div className={styles.labelSuffixWrapper}>
-      {enableDownload && (
-        <MotifIconButton onClick={downloadAll} name="download" size={size} className={`${styles.labelSuffix} ${styles.focusable}`} />
-      )}
-      {enableDelete && (
-        <MotifIconButton
-          onClick={() => removeFiles(selectedFiles)}
-          name="delete"
-          size={size}
-          disabled={isDeleting}
-          className={`${styles.labelSuffix} ${styles.focusable} ${styles.delete}`}
-        />
-      )}
+    <div className={styles.labelSuffixWrapper} data-testid="labelSuffix">
+      {enableDownload && <MotifIconButton onClick={downloadAll} name="download" size={size} />}
+      {enableDelete && <MotifIconButton onClick={() => removeFiles(selectedFiles)} name="delete" size={size} disabled={isDeleting} />}
       {labelSuffix === "errorTooltip" ? (
         <Tooltip text={errors?.join("\n\n") || ""} position="bottomRight" size={size}>
-          <MotifIcon name="error" size={size} variant="danger" className={styles.labelSuffix} />
+          <MotifIcon name="error" size={size} variant="danger" />
         </Tooltip>
       ) : labelSuffix === "error" ? (
-        <MotifIcon name="error" size={size} variant="danger" className={styles.labelSuffix} />
+        <MotifIcon name="error" size={size} variant="danger" />
       ) : labelSuffix === "success" ? (
-        <MotifIcon name="check_circle" size={size} variant="success" className={styles.labelSuffix} />
+        <MotifIcon name="check_circle" size={size} variant="success" />
       ) : null}
     </div>
   );
