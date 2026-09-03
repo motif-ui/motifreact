@@ -52,66 +52,64 @@ export const FigmaImg: Story = {
 
 export const FigmaInspect: Story = {
   render: () => (
-    <>
-      <div className={styles.figmaInspect}>
-        <div className={styles.figmaInspectHeader}>
-          <span className={styles.figmaInspectTitle}>Motif UI Team Project / Buttons</span>
-          <span className={styles.figmaInspectBadge}>Component</span>
+    <div className={styles.figmaInspect}>
+      <div className={styles.figmaInspectHeader}>
+        <span className={styles.figmaInspectTitle}>Motif UI Team Project / Buttons</span>
+        <span className={styles.figmaInspectBadge}>Component</span>
+      </div>
+
+      <div className={styles.figmaLayout}>
+        <div className={styles.figmaFrame}>
+          <div className={styles.buttonPreview}>
+            <div className={styles.selectedButton}>
+              <Button variant="primary" size="sm" label="Primary" />
+            </div>
+            <Button variant="secondary" size="sm" label="Secondary" />
+            <Button variant="success" size="sm" label="Success" />
+            <Button variant="danger" size="sm" label="Danger" />
+            <Button variant="warning" size="sm" label="Warning" />
+          </div>
         </div>
 
-        <div className={styles.figmaLayout}>
-          <div className={styles.figmaFrame}>
-            <div className={styles.buttonPreview}>
-              <div className={styles.selectedButton}>
-                <Button variant="primary" size="sm" label="Primary" />
-              </div>
-              <Button variant="secondary" size="sm" label="Secondary" />
-              <Button variant="success" size="sm" label="Success" />
-              <Button variant="danger" size="sm" label="Danger" />
-              <Button variant="warning" size="sm" label="Warning" />
+        <div className={styles.figmaProperties}>
+          <div className={styles.figmaPropertiesSection}>
+            <span className={styles.figmaPropertiesTitle}>Properties</span>
+            <div className={styles.figmaProperty}>
+              <span className={styles.figmaPropertyLabel}>State</span>
+              <span className={styles.figmaPropertyValue}>Default , Hover, Focus, Active, Disabled</span>
+            </div>
+            <div className={styles.figmaProperty}>
+              <span className={styles.figmaPropertyLabel}>Size</span>
+              <span className={styles.figmaPropertyValue}>xs, sm, md, lg, xl</span>
+            </div>
+            <div className={styles.figmaProperty}>
+              <span className={styles.figmaPropertyLabel}>Shape</span>
+              <span className={styles.figmaPropertyValue}>Solid, Outline, Text Only</span>
             </div>
           </div>
 
-          <div className={styles.figmaProperties}>
-            <div className={styles.figmaPropertiesSection}>
-              <span className={styles.figmaPropertiesTitle}>Properties</span>
-              <div className={styles.figmaProperty}>
-                <span className={styles.figmaPropertyLabel}>State</span>
-                <span className={styles.figmaPropertyValue}>Default , Hover, Focus, Active, Disabled</span>
-              </div>
-              <div className={styles.figmaProperty}>
-                <span className={styles.figmaPropertyLabel}>Size</span>
-                <span className={styles.figmaPropertyValue}>xs, sm, md, lg, xl</span>
-              </div>
-              <div className={styles.figmaProperty}>
-                <span className={styles.figmaPropertyLabel}>Shape</span>
-                <span className={styles.figmaPropertyValue}>Solid, Outline, Text Only</span>
-              </div>
+          <div className={styles.figmaPropertiesSection}>
+            <span className={styles.figmaPropertiesTitle}>Design Tokens</span>
+            <div className={styles.tokenAnnotation}>
+              <span className={styles.tokenLabel}>Fill</span>
+              <code className={styles.tokenValue}>color/semantic/primary/500</code>
             </div>
-
-            <div className={styles.figmaPropertiesSection}>
-              <span className={styles.figmaPropertiesTitle}>Design Tokens</span>
-              <div className={styles.tokenAnnotation}>
-                <span className={styles.tokenLabel}>Fill</span>
-                <code className={styles.tokenValue}>color/semantic/primary/500</code>
-              </div>
-              <div className={styles.tokenAnnotation}>
-                <span className={styles.tokenLabel}>Padding</span>
-                <code className={styles.tokenValue}>sizing/4x</code>
-              </div>
-              <div className={styles.tokenAnnotation}>
-                <span className={styles.tokenLabel}>Radius</span>
-                <code className={styles.tokenValue}>sizing/radius/sm</code>
-              </div>
-              <div className={styles.tokenAnnotation}>
-                <span className={styles.tokenLabel}>Font</span>
-                <code className={styles.tokenValue}>typography/font-size/xs</code>
-              </div>
+            <div className={styles.tokenAnnotation}>
+              <span className={styles.tokenLabel}>Padding</span>
+              <code className={styles.tokenValue}>sizing/4x</code>
+            </div>
+            <div className={styles.tokenAnnotation}>
+              <span className={styles.tokenLabel}>Radius</span>
+              <code className={styles.tokenValue}>sizing/radius/sm</code>
+            </div>
+            <div className={styles.tokenAnnotation}>
+              <span className={styles.tokenLabel}>Font</span>
+              <code className={styles.tokenValue}>typography/font-size/xs</code>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   ),
 };
 
@@ -120,7 +118,7 @@ export const FigmaDesignToken: Story = {
     <div className={styles.tokenWorkflow}>
       <div className={styles.workflowStep}>
         <span className={styles.workflowIcon}>🎨</span>
-        <span className={styles.workflowTitle}>1. Export from Figma</span>
+        <span className={styles.workflowTitle}>Export from Figma</span>
         <span className={styles.workflowDescription}>via Token Studio plugin </span>
       </div>
 
@@ -128,17 +126,15 @@ export const FigmaDesignToken: Story = {
 
       <div className={styles.workflowStep}>
         <span className={styles.workflowIcon}>⚙️</span>
-        <span className={styles.workflowTitle}>2. Transform</span>
-        <div className={styles.workflowDescription}>
-          <code>npm run build:tokens</code>
-        </div>
+        <span className={styles.workflowTitle}>Transform</span>
+        <span className={styles.workflowDescriptionWithCode}>npm run build:tokens</span>
       </div>
 
       <div className={styles.workflowArrow}>→</div>
 
       <div className={styles.workflowStep}>
         <span className={styles.workflowIcon}>✅</span>
-        <span className={styles.workflowTitle}>3. Use in Code</span>
+        <span className={styles.workflowTitle}>Use in Code</span>
         <span className={styles.workflowDescription}>CSS variables</span>
       </div>
     </div>

@@ -256,6 +256,7 @@
       color: var(--mtfdocs-code-chip-text);
       font-weight: 700;
       border-radius: var(--mtfdocs-pill);
+      text-wrap: auto;
     }
     /* Same chip, larger, inside heading text */
     :where(h2:not(.sb-anchor, .sb-unstyled, .sb-unstyled *)) code,
@@ -338,8 +339,12 @@
     }
 
     /* Args Table */
-    div:has(> .docblock-argstable) {
+    div:has(> div > .docblock-argstable) {
       overflow-x: auto;
+    }
+    div:has(> .docblock-argstable) {
+      width: fit-content;
+      min-width: 100%;
       margin: 25px 0 40px;
 
       /* reset button */

@@ -49,7 +49,7 @@
   background: #ffffff;
   border: 1px solid #e1e4e8;
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: auto;
   margin: 2rem 0;
 
   .figmaInspectHeader {
@@ -208,34 +208,40 @@
 .tokenWorkflow {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 3rem 2rem;
-  gap: 2rem;
+  justify-content: space-evenly;
+  padding: 32px;
+  overflow-x: auto;
 }
 
 .workflowStep {
   display: flex;
   flex-direction: column;
   text-align: center;
-  flex: 1;
+  gap: 4px;
 }
 
 .workflowIcon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 32px;
 }
 
 .workflowTitle {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-size: 16px;
 }
 
 .workflowDescription {
-  font-size: 0.875rem;
+  font-size: 12px;
   color: #6c757d;
 }
 
+.workflowDescriptionWithCode {
+  font-size: 12px;
+  color: #6c757d;
+  background: #fafafa;
+  padding: 6px;
+  border-radius: 4px;
+}
+
 .workflowArrow {
-  font-size: 2rem;
+  font-size: 32px;
   color: #8b5cf6;
 }
