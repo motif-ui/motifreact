@@ -6,10 +6,15 @@ import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
 import { Size7 } from "../../types";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import MotifProvider from "../../motif/context/MotifProvider";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Icon", () => {
   it("should be rendered with only required props", () => {
     expect(render(<Icon name="account_circle" />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLSpanElement>(props => render(<Icon name="account_circle" {...props} />));
   });
 
   it("should render the icon given in the name prop or child as string", () => {

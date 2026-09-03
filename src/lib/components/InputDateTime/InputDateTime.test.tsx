@@ -10,7 +10,7 @@ import { TimeFormat } from "../Motif/Pickers/types";
 import { DateUtils } from "../../../utils/dateUtils";
 import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t } from "../../../utils/testUtils";
+import { t, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe(InputDateTime, () => {
   const today = new Date();
@@ -80,6 +80,10 @@ describe(InputDateTime, () => {
     const [hours] = getTimeList();
     expect(hours.children.length).toBe(24);
     expect(hours.lastElementChild).toHaveTextContent("23");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<InputDateTime {...props} />));
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {

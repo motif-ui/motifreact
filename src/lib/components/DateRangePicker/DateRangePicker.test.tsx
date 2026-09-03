@@ -6,7 +6,7 @@ import { userEvent } from "@testing-library/user-event";
 import { DateUtils } from "../../../utils/dateUtils";
 import { ReactNode } from "react";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t } from "../../../utils/testUtils";
+import { t, runStandardPropsTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateRangePicker", () => {
@@ -60,6 +60,10 @@ describe("DateRangePicker", () => {
 
     // size: md
     expect(pickerContainer).toHaveClass("md");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<DateRangePicker {...props} />));
   });
 
   it("should render a dropdown to select predefined date ranges", async () => {

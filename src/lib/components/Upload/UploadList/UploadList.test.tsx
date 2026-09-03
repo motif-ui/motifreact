@@ -8,7 +8,7 @@ import { formatBytes, shortenText } from "../../../../utils/utils";
 import { MESSAGE } from "@/components/Upload/constants";
 import { MOCK } from "../mock";
 import { ReactNode } from "react";
-import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runStandardPropsTest } from "../../../../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 
 describe("UploadList", () => {
@@ -29,6 +29,10 @@ describe("UploadList", () => {
 
   it("should be rendered with only required props", () => {
     expect(renderExt(<UploadList {...requiredProps} />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => renderExt(<UploadList {...requiredProps} {...props} />));
   });
 
   it("should be rendered with the given size in size prop", () => {

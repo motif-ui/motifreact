@@ -2,10 +2,15 @@ import "@testing-library/jest-dom";
 import Textarea from "@/components/Textarea/Textarea";
 import { render, screen } from "@testing-library/react";
 import { InputSize } from "../Form/types";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Textarea", () => {
   it("should render with only required props", () => {
     expect(render(<Textarea />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Textarea {...props} />));
   });
 
   it(" should update value on user input", () => {

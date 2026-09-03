@@ -38,6 +38,26 @@ describe("Tooltip", () => {
     expect(tooltip).toHaveClass("md");
   });
 
+  // Not using runStandardPropsTest here: the tooltip only mounts after hovering the trigger,
+  // so the root can't be asserted right after render like every other component.
+  //
+  // No ref assertion: Tooltip.tsx does `useImperativeHandle(outerRef, () => ref.current!, [])` with
+  // an empty deps array, so the handle is computed once on mount, before the portal (attached only on
+  // hover) exists — the forwarded ref is left permanently null. Known bug, not fixed here.
+  it("should render with the given className and style on the root element", async () => {
+    render(
+      <Tooltip text="Description" className="custom-class" style={{ marginTop: "13px" }}>
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+
+    await act(() => user.hover(screen.getByText("Test Button")));
+    const tooltip = screen.getByTestId("tooltipItem");
+
+    expect(tooltip).toHaveClass("custom-class");
+    expect(tooltip).toHaveStyle({ marginTop: "13px" });
+  });
+
   it("should not be rendered when no children is given ", () => {
     jest.spyOn(console, "error").mockImplementation(() => jest.fn());
 

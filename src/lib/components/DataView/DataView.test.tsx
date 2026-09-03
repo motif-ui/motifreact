@@ -1,6 +1,7 @@
 import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataView from "@/components/DataView/DataView";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("DataView", () => {
   afterEach(() => cleanup());
@@ -26,6 +27,16 @@ describe("DataView", () => {
     expect(wrapper).toHaveClass("xl-1");
     //Default value control for orientation prop
     expect(wrapper).toHaveClass("horizontal");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props =>
+      render(
+        <DataView {...props}>
+          <DataView.Item label="Test Content" />
+        </DataView>,
+      ),
+    );
   });
 
   it("should render number of columns given in the cols and each screen size prop", () => {

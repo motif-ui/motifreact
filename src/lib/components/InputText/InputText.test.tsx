@@ -5,10 +5,15 @@ import { InputSize } from "../Form/types";
 import Icon from "@/components/Icon";
 import MotifProvider from "../../motif/context/MotifProvider";
 import { TextTransform } from "@/components/Motif/InputText/types.ts";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("InputText", () => {
   it("should be rendered with only required props", () => {
     expect(render(<InputText />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<InputText {...props} />));
   });
 
   it("should display given value when value prop is given", () => {

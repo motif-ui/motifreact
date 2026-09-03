@@ -1,10 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import Avatar from "@/components/Avatar/Avatar";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Avatar", () => {
   it("should be rendered with only required props", () => {
     expect(render(<Avatar />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Avatar {...props} />));
   });
 
   it("should display the first two letters of given letters prop in upper case.", () => {

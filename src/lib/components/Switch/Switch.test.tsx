@@ -3,6 +3,7 @@ import Switch from "@/components/Switch/Switch";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { InputSize } from "../Form/types";
 import { userEvent } from "@testing-library/user-event";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Switch", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {
@@ -11,6 +12,10 @@ describe("Switch", () => {
 
     // size: md
     expect(container.firstElementChild).toHaveClass("md");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Switch {...props} />));
   });
 
   it("should display label when label prop is given", () => {

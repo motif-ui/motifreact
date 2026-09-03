@@ -5,7 +5,7 @@ import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
-import { t, runIconPropTest } from "../../../utils/testUtils";
+import { t, runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
@@ -48,6 +48,10 @@ describe("InputDate", () => {
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
     // icon = calendar_month (default)
     expect(screen.queryByText("calendar_month")).toBeInTheDocument();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<InputDate {...props} />));
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {

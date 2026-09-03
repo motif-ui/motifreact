@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import MenuList from "./MenuList";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import { userEvent } from "@testing-library/user-event";
 import { Size3 } from "../../types";
 import { MainMenuItemProps } from "@/components/MenuList/types";
@@ -22,6 +22,10 @@ describe("MenuList", () => {
     expect(container).toMatchSnapshot();
     const root = container.firstElementChild as HTMLElement;
     expect(root).toHaveClass("solid");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<MenuList items={items} variant="solid" {...props} />));
   });
 
   it("should display logo given in logo prop", () => {

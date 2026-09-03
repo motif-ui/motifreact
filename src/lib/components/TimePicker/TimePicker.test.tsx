@@ -4,7 +4,7 @@ import { Time, TimePickerLocale } from "../TimePicker/types";
 import { userEvent } from "@testing-library/user-event";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t } from "../../../utils/testUtils";
+import { t, runStandardPropsTest } from "../../../utils/testUtils";
 
 const timeValue: Time = { hours: 11, minutes: 43, seconds: 13 };
 const checkSelection = (list: HTMLUListElement, index: number, isSelected: boolean) =>
@@ -255,10 +255,8 @@ describe("TimePicker", () => {
     expect(handleTimeChange).not.toHaveBeenCalled();
   });
 
-  it("should apply the styles in the css class given in className prop", () => {
-    const testClassName = "testClassName";
-    const { container } = render(<TimePicker className={testClassName} />);
-    expect(container.firstChild).toHaveClass(testClassName);
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<TimePicker {...props} />));
   });
 
   it("should display as empty value when time value is not given or selected", () => {

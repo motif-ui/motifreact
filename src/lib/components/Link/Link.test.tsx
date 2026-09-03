@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import "@testing-library/jest-dom";
 import Link from "./Link";
 
@@ -7,6 +7,10 @@ describe("Link Component Tests", () => {
   it("should not render if both label and url are not provided", () => {
     const { container } = render(<Link />);
     expect(container.childElementCount).toBe(0);
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLAnchorElement>(props => render(<Link label="Motif" url="https://motif-ui.com" {...props} />));
   });
 
   it("should render url when label is not provided", () => {

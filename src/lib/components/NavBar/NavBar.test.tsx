@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import NavBar from "./NavBar";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import { MenuItemProps } from "@/components/NavBar/components/NavBarMenu/types";
 import { userEvent } from "@testing-library/user-event";
 import { Size3 } from "src/lib/types.ts";
@@ -42,6 +42,10 @@ describe("NavBar", () => {
 
     // variant default: "neutral"
     expect(container.firstChild).toHaveClass("neutral");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLElement>(props => render(<NavBar {...props} />));
   });
 
   it("should be rendered in the color variant given in the variant prop", () => {

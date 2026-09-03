@@ -28,6 +28,9 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     deleteRequest,
     customValidation,
     value: externalValue,
+    ref,
+    style,
+    className,
     ...inputCommonProps
   } = props;
   const mappedValue = mapExternalValue(externalValue);
@@ -63,7 +66,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
 
   return (
     <UploadProvider props={uploadProps} isUploadInput name={name} disabled={disabled} value={mappedValue}>
-      <UploadInputWrapper {...uploadProps} {...inputCommonPropsAfterRegister} />
+      <UploadInputWrapper {...uploadProps} {...inputCommonPropsAfterRegister} ref={ref} style={style} className={className} />
     </UploadProvider>
   );
 };

@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, screen, act } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import { SelectGroupItem, SelectItem } from "@/components/Select/types";
 import { Select, Validations } from "../../index";
 import { userEvent } from "@testing-library/user-event";
@@ -17,6 +17,10 @@ describe("Select", () => {
 
   it("should be rendered with only required props", () => {
     expect(render(<Select data={data} />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Select data={data} {...props} />));
   });
 
   it("should display given icon in the icon prop", () => {
