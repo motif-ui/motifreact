@@ -35,7 +35,7 @@ const meta: Meta<typeof Form> = {
     (Story, context) => (
       <div
         style={{
-          ...(context.args.formOrientation === "horizontal" ? { width: "100%", overflow: "scroll" } : { width: 500, overflow: "initial" }),
+          ...(context.args.formOrientation === "horizontal" ? { width: "100%", overflowX: "scroll" } : { width: 500, overflow: "initial" }),
           padding: 50,
           margin: "0 auto",
         }}
