@@ -2,10 +2,15 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import Checkbox from "./Checkbox";
 import { InputSize } from "../Form/types";
 import { userEvent } from "@testing-library/user-event";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Checkbox", () => {
   it("should render with only required props", () => {
     expect(render(<Checkbox />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Checkbox {...props} />));
   });
 
   it("should display label when label prop is given", () => {

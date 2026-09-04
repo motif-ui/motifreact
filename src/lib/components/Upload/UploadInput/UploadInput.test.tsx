@@ -6,7 +6,7 @@ import { MOCK } from "../mock";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
-import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runStandardPropsTest } from "../../../../utils/testUtils";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
 describe("UploadInput", () => {
@@ -78,6 +78,10 @@ describe("UploadInput", () => {
     const { container } = renderExt(<UploadInput {...requiredProps} />);
     expect(container).toMatchSnapshot();
     expect(container.firstElementChild).toHaveClass("md");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => renderExt(<UploadInput {...requiredProps} {...props} />));
   });
 
   it("should be rendered with the given size in size prop", () => {

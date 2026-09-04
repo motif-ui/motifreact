@@ -64,6 +64,12 @@ describe("Form", () => {
     expect(render(mainForm).container).toMatchSnapshot();
   });
 
+  it("should render with the given className and style on the root element", () => {
+    const { container } = render(<Form onSubmit={mockFunction} className="custom-class" style={{ marginTop: "13px" }} />);
+    expect(container.firstElementChild).toHaveClass("custom-class");
+    expect(container.firstElementChild).toHaveStyle({ marginTop: "13px" });
+  });
+
   it("should render all form items in given formOrientation prop", () => {
     const form = (orientation: Orientation) => (
       <Form onSubmit={mockFunction} formOrientation={orientation}>

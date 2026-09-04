@@ -1,4 +1,6 @@
 import { RenderResult } from "@testing-library/react";
+import { createRef } from "react";
+import type { CSSProperties, Ref } from "react";
 import { createTranslator } from "../i18n/translate";
 import type { IconGlobalType } from "../lib/types";
 
@@ -28,6 +30,34 @@ export const runIconPropTest = (renderIcon: ComponentWithIconRender, className?:
 
   testStringIcon();
   testReactElementIcon();
+};
+
+export const runStandardPropsTest = <E extends Element = HTMLElement>(
+  renderComponent: (props: { className?: string; style?: CSSProperties; ref?: Ref<E> }) => RenderResult,
+  getRoot: (result: RenderResult) => Element | null = ({ container }) => container.firstElementChild,
+) => {
+  const testClassName = () => {
+    const result = renderComponent({ className: "custom-class" });
+    expect(getRoot(result)).toHaveClass("custom-class");
+    result.unmount();
+  };
+
+  const testStyle = () => {
+    const result = renderComponent({ style: { marginTop: "13px" } });
+    expect(getRoot(result)).toHaveStyle({ marginTop: "13px" });
+    result.unmount();
+  };
+
+  const testRef = () => {
+    const ref = createRef<E>();
+    const result = renderComponent({ ref });
+    expect(ref.current).toBe(getRoot(result));
+    result.unmount();
+  };
+
+  testClassName();
+  testStyle();
+  testRef();
 };
 /**
  *

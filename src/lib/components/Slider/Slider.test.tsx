@@ -2,6 +2,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { userEvent } from "@testing-library/user-event";
 import Slider from "@/components/Slider/Slider";
 import { InputSize } from "../Form/types";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Slider", () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -55,6 +56,10 @@ describe("Slider", () => {
     // step
     fireEvent.change(slider, { target: { value: 0.5 } });
     expect(slider).toHaveValue("1");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Slider {...props} />));
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {

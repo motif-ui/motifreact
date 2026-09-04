@@ -17,7 +17,7 @@ import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t, runIconPropTest } from "../../../utils/testUtils";
+import { t, runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDateRange", () => {
@@ -85,6 +85,10 @@ describe("InputDateRange", () => {
     expect(getInputText()).toHaveClass("md");
     // icon = calendar_expand_horizontal (default)
     expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<InputDateRange {...props} />));
   });
 
   it("should display the dates as given format in format prop with an arrow between them", () => {

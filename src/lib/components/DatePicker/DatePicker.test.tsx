@@ -2,7 +2,7 @@ import DatePicker from "@/components/DatePicker/DatePicker";
 import { render, act } from "@testing-library/react";
 import { DatePickerLocale } from "./types";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
-import { t } from "../../../utils/testUtils";
+import { t, runStandardPropsTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 export const runDatePickerCommonTests = () => {
@@ -11,6 +11,9 @@ export const runDatePickerCommonTests = () => {
     const year = today.getFullYear();
     const month = today.getMonth();
 
+    it("should render with the given className, style and ref on the root element", () => {
+      runStandardPropsTest<HTMLDivElement>(props => render(<DatePicker {...props} />));
+    });
     it("should show today with a different style", () => {
       const { container } = render(<DatePicker />);
 
@@ -284,12 +287,6 @@ describe("DatePicker", () => {
 
     // size: md
     expect(getByTestId("Picker")).toHaveClass("md");
-  });
-
-  it("should have class name given in the className prop", () => {
-    const className = "test-class";
-    const { container } = render(<DatePicker className={className} />);
-    expect(container.firstElementChild).toHaveClass(className);
   });
 
   it("should not render clear and ok buttons when removeActionButtons is set to true", () => {

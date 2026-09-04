@@ -4,7 +4,7 @@ import { simulateDrop, simulateChooseFiles, renderExtUploadFileList, waitForSucc
 import { MESSAGE } from "@/components/Upload/constants";
 import UploadDragger from "@/components/Upload/UploadDragger/UploadDragger";
 import { MOCK } from "../mock";
-import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runStandardPropsTest } from "../../../../utils/testUtils";
 import { userEvent } from "@testing-library/user-event";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
@@ -19,6 +19,10 @@ describe("UploadDragger", () => {
 
   it("should be rendered with only required props", () => {
     expect(renderExt(<UploadDragger {...requiredProps} />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => renderExt(<UploadDragger {...requiredProps} {...props} />));
   });
 
   it("should be rendered with the given size in size prop", () => {

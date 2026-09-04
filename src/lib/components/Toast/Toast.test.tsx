@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, act } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import { useToast } from "@/components/Toast/useToast";
 import Toast from "@/components/Toast/Toast";
 import { AddToastOptions, ToastVariant } from "@/components/Toast/types";
@@ -39,6 +39,13 @@ describe("Toast", () => {
     expect(queryByText(content)).not.toBeInTheDocument();
 
     jest.useRealTimers();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(
+      props => render(<Toaster content={content} variant="info" {...props} />),
+      result => result.queryByTestId("toast"),
+    );
   });
 
   it("should display title when title prop is given", () => {

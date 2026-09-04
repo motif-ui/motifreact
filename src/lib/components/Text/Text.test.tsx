@@ -2,10 +2,15 @@ import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import Text from "@/components/Text/Text";
 import { TextVariants } from "@/components/Text/types";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Text", () => {
   it("should render with only required props", () => {
     expect(render(<Text text="Test Message" />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLSpanElement>(props => render(<Text text="Test Message" {...props} />));
   });
 
   it("should be rendered as italic when italic prop is given", () => {

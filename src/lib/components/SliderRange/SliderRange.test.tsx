@@ -2,6 +2,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import SliderRange from "@/components/SliderRange/SliderRange";
 import Slider from "@/components/Slider/Slider";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("SliderRange", () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -59,6 +60,10 @@ describe("SliderRange", () => {
     checkDefaultProps(slider1, "0", "0", "display: none;");
     const slider2 = container.firstElementChild?.lastElementChild as HTMLDivElement;
     checkDefaultProps(slider2, "100", "1", "width: 99%; left: 1%;");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<SliderRange {...props} />));
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {

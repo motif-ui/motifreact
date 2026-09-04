@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { render, screen } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Breadcrumb", () => {
   const testItems = [
@@ -14,6 +14,10 @@ describe("Breadcrumb", () => {
 
   it("should render with only required props", () => {
     expect(render(<Breadcrumb items={testItems} />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLUListElement>(props => render(<Breadcrumb items={testItems} {...props} />));
   });
 
   it("should render the right number of elements", () => {

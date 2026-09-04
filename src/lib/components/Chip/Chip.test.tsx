@@ -1,10 +1,15 @@
 import { fireEvent, getByTestId, render, screen } from "@testing-library/react";
 import Chip from "@/components/Chip/Chip";
 import { Size4SM } from "../../types";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Chip", () => {
   it("should be rendered with only required props", () => {
     expect(render(<Chip label="test" />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Chip label="test" {...props} />));
   });
 
   it("should render icon and label together when there are both set", () => {

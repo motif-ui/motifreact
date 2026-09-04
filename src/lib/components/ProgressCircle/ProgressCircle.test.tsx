@@ -1,9 +1,14 @@
 import { render } from "@testing-library/react";
 import ProgressCircle from "@/components/ProgressCircle/ProgressCircle";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("ProgressCircle", () => {
   it("should be rendered with only required props", () => {
     expect(render(<ProgressCircle />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<SVGSVGElement>(props => render(<ProgressCircle {...props} />));
   });
 
   it("should be rendered in different color scheme based on the variant prop", () => {

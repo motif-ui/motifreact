@@ -4,6 +4,7 @@ import { userEvent } from "@testing-library/user-event";
 import Carousel from "./Carousel";
 import { IndicatorShape, Theme } from "./types";
 import { ReactNode } from "react";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 const renderExt = (props = {}, component?: ReactNode) => {
   const result = render(
@@ -59,6 +60,10 @@ describe("Carousel", () => {
     expect(getTrack()).toHaveStyle({ transform: "translateX(-100%)" });
 
     jest.useRealTimers();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => renderExt(props));
   });
 
   it("should render all carousel items as children", () => {

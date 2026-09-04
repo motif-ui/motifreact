@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import Dropdown from "./Dropdown";
 import { userEvent } from "@testing-library/user-event";
 import { Size4SM } from "../../types";
@@ -16,6 +16,10 @@ describe("Dropdown", () => {
 
     fireEvent.click(getByText("Dropdown"));
     expect(container.querySelector("ul")).toHaveClass("callout");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />));
   });
 
   it("should be rendered in different color schemas given in the variant prop", () => {

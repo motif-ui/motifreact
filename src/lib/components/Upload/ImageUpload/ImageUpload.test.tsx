@@ -5,7 +5,7 @@ import { MESSAGE } from "@/components/Upload/constants";
 import ImageUpload from "@/components/Upload/ImageUpload/ImageUpload";
 import { ImageUploadProps } from "@/components/Upload/ImageUpload/types";
 import { MOCK } from "../mock";
-import { mockXHRs, t } from "../../../../utils/testUtils";
+import { mockXHRs, t, runStandardPropsTest } from "../../../../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 import { ReactElement } from "react";
 import { BROKEN_IMG_SRC } from "src/lib/constants";
@@ -120,6 +120,10 @@ describe("ImageUpload", () => {
 
   it("should be rendered with only required props", () => {
     expect(renderExt(<ImageUpload {...requiredProps} />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => renderExt(<ImageUpload {...requiredProps} {...props} />));
   });
 
   it("should be rendered with the given size in size prop", () => {

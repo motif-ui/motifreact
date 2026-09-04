@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Timeline from "@/components/Timeline/Timeline";
 import { TimelineItemProps, TimelineMarkerType, TimelineVariant } from "@/components/Timeline/types";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 const items: TimelineItemProps[] = [
   { title: "Step 1", content: "First step content" },
@@ -40,6 +41,10 @@ describe("Timeline", () => {
     // icon: motif_ui (default when markerType is icon)
     const { container: iconContainer } = render(<Timeline items={[{ title: "Item" }]} markerType="icon" />);
     expect(iconContainer.textContent).toContain("motif_ui");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Timeline items={items} {...props} />));
   });
 
   it("should be rendered as given in orientation prop", () => {

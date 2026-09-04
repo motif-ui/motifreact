@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { act, cleanup, fireEvent, render, renderHook, screen } from "@testing-library/react";
-import { t } from "src/utils/testUtils";
+import { t, runStandardPropsTest } from "src/utils/testUtils";
 import Stepper from "./Stepper";
 import useStepper from "./hooks/useStepper";
 import { StepperItemProps, StepperProps } from "@/components/Stepper/types.ts";
@@ -44,6 +44,16 @@ describe("Stepper", () => {
 
     // variant = primary
     expect(container.querySelector(".active")).toHaveClass("primary");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props =>
+      render(
+        <Stepper {...props}>
+          <Stepper.Item title="Step 1">Content 1</Stepper.Item>
+        </Stepper>,
+      ),
+    );
   });
 
   it("should render in the orientation given in orientation prop", () => {

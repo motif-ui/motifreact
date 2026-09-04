@@ -3,10 +3,15 @@ import { render, screen } from "@testing-library/react";
 import Button from "@/components/Button";
 import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Card", () => {
   it("should be rendered with only required props", () => {
     expect(render(<Card />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<Card {...props} />));
   });
 
   it("should render header part when title or subtitle or avatarText or icon or image or action is set", () => {

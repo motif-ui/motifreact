@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import InputNumber from "@/components/InputNumber/InputNumber.tsx";
 import { InputSize } from "@/components/Form/types.ts";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("InputNumber", () => {
   it("should render with only required props", () => {
@@ -17,6 +18,10 @@ describe("InputNumber", () => {
     // No decimals allowed
     fireEvent.change(input, { target: { value: "3.5" } });
     expect(input).toHaveValue("35");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props => render(<InputNumber {...props} />));
   });
 
   it("should display given value when value prop is given", () => {

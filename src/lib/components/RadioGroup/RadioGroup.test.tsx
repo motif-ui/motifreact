@@ -3,6 +3,7 @@ import RadioGroup from "@/components/RadioGroup/RadioGroup";
 import Radio from "@/components/Radio/Radio";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("RadioGroup", () => {
   it("should be rendered with only required props", () => {
@@ -14,6 +15,17 @@ describe("RadioGroup", () => {
         </RadioGroup>,
       ).container,
     ).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props =>
+      render(
+        <RadioGroup name="language" {...props}>
+          <Radio label="HTML" value="html" />
+          <Radio label="CSS" value="css" />
+        </RadioGroup>,
+      ),
+    );
   });
 
   it("should be rendered as given in orientation prop", () => {

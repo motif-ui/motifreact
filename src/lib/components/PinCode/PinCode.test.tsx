@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import PinCode from "@/components/PinCode/PinCode";
-import { expectToThrow } from "src/utils/testUtils.tsx";
+import { expectToThrow, runStandardPropsTest } from "src/utils/testUtils.tsx";
 import { userEvent } from "@testing-library/user-event";
 
 const testPropMatchesClassName = (
@@ -35,6 +35,17 @@ describe("PinCode", () => {
     expect(container.firstElementChild).toHaveClass("md");
     // maskType : "asterisks"
     expect(container.firstElementChild!.children.item(1)?.querySelector("input")).toHaveAttribute("type", "password");
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLDivElement>(props =>
+      render(
+        <PinCode {...props}>
+          <PinCode.Item />
+          <PinCode.Item />
+        </PinCode>,
+      ),
+    );
   });
 
   it("should should allow minimum 2 children", () => {

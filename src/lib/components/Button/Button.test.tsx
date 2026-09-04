@@ -4,11 +4,15 @@ import InputText from "@/components/InputText";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "./Button";
 import { ButtonProps } from "./types";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Button", () => {
   it("should render with only required props", () => {
     expect(render(<Button label="test" />).container).toMatchSnapshot();
+  });
+
+  it("should render with the given className, style and ref on the root element", () => {
+    runStandardPropsTest<HTMLButtonElement>(props => render(<Button label="test" {...props} />));
   });
 
   it("should display label when label prop is given", () => {
