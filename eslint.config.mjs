@@ -29,7 +29,7 @@ export default [
     rules: {
       // Eslint rules
       "no-warning-comments": "warn",
-      // Typescript rules
+      // TypeScript rules
       "@typescript-eslint/no-unused-expressions": [
         "error",
         {
@@ -74,7 +74,9 @@ export default [
     },
     settings: {
       react: {
-        version: "detect",
+        // "detect" calls context.getFilename(), removed in ESLint 10 (jsx-eslint/eslint-plugin-react#3977).
+        // Pin explicitly until upstream ships a fix; bump alongside the "react" dependency.
+        version: "19.2",
       },
     },
   },
