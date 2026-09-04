@@ -12,7 +12,7 @@ Object.defineProperty(fileTxt1kb, "size", { value: 1000 });
 Object.defineProperty(fileGif1mb, "size", { value: 1000000 });
 
 export class MOCK {
-  static url = "https://httpbin.org/post";
+  static url = "https://httpbun.com/post";
   static uploadRequest: RequestSettings = { url: MOCK.url, method: "POST", headers: [{ key: "mtf", value: "ui" }] };
   static deleteRequest: RequestSettings = { url: MOCK.url, method: "POST", headers: [{ key: "mtf", value: "ui" }] };
   static filePng2mb = filePng2mb;
