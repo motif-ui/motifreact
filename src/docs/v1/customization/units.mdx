@@ -13,9 +13,9 @@ sizing that adapts to the font-size defined on the html or :root element.
 
 Below is an example demonstrating how adjusting the root font-size dynamically affects the sizing of components:
 
-<div style={{ display: "flex", flexDirection: "column", padding: 40, gap: 12 }}>
+<div style={{ display: "flex", flexDirection: "column", padding: 40, gap: 12, overflow: "auto", border: "solid 1px #DDDDDD", borderRadius: 8 }}>
   <Slider start={4} end={34} value={16} onChange={val => document.documentElement.setAttribute("style", `font-size: ${val}px;`)} />
-  <PinCode value={["P", "I", "N"]} size="lg">
+  <PinCode value={["P", "I", "N"]} size="lg" style={{alignSelf: "center"}}>
     <PinCode.Item />
     <PinCode.Item />
     <PinCode.Item />

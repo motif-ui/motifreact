@@ -5,13 +5,6 @@ import TimePicker from "./TimePicker";
 const meta: Meta<typeof TimePicker> = {
   title: "Components/TimePicker",
   component: TimePicker,
-  decorators: [
-    Story => (
-      <div style={{ width: 600, textAlign: "center" }}>
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     variant: { table: { defaultValue: { summary: "borderless" } } },
     size: { table: { defaultValue: { summary: "md" } } },

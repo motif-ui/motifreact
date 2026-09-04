@@ -8,13 +8,6 @@ import { MenuListProps } from "@/components/MenuList/types";
 const meta: Meta<typeof MenuList> = {
   title: "Components/MenuList",
   component: MenuList,
-  decorators: [
-    Story => (
-      <div style={{ width: 320, display: "flex", alignItems: "flex-start" }}>
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     variant: { table: { defaultValue: { summary: "solid" } } },
   },
@@ -53,7 +46,7 @@ const meta: Meta<typeof MenuList> = {
     ],
     logo: "https://cdn.e-devlet.gov.tr/downloads/kurumsal-kimlik/logo/e-devlet-logo.png",
     footerText: "© 2024 All rights reserved.",
-    size: "md",
+    size: "sm",
   },
 };
 

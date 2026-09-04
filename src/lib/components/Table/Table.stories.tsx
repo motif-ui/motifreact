@@ -187,7 +187,7 @@ export const Header: Story = {
     },
   },
   render: () => (
-    <>
+    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "center" }}>
       <Table
         data={[
           { name: "Name 2", surname: "Surname 2" },
@@ -200,8 +200,6 @@ export const Header: Story = {
         ]}
         header="My Simple Table Header"
       />
-      <br />
-      <br />
       <Table
         data={[
           { name: "Name 2", surname: "Surname 2" },
@@ -220,7 +218,7 @@ export const Header: Story = {
           </div>
         }
       />
-    </>
+    </div>
   ),
 };
 export const TitleAndSubtitle: Story = {
@@ -466,21 +464,17 @@ export const Pagination: Story = {
   },
   render: () => {
     const data = [
-      { name: "Foo", age: "43" },
-      { name: "Dummy", age: "32" },
-      { name: "Foo 2", age: "23" },
-      { name: "Dummy 2", age: "44" },
-      { name: "Foo 3", age: "25" },
+      { name: "Foo name cell value here", age: "43" },
+      { name: "Dummy name", age: "32" },
+      { name: "Foo 2 name cell value here", age: "23" },
+      { name: "Dummy 2 name", age: "44" },
+      { name: "Foo 3 name cell value here", age: "25" },
     ];
     const columns = [
       { title: "Name", dataKey: "name", sorting: {} },
       { title: "Age", dataKey: "age", sorting: {} },
     ];
-    return (
-      <div style={{ width: 600 }}>
-        <Table data={data} columns={columns} pagination={{ rowsPerPage: 2, position: "right" }} />
-      </div>
-    );
+    return <Table data={data} columns={columns} pagination={{ rowsPerPage: 2, position: "center" }} hideTotalRecords />;
   },
 };
 
