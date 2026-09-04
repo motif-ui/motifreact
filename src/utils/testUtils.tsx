@@ -32,7 +32,6 @@ export const runIconPropTest = (renderIcon: ComponentWithIconRender, className?:
   testReactElementIcon();
 };
 
-// Root element locator; override for portals (e.g. Modal, Popover, Toast). Defaults to container.firstElementChild.
 export const runStandardPropsTest = <E extends Element = HTMLElement>(
   renderComponent: (props: { className?: string; style?: CSSProperties; ref?: Ref<E> }) => RenderResult,
   getRoot: (result: RenderResult) => Element | null = ({ container }) => container.firstElementChild,
