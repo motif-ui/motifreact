@@ -255,6 +255,16 @@ describe("TimePicker", () => {
     expect(handleTimeChange).not.toHaveBeenCalled();
   });
 
+  it("should not render clear and ok buttons when removeActionButtons is set to true", () => {
+    const { rerender, queryByText } = render(<TimePicker />);
+    expect(queryByText("Clear")).toBeInTheDocument();
+    expect(queryByText("OK")).toBeInTheDocument();
+
+    rerender(<TimePicker removeActionButtons />);
+    expect(queryByText("Clear")).not.toBeInTheDocument();
+    expect(queryByText("OK")).not.toBeInTheDocument();
+  });
+
   it("should apply the styles in the css class given in className prop", () => {
     const testClassName = "testClassName";
     const { container } = render(<TimePicker className={testClassName} />);

@@ -19,6 +19,7 @@ const TimePicker = (props: PropsWithRef<TimePickerProps, HTMLDivElement>) => {
     value,
     format = "24h",
     onClearClick,
+    removeActionButtons,
     className,
     style,
     ref,
@@ -37,7 +38,7 @@ const TimePicker = (props: PropsWithRef<TimePickerProps, HTMLDivElement>) => {
         format={format}
         onClearClick={onClearClick}
       >
-        <TimePickerContainer onOkClick={onOkClick} />
+        <TimePickerContainer onOkClick={onOkClick} removeActionButtons={removeActionButtons} />
       </TimePickerProvider>
     </Picker>
   );
