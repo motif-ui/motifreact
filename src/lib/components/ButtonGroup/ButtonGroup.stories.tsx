@@ -5,6 +5,13 @@ import ButtonGroup from "./ButtonGroup";
 const meta: Meta<typeof ButtonGroup> = {
   title: "Components/ButtonGroup",
   component: ButtonGroup,
+  decorators: [
+    Story => (
+      <div style={{ padding: "0 0 60px 0" }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
   },

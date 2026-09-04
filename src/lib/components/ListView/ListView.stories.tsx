@@ -8,7 +8,9 @@ const meta: Meta<typeof ListView> = {
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
   },
-  args: {},
+  args: {
+    enableMultiLine: true,
+  },
 };
 
 export default meta;
@@ -17,7 +19,7 @@ type Story = StoryObj<typeof ListView>;
 
 export const Primary: Story = {
   render: args => (
-    <div style={{ width: 400 }}>
+    <div style={{ maxWidth: 500 }}>
       <ListView {...args}>
         <ListView.Item
           title="Contact List"
