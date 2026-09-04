@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import ImageUpload from "@/components/Upload/ImageUpload/ImageUpload";
 
-const url = "https://httpbin.org/post";
+const url = "https://httpbun.com/post";
 const method = "POST";
 
 const meta: Meta<typeof ImageUpload> = {
