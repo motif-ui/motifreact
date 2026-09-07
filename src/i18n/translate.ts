@@ -25,14 +25,7 @@ const interpolate = (template: string | string[], params?: Record<string, unknow
   });
 };
 
-// Locales where Intl.PluralRules returns "other" for all counts (Turkish has no built-in singular category).
-// For these, count === 1 is explicitly mapped to "_one".
-const SINGULAR_OVERRIDE_LOCALES: readonly Locale[] = ["tr"];
-
 const getPluralSuffix = (locale: Locale, count: number): string => {
-  if (SINGULAR_OVERRIDE_LOCALES.includes(locale)) {
-    return count === 1 ? "_one" : "";
-  }
   const rule = new Intl.PluralRules(locale).select(count);
   return rule === "other" ? "" : `_${rule}`;
 };

@@ -4,6 +4,7 @@ import { MotifIconButton } from "@/components/Motif/Icon";
 import { memo, useContext } from "react";
 import { FileType } from "@/components/Upload/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
+import IconButton from "@/components/IconButton";
 
 type Props = {
   file: FileType;
@@ -18,7 +19,7 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
   return (
     <>
       {file.action && (
-        <MotifIconButton
+        <IconButton
           name={file.action.icon}
           variant="secondary"
           size={iconSize}
@@ -38,7 +39,7 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
       {!disabled && !readOnly && (
         <>
           {(file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.ABORT) && (
-            <MotifIconButton
+            <IconButton
               name="autorenew"
               variant="secondary"
               size={iconSize}
@@ -47,15 +48,9 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
             />
           )}
           {file.status === STATUS.UPLOADING ? (
-            <MotifIconButton
-              name="cancel_outline"
-              variant="secondary"
-              size={iconSize}
-              className={styles.icon}
-              onClick={() => abort(file)}
-            />
+            <IconButton name="cancel_outline" variant="secondary" size={iconSize} className={styles.icon} onClick={() => abort(file)} />
           ) : (
-            <MotifIconButton
+            <IconButton
               name="delete"
               variant="secondary"
               size={iconSize}

@@ -47,6 +47,8 @@ jobs:
             - ES6+ syntax should be used throughout the codebase: arrow functions, destructuring, template literals, 
               nullish coalescing, dual ampersand, optional chaining...
             - Do not allow usages like "React.MouseEvent". "React" should be imported along with other imports.
+            - When some props are likely to use already available types like IconGlobalType or Variant, 
+              they should not be allowed to use string type or redefining the same type.
             
             In tests:
             - Each component test suite should start with a test: "should be rendered with only required props and 

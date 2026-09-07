@@ -3,7 +3,7 @@ import UploadDragger from "@/components/Upload/UploadDragger";
 import { MIME_TYPES } from "@/components/Upload/constants";
 import { serverValidationRequest, serverValidationMswParameters, WithFakeUploadProgress } from "../docs/serverValidationStory";
 
-const url = "https://httpbin.org/post";
+const url = "https://httpbun.com/post";
 const method = "POST";
 
 const meta: Meta<typeof UploadDragger> = {
@@ -13,7 +13,14 @@ const meta: Meta<typeof UploadDragger> = {
     accept: { table: { defaultValue: { summary: MIME_TYPES.ALL } } },
     maxFile: { table: { defaultValue: { summary: "1" } } },
     autoUpload: { table: { defaultValue: { summary: "true" } } },
-    value: { table: { type: { summary: "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; }[]" } } },
+    value: {
+      table: {
+        type: {
+          summary:
+            "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; action?: { icon: IconGlobalType; onClick: () => void }; }[]",
+        },
+      },
+    },
   },
   args: {
     uploadRequest: { url, method, headers: [{ key: "mtf", value: "ui" }] },

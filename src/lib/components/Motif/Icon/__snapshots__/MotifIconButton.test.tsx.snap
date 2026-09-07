@@ -3,12 +3,12 @@
 exports[`MotifIconButton should render with only required props 1`] = `
 <div>
   <button
-    class="Root md secondary motifIconsDefault"
+    class="Root md secondary"
     data-testid="iconButtonTestId"
     type="button"
   >
     <span
-      class="Root mtf-ui-icons md"
+      class="Root motifIconsDefault md"
       lang="en"
       translate="no"
     >

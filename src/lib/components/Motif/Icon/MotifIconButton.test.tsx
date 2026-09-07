@@ -56,7 +56,7 @@ describe("MotifIconButton", () => {
 
   it("should always apply 'motifIconsDefault' class regardless of context", () => {
     const { container } = render(<MotifIconButton name="home" />);
-    expect(container.firstChild).toHaveClass("motifIconsDefault");
+    expect(container.firstChild?.firstChild).toHaveClass("motifIconsDefault");
   });
 
   it("should render as disabled, both functionally and visually, when the disabled prop is true", () => {

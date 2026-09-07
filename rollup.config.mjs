@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_CLASSNAME_PREFIX = "mtf-";
 
 const generateScopedCssClassName = (localClassName, moduleFilePath) => {
-  const moduleName = moduleFilePath.match(/\/([^/]+)\.module\.scss$/)?.[1];
+  const moduleName = moduleFilePath.match(/[\\/]([^\\/]+)\.module\.scss$/)?.[1];
 
   return localClassName === "Root"
     ? `${DEFAULT_CLASSNAME_PREFIX}${moduleName}`

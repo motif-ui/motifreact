@@ -55,8 +55,9 @@ describe("IconButton", () => {
         <IconButton name="account_circle" iconClass={testClass} />
       </MotifProvider>,
     );
-    expect(container.firstChild).not.toHaveClass(MOTIF_ICONS_DEFAULT_CLASS);
-    expect(container.firstChild).toHaveClass(testClass);
+    const iconSpan = container.firstChild?.firstChild;
+    expect(iconSpan).not.toHaveClass(MOTIF_ICONS_DEFAULT_CLASS);
+    expect(iconSpan).toHaveClass(testClass);
   });
 
   it("should apply the styles in the css class given in className prop", () => {

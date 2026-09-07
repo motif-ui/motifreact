@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, horizontalPadding, verticalPadding, loaderRadius
-$sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8x", "22x"), ("lg", "20x", "10x", "24x"));
+// size, horizontalPadding, verticalPadding, loaderRadius, inputNumberSize
+$sizes: (("xs", "8x", "4x", "18x", "28x"), ("sm", "12x", "6x", "20x", "32x"), ("md", "16x", "8x", "22x", "38x"), ("lg", "20x", "10x", "24x", "44x"));
 
 .Root {
   position: relative;
@@ -84,21 +84,21 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
 .numberButtons {
   display: flex;
   align-self: stretch;
-  flex-direction: column;
   button {
     all: unset;
-    @include transition(background-color);
+    @include transition(background-color color);
     @include flex-center;
     color: var(--theme-color-text-base-subtitle);
     background-color: var(--theme-color-surface-light-default);
     flex: 1;
-    &:first-child {
-      border-top-right-radius: var(--theme-sizing-radius-default);
-    }
+    border-left: var(--base-sizing-1x) solid var(--theme-color-border-light-disabled);
+
     &:last-child {
+      border-top-right-radius: var(--theme-sizing-radius-default);
       border-bottom-right-radius: var(--theme-sizing-radius-default);
     }
     &:hover {
+      color: var(--theme-color-text-base-title);
       background-color: var(--theme-color-surface-light-hover);
     }
   }
@@ -126,7 +126,7 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
   }
 }
 
-@each $size, $paddingH, $paddingV, $loaderRadius in $sizes {
+@each $size, $paddingH, $paddingV, $loaderRadius, $inputNumberSize in $sizes {
   .#{$size} {
     gap: var(--base-sizing-#{$paddingV});
     padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
@@ -145,11 +145,10 @@ $sizes: (("xs", "8x", "4x", "18x"), ("sm", "12x", "6x", "20x"), ("md", "16x", "8
     }
 
     .numberButtons {
-      width: calc(2 * var(--base-sizing-#{$paddingH}));
       margin: calc(-1 * var(--base-sizing-#{$paddingV})) calc(-1 * var(--base-sizing-#{$paddingH})) calc(-1 * var(--base-sizing-#{$paddingV})) 0;
       button {
-        @include font("body", $size);
-        line-height: 1;
+        @include font("base", $size, "600");
+        min-width: var(--base-sizing-#{$inputNumberSize});
       }
     }
   }

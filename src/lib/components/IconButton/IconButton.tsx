@@ -20,7 +20,7 @@ const IconButton = (props: PropsWithRef<IconButtonProps, HTMLButtonElement>) => 
   } = usePropsWithThemeDefaults("IconButton", props);
   const { baseIconClass } = useMotifContext();
 
-  const classNames = sanitizeModuleRootClasses(styles, `${iconClass ?? baseIconClass} ${className ?? ""}`, [size, variant]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [size, variant]);
   return (
     <button
       disabled={disabled}
@@ -31,7 +31,7 @@ const IconButton = (props: PropsWithRef<IconButtonProps, HTMLButtonElement>) => 
       type="button"
       ref={ref}
     >
-      {name && <GlobalIconWrapper icon={name} className={styles[size]} />}
+      {name && <GlobalIconWrapper icon={name} className={styles[size]} iconClass={iconClass ?? baseIconClass} />}
     </button>
   );
 };

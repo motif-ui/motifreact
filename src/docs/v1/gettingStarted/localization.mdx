@@ -101,6 +101,29 @@ const frenchTexts: DeepPartial<LocaleShape> = {
 
 > `LocaleShape` is the full type of a locale file. `DeepPartial<LocaleShape>` makes every key optional, so you only need to supply the strings you want to change.
 
+## Pluralization
+
+Pass a numeric `count` in the params object and the matching plural form is selected automatically, using the same [CLDR plural rules](https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html) `Intl.PluralRules` resolves (the same mechanism `i18next` uses internally). Define plural forms by suffixing a key with the CLDR category — `_one`, `_few`, `_many`, `_two`, `_zero` — and leave the base key as the `_other` form:
+
+```json
+{
+  "upload": {
+    "filesBeingUploaded": "Files are being uploaded...",
+    "filesBeingUploaded_one": "File is being uploaded..."
+  }
+}
+```
+
+```tsx
+t("upload.filesBeingUploaded", { count: 1 }); // "File is being uploaded..."
+t("upload.filesBeingUploaded", { count: 3 }); // "Files are being uploaded..."
+
+```
+
+This works the same way for overrides passed via `texts` and for keys in a fully custom locale. If a locale is missing a plural form, resolution falls back to the built-in locale's plural form, then to English's, then to the base key — the same override → locale → English chain used for every other key.
+
+> Because this follows the exact \_one/\_other suffix convention i18next uses, locale JSON written for the built-in translator is also valid i18next resource data — no rework needed if you later switch to passing your own t.
+
 ## Integrating an External i18n Library
 
 If your project already uses a library like `react-i18next`, you can pass your own `t` function to `MotifProvider`. The library will use it instead of its built-in translations — no global i18n instance is touched and there are no conflicts between the two.
