@@ -3,7 +3,7 @@ import UploadList from "@/components/Upload/UploadList";
 import { MIME_TYPES } from "@/components/Upload/constants";
 import { serverValidationRequest, serverValidationMswParameters, WithFakeUploadProgress } from "../docs/serverValidationStory";
 
-const url = "https://httpbin.org/post";
+const url = "https://httpbun.com/post";
 const method = "POST";
 
 const meta: Meta<typeof UploadList> = {
@@ -18,7 +18,7 @@ const meta: Meta<typeof UploadList> = {
       table: {
         type: {
           summary:
-            "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; action?: { icon: string; onClick: () => void }; }[]",
+            "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; action?: { icon: IconGlobalType; onClick: () => void }; }[]",
         },
       },
     },

@@ -1,4 +1,4 @@
-import type { IconGlobalType, Variants } from "../../types";
+import type { IconGlobalType, Variant } from "../../types";
 import type { MouseEvent } from "react";
 
 export type BusinessCardProps = {
@@ -23,5 +23,5 @@ export type BusinessCardDefaultableProps = {
   elevated?: boolean;
   outline?: boolean;
   position?: "left" | "right" | "center";
-  variant?: "neutral" | Variants;
+  variant?: "neutral" | Variant;
 };

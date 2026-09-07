@@ -550,7 +550,7 @@ describe("UploadList", () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it("should show the action button but hide action buttons when readOnly or disabled", async () => {
+  it("should not show the action buttons when readOnly or disabled", async () => {
     const onClick = jest.fn();
     const value = [{ ...serverFile, action: { icon: "visibility", onClick } }];
     const { rerender, getDeleteButton } = renderExt(<UploadList {...requiredProps} value={value} readOnly />);
