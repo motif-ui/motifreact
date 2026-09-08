@@ -14,7 +14,7 @@ type Props = {
 const AlertModalContent = memo(({ title, text, icon, className, variant }: Props) => {
   return (
     <div className={className} data-testid="alertModalContent">
-      {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="xl3" />}
+      {icon && <GlobalIconWrapper icon={icon} variant={variant} size="xl3" />}
       <div className={styles.textContent}>
         <span className={styles.title}>{title}</span>
         {text && <span className={styles.text}>{text}</span>}

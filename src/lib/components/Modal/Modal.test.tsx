@@ -1,7 +1,7 @@
 import Modal from "@/components/Modal/Modal";
 import { fireEvent, render, screen, cleanup, act } from "@testing-library/react";
 import Button from "../Button";
-import { Size4LG } from "../../types";
+import { Size3 } from "../../types";
 import Link from "../Link";
 import IconButton from "../IconButton";
 import { userEvent } from "@testing-library/user-event";
@@ -138,7 +138,7 @@ describe("Modal", () => {
   });
 
   it("should be rendered with the given size in size prop", () => {
-    const sizes: Size4LG[] = ["sm", "md", "lg", "xl"];
+    const sizes: Size3[] = ["sm", "md", "lg"];
     for (const size of sizes) {
       render(
         <Modal open size={size}>

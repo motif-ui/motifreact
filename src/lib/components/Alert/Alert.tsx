@@ -19,7 +19,7 @@ const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
     style,
   } = usePropsWithThemeDefaults("Alert", props);
 
-  const { visible, hide, toggleState } = useToggle(true, { hideTime: 300 });
+  const { visible, hide, toggleState } = useToggle(true, { showTime: 300, hideTime: 300 });
   const classes = sanitizeModuleRootClasses(styles, className, [variant, toggleState]);
   const iconName = variant === "danger" ? "error" : variant === "warning" ? "warning" : variant === "success" ? "check_circle" : "info";
 
