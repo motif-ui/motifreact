@@ -5,6 +5,7 @@ import TimePeriodSelector from "@/components/TimePicker/components/TimePeriodSel
 import { TimePickerContext } from "@/components/TimePicker/context/TimePickerProvider";
 import styles from "../TimePicker.module.scss";
 import { StandardProps } from "../../../types";
+import { sanitizeModuleClassesWithOptions } from "src/utils/cssUtils.ts";
 
 type Props = {
   removeLabel?: boolean;
@@ -13,9 +14,10 @@ type Props = {
 const TimePickerContent = (props: Props) => {
   const { removeLabel, className } = props;
   const { size, timePeriod } = useContext(TimePickerContext);
+  const classes = sanitizeModuleClassesWithOptions(styles, { externalClasses: [className] }, size);
 
   return (
-    <div className={`${styles[size]} ${className ?? ""}`.trim()}>
+    <div className={classes}>
       {!removeLabel && <TimeLabel />}
       <TimeSelector />
       {timePeriod && <TimePeriodSelector />}
