@@ -62,7 +62,7 @@ jobs:
         uses: chromaui/action@2a0b63f30233c48591844a46d451b9cf68128186 # v18.7.2
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          onlyChanged: true
+          onlyChanged: false
           zip: true
           buildScriptName: "build:storybook"
           skip: "dependabot/**"
