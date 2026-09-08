@@ -101,6 +101,7 @@ export type UploadContextType = {
 
 export type UploadProviderProps = {
   disabled?: boolean;
+  readOnly?: boolean;
   children: ReactNode;
   props: UploadProps;
   isUploadInput?: boolean;
