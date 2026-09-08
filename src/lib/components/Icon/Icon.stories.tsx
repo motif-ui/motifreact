@@ -11,7 +11,7 @@ const meta: Meta<typeof Icon> = {
     size: { table: { defaultValue: { summary: "md" } } },
   },
   args: {
-    size: "xxl",
+    size: "xl2",
   },
   parameters: {
     docs: {
@@ -69,7 +69,7 @@ export const ExternalFontIcons: Story = {
         code: `
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols" />
 //...
-<Icon iconClass="material-symbols" name="android" size="xxl" />
+<Icon iconClass="material-symbols" name="android" size="xl2" />
         `,
       },
     },

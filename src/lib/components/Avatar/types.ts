@@ -1,4 +1,4 @@
-import type { IconGlobalType, Variant } from "../../types";
+import type { IconGlobalType, Size5, Variant } from "../../types";
 
 export type AvatarProps = {
   image?: string;
@@ -8,5 +8,5 @@ export type AvatarProps = {
 
 export type AvatarDefaultableProps = {
   variant?: Variant;
-  size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+  size?: Size5 | "xl2";
 };

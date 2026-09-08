@@ -61,7 +61,7 @@ export const AvatarIcons: Story = {
   render: () => (
     <>
       {iconTypes.map((iconItem, idx) => (
-        <Avatar variant="primary" size="xxl" key={"av" + idx} icon={iconItem} />
+        <Avatar variant="primary" size="xl2" key={"av" + idx} icon={iconItem} />
       ))}
     </>
   ),
@@ -162,7 +162,7 @@ export const IconButtonIcons: Story = {
   render: () => (
     <>
       {iconTypes.map((iconItem, idx) => (
-        <IconButton key={"ib" + idx} name={iconItem} size="xxl" />
+        <IconButton key={"ib" + idx} name={iconItem} size="xl2" />
       ))}
     </>
   ),

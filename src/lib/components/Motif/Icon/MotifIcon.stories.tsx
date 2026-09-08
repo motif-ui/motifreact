@@ -14,7 +14,7 @@ type Story = StoryObj;
 export const Icons: Story = {
   render: () => (
     <div style={{ width: 440, display: "flex", flexWrap: "wrap", gap: 10 }}>
-      {iconMoon.glyphs.flatMap(icon => icon.extras.ligatures.map(name => <MotifIcon key={name} size="xxl" name={name} />))}
+      {iconMoon.glyphs.flatMap(icon => icon.extras.ligatures.map(name => <MotifIcon key={name} size="xl2" name={name} />))}
     </div>
   ),
 };

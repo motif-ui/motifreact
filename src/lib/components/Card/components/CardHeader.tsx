@@ -43,7 +43,7 @@ const CardHeader = (props: Props) => {
                 {subtitle && <span className={styles.headerSubtitle}>{subtitle}</span>}
               </div>
             )}
-            {action && <IconButton name={action.icon} onClick={action.onClick} size="xxl" variant={iconButtonVariant} />}
+            {action && <IconButton name={action.icon} onClick={action.onClick} size="xl2" variant={iconButtonVariant} />}
           </div>
         )}
       </div>

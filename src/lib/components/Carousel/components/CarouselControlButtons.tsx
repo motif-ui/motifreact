@@ -10,8 +10,8 @@ type Props = {
 const CarouselControlButtons = memo(({ onNextClick, onPrevClick }: Props) => {
   return (
     <>
-      <MotifIconButton name="arrow_forward_ios" className={styles.prev} size="xxl" onClick={onPrevClick} />
-      <MotifIconButton name="arrow_forward_ios" className={styles.next} size="xxl" onClick={onNextClick} />
+      <MotifIconButton name="arrow_forward_ios" className={styles.prev} size="xl2" onClick={onPrevClick} />
+      <MotifIconButton name="arrow_forward_ios" className={styles.next} size="xl2" onClick={onNextClick} />
     </>
   );
 });
