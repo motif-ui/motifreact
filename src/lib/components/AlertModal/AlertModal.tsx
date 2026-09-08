@@ -1,78 +1,87 @@
 "use client";
 
 import styles from "./AlertModal.module.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRef } from "../../types";
 import { AlertModalProps } from "./types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses, sanitizeModuleClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useDomReady from "../../hooks/useDomReady";
+import useToggle from "../../hooks/useToggle";
 import AlertModalActions from "./components/AlertModalActions";
 import AlertModalContent from "./components/AlertModalContent";
+
+const animationOptions = { showTime: 50, hideTime: 300 };
 
 const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
   const {
     title,
-    subtitle,
+    text,
     icon,
     size = "md",
     open,
     onClose,
-    buttonAction,
+    actionButton,
+    alternateButton,
     buttonsPosition = "center",
     contentPosition = "center",
     removeBackdrop,
-    enableDivider = true,
+    enableDivider = false,
     bordered,
     elevated,
+    variant = "primary",
     ref,
     style,
     className,
   } = usePropsWithThemeDefaults("AlertModal", props);
 
   const domReady = useDomReady();
-  const [visible, setVisible] = useState(open);
-  const [attached, setAttached] = useState(open);
+  const { visible, toggleState, show, hide } = useToggle(false, animationOptions);
+  const attached = visible || !!toggleState;
+  const attachedRef = useRef(attached);
+  attachedRef.current = attached;
 
-  const handleCloseAnimation = useCallback(() => {
-    setVisible(false);
-    setTimeout(() => {
-      setAttached(false);
-      onClose?.();
-    }, 300);
-  }, [onClose]);
+  const prevToggleState = useRef(toggleState);
+  useEffect(() => {
+    if (prevToggleState.current === "hiding" && !toggleState) onClose?.();
+    prevToggleState.current = toggleState;
+  }, [toggleState, onClose]);
 
   const modalRef = useOutsideClick<HTMLDivElement>(() => {
-    onClose && handleCloseAnimation();
+    onClose && hide();
   });
 
   useEffect(() => {
-    if (open) {
-      setAttached(true);
-      setTimeout(() => setVisible(true), 50);
-    } else {
-      attached && handleCloseAnimation();
-    }
-  }, [open, attached, handleCloseAnimation]);
+    if (open) show();
+    else if (attachedRef.current) hide();
+  }, [open, show, hide]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
-    removeBackdrop && "noBackdrop",
+    !removeBackdrop && "backdrop",
     bordered && "bordered",
     elevated && "elevated",
     size,
   ]);
+
+  const contentClassNames = sanitizeModuleClasses(styles, "content", `content_${contentPosition}`);
+  const actionsClassNames = sanitizeModuleClasses(styles, "actions", `actions_${buttonsPosition}`, enableDivider && "withDivider");
 
   return (
     attached &&
     domReady &&
     createPortal(
       <div data-testid="alertModalBackdrop" className={classNames} style={style} ref={ref}>
-        <div className={styles.alertModal} ref={modalRef}>
-          <AlertModalContent title={title} subtitle={subtitle} contentPosition={contentPosition} icon={icon} />
-          <AlertModalActions buttonAction={buttonAction} buttonsPosition={buttonsPosition} enableDivider={enableDivider} />
+        <div className={styles.alertModalContainer} ref={modalRef}>
+          <AlertModalContent className={contentClassNames} title={title} text={text} icon={icon} variant={variant} />
+          <AlertModalActions
+            actionButton={actionButton}
+            alternateButton={alternateButton}
+            className={actionsClassNames}
+            variant={variant}
+          />
         </div>
       </div>,
       document.body,

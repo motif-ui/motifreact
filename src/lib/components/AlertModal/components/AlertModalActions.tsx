@@ -1,25 +1,28 @@
-import { ReactElement } from "react";
-import { ButtonProps } from "../../Button/types";
-import Divider from "../../Divider/Divider";
-import styles from "../AlertModal.module.scss";
-import { AlertModalButtonsPosition } from "../types";
+import { memo, MouseEvent } from "react";
+import Button from "../../Button";
+import { Variant } from "src/lib/types";
 
 type Props = {
-  buttonAction?: ReactElement<ButtonProps>[];
-  buttonsPosition?: AlertModalButtonsPosition;
-  enableDivider?: boolean;
+  actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
+  alternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
+  className?: string;
+  variant?: Variant;
 };
 
-const AlertModalActions = ({ buttonAction, buttonsPosition = "center", enableDivider = true }: Props) => {
-  if (!buttonAction?.length) return null;
-  const classNames = `${styles.actions} ${styles[buttonsPosition]}`;
+const AlertModalActions = memo((props: Props) => {
+  const { alternateButton, actionButton, className, variant } = props;
+  const isVisible = actionButton || alternateButton;
 
   return (
-    <>
-      {enableDivider && <Divider className={styles.divider} />}
-      <div className={classNames}>{buttonAction}</div>
-    </>
+    isVisible && (
+      <div data-testid="alertModalActions" className={className}>
+        {alternateButton && (
+          <Button pill onClick={alternateButton.onClick} shape="outline" variant="secondary" label={alternateButton.text} />
+        )}
+        {actionButton && <Button pill onClick={actionButton.onClick} variant={variant} label={actionButton.text} />}
+      </div>
+    )
   );
-};
+});
 
 export default AlertModalActions;

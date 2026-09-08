@@ -1,29 +1,47 @@
 ﻿import { ReactElement } from "react";
 import AlertModal from "@/components/AlertModal/AlertModal";
-import { fireEvent, render, screen, cleanup, act } from "@testing-library/react";
-import Button from "../Button";
+import { fireEvent, render, screen, cleanup, act, within } from "@testing-library/react";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
-import { Size3 } from "../../types";
+import { Size4LG } from "../../types";
+import { AlertModalProps } from "@/components/AlertModal/types";
 import { userEvent } from "@testing-library/user-event";
 
 const renderExt = (ui: ReactElement) => {
   const result = render(ui);
 
   const getBackdrop = () => result.getByTestId("alertModalBackdrop");
+  const getModalActions = () => screen.getByTestId("alertModalActions");
+  const getModalContent = () => screen.getByTestId("alertModalContent");
 
   return {
     ...result,
     getBackdrop,
+    getModalActions,
+    getModalContent,
   };
 };
 
 describe("AlertModal", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open />);
+    const { container, getBackdrop, getModalActions } = renderExt(
+      <AlertModal title="Alert Modal Title" open actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
+    );
     expect(container).toMatchSnapshot();
 
     // size: md
     expect(getBackdrop()).toHaveClass("md");
+    // removeBackdrop: false (backdrop görünür)
+    expect(getBackdrop()).toHaveClass("backdrop");
+    // bordered: false
+    expect(getBackdrop()).not.toHaveClass("bordered");
+    // elevated: false
+    expect(getBackdrop()).not.toHaveClass("elevated");
+    // contentPosition: center
+    expect(getBackdrop().querySelector(".content_center")).toBeInTheDocument();
+    // buttonsPosition: center
+    expect(getModalActions()).toHaveClass("actions_center");
+    // enableDivider: false
+    expect(getModalActions()).not.toHaveClass("withDivider");
   });
 
   it("should render the modal when open is true", () => {
@@ -34,18 +52,18 @@ describe("AlertModal", () => {
   });
 
   it("should render the title given in the title prop", () => {
-    renderExt(<AlertModal title="Alert Title" open />);
-    expect(screen.getByText("Alert Title")).toBeInTheDocument();
+    const { getModalContent } = renderExt(<AlertModal title="Alert Title" open />);
+    expect(getModalContent()).toHaveTextContent("Alert Title");
   });
 
-  it("should render the subtitle given in the subtitle prop", () => {
-    renderExt(<AlertModal title="Alert Modal Title" open subtitle="Alert Subtitle" />);
-    expect(screen.getByText("Alert Subtitle")).toBeInTheDocument();
+  it("should render the text given in the text prop", () => {
+    const { getModalContent } = renderExt(<AlertModal title="Alert Modal Title" open text="Alert Text" />);
+    expect(getModalContent()).toHaveTextContent("Alert Text");
   });
 
   it("should render the icon given in the icon prop", () => {
-    renderExt(<AlertModal title="Alert Modal Title" open icon={<MotifIcon name="home" />} />);
-    expect(screen.getByText("home")).toBeInTheDocument();
+    const { getModalContent } = renderExt(<AlertModal title="Alert Modal Title" open icon={<MotifIcon name="home" />} />);
+    expect(within(getModalContent()).getByText("home")).toBeInTheDocument();
   });
 
   it("should call onClose when clicked outside the modal", async () => {
@@ -64,24 +82,22 @@ describe("AlertModal", () => {
     jest.useRealTimers();
   });
 
-  it("should render buttonAction and call its handler when clicked", () => {
+  it("should render action button and call action handler when clicked", () => {
     const handleAction = jest.fn();
-    renderExt(<AlertModal title="Alert Modal Title" open buttonAction={[<Button key="1" label="Confirm" onClick={handleAction} />]} />);
+    renderExt(<AlertModal title="Alert Modal Title" open actionButton={{ text: "Confirm", onClick: handleAction }} />);
     fireEvent.click(screen.getByText("Confirm"));
     expect(handleAction).toHaveBeenCalledTimes(1);
   });
 
-  it("should render multiple buttonAction buttons", () => {
+  it("should call each handler when action button and alternate button are clicked", () => {
     const handleConfirm = jest.fn();
     const handleCancel = jest.fn();
     renderExt(
       <AlertModal
         title="Alert Modal Title"
         open
-        buttonAction={[
-          <Button key="1" label="Confirm" onClick={handleConfirm} />,
-          <Button key="2" label="Cancel" onClick={handleCancel} />,
-        ]}
+        actionButton={{ text: "Confirm", onClick: handleConfirm }}
+        alternateButton={{ text: "Cancel", onClick: handleCancel }}
       />,
     );
     fireEvent.click(screen.getByText("Confirm"));
@@ -90,23 +106,25 @@ describe("AlertModal", () => {
     expect(handleCancel).toHaveBeenCalledTimes(1);
   });
 
-  it("should not render the actions area when buttonAction is not provided", () => {
+  it("should not render the actions area when neither action button nor alternate button is provided", () => {
     renderExt(<AlertModal title="Alert Modal Title" open />);
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 
-  it("should not render divider when enableDivider is false", () => {
-    renderExt(<AlertModal title="Alert Modal Title" open enableDivider={false} buttonAction={[<Button key="1" label="Confirm" />]} />);
-    expect(screen.queryByTestId("dividerItem")).not.toBeInTheDocument();
+  it("should render divider when enableDivider is true and buttons are provided", () => {
+    const { getModalActions } = renderExt(
+      <AlertModal title="Alert Modal Title" open enableDivider actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
+    );
+    expect(getModalActions()).toHaveClass("withDivider");
   });
 
-  it("should not render divider when enableDivider is true but buttonAction is not provided", () => {
+  it("should not render divider when enableDivider is true but neither action button nor alternate button is provided", () => {
     renderExt(<AlertModal title="Alert Modal Title" open enableDivider />);
-    expect(screen.queryByTestId("dividerItem")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("alertModalActions")).not.toBeInTheDocument();
   });
 
   it("should be rendered with the given size in size prop", () => {
-    const sizes: Size3[] = ["sm", "md", "lg"];
+    const sizes: Size4LG[] = ["sm", "md", "lg", "xl"];
     sizes.forEach(size => {
       const { getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open size={size} />);
       expect(getBackdrop()).toHaveClass(size);
@@ -116,7 +134,7 @@ describe("AlertModal", () => {
 
   it("should remove the backdrop when removeBackdrop prop is true", () => {
     const { getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open removeBackdrop />);
-    expect(getBackdrop()).toHaveClass("noBackdrop");
+    expect(getBackdrop()).not.toHaveClass("backdrop");
   });
 
   it("should render with border when bordered prop is true", () => {
@@ -127,5 +145,45 @@ describe("AlertModal", () => {
   it("should render as elevated when elevated prop is true", () => {
     const { getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open elevated />);
     expect(getBackdrop()).toHaveClass("elevated");
+  });
+
+  it("should apply variant class to icon when variant is provided", () => {
+    renderExt(<AlertModal title="Alert Modal Title" open variant="danger" icon={<MotifIcon name="home" />} />);
+    expect(screen.getByText("home")).toHaveClass("danger");
+  });
+
+  it("should apply variant class to actionButton when variant is provided", () => {
+    const { getModalActions } = renderExt(
+      <AlertModal title="Alert Modal Title" open variant="danger" actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
+    );
+    expect(getModalActions().querySelector("button")).toHaveClass("danger");
+  });
+
+  it("should render alternate button and call handler when clicked", () => {
+    const handleCancel = jest.fn();
+    renderExt(<AlertModal title="Alert Modal Title" open alternateButton={{ text: "Cancel", onClick: handleCancel }} />);
+    fireEvent.click(screen.getByText("Cancel"));
+    expect(handleCancel).toHaveBeenCalledTimes(1);
+  });
+
+  it("should apply the given contentPosition class", () => {
+    const { getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open contentPosition="left" />);
+    expect(getBackdrop().querySelector(".content_left")).toBeInTheDocument();
+  });
+
+  it("should apply the given buttonsPosition class to the actions area", () => {
+    const positions: AlertModalProps["buttonsPosition"][] = ["left", "center", "right", "spaceBetween", "stretch", "fullWidth"];
+    positions.forEach(buttonsPosition => {
+      const { getModalActions } = renderExt(
+        <AlertModal
+          title="Alert Modal Title"
+          open
+          buttonsPosition={buttonsPosition}
+          actionButton={{ text: "Confirm", onClick: jest.fn() }}
+        />,
+      );
+      expect(getModalActions()).toHaveClass(`actions_${buttonsPosition}`);
+      cleanup();
+    });
   });
 });

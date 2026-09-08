@@ -1,23 +1,21 @@
-import { ReactElement } from "react";
-import { ButtonProps } from "../Button/types";
-import { Size3 } from "../../types";
-
-export type AlertModalContentPosition = "left" | "center" | "right";
-export type AlertModalButtonsPosition = AlertModalContentPosition | "spread" | "stretch";
+import { MouseEvent } from "react";
+import { IconGlobalType, Size4LG, Variant } from "../../types";
 
 export type AlertModalProps = {
   title: string;
-  subtitle?: string;
-  icon?: ReactElement;
+  text?: string;
   open?: boolean;
   onClose?: () => void;
-  buttonAction?: ReactElement<ButtonProps>[];
+  actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
+  alternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
 } & AlertModalDefaultableProps;
 
 export type AlertModalDefaultableProps = {
-  size?: Size3;
-  contentPosition?: AlertModalContentPosition;
-  buttonsPosition?: AlertModalButtonsPosition;
+  icon?: IconGlobalType;
+  size?: Size4LG;
+  contentPosition?: "left" | "center";
+  buttonsPosition?: "left" | "center" | "right" | "spaceBetween" | "stretch" | "fullWidth";
+  variant?: Variant;
   enableDivider?: boolean;
   removeBackdrop?: boolean;
   bordered?: boolean;

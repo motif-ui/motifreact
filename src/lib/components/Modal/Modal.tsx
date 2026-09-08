@@ -1,7 +1,8 @@
 "use client";
 
 import styles from "./Modal.module.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import useToggle from "../../hooks/useToggle";
 import ModalHeader from "./components/ModalHeader";
 import { PropsWithRef } from "../../types";
 import ModalActions from "./components/ModalActions";
@@ -12,6 +13,8 @@ import { ModalProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { MotifIconButton } from "@/components/Motif/Icon";
+
+const animationOptions = { showTime: 50, hideTime: 300 };
 
 const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   const {
@@ -33,27 +36,23 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Modal", props);
 
   const domReady = useDomReady();
-  const [visible, setVisible] = useState(open);
-  const [attached, setAttached] = useState(open);
+  const { visible, toggleState, show, hide } = useToggle(false, animationOptions);
+  const attached = visible || !!toggleState;
+  const attachedRef = useRef(attached);
+  attachedRef.current = attached;
 
-  const handleCloseWithAnimation = useCallback(() => {
-    setVisible(false);
-    setTimeout(() => {
-      setAttached(false);
-      onClose?.();
-    }, 300);
-  }, [onClose]);
+  const prevToggleState = useRef(toggleState);
+  useEffect(() => {
+    if (prevToggleState.current === "hiding" && !toggleState) onClose?.();
+    prevToggleState.current = toggleState;
+  }, [toggleState, onClose]);
 
-  const modalRef = useOutsideClick<HTMLDivElement>(() => closable && handleCloseWithAnimation());
+  const modalRef = useOutsideClick<HTMLDivElement>(() => closable && hide());
 
   useEffect(() => {
-    if (open) {
-      setAttached(true);
-      setTimeout(() => setVisible(true), 50);
-    } else {
-      attached && handleCloseWithAnimation();
-    }
-  }, [open, attached, handleCloseWithAnimation]);
+    if (open) show();
+    else if (attachedRef.current) hide();
+  }, [open, show, hide]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
@@ -67,7 +66,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
     createPortal(
       <div data-testid="modalBackdrop" className={classNames} style={style} ref={ref}>
         <div className={styles.modal} ref={modalRef}>
-          {closable && <MotifIconButton name="close" onClick={onClose} size="xxl" className={styles.closeButton} />}
+          {closable && <MotifIconButton name="close" onClick={onClose} size="xl2" className={styles.closeButton} />}
           <ModalHeader title={title} subtitle={subtitle} />
           <div className={styles.content}> {children}</div>
           <ModalActions actionButton={actionButton} alternateButton={alternateButton} buttons={buttons} />
