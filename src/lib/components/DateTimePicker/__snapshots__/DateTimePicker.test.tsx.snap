@@ -959,26 +959,26 @@ exports[`TimePicker should be rendered with only required props and should have 
           </li>
         </ul>
       </div>
-      <div
-        class="actions actionsSpread"
+    </div>
+    <div
+      class="actions actionsSpread"
+    >
+      <button
+        class="Root secondary solid md"
+        type="button"
       >
-        <button
-          class="Root secondary solid md"
-          type="button"
-        >
-          <span>
-            Clear
-          </span>
-        </button>
-        <button
-          class="Root primary solid md"
-          type="button"
-        >
-          <span>
-            OK
-          </span>
-        </button>
-      </div>
+        <span>
+          Clear
+        </span>
+      </button>
+      <button
+        class="Root primary solid md"
+        type="button"
+      >
+        <span>
+          OK
+        </span>
+      </button>
     </div>
   </div>
 </div>
