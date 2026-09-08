@@ -33,11 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     steps:
-      - name: Checkout PR head
+      - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: '0'
           persist-credentials: 'false'
 
@@ -61,10 +59,10 @@ jobs:
 
       # --- Chromatic: Storybook build + TurboSnap ---
       - name: Run Chromatic
-        uses: chromaui/action@94713c544284a14195de3b50ef24301579f1877e # v18.0.1
+        uses: chromaui/action@2a0b63f30233c48591844a46d451b9cf68128186 # v18.7.2
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          onlyChanged: true
+          onlyChanged: false
           zip: true
           buildScriptName: "build:storybook"
           skip: "dependabot/**"
@@ -78,7 +76,7 @@ jobs:
       #     manifest when `playwright` is combined with `onlyChanged`/`buildScriptName`) ---
       - name: Upload Playwright snapshots to Chromatic
         if: needs.detect-changes.outputs.storybook == 'true'
-        uses: chromaui/action@94713c544284a14195de3b50ef24301579f1877e # v18.0.1
+        uses: chromaui/action@2a0b63f30233c48591844a46d451b9cf68128186 # v18.7.2
         with:
           playwright: true
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
