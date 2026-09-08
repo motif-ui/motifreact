@@ -257,6 +257,16 @@ describe("TimePicker", () => {
     expect(handleTimeChange).not.toHaveBeenCalled();
   });
 
+  it("should not render clear and ok buttons when removeActionButtons is set to true", () => {
+    const { rerender, queryByText } = render(<TimePicker />);
+    expect(queryByText("Clear")).toBeInTheDocument();
+    expect(queryByText("OK")).toBeInTheDocument();
+
+    rerender(<TimePicker removeActionButtons />);
+    expect(queryByText("Clear")).not.toBeInTheDocument();
+    expect(queryByText("OK")).not.toBeInTheDocument();
+  });
+
   it("should display as empty value when time value is not given or selected", () => {
     render(<TimePicker secondsEnabled />);
 
