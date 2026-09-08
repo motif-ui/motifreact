@@ -1,7 +1,6 @@
 @use "@styles" as *;
 
 .Root {
-  background: blue !important;
   display: flex;
   flex-direction: column;
   border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
