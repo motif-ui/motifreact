@@ -4,11 +4,8 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Accordion", () => {
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<Accordion title="Accordion Title" />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<Accordion title="Accordion Title" {...props} />));
   });
 

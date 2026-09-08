@@ -6,7 +6,7 @@ import { Size4SM } from "../../types";
 import { Spacing } from "./types";
 
 describe("Dropdown", () => {
-  it("should be rendered with only required props and should have default prop values", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getByText } = render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} />);
     expect(container.firstElementChild).toMatchSnapshot();
 
@@ -16,9 +16,7 @@ describe("Dropdown", () => {
 
     fireEvent.click(getByText("Dropdown"));
     expect(container.querySelector("ul")).toHaveClass("callout");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />));
   });
 

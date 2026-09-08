@@ -39,7 +39,7 @@ describe("InputDate", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getInput } = renderExt(<InputDate />);
     expect(container).toMatchSnapshot();
     // placeholder = DD/MM/YYYY (default)
@@ -48,9 +48,7 @@ describe("InputDate", () => {
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
     // icon = calendar_month (default)
     expect(screen.queryByText("calendar_month")).toBeInTheDocument();
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<InputDate {...props} />));
   });
 

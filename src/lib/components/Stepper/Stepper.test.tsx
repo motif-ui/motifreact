@@ -29,7 +29,7 @@ const renderExt = (props: StepperProps = {}, itemProps?: StepperItemProps[]) => 
 };
 
 describe("Stepper", () => {
-  it("should render with only required props and have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getRoot } = renderExt();
     expect(container).toMatchSnapshot();
 
@@ -44,9 +44,7 @@ describe("Stepper", () => {
 
     // variant = primary
     expect(container.querySelector(".active")).toHaveClass("primary");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props =>
       render(
         <Stepper {...props}>

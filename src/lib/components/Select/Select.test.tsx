@@ -15,11 +15,8 @@ describe("Select", () => {
     { label: "Item 2", value: "i2" },
   ];
 
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<Select data={data} />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<Select data={data} {...props} />));
   });
 

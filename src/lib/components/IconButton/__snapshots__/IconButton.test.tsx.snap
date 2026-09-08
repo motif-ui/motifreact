@@ -1,23 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`IconButton should be rendered with only required props 1`] = `
-<div>
-  <button
-    class="Root md secondary"
-    data-testid="iconButtonTestId"
-    type="button"
-  >
-    <span
-      class="Root mtf-ui-icons md"
-      lang="en"
-      translate="no"
-    >
-      account_circle
-    </span>
-  </button>
-</div>
-`;
-
 exports[`IconButton should render all icons in motifIcons set 1`] = `
 <div>
   <button
@@ -4909,6 +4891,24 @@ exports[`IconButton should render all icons in motifIcons set 272`] = `
       translate="no"
     >
       zoom_out
+    </span>
+  </button>
+</div>
+`;
+
+exports[`IconButton should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
+<div>
+  <button
+    class="Root md secondary"
+    data-testid="iconButtonTestId"
+    type="button"
+  >
+    <span
+      class="Root mtf-ui-icons md"
+      lang="en"
+      translate="no"
+    >
+      account_circle
     </span>
   </button>
 </div>

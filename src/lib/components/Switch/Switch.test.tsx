@@ -6,15 +6,13 @@ import { userEvent } from "@testing-library/user-event";
 import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Switch", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<Switch />);
     expect(container).toMatchSnapshot();
 
     // size: md
     expect(container.firstElementChild).toHaveClass("md");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<Switch {...props} />));
   });
 

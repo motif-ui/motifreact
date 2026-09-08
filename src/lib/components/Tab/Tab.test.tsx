@@ -4,7 +4,7 @@ import TabItem from "./components/TabItem";
 import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Tab", () => {
-  it("should render with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(
       render(
         <Tab tabs={[{ id: "home" }, { id: "profile" }]}>
@@ -13,9 +13,7 @@ describe("Tab", () => {
         </Tab>,
       ).container,
     ).toMatchSnapshot();
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props =>
       render(
         <Tab tabs={[{ id: "home" }]} {...props}>

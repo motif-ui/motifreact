@@ -36,15 +36,13 @@ export const items: MenuItemProps[] = [
 ];
 
 describe("NavBar", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<NavBar />);
     expect(container).toMatchSnapshot();
 
     // variant default: "neutral"
     expect(container.firstChild).toHaveClass("neutral");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLElement>(props => render(<NavBar {...props} />));
   });
 

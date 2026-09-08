@@ -74,13 +74,11 @@ describe("UploadInput", () => {
   const serverFile = { id: "file-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
   const serverFile2 = { id: "file-2", name: "server-img.png", type: "image/png", size: 4096 };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = renderExt(<UploadInput {...requiredProps} />);
     expect(container).toMatchSnapshot();
     expect(container.firstElementChild).toHaveClass("md");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => renderExt(<UploadInput {...requiredProps} {...props} />));
   });
 

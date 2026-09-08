@@ -3,11 +3,8 @@ import ProgressBar from "@/components/ProgressBar/ProgressBar";
 import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("ProgressBar", () => {
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<ProgressBar />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<ProgressBar {...props} />));
   });
 

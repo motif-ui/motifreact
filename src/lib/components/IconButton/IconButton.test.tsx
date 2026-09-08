@@ -9,11 +9,8 @@ import MotifProvider from "../../motif/context/MotifProvider";
 import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("IconButton", () => {
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<IconButton name="account_circle" />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLButtonElement>(props => render(<IconButton name="account_circle" {...props} />));
   });
 

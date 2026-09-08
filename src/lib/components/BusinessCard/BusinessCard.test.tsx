@@ -3,7 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("BusinessCard", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<BusinessCard />);
     expect(container).toMatchSnapshot();
 
@@ -11,9 +11,7 @@ describe("BusinessCard", () => {
     expect(container.firstElementChild).toHaveClass("center");
     // variant: neutral
     expect(container.firstElementChild).toHaveClass("neutral");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<BusinessCard {...props} />));
   });
 

@@ -7,11 +7,8 @@ import { ButtonProps } from "./types";
 import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Button", () => {
-  it("should render with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<Button label="test" />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLButtonElement>(props => render(<Button label="test" {...props} />));
   });
 

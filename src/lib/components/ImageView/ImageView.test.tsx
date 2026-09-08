@@ -6,11 +6,8 @@ import { runStandardPropsTest } from "../../../utils/testUtils";
 const src = "https://picsum.photos/seed/motifui/200";
 
 describe("ImageView", () => {
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<ImageView src={src} />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLImageElement>(props => render(<ImageView src={src} {...props} />));
   });
 

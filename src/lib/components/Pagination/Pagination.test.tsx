@@ -10,7 +10,9 @@ describe("Pagination", () => {
     mockOnChange.mockClear();
   });
 
-  it("should render with the given className, style and ref on the root element", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
+    expect(render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} />).container).toMatchSnapshot();
+
     runStandardPropsTest<HTMLDivElement>(props =>
       render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} {...props} />),
     );

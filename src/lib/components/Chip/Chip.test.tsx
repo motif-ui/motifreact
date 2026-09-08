@@ -4,11 +4,8 @@ import { Size4SM } from "../../types";
 import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Chip", () => {
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<Chip label="test" />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<Chip label="test" {...props} />));
   });
 

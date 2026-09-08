@@ -26,7 +26,7 @@ describe("SliderRange", () => {
     Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<SliderRange />);
     expect(container).toMatchSnapshot();
 
@@ -60,9 +60,7 @@ describe("SliderRange", () => {
     checkDefaultProps(slider1, "0", "0", "display: none;");
     const slider2 = container.firstElementChild?.lastElementChild as HTMLDivElement;
     checkDefaultProps(slider2, "100", "1", "width: 99%; left: 1%;");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<SliderRange {...props} />));
   });
 

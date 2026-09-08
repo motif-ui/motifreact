@@ -40,16 +40,14 @@ describe("InputTime", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getInput } = renderExt(<InputTime />);
     expect(container).toMatchSnapshot();
     expect(getInput()).toHaveAttribute("placeholder", "__:__");
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
     //icon = schedule (default)
     expect(screen.queryByText("schedule")).toBeInTheDocument();
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<InputTime {...props} />));
   });
 

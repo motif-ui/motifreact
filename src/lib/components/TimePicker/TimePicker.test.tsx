@@ -79,7 +79,7 @@ describe("TimePicker", () => {
 
   runTimePickerCommonTests();
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<TimePicker />);
     expect(container).toMatchSnapshot();
 
@@ -97,6 +97,8 @@ describe("TimePicker", () => {
     expect(screen.queryByTestId("timePeriodSelector")).not.toBeInTheDocument();
     const stripes = screen.getByTestId("timeStripeContainer").querySelectorAll("ul");
     expect(stripes[0].children.length).toBe(24); // 24-hour format
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<TimePicker {...props} />));
   });
 
   it("should display time info given in the value prop", () => {
@@ -253,10 +255,6 @@ describe("TimePicker", () => {
 
     await userEvent.click(getByText("Clear"));
     expect(handleTimeChange).not.toHaveBeenCalled();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
-    runStandardPropsTest<HTMLDivElement>(props => render(<TimePicker {...props} />));
   });
 
   it("should display as empty value when time value is not given or selected", () => {

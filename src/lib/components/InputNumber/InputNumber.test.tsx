@@ -6,7 +6,7 @@ import { InputSize } from "@/components/Form/types.ts";
 import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("InputNumber", () => {
-  it("should render with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<InputNumber />).container).toMatchSnapshot();
 
     const input = screen.getByRole("textbox");
@@ -18,9 +18,7 @@ describe("InputNumber", () => {
     // No decimals allowed
     fireEvent.change(input, { target: { value: "3.5" } });
     expect(input).toHaveValue("35");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<InputNumber {...props} />));
   });
 

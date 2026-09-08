@@ -5,11 +5,8 @@ import { InputSize } from "../Form/types";
 import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("InputPassword", () => {
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<InputPassword />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<InputPassword {...props} />));
   });
 

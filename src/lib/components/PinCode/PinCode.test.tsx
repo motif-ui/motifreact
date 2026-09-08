@@ -22,7 +22,7 @@ const testPropMatchesClassName = (
 };
 
 describe("PinCode", () => {
-  it("should render with only required props and have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(
       <PinCode>
         <PinCode.Item />
@@ -35,9 +35,7 @@ describe("PinCode", () => {
     expect(container.firstElementChild).toHaveClass("md");
     // maskType : "asterisks"
     expect(container.firstElementChild!.children.item(1)?.querySelector("input")).toHaveAttribute("type", "password");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props =>
       render(
         <PinCode {...props}>

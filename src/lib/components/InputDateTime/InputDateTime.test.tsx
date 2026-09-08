@@ -50,7 +50,7 @@ describe(InputDateTime, () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", async () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", async () => {
     const { container, getByText, getInputText, getPickerContainer, getTimeList, getInput } = renderExt(<InputDateTime />);
 
     expect(container).toMatchSnapshot();
@@ -80,9 +80,7 @@ describe(InputDateTime, () => {
     const [hours] = getTimeList();
     expect(hours.children.length).toBe(24);
     expect(hours.lastElementChild).toHaveTextContent("23");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<InputDateTime {...props} />));
   });
 

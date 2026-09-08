@@ -27,11 +27,8 @@ describe("UploadList", () => {
   beforeEach(() => mockXHRs());
   afterEach(() => jest.restoreAllMocks());
 
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(renderExt(<UploadList {...requiredProps} />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => renderExt(<UploadList {...requiredProps} {...props} />));
   });
 

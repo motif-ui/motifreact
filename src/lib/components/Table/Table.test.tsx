@@ -49,16 +49,14 @@ describe("Table", () => {
     };
   };
 
-  it("should render with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     const { getTableContainer, container, rerender } = renderExt(<Table columns={cols} data={data} />);
     expect(container).toMatchSnapshot();
     expect(getTableContainer()).toHaveClass("cellBorders");
     expect(getTableContainer()).toHaveClass("bordered");
     rerender(<Table key="empty" columns={cols} data={[]} />);
     expect(screen.getByText("No data")).toBeInTheDocument();
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<Table columns={cols} data={data} {...props} />));
   });
 

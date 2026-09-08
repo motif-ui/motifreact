@@ -5,11 +5,8 @@ import { userEvent } from "@testing-library/user-event";
 import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Radio", () => {
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(render(<Radio value="val" />).container).toMatchSnapshot();
-  });
-
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<Radio value="val" {...props} />));
   });
 

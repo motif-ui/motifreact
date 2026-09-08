@@ -76,7 +76,7 @@ describe("InputDateRange", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getDateRangeInput, getInputText, getByText } = renderExt(<InputDateRange />);
     expect(container).toMatchSnapshot();
     // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
@@ -85,9 +85,7 @@ describe("InputDateRange", () => {
     expect(getInputText()).toHaveClass("md");
     // icon = calendar_expand_horizontal (default)
     expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<InputDateRange {...props} />));
   });
 

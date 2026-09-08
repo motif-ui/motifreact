@@ -17,14 +17,12 @@ describe("MenuList", () => {
     },
   ];
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<MenuList items={items} variant="solid" />);
     expect(container).toMatchSnapshot();
     const root = container.firstElementChild as HTMLElement;
     expect(root).toHaveClass("solid");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<MenuList items={items} variant="solid" {...props} />));
   });
 

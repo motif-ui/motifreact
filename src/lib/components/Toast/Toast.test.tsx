@@ -21,7 +21,7 @@ describe("Toast", () => {
   };
   const content = "content";
 
-  it("should render with only required props and have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     jest.useFakeTimers();
 
     const { getByText, queryByText } = render(<Toaster content={content} variant="info" />);
@@ -39,9 +39,7 @@ describe("Toast", () => {
     expect(queryByText(content)).not.toBeInTheDocument();
 
     jest.useRealTimers();
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(
       props => render(<Toaster content={content} variant="info" {...props} />),
       result => result.queryByTestId("toast"),

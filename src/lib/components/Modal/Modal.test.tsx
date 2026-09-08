@@ -8,11 +8,11 @@ import { userEvent } from "@testing-library/user-event";
 import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Modal", () => {
-  it("should render with only required props", () => {
-    expect(render(<Modal open>Test content</Modal>).container).toMatchSnapshot();
-  });
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
+    const { container, unmount } = render(<Modal open>Test content</Modal>);
+    expect(container).toMatchSnapshot();
+    unmount();
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(
       props =>
         render(

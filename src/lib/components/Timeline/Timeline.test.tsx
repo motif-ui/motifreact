@@ -11,7 +11,7 @@ const items: TimelineItemProps[] = [
 ];
 
 describe("Timeline", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<Timeline items={items} />);
     expect(container).toMatchSnapshot();
 
@@ -41,9 +41,7 @@ describe("Timeline", () => {
     // icon: motif_ui (default when markerType is icon)
     const { container: iconContainer } = render(<Timeline items={[{ title: "Item" }]} markerType="icon" />);
     expect(iconContainer.textContent).toContain("motif_ui");
-  });
 
-  it("should render with the given className, style and ref on the root element", () => {
     runStandardPropsTest<HTMLDivElement>(props => render(<Timeline items={items} {...props} />));
   });
 

@@ -44,7 +44,8 @@ describe("DateTimePicker", () => {
 
   runTimePickerCommonTests();
 
-  it("should render with the given className, style and ref on the root element", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
+    expect(render(<DateTimePicker />).container).toMatchSnapshot();
     runStandardPropsTest<HTMLDivElement>(props => render(<DateTimePicker {...props} />));
   });
 

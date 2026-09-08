@@ -11,9 +11,6 @@ export const runDatePickerCommonTests = () => {
     const year = today.getFullYear();
     const month = today.getMonth();
 
-    it("should render with the given className, style and ref on the root element", () => {
-      runStandardPropsTest<HTMLDivElement>(props => render(<DatePicker {...props} />));
-    });
     it("should show today with a different style", () => {
       const { container } = render(<DatePicker />);
 
@@ -272,7 +269,7 @@ describe("DatePicker", () => {
 
   runDatePickerCommonTests();
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getByText, getByTestId } = render(<DatePicker value={new Date(2000, 1, 15)} />);
     expect(container).toMatchSnapshot();
 
@@ -287,6 +284,8 @@ describe("DatePicker", () => {
 
     // size: md
     expect(getByTestId("Picker")).toHaveClass("md");
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<DatePicker {...props} />));
   });
 
   it("should not render clear and ok buttons when removeActionButtons is set to true", () => {
