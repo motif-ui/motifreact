@@ -60,6 +60,7 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
       size={size}
       name={name}
       disabled={disabled}
+      readOnly={readOnly}
     >
       <div className={classes} style={style} ref={ref} data-testid="uploadDragger" data-mtf-component="upload-dragger">
         <DragArea disabled={disabled || readOnly} error={error} success={success} onChange={changeHandler} onError={onError} />
