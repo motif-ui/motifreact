@@ -47,7 +47,7 @@ const SliderRange = (p: PropsWithRef<SliderRangeProps, HTMLDivElement>) => {
   }, [getCorrectValue, props.value]);
 
   const [rangeValue, setRangeValue] = useState<number[]>(value);
-  const { size, disabled, onFormFieldValueUpdate, inFormField } = useRegisterFormField({
+  const { size, disabled, readOnly, onFormFieldValueUpdate, inFormField } = useRegisterFormField({
     props,
     defaultValue: [min, maxSelectableValue],
     valueStateSetter: setRangeValue,
@@ -103,7 +103,7 @@ const SliderRange = (p: PropsWithRef<SliderRangeProps, HTMLDivElement>) => {
   const classes = sanitizeModuleRootClasses(styles, className, [size, inFormField && "inFormField"]);
 
   return (
-    <div className={classes} style={style} {...(!disabled && { onClick })} ref={ref}>
+    <div className={classes} style={style} {...(!disabled && !readOnly && { onClick })} ref={ref}>
       <SliderComponent
         inRangeSelector
         start={start}
@@ -118,6 +118,7 @@ const SliderRange = (p: PropsWithRef<SliderRangeProps, HTMLDivElement>) => {
         variant={variant}
         size={size}
         disabled={disabled}
+        readOnly={readOnly}
         step={step}
       />
       <SliderComponent
@@ -132,6 +133,7 @@ const SliderRange = (p: PropsWithRef<SliderRangeProps, HTMLDivElement>) => {
         variant={variant}
         size={size}
         disabled={disabled}
+        readOnly={readOnly}
         step={step}
         style={{ ...(rangeValue[0] === rangeValue[1] && rangeValue[1] !== min && { visibility: "hidden" }) }}
       />

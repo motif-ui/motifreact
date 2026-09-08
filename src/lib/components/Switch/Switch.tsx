@@ -25,11 +25,11 @@ const Switch = (p: PropsWithRef<SwitchProps, HTMLDivElement>) => {
   }, [checked, onFormFieldValueUpdate]);
 
   const handleSlider = useCallback(() => {
-    if (readOnly) return;
+    if (disabled || readOnly) return;
     onChange?.(!isChecked);
     setIsChecked(!isChecked);
     onFormFieldValueUpdate?.(!isChecked);
-  }, [isChecked, onChange, onFormFieldValueUpdate, readOnly]);
+  }, [disabled, isChecked, onChange, onFormFieldValueUpdate, readOnly]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     size,

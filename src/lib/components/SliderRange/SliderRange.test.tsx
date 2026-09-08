@@ -107,6 +107,32 @@ describe("SliderRange", () => {
     expect(slider2.querySelector("input")).toBeDisabled();
   });
 
+  it("should be rendered as readOnly and not change value on click or native input change", () => {
+    const onChange = jest.fn();
+    const { container, getAllByTestId, getAllByRole } = render(<SliderRange value={[14, 70]} readOnly onChange={onChange} />);
+    const [slider1, slider2] = getAllByTestId("slider");
+    const [input1, input2] = getAllByRole("slider");
+
+    expect(slider1).toHaveClass("disabled");
+    expect(input1).not.toBeDisabled();
+    expect(input1).toHaveAttribute("aria-readonly", "true");
+    expect(slider2).toHaveClass("disabled");
+    expect(input2).not.toBeDisabled();
+    expect(input2).toHaveAttribute("aria-readonly", "true");
+
+    fireEvent.click(container.firstElementChild!, { clientX: 10 });
+    expect(input1).toHaveValue("14");
+    expect(input2).toHaveValue("70");
+
+    fireEvent.change(input1, { target: { value: 30 } });
+    expect(input1).toHaveValue("14");
+
+    fireEvent.change(input2, { target: { value: 90 } });
+    expect(input2).toHaveValue("70");
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it("should change the first slider value when it is clicked on the left side of the first thumb", async () => {
     const onChange = jest.fn();
     const { container, getAllByRole } = render(<SliderRange onChange={onChange} value={[20, 60]} />);
