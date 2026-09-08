@@ -3,8 +3,10 @@
 import { useCallback, useContext, useState } from "react";
 import { DateTimePickerContext } from "@/components/DateTimePicker/context/DateTimePickerProvider";
 import DateTimeInfo from "@/components/DateTimePicker/components/DateTimeInfo";
-import DatePicker from "../../DatePicker";
-import TimePicker from "@/components/TimePicker";
+import { DatePickerProvider } from "@/components/DatePicker/context/DatePickerProvider";
+import DateSelector from "@/components/DatePicker/components/DateSelector/DateSelector";
+import { TimePickerProvider } from "@/components/TimePicker/context/TimePickerProvider";
+import TimePickerContent from "@/components/TimePicker/components/TimePickerContent";
 import { DatePickerPickerType } from "@/components/DatePicker/types";
 import PickerActions from "@/components/Motif/Pickers/components/PickerActions";
 import styles from "../DateTimePicker.module.scss";
@@ -50,26 +52,29 @@ const DateTimePickerContainer = (props: Props) => {
         </>
       )}
       {activeTab === "date" ? (
-        <DatePicker
+        <DatePickerProvider
           firstDayOfWeek={firstDayOfWeek}
           onDateChange={dateChangeHandler}
           value={selectedValue}
           onPickerChange={setActiveDatePickerSubPicker}
-          fluid={fluid}
+          fluid={!!fluid}
           locale={locale}
           size={size}
-        />
+        >
+          <DateSelector />
+        </DatePickerProvider>
       ) : (
-        <TimePicker
-          className={styles.timePicker}
+        <TimePickerProvider
           onTimeChange={timeChangeHandler}
           value={currentTime}
-          secondsEnabled={secondsEnabled}
+          secondsEnabled={!!secondsEnabled}
           format={timeFormat}
           size={size}
           locale={locale}
           onPeriodChange={setSelectedTimePeriod}
-        />
+        >
+          <TimePickerContent className={styles.timePicker} removeLabel />
+        </TimePickerProvider>
       )}
       {!removeActionButtons && activeDatePickerSubPicker === "day" && (
         <PickerActions size={size} onOkClick={okClickHandler} onClearClick={clearDateTimePicker} />

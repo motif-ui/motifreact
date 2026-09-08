@@ -13,6 +13,7 @@ export type TimePickerDefaultableProps = {
   secondsEnabled?: boolean;
   format?: TimeFormat;
   locale?: TimePickerLocale;
+  removeActionButtons?: boolean;
 } & PickerPropsCommon;
 
 export type TimePickerProviderProps = {
