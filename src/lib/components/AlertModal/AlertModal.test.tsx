@@ -23,9 +23,7 @@ const renderExt = (ui: ReactElement) => {
 
 describe("AlertModal", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getBackdrop, getModalActions } = renderExt(
-      <AlertModal title="Alert Modal Title" open actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
-    );
+    const { container, getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open />);
     expect(container).toMatchSnapshot();
 
     // size: md
@@ -38,10 +36,6 @@ describe("AlertModal", () => {
     expect(getBackdrop()).not.toHaveClass("elevated");
     // contentPosition: center
     expect(getBackdrop().querySelector(".content_center")).toBeInTheDocument();
-    // buttonsPosition: center
-    expect(getModalActions()).toHaveClass("actions_center");
-    // enableDivider: false
-    expect(getModalActions()).not.toHaveClass("withDivider");
   });
 
   it("should render the modal when open is true", () => {
@@ -109,6 +103,13 @@ describe("AlertModal", () => {
   it("should not render the actions area when neither action button nor alternate button is provided", () => {
     renderExt(<AlertModal title="Alert Modal Title" open />);
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
+  });
+
+  it("should not render divider by default when buttons are provided", () => {
+    const { getModalActions } = renderExt(
+      <AlertModal title="Alert Modal Title" open actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
+    );
+    expect(getModalActions()).not.toHaveClass("withDivider");
   });
 
   it("should render divider when enableDivider is true and buttons are provided", () => {

@@ -1,6 +1,6 @@
 import { memo, MouseEvent } from "react";
 import Button from "../../Button";
-import { Variant } from "src/lib/types";
+import { Variant } from "../../../types";
 
 type Props = {
   actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
