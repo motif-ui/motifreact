@@ -50,9 +50,13 @@ describe("UploadDragger", () => {
 
   it("should be rendered as disabled when readOnly prop is true", async () => {
     const handleChange = jest.fn();
-    const { getDragArea } = renderExt(<UploadDragger {...requiredProps} readOnly onChange={handleChange} />);
+    const { getDragArea, getInput, getFileList } = renderExt(<UploadDragger {...requiredProps} readOnly onChange={handleChange} />);
     expect(getDragArea()).toHaveClass("disabled");
     await simulateDrop(getDragArea(), [MOCK.filePng2mb]);
+    expect(handleChange).not.toHaveBeenCalled();
+
+    await simulateChooseFiles(getInput(), [MOCK.filePng2mb]);
+    expect(getFileList()).not.toBeInTheDocument();
     expect(handleChange).not.toHaveBeenCalled();
   });
 

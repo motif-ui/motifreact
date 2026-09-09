@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import Switch from "@/components/Switch/Switch";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { InputSize } from "../Form/types";
 import { userEvent } from "@testing-library/user-event";
 
@@ -24,13 +24,12 @@ describe("Switch", () => {
     expect(container.firstChild).toHaveClass("checked");
   });
 
-  it("should be rendered as disabled when disabled prop is given", () => {
+  it("should be rendered as disabled when disabled prop is given", async () => {
     const { container } = render(<Switch label="label" disabled />);
     expect(screen.getByRole("checkbox")).toBeDisabled();
     expect(container.firstChild).toHaveClass("disabled");
     expect(container.firstChild).not.toHaveClass("checked");
-    fireEvent.mouseDown(screen.getByTestId("switchSliderItem"));
-    fireEvent.mouseUp(screen.getByTestId("switchSliderItem"));
+    await userEvent.click(screen.getByTestId("switchSliderItem"));
     expect(container.firstChild).not.toHaveClass("checked");
     screen.getByText("label").click(); // label
     expect(container.firstChild).not.toHaveClass("checked");
