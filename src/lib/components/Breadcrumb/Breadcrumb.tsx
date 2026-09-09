@@ -26,7 +26,7 @@ const Breadcrumb = (props: PropsWithRef<BreadcrumbProps, HTMLUListElement>) => {
       : maxVisibleItems > 1
         ? collapsedPosition === "right"
           ? [...items.slice(0, maxVisibleItems - 1), { label: "..." }, ...items.slice(-1)]
-          : [...items.slice(0, maxVisibleItems > 1 ? 1 : 0), { label: "..." }, ...items.slice(-maxVisibleItems + 1)]
+          : [...items.slice(0, 1), { label: "..." }, ...items.slice(-maxVisibleItems + 1)]
         : []
     : items;
 
