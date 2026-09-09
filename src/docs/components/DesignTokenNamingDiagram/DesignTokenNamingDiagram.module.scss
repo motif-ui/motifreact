@@ -20,8 +20,6 @@
   align-items: center;
   gap: 12px;
 
-  // Grid items default to min-width: auto, which lets the non-wrapping pill and
-  // long hint words push the track past 1fr and overflow the container.
   min-width: 0;
 }
 
@@ -34,9 +32,6 @@
   font-size: 18px;
   backdrop-filter: blur(10px);
   white-space: nowrap;
-  max-width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
   * {
     color: #ffffff !important;
   }
