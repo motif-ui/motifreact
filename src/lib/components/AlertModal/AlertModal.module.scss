@@ -12,6 +12,11 @@ $content-positions: (
     column,
     center,
     center
+  ),
+  "right": (
+    row-reverse,
+    flex-start,
+    right
   )
 );
 
@@ -35,12 +40,6 @@ $content-positions: (
   &.backdrop {
     background-color: var(--base-colors-black-black-overlay50);
   }
-  &.elevated .alertModalContainer {
-    @include shadow(6);
-  }
-  &.bordered .alertModalContainer {
-    border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
-  }
 
   @each $size, $width in $sizes {
     &.#{$size} .alertModalContainer {
@@ -57,6 +56,13 @@ $content-positions: (
     border-radius: var(--theme-sizing-radius-default);
     @include pop-default;
   }
+}
+
+.elevated .alertModalContainer {
+  @include shadow(6);
+}
+.bordered .alertModalContainer {
+  border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
 }
 
 .content {

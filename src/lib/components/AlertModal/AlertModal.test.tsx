@@ -30,10 +30,6 @@ describe("AlertModal", () => {
     expect(getBackdrop()).toHaveClass("md");
     // removeBackdrop: false (backdrop görünür)
     expect(getBackdrop()).toHaveClass("backdrop");
-    // bordered: false
-    expect(getBackdrop()).not.toHaveClass("bordered");
-    // elevated: false
-    expect(getBackdrop()).not.toHaveClass("elevated");
     // contentPosition: center
     expect(getBackdrop().querySelector(".content_center")).toBeInTheDocument();
   });

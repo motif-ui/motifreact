@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRef } from "../../types";
 import { AlertModalProps } from "./types";
-import { sanitizeModuleRootClasses, sanitizeModuleClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useDomReady from "../../hooks/useDomReady";
@@ -66,8 +66,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     size,
   ]);
 
-  const contentClassNames = sanitizeModuleClasses(styles, "content", `content_${contentPosition}`);
-  const actionsClassNames = sanitizeModuleClasses(styles, "actions", `actions_${buttonsPosition}`, enableDivider && "withDivider");
+  const isVisible = actionButton || alternateButton;
 
   return (
     attached &&
@@ -75,13 +74,16 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     createPortal(
       <div data-testid="alertModalBackdrop" className={classNames} style={style} ref={ref}>
         <div className={styles.alertModalContainer} ref={modalRef}>
-          <AlertModalContent className={contentClassNames} title={title} text={text} icon={icon} variant={variant} />
-          <AlertModalActions
-            actionButton={actionButton}
-            alternateButton={alternateButton}
-            className={actionsClassNames}
-            variant={variant}
-          />
+          <AlertModalContent title={title} text={text} icon={icon} variant={variant} contentPosition={contentPosition} />
+          {isVisible && (
+            <AlertModalActions
+              actionButton={actionButton}
+              alternateButton={alternateButton}
+              buttonsPosition={buttonsPosition}
+              enableDivider={enableDivider}
+              variant={variant}
+            />
+          )}
         </div>
       </div>,
       document.body,
