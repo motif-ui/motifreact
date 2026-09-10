@@ -1,3 +1,4 @@
+/*
 import { useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import styles from "./CSSClassNames.module.scss";
 import { extractClassesFromStyles } from "../generator";
@@ -14,11 +15,11 @@ const CSSClassNames = () => {
   const { attachedCSFFiles } = useContext<DocsContextProps<ReactRenderer> & { attachedCSFFiles?: Set<CSFFile> }>(DocsContext);
 
   useLayoutEffect(() => {
-    /**
+    /!**
      * We need to wait for the meta to be available in the context before trying to access it, otherwise we might run
      * into issues where the meta is not yet set when we try to access it. This is especially important for MDX files,
      * where the meta is not available until after the first render.
-     */
+     *!/
     const componentStoryFilePath = Array.from(attachedCSFFiles ?? [])[0]?.meta?.parameters?.fileName as string | undefined;
     setReadyData({
       componentName: componentStoryFilePath?.split("/").pop()?.replace(".stories.tsx", ""),
@@ -69,3 +70,4 @@ const CSSClassNames = () => {
 };
 
 export default CSSClassNames;
+*/

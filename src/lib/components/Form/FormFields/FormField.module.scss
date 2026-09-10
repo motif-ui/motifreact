@@ -69,14 +69,6 @@ $sizes: (
   .label {
     white-space: nowrap;
   }
-  .inputContainer {
-    min-width: var(--base-sizing-128x);
-  }
-  .inputContainer:has([data-mtf-component="upload-dragger"]),
-  .inputContainer:has([data-mtf-component="upload-list"]),
-  .inputContainer:has([data-mtf-component="upload-input"]) {
-    min-width: var(--base-sizing-256x);
-  }
 }
 
 .verticalForm.horizontalLabel {
@@ -110,14 +102,9 @@ $sizes: (
   display: flex;
   flex-wrap: nowrap;
   .horizontalGroup & {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--base-sizing-128x), 1fr));
     align-items: flex-start;
-
-    > [data-mtf-component="mtf-input-text"],
-    > [data-mtf-component="select"],
-    > [data-mtf-component="textarea"] {
-      flex: 1;
-      min-width: var(--base-sizing-128x);
-    }
   }
   .verticalGroup & {
     flex-direction: column;

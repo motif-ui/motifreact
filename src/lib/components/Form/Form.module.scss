@@ -23,7 +23,8 @@ $sizes: (
 }
 
 .horizontal .fields {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
 }
 
