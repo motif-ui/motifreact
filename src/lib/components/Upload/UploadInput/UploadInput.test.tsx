@@ -490,6 +490,16 @@ describe("UploadInput", () => {
     xhrSpy.mockRestore();
   });
 
+  it("should keep the download button visible when delete fails for a file with onDownloadClick", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { getDownloadButton, getDeleteButton } = renderExt(
+      <UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} />,
+    );
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getDownloadButton()).toBeInTheDocument());
+    xhrSpy.mockRestore();
+  });
+
   it("should send a single delete request for all value files when the delete button is clicked", async () => {
     const xhrSpy = mockXHRs(200);
     const { getDeleteButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
