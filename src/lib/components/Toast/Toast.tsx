@@ -71,7 +71,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
   return (
     !dismissed && (
       <div ref={ref} className={toastClasses} data-testid="toast" style={style} {...handlers}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="xl2" />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="xxl" />}
 
         <div className={styles.contentContainer}>
           {title && <span className={styles.title}>{title}</span>}

@@ -66,7 +66,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
     createPortal(
       <div data-testid="modalBackdrop" className={classNames} style={style} ref={ref}>
         <div className={styles.modal} ref={modalRef}>
-          {closable && <MotifIconButton name="close" onClick={onClose} size="xl2" className={styles.closeButton} />}
+          {closable && <MotifIconButton name="close" onClick={onClose} size="xxl" className={styles.closeButton} />}
           <ModalHeader title={title} subtitle={subtitle} />
           <div className={styles.content}> {children}</div>
           <ModalActions actionButton={actionButton} alternateButton={alternateButton} buttons={buttons} />

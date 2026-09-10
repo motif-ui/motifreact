@@ -46,7 +46,7 @@ describe("Avatar", () => {
   });
 
   it("should be rendered with the size given in size prop", () => {
-    const sizes = ["xs", "sm", "md", "lg", "xl", "xl2"] as const;
+    const sizes = ["xs", "sm", "md", "lg", "xl", "xxl"] as const;
     sizes.forEach(size => {
       const { container, unmount } = render(<Avatar size={size} />);
       expect(container.firstChild).toHaveClass(size);

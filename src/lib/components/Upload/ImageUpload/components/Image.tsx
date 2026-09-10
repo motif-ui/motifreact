@@ -67,7 +67,7 @@ export const Image = ({ file: { status, progress, file, src, deleting, addedByVa
       {failed && (
         <div className={styles.fileItem}>
           <div className={styles.content}>
-            <MotifIcon variant="danger" name="imagesmode" size="xl2" />
+            <MotifIcon variant="danger" name="imagesmode" size="xxl" />
             <span>{shortenText(file.name, 15)}</span>
           </div>
           <div className={styles.iconContainer}>{deleteIcon}</div>

@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 $variants: "primary", "secondary", "info", "success", "warning", "danger";
-$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xl2", "32x"), ("xl3", "52x"));
+$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"), ("xl3", "52x"));
 
 .Root {
   display: inline-block !important;

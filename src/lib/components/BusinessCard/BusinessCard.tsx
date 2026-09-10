@@ -37,7 +37,7 @@ const BusinessCard = (props: PropsWithRef<BusinessCardProps, HTMLDivElement>) =>
 
   return (
     <div className={classNames} ref={ref} onClick={onClick} style={style}>
-      {image && <Avatar image={image} size="xl2" />}
+      {image && <Avatar image={image} size="xxl" />}
       {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
       {title && <span className={styles.title}>{title}</span>}
       {description && <span className={styles.description}>{description}</span>}
@@ -46,7 +46,7 @@ const BusinessCard = (props: PropsWithRef<BusinessCardProps, HTMLDivElement>) =>
           {link.text}
         </a>
       )}
-      {iconButton && <IconButton name={iconButton.icon} onClick={iconButton.onClick} size="xl2" className={styles.iconButton} />}
+      {iconButton && <IconButton name={iconButton.icon} onClick={iconButton.onClick} size="xxl" className={styles.iconButton} />}
     </div>
   );
 };

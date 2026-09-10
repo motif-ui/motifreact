@@ -8,5 +8,5 @@ export type AvatarProps = {
 
 export type AvatarDefaultableProps = {
   variant?: Variant;
-  size?: Size5 | "xl2";
+  size?: Size5 | "xxl";
 };

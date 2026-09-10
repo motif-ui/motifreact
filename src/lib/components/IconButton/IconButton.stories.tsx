@@ -27,7 +27,7 @@ const meta: Meta<typeof IconButton> = {
   },
   args: {
     name: "motif_ui",
-    size: "xl2",
+    size: "xxl",
   },
 };
 

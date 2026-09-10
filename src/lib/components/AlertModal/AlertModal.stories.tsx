@@ -34,7 +34,7 @@ const AlertModalComponent = (props: AlertModalProps) => {
       <AlertModal
         open={visible}
         onClose={hide}
-        icon={<MotifIcon name="info" size="xl2" />}
+        icon={<MotifIcon name="info" size="xxl" />}
         actionButton={{ text: "Confirm", onClick: () => alert("Action clicked!") }}
         alternateButton={{ text: "Close", onClick: hide }}
         {...otherProps}
@@ -61,7 +61,7 @@ return (
     <AlertModal
       open={visible}
       onClose={hide}
-      icon={<MotifIcon name="info" size="xl2" />}
+      icon={<MotifIcon name="info" size="xxl" />}
       actionButton={{ text: "Confirm", onClick: () => alert("Action clicked!") }}
       alternateButton={{ text: "Close", onClick: hide }}
       ${argsString.split("\n  ").join("\n      ")}
