@@ -1,120 +1,49 @@
 import styles from "./DesignTokenNamingDiagram.module.scss";
 
+const TOKEN_PARTS = [
+  {
+    pill: "theme",
+    title: "Namespace",
+    hint: "(theme, base, ...)",
+  },
+  {
+    pill: "color",
+    title: "Type",
+    hint: "(color, typography, sizing, ...)",
+  },
+  {
+    pill: "surface",
+    title: "Category",
+    hint: "(text, surface, border, ...)",
+  },
+  {
+    pill: "primary",
+    title: "Family",
+    hint: "(primary, secondary, success, warning, ...)",
+  },
+  {
+    pill: "disabled",
+    title: "State/Scale",
+    hint: "(default, hover, active, 500, ...)",
+  },
+];
+
 const DesignTokenNamingDiagram = () => {
   return (
     <div className={styles.container}>
-      {/* Token Naming Convention Diagram */}
       <div className={styles.diagramContainer}>
-        {/* Token Pills */}
-        <div className={styles.tokensRow}>
-          <div className={styles.tokenPill}>theme</div>
-          <div className={styles.tokenPill}>color</div>
-          <div className={styles.tokenPill}>surface</div>
-          <div className={styles.tokenPill}>primary</div>
-          <div className={styles.tokenPill}>disabled</div>
-        </div>
-
-        {/* SVG Lines */}
-        <svg width="100%" height="110" className={styles.connectingLines} viewBox="0 0 100 110" preserveAspectRatio="none">
-          <line
-            x1="20%"
-            y1="0"
-            x2="12%"
-            y2="100"
-            stroke="rgba(255, 255, 255, 0.4)"
-            strokeWidth="2"
-            strokeDasharray="4,4"
-            vectorEffect="non-scaling-stroke"
-          />
-          <line
-            x1="34%"
-            y1="0"
-            x2="30%"
-            y2="100"
-            stroke="rgba(255, 255, 255, 0.4)"
-            strokeWidth="2"
-            strokeDasharray="4,4"
-            vectorEffect="non-scaling-stroke"
-          />
-          <line
-            x1="48%"
-            y1="0"
-            x2="49%"
-            y2="100"
-            stroke="rgba(255, 255, 255, 0.4)"
-            strokeWidth="2"
-            strokeDasharray="4,4"
-            vectorEffect="non-scaling-stroke"
-          />
-          <line
-            x1="62%"
-            y1="0"
-            x2="68%"
-            y2="100"
-            stroke="rgba(255, 255, 255, 0.4)"
-            strokeWidth="2"
-            strokeDasharray="4,4"
-            vectorEffect="non-scaling-stroke"
-          />
-          <line
-            x1="78%"
-            y1="0"
-            x2="88%"
-            y2="100"
-            stroke="rgba(255, 255, 255, 0.4)"
-            strokeWidth="2"
-            strokeDasharray="4,4"
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-
-        {/* Explanations */}
-        <div className={styles.explanationsRow}>
-          <div className={styles.explanation}>
-            <div className={styles.numberCircle}>1</div>
+        {TOKEN_PARTS.map(({ pill, title, hint }, index) => (
+          <div key={pill} className={styles.column}>
+            <div className={styles.tokenPill}>{pill}</div>
+            <div className={styles.connector} aria-hidden="true" />
+            <div className={styles.numberCircle}>{index + 1}</div>
             <div className={styles.explanationText}>
-              <strong>Namespace</strong>
+              <strong>{title}</strong>
               <br />
-              (theme, base, ...)
+              {hint}
             </div>
           </div>
-
-          <div className={styles.explanation}>
-            <div className={styles.numberCircle}>2</div>
-            <div className={styles.explanationText}>
-              <strong>Type</strong>
-              <br />
-              (color, typography, sizing, ...)
-            </div>
-          </div>
-
-          <div className={styles.explanation}>
-            <div className={styles.numberCircle}>3</div>
-            <div className={styles.explanationText}>
-              <strong>Category</strong>
-              <br />
-              (text, surface, border, ...)
-            </div>
-          </div>
-
-          <div className={styles.explanation}>
-            <div className={styles.numberCircle}>4</div>
-            <div className={styles.explanationText}>
-              <strong>Family</strong>
-              <br />
-              (primary, secondary, success, warning, ...)
-            </div>
-          </div>
-
-          <div className={styles.explanation}>
-            <div className={styles.numberCircle}>5</div>
-            <div className={styles.explanationText}>
-              <strong>State/Scale</strong>
-              <br />
-              (default, hover, active, 500, ...)
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
