@@ -490,6 +490,16 @@ describe("UploadInput", () => {
     xhrSpy.mockRestore();
   });
 
+  it("should keep the download button visible when delete fails for a file with onDownloadClick", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { getDownloadButton, getDeleteButton } = renderExt(
+      <UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} />,
+    );
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getDownloadButton()).toBeInTheDocument());
+    xhrSpy.mockRestore();
+  });
+
   it("should send a single delete request for all value files when the delete button is clicked", async () => {
     const xhrSpy = mockXHRs(200);
     const { getDeleteButton } = renderExt(<UploadInput {...requiredProps} value={[serverFile, serverFile2]} maxFile={2} />);
@@ -540,17 +550,15 @@ describe("UploadInput", () => {
     expect(onDownloadClick2).toHaveBeenCalledTimes(1);
   });
 
-  it("should show the download button but hide the delete button when disabled or readOnly", () => {
-    const { unmount, getDownloadButton, getDeleteButton } = renderExt(
+  it("should not hide the download button when disabled or readOnly", () => {
+    const { unmount, getDownloadButton } = renderExt(
       <UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} disabled />,
     );
     expect(getDownloadButton()).toBeInTheDocument();
-    expect(getDeleteButton()).not.toBeInTheDocument();
     unmount();
 
     renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} readOnly />);
     expect(getDownloadButton()).toBeInTheDocument();
-    expect(getDeleteButton()).not.toBeInTheDocument();
   });
 
   it("should not show download button after value file is deleted", async () => {
@@ -561,5 +569,10 @@ describe("UploadInput", () => {
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getDownloadButton()).not.toBeInTheDocument());
     xhrSpy.mockRestore();
+  });
+
+  it("should not render the download, delete and status icon area when there is no file and no error or success prop", () => {
+    renderExt(<UploadInput {...requiredProps} />);
+    expect(screen.queryByTestId("labelSuffix")).not.toBeInTheDocument();
   });
 });
