@@ -26,17 +26,22 @@ const Sidebar = () => {
 
 ## With Animation
 
+Use `showTime` and `hideTime` to control animation durations independently.
+`visible` becomes `false` immediately when `hide()` is called, so CSS exit transitions trigger at once.
+The element stays mounted for `hideTime` ms to let the animation complete.
+
 ```jsx
 import { useToggle } from "@motif-ui/react";
 
 const AnimatedModal = () => {
-  const { visible, toggleState, show, hide } = useToggle(false, 300);
+  const { visible, toggleState, show, hide } = useToggle(false, { showTime: 50, hideTime: 300 });
+  const attached = visible || !!toggleState;
 
   return (
     <>
       <button onClick={show}>Open Modal</button>
-      {(visible || toggleState) && (
-        <div className={toggleState === "hiding" ? "fade-out" : "fade-in"}>
+      {attached && (
+        <div className={visible ? "fade-in" : "fade-out"}>
           Modal content
           <button onClick={hide}>Close</button>
         </div>
@@ -67,11 +72,18 @@ const AnimatedModal = () => {
       <td>Initial visibility state</td>
     </tr>
     <tr>
-      <td><code>toggleTime</code></td>
+      <td><code>options.showTime</code></td>
       <td><code>number</code></td>
       <td>No</td>
       <td><code>undefined</code></td>
-      <td>Animation duration in milliseconds</td>
+      <td>Delay in ms before the element becomes visible (enter animation duration)</td>
+    </tr>
+    <tr>
+      <td><code>options.hideTime</code></td>
+      <td><code>number</code></td>
+      <td>No</td>
+      <td><code>undefined</code></td>
+      <td>Duration in ms the element stays mounted after hide is called (exit animation duration)</td>
     </tr>
   </tbody>
 </table>
@@ -88,39 +100,57 @@ const AnimatedModal = () => {
   </thead>
   <tbody>
     <tr>
-      <td><code>object</code></td>
-      <td>
-        <code>
-          {"{"} <br />
-          &nbsp;&nbsp;visible: boolean;<br />
-          &nbsp;&nbsp;toggleState?: "showing" | "hiding";<br />
-          &nbsp;&nbsp;show: () =&gt; void;<br />
-          &nbsp;&nbsp;hide: () =&gt; void;<br />
-          &nbsp;&nbsp;toggle: (forceShow?: boolean) =&gt; void;<br />
-          {"}"}
-        </code>
-      </td>
-      <td>
-        The object returned by <code>useToggle</code>, containing current state and control methods.
-      </td>
+      <td><code>visible</code></td>
+      <td><code>boolean</code></td>
+      <td>Current visibility state. Becomes <code>false</code> immediately when <code>hide()</code> is called.</td>
+    </tr>
+    <tr>
+      <td><code>toggleState</code></td>
+      <td><code>"showing" | "hiding" | undefined</code></td>
+      <td>Active animation state. Use alongside <code>visible</code> to keep the element mounted during exit animations.</td>
+    </tr>
+    <tr>
+      <td><code>show</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>Shows the element. If <code>showTime</code> is set, sets <code>toggleState</code> to <code>"showing"</code> for that duration before making it visible.</td>
+    </tr>
+    <tr>
+      <td><code>hide</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>Hides the element immediately (<code>visible = false</code>). If <code>hideTime</code> is set, keeps <code>toggleState</code> as <code>"hiding"</code> for that duration so the exit animation can complete.</td>
+    </tr>
+    <tr>
+      <td><code>toggle</code></td>
+      <td><code>(forceShow?: boolean) =&gt; void</code></td>
+      <td>Toggles visibility. Pass <code>true</code> to force show, <code>false</code> to force hide.</td>
     </tr>
   </tbody>
 </table>
 
 ## Animation Pattern
 
-When `toggleTime` is provided:
+When `options` is provided:
 
-1. `show()` sets `toggleState` to `"showing"` and `visible` to `true`
-2. After `toggleTime` ms, `toggleState` becomes `undefined`
-3. `hide()` sets `toggleState` to `"hiding"` and `visible` to `false`
-4. After `toggleTime` ms, `toggleState` becomes `undefined`
+**Enter (`show()`):**
 
-This allows you to:
+1. `toggleState` becomes `"showing"`
+2. After `showTime` ms, `visible` becomes `true` and `toggleState` becomes `undefined`
 
-- Keep the element mounted during hide animation
-- Apply different CSS classes based on `toggleState`
-- Control when to unmount the element
+**Exit (`hide()`):**
+
+1. `visible` becomes `false` immediately — CSS exit transition triggers at once
+2. `toggleState` becomes `"hiding"` — keeps the element mounted
+3. After `hideTime` ms, `toggleState` becomes `undefined` — element can be unmounted
+
+Use `attached = visible || !!toggleState` to control mounting:
+
+```jsx
+const { visible, toggleState, show, hide } = useToggle(false, { showTime: 50, hideTime: 300 });
+const attached = visible || !!toggleState;
+
+// attached: mount/unmount gate
+// visible:  CSS class gate (triggers enter/exit transitions)
+```
 
 ## Example
 

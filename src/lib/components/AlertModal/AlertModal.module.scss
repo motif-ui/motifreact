@@ -1,0 +1,124 @@
+@use "@styles" as *;
+@use "sass:list";
+
+$sizes: (("sm", "320x"), ("md", "480x"), ("lg", "720x"), ("xl", "960x"));
+$content-positions: (
+  "left": (
+    row,
+    flex-start,
+    left
+  ),
+  "center": (
+    column,
+    center,
+    center
+  ),
+  "right": (
+    row-reverse,
+    flex-start,
+    right
+  )
+);
+
+.Root {
+  position: fixed;
+  inset: 0;
+  @include flex-center;
+  z-index: 999;
+  padding: var(--base-sizing-8x);
+  @include fade-default;
+}
+
+@each $size, $width in $sizes {
+  .#{$size} .alertModalContainer {
+    width: var(--base-sizing-#{$width});
+  }
+}
+
+@each $pos, $values in $content-positions {
+  .content_#{$pos} .alertModalContent {
+    flex-direction: list.nth($values, 1);
+    align-items: list.nth($values, 2);
+    text-align: list.nth($values, 3);
+  }
+}
+
+.show {
+  @include fade-in;
+  & .alertModalContainer {
+    @include pop-in;
+  }
+}
+
+.backdrop {
+  background-color: var(--base-colors-black-black-overlay50);
+}
+
+.elevated .alertModalContainer {
+  @include shadow(6);
+}
+
+.bordered .alertModalContainer {
+  border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-sizing-8x);
+
+  .title {
+    color: var(--theme-color-text-base-title);
+    @include font("heading", "heading5");
+  }
+
+  .text {
+    @include font("body", "md");
+    color: var(--theme-color-text-base-title);
+  }
+}
+
+.alertModalContainer {
+  display: flex;
+  flex-direction: column;
+  background: var(--theme-color-surface-base-bg-light);
+  color: var(--theme-color-text-base-title);
+  padding: var(--base-sizing-8x);
+  border-radius: var(--theme-sizing-radius-default);
+  @include pop-default;
+}
+
+.alertModalContent {
+  display: flex;
+  gap: var(--base-sizing-8x);
+  padding: var(--base-sizing-16x);
+}
+
+.alertModalActions {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--base-sizing-16x);
+  gap: var(--base-sizing-16x);
+
+  .actions_center & {
+    justify-content: center;
+  }
+  .actions_right & {
+    justify-content: flex-end;
+  }
+  .actions_left & {
+    justify-content: flex-start;
+  }
+  .actions_fullWidth & {
+    flex-direction: column;
+  }
+  .actions_spaceBetween & {
+    justify-content: space-between;
+  }
+  .actions_stretch & > * {
+    flex: 1;
+  }
+  .withDivider & {
+    border-top: var(--base-sizing-1x) solid var(--theme-color-surface-base-base6);
+  }
+}

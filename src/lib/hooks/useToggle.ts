@@ -3,6 +3,11 @@ import { useCallback, useMemo, useState } from "react";
 
 type ToggleState = "showing" | "hiding";
 
+type UseToggleOptions = {
+  showTime?: number;
+  hideTime?: number;
+};
+
 type UseToggleReturn = {
   visible: boolean;
   toggleState?: ToggleState;
@@ -11,33 +16,32 @@ type UseToggleReturn = {
   toggle: (forceShow?: boolean) => void;
 };
 
-const useToggle = (initialVisible = false, toggleTime?: number): UseToggleReturn => {
+const useToggle = (initialVisible = false, options?: UseToggleOptions): UseToggleReturn => {
   const [visible, setVisible] = useState<boolean>(initialVisible);
   const [toggleState, setToggleState] = useState<ToggleState>();
 
+  const showTime = options?.showTime;
+  const hideTime = options?.hideTime;
+
   const show = useCallback(() => {
-    if (toggleTime) {
+    if (showTime) {
       setToggleState("showing");
       setTimeout(() => {
         setToggleState(undefined);
         setVisible(true);
-      }, toggleTime);
+      }, showTime);
     } else {
       setVisible(true);
     }
-  }, [toggleTime]);
+  }, [showTime]);
 
   const hide = useCallback(() => {
-    if (toggleTime) {
+    setVisible(false);
+    if (hideTime) {
       setToggleState("hiding");
-      setTimeout(() => {
-        setToggleState(undefined);
-        setVisible(false);
-      }, toggleTime);
-    } else {
-      setVisible(false);
+      setTimeout(() => setToggleState(undefined), hideTime);
     }
-  }, [toggleTime]);
+  }, [hideTime]);
 
   const toggle = useCallback(
     (visibility?: boolean) => {

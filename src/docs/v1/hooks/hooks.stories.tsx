@@ -25,7 +25,7 @@ const style: CSSProperties = {
 };
 
 const UseToggleStory = () => {
-  const { visible, toggleState, show, hide } = useToggle(false, 600);
+  const { visible, toggleState, show, hide } = useToggle(false, { showTime: 600, hideTime: 600 });
 
   const getStatusMessage = () => {
     if (toggleState === "showing") return "Started showing...";
