@@ -5,6 +5,13 @@ import ProgressBar from "./ProgressBar";
 const meta: Meta<typeof ProgressBar> = {
   title: "Components/ProgressBar",
   component: ProgressBar,
+  decorators: [
+    Story => (
+      <div style={{ width: 200, textAlign: "center" }}>
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     docs: {
       description: {
@@ -29,10 +36,4 @@ const meta: Meta<typeof ProgressBar> = {
 export default meta;
 type Story = StoryObj<typeof ProgressBar>;
 
-export const Primary: Story = {
-  render: args => (
-    <div style={{ width: 300, textAlign: "center" }}>
-      <ProgressBar {...args} />
-    </div>
-  ),
-};
+export const Primary: Story = {};

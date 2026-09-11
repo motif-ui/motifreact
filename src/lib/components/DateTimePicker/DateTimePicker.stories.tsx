@@ -6,13 +6,6 @@ import type { ComponentProps } from "react";
 const meta: Meta<typeof DateTimePicker> = {
   title: "Components/DateTimePicker",
   component: DateTimePicker,
-  decorators: [
-    Story => (
-      <div style={{ width: 600, textAlign: "center" }}>
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     value: { control: { type: "date" }, description: "Date Object" },
     variant: { table: { defaultValue: { summary: "borderless" } } },

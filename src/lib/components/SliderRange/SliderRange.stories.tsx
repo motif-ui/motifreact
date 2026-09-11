@@ -6,7 +6,7 @@ const meta: Meta<typeof SliderRange> = {
   component: SliderRange,
   decorators: [
     Story => (
-      <div style={{ width: 300 }}>
+      <div style={{ minWidth: 200 }}>
         <Story />
       </div>
     ),

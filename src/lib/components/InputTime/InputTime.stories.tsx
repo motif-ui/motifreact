@@ -5,6 +5,13 @@ import { InputTime } from "../../index";
 const meta: Meta<typeof InputTime> = {
   title: "Components/InputTime",
   component: InputTime,
+  decorators: [
+    Story => (
+      <div style={{ padding: "0 0 265px 0" }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     placeholder: { table: { defaultValue: { summary: "__:__ (adds ':__' if secondsEnabled )" } } },
   },

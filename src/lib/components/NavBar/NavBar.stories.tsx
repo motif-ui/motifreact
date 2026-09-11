@@ -33,9 +33,12 @@ const argValues: NavBarProps = {
 const meta: Meta<typeof NavBar> = {
   title: "Components/NavBar",
   component: NavBar,
+  parameters: {
+    layout: "fullscreen",
+  },
   decorators: [
     Story => (
-      <div style={{ height: 150, width: 950 }}>
+      <div style={{ padding: "24px 24px 120px" }}>
         <Story />
       </div>
     ),

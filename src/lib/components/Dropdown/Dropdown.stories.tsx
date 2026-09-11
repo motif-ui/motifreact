@@ -4,6 +4,13 @@ import Dropdown from "./Dropdown";
 const meta: Meta<typeof Dropdown> = {
   title: "Components/Dropdown",
   component: Dropdown,
+  decorators: [
+    Story => (
+      <div style={{ padding: "0 0 240px" }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     shape: { table: { defaultValue: { summary: "solid" } } },
     variant: { table: { defaultValue: { summary: "primary" } } },

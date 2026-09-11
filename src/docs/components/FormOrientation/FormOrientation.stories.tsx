@@ -30,7 +30,7 @@ export const Primary: Story = {
           <InputPassword />
         </Form.Field>
       </Form>
-      <Form onSubmit={() => {}} size="xs" formOrientation="horizontal" style={{ width: 300 }} title="Horizontal">
+      <Form onSubmit={() => {}} size="xs" formOrientation="horizontal" style={{ width: 300, overflowX: "auto" }} title="Horizontal">
         <Form.Field name="inputName" label="Name" helperText="Your name and surname" validations={[Validations.Required]}>
           <InputText iconLeft="person" />
         </Form.Field>

@@ -11,13 +11,6 @@ const textShort =
 const meta: Meta<typeof Panel> = {
   title: "Components/Panel",
   component: Panel,
-  decorators: [
-    Story => (
-      <div style={{ width: 500 }}>
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     titleSize: { table: { defaultValue: { summary: "md" } } },
     type: { table: { defaultValue: { summary: "default" } } },

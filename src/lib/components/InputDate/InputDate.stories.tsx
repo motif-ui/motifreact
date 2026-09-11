@@ -5,6 +5,13 @@ import InputDate from "./InputDate";
 const meta: Meta<typeof InputDate> = {
   title: "Components/InputDate",
   component: InputDate,
+  decorators: [
+    Story => (
+      <div style={{ padding: "0 0 265px 0" }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     format: { description: "Detailed in this document below..." },
     value: { control: { type: "date" }, description: "Date Object" },
