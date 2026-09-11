@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Chip should be rendered with only required props 1`] = `
+exports[`Chip should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
     class="Root secondary solid md pill"

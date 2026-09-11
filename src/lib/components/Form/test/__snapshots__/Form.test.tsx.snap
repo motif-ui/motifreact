@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Form should be rendered with only required props and items 1`] = `
+exports[`Form should render with only required props, and have standard props; className and style props working as expected 1`] = `
 <div>
   <form
     class="Root md vertical verticalLabels"

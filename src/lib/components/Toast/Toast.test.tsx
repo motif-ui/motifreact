@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, act } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import { useToast } from "@/components/Toast/useToast";
 import Toast from "@/components/Toast/Toast";
 import { AddToastOptions, ToastVariant } from "@/components/Toast/types";
@@ -21,7 +21,7 @@ describe("Toast", () => {
   };
   const content = "content";
 
-  it("should render with only required props and have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     jest.useFakeTimers();
 
     const { getByText, queryByText } = render(<Toaster content={content} variant="info" />);
@@ -39,6 +39,11 @@ describe("Toast", () => {
     expect(queryByText(content)).not.toBeInTheDocument();
 
     jest.useRealTimers();
+
+    runStandardPropsTest<HTMLDivElement>(
+      props => render(<Toaster content={content} variant="info" {...props} />),
+      result => result.queryByTestId("toast"),
+    );
   });
 
   it("should display title when title prop is given", () => {

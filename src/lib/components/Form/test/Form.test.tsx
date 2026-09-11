@@ -50,7 +50,7 @@ import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("Form", () => {
-  it("should be rendered with only required props and items", () => {
+  it("should render with only required props, and have standard props; className and style props working as expected", () => {
     const mainForm = (
       <Form onSubmit={mockFunction}>
         <Form.Field name="inputName">
@@ -62,6 +62,10 @@ describe("Form", () => {
       </Form>
     );
     expect(render(mainForm).container).toMatchSnapshot();
+
+    const { container } = render(<Form onSubmit={mockFunction} className="custom-class" style={{ marginTop: "13px" }} />);
+    expect(container.firstElementChild).toHaveClass("custom-class");
+    expect(container.firstElementChild).toHaveStyle({ marginTop: "13px" });
   });
 
   it("should render all form items in given formOrientation prop", () => {

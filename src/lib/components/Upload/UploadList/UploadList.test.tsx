@@ -8,7 +8,7 @@ import { formatBytes, shortenText } from "../../../../utils/utils";
 import { MESSAGE } from "@/components/Upload/constants";
 import { MOCK } from "../mock";
 import { ReactNode } from "react";
-import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runStandardPropsTest } from "../../../../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 
 describe("UploadList", () => {
@@ -27,8 +27,9 @@ describe("UploadList", () => {
   beforeEach(() => mockXHRs());
   afterEach(() => jest.restoreAllMocks());
 
-  it("should be rendered with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(renderExt(<UploadList {...requiredProps} />).container).toMatchSnapshot();
+    runStandardPropsTest<HTMLDivElement>(props => renderExt(<UploadList {...requiredProps} {...props} />));
   });
 
   it("should be rendered with the given size in size prop", () => {

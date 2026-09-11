@@ -6,7 +6,7 @@ import { userEvent } from "@testing-library/user-event";
 import { DateUtils } from "../../../utils/dateUtils";
 import { ReactNode } from "react";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t } from "../../../utils/testUtils";
+import { t, runStandardPropsTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateRangePicker", () => {
@@ -45,7 +45,7 @@ describe("DateRangePicker", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { getFirstPicker, getByTestId, container } = renderExt(
       <DateRangePicker value={[new Date(2000, 1, 15), new Date(2000, 1, 18)]} />,
     );
@@ -60,6 +60,8 @@ describe("DateRangePicker", () => {
 
     // size: md
     expect(pickerContainer).toHaveClass("md");
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<DateRangePicker {...props} />));
   });
 
   it("should render a dropdown to select predefined date ranges", async () => {

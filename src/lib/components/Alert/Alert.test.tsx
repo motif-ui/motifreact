@@ -1,14 +1,17 @@
 import "@testing-library/jest-dom";
 import Alert from "@/components/Alert/Alert";
 import { fireEvent, render, screen, act } from "@testing-library/react";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Alert", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getByText } = render(<Alert message="This is a test message" />);
     expect(container).toMatchSnapshot();
 
     // variant: secondary
     expect(getByText("info")).toBeInTheDocument();
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<Alert message="This is a test message" {...props} />));
   });
 
   it("should be rendered with the given message in message prop", () => {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Dropdown should be rendered with only required props and should have default prop values 1`] = `
+exports[`Dropdown should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
 <div
   class="Root md primary solid"
   data-testid="Dropdown"

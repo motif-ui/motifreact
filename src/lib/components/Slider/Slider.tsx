@@ -152,6 +152,6 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
   );
 };
 
-const Slider = (props: SliderProps) => <SliderComponent {...props} />;
+const Slider = (props: PropsWithRef<SliderProps, HTMLDivElement>) => <SliderComponent {...props} />;
 Slider.displayName = "Slider";
 export default Slider;

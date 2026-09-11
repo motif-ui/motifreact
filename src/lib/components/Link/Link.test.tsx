@@ -1,14 +1,18 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import "@testing-library/jest-dom";
 import Link from "./Link";
 
 describe("Link Component Tests", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
+    expect(render(<Link label="Motif" url="https://motif-ui.com" />).container).toMatchSnapshot();
+    runStandardPropsTest<HTMLAnchorElement>(props => render(<Link label="Motif" url="https://motif-ui.com" {...props} />));
+  });
+
   it("should not render if both label and url are not provided", () => {
     const { container } = render(<Link />);
     expect(container.childElementCount).toBe(0);
   });
-
   it("should render url when label is not provided", () => {
     const url = "https://motif-ui.com/";
     render(<Link url={url} />);

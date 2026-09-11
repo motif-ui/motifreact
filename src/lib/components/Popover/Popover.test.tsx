@@ -1,11 +1,12 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import Popover from "./Popover";
 import { createRef } from "react";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Popover", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const anchorRef = createRef<HTMLDivElement>();
-    const { container, getByTestId } = render(<Popover anchorRef={anchorRef} open />);
+    const { container, getByTestId, unmount } = render(<Popover anchorRef={anchorRef} open />);
 
     expect(container).toMatchSnapshot();
 
@@ -16,6 +17,13 @@ describe("Popover", () => {
     expect(popoverElement).toHaveClass("bottom");
     //default value control for spacing prop
     expect(popoverElement).toHaveClass("callout");
+
+    unmount();
+
+    runStandardPropsTest<HTMLDivElement>(
+      props => render(<Popover anchorRef={anchorRef} open {...props} />),
+      result => result.queryByTestId("popover"),
+    );
   });
 
   it("should render in a position given in placeOn prop relative to the anchor element", () => {

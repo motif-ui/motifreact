@@ -2,6 +2,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { userEvent } from "@testing-library/user-event";
 import Slider from "@/components/Slider/Slider";
 import { InputSize } from "../Form/types";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Slider", () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -25,7 +26,7 @@ describe("Slider", () => {
     Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<Slider />);
     expect(container).toMatchSnapshot();
 
@@ -55,6 +56,8 @@ describe("Slider", () => {
     // step
     fireEvent.change(slider, { target: { value: 0.5 } });
     expect(slider).toHaveValue("1");
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<Slider {...props} />));
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {

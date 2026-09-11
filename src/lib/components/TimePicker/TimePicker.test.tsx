@@ -4,7 +4,7 @@ import { Time, TimePickerLocale } from "../TimePicker/types";
 import { userEvent } from "@testing-library/user-event";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t } from "../../../utils/testUtils";
+import { t, runStandardPropsTest } from "../../../utils/testUtils";
 
 const timeValue: Time = { hours: 11, minutes: 43, seconds: 13 };
 const checkSelection = (list: HTMLUListElement, index: number, isSelected: boolean) =>
@@ -79,7 +79,7 @@ describe("TimePicker", () => {
 
   runTimePickerCommonTests();
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(<TimePicker />);
     expect(container).toMatchSnapshot();
 
@@ -97,6 +97,8 @@ describe("TimePicker", () => {
     expect(screen.queryByTestId("timePeriodSelector")).not.toBeInTheDocument();
     const stripes = screen.getByTestId("timeStripeContainer").querySelectorAll("ul");
     expect(stripes[0].children.length).toBe(24); // 24-hour format
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<TimePicker {...props} />));
   });
 
   it("should display time info given in the value prop", () => {
@@ -263,12 +265,6 @@ describe("TimePicker", () => {
     rerender(<TimePicker removeActionButtons />);
     expect(queryByText("Clear")).not.toBeInTheDocument();
     expect(queryByText("OK")).not.toBeInTheDocument();
-  });
-
-  it("should apply the styles in the css class given in className prop", () => {
-    const testClassName = "testClassName";
-    const { container } = render(<TimePicker className={testClassName} />);
-    expect(container.firstChild).toHaveClass(testClassName);
   });
 
   it("should display as empty value when time value is not given or selected", () => {

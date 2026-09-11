@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import PinCode from "@/components/PinCode/PinCode";
-import { expectToThrow } from "src/utils/testUtils.tsx";
+import { expectToThrow, runStandardPropsTest } from "src/utils/testUtils.tsx";
 import { userEvent } from "@testing-library/user-event";
 
 const testPropMatchesClassName = (
@@ -22,7 +22,7 @@ const testPropMatchesClassName = (
 };
 
 describe("PinCode", () => {
-  it("should render with only required props and have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container } = render(
       <PinCode>
         <PinCode.Item />
@@ -35,6 +35,15 @@ describe("PinCode", () => {
     expect(container.firstElementChild).toHaveClass("md");
     // maskType : "asterisks"
     expect(container.firstElementChild!.children.item(1)?.querySelector("input")).toHaveAttribute("type", "password");
+
+    runStandardPropsTest<HTMLDivElement>(props =>
+      render(
+        <PinCode {...props}>
+          <PinCode.Item />
+          <PinCode.Item />
+        </PinCode>,
+      ),
+    );
   });
 
   it("should should allow minimum 2 children", () => {

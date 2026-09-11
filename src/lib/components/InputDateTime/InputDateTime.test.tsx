@@ -10,7 +10,7 @@ import { TimeFormat } from "../Motif/Pickers/types";
 import { DateUtils } from "../../../utils/dateUtils";
 import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t } from "../../../utils/testUtils";
+import { t, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe(InputDateTime, () => {
   const today = new Date();
@@ -50,7 +50,7 @@ describe(InputDateTime, () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", async () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", async () => {
     const { container, getByText, getInputText, getPickerContainer, getTimeList, getInput } = renderExt(<InputDateTime />);
 
     expect(container).toMatchSnapshot();
@@ -80,6 +80,8 @@ describe(InputDateTime, () => {
     const [hours] = getTimeList();
     expect(hours.children.length).toBe(24);
     expect(hours.lastElementChild).toHaveTextContent("23");
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<InputDateTime {...props} />));
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {

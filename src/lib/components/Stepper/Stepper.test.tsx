@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { act, cleanup, fireEvent, render, renderHook, screen } from "@testing-library/react";
-import { t } from "src/utils/testUtils";
+import { t, runStandardPropsTest } from "src/utils/testUtils";
 import Stepper from "./Stepper";
 import useStepper from "./hooks/useStepper";
 import { StepperItemProps, StepperProps } from "@/components/Stepper/types.ts";
@@ -29,7 +29,7 @@ const renderExt = (props: StepperProps = {}, itemProps?: StepperItemProps[]) => 
 };
 
 describe("Stepper", () => {
-  it("should render with only required props and have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getRoot } = renderExt();
     expect(container).toMatchSnapshot();
 
@@ -44,6 +44,14 @@ describe("Stepper", () => {
 
     // variant = primary
     expect(container.querySelector(".active")).toHaveClass("primary");
+
+    runStandardPropsTest<HTMLDivElement>(props =>
+      render(
+        <Stepper {...props}>
+          <Stepper.Item title="Step 1">Content 1</Stepper.Item>
+        </Stepper>,
+      ),
+    );
   });
 
   it("should render in the orientation given in orientation prop", () => {

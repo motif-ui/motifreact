@@ -1,10 +1,10 @@
 import { fireEvent, render } from "@testing-library/react";
 import Tab from "./Tab";
 import TabItem from "./components/TabItem";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 
 describe("Tab", () => {
-  it("should render with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     expect(
       render(
         <Tab tabs={[{ id: "home" }, { id: "profile" }]}>
@@ -13,6 +13,14 @@ describe("Tab", () => {
         </Tab>,
       ).container,
     ).toMatchSnapshot();
+
+    runStandardPropsTest<HTMLDivElement>(props =>
+      render(
+        <Tab tabs={[{ id: "home" }]} {...props}>
+          <Tab.Panel id="home" />
+        </Tab>,
+      ),
+    );
   });
 
   it("fires onChangeTab when selected tab is changed", () => {

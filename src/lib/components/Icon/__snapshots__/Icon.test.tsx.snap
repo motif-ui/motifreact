@@ -1,17 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Icon should be rendered with only required props 1`] = `
-<div>
-  <span
-    class="Root mtf-ui-icons"
-    lang="en"
-    translate="no"
-  >
-    account_circle
-  </span>
-</div>
-`;
-
 exports[`Icon should render all icons in motifIcons set 1`] = `
 <div>
   <span
@@ -3272,6 +3260,18 @@ exports[`Icon should render all icons in motifIcons set 272`] = `
     translate="no"
   >
     zoom_out
+  </span>
+</div>
+`;
+
+exports[`Icon should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
+<div>
+  <span
+    class="Root mtf-ui-icons"
+    lang="en"
+    translate="no"
+  >
+    account_circle
   </span>
 </div>
 `;

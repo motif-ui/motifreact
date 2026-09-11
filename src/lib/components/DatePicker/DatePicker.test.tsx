@@ -2,7 +2,7 @@ import DatePicker from "@/components/DatePicker/DatePicker";
 import { render, act } from "@testing-library/react";
 import { DatePickerLocale } from "./types";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
-import { t } from "../../../utils/testUtils";
+import { t, runStandardPropsTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 export const runDatePickerCommonTests = () => {
@@ -269,7 +269,7 @@ describe("DatePicker", () => {
 
   runDatePickerCommonTests();
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getByText, getByTestId } = render(<DatePicker value={new Date(2000, 1, 15)} />);
     expect(container).toMatchSnapshot();
 
@@ -284,12 +284,8 @@ describe("DatePicker", () => {
 
     // size: md
     expect(getByTestId("Picker")).toHaveClass("md");
-  });
 
-  it("should have class name given in the className prop", () => {
-    const className = "test-class";
-    const { container } = render(<DatePicker className={className} />);
-    expect(container.firstElementChild).toHaveClass(className);
+    runStandardPropsTest<HTMLDivElement>(props => render(<DatePicker {...props} />));
   });
 
   it("should not render clear and ok buttons when removeActionButtons is set to true", () => {

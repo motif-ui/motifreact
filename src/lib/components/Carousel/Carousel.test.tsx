@@ -4,6 +4,7 @@ import { userEvent } from "@testing-library/user-event";
 import Carousel from "./Carousel";
 import { IndicatorShape, Theme } from "./types";
 import { ReactNode } from "react";
+import { runStandardPropsTest } from "../../../utils/testUtils";
 
 const renderExt = (props = {}, component?: ReactNode) => {
   const result = render(
@@ -37,7 +38,7 @@ const renderExt = (props = {}, component?: ReactNode) => {
 };
 
 describe("Carousel", () => {
-  it("should be rendered with only required props and should have default prop values", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     jest.useFakeTimers();
     const { getIndicators, getTrack, container, rerender } = renderExt();
     const autoplayIntervalDefault = 3000;
@@ -59,6 +60,8 @@ describe("Carousel", () => {
     expect(getTrack()).toHaveStyle({ transform: "translateX(-100%)" });
 
     jest.useRealTimers();
+
+    runStandardPropsTest<HTMLDivElement>(props => renderExt(props));
   });
 
   it("should render all carousel items as children", () => {

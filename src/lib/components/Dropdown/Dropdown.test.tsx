@@ -1,12 +1,12 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import Dropdown from "./Dropdown";
 import { userEvent } from "@testing-library/user-event";
 import { Size4SM } from "../../types";
 import { Spacing } from "./types";
 
 describe("Dropdown", () => {
-  it("should be rendered with only required props and should have default prop values", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getByText } = render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} />);
     expect(container.firstElementChild).toMatchSnapshot();
 
@@ -16,6 +16,8 @@ describe("Dropdown", () => {
 
     fireEvent.click(getByText("Dropdown"));
     expect(container.querySelector("ul")).toHaveClass("callout");
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />));
   });
 
   it("should be rendered in different color schemas given in the variant prop", () => {

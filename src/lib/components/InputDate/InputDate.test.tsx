@@ -5,7 +5,7 @@ import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
-import { t, runIconPropTest } from "../../../utils/testUtils";
+import { t, runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
@@ -39,7 +39,7 @@ describe("InputDate", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
     const { container, getInput } = renderExt(<InputDate />);
     expect(container).toMatchSnapshot();
     // placeholder = DD/MM/YYYY (default)
@@ -48,6 +48,8 @@ describe("InputDate", () => {
     expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
     // icon = calendar_month (default)
     expect(screen.queryByText("calendar_month")).toBeInTheDocument();
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<InputDate {...props} />));
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {

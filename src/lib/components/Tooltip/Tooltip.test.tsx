@@ -1,10 +1,12 @@
-import { screen, render, waitFor, act } from "@testing-library/react";
+import { screen, render, waitFor, act, fireEvent } from "@testing-library/react";
 
 import Tooltip from "@/components/Tooltip/Tooltip";
 import Button from "../Button/Button";
 import { userEvent } from "@testing-library/user-event";
 import { Position } from "@/components/Tooltip/types";
 import { Size4SM } from "../../types";
+import { runStandardPropsTest } from "../../../utils/testUtils";
+import { CSSProperties, Ref } from "react";
 
 describe("Tooltip", () => {
   beforeEach(() => {
@@ -16,26 +18,31 @@ describe("Tooltip", () => {
 
   const user = userEvent.setup({ delay: null });
 
-  it("should be rendered with only required props and should have default prop values stated here", async () => {
-    expect(
-      render(
-        <Tooltip text="Description">
-          <Button label="Test Button" />
-        </Tooltip>,
-      ).container,
-    ).toMatchSnapshot();
+  const renderAndHover = (props: { className?: string; style?: CSSProperties; ref?: Ref<HTMLDivElement> }) => {
+    const result = render(
+      <Tooltip text="Description" {...props}>
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+    fireEvent.mouseEnter(result.getByRole("button"));
+    return result;
+  };
 
-    await act(() => user.hover(screen.getByText("Test Button")));
-    const tooltip = screen.queryByTestId("tooltipItem");
+  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
+    const { container, unmount } = renderAndHover({});
+    expect(container).toMatchSnapshot();
 
+    const tooltip = screen.getByTestId("tooltipItem");
     // position: top
     expect(tooltip).toHaveClass("top");
-
     // variant: light
     expect(tooltip).toHaveClass("light");
-
     // size: md
     expect(tooltip).toHaveClass("md");
+
+    unmount();
+
+    runStandardPropsTest<HTMLDivElement>(renderAndHover, result => result.queryByTestId("tooltipItem"));
   });
 
   it("should not be rendered when no children is given ", () => {

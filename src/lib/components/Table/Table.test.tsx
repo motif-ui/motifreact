@@ -4,7 +4,7 @@ import Table from "@/components/Table/Table";
 import { ReactNode } from "react";
 import { userEvent } from "@testing-library/user-event";
 import { RowColor } from "@/components/Table/types";
-import { t } from "./../../../utils/testUtils";
+import { t, runStandardPropsTest } from "./../../../utils/testUtils";
 import MotifProvider from "../../motif/context/MotifProvider";
 
 describe("Table", () => {
@@ -49,13 +49,15 @@ describe("Table", () => {
     };
   };
 
-  it("should render with only required props", () => {
+  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
     const { getTableContainer, container, rerender } = renderExt(<Table columns={cols} data={data} />);
     expect(container).toMatchSnapshot();
     expect(getTableContainer()).toHaveClass("cellBorders");
     expect(getTableContainer()).toHaveClass("bordered");
     rerender(<Table key="empty" columns={cols} data={[]} />);
     expect(screen.getByText("No data")).toBeInTheDocument();
+
+    runStandardPropsTest<HTMLDivElement>(props => render(<Table columns={cols} data={data} {...props} />));
   });
 
   it("should not change selected rows when it is filtered or filtered text is removed", async () => {
