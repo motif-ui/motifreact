@@ -1,24 +1,20 @@
 import { memo } from "react";
-import styles from "../AlertModal.module.scss";
 import Button from "../../Button";
 import { Variant } from "../../../types";
-import { AlertModalButtonPosition, AlertModalButtonProps } from "../types";
-import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
+import { AlertModalButtonProps } from "../types";
+import styles from "../AlertModal.module.scss";
 
 type Props = {
   actionButton?: AlertModalButtonProps;
   alternateButton?: AlertModalButtonProps;
-  buttonsPosition?: AlertModalButtonPosition;
-  enableDivider?: boolean;
   variant?: Variant;
 };
 
 const AlertModalActions = memo((props: Props) => {
-  const { alternateButton, actionButton, buttonsPosition = "center", enableDivider, variant } = props;
-  const className = sanitizeModuleClasses(styles, "actions", `actions_${buttonsPosition}`, enableDivider && "withDivider");
+  const { alternateButton, actionButton, variant } = props;
 
   return (
-    <div data-testid="alertModalActions" className={className}>
+    <div data-testid="alertModalActions" className={styles.alertModalActions}>
       {alternateButton && (
         <Button
           pill

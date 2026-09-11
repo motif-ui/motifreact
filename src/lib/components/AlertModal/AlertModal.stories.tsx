@@ -12,15 +12,18 @@ const meta: Meta<typeof AlertModal> = {
   component: AlertModal,
   argTypes: {
     open: { control: false },
+    alternateButton: { control: false },
     contentPosition: { table: { defaultValue: { summary: "center" } } },
     buttonsPosition: { table: { defaultValue: { summary: "center" } } },
     size: { table: { defaultValue: { summary: "md" } } },
+    variant: { table: { defaultValue: { summary: "primary" } } },
   },
   args: {
-    title: "Are you sure you want to confirm this action?",
-    text: "This action cannot be undone. Are you sure you want to proceed?",
+    title: "Alert Modal Title",
+    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ",
     contentPosition: "center",
     buttonsPosition: "center",
+    actionButton: { text: "Action", onClick: () => alert("Action clicked!") },
   },
 };
 

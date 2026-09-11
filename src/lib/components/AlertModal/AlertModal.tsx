@@ -63,10 +63,11 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     !removeBackdrop && "backdrop",
     bordered && "bordered",
     elevated && "elevated",
+    enableDivider && "withDivider",
+    `content_${contentPosition}`,
+    `actions_${buttonsPosition}`,
     size,
   ]);
-
-  const isVisible = actionButton || alternateButton;
 
   return (
     attached &&
@@ -74,15 +75,9 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     createPortal(
       <div data-testid="alertModalBackdrop" className={classNames} style={style} ref={ref}>
         <div className={styles.alertModalContainer} ref={modalRef}>
-          <AlertModalContent title={title} text={text} icon={icon} variant={variant} contentPosition={contentPosition} />
-          {isVisible && (
-            <AlertModalActions
-              actionButton={actionButton}
-              alternateButton={alternateButton}
-              buttonsPosition={buttonsPosition}
-              enableDivider={enableDivider}
-              variant={variant}
-            />
+          <AlertModalContent title={title} text={text} icon={icon} variant={variant} />
+          {(actionButton || alternateButton) && (
+            <AlertModalActions actionButton={actionButton} alternateButton={alternateButton} variant={variant} />
           )}
         </div>
       </div>,

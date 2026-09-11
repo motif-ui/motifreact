@@ -2,8 +2,8 @@
 import AlertModal from "@/components/AlertModal/AlertModal";
 import { fireEvent, render, screen, cleanup, act, within } from "@testing-library/react";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
-import { Size4LG } from "../../types";
-import { AlertModalProps } from "@/components/AlertModal/types";
+import { Size4LG, Variant } from "../../types";
+import { AlertModalButtonPosition, AlertModalContentPosition } from "@/components/AlertModal/types";
 import { userEvent } from "@testing-library/user-event";
 
 const renderExt = (ui: ReactElement) => {
@@ -23,15 +23,22 @@ const renderExt = (ui: ReactElement) => {
 
 describe("AlertModal", () => {
   it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open />);
+    const { container, getBackdrop, getModalActions } = renderExt(
+      <AlertModal title="Alert Modal Title" open icon={<MotifIcon name="home" />} actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
+    );
     expect(container).toMatchSnapshot();
 
     // size: md
     expect(getBackdrop()).toHaveClass("md");
-    // removeBackdrop: false (backdrop görünür)
+    // removeBackdrop: false
     expect(getBackdrop()).toHaveClass("backdrop");
     // contentPosition: center
-    expect(getBackdrop().querySelector(".content_center")).toBeInTheDocument();
+    expect(getBackdrop()).toHaveClass("content_center");
+    // buttonsPosition: center
+    expect(getBackdrop()).toHaveClass("actions_center");
+    // variant default: "primary" → propagated to icon and action button
+    expect(screen.getByText("home")).toHaveClass("primary");
+    expect(getModalActions().querySelector("button")).toHaveClass("primary");
   });
 
   it("should render the modal when open is true", () => {
@@ -102,17 +109,15 @@ describe("AlertModal", () => {
   });
 
   it("should not render divider by default when buttons are provided", () => {
-    const { getModalActions } = renderExt(
-      <AlertModal title="Alert Modal Title" open actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
-    );
-    expect(getModalActions()).not.toHaveClass("withDivider");
+    const { getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open actionButton={{ text: "Confirm", onClick: jest.fn() }} />);
+    expect(getBackdrop()).not.toHaveClass("withDivider");
   });
 
   it("should render divider when enableDivider is true and buttons are provided", () => {
-    const { getModalActions } = renderExt(
+    const { getBackdrop } = renderExt(
       <AlertModal title="Alert Modal Title" open enableDivider actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
     );
-    expect(getModalActions()).toHaveClass("withDivider");
+    expect(getBackdrop()).toHaveClass("withDivider");
   });
 
   it("should not render divider when enableDivider is true but neither action button nor alternate button is provided", () => {
@@ -144,18 +149,6 @@ describe("AlertModal", () => {
     expect(getBackdrop()).toHaveClass("elevated");
   });
 
-  it("should apply variant class to icon when variant is provided", () => {
-    renderExt(<AlertModal title="Alert Modal Title" open variant="danger" icon={<MotifIcon name="home" />} />);
-    expect(screen.getByText("home")).toHaveClass("danger");
-  });
-
-  it("should apply variant class to actionButton when variant is provided", () => {
-    const { getModalActions } = renderExt(
-      <AlertModal title="Alert Modal Title" open variant="danger" actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
-    );
-    expect(getModalActions().querySelector("button")).toHaveClass("danger");
-  });
-
   it("should render alternate button and call handler when clicked", () => {
     const handleCancel = jest.fn();
     renderExt(<AlertModal title="Alert Modal Title" open alternateButton={{ text: "Cancel", onClick: handleCancel }} />);
@@ -164,14 +157,18 @@ describe("AlertModal", () => {
   });
 
   it("should apply the given contentPosition class", () => {
-    const { getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open contentPosition="left" />);
-    expect(getBackdrop().querySelector(".content_left")).toBeInTheDocument();
+    const contentPosition: AlertModalContentPosition[] = ["left", "center", "right"];
+    contentPosition.forEach(contentPosition => {
+      const { getBackdrop } = renderExt(<AlertModal title="Alert Modal Title" open contentPosition={contentPosition} />);
+      expect(getBackdrop()).toHaveClass(`content_${contentPosition}`);
+      cleanup();
+    });
   });
 
   it("should apply the given buttonsPosition class to the actions area", () => {
-    const positions: AlertModalProps["buttonsPosition"][] = ["left", "center", "right", "spaceBetween", "stretch", "fullWidth"];
+    const positions: AlertModalButtonPosition[] = ["left", "center", "right", "spaceBetween", "stretch", "fullWidth"];
     positions.forEach(buttonsPosition => {
-      const { getModalActions } = renderExt(
+      const { getBackdrop } = renderExt(
         <AlertModal
           title="Alert Modal Title"
           open
@@ -179,7 +176,24 @@ describe("AlertModal", () => {
           actionButton={{ text: "Confirm", onClick: jest.fn() }}
         />,
       );
-      expect(getModalActions()).toHaveClass(`actions_${buttonsPosition}`);
+      expect(getBackdrop()).toHaveClass(`actions_${buttonsPosition}`);
+      cleanup();
+    });
+  });
+  it("should render with the given variant class on icon and action button", () => {
+    const variants: Variant[] = ["primary", "secondary", "info", "success", "warning", "danger"];
+    variants.forEach(variant => {
+      const { getModalActions } = renderExt(
+        <AlertModal
+          title="Alert Modal Title"
+          open
+          variant={variant}
+          icon={<MotifIcon name="home" />}
+          actionButton={{ text: "Confirm", onClick: jest.fn() }}
+        />,
+      );
+      expect(screen.getByText("home")).toHaveClass(variant);
+      expect(getModalActions().querySelector("button")).toHaveClass(variant);
       cleanup();
     });
   });

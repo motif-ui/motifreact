@@ -24,7 +24,7 @@ describe("IconButton", () => {
   });
 
   it("should be rendered with the size prop", () => {
-    const sizes: Size7[] = ["xxs", "sm", "md", "lg", "xs", "xl", "xxl", "xl3"];
+    const sizes: Size7[] = ["xxs", "sm", "md", "lg", "xs", "xl", "xxl", "xl2"];
 
     for (const size of sizes) {
       const { container } = render(<IconButton name="account_circle" size={size} />);
