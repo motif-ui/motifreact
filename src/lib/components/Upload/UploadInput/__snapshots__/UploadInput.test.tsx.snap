@@ -21,17 +21,14 @@ exports[`UploadInput should render with only required props, have default prop v
       Browse..
     </button>
     <div
-      class="labelArea focusable"
+      class="labelArea"
     >
       <button
-        class="label placeholder roundedEnd"
+        class="label placeholder"
         type="button"
       >
         Select file
       </button>
-      <div
-        class="labelSuffixWrapper"
-      />
     </div>
   </div>
   <input
