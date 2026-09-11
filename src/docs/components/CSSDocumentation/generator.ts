@@ -1,5 +1,5 @@
-export function extractClassesFromStyles(styles: Record<string, string>, componentName: string) {
-  const classInfos = Object.keys(styles).map(key => {
+export function extractClassesFromStyles(classKeys: string[], componentName: string) {
+  const classInfos = classKeys.map(key => {
     const suffix = key === "Root" ? "" : `__${key}`;
     const fullClass = `mtf-${componentName}${suffix}`;
 
