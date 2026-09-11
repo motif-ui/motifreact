@@ -26,6 +26,7 @@ $sizes: (
 }
 
 .Root {
+  background: red !important;
   display: inline-flex;
   .input input {
     box-sizing: border-box;
