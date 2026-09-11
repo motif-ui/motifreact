@@ -63,7 +63,7 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
       const child = anchorRef.current;
       child.addEventListener("mouseenter", onMouseEnter);
       child.addEventListener("mouseleave", onMouseLeave);
-      window.addEventListener("resize", setTooltipPosition);
+      attached && window.addEventListener("resize", setTooltipPosition);
 
       // Cleanup
       return () => {
@@ -72,7 +72,7 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
         window.removeEventListener("resize", setTooltipPosition);
       };
     }
-  }, [onMouseEnter, onMouseLeave, setTooltipPosition, text]);
+  }, [onMouseEnter, onMouseLeave, setTooltipPosition, text, attached]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [size, lastTriedPosition, visible && "visible", variant]);
   const mergedStyle = { ...positionStyle, ...style };
