@@ -1,14 +1,14 @@
 import { PropsWithChildren, useContext, useLayoutEffect, useState } from "react";
-import { createPortal } from "react-dom";
+//import { createPortal } from "react-dom";
 import { Controls, Description, DocsContext, Primary, Subtitle, Title } from "@storybook/addon-docs/blocks";
 import { MotifDocTabs } from "./MotifDocTabs";
 import { MotifDocContextProps, MotifDocMetaReadyDataProps, MotifDocProps, MotifDocType } from "./types";
-import CSSClassNames from "../../src/docs/components/CSSDocumentation/components/CSSClassNames";
+//import CSSClassNames from "../../src/docs/components/CSSDocumentation/components/CSSClassNames";
 
 export const MotifDoc = (props: PropsWithChildren<MotifDocProps>) => {
   const { children, mdxFile } = props;
   const [metaReadyData, setMetaReadyData] = useState<MotifDocMetaReadyDataProps>();
-  const { componentName, tocElement, isCompound } = metaReadyData || {};
+  const { isCompound } = metaReadyData || {};
   const [activeTab, setActiveTab] = useState("overview");
   const { attachedCSFFiles } = useContext<MotifDocContextProps>(DocsContext);
 
@@ -43,7 +43,7 @@ export const MotifDoc = (props: PropsWithChildren<MotifDocProps>) => {
         <Controls />
         {docType === "componentMdx" && children}
       </div>
-      {!isCompound && activeTab === "styling" && componentName && (
+      {/*{!isCompound && activeTab === "styling" && componentName && (
         <>
           <CSSClassNames />
           {docType === "componentMdx" &&
@@ -55,7 +55,7 @@ export const MotifDoc = (props: PropsWithChildren<MotifDocProps>) => {
               tocElement,
             )}
         </>
-      )}
+      )}*/}
     </>
   );
 };
