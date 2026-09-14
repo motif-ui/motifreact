@@ -162,8 +162,8 @@ export const Primary: Story = {
         validations={[Validations.RequiredUploadedFile]}
       >
         <UploadInput
-          uploadRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
-          deleteRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          uploadRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          deleteRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
         />
       </Form.Field>
 
@@ -174,8 +174,8 @@ export const Primary: Story = {
         validations={[Validations.RequiredUploadedFile]}
       >
         <UploadList
-          uploadRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
-          deleteRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          uploadRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          deleteRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
           maxSize={1000000}
         />
       </Form.Field>
@@ -187,8 +187,8 @@ export const Primary: Story = {
         validations={[Validations.RequiredUploadedFile]}
       >
         <UploadDragger
-          uploadRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
-          deleteRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          uploadRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          deleteRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
         />
       </Form.Field>
 
