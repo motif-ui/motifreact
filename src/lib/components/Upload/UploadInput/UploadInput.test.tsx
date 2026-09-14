@@ -6,7 +6,7 @@ import { MOCK } from "../mock";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
-import { mockXHRs, mockXHRWithResponse, t, runStandardPropsTest } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../../utils/testUtils";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
 describe("UploadInput", () => {
@@ -74,13 +74,12 @@ describe("UploadInput", () => {
   const serverFile = { id: "file-1", name: "server-doc.pdf", type: "application/pdf", size: 2048 };
   const serverFile2 = { id: "file-2", name: "server-img.png", type: "image/png", size: 4096 };
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { container } = renderExt(<UploadInput {...requiredProps} />);
-    expect(container).toMatchSnapshot();
-    expect(container.firstElementChild).toHaveClass("md");
-
-    runStandardPropsTest<HTMLDivElement>(props => renderExt(<UploadInput {...requiredProps} {...props} />));
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardProps<HTMLDivElement>) => renderExt(<UploadInput {...requiredProps} {...props} />),
+    {
+      assertDefaults: ({ container }) => expect(container.firstElementChild).toHaveClass("md"),
+    },
+  );
 
   it("should be rendered with the given size in size prop", () => {
     const sizes: InputSize[] = ["xs", "sm", "md", "lg"];

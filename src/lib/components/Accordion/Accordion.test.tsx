@@ -1,13 +1,12 @@
 import "@testing-library/jest-dom";
 import Accordion from "@/components/Accordion/Accordion";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("Accordion", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(render(<Accordion title="Accordion Title" />).container).toMatchSnapshot();
-    runStandardPropsTest<HTMLDivElement>(props => render(<Accordion title="Accordion Title" {...props} />));
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+    render(<Accordion title="Accordion Title" {...props} />),
+  );
 
   it("should display title given with title prop", () => {
     render(<Accordion title="Accordion Title" />);

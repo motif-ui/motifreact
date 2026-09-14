@@ -3,23 +3,19 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import InputNumber from "@/components/InputNumber/InputNumber.tsx";
 import { InputSize } from "@/components/Form/types.ts";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("InputNumber", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(render(<InputNumber />).container).toMatchSnapshot();
-
-    const input = screen.getByRole("textbox");
-
-    // Spinner buttons
-    expect(screen.getByText("+")).toBeInTheDocument();
-    expect(screen.getByText("-")).toBeInTheDocument();
-
-    // No decimals allowed
-    fireEvent.change(input, { target: { value: "3.5" } });
-    expect(input).toHaveValue("35");
-
-    runStandardPropsTest<HTMLDivElement>(props => render(<InputNumber {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<InputNumber {...props} />), {
+    assertDefaults: () => {
+      const input = screen.getByRole("textbox");
+      // Spinner buttons
+      expect(screen.getByText("+")).toBeInTheDocument();
+      expect(screen.getByText("-")).toBeInTheDocument();
+      // No decimals allowed
+      fireEvent.change(input, { target: { value: "3.5" } });
+      expect(input).toHaveValue("35");
+    },
   });
 
   it("should display given value when value prop is given", () => {

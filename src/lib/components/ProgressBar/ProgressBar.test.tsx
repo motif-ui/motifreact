@@ -1,12 +1,9 @@
 import { render } from "@testing-library/react";
 import ProgressBar from "@/components/ProgressBar/ProgressBar";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("ProgressBar", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(render(<ProgressBar />).container).toMatchSnapshot();
-    runStandardPropsTest<HTMLDivElement>(props => render(<ProgressBar {...props} />));
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<ProgressBar {...props} />));
 
   it("should be rendered in different color scheme based on the variant prop", () => {
     const variants: ("primary" | "success" | "danger" | "warning" | "info" | "secondary")[] = [

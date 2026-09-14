@@ -1,26 +1,16 @@
 import { act, render } from "@testing-library/react";
 
 import ListView from "./ListView";
-import { expectToThrow, runStandardPropsTest } from "../../../utils/testUtils";
+import { expectToThrow, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("ListView", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(
-      render(
-        <ListView>
-          <ListView.Item title="Test Item" />
-        </ListView>,
-      ).container,
-    ).toMatchSnapshot();
-
-    runStandardPropsTest<HTMLUListElement>(props =>
-      render(
-        <ListView {...props}>
-          <ListView.Item title="Test Item" />
-        </ListView>,
-      ),
-    );
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLUListElement>) =>
+    render(
+      <ListView {...props}>
+        <ListView.Item title="Test Item" />
+      </ListView>,
+    ),
+  );
 
   it("should render dividers when enableDividers is true", () => {
     const { container } = render(

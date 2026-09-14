@@ -1,24 +1,24 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
-import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 import Dropdown from "./Dropdown";
 import { userEvent } from "@testing-library/user-event";
 import { Size4SM } from "../../types";
 import { Spacing } from "./types";
 
 describe("Dropdown", () => {
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { container, getByText } = render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} />);
-    expect(container.firstElementChild).toMatchSnapshot();
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardProps<HTMLDivElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
+    {
+      assertDefaults: ({ container, getByText }) => {
+        expect(container.firstElementChild).toHaveClass("primary");
+        expect(container.firstElementChild).toHaveClass("solid");
+        expect(container.firstElementChild).toHaveClass("md");
 
-    expect(container.firstElementChild).toHaveClass("primary");
-    expect(container.firstElementChild).toHaveClass("solid");
-    expect(container.firstElementChild).toHaveClass("md");
-
-    fireEvent.click(getByText("Dropdown"));
-    expect(container.querySelector("ul")).toHaveClass("callout");
-
-    runStandardPropsTest<HTMLDivElement>(props => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />));
-  });
+        fireEvent.click(getByText("Dropdown"));
+        expect(container.querySelector("ul")).toHaveClass("callout");
+      },
+    },
+  );
 
   it("should be rendered in different color schemas given in the variant prop", () => {
     const variants: ("primary" | "secondary" | "success" | "danger" | "warning" | "info")[] = [

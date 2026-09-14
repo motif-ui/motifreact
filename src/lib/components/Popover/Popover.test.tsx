@@ -1,30 +1,26 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import Popover from "./Popover";
 import { createRef } from "react";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("Popover", () => {
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const anchorRef = createRef<HTMLDivElement>();
-    const { container, getByTestId, unmount } = render(<Popover anchorRef={anchorRef} open />);
+  const anchorRef = createRef<HTMLDivElement>();
 
-    expect(container).toMatchSnapshot();
-
-    const popoverElement = getByTestId("popover");
-    //Default value control for variant prop
-    expect(popoverElement).toHaveClass("light");
-    //default value control for position prop
-    expect(popoverElement).toHaveClass("bottom");
-    //default value control for spacing prop
-    expect(popoverElement).toHaveClass("callout");
-
-    unmount();
-
-    runStandardPropsTest<HTMLDivElement>(
-      props => render(<Popover anchorRef={anchorRef} open {...props} />),
-      result => result.queryByTestId("popover"),
-    );
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardProps<HTMLDivElement>) => render(<Popover anchorRef={anchorRef} open {...props} />),
+    {
+      assertDefaults: ({ getByTestId }) => {
+        const popoverElement = getByTestId("popover");
+        //Default value control for variant prop
+        expect(popoverElement).toHaveClass("light");
+        //default value control for position prop
+        expect(popoverElement).toHaveClass("bottom");
+        //default value control for spacing prop
+        expect(popoverElement).toHaveClass("callout");
+      },
+      getRoot: result => result.queryByTestId("popover"),
+    },
+  );
 
   it("should render in a position given in placeOn prop relative to the anchor element", () => {
     const positions: ("top" | "bottom" | "right" | "left" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight")[] = [

@@ -2,7 +2,7 @@ import DatePicker from "@/components/DatePicker/DatePicker";
 import { render, act } from "@testing-library/react";
 import { DatePickerLocale } from "./types";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
-import { t, runStandardPropsTest } from "../../../utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 export const runDatePickerCommonTests = () => {
@@ -269,24 +269,22 @@ describe("DatePicker", () => {
 
   runDatePickerCommonTests();
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { container, getByText, getByTestId } = render(<DatePicker value={new Date(2000, 1, 15)} />);
-    expect(container).toMatchSnapshot();
-
-    // variant: borderless
-    expect(getByTestId("Picker")).toHaveClass("borderless");
-
-    // locale: English
-    expect(getByText("Mo")).toBeInTheDocument();
-    expect(getByText("Tu")).toBeInTheDocument();
-    expect(getByText("We")).toBeInTheDocument();
-    expect(getByText(getDateLocale(t).months[new Date(2000, 1).getMonth()])).toBeInTheDocument();
-
-    // size: md
-    expect(getByTestId("Picker")).toHaveClass("md");
-
-    runStandardPropsTest<HTMLDivElement>(props => render(<DatePicker {...props} />));
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardProps<HTMLDivElement>) => render(<DatePicker value={new Date(2000, 1, 15)} {...props} />),
+    {
+      assertDefaults: ({ getByText, getByTestId }) => {
+        // variant: borderless
+        expect(getByTestId("Picker")).toHaveClass("borderless");
+        // locale: English
+        expect(getByText("Mo")).toBeInTheDocument();
+        expect(getByText("Tu")).toBeInTheDocument();
+        expect(getByText("We")).toBeInTheDocument();
+        expect(getByText(getDateLocale(t).months[new Date(2000, 1).getMonth()])).toBeInTheDocument();
+        // size: md
+        expect(getByTestId("Picker")).toHaveClass("md");
+      },
+    },
+  );
 
   it("should not render clear and ok buttons when removeActionButtons is set to true", () => {
     const { rerender, queryByText } = render(<DatePicker />);

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { act, cleanup, fireEvent, render, renderHook, screen } from "@testing-library/react";
-import { t, runStandardPropsTest } from "src/utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "src/utils/testUtils";
 import Stepper from "./Stepper";
 import useStepper from "./hooks/useStepper";
 import { StepperItemProps, StepperProps } from "@/components/Stepper/types.ts";
@@ -9,7 +9,7 @@ const NEXT = t("g.next");
 const PREV = t("g.previous");
 const FINISH = t("g.finish");
 
-const renderExt = (props: StepperProps = {}, itemProps?: StepperItemProps[]) => {
+const renderExt = (props: StepperProps & StandardProps<HTMLDivElement> = {}, itemProps?: StepperItemProps[]) => {
   const items = itemProps?.length ? itemProps : [{ title: "Step 1" }, { title: "Step 2" }, { title: "Step 3" }];
 
   const renderResult = render(
@@ -29,29 +29,17 @@ const renderExt = (props: StepperProps = {}, itemProps?: StepperItemProps[]) => 
 };
 
 describe("Stepper", () => {
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { container, getRoot } = renderExt();
-    expect(container).toMatchSnapshot();
-
-    // orientation = horizontal
-    expect(getRoot()).toHaveClass("horizontal");
-
-    // stepType = number
-    expect(getRoot()).toHaveClass("number");
-
-    // itemOrientation = vertical
-    expect(getRoot()).toHaveClass("vertical-items");
-
-    // variant = primary
-    expect(container.querySelector(".active")).toHaveClass("primary");
-
-    runStandardPropsTest<HTMLDivElement>(props =>
-      render(
-        <Stepper {...props}>
-          <Stepper.Item title="Step 1">Content 1</Stepper.Item>
-        </Stepper>,
-      ),
-    );
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => renderExt(props), {
+    assertDefaults: ({ container, getRoot }) => {
+      // orientation = horizontal
+      expect(getRoot()).toHaveClass("horizontal");
+      // stepType = number
+      expect(getRoot()).toHaveClass("number");
+      // itemOrientation = vertical
+      expect(getRoot()).toHaveClass("vertical-items");
+      // variant = primary
+      expect(container.querySelector(".active")).toHaveClass("primary");
+    },
   });
 
   it("should render in the orientation given in orientation prop", () => {

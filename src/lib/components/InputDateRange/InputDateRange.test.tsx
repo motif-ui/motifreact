@@ -17,7 +17,7 @@ import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t, runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDateRange", () => {
@@ -76,17 +76,15 @@ describe("InputDateRange", () => {
     };
   };
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { container, getDateRangeInput, getInputText, getByText } = renderExt(<InputDateRange />);
-    expect(container).toMatchSnapshot();
-    // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
-    expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);
-    // size = md (default)
-    expect(getInputText()).toHaveClass("md");
-    // icon = calendar_expand_horizontal (default)
-    expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
-
-    runStandardPropsTest<HTMLDivElement>(props => render(<InputDateRange {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => renderExt(<InputDateRange {...props} />), {
+    assertDefaults: ({ getInputText, getDateRangeInput, getByText }) => {
+      // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
+      expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);
+      // size = md (default)
+      expect(getInputText()).toHaveClass("md");
+      // icon = calendar_expand_horizontal (default)
+      expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
+    },
   });
 
   it("should display the dates as given format in format prop with an arrow between them", () => {

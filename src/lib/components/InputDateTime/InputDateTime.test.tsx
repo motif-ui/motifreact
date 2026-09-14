@@ -10,7 +10,7 @@ import { TimeFormat } from "../Motif/Pickers/types";
 import { DateUtils } from "../../../utils/dateUtils";
 import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t, runStandardPropsTest } from "../../../utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe(InputDateTime, () => {
   const today = new Date();
@@ -50,38 +50,34 @@ describe(InputDateTime, () => {
     };
   };
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", async () => {
-    const { container, getByText, getInputText, getPickerContainer, getTimeList, getInput } = renderExt(<InputDateTime />);
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => renderExt(<InputDateTime {...props} />), {
+    assertDefaults: async ({ getByText, getInputText, getPickerContainer, getTimeList, getInput }) => {
+      //placeholder
+      expect(getInputText()).toHaveAttribute("placeholder", "DD/MM/YYYY __:__");
 
-    expect(container).toMatchSnapshot();
+      //default size = md
+      expect(getInput()).toHaveClass("md");
 
-    //placeholder
-    expect(getInputText()).toHaveAttribute("placeholder", "DD/MM/YYYY __:__");
+      //icon
+      expect(getByText("event")).toBeInTheDocument();
 
-    //default size = md
-    expect(getInput()).toHaveClass("md");
+      //local prop
+      await userEvent.click(getInputText());
+      expect(getByText("Sa")).toBeInTheDocument();
 
-    //icon
-    expect(getByText("event")).toBeInTheDocument();
+      //editable = false
+      expect(getInputText()).toHaveValue("");
+      await userEvent.type(getInputText(), formatDateTimeValue);
+      expect(getInputText()).toHaveValue("");
 
-    //local prop
-    await userEvent.click(getInputText());
-    expect(getByText("Sa")).toBeInTheDocument();
-
-    //editable = false
-    expect(getInputText()).toHaveValue("");
-    await userEvent.type(getInputText(), formatDateTimeValue);
-    expect(getInputText()).toHaveValue("");
-
-    //24-hour format
-    await userEvent.click(getInputText());
-    act(() => getByText("schedule").closest("button")?.click());
-    await waitFor(() => expect(getPickerContainer()).toBeInTheDocument());
-    const [hours] = getTimeList();
-    expect(hours.children.length).toBe(24);
-    expect(hours.lastElementChild).toHaveTextContent("23");
-
-    runStandardPropsTest<HTMLDivElement>(props => render(<InputDateTime {...props} />));
+      //24-hour format
+      await userEvent.click(getInputText());
+      act(() => getByText("schedule").closest("button")?.click());
+      await waitFor(() => expect(getPickerContainer()).toBeInTheDocument());
+      const [hours] = getTimeList();
+      expect(hours.children.length).toBe(24);
+      expect(hours.lastElementChild).toHaveTextContent("23");
+    },
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {

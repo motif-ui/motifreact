@@ -4,7 +4,7 @@ import { Time, TimePickerLocale } from "../TimePicker/types";
 import { userEvent } from "@testing-library/user-event";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t, runStandardPropsTest } from "../../../utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 const timeValue: Time = { hours: 11, minutes: 43, seconds: 13 };
 const checkSelection = (list: HTMLUListElement, index: number, isSelected: boolean) =>
@@ -79,26 +79,20 @@ describe("TimePicker", () => {
 
   runTimePickerCommonTests();
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { container } = render(<TimePicker />);
-    expect(container).toMatchSnapshot();
-
-    // variant = borderless (default)
-    expect(container.firstElementChild).toHaveClass("borderless");
-
-    // labels = Sa,Da (default)
-    expect(screen.queryByText("Hr")).toBeInTheDocument();
-    expect(screen.queryByText("Mn")).toBeInTheDocument();
-
-    // size = md (default)
-    expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
-
-    // format = 24h (default)
-    expect(screen.queryByTestId("timePeriodSelector")).not.toBeInTheDocument();
-    const stripes = screen.getByTestId("timeStripeContainer").querySelectorAll("ul");
-    expect(stripes[0].children.length).toBe(24); // 24-hour format
-
-    runStandardPropsTest<HTMLDivElement>(props => render(<TimePicker {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<TimePicker {...props} />), {
+    assertDefaults: ({ container }) => {
+      // variant = borderless (default)
+      expect(container.firstElementChild).toHaveClass("borderless");
+      // labels = Sa,Da (default)
+      expect(screen.queryByText("Hr")).toBeInTheDocument();
+      expect(screen.queryByText("Mn")).toBeInTheDocument();
+      // size = md (default)
+      expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+      // format = 24h (default)
+      expect(screen.queryByTestId("timePeriodSelector")).not.toBeInTheDocument();
+      const stripes = screen.getByTestId("timeStripeContainer").querySelectorAll("ul");
+      expect(stripes[0].children.length).toBe(24); // 24-hour format
+    },
   });
 
   it("should display time info given in the value prop", () => {

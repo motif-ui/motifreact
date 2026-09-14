@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, act } from "@testing-library/react";
-import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 import { useToast } from "@/components/Toast/useToast";
 import Toast from "@/components/Toast/Toast";
 import { AddToastOptions, ToastVariant } from "@/components/Toast/types";
@@ -21,30 +21,35 @@ describe("Toast", () => {
   };
   const content = "content";
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    jest.useFakeTimers();
-
-    const { getByText, queryByText } = render(<Toaster content={content} variant="info" />);
-    expect(getByText(content)).toBeInTheDocument();
-    expect(screen.getAllByTestId("toast")[0]).toHaveClass("info");
-
-    // default position: topRight
-    expect(document.querySelector(".topRight")).toContainElement(screen.getAllByTestId("toast")[0]);
-    // default closable: true
-    expect(screen.getByText("close")).toBeInTheDocument();
-    // default duration: 3000
-    act(() => jest.advanceTimersByTime(1000));
-    expect(getByText(content)).toBeInTheDocument();
-    act(() => jest.advanceTimersByTime(3000));
-    expect(queryByText(content)).not.toBeInTheDocument();
-
+  // the toast schedules its auto-dismiss setTimeout on mount, so fake timers must already be
+  // active before renderComponent's very first render, not just inside assertDefaults
+  afterEach(() => {
     jest.useRealTimers();
-
-    runStandardPropsTest<HTMLDivElement>(
-      props => render(<Toaster content={content} variant="info" {...props} />),
-      result => result.queryByTestId("toast"),
-    );
   });
+
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardProps<HTMLDivElement>) => {
+      jest.useFakeTimers();
+      return render(<Toaster content={content} variant="info" {...props} />);
+    },
+    {
+      getRoot: result => result.queryByTestId("toast"),
+      assertDefaults: ({ getByText, queryByText }) => {
+        expect(getByText(content)).toBeInTheDocument();
+        expect(screen.getAllByTestId("toast")[0]).toHaveClass("info");
+
+        // default position: topRight
+        expect(document.querySelector(".topRight")).toContainElement(screen.getAllByTestId("toast")[0]);
+        // default closable: true
+        expect(screen.getByText("close")).toBeInTheDocument();
+        // default duration: 3000
+        act(() => jest.advanceTimersByTime(1000));
+        expect(getByText(content)).toBeInTheDocument();
+        act(() => jest.advanceTimersByTime(3000));
+        expect(queryByText(content)).not.toBeInTheDocument();
+      },
+    },
+  );
 
   it("should display title when title prop is given", () => {
     render(<Toaster content={content} variant="info" />);

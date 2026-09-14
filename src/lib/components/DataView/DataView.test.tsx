@@ -1,41 +1,36 @@
 import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataView from "@/components/DataView/DataView";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("DataView", () => {
   afterEach(() => cleanup());
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { container } = render(
-      <DataView>
-        <DataView.Item label="Test Content" />
-      </DataView>,
-    );
-
-    const wrapper = container.firstChild as HTMLElement;
-    expect(wrapper).toMatchSnapshot();
-    //Default value control for removeBorder prop
-    expect(wrapper).toHaveClass("bordered");
-    //Default value control for valueAlignment prop
-    expect(wrapper).toHaveClass("leftAlign");
-    //Default value control for cols prop
-    expect(wrapper).toHaveClass("xs-1");
-    expect(wrapper).toHaveClass("sm-1");
-    expect(wrapper).toHaveClass("md-1");
-    expect(wrapper).toHaveClass("lg-1");
-    expect(wrapper).toHaveClass("xl-1");
-    //Default value control for orientation prop
-    expect(wrapper).toHaveClass("horizontal");
-
-    runStandardPropsTest<HTMLDivElement>(props =>
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardProps<HTMLDivElement>) =>
       render(
         <DataView {...props}>
           <DataView.Item label="Test Content" />
         </DataView>,
       ),
-    );
-  });
+    {
+      assertDefaults: ({ container }) => {
+        const wrapper = container.firstChild as HTMLElement;
+        //Default value control for removeBorder prop
+        expect(wrapper).toHaveClass("bordered");
+        //Default value control for valueAlignment prop
+        expect(wrapper).toHaveClass("leftAlign");
+        //Default value control for cols prop
+        expect(wrapper).toHaveClass("xs-1");
+        expect(wrapper).toHaveClass("sm-1");
+        expect(wrapper).toHaveClass("md-1");
+        expect(wrapper).toHaveClass("lg-1");
+        expect(wrapper).toHaveClass("xl-1");
+        //Default value control for orientation prop
+        expect(wrapper).toHaveClass("horizontal");
+      },
+    },
+  );
 
   it("should render number of columns given in the cols and each screen size prop", () => {
     const { container } = render(

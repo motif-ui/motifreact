@@ -5,7 +5,7 @@ import { MESSAGE } from "@/components/Upload/constants";
 import ImageUpload from "@/components/Upload/ImageUpload/ImageUpload";
 import { ImageUploadProps } from "@/components/Upload/ImageUpload/types";
 import { MOCK } from "../mock";
-import { mockXHRs, t, runStandardPropsTest } from "../../../../utils/testUtils";
+import { mockXHRs, t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 import { ReactElement } from "react";
 import { BROKEN_IMG_SRC } from "src/lib/constants";
@@ -118,10 +118,9 @@ describe("ImageUpload", () => {
     expect(screen.queryByText("imagesmode")).toBeInTheDocument();
   };
 
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(renderExt(<ImageUpload {...requiredProps} />).container).toMatchSnapshot();
-    runStandardPropsTest<HTMLDivElement>(props => renderExt(<ImageUpload {...requiredProps} {...props} />));
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+    renderExt(<ImageUpload {...requiredProps} {...props} />),
+  );
 
   it("should be rendered with the given size in size prop", () => {
     const sizes = ["sm", "md", "lg"] as const;

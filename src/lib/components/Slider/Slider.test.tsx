@@ -2,7 +2,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { userEvent } from "@testing-library/user-event";
 import Slider from "@/components/Slider/Slider";
 import { InputSize } from "../Form/types";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("Slider", () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -26,38 +26,27 @@ describe("Slider", () => {
     Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { container } = render(<Slider />);
-    expect(container).toMatchSnapshot();
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<Slider {...props} />), {
+    assertDefaults: ({ container }) => {
+      // variant: primary
+      expect(container.firstChild).toHaveClass("primary");
+      // size: md
+      expect(container.firstChild).toHaveClass("md");
+      // fill: left, start: 0, end: 100
+      // combination of these 3 props results in 0% width fill at 0% left
+      expect(container.firstElementChild?.getElementsByClassName("fill")[0]).toHaveStyle("width: 0%; left: 0%;");
 
-    // Default Props
-
-    // variant: primary
-    expect(container.firstChild).toHaveClass("primary");
-
-    // size: md
-    expect(container.firstChild).toHaveClass("md");
-
-    // fill: left, start: 0, end: 100
-    // combination of these 3 props results in 0% width fill at 0% left
-    expect(container.firstElementChild?.getElementsByClassName("fill")[0]).toHaveStyle("width: 0%; left: 0%;");
-
-    const slider = screen.getByRole("slider");
-
-    // value: 0
-    expect(slider).toHaveValue("0");
-
-    // min: 0
-    expect(slider).toHaveAttribute("min", "0");
-
-    // max: 100
-    expect(slider).toHaveAttribute("max", "100");
-
-    // step
-    fireEvent.change(slider, { target: { value: 0.5 } });
-    expect(slider).toHaveValue("1");
-
-    runStandardPropsTest<HTMLDivElement>(props => render(<Slider {...props} />));
+      const slider = screen.getByRole("slider");
+      // value: 0
+      expect(slider).toHaveValue("0");
+      // min: 0
+      expect(slider).toHaveAttribute("min", "0");
+      // max: 100
+      expect(slider).toHaveAttribute("max", "100");
+      // step
+      fireEvent.change(slider, { target: { value: 0.5 } });
+      expect(slider).toHaveValue("1");
+    },
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {

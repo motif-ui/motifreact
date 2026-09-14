@@ -1,26 +1,16 @@
 import "@testing-library/jest-dom";
 import Badge from "@/components/Badge/Badge";
 import { getByTestId, render, screen } from "@testing-library/react";
-import { runIconPropTest, runStandardPropsTest } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("Badge", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(
-      render(
-        <Badge>
-          <button />
-        </Badge>,
-      ).container,
-    ).toMatchSnapshot();
-
-    runStandardPropsTest<HTMLDivElement>(props =>
-      render(
-        <Badge {...props}>
-          <button />
-        </Badge>,
-      ),
-    );
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+    render(
+      <Badge {...props}>
+        <button />
+      </Badge>,
+    ),
+  );
 
   it("should not be rendered when no children is given", () => {
     const { container } = render(<Badge />);

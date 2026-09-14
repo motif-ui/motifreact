@@ -5,24 +5,18 @@ import { Size3 } from "../../types";
 import Link from "../Link";
 import IconButton from "../IconButton";
 import { userEvent } from "@testing-library/user-event";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("Modal", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    const { container, unmount } = render(<Modal open>Test content</Modal>);
-    expect(container).toMatchSnapshot();
-    unmount();
-
-    runStandardPropsTest<HTMLDivElement>(
-      props =>
-        render(
-          <Modal open {...props}>
-            Test content
-          </Modal>,
-        ),
-      () => screen.queryByTestId("modalBackdrop"),
-    );
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardProps<HTMLDivElement>) =>
+      render(
+        <Modal open {...props}>
+          Test content
+        </Modal>,
+      ),
+    { getRoot: () => screen.queryByTestId("modalBackdrop") },
+  );
 
   it("should render the modal when open is true", () => {
     const { rerender } = render(<Modal open={false}>Test content</Modal>);

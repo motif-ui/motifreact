@@ -1,15 +1,12 @@
 import { render, screen, waitFor, act } from "@testing-library/react";
 import ImageView from "./ImageView";
 import { BROKEN_IMG_SRC } from "src/lib/constants";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 const src = "https://picsum.photos/seed/motifui/200";
 
 describe("ImageView", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(render(<ImageView src={src} />).container).toMatchSnapshot();
-    runStandardPropsTest<HTMLImageElement>(props => render(<ImageView src={src} {...props} />));
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLImageElement>) => render(<ImageView src={src} {...props} />));
 
   it("should render image when src prop is given", () => {
     render(<ImageView src={src} />);

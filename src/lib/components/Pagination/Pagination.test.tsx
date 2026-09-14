@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Pagination from "./Pagination";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("Pagination", () => {
   const mockOnChange = jest.fn();
@@ -10,13 +10,9 @@ describe("Pagination", () => {
     mockOnChange.mockClear();
   });
 
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} />).container).toMatchSnapshot();
-
-    runStandardPropsTest<HTMLDivElement>(props =>
-      render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} {...props} />),
-    );
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+    render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} {...props} />),
+  );
 
   it("should render pagination with correct number of pages", () => {
     render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} />);

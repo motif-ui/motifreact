@@ -2,29 +2,17 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Grid } from "../../index";
 import type { Size4LG } from "../../types";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 describe("Grid", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(
-      render(
-        <Grid>
-          <Grid.Row>
-            <Grid.Col />
-          </Grid.Row>
-        </Grid>,
-      ).container,
-    ).toMatchSnapshot();
-
-    runStandardPropsTest<HTMLDivElement>(props =>
-      render(
-        <Grid {...props}>
-          <Grid.Row>
-            <Grid.Col />
-          </Grid.Row>
-        </Grid>,
-      ),
-    );
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+    render(
+      <Grid {...props}>
+        <Grid.Row>
+          <Grid.Col />
+        </Grid.Row>
+      </Grid>,
+    ),
+  );
 
   it("should be rendered with the given size in gutter prop", () => {
     const gutterSizes: Size4LG[] = ["sm", "md", "lg", "xl"];

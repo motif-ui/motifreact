@@ -6,13 +6,12 @@ import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
 import { Size7 } from "../../types";
 import Icon from "@/components/Icon";
 import MotifProvider from "../../motif/context/MotifProvider";
-import { runStandardPropsTest } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 
 describe("IconButton", () => {
-  it("should render with only required props, and have standard props; className, style and ref props working as expected", () => {
-    expect(render(<IconButton name="account_circle" />).container).toMatchSnapshot();
-    runStandardPropsTest<HTMLButtonElement>(props => render(<IconButton name="account_circle" {...props} />));
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLButtonElement>) =>
+    render(<IconButton name="account_circle" {...props} />),
+  );
 
   it("should render the icon given in the name prop", () => {
     const { getByText } = render(<Icon name="testIcon" />);

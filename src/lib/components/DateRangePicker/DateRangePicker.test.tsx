@@ -6,7 +6,7 @@ import { userEvent } from "@testing-library/user-event";
 import { DateUtils } from "../../../utils/dateUtils";
 import { ReactNode } from "react";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t, runStandardPropsTest } from "../../../utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateRangePicker", () => {
@@ -45,24 +45,22 @@ describe("DateRangePicker", () => {
     };
   };
 
-  it("should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected", () => {
-    const { getFirstPicker, getByTestId, container } = renderExt(
-      <DateRangePicker value={[new Date(2000, 1, 15), new Date(2000, 1, 18)]} />,
-    );
-    expect(container).toMatchSnapshot();
-    const pickerContainer = getByTestId("Picker");
-    // locale: TR
-    expect(within(getFirstPicker()).getByText("Mo")).toBeInTheDocument();
-    expect(within(getFirstPicker()).getByText("Tu")).toBeInTheDocument();
-
-    // variant: borderless
-    expect(pickerContainer).toHaveClass("borderless");
-
-    // size: md
-    expect(pickerContainer).toHaveClass("md");
-
-    runStandardPropsTest<HTMLDivElement>(props => render(<DateRangePicker {...props} />));
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardProps<HTMLDivElement>) =>
+      renderExt(<DateRangePicker value={[new Date(2000, 1, 15), new Date(2000, 1, 18)]} {...props} />),
+    {
+      assertDefaults: ({ getByTestId, getFirstPicker }) => {
+        const pickerContainer = getByTestId("Picker");
+        // locale: TR
+        expect(within(getFirstPicker()).getByText("Mo")).toBeInTheDocument();
+        expect(within(getFirstPicker()).getByText("Tu")).toBeInTheDocument();
+        // variant: borderless
+        expect(pickerContainer).toHaveClass("borderless");
+        // size: md
+        expect(pickerContainer).toHaveClass("md");
+      },
+    },
+  );
 
   it("should render a dropdown to select predefined date ranges", async () => {
     const { queryByText, getByTestId } = renderExt(<DateRangePicker />);
