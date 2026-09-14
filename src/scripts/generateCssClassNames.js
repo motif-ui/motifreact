@@ -49,22 +49,13 @@ const walk = dir =>
   });
 
 /** Extracts every local class-name token from a rule prelude, on already-Sass-compiled (flat) CSS. */
-const extractClassNames = css => {
-  const classNames = new Set();
-  const preludeRegex = /([^{}]+)\{/g;
-  let preludeMatch;
-
-  while ((preludeMatch = preludeRegex.exec(css))) {
-    const prelude = preludeMatch[1];
-    if (prelude.trim().startsWith("@")) continue;
-
-    const classRegex = /\.([a-zA-Z_][a-zA-Z0-9_-]*)/g;
-    let classMatch;
-    while ((classMatch = classRegex.exec(prelude))) classNames.add(classMatch[1]);
-  }
-
-  return [...classNames].sort((a, b) => a.localeCompare(b));
-};
+const extractClassNames = css =>
+  [...css.matchAll(/([^{}]+)\{/g)]
+    .map(([, prelude]) => prelude)
+    .filter(prelude => !prelude.trim().startsWith("@"))
+    .flatMap(prelude => [...prelude.matchAll(/\.([a-zA-Z_][a-zA-Z0-9_-]*)/g)].map(([, name]) => name))
+    .filter((name, i, arr) => arr.indexOf(name) === i)
+    .sort((a, b) => a.localeCompare(b));
 
 const generate = () => {
   const files = walk(componentsRoot);
