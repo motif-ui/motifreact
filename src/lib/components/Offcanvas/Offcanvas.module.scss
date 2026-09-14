@@ -1,0 +1,162 @@
+@use "@styles" as *;
+
+$vertical-sizes: (
+  //sizeName, width
+  ("sm", "320x"),
+  ("md", "360x"),
+  ("lg", "400x")
+);
+
+$horizontal-sizes: (
+  //sizeName, height
+  ("sm", "216x"),
+  ("md", "256x"),
+  ("lg", "320x")
+);
+
+$header-title-sizes: "sm", "md", "lg";
+
+.Root {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background-color: var(--base-colors-black-black-overlay50);
+  display: flex;
+  z-index: 999;
+  @include fade-default;
+
+  &.show {
+    @include fade-in;
+  }
+
+  &.left .offcanvas {
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
+  }
+
+  &.left.show .offcanvas {
+    transform: translateX(0);
+  }
+
+  &.right .offcanvas {
+    top: 0;
+    right: 0;
+    height: 100%;
+    transform: translateX(100%);
+    border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
+  }
+
+  &.right.show .offcanvas {
+    transform: translateX(0);
+  }
+
+  &.top .offcanvas {
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: translateY(-100%);
+    border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
+  }
+
+  &.top.show .offcanvas {
+    transform: translateY(0);
+  }
+
+  &.bottom .offcanvas {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: translateY(100%);
+    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+  }
+
+  &.bottom.show .offcanvas {
+    transform: translateY(0);
+  }
+
+  @each $size, $width in $vertical-sizes {
+    &.left.#{$size} .offcanvas,
+    &.right.#{$size} .offcanvas {
+      width: var(--base-sizing-#{$width});
+    }
+  }
+
+  @each $size, $height in $horizontal-sizes {
+    &.top.#{$size} .offcanvas,
+    &.bottom.#{$size} .offcanvas {
+      height: var(--base-sizing-#{$height});
+    }
+  }
+
+  @each $size in $header-title-sizes {
+    &.#{$size} .headerTitle {
+      @include font("base", $size, "700");
+    }
+  }
+}
+
+.offcanvas {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  background: var(--theme-color-surface-base-global-light);
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  @include shadow(4);
+  @include transition(transform);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--base-sizing-16x);
+  padding: var(--base-sizing-16x);
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  flex: 1;
+  color: var(--theme-color-text-base-title);
+  overflow-wrap: break-word;
+}
+
+.closeButton {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: var(--base-sizing-16x);
+  padding: var(--base-sizing-16x);
+  overflow-y: auto;
+
+  > * {
+    flex-shrink: 0;
+  }
+
+  &::-webkit-scrollbar {
+    width: var(--base-sizing-8x);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    margin: var(--base-sizing-1x) 0;
+    border-radius: var(--theme-sizing-radius-default);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--base-colors-black-black-overlay25);
+    border-radius: var(--theme-sizing-radius-default);
+  }
+}
