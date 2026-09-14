@@ -68,7 +68,9 @@ $sizes: (
 
   .inputText {
     all: unset;
-    width: 100%;
+    width: 0;
+    min-width: var(--base-sizing-64x);
+    flex-grow: 1;
     text-align: left;
     white-space: nowrap;
     overflow: auto;

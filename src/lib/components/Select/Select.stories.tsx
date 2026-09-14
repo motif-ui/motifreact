@@ -20,7 +20,9 @@ const meta: Meta<typeof Select> = {
     size: { table: { defaultValue: { summary: "md" } } },
     value: { control: { type: "text" }, description: "string or string[] if multiple" },
   },
-  args: {},
+  args: {
+    style: { width: 256 },
+  },
 };
 
 export default meta;
