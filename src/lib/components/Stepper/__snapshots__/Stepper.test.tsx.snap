@@ -31,7 +31,7 @@ exports[`Stepper should render with only required props and have default prop va
         </div>
       </div>
       <div
-        class="stepItem primary upcoming"
+        class="stepItem primary"
       >
         <div
           class="stepHeader item-vertical"
@@ -53,7 +53,7 @@ exports[`Stepper should render with only required props and have default prop va
         </div>
       </div>
       <div
-        class="stepItem primary upcoming"
+        class="stepItem primary"
       >
         <div
           class="stepHeader item-vertical"

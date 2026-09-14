@@ -8,11 +8,24 @@ import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
 
 const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
   const { index, title, icon = "motif_ui", variant: itemVariant, error, disabled } = props;
-  const { activeStep, variant: contextVariant, stepType, itemOrientation, onStepClick, goToStep } = useContext(StepperContext)!;
+  const {
+    activeStep,
+    maxReachedStep,
+    variant: contextVariant,
+    stepType,
+    itemOrientation,
+    onStepClick,
+    goToStep,
+  } = useContext(StepperContext)!;
 
   const variant = itemVariant ?? contextVariant;
-  const status = error ? "error" : index === activeStep ? "active" : !disabled && index < activeStep ? "completed" : "upcoming";
-  const clickable = !disabled && status === "completed";
+  const status =
+    (error && "error") ||
+    (index === activeStep && "active") ||
+    (!disabled && index < activeStep && "completed") ||
+    (!disabled && index <= maxReachedStep && "reachable") ||
+    undefined;
+  const clickable = !disabled && index !== activeStep && index <= maxReachedStep;
 
   const handleClick = useCallback(() => {
     goToStep(index);

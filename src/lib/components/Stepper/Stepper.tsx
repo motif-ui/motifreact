@@ -34,6 +34,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   } = usePropsWithThemeDefaults("Stepper", props);
 
   const [internalStep, setInternalStep] = useState(() => Math.max(0, Math.min(defaultActiveStep, Children.toArray(children).length - 1)));
+  const [maxReachedStep, setMaxReachedStep] = useState(internalStep);
   const [internalStepData, setInternalStepDataState] = useState<Partial<Record<number, Record<string, unknown>>>>({});
   const internalSetStepData = useCallback(
     (index: number, data: Record<string, unknown>) => setInternalStepDataState(prev => ({ ...prev, [index]: { ...prev[index], ...data } })),
@@ -72,6 +73,10 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   }, [activeStep, disabledSteps, goToStep]);
 
   useEffect(() => {
+    setMaxReachedStep(prev => Math.max(prev, activeStep));
+  }, [activeStep]);
+
+  useEffect(() => {
     if (externalState && disabledSteps[externalState.activeStep]) {
       const resolved = disabledSteps.findIndex((disabled, i) => i > externalState.activeStep && !disabled);
       resolved !== -1 && externalState.goToStep(resolved);
@@ -85,6 +90,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
     <StepperContext
       value={{
         activeStep,
+        maxReachedStep,
         count,
         variant,
         stepType,

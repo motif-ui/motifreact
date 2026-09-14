@@ -39,6 +39,7 @@ export type StepperProps = {
 
 export type StepperContextType = {
   activeStep: number;
+  maxReachedStep: number;
   count: number;
   variant: StepperVariant;
   stepType: StepperStepType;
