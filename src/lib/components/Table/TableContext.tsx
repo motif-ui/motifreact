@@ -3,7 +3,7 @@
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
 import { foldNormalize, getNextItemInArray, getTextFromNode, getValueByChainedKey } from "../../../utils/utils";
 import { sortByType, SORT_DIRECTIONS, getSpannedCellsMap } from "@/components/Table/helper";
-import { ColumState, RowDetail, TableContextDefaultValues, TableContextProps, TableContextType } from "@/components/Table/types";
+import { ColumnState, RowDetail, TableContextDefaultValues, TableContextProps, TableContextType } from "@/components/Table/types";
 import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const TableContext = createContext<TableContextType>(TableContextDefaultValues);
@@ -38,7 +38,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
 
   // Original data user provided. We only add some necessary internal props to it. It doesn't change at all.
   const [originalRows, setOriginalRows] = useState<RowDetail[] | undefined>(dataRaw?.map(mapDataToMotifTableRow));
-  const [columnStates, setColumnStates] = useState<ColumState[]>(columns.map(() => ({})));
+  const [columnStates, setColumnStates] = useState<ColumnState[]>(columns.map(() => ({})));
 
   // Data that is used in the table. It can be sorted, filtered, paginated etc. (derived from originalRows)
   const usableRows = useMemo(() => {

@@ -49,6 +49,7 @@ jobs:
             - Do not allow usages like "React.MouseEvent". "React" should be imported along with other imports.
             - When some props are likely to use already available types like IconGlobalType or Variant, 
               they should not be allowed to use string type or redefining the same type.
+            - Do not review or comment on accessibility (a11y) concerns; this is out of scope for this review.
             
             In tests:
             - Each component test suite should start with a test: "should be rendered with only required props and 
