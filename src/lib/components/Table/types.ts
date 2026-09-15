@@ -119,7 +119,7 @@ export type TableContextType = {
   columns: Column[];
   spannedCellsMap: SpannedCellsMap;
   updateSortState: (columnIndex: number) => void;
-  columnStates: ColumState[];
+  columnStates: ColumnState[];
   showFixedRowNumbers?: boolean;
   currentPage: number;
   setCurrentPage?: Dispatch<SetStateAction<number>>;
@@ -135,7 +135,7 @@ export type TableContextType = {
   rowColorCallback?: (rowData: object) => RowColor | undefined;
 };
 
-export type ColumState = {
+export type ColumnState = {
   lastSortDirection?: "asc" | "desc";
   filterQuery?: string;
 };
