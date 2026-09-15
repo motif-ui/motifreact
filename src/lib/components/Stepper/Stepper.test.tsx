@@ -246,7 +246,8 @@ describe("Stepper", () => {
   });
 
   it("should make previously reached steps reachable and clickable", () => {
-    const { getStepItems } = renderExt();
+    const onStepChange = jest.fn();
+    const { getStepItems } = renderExt({ onStepChange });
 
     fireEvent.click(screen.getByText(NEXT));
     fireEvent.click(screen.getByText(NEXT));
@@ -254,6 +255,9 @@ describe("Stepper", () => {
 
     expect(getStepItems()[1]).toHaveClass("active");
     expect(getStepItems()[2]).toHaveClass("reachable", "clickable");
+
+    fireEvent.click(getStepItems()[2].querySelector(".stepHeader")!);
+    expect(onStepChange).toHaveBeenCalledWith(2);
   });
 
   it("should not make disabled steps clickable", () => {

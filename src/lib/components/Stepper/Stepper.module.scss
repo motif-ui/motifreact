@@ -224,8 +224,13 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
       }
       .stepIndicator {
         background-color: var(--theme-color-surface-#{$variant}-default);
+      }
 
-        &:hover {
+      .stepHeader:hover {
+        .title {
+          color: var(--theme-color-text-#{$variant}-hover);
+        }
+        .stepIndicator {
           background-color: var(--theme-color-surface-#{$variant}-hover);
         }
       }
