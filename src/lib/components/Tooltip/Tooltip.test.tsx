@@ -239,9 +239,6 @@ describe("Tooltip", () => {
       window.dispatchEvent(new Event("resize"));
       window.dispatchEvent(new Event("resize"));
     });
-
-    // The resize listener is only attached once the tooltip becomes "attached" (on hover),
-    // so while it's closed, resizing must not trigger a re-render of the anchor child.
     expect(renderSpy).toHaveBeenCalledTimes(renderCountBeforeResize);
   });
 });
