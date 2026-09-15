@@ -39,7 +39,9 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 @each $name, $size, $iconSize, $fontType, $fontSize, $fontWeight in $sizes {
   .#{$name} {
     width: var(--base-sizing-#{$size});
+    min-width: var(--base-sizing-#{$size});
     height: var(--base-sizing-#{$size});
+    min-height: var(--base-sizing-#{$size});
     &.letters {
       @include font($fontType, $fontSize, $fontWeight);
     }
