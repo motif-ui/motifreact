@@ -58,21 +58,21 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
   }, [positionStyle]);
 
   useEffect(() => {
-    // Initial useEffect when component is mounted
-    if (text.length && anchorRef.current) {
-      const child = anchorRef.current;
-      child.addEventListener("mouseenter", onMouseEnter);
-      child.addEventListener("mouseleave", onMouseLeave);
-      window.addEventListener("resize", setTooltipPosition);
+    if (!text.length || !anchorRef.current) return;
+    const child = anchorRef.current;
+    child.addEventListener("mouseenter", onMouseEnter);
+    child.addEventListener("mouseleave", onMouseLeave);
+    return () => {
+      child.removeEventListener("mouseenter", onMouseEnter);
+      child.removeEventListener("mouseleave", onMouseLeave);
+    };
+  }, [onMouseEnter, onMouseLeave, text]);
 
-      // Cleanup
-      return () => {
-        child.removeEventListener("mouseenter", onMouseEnter);
-        child.removeEventListener("mouseleave", onMouseLeave);
-        window.removeEventListener("resize", setTooltipPosition);
-      };
-    }
-  }, [onMouseEnter, onMouseLeave, setTooltipPosition, text]);
+  useEffect(() => {
+    if (!attached) return;
+    window.addEventListener("resize", setTooltipPosition);
+    return () => window.removeEventListener("resize", setTooltipPosition);
+  }, [attached, setTooltipPosition]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [size, lastTriedPosition, visible && "visible", variant]);
   const mergedStyle = { ...positionStyle, ...style };
