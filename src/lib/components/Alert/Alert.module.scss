@@ -3,7 +3,6 @@
 $color-types: (("secondary", "light"), ("warning", "warning"), ("success", "success"), ("danger", "danger"), ("info", "info"));
 
 .Root {
-  background-color: red !important;
   display: flex;
   padding: var(--base-sizing-10x) var(--base-sizing-20x);
   align-items: flex-start;
