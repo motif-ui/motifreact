@@ -23,7 +23,7 @@
   },
   "table": {
     "totalSelectedRecords": "{{selected}} of {{total}} records selected.",
-    "totalRecords": "Total {{total}} records available."
+    "totalRecords": "Total {{total}} records"
   },
   "validation": {
     "required": "Please fill in this field",
