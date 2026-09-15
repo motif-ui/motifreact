@@ -1,12 +1,11 @@
 import { useContext, useLayoutEffect, useMemo, useState } from "react";
 import styles from "./CSSClassNames.module.scss";
 import { extractClassesFromStyles } from "../generator";
-import generatedClassNames from "../generated/classNames.generated.json";
 import { DocsContext } from "@storybook/addon-docs/blocks";
 import { CSFFile, DocsContextProps } from "storybook/internal/types";
 import { ReactRenderer } from "@storybook/nextjs";
 
-const classNamesByScssPath: Record<string, string[]> = generatedClassNames;
+declare const __SCSS_CLASS_NAMES_MANIFEST__: Record<string, string[]>;
 
 const CSSClassNames = () => {
   const [readyData, setReadyData] = useState<{
@@ -33,7 +32,7 @@ const CSSClassNames = () => {
   const extracted = useMemo(() => {
     if (!scssPath || !componentName) return [];
 
-    return extractClassesFromStyles(classNamesByScssPath[scssPath] ?? [], componentName);
+    return extractClassesFromStyles(__SCSS_CLASS_NAMES_MANIFEST__[scssPath] ?? [], componentName);
   }, [scssPath, componentName]);
 
   return (
