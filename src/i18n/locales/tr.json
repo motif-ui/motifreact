@@ -23,7 +23,7 @@
   },
   "table": {
     "totalSelectedRecords": "Toplam {{total}} veriden {{selected}} tanesi seçildi.",
-    "totalRecords": "Toplam {{total}} veri bulunmaktadır."
+    "totalRecords": "Toplam veri: {{total}}"
   },
   "validation": {
     "required": "Lütfen bu alanı doldurunuz",

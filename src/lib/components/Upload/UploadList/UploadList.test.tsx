@@ -66,15 +66,17 @@ describe("UploadList", () => {
   });
 
   it("should be rendered as disabled when readOnly prop is true", async () => {
-    const { getDragArea, getBrowseButton, getInput, getDeleteButton, getFileItemFirst } = renderExt(
-      <UploadList {...requiredProps} readOnly autoUpload={false} />,
+    const handleChange = jest.fn();
+    const { getDragArea, getBrowseButton, getInput, getDeleteButton, getFileList } = renderExt(
+      <UploadList {...requiredProps} readOnly autoUpload={false} onChange={handleChange} />,
     );
     expect(getDragArea()).toHaveClass("disabled");
     expect(getBrowseButton()).toBeDisabled();
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
-    expect(getFileItemFirst()).toBeInTheDocument();
+    expect(getFileList()).not.toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
     expect(screen.queryByText(t("g.upload"))).not.toBeInTheDocument();
+    expect(handleChange).not.toHaveBeenCalled();
   });
 
   it("should be rendered as disabled when disabled prop is true", async () => {

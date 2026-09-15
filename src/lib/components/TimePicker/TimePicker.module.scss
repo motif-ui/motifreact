@@ -83,6 +83,8 @@ $sizes: (
 
 @each $size, $labelFontSize, $timePeriodPaddingV, $timePeriodPaddingH, $numberWidth, $numberHeight, $numberGap, $stripePaddingV, $stripePaddingH, $periodGapH, $abbrGap in $sizes {
   .#{$size} {
+    margin-bottom: calc(-1 * map.get(pickerValues.$size, $size, "gapV"));
+
     .timeLabel {
       @include font("heading", $labelFontSize);
       margin-bottom: map.get(pickerValues.$size, $size, "gapV");

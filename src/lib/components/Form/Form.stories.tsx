@@ -35,8 +35,8 @@ const meta: Meta<typeof Form> = {
     (Story, context) => (
       <div
         style={{
-          ...(context.args.formOrientation === "horizontal" ? { width: "100%", overflow: "scroll" } : { width: 500, overflow: "initial" }),
-          padding: 50,
+          ...(context.args.formOrientation !== "horizontal" && { maxWidth: 500 }),
+          padding: 30,
           margin: "0 auto",
         }}
       >
@@ -134,6 +134,7 @@ export const Primary: Story = {
         label="Which sports"
         helperText="Please select at least 2 sports"
         groupValidations={[Validations.Required, Validations.AtLeastN(2)]}
+        wrap
         name="sports"
       >
         <Checkbox label="Football" name="football" checked />
@@ -161,8 +162,8 @@ export const Primary: Story = {
         validations={[Validations.RequiredUploadedFile]}
       >
         <UploadInput
-          uploadRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
-          deleteRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          uploadRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          deleteRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
         />
       </Form.Field>
 
@@ -173,8 +174,8 @@ export const Primary: Story = {
         validations={[Validations.RequiredUploadedFile]}
       >
         <UploadList
-          uploadRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
-          deleteRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          uploadRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          deleteRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
           maxSize={1000000}
         />
       </Form.Field>
@@ -186,8 +187,8 @@ export const Primary: Story = {
         validations={[Validations.RequiredUploadedFile]}
       >
         <UploadDragger
-          uploadRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
-          deleteRequest={{ url: "https://httpbin.org/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          uploadRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
+          deleteRequest={{ url: "https://httpbun.com/post", method: "POST", headers: [{ key: "mtf", value: "ui" }] }}
         />
       </Form.Field>
 

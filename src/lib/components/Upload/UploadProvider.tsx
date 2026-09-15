@@ -13,7 +13,7 @@ import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
-export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, value }: UploadProviderProps) => {
+export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, readOnly, value }: UploadProviderProps) => {
   const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const activeRequestsRef = useRef<Set<XMLHttpRequest>>(new Set());
@@ -283,7 +283,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
 
   const addNewFiles = useCallback(
     (files: FileList | null) => {
-      if (files?.length) {
+      if (!disabled && !readOnly && files?.length) {
         if (isUploadInput) {
           setSelectedFiles(Array.from(files).map(file => ({ file, id: generateUUIDV4(), status: STATUS.IDLE })));
         } else {
@@ -305,7 +305,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
         }
       }
     },
-    [isUploadInput, maxFile, selectedFiles],
+    [disabled, isUploadInput, maxFile, readOnly, selectedFiles],
   );
 
   const isFirstValueSync = useRef(true);
