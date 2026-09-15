@@ -5,8 +5,14 @@ import { OffcanvasPosition } from "./types";
 import { userEvent } from "@testing-library/user-event";
 
 describe("Offcanvas", () => {
-  it("should render with only required props", () => {
-    expect(render(<Offcanvas open>Test content</Offcanvas>).container).toMatchSnapshot();
+  it("should be rendered with only required props and should have default prop values", () => {
+    render(<Offcanvas open>Test Content</Offcanvas>);
+
+    const backdrop = screen.getByTestId("offcanvasBackdrop");
+    expect(backdrop).toMatchSnapshot();
+    expect(backdrop).toHaveClass("left");
+    expect(backdrop).toHaveClass("md");
+    expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
   });
 
   it("should render the offcanvas when open is true", () => {

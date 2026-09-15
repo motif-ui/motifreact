@@ -7,8 +7,15 @@ import IconButton from "../IconButton";
 import { userEvent } from "@testing-library/user-event";
 
 describe("Modal", () => {
-  it("should render with only required props", () => {
-    expect(render(<Modal open>Test content</Modal>).container).toMatchSnapshot();
+  it("should be rendered with only required props and should have default prop values", () => {
+    render(<Modal open>Test content</Modal>);
+
+    const backdrop = screen.getByTestId("modalBackdrop");
+    expect(backdrop).toMatchSnapshot();
+    expect(backdrop).toHaveClass("md");
+    expect(backdrop).not.toHaveClass("maximized");
+    expect(backdrop).not.toHaveClass("noContentPadding");
+    expect(screen.queryByTestId("iconButtonTestId")).not.toBeInTheDocument();
   });
 
   it("should render the modal when open is true", () => {

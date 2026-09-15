@@ -5,13 +5,13 @@ import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useDomReady from "../../hooks/useDomReady";
-import { PropsWithRefAndChildren } from "../../types";
+import { PropsWithRef } from "../../types";
 import { OffcanvasProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { MotifIconButton } from "@/components/Motif/Icon";
 
-const Offcanvas = (props: PropsWithRefAndChildren<OffcanvasProps, HTMLDivElement>) => {
+const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
   const {
     title,
     open,

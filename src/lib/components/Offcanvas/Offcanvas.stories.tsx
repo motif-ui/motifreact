@@ -12,12 +12,12 @@ const meta: Meta<typeof Offcanvas> = {
   argTypes: {
     children: { control: false },
     open: { control: false },
-    position: { table: { defaultValue: { summary: "right" } } },
+    position: { table: { defaultValue: { summary: "left" } } },
     size: { table: { defaultValue: { summary: "md" } } },
   },
   args: {
     title: "Offcanvas Title",
-    position: "right",
+    position: "left",
     size: "md",
     closable: true,
     children: (

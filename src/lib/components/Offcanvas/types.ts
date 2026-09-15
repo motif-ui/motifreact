@@ -10,7 +10,7 @@ export type OffcanvasDefaultableProps = {
 };
 
 export type OffcanvasProps = {
-  children?: ReactNode;
+  children: ReactNode;
   title?: string;
   open?: boolean;
   onClose?: () => void;
