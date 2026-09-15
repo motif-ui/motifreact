@@ -4,7 +4,7 @@ import Tooltip from "@/components/Tooltip/Tooltip";
 import Button from "../Button/Button";
 import { userEvent } from "@testing-library/user-event";
 import { Position } from "@/components/Tooltip/types";
-import { Size4SM } from "../../types";
+import { PropsWithRef, Size4SM } from "../../types";
 
 describe("Tooltip", () => {
   beforeEach(() => {
@@ -218,5 +218,30 @@ describe("Tooltip", () => {
     expect(screen.queryByTestId("tooltipItem")).toHaveClass("topLeft");
 
     jest.clearAllMocks();
+  });
+
+  it("should not re-render the anchor child on window resize while the tooltip is closed", () => {
+    const renderSpy = jest.fn();
+    const SpyButton = (props: PropsWithRef<{ label: string }, HTMLButtonElement>) => {
+      renderSpy();
+      return <Button ref={props.ref} label={props.label} />;
+    };
+
+    render(
+      <Tooltip text="Description">
+        <SpyButton label="Test Button" />
+      </Tooltip>,
+    );
+
+    const renderCountBeforeResize = renderSpy.mock.calls.length;
+
+    act(() => {
+      window.dispatchEvent(new Event("resize"));
+      window.dispatchEvent(new Event("resize"));
+    });
+
+    // The resize listener is only attached once the tooltip becomes "attached" (on hover),
+    // so while it's closed, resizing must not trigger a re-render of the anchor child.
+    expect(renderSpy).toHaveBeenCalledTimes(renderCountBeforeResize);
   });
 });
