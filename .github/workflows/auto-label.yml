@@ -1,4 +1,4 @@
-name: Needs Triage Label
+name: Auto Label
 
 on:
   issues:

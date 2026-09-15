@@ -52,8 +52,5 @@ next-env.d.ts
 # eslint
 .eslintcache
 
-# generated (see src/scripts/generateCssClassNames.js)
-/src/docs/components/CSSDocumentation/generated/
-
 # ai
 .claude/
