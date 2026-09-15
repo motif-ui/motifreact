@@ -526,7 +526,7 @@ describe("Table", () => {
       />,
     );
     expect(getByText("Custom Footer")).toBeInTheDocument();
-    const avg = ((30 + 30) / 2).toFixed(2);
+    const avg = (60 / 2).toFixed(2);
     expect(getByText(`🔢 ${avg}`)).toBeInTheDocument();
     const sum = 100 + 200;
     expect(getByText(sum.toString())).toBeInTheDocument();
