@@ -218,7 +218,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
       }
     }
 
-    &.reachable {
+    &.visited {
       .title {
         color: var(--theme-color-text-#{$variant}-default);
       }

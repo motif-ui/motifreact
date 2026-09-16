@@ -10,7 +10,7 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
   const { index, title, icon = "motif_ui", variant: itemVariant, error, disabled } = props;
   const {
     activeStep,
-    maxReachedStep,
+    visitedSteps,
     variant: contextVariant,
     stepType,
     itemOrientation,
@@ -19,13 +19,16 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
   } = useContext(StepperContext)!;
 
   const variant = itemVariant ?? contextVariant;
-  const status =
-    (error && "error") ||
-    (index === activeStep && "active") ||
-    (!disabled && index < activeStep && "completed") ||
-    (!disabled && index <= maxReachedStep && "reachable") ||
-    undefined;
-  const clickable = !disabled && index !== activeStep && index <= maxReachedStep;
+  const status = error
+    ? "error"
+    : index === activeStep
+      ? "active"
+      : !disabled && index < activeStep
+        ? "completed"
+        : !disabled && index > activeStep && visitedSteps.includes(index)
+          ? "visited"
+          : undefined;
+  const clickable = !disabled && (status === "completed" || status === "visited");
 
   const handleClick = useCallback(() => {
     goToStep(index);

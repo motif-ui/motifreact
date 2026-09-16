@@ -114,7 +114,7 @@ describe("Stepper", () => {
 
   it("should initialize the maximum reached step with the clamped active step", () => {
     const { getStepItems } = renderExt({ defaultActiveStep: 99 });
-    expect(getStepItems()[2]).not.toHaveClass("reachable");
+    expect(getStepItems()[2]).not.toHaveClass("visited");
   });
 
   it("should render step content of the active step only", () => {
@@ -245,7 +245,7 @@ describe("Stepper", () => {
     expect(onStepChange).toHaveBeenCalledWith(0);
   });
 
-  it("should make previously reached steps reachable and clickable", () => {
+  it("should make previously reached steps visited and clickable", () => {
     const onStepChange = jest.fn();
     const { getStepItems } = renderExt({ onStepChange });
 
@@ -254,7 +254,7 @@ describe("Stepper", () => {
     fireEvent.click(screen.getByText(PREV));
 
     expect(getStepItems()[1]).toHaveClass("active");
-    expect(getStepItems()[2]).toHaveClass("reachable", "clickable");
+    expect(getStepItems()[2]).toHaveClass("visited", "clickable");
 
     fireEvent.click(getStepItems()[2].querySelector(".stepHeader")!);
     expect(onStepChange).toHaveBeenCalledWith(2);
