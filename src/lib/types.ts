@@ -13,7 +13,8 @@ export type Size3 = "sm" | "md" | "lg";
 export type Size4SM = "xs" | Size3;
 export type Size4LG = Size3 | "xl";
 export type Size5 = "xs" | Size3 | "xl";
-export type Size7 = "xxs" | Size5 | "xxl" | "xl2";
+export type Size7 = "xxs" | Size5 | "xxl";
+export type Size8LG = Size7 | "xxxl";
 
 export type Variant = "primary" | "secondary" | "info" | "success" | "warning" | "danger";
 export type OverlayPosition = "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight" | "right" | "left";

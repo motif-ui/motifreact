@@ -1,4 +1,4 @@
-import { Size7, Variant } from "../../types";
+import { Size8LG, Variant } from "../../types";
 
 export type IconProps = {
   iconClass?: string;
@@ -6,7 +6,7 @@ export type IconProps = {
    * <i>Use only if the font library supports ligatures.</i>
    */
   name?: string;
-  size?: Size7;
+  size?: Size8LG;
   variant?: Variant;
   className?: string;
   color?: string;
