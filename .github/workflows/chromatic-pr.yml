@@ -3,8 +3,6 @@ name: UI (PR)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
-    branches: [main]
 
 permissions:
   contents: read
@@ -12,7 +10,6 @@ permissions:
 jobs:
   detect-changes:
     name: Detect changed files
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     outputs:
       storybook: ${{ steps.filter.outputs.storybook }}
@@ -32,7 +29,6 @@ jobs:
 
   chromatic:
     name: Chromatic
-    if: github.event_name == 'pull_request'
     needs: detect-changes
     runs-on: ubuntu-latest
     environment: development
