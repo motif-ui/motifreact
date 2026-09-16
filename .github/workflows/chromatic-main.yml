@@ -1,0 +1,32 @@
+name: UI (main baseline)
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  chromatic-main:
+    name: Chromatic (main baseline)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: '0'
+          persist-credentials: 'false'
+
+      - uses: ./.github/actions/setup-node-deps
+
+      - name: Run Chromatic
+        uses: chromaui/action@2a0b63f30233c48591844a46d451b9cf68128186 # v18.7.2
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          onlyChanged: true
+          zip: true
+          buildScriptName: "build:storybook"
+          skip: "dependabot/**"
+          autoAcceptChanges: "main"
+          exitOnceUploaded: true
