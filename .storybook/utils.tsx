@@ -1,5 +1,5 @@
 import { JSX, FC, useInsertionEffect } from "react";
-import { MotifProvider } from "../src/lib";
+import MotifProvider from "../src/lib/motif/context/MotifProvider";
 import { RESET_THEME_BUTTON_VAL } from "./constants";
 
 export const DEFAULT_THEME = "default-theme";

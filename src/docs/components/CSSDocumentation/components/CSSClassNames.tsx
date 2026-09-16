@@ -1,9 +1,11 @@
-import { useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useContext, useLayoutEffect, useMemo, useState } from "react";
 import styles from "./CSSClassNames.module.scss";
 import { extractClassesFromStyles } from "../generator";
 import { DocsContext } from "@storybook/addon-docs/blocks";
 import { CSFFile, DocsContextProps } from "storybook/internal/types";
 import { ReactRenderer } from "@storybook/nextjs";
+
+declare const __SCSS_CLASS_NAMES_MANIFEST__: Record<string, string[]>;
 
 const CSSClassNames = () => {
   const [readyData, setReadyData] = useState<{
@@ -27,26 +29,11 @@ const CSSClassNames = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [componentStyles, setComponentStyles] = useState<Record<string, string>>();
-
-  useEffect(() => {
-    const loadStyles = async () => {
-      try {
-        const mod = (await import(`../../../../lib/components/${scssPath}`)) as { default: Record<string, string> };
-        setComponentStyles(mod.default);
-      } catch (error) {
-        console.error("Failed to load class names!", error);
-      }
-    };
-
-    scssPath && void loadStyles();
-  }, [scssPath]);
-
   const extracted = useMemo(() => {
-    if (!componentStyles || !componentName) return [];
+    if (!scssPath || !componentName) return [];
 
-    return extractClassesFromStyles(componentStyles, componentName);
-  }, [componentStyles, componentName]);
+    return extractClassesFromStyles(__SCSS_CLASS_NAMES_MANIFEST__[scssPath] ?? [], componentName);
+  }, [scssPath, componentName]);
 
   return (
     <div>

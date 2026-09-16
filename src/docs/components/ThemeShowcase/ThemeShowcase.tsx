@@ -122,7 +122,7 @@ const ThemeShowcase = () => {
                 />
               </Form.Field>
               <Form.Field name="f6" label="Option Selection">
-                <RadioGroup name="f6" orientation="horizontal">
+                <RadioGroup name="f6" orientation="vertical">
                   <Radio label="Option 1" value="option1" />
                   <Radio label="Option 2" value="option2" />
                 </RadioGroup>
@@ -132,7 +132,7 @@ const ThemeShowcase = () => {
                 <Checkbox name="c2" label="Check 2" />
               </Form.FieldGroup>
               <Form.Field name="f8">
-                <Switch label="Enable notifications" />
+                <Switch label="Enable" />
               </Form.Field>
             </Form>
           </Grid.Col>
@@ -256,7 +256,7 @@ const ThemeShowcase = () => {
           </Grid.Col>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Col size={4}>
+          <Grid.Col lg={4} size={12}>
             <Text variant="h5" text="Chips" style={{ marginTop: 0 }} />
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
               <Chip label="Technology" variant="primary" />
@@ -267,9 +267,9 @@ const ThemeShowcase = () => {
               <Chip label="Info" variant="info" />
             </div>
           </Grid.Col>
-          <Grid.Col size={4}>
+          <Grid.Col lg={4} size={12}>
             <Text variant="h5" text="Avatars" style={{ marginTop: 0 }} />
-            <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
               <Avatar image="https://picsum.photos/seed/motifui/50/50" size="xl" />
               <Avatar icon="folder" size="lg" variant="success" />
               <Avatar letters="AB" size="md" />
@@ -277,9 +277,9 @@ const ThemeShowcase = () => {
               <Avatar letters="D" size="xs" variant="info" />
             </div>
           </Grid.Col>
-          <Grid.Col size={4}>
+          <Grid.Col lg={4} size={12}>
             <Text variant="h5" text="Tooltip" style={{ marginTop: 0 }} />
-            <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
               <Tooltip text="I am here" position="top">
                 <Button label="Tooltip here ↑" size="sm" />
               </Tooltip>
