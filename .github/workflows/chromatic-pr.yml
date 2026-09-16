@@ -1,10 +1,8 @@
-name: UI
+name: UI (PR)
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
-    branches: [main]
 
 permissions:
   contents: read
@@ -12,7 +10,6 @@ permissions:
 jobs:
   detect-changes:
     name: Detect changed files
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     outputs:
       storybook: ${{ steps.filter.outputs.storybook }}
@@ -32,7 +29,6 @@ jobs:
 
   chromatic:
     name: Chromatic
-    if: github.event_name == 'pull_request'
     needs: detect-changes
     runs-on: ubuntu-latest
     environment: development
@@ -75,7 +71,7 @@ jobs:
           ignoreLastBuildOnBranch: ${{ github.head_ref }}
 
       # --- Chromatic: Playwright visual archive (separate invocation — cannot
-      #     share a call with the Storybook build above, see chromatic-ui.yml
+      #     share a call with the Storybook build above, see chromatic-pr.yml
       #     history for why: TurboSnap's base-dir check reads the wrong module
       #     manifest when `playwright` is combined with `onlyChanged`/`buildScriptName`) ---
       - name: Upload Playwright snapshots to Chromatic
@@ -84,32 +80,6 @@ jobs:
         with:
           playwright: true
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          skip: "dependabot/**"
-          autoAcceptChanges: "main"
-          exitOnceUploaded: true
-
-  # Keeps TurboSnap's baseline on `main` fresh: without a build tied to a real (non-ephemeral) commit
-  # on `main`, TurboSnap has nothing recent to diff PR builds against and falls back to full rebuilds.
-  chromatic-main:
-    name: Chromatic (main baseline)
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          fetch-depth: '0'
-          persist-credentials: 'false'
-
-      - uses: ./.github/actions/setup-node-deps
-
-      - name: Run Chromatic
-        uses: chromaui/action@2a0b63f30233c48591844a46d451b9cf68128186 # v18.7.2
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          onlyChanged: true
-          zip: true
-          buildScriptName: "build:storybook"
           skip: "dependabot/**"
           autoAcceptChanges: "main"
           exitOnceUploaded: true
