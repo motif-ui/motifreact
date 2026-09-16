@@ -171,6 +171,25 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
   }
 }
 
+@include screen-width("below", "sm") {
+  .stepItem.narrowHidden {
+    display: none;
+  }
+
+  :is(.vertical, .horizontal) .stepItem:has(+ .stepItem.narrowHidden)::after {
+    display: none;
+  }
+  .horizontal .stepItem:not(:last-child)::after {
+    width: var(--base-sizing-32x);
+    margin: 0 var(--base-sizing-24x);
+  }
+
+  .vertical .stepItem:not(:last-child)::after {
+    height: var(--base-sizing-32x);
+    margin: var(--base-sizing-24x) 0;
+  }
+}
+
 @each $type, $size in $types {
   .#{$type} {
     .stepIndicator {
