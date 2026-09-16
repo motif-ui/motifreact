@@ -6,7 +6,7 @@ const meta: Meta<typeof Slider> = {
   component: Slider,
   decorators: [
     Story => (
-      <div style={{ width: 300 }}>
+      <div style={{ minWidth: 200 }}>
         <Story />
       </div>
     ),

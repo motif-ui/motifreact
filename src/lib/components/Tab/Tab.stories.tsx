@@ -37,13 +37,13 @@ export const Primary: Story = {
   render: args => (
     <Tab {...args}>
       <Tab.Panel id="home">
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", alignItems: "flex-start" }}>
           <img src="https://picsum.photos/seed/motifui/150" alt="tab panel home imade" />
           <p style={{ marginLeft: 15 }}>{dummyText}</p>
         </div>
       </Tab.Panel>
       <Tab.Panel id="motif_ui">
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", alignItems: "flex-start" }}>
           <p style={{ marginRight: 15 }}>{dummyText}</p>
           <img src="https://picsum.photos/seed/motifui/150" alt="tab panel 3 image" />
         </div>
