@@ -38,7 +38,6 @@ const AlertModalComponent = (props: AlertModalProps) => {
         open={visible}
         onClose={hide}
         icon={<MotifIcon name="info" size="xxl" />}
-        actionButton={{ text: "Confirm", onClick: () => alert("Action clicked!") }}
         alternateButton={{ text: "Close", onClick: hide }}
         {...otherProps}
       />
@@ -54,7 +53,7 @@ export const Primary: Story = {
   parameters: {
     docs: {
       source: {
-        transform: formatStoryTransform("AlertModal", ["open", "onClose", "actionButton", "alternateButton"], argsString => {
+        transform: formatStoryTransform("AlertModal", ["open", "onClose", "alternateButton"], argsString => {
           return `
 const { visible, show, hide } = useToggle(false);
 
@@ -65,7 +64,6 @@ return (
       open={visible}
       onClose={hide}
       icon={<MotifIcon name="info" size="xxl" />}
-      actionButton={{ text: "Confirm", onClick: () => alert("Action clicked!") }}
       alternateButton={{ text: "Close", onClick: hide }}
       ${argsString.split("\n  ").join("\n      ")}
     />
