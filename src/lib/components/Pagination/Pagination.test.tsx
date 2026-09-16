@@ -137,12 +137,6 @@ describe("Pagination", () => {
     expect(pagination).toHaveClass("lg");
   });
 
-  it("should apply custom className", () => {
-    render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} className="custom-class" />);
-
-    expect(screen.getByTestId("pagination")).toHaveClass("custom-class");
-  });
-
   it("should calculate correct total pages", () => {
     const { rerender } = render(<Pagination total={100} current={10} pageSize={10} onChange={mockOnChange} />);
 

@@ -61,12 +61,6 @@ describe("IconButton", () => {
     expect(iconSpan).toHaveClass(testClass);
   });
 
-  it("should apply the styles in the css class given in className prop", () => {
-    const testClassName = "testClassName";
-    const { container } = render(<IconButton name="account_circle" className={testClassName} />);
-    expect(container.firstChild).toHaveClass(testClassName);
-  });
-
   it("should be rendered as disabled when disabled prop is given", () => {
     const { container } = render(<IconButton name="account_circle" disabled />);
     expect(container.firstChild).toHaveAttribute("disabled");

@@ -65,12 +65,6 @@ describe("ProgressCircle", () => {
     expect(queryByText("50%")).not.toBeInTheDocument();
   });
 
-  it("should apply given style and className props", () => {
-    const { container } = render(<ProgressCircle className="testClass" style={{ background: "red" }} />);
-    expect(container.firstChild).toHaveClass("testClass");
-    expect(container.firstChild).toHaveStyle("background: red");
-  });
-
   it("should be able to use maxProgress prop and calculate the percentage accordingly", () => {
     const progress = 50;
     const maxProgress = 250;

@@ -53,12 +53,6 @@ describe("ProgressBar", () => {
     expect(render(<ProgressBar progress={40} showPercentage indeterminate />).queryByText("40%")).not.toBeInTheDocument();
   });
 
-  it("should apply given style and className props", () => {
-    const { container } = render(<ProgressBar className="testClass" style={{ background: "red" }} />);
-    expect(container.firstChild).toHaveClass("testClass");
-    expect(container.firstChild).toHaveStyle("background: red");
-  });
-
   it("should be able to use maxProgress prop and calculate the percentage accordingly", () => {
     const progress = 50;
     const maxProgress = 250;

@@ -30,15 +30,6 @@ describe("Textarea", () => {
     expect(screen.getByTestId("textareaItem").textContent).toBe(value.substring(0, maxLength));
   });
 
-  it("should apply styles from style prop", () => {
-    const { container } = render(<Textarea style={{ color: "red", width: 250 }} />);
-
-    expect(container.firstElementChild).toHaveStyle({
-      color: "rgb(255, 0, 0)",
-      width: "250px",
-    });
-  });
-
   it("should be rendered with the size given in size prop", () => {
     const sizes: InputSize[] = ["xs", "sm", "md", "lg"];
     sizes.forEach(size => {

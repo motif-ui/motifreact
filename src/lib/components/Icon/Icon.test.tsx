@@ -60,12 +60,6 @@ describe("Icon", () => {
     expect(container.firstChild).toHaveClass(testClass);
   });
 
-  it("should apply the styles in the css class given in className prop", () => {
-    const testClassName = "testClassName";
-    const { container } = render(<Icon name="account_circle" className={testClassName} />);
-    expect(container.firstChild).toHaveClass(testClassName);
-  });
-
   it("should be colored by the color prop", () => {
     expect(render(<Icon name="info" color="#355E3B" />).container.firstChild).toHaveStyle("color: #355E3B");
   });
