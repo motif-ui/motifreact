@@ -35,8 +35,8 @@ const meta: Meta<typeof Form> = {
     (Story, context) => (
       <div
         style={{
-          ...(context.args.formOrientation === "horizontal" ? { width: "100%", overflow: "scroll" } : { width: 500, overflow: "initial" }),
-          padding: 50,
+          ...(context.args.formOrientation !== "horizontal" && { maxWidth: 500 }),
+          padding: 30,
           margin: "0 auto",
         }}
       >
@@ -134,6 +134,7 @@ export const Primary: Story = {
         label="Which sports"
         helperText="Please select at least 2 sports"
         groupValidations={[Validations.Required, Validations.AtLeastN(2)]}
+        wrap
         name="sports"
       >
         <Checkbox label="Football" name="football" checked />

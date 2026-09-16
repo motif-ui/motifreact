@@ -1,4 +1,4 @@
-name: UI
+name: UI (PR)
 
 on:
   pull_request:
@@ -71,7 +71,7 @@ jobs:
           ignoreLastBuildOnBranch: ${{ github.head_ref }}
 
       # --- Chromatic: Playwright visual archive (separate invocation — cannot
-      #     share a call with the Storybook build above, see chromatic-ui.yml
+      #     share a call with the Storybook build above, see chromatic-pr.yml
       #     history for why: TurboSnap's base-dir check reads the wrong module
       #     manifest when `playwright` is combined with `onlyChanged`/`buildScriptName`) ---
       - name: Upload Playwright snapshots to Chromatic
