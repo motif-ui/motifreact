@@ -6,6 +6,13 @@ import type { ComponentProps } from "react";
 const meta: Meta<typeof InputDateTime> = {
   title: "Components/InputDateTime",
   component: InputDateTime,
+  decorators: [
+    Story => (
+      <div style={{ padding: "0 0 356px 0" }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     value: { control: { type: "date" }, description: "Date Object" },
     dateFormat: { description: "Detailed in this document below..." },

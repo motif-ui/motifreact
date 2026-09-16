@@ -90,6 +90,21 @@
       border-right: 1px solid var(--mtfdocs-border);
     }
   }
+  /* ---------------------------
+        Sidebar - Mobile Menu
+    --------------------------- */
+  /* iOS Safari bottom address bar, menu cut off fix */
+  #storybook-mobile-menu {
+    height: 80vh !important;
+  }
+  @supports (height: 100dvh) {
+    #storybook-mobile-menu {
+      height: 80dvh !important;
+    }
+  }
+  #storybook-mobile-menu div:has(> #storybook-explorer-menu) {
+    padding-bottom: calc(16px + env(safe-area-inset-bottom) + (100lvh - 100svh));
+  }
 
   /* ---------------------------
         Sidebar - Nav Items
@@ -220,6 +235,10 @@
 
       &:hover {
         background: rgba(var(--mtfdocs-purple-rgb), 0.14);
+      }
+      /* The mobile bottom bar's nav-menu crop fix */
+      p {
+        line-height: 1.4;
       }
     }
     button[aria-label*="Global theme for components"] {

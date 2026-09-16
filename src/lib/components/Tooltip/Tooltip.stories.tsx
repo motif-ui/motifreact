@@ -8,7 +8,7 @@ const meta: Meta<typeof Tooltip> = {
   component: Tooltip,
   decorators: [
     Story => (
-      <div style={{ padding: 50 }}>
+      <div style={{ padding: "30px 0" }}>
         <Story />
       </div>
     ),

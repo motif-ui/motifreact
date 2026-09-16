@@ -15,6 +15,7 @@
 .tabHeader {
   padding-bottom: var(--base-sizing-8x);
   display: flex;
+  flex-wrap: wrap;
 }
 
 .left {
@@ -28,7 +29,6 @@
 }
 .fill .tabHeader {
   min-width: 0;
-  flex-wrap: wrap;
   .tabItem {
     flex: 1;
   }
