@@ -43,7 +43,7 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
       status === "completed" || status === "error" ? (
         <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
       ) : (
-        <span className={`${styles.stepIndicator}`} />
+        <span className={styles.stepIndicator} />
       )
     ) : (
       <span className={styles.stepIndicator}>
