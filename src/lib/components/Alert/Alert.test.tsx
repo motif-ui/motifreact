@@ -1,11 +1,11 @@
 import "@testing-library/jest-dom";
 import Alert from "@/components/Alert/Alert";
 import { fireEvent, render, screen, act } from "@testing-library/react";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Alert", () => {
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) => render(<Alert message="This is a test message" {...props} />),
+    (props: StandardPropsWithRef<HTMLDivElement>) => render(<Alert message="This is a test message" {...props} />),
     {
       // variant: secondary
       assertDefaults: ({ getByText }) => expect(getByText("info")).toBeInTheDocument(),

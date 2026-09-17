@@ -5,7 +5,8 @@ import { runTimePickerCommonTests } from "@/components/TimePicker/TimePicker.tes
 import { act, render, waitFor } from "@testing-library/react";
 import { DateTimePickerLocale } from "../DateTimePicker/types";
 import { userEvent } from "@testing-library/user-event";
-import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateTimePicker", () => {
@@ -44,7 +45,7 @@ describe("DateTimePicker", () => {
 
   runTimePickerCommonTests();
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<DateTimePicker {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<DateTimePicker {...props} />));
 
   it("should render the date picker button", () => {
     const { getByText } = render(<DateTimePicker />);

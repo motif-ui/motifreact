@@ -4,9 +4,10 @@ import { userEvent } from "@testing-library/user-event";
 import Carousel from "./Carousel";
 import { CarouselProps, IndicatorShape, Theme } from "./types";
 import { ReactNode } from "react";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { PropsWithRef, StandardPropsWithRef } from "../../types";
 
-const renderExt = (props: CarouselProps & StandardProps<HTMLDivElement> = {}, component?: ReactNode) => {
+const renderExt = (props: PropsWithRef<CarouselProps, HTMLDivElement> = {}, component?: ReactNode) => {
   const result = render(
     component ?? (
       <Carousel height={400} {...props}>
@@ -38,7 +39,7 @@ const renderExt = (props: CarouselProps & StandardProps<HTMLDivElement> = {}, co
 };
 
 describe("Carousel", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => renderExt(props), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(props), {
     assertDefaults: ({ container, rerender, getTrack, getIndicators }) => {
       expect(getIndicators()).toBeInTheDocument();
       expect(screen.getAllByText("arrow_forward_ios")).toHaveLength(2);

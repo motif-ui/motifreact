@@ -3,10 +3,10 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import InputNumber from "@/components/InputNumber/InputNumber.tsx";
 import { InputSize } from "@/components/Form/types.ts";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("InputNumber", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<InputNumber {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<InputNumber {...props} />), {
     assertDefaults: () => {
       const input = screen.getByRole("textbox");
       // Spinner buttons

@@ -2,8 +2,8 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import SliderRange from "@/components/SliderRange/SliderRange";
 import Slider from "@/components/Slider/Slider";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("SliderRange", () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
@@ -26,7 +26,7 @@ describe("SliderRange", () => {
     Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<SliderRange {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<SliderRange {...props} />), {
     assertDefaults: ({ container }) => {
       // size: md
       expect(container.firstElementChild).toHaveClass("md");

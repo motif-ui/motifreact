@@ -5,11 +5,11 @@ import { Size3 } from "../../types";
 import Link from "../Link";
 import IconButton from "../IconButton";
 import { userEvent } from "@testing-library/user-event";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Modal", () => {
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) =>
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
       render(
         <Modal open {...props}>
           Test content

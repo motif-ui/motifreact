@@ -17,7 +17,8 @@ import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDateRange", () => {
@@ -76,7 +77,7 @@ describe("InputDateRange", () => {
     };
   };
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => renderExt(<InputDateRange {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputDateRange {...props} />), {
     assertDefaults: ({ getInputText, getDateRangeInput, getByText }) => {
       // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
       expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);

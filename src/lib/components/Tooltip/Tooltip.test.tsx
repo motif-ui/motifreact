@@ -4,7 +4,8 @@ import Tooltip from "@/components/Tooltip/Tooltip";
 import Button from "../Button/Button";
 import { userEvent } from "@testing-library/user-event";
 import { Position } from "@/components/Tooltip/types";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { PropsWithRef, Size4SM } from "../../types";
 
 describe("Tooltip", () => {
@@ -17,7 +18,7 @@ describe("Tooltip", () => {
 
   const user = userEvent.setup({ delay: null });
 
-  const renderAndHover = (props: StandardProps<HTMLDivElement> = {}) => {
+  const renderAndHover = (props: StandardPropsWithRef<HTMLDivElement> = {}) => {
     const result = render(
       <Tooltip text="Description" {...props}>
         <Button label="Test Button" />

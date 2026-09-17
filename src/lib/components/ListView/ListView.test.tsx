@@ -1,10 +1,10 @@
 import { act, render } from "@testing-library/react";
 
 import ListView from "./ListView";
-import { expectToThrow, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { expectToThrow, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("ListView", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLUListElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLUListElement>) =>
     render(
       <ListView {...props}>
         <ListView.Item title="Test Item" />

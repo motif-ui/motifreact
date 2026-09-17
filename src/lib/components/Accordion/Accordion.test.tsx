@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom";
 import Accordion from "@/components/Accordion/Accordion";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Accordion", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
     render(<Accordion title="Accordion Title" {...props} />),
   );
 

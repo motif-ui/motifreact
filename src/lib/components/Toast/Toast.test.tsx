@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, act } from "@testing-library/react";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { useToast } from "@/components/Toast/useToast";
 import Toast from "@/components/Toast/Toast";
 import { AddToastOptions, ToastVariant } from "@/components/Toast/types";
@@ -28,7 +29,7 @@ describe("Toast", () => {
   });
 
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) => {
+    (props: StandardPropsWithRef<HTMLDivElement>) => {
       jest.useFakeTimers();
       return render(<Toaster content={content} variant="info" {...props} />);
     },

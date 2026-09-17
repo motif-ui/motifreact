@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
 import Panel from "@/components/Panel/Panel";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Panel", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<Panel title="title" {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Panel title="title" {...props} />), {
     assertDefaults: ({ container, getByText }) => {
       // type: default
       expect(container.firstElementChild).toHaveClass("default");

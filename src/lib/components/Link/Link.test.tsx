@@ -1,10 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import "@testing-library/jest-dom";
 import Link from "./Link";
 
 describe("Link Component Tests", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLAnchorElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLAnchorElement>) =>
     render(<Link label="Motif" url="https://motif-ui.com" {...props} />),
   );
 

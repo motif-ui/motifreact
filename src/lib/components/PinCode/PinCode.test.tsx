@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import PinCode from "@/components/PinCode/PinCode";
-import { expectToThrow, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "src/utils/testUtils.tsx";
+import { expectToThrow, runSnapshotDefaultsAndStandardPropsTest } from "src/utils/testUtils.tsx";
+import { StandardPropsWithRef } from "src/lib/types";
 import { userEvent } from "@testing-library/user-event";
 
 const testPropMatchesClassName = (
@@ -23,7 +24,7 @@ const testPropMatchesClassName = (
 
 describe("PinCode", () => {
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) =>
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
       render(
         <PinCode {...props}>
           <PinCode.Item />

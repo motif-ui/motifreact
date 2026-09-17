@@ -6,7 +6,8 @@ import { userEvent } from "@testing-library/user-event";
 import { DateUtils } from "../../../utils/dateUtils";
 import { ReactNode } from "react";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateRangePicker", () => {
@@ -46,7 +47,7 @@ describe("DateRangePicker", () => {
   };
 
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) =>
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
       renderExt(<DateRangePicker value={[new Date(2000, 1, 15), new Date(2000, 1, 18)]} {...props} />),
     {
       assertDefaults: ({ getByTestId, getFirstPicker }) => {

@@ -6,7 +6,8 @@ import { MOCK } from "../mock";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
-import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
 describe("UploadInput", () => {
@@ -75,7 +76,7 @@ describe("UploadInput", () => {
   const serverFile2 = { id: "file-2", name: "server-img.png", type: "image/png", size: 4096 };
 
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) => renderExt(<UploadInput {...requiredProps} {...props} />),
+    (props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<UploadInput {...requiredProps} {...props} />),
     {
       assertDefaults: ({ container }) => expect(container.firstElementChild).toHaveClass("md"),
     },

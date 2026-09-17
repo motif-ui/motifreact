@@ -3,10 +3,10 @@ import { render, screen } from "@testing-library/react";
 import Button from "@/components/Button";
 import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Card", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<Card {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Card {...props} />));
 
   it("should render header part when title or subtitle or avatarText or icon or image or action is set", () => {
     const { rerender } = render(<Card title="title" />);

@@ -3,10 +3,10 @@ import RadioGroup from "@/components/RadioGroup/RadioGroup";
 import Radio from "@/components/Radio/Radio";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("RadioGroup", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
     render(
       <RadioGroup name="language" {...props}>
         <Radio label="HTML" value="html" />

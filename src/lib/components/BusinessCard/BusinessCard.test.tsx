@@ -1,9 +1,9 @@
 import BusinessCard from "@/components/BusinessCard/BusinessCard";
 import { fireEvent, render } from "@testing-library/react";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("BusinessCard", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<BusinessCard {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<BusinessCard {...props} />), {
     assertDefaults: ({ container }) => {
       // position: center
       expect(container.firstElementChild).toHaveClass("center");

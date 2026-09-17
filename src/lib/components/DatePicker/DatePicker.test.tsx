@@ -2,7 +2,8 @@ import DatePicker from "@/components/DatePicker/DatePicker";
 import { render, act } from "@testing-library/react";
 import { DatePickerLocale } from "./types";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
-import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 export const runDatePickerCommonTests = () => {
@@ -270,7 +271,7 @@ describe("DatePicker", () => {
   runDatePickerCommonTests();
 
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) => render(<DatePicker value={new Date(2000, 1, 15)} {...props} />),
+    (props: StandardPropsWithRef<HTMLDivElement>) => render(<DatePicker value={new Date(2000, 1, 15)} {...props} />),
     {
       assertDefaults: ({ getByText, getByTestId }) => {
         // variant: borderless

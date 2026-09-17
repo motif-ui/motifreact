@@ -7,7 +7,6 @@ type Props = {
   variant: "bordered" | "shadow" | "borderless";
   fluid?: boolean;
   wide?: boolean;
-  className?: string;
 };
 
 const Picker = (props: PropsWithRefAndChildren<Props, HTMLDivElement>) => {

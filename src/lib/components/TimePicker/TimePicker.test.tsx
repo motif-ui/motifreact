@@ -4,8 +4,8 @@ import { Time, TimePickerLocale } from "../TimePicker/types";
 import { userEvent } from "@testing-library/user-event";
 import { runPickerTests } from "@/components/Motif/Pickers/Picker.test";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 const timeValue: Time = { hours: 11, minutes: 43, seconds: 13 };
 const checkSelection = (list: HTMLUListElement, index: number, isSelected: boolean) =>
   isSelected
@@ -79,7 +79,7 @@ describe("TimePicker", () => {
 
   runTimePickerCommonTests();
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<TimePicker {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<TimePicker {...props} />), {
     assertDefaults: ({ container }) => {
       // variant = borderless (default)
       expect(container.firstElementChild).toHaveClass("borderless");

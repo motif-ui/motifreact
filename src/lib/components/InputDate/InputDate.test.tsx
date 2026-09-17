@@ -5,7 +5,8 @@ import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
-import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
@@ -39,7 +40,7 @@ describe("InputDate", () => {
     };
   };
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => renderExt(<InputDate {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputDate {...props} />), {
     assertDefaults: ({ container, getInput }) => {
       // placeholder = DD/MM/YYYY (default)
       expect(getInput()).toHaveAttribute("placeholder", "DD/MM/YYYY");

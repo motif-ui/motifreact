@@ -4,10 +4,10 @@ import InputText from "@/components/InputText";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "./Button";
 import { ButtonProps } from "./types";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Button", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLButtonElement>) => render(<Button label="test" {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLButtonElement>) => render(<Button label="test" {...props} />));
 
   it("should display label when label prop is given", () => {
     render(<Button label="This Is Button Label" />);

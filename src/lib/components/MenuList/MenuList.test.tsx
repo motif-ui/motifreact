@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import MenuList from "./MenuList";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { userEvent } from "@testing-library/user-event";
 import { Size3 } from "../../types";
 import { MainMenuItemProps } from "@/components/MenuList/types";
@@ -18,7 +19,7 @@ describe("MenuList", () => {
   ];
 
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) => render(<MenuList items={items} variant="solid" {...props} />),
+    (props: StandardPropsWithRef<HTMLDivElement>) => render(<MenuList items={items} variant="solid" {...props} />),
     {
       assertDefaults: ({ container }) => expect(container.firstElementChild).toHaveClass("solid"),
     },

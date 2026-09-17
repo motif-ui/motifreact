@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import Avatar from "@/components/Avatar/Avatar";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Avatar", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<Avatar {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Avatar {...props} />));
 
   it("should display the first two letters of given letters prop in upper case.", () => {
     expect(render(<Avatar letters="test" />).getByText("TE")).toBeInTheDocument();

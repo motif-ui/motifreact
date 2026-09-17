@@ -2,8 +2,8 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { userEvent } from "@testing-library/user-event";
 import Slider from "@/components/Slider/Slider";
 import { InputSize } from "../Form/types";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Slider", () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
@@ -26,7 +26,7 @@ describe("Slider", () => {
     Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<Slider {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Slider {...props} />), {
     assertDefaults: ({ container }) => {
       // variant: primary
       expect(container.firstChild).toHaveClass("primary");

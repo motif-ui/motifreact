@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import Dropdown from "./Dropdown";
 import { userEvent } from "@testing-library/user-event";
 import { Size4SM } from "../../types";
@@ -7,7 +8,7 @@ import { Spacing } from "./types";
 
 describe("Dropdown", () => {
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
+    (props: StandardPropsWithRef<HTMLDivElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
     {
       assertDefaults: ({ container, getByText }) => {
         expect(container.firstElementChild).toHaveClass("primary");

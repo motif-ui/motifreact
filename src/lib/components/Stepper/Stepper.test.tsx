@@ -1,15 +1,16 @@
 import "@testing-library/jest-dom";
 import { act, cleanup, fireEvent, render, renderHook, screen } from "@testing-library/react";
-import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "src/utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest } from "src/utils/testUtils";
 import Stepper from "./Stepper";
 import useStepper from "./hooks/useStepper";
 import { StepperItemProps, StepperProps } from "@/components/Stepper/types.ts";
+import { PropsWithRef, StandardPropsWithRef } from "src/lib/types.ts";
 
 const NEXT = t("g.next");
 const PREV = t("g.previous");
 const FINISH = t("g.finish");
 
-const renderExt = (props: StepperProps & StandardProps<HTMLDivElement> = {}, itemProps?: StepperItemProps[]) => {
+const renderExt = (props: PropsWithRef<StepperProps, HTMLDivElement> = {}, itemProps?: StepperItemProps[]) => {
   const items = itemProps?.length ? itemProps : [{ title: "Step 1" }, { title: "Step 2" }, { title: "Step 3" }];
 
   const renderResult = render(
@@ -29,7 +30,7 @@ const renderExt = (props: StepperProps & StandardProps<HTMLDivElement> = {}, ite
 };
 
 describe("Stepper", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => renderExt(props), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(props), {
     assertDefaults: ({ container, getRoot }) => {
       // orientation = horizontal
       expect(getRoot()).toHaveClass("horizontal");

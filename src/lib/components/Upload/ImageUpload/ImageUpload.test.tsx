@@ -5,7 +5,8 @@ import { MESSAGE } from "@/components/Upload/constants";
 import ImageUpload from "@/components/Upload/ImageUpload/ImageUpload";
 import { ImageUploadProps } from "@/components/Upload/ImageUpload/types";
 import { MOCK } from "../mock";
-import { mockXHRs, t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../../utils/testUtils";
+import { mockXHRs, t, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 import userEvent from "@testing-library/user-event";
 import { ReactElement } from "react";
 import { BROKEN_IMG_SRC } from "src/lib/constants";
@@ -118,7 +119,7 @@ describe("ImageUpload", () => {
     expect(screen.queryByText("imagesmode")).toBeInTheDocument();
   };
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
     renderExt(<ImageUpload {...requiredProps} {...props} />),
   );
 

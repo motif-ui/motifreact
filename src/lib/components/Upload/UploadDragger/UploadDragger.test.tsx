@@ -4,7 +4,8 @@ import { simulateDrop, simulateChooseFiles, renderExtUploadFileList, waitForSucc
 import { MESSAGE } from "@/components/Upload/constants";
 import UploadDragger from "@/components/Upload/UploadDragger/UploadDragger";
 import { MOCK } from "../mock";
-import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 import { userEvent } from "@testing-library/user-event";
 import { formatBytes, shortenText } from "../../../../utils/utils";
 
@@ -17,7 +18,7 @@ describe("UploadDragger", () => {
   beforeEach(() => mockXHRs());
   afterEach(() => jest.restoreAllMocks());
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
     renderExt(<UploadDragger {...requiredProps} {...props} />),
   );
 

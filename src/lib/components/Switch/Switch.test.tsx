@@ -3,10 +3,10 @@ import Switch from "@/components/Switch/Switch";
 import { render, screen } from "@testing-library/react";
 import { InputSize } from "../Form/types";
 import { userEvent } from "@testing-library/user-event";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Switch", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<Switch {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Switch {...props} />), {
     // size: md
     assertDefaults: ({ container }) => expect(container.firstElementChild).toHaveClass("md"),
   });

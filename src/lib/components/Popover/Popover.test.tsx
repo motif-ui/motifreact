@@ -1,13 +1,13 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import Popover from "./Popover";
 import { createRef } from "react";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Popover", () => {
   const anchorRef = createRef<HTMLDivElement>();
 
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) => render(<Popover anchorRef={anchorRef} open {...props} />),
+    (props: StandardPropsWithRef<HTMLDivElement>) => render(<Popover anchorRef={anchorRef} open {...props} />),
     {
       assertDefaults: ({ getByTestId }) => {
         const popoverElement = getByTestId("popover");

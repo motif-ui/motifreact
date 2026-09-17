@@ -1,8 +1,7 @@
 import { RenderResult } from "@testing-library/react";
 import { createRef } from "react";
-import type { CSSProperties, Ref } from "react";
 import { createTranslator } from "../i18n/translate";
-import type { IconGlobalType } from "../lib/types";
+import type { IconGlobalType, StandardPropsWithRef } from "../lib/types";
 
 export const t = createTranslator("en");
 
@@ -32,21 +31,14 @@ export const runIconPropTest = (renderIcon: ComponentWithIconRender, className?:
   testReactElementIcon();
 };
 
-export type StandardProps<E extends Element = HTMLElement> = {
-  className?: string;
-  style?: CSSProperties;
-  ref?: Ref<E>;
-};
-
-export type StandardPropsRender<E extends Element = HTMLElement, R extends RenderResult = RenderResult> = (props: StandardProps<E>) => R;
-
 /**
  * @param renderComponent renders the component, spreading the given `props` onto it
+ * @param options
  * @param options.assertDefaults extra checks on the plain render; when given, the test title also states that default prop values are covered
  * @param options.getRoot locates the root element for the contract asserts (default `container.firstElementChild`; override for portals)
  */
 export const runSnapshotDefaultsAndStandardPropsTest = <E extends Element = HTMLElement, R extends RenderResult = RenderResult>(
-  renderComponent: StandardPropsRender<E, R>,
+  renderComponent: (props: StandardPropsWithRef<E>) => R,
   options: {
     assertDefaults?: (result: R) => void | Promise<void>;
     getRoot?: (result: R) => Element | null;

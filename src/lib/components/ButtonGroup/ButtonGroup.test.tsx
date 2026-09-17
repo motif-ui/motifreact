@@ -3,10 +3,10 @@ import { userEvent } from "@testing-library/user-event";
 
 import ButtonGroup from "./ButtonGroup";
 import { Size4SM } from "../../types";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("ButtonGroup", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<ButtonGroup {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<ButtonGroup {...props} />), {
     // size: md
     assertDefaults: ({ container }) => expect(container.firstElementChild).toHaveClass("md"),
   });

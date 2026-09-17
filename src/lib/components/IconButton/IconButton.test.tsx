@@ -6,10 +6,10 @@ import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
 import { Size7 } from "../../types";
 import Icon from "@/components/Icon";
 import MotifProvider from "../../motif/context/MotifProvider";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("IconButton", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLButtonElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLButtonElement>) =>
     render(<IconButton name="account_circle" {...props} />),
   );
 

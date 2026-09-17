@@ -1,10 +1,10 @@
 import { fireEvent, render } from "@testing-library/react";
 import Tab from "./Tab";
 import TabItem from "./components/TabItem";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Tab", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
     render(
       <Tab tabs={[{ id: "home" }, { id: "profile" }]} {...props}>
         <Tab.Panel id="home" />

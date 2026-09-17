@@ -2,10 +2,12 @@ import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import Text from "@/components/Text/Text";
 import { TextVariants } from "@/components/Text/types";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Text", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLSpanElement>) => render(<Text text="Test Message" {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLSpanElement>) =>
+    render(<Text text="Test Message" {...props} />),
+  );
 
   it("should be rendered as italic when italic prop is given", () => {
     const { container } = render(<Text text="Italic Text" italic />);

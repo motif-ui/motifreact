@@ -1,13 +1,13 @@
 import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataView from "@/components/DataView/DataView";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("DataView", () => {
   afterEach(() => cleanup());
 
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardProps<HTMLDivElement>) =>
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
       render(
         <DataView {...props}>
           <DataView.Item label="Test Content" />

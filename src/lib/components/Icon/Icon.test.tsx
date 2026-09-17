@@ -6,10 +6,12 @@ import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
 import { Size7 } from "../../types";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import MotifProvider from "../../motif/context/MotifProvider";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Icon", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLSpanElement>) => render(<Icon name="account_circle" {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLSpanElement>) =>
+    render(<Icon name="account_circle" {...props} />),
+  );
 
   it("should render the icon given in the name prop or child as string", () => {
     const { getByText, rerender } = render(<Icon name="testIcon" />);

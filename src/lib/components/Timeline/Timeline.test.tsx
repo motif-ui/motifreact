@@ -2,8 +2,8 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Timeline from "@/components/Timeline/Timeline";
 import { TimelineItemProps, TimelineMarkerType, TimelineVariant } from "@/components/Timeline/types";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 const items: TimelineItemProps[] = [
   { title: "Step 1", content: "First step content" },
   { title: "Step 2", content: "Second step content" },
@@ -11,7 +11,7 @@ const items: TimelineItemProps[] = [
 ];
 
 describe("Timeline", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => render(<Timeline items={items} {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Timeline items={items} {...props} />), {
     assertDefaults: ({ container }) => {
       const root = container.firstChild as HTMLElement;
       // orientation: vertical

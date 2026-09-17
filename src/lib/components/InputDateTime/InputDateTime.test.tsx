@@ -10,8 +10,8 @@ import { TimeFormat } from "../Motif/Pickers/types";
 import { DateUtils } from "../../../utils/dateUtils";
 import { DateTimePickerLocale } from "@/components/DateTimePicker/types";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
-
+import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe(InputDateTime, () => {
   const today = new Date();
   const dateValue = new Date(today.getFullYear(), today.getMonth(), 12);
@@ -50,7 +50,7 @@ describe(InputDateTime, () => {
     };
   };
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) => renderExt(<InputDateTime {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputDateTime {...props} />), {
     assertDefaults: async ({ getByText, getInputText, getPickerContainer, getTimeList, getInput }) => {
       //placeholder
       expect(getInputText()).toHaveAttribute("placeholder", "DD/MM/YYYY __:__");

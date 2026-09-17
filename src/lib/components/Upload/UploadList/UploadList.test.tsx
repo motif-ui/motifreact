@@ -8,7 +8,8 @@ import { formatBytes, shortenText } from "../../../../utils/utils";
 import { MESSAGE } from "@/components/Upload/constants";
 import { MOCK } from "../mock";
 import { ReactNode } from "react";
-import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 import userEvent from "@testing-library/user-event";
 
 describe("UploadList", () => {
@@ -27,7 +28,7 @@ describe("UploadList", () => {
   beforeEach(() => mockXHRs());
   afterEach(() => jest.restoreAllMocks());
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
     renderExt(<UploadList {...requiredProps} {...props} />),
   );
 

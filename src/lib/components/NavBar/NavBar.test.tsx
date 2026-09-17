@@ -1,6 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
 import NavBar from "./NavBar";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { MenuItemProps } from "@/components/NavBar/components/NavBarMenu/types";
 import { userEvent } from "@testing-library/user-event";
 import { Size3 } from "src/lib/types.ts";
@@ -36,7 +37,7 @@ export const items: MenuItemProps[] = [
 ];
 
 describe("NavBar", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLElement>) => render(<NavBar {...props} />), {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLElement>) => render(<NavBar {...props} />), {
     // variant default: "neutral"
 
     assertDefaults: ({ container }) => expect(container.firstChild).toHaveClass("neutral"),

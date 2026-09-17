@@ -2,9 +2,10 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Grid } from "../../index";
 import type { Size4LG } from "../../types";
-import { runSnapshotDefaultsAndStandardPropsTest, StandardProps } from "../../../utils/testUtils";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Grid", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardProps<HTMLDivElement>) =>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
     render(
       <Grid {...props}>
         <Grid.Row>
