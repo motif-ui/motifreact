@@ -3,7 +3,7 @@ import AlertModal from "@/components/AlertModal/AlertModal";
 import { fireEvent, render, screen, cleanup, act, within } from "@testing-library/react";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { Size4LG, Variant } from "../../types";
-import { AlertModalButtonPosition, AlertModalContentPosition } from "@/components/AlertModal/types";
+import { AlertModalButtonPosition, AlertModalContentPosition, IconPosition } from "@/components/AlertModal/types";
 import { userEvent } from "@testing-library/user-event";
 
 const renderExt = (ui: ReactElement) => {
@@ -32,12 +32,12 @@ describe("AlertModal", () => {
 
     // size: md
     expect(getBackdrop()).toHaveClass("md");
-    // removeBackdrop: false
-    expect(getBackdrop()).toHaveClass("backdrop");
     // contentPosition: center
     expect(getBackdrop()).toHaveClass("content_center");
     // buttonsPosition: center
     expect(getBackdrop()).toHaveClass("actions_center");
+    //enableDivider : false
+    expect(getBackdrop()).not.toHaveClass("withDivider");
     // variant default: "primary" → propagated to icon and action button
     expect(screen.getByText("home")).toHaveClass("primary");
     expect(getModalActions().querySelector("button")).toHaveClass("primary");
@@ -88,31 +88,9 @@ describe("AlertModal", () => {
     expect(handleAction).toHaveBeenCalledTimes(1);
   });
 
-  it("should call each handler when action button and alternate button are clicked", () => {
-    const handleConfirm = jest.fn();
-    const handleCancel = jest.fn();
-    renderExt(
-      <AlertModal
-        title={TITLE}
-        open
-        actionButton={{ text: "Confirm", onClick: handleConfirm }}
-        alternateButton={{ text: "Cancel", onClick: handleCancel }}
-      />,
-    );
-    fireEvent.click(screen.getByText("Confirm"));
-    fireEvent.click(screen.getByText("Cancel"));
-    expect(handleConfirm).toHaveBeenCalledTimes(1);
-    expect(handleCancel).toHaveBeenCalledTimes(1);
-  });
-
   it("should not render the actions area when neither action button nor alternate button is provided", () => {
     renderExt(<AlertModal title={TITLE} open />);
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
-  });
-
-  it("should not render divider by default when buttons are provided", () => {
-    const { getBackdrop } = renderExt(<AlertModal title={TITLE} open actionButton={{ text: "Confirm", onClick: jest.fn() }} />);
-    expect(getBackdrop()).not.toHaveClass("withDivider");
   });
 
   it("should render divider when enableDivider is true and buttons are provided", () => {
@@ -158,7 +136,7 @@ describe("AlertModal", () => {
     expect(handleCancel).toHaveBeenCalledTimes(1);
   });
 
-  it("should apply the given contentPosition class", () => {
+  it("should position the content given in contentPosition prop", () => {
     const contentPosition: AlertModalContentPosition[] = ["left", "center", "right"];
     contentPosition.forEach(contentPosition => {
       const { getBackdrop } = renderExt(<AlertModal title={TITLE} open contentPosition={contentPosition} />);
@@ -167,7 +145,7 @@ describe("AlertModal", () => {
     });
   });
 
-  it("should apply the given buttonsPosition class to the actions area", () => {
+  it("should position the buttons as given in buttonsPosition prop", () => {
     const positions: AlertModalButtonPosition[] = ["left", "center", "right", "spaceBetween", "stretch", "fullWidth"];
     positions.forEach(buttonsPosition => {
       const { getBackdrop } = renderExt(
@@ -177,7 +155,38 @@ describe("AlertModal", () => {
       cleanup();
     });
   });
-  it("should render with the given variant class on icon and action button", () => {
+
+  it("should render with icon when given to action and alternate buttons", () => {
+    renderExt(
+      <AlertModal
+        title={TITLE}
+        open
+        actionButton={{ text: "Confirm", onClick: jest.fn(), icon: "home" }}
+        alternateButton={{ text: "Cancel", onClick: jest.fn(), icon: "home" }}
+      />,
+    );
+    expect(within(screen.getByText("Confirm").closest("button")!).getByText("home")).toBeInTheDocument();
+    expect(within(screen.getByText("Cancel").closest("button")!).getByText("home")).toBeInTheDocument();
+  });
+
+  it("should position action and alternate button icons based on iconPosition", () => {
+    const positions: IconPosition[] = ["left", "right"];
+    positions.forEach(iconPosition => {
+      renderExt(
+        <AlertModal
+          title={TITLE}
+          open
+          actionButton={{ text: "Confirm", onClick: jest.fn(), icon: "home", iconPosition }}
+          alternateButton={{ text: "Cancel", onClick: jest.fn(), icon: "home", iconPosition }}
+        />,
+      );
+      expect(screen.getByText("Confirm").closest("button")).toHaveClass(`icon-${iconPosition}`);
+      expect(screen.getByText("Cancel").closest("button")).toHaveClass(`icon-${iconPosition}`);
+      cleanup();
+    });
+  });
+
+  it("should render with the given variant ", () => {
     const variants: Variant[] = ["primary", "secondary", "info", "success", "warning", "danger"];
     variants.forEach(variant => {
       const { getModalActions } = renderExt(

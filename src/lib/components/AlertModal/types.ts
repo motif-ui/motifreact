@@ -3,11 +3,12 @@ import { IconGlobalType, Size4LG, Variant } from "../../types";
 
 export type AlertModalContentPosition = "left" | "center" | "right";
 export type AlertModalButtonPosition = "left" | "center" | "right" | "spaceBetween" | "stretch" | "fullWidth";
+export type IconPosition = "left" | "right";
 
 export type AlertModalButtonProps = {
   text: string;
   icon?: IconGlobalType;
-  iconPosition?: "left" | "right";
+  iconPosition?: IconPosition;
   onClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
@@ -30,4 +31,5 @@ export type AlertModalDefaultableProps = {
   removeBackdrop?: boolean;
   bordered?: boolean;
   elevated?: boolean;
+  closable?: boolean;
 };

@@ -25,9 +25,10 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     buttonsPosition = "center",
     contentPosition = "center",
     removeBackdrop,
-    enableDivider = false,
+    enableDivider,
     bordered,
     elevated,
+    closable,
     variant = "primary",
     ref,
     style,
@@ -38,7 +39,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
   const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
 
   const modalRef = useOutsideClick<HTMLDivElement>(() => {
-    onClose && hide();
+    closable && hide();
   });
 
   const classNames = sanitizeModuleRootClasses(styles, className, [

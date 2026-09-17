@@ -45,21 +45,13 @@ $content-positions: (
 
 .show {
   @include fade-in;
-  & .alertModalContainer {
+  .alertModalContainer {
     @include pop-in;
   }
 }
 
 .backdrop {
   background-color: var(--base-colors-black-black-overlay50);
-}
-
-.elevated .alertModalContainer {
-  @include shadow(6);
-}
-
-.bordered .alertModalContainer {
-  border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
 }
 
 .content {
@@ -86,6 +78,14 @@ $content-positions: (
   padding: var(--base-sizing-8x);
   border-radius: var(--theme-sizing-radius-default);
   @include pop-default;
+
+  .elevated & {
+    @include shadow(6);
+  }
+
+  .bordered & {
+    border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+  }
 }
 
 .alertModalContent {

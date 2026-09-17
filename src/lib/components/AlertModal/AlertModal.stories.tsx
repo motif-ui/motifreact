@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import AlertModal from "./AlertModal";
 import { AlertModalProps } from "./types";
 import Button from "../Button/Button";
-import MotifIcon from "../Motif/Icon/MotifIcon";
 import useToggle from "../../hooks/useToggle";
 import { formatStoryTransform } from "../../../utils/docUtils";
+import { MotifIcon } from "../Motif/Icon";
 
 const meta: Meta<typeof AlertModal> = {
   title: "Components/AlertModal",
@@ -21,14 +21,14 @@ const meta: Meta<typeof AlertModal> = {
   args: {
     title: "Alert Modal Title",
     text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ",
-    contentPosition: "center",
-    buttonsPosition: "center",
+    icon: <MotifIcon name="info" size="xxl" />,
     actionButton: { text: "Action", onClick: () => alert("Action clicked!") },
+    alternateButton: { text: "Close", onClick: () => {} },
   },
 };
 
 const AlertModalComponent = (props: AlertModalProps) => {
-  const { open, ...otherProps } = props;
+  const { open, alternateButton, ...otherProps } = props;
   const { visible, show, hide } = useToggle({ initialVisible: open });
 
   return (
@@ -37,8 +37,7 @@ const AlertModalComponent = (props: AlertModalProps) => {
       <AlertModal
         open={visible}
         onClose={hide}
-        icon={<MotifIcon name="info" size="xxl" />}
-        alternateButton={{ text: "Close", onClick: hide }}
+        alternateButton={alternateButton && { ...alternateButton, onClick: hide }}
         {...otherProps}
       />
     </>
@@ -53,7 +52,7 @@ export const Primary: Story = {
   parameters: {
     docs: {
       source: {
-        transform: formatStoryTransform("AlertModal", ["open", "onClose", "alternateButton"], argsString => {
+        transform: formatStoryTransform("AlertModal", ["open", "onClose", "alternateButton", "icon"], argsString => {
           return `
 const { visible, show, hide } = useToggle();
 
