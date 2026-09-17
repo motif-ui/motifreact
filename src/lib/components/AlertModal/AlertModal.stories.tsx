@@ -29,7 +29,7 @@ const meta: Meta<typeof AlertModal> = {
 
 const AlertModalComponent = (props: AlertModalProps) => {
   const { open, ...otherProps } = props;
-  const { visible, show, hide } = useToggle(open);
+  const { visible, show, hide } = useToggle({ initialVisible: open });
 
   return (
     <>
@@ -55,7 +55,7 @@ export const Primary: Story = {
       source: {
         transform: formatStoryTransform("AlertModal", ["open", "onClose", "alternateButton"], argsString => {
           return `
-const { visible, show, hide } = useToggle(false);
+const { visible, show, hide } = useToggle();
 
 return (
   <>

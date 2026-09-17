@@ -13,8 +13,6 @@ import useToggle from "../../hooks/useToggle";
 import AlertModalActions from "./components/AlertModalActions";
 import AlertModalContent from "./components/AlertModalContent";
 
-const animationOptions = { showTime: 50, hideTime: 300 };
-
 const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
   const {
     title,
@@ -38,7 +36,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("AlertModal", props);
 
   const domReady = useDomReady();
-  const { visible, toggleState, show, hide } = useToggle(false, animationOptions);
+  const { visible, toggleState, show, hide } = useToggle({ duration: 300 });
   const attached = visible || !!toggleState;
   const attachedRef = useRef(attached);
   attachedRef.current = attached;

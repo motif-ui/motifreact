@@ -14,8 +14,6 @@ import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { MotifIconButton } from "@/components/Motif/Icon";
 
-const animationOptions = { showTime: 50, hideTime: 300 };
-
 const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   const {
     title,
@@ -36,7 +34,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Modal", props);
 
   const domReady = useDomReady();
-  const { visible, toggleState, show, hide } = useToggle(false, animationOptions);
+  const { visible, toggleState, show, hide } = useToggle({ duration: 300 });
   const attached = visible || !!toggleState;
   const attachedRef = useRef(attached);
   attachedRef.current = attached;

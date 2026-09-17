@@ -13,7 +13,7 @@ Manages visibility states with optional animation support.
 import { useToggle } from "@motif-ui/react";
 
 const Sidebar = () => {
-  const { visible, show, hide, toggle } = useToggle(false);
+  const { visible, show, hide, toggle } = useToggle();
 
   return (
     <>
@@ -26,15 +26,15 @@ const Sidebar = () => {
 
 ## With Animation
 
-Use `showTime` and `hideTime` to control animation durations independently.
-`visible` becomes `false` immediately when `hide()` is called, so CSS exit transitions trigger at once.
-The element stays mounted for `hideTime` ms to let the animation complete.
+Use `duration` to match the hook's timing to your CSS transition length.
+`visible` becomes `true`/`false` right away for both `show()` and `hide()`, so CSS transitions trigger immediately.
+`toggleState` stays set for `duration` ms afterward so the element can remain mounted while the transition plays.
 
 ```jsx
 import { useToggle } from "@motif-ui/react";
 
 const AnimatedModal = () => {
-  const { visible, toggleState, show, hide } = useToggle(false, { showTime: 50, hideTime: 300 });
+  const { visible, toggleState, show, hide } = useToggle({ duration: 300 });
   const attached = visible || !!toggleState;
 
   return (
@@ -65,25 +65,18 @@ const AnimatedModal = () => {
   </thead>
   <tbody>
     <tr>
-      <td><code>initialVisible</code></td>
+      <td><code>options.initialVisible</code></td>
       <td><code>boolean</code></td>
       <td>No</td>
       <td><code>false</code></td>
       <td>Initial visibility state</td>
     </tr>
     <tr>
-      <td><code>options.showTime</code></td>
+      <td><code>options.duration</code></td>
       <td><code>number</code></td>
       <td>No</td>
       <td><code>undefined</code></td>
-      <td>Delay in ms before the element becomes visible (enter animation duration)</td>
-    </tr>
-    <tr>
-      <td><code>options.hideTime</code></td>
-      <td><code>number</code></td>
-      <td>No</td>
-      <td><code>undefined</code></td>
-      <td>Duration in ms the element stays mounted after hide is called (exit animation duration)</td>
+      <td>Length in ms of the enter/exit CSS transition. Should match the actual CSS transition duration.</td>
     </tr>
   </tbody>
 </table>
@@ -112,12 +105,12 @@ const AnimatedModal = () => {
     <tr>
       <td><code>show</code></td>
       <td><code>() =&gt; void</code></td>
-      <td>Shows the element. If <code>showTime</code> is set, sets <code>toggleState</code> to <code>"showing"</code> for that duration before making it visible.</td>
+      <td>Shows the element. If <code>duration</code> is set, sets <code>toggleState</code> to <code>"showing"</code>, flips <code>visible</code> to <code>true</code> on the next frame (so the CSS enter transition fires), and clears <code>toggleState</code> after <code>duration</code> ms.</td>
     </tr>
     <tr>
       <td><code>hide</code></td>
       <td><code>() =&gt; void</code></td>
-      <td>Hides the element immediately (<code>visible = false</code>). If <code>hideTime</code> is set, keeps <code>toggleState</code> as <code>"hiding"</code> for that duration so the exit animation can complete.</td>
+      <td>Hides the element immediately (<code>visible = false</code>). If <code>duration</code> is set, keeps <code>toggleState</code> as <code>"hiding"</code> for that duration so the exit animation can complete.</td>
     </tr>
     <tr>
       <td><code>toggle</code></td>
@@ -133,19 +126,20 @@ When `options` is provided:
 
 **Enter (`show()`):**
 
-1. `toggleState` becomes `"showing"`
-2. After `showTime` ms, `visible` becomes `true` and `toggleState` becomes `undefined`
+1. `toggleState` becomes `"showing"` — mounts the element while it's still hidden
+2. On the next frame, `visible` becomes `true` — CSS enter transition triggers
+3. After `duration` ms, `toggleState` becomes `undefined`
 
 **Exit (`hide()`):**
 
 1. `visible` becomes `false` immediately — CSS exit transition triggers at once
 2. `toggleState` becomes `"hiding"` — keeps the element mounted
-3. After `hideTime` ms, `toggleState` becomes `undefined` — element can be unmounted
+3. After `duration` ms, `toggleState` becomes `undefined` — element can be unmounted
 
 Use `attached = visible || !!toggleState` to control mounting:
 
 ```jsx
-const { visible, toggleState, show, hide } = useToggle(false, { showTime: 50, hideTime: 300 });
+const { visible, toggleState, show, hide } = useToggle({ duration: 300 });
 const attached = visible || !!toggleState;
 
 // attached: mount/unmount gate

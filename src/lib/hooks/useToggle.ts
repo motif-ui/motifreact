@@ -3,9 +3,9 @@ import { useCallback, useMemo, useState } from "react";
 
 type ToggleState = "showing" | "hiding";
 
-type UseToggleOptions = {
-  showTime?: number;
-  hideTime?: number;
+type Options = {
+  initialVisible?: boolean;
+  duration?: number;
 };
 
 type UseToggleReturn = {
@@ -16,32 +16,34 @@ type UseToggleReturn = {
   toggle: (forceShow?: boolean) => void;
 };
 
-const useToggle = (initialVisible = false, options?: UseToggleOptions): UseToggleReturn => {
+const useToggle = (options: Options = {}): UseToggleReturn => {
+  const { initialVisible = false, duration } = options;
   const [visible, setVisible] = useState<boolean>(initialVisible);
   const [toggleState, setToggleState] = useState<ToggleState>();
 
-  const showTime = options?.showTime;
-  const hideTime = options?.hideTime;
-
   const show = useCallback(() => {
-    if (showTime) {
+    if (duration) {
       setToggleState("showing");
-      setTimeout(() => {
-        setToggleState(undefined);
-        setVisible(true);
-      }, showTime);
+      requestAnimationFrame(() =>
+        // This nested call is needed to wait a frame so the browser paints the hidden state
+        // before we flip to visible. This prevents enter-transition not-firing.
+        requestAnimationFrame(() => {
+          setVisible(true);
+          setTimeout(() => setToggleState(undefined), duration);
+        }),
+      );
     } else {
       setVisible(true);
     }
-  }, [showTime]);
+  }, [duration]);
 
   const hide = useCallback(() => {
     setVisible(false);
-    if (hideTime) {
+    if (duration) {
       setToggleState("hiding");
-      setTimeout(() => setToggleState(undefined), hideTime);
+      setTimeout(() => setToggleState(undefined), duration);
     }
-  }, [hideTime]);
+  }, [duration]);
 
   const toggle = useCallback(
     (visibility?: boolean) => {
