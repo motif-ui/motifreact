@@ -25,58 +25,33 @@ $header-title-sizes: "sm", "md", "lg";
   background-color: var(--base-colors-black-black-overlay50);
   display: flex;
   z-index: 999;
-  @include fade-default;
-
-  &.show {
-    @include fade-in;
-  }
 
   &.left .offcanvas {
     top: 0;
     left: 0;
     height: 100%;
-    transform: translateX(-100%);
     border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
-  }
-
-  &.left.show .offcanvas {
-    transform: translateX(0);
   }
 
   &.right .offcanvas {
     top: 0;
     right: 0;
     height: 100%;
-    transform: translateX(100%);
     border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
-  }
-
-  &.right.show .offcanvas {
-    transform: translateX(0);
   }
 
   &.top .offcanvas {
     top: 0;
     left: 0;
     width: 100%;
-    transform: translateY(-100%);
     border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
-  }
-
-  &.top.show .offcanvas {
-    transform: translateY(0);
   }
 
   &.bottom .offcanvas {
     bottom: 0;
     left: 0;
     width: 100%;
-    transform: translateY(100%);
     border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
-  }
-
-  &.bottom.show .offcanvas {
-    transform: translateY(0);
   }
 
   @each $size, $width in $vertical-sizes {
@@ -110,7 +85,6 @@ $header-title-sizes: "sm", "md", "lg";
   max-height: 100%;
   overflow: hidden;
   @include shadow(4);
-  @include transition(transform);
 }
 
 .header {

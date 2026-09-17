@@ -1,7 +1,8 @@
 "use client";
 
 import styles from "./Offcanvas.module.scss";
-import { useCallback, useEffect, useState } from "react";
+import "@styles/viewTransitions.scss";
+import { startTransition, useEffect, useState, ViewTransition } from "react";
 import { createPortal } from "react-dom";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useDomReady from "../../hooks/useDomReady";
@@ -10,6 +11,7 @@ import { OffcanvasProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { MotifIconButton } from "@/components/Motif/Icon";
+import { BACKDROP_TRANSITION_CLASS, SLIDE_TRANSITION_CLASSES } from "@styles/viewTransitions";
 
 const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
   const {
@@ -26,45 +28,36 @@ const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Offcanvas", props);
 
   const domReady = useDomReady();
-  const [visible, setVisible] = useState(open);
   const [attached, setAttached] = useState(open);
 
-  const handleCloseWithAnimation = useCallback(() => {
-    setVisible(false);
-    setTimeout(() => {
-      setAttached(false);
-      onClose?.();
-    }, 300);
-  }, [onClose]);
-
-  const offcanvasRef = useOutsideClick<HTMLDivElement>(() => closable && handleCloseWithAnimation());
+  const offcanvasRef = useOutsideClick<HTMLDivElement>(() => closable && onClose?.());
 
   useEffect(() => {
-    if (open) {
-      setAttached(true);
-      setTimeout(() => setVisible(true), 50);
-    } else {
-      attached && handleCloseWithAnimation();
-    }
-  }, [open, attached, handleCloseWithAnimation]);
+    startTransition(() => setAttached(open));
+  }, [open]);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [visible && "show", position, size]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [position, size]);
+  const slideTransitionClass = SLIDE_TRANSITION_CLASSES[position];
 
   return (
     attached &&
     domReady &&
     createPortal(
-      <div data-testid="offcanvasBackdrop" className={classNames} style={style} ref={ref}>
-        <div className={styles.offcanvas} ref={offcanvasRef}>
-          {(title || closable) && (
-            <div className={styles.header}>
-              {title && <span className={styles.headerTitle}>{title}</span>}
-              {closable && <MotifIconButton name="close" onClick={onClose} size={size} className={styles.closeButton} />}
+      <ViewTransition enter={BACKDROP_TRANSITION_CLASS} exit={BACKDROP_TRANSITION_CLASS}>
+        <div data-testid="offcanvasBackdrop" className={classNames} style={style} ref={ref}>
+          <ViewTransition enter={slideTransitionClass} exit={slideTransitionClass}>
+            <div className={styles.offcanvas} ref={offcanvasRef}>
+              {(title || closable) && (
+                <div className={styles.header}>
+                  {title && <span className={styles.headerTitle}>{title}</span>}
+                  {closable && <MotifIconButton name="close" onClick={onClose} size={size} className={styles.closeButton} />}
+                </div>
+              )}
+              <div className={styles.content}>{children}</div>
             </div>
-          )}
-          <div className={styles.content}>{children}</div>
+          </ViewTransition>
         </div>
-      </div>,
+      </ViewTransition>,
       document.body,
     )
   );
