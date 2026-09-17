@@ -67,12 +67,12 @@ describe("Offcanvas", () => {
     });
     expect(handleClose).toHaveBeenCalled();
 
+    const handleClose2 = jest.fn();
     rerender(
-      <Offcanvas open closable={false} onClose={handleClose}>
+      <Offcanvas open closable={false} onClose={handleClose2}>
         Test content
       </Offcanvas>,
     );
-    const handleClose2 = jest.fn();
     fireEvent.click(screen.getByTestId("offcanvasBackdrop"));
     expect(handleClose2).not.toHaveBeenCalled();
 
@@ -119,5 +119,19 @@ describe("Offcanvas", () => {
       expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass(size);
       cleanup();
     }
+  });
+
+  it("should not have the hideBackdrop class by default", () => {
+    render(<Offcanvas open>Test content</Offcanvas>);
+    expect(screen.getByTestId("offcanvasBackdrop")).not.toHaveClass("hideBackdrop");
+  });
+
+  it("should render without the darkened backdrop when hideBackdrop is true", () => {
+    render(
+      <Offcanvas open hideBackdrop>
+        Test content
+      </Offcanvas>,
+    );
+    expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass("hideBackdrop");
   });
 });

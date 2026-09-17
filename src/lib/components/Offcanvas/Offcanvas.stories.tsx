@@ -14,12 +14,14 @@ const meta: Meta<typeof Offcanvas> = {
     open: { control: false },
     position: { table: { defaultValue: { summary: "left" } } },
     size: { table: { defaultValue: { summary: "md" } } },
+    hideBackdrop: { table: { defaultValue: { summary: "false" } } },
   },
   args: {
     title: "Offcanvas Title",
     position: "left",
     size: "md",
     closable: true,
+    hideBackdrop: false,
     children: (
       <p>
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text

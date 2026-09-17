@@ -1,20 +1,11 @@
 @use "@styles" as *;
 
-$vertical-sizes: (
-  //sizeName, width
-  ("sm", "320x"),
-  ("md", "360x"),
-  ("lg", "400x")
+$sizes: (
+  //sizeName, width, height
+  ("sm", "320x", "216x"),
+  ("md", "360x", "256x"),
+  ("lg", "400x", "320x")
 );
-
-$horizontal-sizes: (
-  //sizeName, height
-  ("sm", "216x"),
-  ("md", "256x"),
-  ("lg", "320x")
-);
-
-$header-title-sizes: "sm", "md", "lg";
 
 .Root {
   position: fixed;
@@ -25,6 +16,10 @@ $header-title-sizes: "sm", "md", "lg";
   background-color: var(--base-colors-black-black-overlay50);
   display: flex;
   z-index: 999;
+
+  &.hideBackdrop {
+    background-color: transparent;
+  }
 
   &.left .offcanvas {
     top: 0;
@@ -54,21 +49,17 @@ $header-title-sizes: "sm", "md", "lg";
     border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
   }
 
-  @each $size, $width in $vertical-sizes {
+  @each $size, $width, $height in $sizes {
     &.left.#{$size} .offcanvas,
     &.right.#{$size} .offcanvas {
       width: var(--base-sizing-#{$width});
     }
-  }
 
-  @each $size, $height in $horizontal-sizes {
     &.top.#{$size} .offcanvas,
     &.bottom.#{$size} .offcanvas {
       height: var(--base-sizing-#{$height});
     }
-  }
 
-  @each $size in $header-title-sizes {
     &.#{$size} .headerTitle {
       @include font("base", $size, "700");
     }

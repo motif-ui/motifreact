@@ -7,6 +7,7 @@ export type OffcanvasDefaultableProps = {
   position?: OffcanvasPosition;
   size?: Size3;
   closable?: boolean;
+  hideBackdrop?: boolean;
 };
 
 export type OffcanvasProps = {

@@ -2,7 +2,7 @@
 
 exports[`Offcanvas should be rendered with only required props and should have default prop values 1`] = `
 <div
-  class="Root show left md"
+  class="Root left md"
   data-testid="offcanvasBackdrop"
 >
   <div

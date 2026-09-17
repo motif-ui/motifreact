@@ -22,6 +22,7 @@ const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
     position = "left",
     size = "md",
     closable = true,
+    hideBackdrop = false,
     ref,
     style,
     className,
@@ -36,7 +37,7 @@ const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
     startTransition(() => setAttached(open));
   }, [open]);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [position, size]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [position, size, hideBackdrop && "hideBackdrop"]);
   const slideTransitionClass = SLIDE_TRANSITION_CLASSES[position];
 
   return (
