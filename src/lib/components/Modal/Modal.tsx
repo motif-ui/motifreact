@@ -1,8 +1,7 @@
 "use client";
 
 import styles from "./Modal.module.scss";
-import { useEffect, useRef } from "react";
-import useToggle from "../../hooks/useToggle";
+import useControlledVisibility from "../../hooks/useControlledVisibility";
 import ModalHeader from "./components/ModalHeader";
 import { PropsWithRef } from "../../types";
 import ModalActions from "./components/ModalActions";
@@ -34,23 +33,9 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Modal", props);
 
   const domReady = useDomReady();
-  const { visible, toggleState, show, hide } = useToggle({ duration: 300 });
-  const attached = visible || !!toggleState;
-  const attachedRef = useRef(attached);
-  attachedRef.current = attached;
-
-  const prevToggleState = useRef(toggleState);
-  useEffect(() => {
-    if (prevToggleState.current === "hiding" && !toggleState) onClose?.();
-    prevToggleState.current = toggleState;
-  }, [toggleState, onClose]);
+  const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
 
   const modalRef = useOutsideClick<HTMLDivElement>(() => closable && hide());
-
-  useEffect(() => {
-    if (open) show();
-    else if (attachedRef.current) hide();
-  }, [open, show, hide]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
@@ -64,7 +49,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
     createPortal(
       <div data-testid="modalBackdrop" className={classNames} style={style} ref={ref}>
         <div className={styles.modal} ref={modalRef}>
-          {closable && <MotifIconButton name="close" onClick={onClose} size="xxl" className={styles.closeButton} />}
+          {closable && <MotifIconButton name="close" onClick={hide} size="xxl" className={styles.closeButton} />}
           <ModalHeader title={title} subtitle={subtitle} />
           <div className={styles.content}> {children}</div>
           <ModalActions actionButton={actionButton} alternateButton={alternateButton} buttons={buttons} />

@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./AlertModal.module.scss";
-import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRef } from "../../types";
 import { AlertModalProps } from "./types";
@@ -9,7 +8,7 @@ import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useDomReady from "../../hooks/useDomReady";
-import useToggle from "../../hooks/useToggle";
+import useControlledVisibility from "../../hooks/useControlledVisibility";
 import AlertModalActions from "./components/AlertModalActions";
 import AlertModalContent from "./components/AlertModalContent";
 
@@ -36,25 +35,11 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("AlertModal", props);
 
   const domReady = useDomReady();
-  const { visible, toggleState, show, hide } = useToggle({ duration: 300 });
-  const attached = visible || !!toggleState;
-  const attachedRef = useRef(attached);
-  attachedRef.current = attached;
-
-  const prevToggleState = useRef(toggleState);
-  useEffect(() => {
-    if (prevToggleState.current === "hiding" && !toggleState) onClose?.();
-    prevToggleState.current = toggleState;
-  }, [toggleState, onClose]);
+  const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
 
   const modalRef = useOutsideClick<HTMLDivElement>(() => {
     onClose && hide();
   });
-
-  useEffect(() => {
-    if (open) show();
-    else if (attachedRef.current) hide();
-  }, [open, show, hide]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",

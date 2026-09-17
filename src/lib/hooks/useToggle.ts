@@ -1,7 +1,7 @@
 "use client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
-type ToggleState = "showing" | "hiding";
+export type ToggleState = "showing" | "hiding";
 
 type Options = {
   initialVisible?: boolean;
@@ -21,29 +21,43 @@ const useToggle = (options: Options = {}): UseToggleReturn => {
   const [visible, setVisible] = useState<boolean>(initialVisible);
   const [toggleState, setToggleState] = useState<ToggleState>();
 
+  const pendingRafRef = useRef<number[]>([]);
+  const pendingTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  // To prevention quick show/hide that may change already settled frame
+  const clearPending = useCallback(() => {
+    pendingRafRef.current.forEach(id => cancelAnimationFrame(id));
+    pendingRafRef.current = [];
+    clearTimeout(pendingTimeoutRef.current);
+  }, []);
+
   const show = useCallback(() => {
+    clearPending();
     if (duration) {
       setToggleState("showing");
-      requestAnimationFrame(() =>
+      const outerRaf = requestAnimationFrame(() => {
         // This nested call is needed to wait a frame so the browser paints the hidden state
         // before we flip to visible. This prevents enter-transition not-firing.
-        requestAnimationFrame(() => {
+        const innerRaf = requestAnimationFrame(() => {
           setVisible(true);
-          setTimeout(() => setToggleState(undefined), duration);
-        }),
-      );
+          pendingTimeoutRef.current = setTimeout(() => setToggleState(undefined), duration);
+        });
+        pendingRafRef.current.push(innerRaf);
+      });
+      pendingRafRef.current.push(outerRaf);
     } else {
       setVisible(true);
     }
-  }, [duration]);
+  }, [duration, clearPending]);
 
   const hide = useCallback(() => {
+    clearPending();
     setVisible(false);
     if (duration) {
       setToggleState("hiding");
-      setTimeout(() => setToggleState(undefined), duration);
+      pendingTimeoutRef.current = setTimeout(() => setToggleState(undefined), duration);
     }
-  }, [duration]);
+  }, [duration, clearPending]);
 
   const toggle = useCallback(
     (visibility?: boolean) => {
