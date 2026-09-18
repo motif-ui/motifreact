@@ -19,7 +19,7 @@ export const Image = ({ file: { status, progress, file, src, deleting, addedByVa
   const { selectedFiles, removeFiles } = useContext(UploadContext);
   const [image, setImage] = useState<string>();
   const [maybeBrokenSrc, setMaybeBrokenSrc] = useState(false);
-  const { visible, show, hide } = useToggle(false);
+  const { visible, show, hide } = useToggle();
   const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL;
   const deleteFailed = status === STATUS.DELETE_FAIL;
   const succeeded = !failed && !deleteFailed && status !== STATUS.UPLOADING;

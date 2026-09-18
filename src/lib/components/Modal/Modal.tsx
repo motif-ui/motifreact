@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Modal.module.scss";
-import { useCallback, useEffect, useState } from "react";
+import useControlledVisibility from "../../hooks/useControlledVisibility";
 import ModalHeader from "./components/ModalHeader";
 import { PropsWithRef } from "../../types";
 import ModalActions from "./components/ModalActions";
@@ -33,27 +33,9 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Modal", props);
 
   const domReady = useDomReady();
-  const [visible, setVisible] = useState(open);
-  const [attached, setAttached] = useState(open);
+  const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
 
-  const handleCloseWithAnimation = useCallback(() => {
-    setVisible(false);
-    setTimeout(() => {
-      setAttached(false);
-      onClose?.();
-    }, 300);
-  }, [onClose]);
-
-  const modalRef = useOutsideClick<HTMLDivElement>(() => closable && handleCloseWithAnimation());
-
-  useEffect(() => {
-    if (open) {
-      setAttached(true);
-      setTimeout(() => setVisible(true), 50);
-    } else {
-      attached && handleCloseWithAnimation();
-    }
-  }, [open, attached, handleCloseWithAnimation]);
+  const modalRef = useOutsideClick<HTMLDivElement>(() => closable && hide());
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
@@ -67,7 +49,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
     createPortal(
       <div data-testid="modalBackdrop" className={classNames} style={style} ref={ref}>
         <div className={styles.modal} ref={modalRef}>
-          {closable && <MotifIconButton name="close" onClick={onClose} size="xxl" className={styles.closeButton} />}
+          {closable && <MotifIconButton name="close" onClick={hide} size="xxl" className={styles.closeButton} />}
           <ModalHeader title={title} subtitle={subtitle} />
           <div className={styles.content}> {children}</div>
           <ModalActions actionButton={actionButton} alternateButton={alternateButton} buttons={buttons} />

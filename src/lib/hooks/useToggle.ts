@@ -1,7 +1,12 @@
 "use client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-type ToggleState = "showing" | "hiding";
+export type ToggleState = "showing" | "hiding";
+
+type Options = {
+  initialVisible?: boolean;
+  duration?: number;
+};
 
 type UseToggleReturn = {
   visible: boolean;
@@ -11,33 +16,48 @@ type UseToggleReturn = {
   toggle: (forceShow?: boolean) => void;
 };
 
-const useToggle = (initialVisible = false, toggleTime?: number): UseToggleReturn => {
+const useToggle = (options: Options = {}): UseToggleReturn => {
+  const { initialVisible = false, duration } = options;
   const [visible, setVisible] = useState<boolean>(initialVisible);
   const [toggleState, setToggleState] = useState<ToggleState>();
 
+  const pendingRafRef = useRef<number[]>([]);
+  const pendingTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  // To prevention quick show/hide that may change already settled frame
+  const clearPending = useCallback(() => {
+    pendingRafRef.current.forEach(id => cancelAnimationFrame(id));
+    pendingRafRef.current = [];
+    clearTimeout(pendingTimeoutRef.current);
+  }, []);
+
   const show = useCallback(() => {
-    if (toggleTime) {
+    clearPending();
+    if (duration) {
       setToggleState("showing");
-      setTimeout(() => {
-        setToggleState(undefined);
-        setVisible(true);
-      }, toggleTime);
+      const outerRaf = requestAnimationFrame(() => {
+        // This nested call is needed to wait a frame so the browser paints the hidden state
+        // before we flip to visible. This prevents enter-transition not-firing.
+        const innerRaf = requestAnimationFrame(() => {
+          setVisible(true);
+          pendingTimeoutRef.current = setTimeout(() => setToggleState(undefined), duration);
+        });
+        pendingRafRef.current.push(innerRaf);
+      });
+      pendingRafRef.current.push(outerRaf);
     } else {
       setVisible(true);
     }
-  }, [toggleTime]);
+  }, [duration, clearPending]);
 
   const hide = useCallback(() => {
-    if (toggleTime) {
+    clearPending();
+    setVisible(false);
+    if (duration) {
       setToggleState("hiding");
-      setTimeout(() => {
-        setToggleState(undefined);
-        setVisible(false);
-      }, toggleTime);
-    } else {
-      setVisible(false);
+      pendingTimeoutRef.current = setTimeout(() => setToggleState(undefined), duration);
     }
-  }, [toggleTime]);
+  }, [duration, clearPending]);
 
   const toggle = useCallback(
     (visibility?: boolean) => {
@@ -45,6 +65,8 @@ const useToggle = (initialVisible = false, toggleTime?: number): UseToggleReturn
     },
     [visible, show, hide],
   );
+
+  useEffect(() => clearPending, [clearPending]);
 
   return useMemo(() => ({ visible, toggleState, show, hide, toggle }), [hide, show, toggle, toggleState, visible]);
 };

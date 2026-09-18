@@ -37,7 +37,7 @@ const meta: Meta<typeof Modal> = {
 
 const ModalComponent = (props: ModalProps) => {
   const { open, ...otherProps } = props;
-  const { visible, show, hide } = useToggle(open);
+  const { visible, show, hide } = useToggle({ initialVisible: open });
 
   return (
     <>
@@ -57,7 +57,7 @@ export const Primary: Story = {
       source: {
         transform: formatStoryTransform("Modal", ["children", "open", "onClose", "alternateButton"], argsString => {
           return `
-const { visible, show, hide } = useToggle(false);
+const { visible, show, hide } = useToggle();
 
 return (
   <>
