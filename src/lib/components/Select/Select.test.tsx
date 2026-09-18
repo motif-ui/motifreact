@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen, act } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { SelectGroupItem, SelectItem } from "@/components/Select/types";
 import { Select, Validations } from "../../index";
 import { userEvent } from "@testing-library/user-event";
@@ -15,9 +16,7 @@ describe("Select", () => {
     { label: "Item 2", value: "i2" },
   ];
 
-  it("should be rendered with only required props", () => {
-    expect(render(<Select data={data} />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Select data={data} {...props} />));
 
   it("should display given icon in the icon prop", () => {
     runIconPropTest(icon => render(<Select data={data} icon={icon} />), "iconLeft");

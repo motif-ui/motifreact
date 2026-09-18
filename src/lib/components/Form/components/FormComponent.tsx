@@ -39,10 +39,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
   const { size, formOrientation, labelOrientation, validate, resetValues, preview } = useForm() as FormContextType<T>;
 
   const internalFormRef = useRef<HTMLFormElement>(null);
-  useImperativeHandle(ref, () => ({
-    ...internalFormRef.current!,
-    clearForm: resetValues,
-  }));
+  useImperativeHandle(ref, () => Object.assign(internalFormRef.current!, { clearForm: resetValues }));
 
   const submitHandler = useCallback(
     (event: FormEvent<HTMLFormElement>) => {

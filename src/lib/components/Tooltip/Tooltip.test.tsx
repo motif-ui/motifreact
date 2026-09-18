@@ -1,9 +1,11 @@
-import { screen, render, waitFor, act } from "@testing-library/react";
+import { screen, render, waitFor, act, fireEvent } from "@testing-library/react";
 
 import Tooltip from "@/components/Tooltip/Tooltip";
 import Button from "../Button/Button";
 import { userEvent } from "@testing-library/user-event";
 import { Position } from "@/components/Tooltip/types";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { PropsWithRef, Size4SM } from "../../types";
 
 describe("Tooltip", () => {
@@ -16,26 +18,27 @@ describe("Tooltip", () => {
 
   const user = userEvent.setup({ delay: null });
 
-  it("should be rendered with only required props and should have default prop values stated here", async () => {
-    expect(
-      render(
-        <Tooltip text="Description">
-          <Button label="Test Button" />
-        </Tooltip>,
-      ).container,
-    ).toMatchSnapshot();
+  const renderAndHover = (props: StandardPropsWithRef<HTMLDivElement> = {}) => {
+    const result = render(
+      <Tooltip text="Description" {...props}>
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+    fireEvent.mouseEnter(result.getByRole("button"));
+    return result;
+  };
 
-    await act(() => user.hover(screen.getByText("Test Button")));
-    const tooltip = screen.queryByTestId("tooltipItem");
-
-    // position: top
-    expect(tooltip).toHaveClass("top");
-
-    // variant: light
-    expect(tooltip).toHaveClass("light");
-
-    // size: md
-    expect(tooltip).toHaveClass("md");
+  runSnapshotDefaultsAndStandardPropsTest(renderAndHover, {
+    assertDefaults: () => {
+      const tooltip = screen.getByTestId("tooltipItem");
+      // position: top
+      expect(tooltip).toHaveClass("top");
+      // variant: light
+      expect(tooltip).toHaveClass("light");
+      // size: md
+      expect(tooltip).toHaveClass("md");
+    },
+    getRoot: result => result.queryByTestId("tooltipItem"),
   });
 
   it("should not be rendered when no children is given ", () => {

@@ -2,11 +2,10 @@ import "@testing-library/jest-dom";
 import Textarea from "@/components/Textarea/Textarea";
 import { render, screen } from "@testing-library/react";
 import { InputSize } from "../Form/types";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Textarea", () => {
-  it("should render with only required props", () => {
-    expect(render(<Textarea />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Textarea {...props} />));
 
   it(" should update value on user input", () => {
     render(<Textarea value="Test Value" />);
@@ -29,15 +28,6 @@ describe("Textarea", () => {
     render(<Textarea maxLength={maxLength} value={value} />);
     expect(screen.getByTestId("textareaItem").textContent.includes(value)).toBe(false);
     expect(screen.getByTestId("textareaItem").textContent).toBe(value.substring(0, maxLength));
-  });
-
-  it("should apply styles from style prop", () => {
-    const { container } = render(<Textarea style={{ color: "red", width: 250 }} />);
-
-    expect(container.firstElementChild).toHaveStyle({
-      color: "rgb(255, 0, 0)",
-      width: "250px",
-    });
   });
 
   it("should be rendered with the size given in size prop", () => {

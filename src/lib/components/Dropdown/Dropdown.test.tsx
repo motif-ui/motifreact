@@ -1,22 +1,25 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import Dropdown from "./Dropdown";
 import { userEvent } from "@testing-library/user-event";
 import { Size4SM } from "../../types";
 import { Spacing } from "./types";
 
 describe("Dropdown", () => {
-  it("should be rendered with only required props and should have default prop values", () => {
-    const { container, getByText } = render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} />);
-    expect(container.firstElementChild).toMatchSnapshot();
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
+    {
+      assertDefaults: ({ container, getByText }) => {
+        expect(container.firstElementChild).toHaveClass("primary");
+        expect(container.firstElementChild).toHaveClass("solid");
+        expect(container.firstElementChild).toHaveClass("md");
 
-    expect(container.firstElementChild).toHaveClass("primary");
-    expect(container.firstElementChild).toHaveClass("solid");
-    expect(container.firstElementChild).toHaveClass("md");
-
-    fireEvent.click(getByText("Dropdown"));
-    expect(container.querySelector("ul")).toHaveClass("callout");
-  });
+        fireEvent.click(getByText("Dropdown"));
+        expect(container.querySelector("ul")).toHaveClass("callout");
+      },
+    },
+  );
 
   it("should be rendered in different color schemas given in the variant prop", () => {
     const variants: ("primary" | "secondary" | "success" | "danger" | "warning" | "info")[] = [

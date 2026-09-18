@@ -5,7 +5,8 @@ import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
-import { t, runIconPropTest } from "../../../utils/testUtils";
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
@@ -39,15 +40,15 @@ describe("InputDate", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getInput } = renderExt(<InputDate />);
-    expect(container).toMatchSnapshot();
-    // placeholder = DD/MM/YYYY (default)
-    expect(getInput()).toHaveAttribute("placeholder", "DD/MM/YYYY");
-    // size = md (default)
-    expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
-    // icon = calendar_month (default)
-    expect(screen.queryByText("calendar_month")).toBeInTheDocument();
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputDate {...props} />), {
+    assertDefaults: ({ container, getInput }) => {
+      // placeholder = DD/MM/YYYY (default)
+      expect(getInput()).toHaveAttribute("placeholder", "DD/MM/YYYY");
+      // size = md (default)
+      expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+      // icon = calendar_month (default)
+      expect(screen.queryByText("calendar_month")).toBeInTheDocument();
+    },
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {

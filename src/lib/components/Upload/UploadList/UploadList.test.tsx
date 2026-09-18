@@ -8,7 +8,8 @@ import { formatBytes, shortenText } from "../../../../utils/utils";
 import { MESSAGE } from "@/components/Upload/constants";
 import { MOCK } from "../mock";
 import { ReactNode } from "react";
-import { mockXHRs, mockXHRWithResponse, t } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 import userEvent from "@testing-library/user-event";
 
 describe("UploadList", () => {
@@ -27,9 +28,9 @@ describe("UploadList", () => {
   beforeEach(() => mockXHRs());
   afterEach(() => jest.restoreAllMocks());
 
-  it("should be rendered with only required props", () => {
-    expect(renderExt(<UploadList {...requiredProps} />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
+    renderExt(<UploadList {...requiredProps} {...props} />),
+  );
 
   it("should be rendered with the given size in size prop", () => {
     const sizes: Size4SM[] = ["xs", "sm", "md", "lg"];
