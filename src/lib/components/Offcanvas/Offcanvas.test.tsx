@@ -22,6 +22,16 @@ describe("Offcanvas", () => {
     expect(screen.getByText("Test content")).toBeInTheDocument();
   });
 
+  it("should unmount the offcanvas when open changes from true to false", () => {
+    const { rerender } = render(<Offcanvas open>Test content</Offcanvas>);
+    expect(screen.getByText("Test content")).toBeInTheDocument();
+
+    act(() => {
+      rerender(<Offcanvas open={false}>Test content</Offcanvas>);
+    });
+    expect(screen.queryByText("Test content")).not.toBeInTheDocument();
+  });
+
   it("should render title given in the title prop", () => {
     render(
       <Offcanvas open title="Offcanvas Title">
