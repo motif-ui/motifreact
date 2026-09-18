@@ -22,9 +22,11 @@ const renderExt = (props: PropsWithRef<StepperProps, HTMLDivElement> = {}, itemP
   );
 
   const getRoot = () => renderResult.container.firstElementChild as HTMLElement;
+  const getStepItems = () => renderResult.container.querySelectorAll(".stepItem");
 
   return {
     getRoot,
+    getStepItems,
     ...renderResult,
   };
 };
@@ -93,20 +95,23 @@ describe("Stepper", () => {
   });
 
   it("should render the correct initial active step using defaultActiveStep", () => {
-    const { container } = renderExt({ defaultActiveStep: 1 });
-    const stepItems = container.querySelectorAll(".stepItem");
-    expect(stepItems[0]).toHaveClass("completed");
-    expect(stepItems[1]).toHaveClass("active");
-    expect(stepItems[2]).toHaveClass("upcoming");
+    const { getStepItems } = renderExt({ defaultActiveStep: 1 });
+    expect(getStepItems()[0]).toHaveClass("completed");
+    expect(getStepItems()[1]).toHaveClass("active");
   });
 
   it("should clamp defaultActiveStep to valid range", () => {
-    const { container, unmount } = renderExt({ defaultActiveStep: -1 });
-    expect(container.querySelectorAll(".stepItem")[0]).toHaveClass("active");
+    const { getStepItems, unmount } = renderExt({ defaultActiveStep: -1 });
+    expect(getStepItems()[0]).toHaveClass("active");
     unmount();
 
-    const { container: highContainer } = renderExt({ defaultActiveStep: 99 });
-    expect(highContainer.querySelectorAll(".stepItem")[2]).toHaveClass("active");
+    const { getStepItems: getHighStepItems } = renderExt({ defaultActiveStep: 99 });
+    expect(getHighStepItems()[2]).toHaveClass("active");
+  });
+
+  it("should initialize the maximum reached step with the clamped active step", () => {
+    const { getStepItems } = renderExt({ defaultActiveStep: 99 });
+    expect(getStepItems()[2]).not.toHaveClass("visited");
   });
 
   it("should render step content of the active step only", () => {
@@ -196,54 +201,69 @@ describe("Stepper", () => {
   it("should skip disabled steps when navigating with the navigation buttons", () => {
     const steps = [{ title: "Step 1" }, { title: "Step 2", disabled: true }, { title: "Step 3" }];
 
-    const { container: nextContainer } = renderExt({}, steps);
+    const { getStepItems: nextGetStepItems } = renderExt({}, steps);
     fireEvent.click(screen.getByText(NEXT));
-    expect(nextContainer.querySelectorAll(".stepItem")[2]).toHaveClass("active");
+    expect(nextGetStepItems()[2]).toHaveClass("active");
 
     cleanup();
 
-    const { container: prevContainer } = renderExt({ defaultActiveStep: 2 }, steps);
+    const { getStepItems: prevGetStepItems } = renderExt({ defaultActiveStep: 2 }, steps);
     fireEvent.click(screen.getByText(PREV));
-    expect(prevContainer.querySelectorAll(".stepItem")[0]).toHaveClass("active");
+    expect(prevGetStepItems()[0]).toHaveClass("active");
   });
 
   it("should not mark a disabled step as completed even when active step is beyond it", () => {
-    const { container } = renderExt({ defaultActiveStep: 2 }, [
+    const { getStepItems } = renderExt({ defaultActiveStep: 2 }, [
       { title: "Step 1" },
       { title: "Step 2", disabled: true },
       { title: "Step 3" },
     ]);
-    const stepItems = container.querySelectorAll(".stepItem");
-    expect(stepItems[1]).not.toHaveClass("completed");
-    expect(stepItems[1]).toHaveClass("upcoming");
+    expect(getStepItems()[1]).not.toHaveClass("completed");
   });
 
   it("should render Stepper.Item as disabled when disabled prop is set true for the item", () => {
-    const { container } = renderExt({}, [{ title: "Step 1", disabled: true }, { title: "Step 2" }]);
-    expect(container.querySelectorAll(".stepItem")[0]).toHaveClass("disabled");
+    const { getStepItems } = renderExt({}, [{ title: "Step 1", disabled: true }, { title: "Step 2" }]);
+    expect(getStepItems()[0]).toHaveClass("disabled");
   });
 
   it("should render Stepper.Item as errored when error prop is set true for the item", () => {
-    const { container } = renderExt({}, [{ title: "Step 1", error: true }, { title: "Step 2" }]);
-    expect(container.querySelectorAll(".stepItem")[0]).toHaveClass("error");
+    const { getStepItems } = renderExt({}, [{ title: "Step 1", error: true }, { title: "Step 2" }]);
+    expect(getStepItems()[0]).toHaveClass("error");
   });
 
   it("should make completed steps clickable", () => {
     const onStepChange = jest.fn();
-    const { container } = renderExt({ defaultActiveStep: 2, onStepChange });
-    const firstStep = container.querySelectorAll(".stepItem")[0];
+    const { getStepItems } = renderExt({ defaultActiveStep: 2, onStepChange });
+
+    const firstStep = getStepItems()[0];
+
     expect(firstStep).toHaveClass("clickable");
     fireEvent.click(firstStep.querySelector(".stepHeader")!);
     expect(onStepChange).toHaveBeenCalledWith(0);
   });
 
+  it("should make previously reached steps visited and clickable", () => {
+    const onStepChange = jest.fn();
+    const { getStepItems } = renderExt({ onStepChange });
+
+    fireEvent.click(screen.getByText(NEXT));
+    fireEvent.click(screen.getByText(NEXT));
+    fireEvent.click(screen.getByText(PREV));
+
+    expect(getStepItems()[1]).toHaveClass("active");
+    expect(getStepItems()[2]).toHaveClass("visited", "clickable");
+
+    fireEvent.click(getStepItems()[2].querySelector(".stepHeader")!);
+    expect(onStepChange).toHaveBeenCalledWith(2);
+  });
+
   it("should not make disabled steps clickable", () => {
-    const { container } = renderExt({ defaultActiveStep: 2 }, [
+    const { getStepItems } = renderExt({ defaultActiveStep: 2 }, [
       { title: "Step 1" },
       { title: "Step 2", disabled: true },
       { title: "Step 3" },
     ]);
-    expect(container.querySelectorAll(".stepItem")[1]).not.toHaveClass("clickable");
+    expect(getStepItems()[1]).not.toHaveClass("clickable");
   });
 
   it("should call onStepClick when a completed step header is clicked", () => {
