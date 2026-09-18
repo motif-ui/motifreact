@@ -22,6 +22,7 @@ const meta: Meta<typeof AlertModal> = {
     title: "Alert Modal Title",
     text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ",
     icon: <MotifIcon name="info" size="xxl" />,
+    closable: true,
     actionButton: { text: "Action", onClick: () => alert("Action clicked!") },
     alternateButton: { text: "Close", onClick: () => {} },
   },

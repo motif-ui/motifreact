@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export type ToggleState = "showing" | "hiding";
 
@@ -65,6 +65,8 @@ const useToggle = (options: Options = {}): UseToggleReturn => {
     },
     [visible, show, hide],
   );
+
+  useEffect(() => clearPending, [clearPending]);
 
   return useMemo(() => ({ visible, toggleState, show, hide, toggle }), [hide, show, toggle, toggleState, visible]);
 };
