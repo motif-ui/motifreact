@@ -78,12 +78,12 @@ describe("Modal", () => {
     });
     expect(handleClose).toHaveBeenCalled();
 
+    const handleClose2 = jest.fn();
     rerender(
-      <Modal open closable={false} onClose={handleClose}>
+      <Modal open closable={false} onClose={handleClose2}>
         Test content
       </Modal>,
     );
-    const handleClose2 = jest.fn();
     fireEvent.click(screen.getByTestId("modalBackdrop"));
     expect(handleClose2).not.toHaveBeenCalled();
 

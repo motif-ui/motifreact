@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Offcanvas should be rendered with only required props and should have default prop values 1`] = `
+<div
+  class="Root left md"
+  data-testid="offcanvasBackdrop"
+>
+  <div
+    class="offcanvas"
+  >
+    <div
+      class="header"
+    >
+      <button
+        class="Root md secondary closeButton"
+        data-testid="iconButtonTestId"
+        type="button"
+      >
+        <span
+          class="Root motifIconsDefault md"
+          lang="en"
+          translate="no"
+        >
+          close
+        </span>
+      </button>
+    </div>
+    <div
+      class="content"
+    >
+      Test Content
+    </div>
+  </div>
+</div>
+`;

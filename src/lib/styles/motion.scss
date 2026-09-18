@@ -75,3 +75,71 @@ $spin-speeds: (
   }
   animation: spin-#{$direction} map.get($spin-speeds, $speed) linear infinite;
 }
+
+@mixin view-transition-fade($class, $speed: "normal") {
+  $duration: map.get($speeds, $speed);
+
+  @keyframes #{$class}-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes #{$class}-fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  ::view-transition-old(.#{$class}),
+  ::view-transition-new(.#{$class}) {
+    animation-duration: $duration;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-old(.#{$class}) {
+    animation-name: #{$class}-fade-out;
+  }
+
+  ::view-transition-new(.#{$class}) {
+    animation-name: #{$class}-fade-in;
+  }
+}
+
+@mixin view-transition-slide($class, $direction, $speed: "normal") {
+  $duration: map.get($speeds, $speed);
+  $axis: if($direction == "left" or $direction == "right", "X", "Y");
+  $offset: if($direction == "left" or $direction == "top", -100%, 100%);
+
+  @keyframes #{$class}-slide-in {
+    from {
+      transform: translate#{$axis }(#{$offset});
+    }
+  }
+
+  @keyframes #{$class}-slide-out {
+    to {
+      transform: translate#{$axis }(#{$offset});
+    }
+  }
+
+  ::view-transition-old(.#{$class}),
+  ::view-transition-new(.#{$class}) {
+    animation-duration: $duration;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-old(.#{$class}) {
+    animation-name: #{$class}-slide-out;
+  }
+
+  ::view-transition-new(.#{$class}) {
+    animation-name: #{$class}-slide-in;
+  }
+}
