@@ -1,10 +1,9 @@
 import { render } from "@testing-library/react";
 import ProgressBar from "@/components/ProgressBar/ProgressBar";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("ProgressBar", () => {
-  it("should be rendered with only required props", () => {
-    expect(render(<ProgressBar />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<ProgressBar {...props} />));
 
   it("should be rendered in different color scheme based on the variant prop", () => {
     const variants: ("primary" | "success" | "danger" | "warning" | "info" | "secondary")[] = [
@@ -52,12 +51,6 @@ describe("ProgressBar", () => {
 
   it("should not show percentage info when indeterminate prop is set to true regardless of the showPercentage prop value", () => {
     expect(render(<ProgressBar progress={40} showPercentage indeterminate />).queryByText("40%")).not.toBeInTheDocument();
-  });
-
-  it("should apply given style and className props", () => {
-    const { container } = render(<ProgressBar className="testClass" style={{ background: "red" }} />);
-    expect(container.firstChild).toHaveClass("testClass");
-    expect(container.firstChild).toHaveStyle("background: red");
   });
 
   it("should be able to use maxProgress prop and calculate the percentage accordingly", () => {

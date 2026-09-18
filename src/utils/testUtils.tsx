@@ -1,6 +1,7 @@
 import { RenderResult } from "@testing-library/react";
+import { createRef } from "react";
 import { createTranslator } from "../i18n/translate";
-import type { IconGlobalType } from "../lib/types";
+import type { IconGlobalType, StandardPropsWithRef } from "../lib/types";
 
 export const t = createTranslator("en");
 
@@ -28,6 +29,39 @@ export const runIconPropTest = (renderIcon: ComponentWithIconRender, className?:
 
   testStringIcon();
   testReactElementIcon();
+};
+
+/**
+ * @param renderComponent renders the component, spreading the given `props` onto it
+ * @param options
+ * @param options.assertDefaults extra checks on the plain render; when given, the test title also states that default prop values are covered
+ * @param options.getRoot locates the root element for the contract asserts (default `container.firstElementChild`; override for portals)
+ */
+export const runSnapshotDefaultsAndStandardPropsTest = <E extends Element = HTMLElement, R extends RenderResult = RenderResult>(
+  renderComponent: (props: StandardPropsWithRef<E>) => R,
+  options: {
+    assertDefaults?: (result: R) => void | Promise<void>;
+    getRoot?: (result: R) => Element | null;
+  } = {},
+) => {
+  const { assertDefaults, getRoot = ({ container }) => container.firstElementChild } = options;
+  const title = `should render with only required props,${assertDefaults ? " have default prop values stated here," : ""} and have standard props; className, style and ref props working as expected`;
+
+  it(title, async () => {
+    const result = renderComponent({});
+    expect(result.container).toMatchSnapshot();
+    await assertDefaults?.(result);
+    result.unmount();
+
+    const ref = createRef<E>();
+    const withProps = renderComponent({ className: "custom-class", style: { marginTop: "13px" }, ref });
+    const root = getRoot(withProps);
+
+    expect(root).toHaveClass("custom-class");
+    expect(root).toHaveStyle({ marginTop: "13px" });
+    expect(ref.current).toBe(root);
+    withProps.unmount();
+  });
 };
 /**
  *
