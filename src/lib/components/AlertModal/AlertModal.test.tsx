@@ -2,9 +2,10 @@
 import AlertModal from "@/components/AlertModal/AlertModal";
 import { fireEvent, render, screen, cleanup, act, within } from "@testing-library/react";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
-import { Size4LG, Variant } from "../../types";
+import { Size4LG, StandardPropsWithRef, Variant } from "../../types";
 import { AlertModalButtonPosition, AlertModalContentPosition, IconPosition } from "@/components/AlertModal/types";
 import { userEvent } from "@testing-library/user-event";
+import { runSnapshotDefaultsAndStandardPropsTest } from "src/utils/testUtils";
 
 const renderExt = (ui: ReactElement) => {
   const result = render(ui);
@@ -24,25 +25,34 @@ const renderExt = (ui: ReactElement) => {
 const TITLE = "Alert Modal Title";
 
 describe("AlertModal", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getBackdrop, getModalActions } = renderExt(
-      <AlertModal title={TITLE} open icon={<MotifIcon name="home" />} actionButton={{ text: "Confirm", onClick: jest.fn() }} />,
-    );
-    expect(container).toMatchSnapshot();
-
-    // size: md
-    expect(getBackdrop()).toHaveClass("md");
-    // contentPosition: center
-    expect(getBackdrop()).toHaveClass("content_center");
-    // buttonsPosition: center
-    expect(getBackdrop()).toHaveClass("actions_center");
-    //enableDivider : false
-    expect(getBackdrop()).not.toHaveClass("withDivider");
-    // variant default: "primary" → propagated to icon and action button
-    expect(screen.getByText("home")).toHaveClass("primary");
-    expect(getModalActions().querySelector("button")).toHaveClass("primary");
-  });
-
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      renderExt(
+        <AlertModal
+          title={TITLE}
+          open
+          icon={<MotifIcon name="home" />}
+          actionButton={{ text: "Confirm", onClick: jest.fn() }}
+          {...props}
+        />,
+      ),
+    {
+      getRoot: ({ getBackdrop }) => getBackdrop(),
+      assertDefaults: ({ getBackdrop, getModalActions }) => {
+        // size: md
+        expect(getBackdrop()).toHaveClass("md");
+        // contentPosition: center
+        expect(getBackdrop()).toHaveClass("content_center");
+        // buttonsPosition: center
+        expect(getBackdrop()).toHaveClass("actions_center");
+        //enableDivider : false
+        expect(getBackdrop()).not.toHaveClass("withDivider");
+        // variant default: "primary" → propagated to icon and action button
+        expect(screen.getByText("home")).toHaveClass("primary");
+        expect(getModalActions().querySelector("button")).toHaveClass("primary");
+      },
+    },
+  );
   it("should render the modal when open is true", () => {
     const { rerender, queryByTestId, getBackdrop } = renderExt(<AlertModal title={TITLE} open={false} />);
     expect(queryByTestId("alertModalBackdrop")).not.toBeInTheDocument();
