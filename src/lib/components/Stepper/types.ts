@@ -50,6 +50,8 @@ export type StepperContextType = {
   disabledSteps: boolean[];
   stepData: Partial<Record<number, Record<string, unknown>>>;
   setStepData: (index: number, data: Record<string, unknown>) => void;
+  visibleStart: number;
+  visibleEnd: number;
 };
 
 export type StepperNavigationProps = {
