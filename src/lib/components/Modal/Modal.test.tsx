@@ -42,7 +42,10 @@ describe("Modal", () => {
     expect(screen.getByText("Modal Subtitle")).toBeInTheDocument();
   });
 
-  it("should render close button to close the modal when closable is true", () => {
+  it("should render close button to close the modal when closable is true", async () => {
+    const user = userEvent.setup({ delay: null });
+    jest.useFakeTimers();
+
     const handleClose = jest.fn();
     const { rerender } = render(
       <Modal open closable onClose={handleClose}>
@@ -51,7 +54,10 @@ describe("Modal", () => {
     );
     const closeIcon = screen.getByTestId("iconButtonTestId");
     expect(closeIcon).toBeInTheDocument();
-    fireEvent.click(closeIcon);
+    await act(async () => {
+      await user.click(closeIcon);
+      jest.advanceTimersByTime(300);
+    });
     expect(handleClose).toHaveBeenCalledTimes(1);
     rerender(
       <Modal open closable={false} onClose={handleClose}>
@@ -59,6 +65,8 @@ describe("Modal", () => {
       </Modal>,
     );
     expect(screen.queryByTestId("iconButtonTestId")).not.toBeInTheDocument();
+
+    jest.useRealTimers();
   });
 
   it("should close the modal when clicked outside of it when closable prop is true", async () => {
@@ -66,7 +74,7 @@ describe("Modal", () => {
     jest.useFakeTimers();
 
     const handleClose = jest.fn();
-    const { rerender } = render(
+    render(
       <Modal open closable onClose={handleClose}>
         Test content
       </Modal>,
@@ -78,16 +86,18 @@ describe("Modal", () => {
     });
     expect(handleClose).toHaveBeenCalled();
 
-    rerender(
+    jest.useRealTimers();
+  });
+
+  it("should not close the modal when clicked outside of it when closable prop is false", () => {
+    const handleClose = jest.fn();
+    render(
       <Modal open closable={false} onClose={handleClose}>
         Test content
       </Modal>,
     );
-    const handleClose2 = jest.fn();
     fireEvent.click(screen.getByTestId("modalBackdrop"));
-    expect(handleClose2).not.toHaveBeenCalled();
-
-    jest.useRealTimers();
+    expect(handleClose).not.toHaveBeenCalled();
   });
 
   it("should render action button and call action handler when clicked", () => {

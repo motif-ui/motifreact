@@ -24,7 +24,7 @@ const MenuList = (p: PropsWithRef<MenuListProps, HTMLDivElement>) => {
     className,
     ref,
   } = props;
-  const { visible, toggle } = useToggle(!defaultCollapsed);
+  const { visible, toggle } = useToggle({ initialVisible: !defaultCollapsed });
   const isControlled = props.collapsed !== undefined;
   const collapsed = isControlled ? !!props.collapsed : !visible;
 

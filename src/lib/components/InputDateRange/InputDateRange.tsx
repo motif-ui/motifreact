@@ -53,7 +53,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     [datePlaceholder, format, locale],
   );
 
-  const { visible, show, hide } = useToggle(false);
+  const { visible, show, hide } = useToggle();
   const [itemValue, setItemValue] = useState<MaybeDateRange>(sanitizeRange(value as Date[]));
   const [typedValue, setTypedValue] = useState<string | undefined>(formatRangeString(itemValue));
   const setTypedValueWithFormat = useCallback((val: MaybeDateRange) => setTypedValue(formatRangeString(val)), [formatRangeString]);
