@@ -64,13 +64,12 @@ describe("AlertModal", () => {
     const { getModalContent } = renderExt(<AlertModal title={TITLE} open icon={<MotifIcon name="home" />} />);
     expect(within(getModalContent()).getByText("home")).toBeInTheDocument();
   });
-
-  it("should call onClose when clicked outside the modal", async () => {
+  it("should close the modal when clicked outside of it when closable prop is true", async () => {
     const user = userEvent.setup({ delay: null });
     jest.useFakeTimers();
 
     const handleClose = jest.fn();
-    const { getBackdrop } = renderExt(<AlertModal title={TITLE} open onClose={handleClose} />);
+    const { getBackdrop } = renderExt(<AlertModal title={TITLE} open closable onClose={handleClose} />);
 
     await act(async () => {
       await user.click(getBackdrop());
@@ -79,6 +78,13 @@ describe("AlertModal", () => {
     expect(handleClose).toHaveBeenCalled();
 
     jest.useRealTimers();
+  });
+
+  it("should not close the modal when clicked outside of it when closable prop is false", () => {
+    const handleClose = jest.fn();
+    const { getBackdrop } = renderExt(<AlertModal title={TITLE} open closable={false} onClose={handleClose} />);
+    fireEvent.click(getBackdrop());
+    expect(handleClose).not.toHaveBeenCalled();
   });
 
   it("should render action button and call action handler when clicked", () => {
