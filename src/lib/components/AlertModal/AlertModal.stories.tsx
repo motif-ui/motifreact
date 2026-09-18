@@ -5,14 +5,12 @@ import { AlertModalProps } from "./types";
 import Button from "../Button/Button";
 import useToggle from "../../hooks/useToggle";
 import { formatStoryTransform } from "../../../utils/docUtils";
-import { MotifIcon } from "../Motif/Icon";
 
 const meta: Meta<typeof AlertModal> = {
   title: "Components/AlertModal",
   component: AlertModal,
   argTypes: {
     open: { control: false },
-    alternateButton: { control: false },
     contentPosition: { table: { defaultValue: { summary: "center" } } },
     buttonsPosition: { table: { defaultValue: { summary: "center" } } },
     size: { table: { defaultValue: { summary: "md" } } },
@@ -21,10 +19,15 @@ const meta: Meta<typeof AlertModal> = {
   args: {
     title: "Alert Modal Title",
     text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ",
-    icon: <MotifIcon name="info" size="xxl" />,
+    icon: "info",
     closable: true,
     actionButton: { text: "Action", onClick: () => alert("Action clicked!") },
-    alternateButton: { text: "Close", onClick: () => {} },
+    alternateButton: {
+      text: "Close",
+      onClick: () => {
+        /*hide()*/
+      },
+    },
   },
 };
 
