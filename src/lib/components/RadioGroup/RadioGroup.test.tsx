@@ -3,18 +3,17 @@ import RadioGroup from "@/components/RadioGroup/RadioGroup";
 import Radio from "@/components/Radio/Radio";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("RadioGroup", () => {
-  it("should be rendered with only required props", () => {
-    expect(
-      render(
-        <RadioGroup name="language">
-          <Radio label="HTML" value="html" />
-          <Radio label="CSS" value="css" />
-        </RadioGroup>,
-      ).container,
-    ).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
+    render(
+      <RadioGroup name="language" {...props}>
+        <Radio label="HTML" value="html" />
+        <Radio label="CSS" value="css" />
+      </RadioGroup>,
+    ),
+  );
 
   it("should be rendered as given in orientation prop", () => {
     const { container, rerender } = render(

@@ -5,8 +5,8 @@ import { InputSize } from "../Form/types";
 import { Time } from "@/components/TimePicker/types";
 import { ReactNode } from "react";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t, runIconPropTest } from "../../../utils/testUtils";
-
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("InputTime", () => {
   const testTime: Time = { hours: 9, minutes: 15 };
   const testTimeWithSecond: Time = { hours: 14, minutes: 30, seconds: 45 };
@@ -40,13 +40,13 @@ describe("InputTime", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getInput } = renderExt(<InputTime />);
-    expect(container).toMatchSnapshot();
-    expect(getInput()).toHaveAttribute("placeholder", "__:__");
-    expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
-    //icon = schedule (default)
-    expect(screen.queryByText("schedule")).toBeInTheDocument();
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputTime {...props} />), {
+    assertDefaults: ({ container, getInput }) => {
+      expect(getInput()).toHaveAttribute("placeholder", "__:__");
+      expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+      //icon = schedule (default)
+      expect(screen.queryByText("schedule")).toBeInTheDocument();
+    },
   });
 
   it("should let typing value to time input when editable prop is set true", async () => {

@@ -1,11 +1,10 @@
 import { getByTestId, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Divider from "./Divider";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Divider", () => {
-  it("should be rendered with only required props", () => {
-    expect(render(<Divider />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Divider {...props} />));
 
   it("should be rendered as small sized as default if no size prop is given", () => {
     const { container } = render(<Divider />);

@@ -17,7 +17,8 @@ import { InputSize } from "../Form/types";
 import { ReactNode } from "react";
 import { DateUtils } from "../../../utils/dateUtils";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t, runIconPropTest } from "../../../utils/testUtils";
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDateRange", () => {
@@ -76,15 +77,15 @@ describe("InputDateRange", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getDateRangeInput, getInputText, getByText } = renderExt(<InputDateRange />);
-    expect(container).toMatchSnapshot();
-    // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
-    expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);
-    // size = md (default)
-    expect(getInputText()).toHaveClass("md");
-    // icon = calendar_expand_horizontal (default)
-    expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputDateRange {...props} />), {
+    assertDefaults: ({ getInputText, getDateRangeInput, getByText }) => {
+      // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
+      expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);
+      // size = md (default)
+      expect(getInputText()).toHaveClass("md");
+      // icon = calendar_expand_horizontal (default)
+      expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
+    },
   });
 
   it("should display the dates as given format in format prop with an arrow between them", () => {

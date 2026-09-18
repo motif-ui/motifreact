@@ -2,11 +2,10 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import Radio from "@/components/Radio/Radio";
 import { InputSize } from "../Form/types";
 import { userEvent } from "@testing-library/user-event";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Radio", () => {
-  it("should be rendered with only required props", () => {
-    expect(render(<Radio value="val" />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Radio value="val" {...props} />));
 
   it("should display label when label prop is given", () => {
     render(<Radio label="Radio" value="radio" />);

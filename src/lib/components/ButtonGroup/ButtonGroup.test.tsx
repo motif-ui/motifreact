@@ -3,14 +3,12 @@ import { userEvent } from "@testing-library/user-event";
 
 import ButtonGroup from "./ButtonGroup";
 import { Size4SM } from "../../types";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("ButtonGroup", () => {
-  it("should render with only required props", () => {
-    const { container } = render(<ButtonGroup />);
-    expect(container).toMatchSnapshot();
-
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<ButtonGroup {...props} />), {
     // size: md
-    expect(container.firstElementChild).toHaveClass("md");
+    assertDefaults: ({ container }) => expect(container.firstElementChild).toHaveClass("md"),
   });
 
   it("should be rendered with the size given in size prop", () => {

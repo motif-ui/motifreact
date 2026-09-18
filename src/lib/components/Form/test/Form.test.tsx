@@ -20,7 +20,7 @@ import Col from "@/components/Grid/components/Col";
 import { MOCK } from "../../Upload/mock";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
 import { FileType } from "@/components/Upload/types";
-import { t, mockXHRs } from "src/utils/testUtils.tsx";
+import { t, mockXHRs, runSnapshotDefaultsAndStandardPropsTest } from "src/utils/testUtils.tsx";
 
 import {
   data,
@@ -50,19 +50,18 @@ import { defaultDateFormat } from "@/components/Motif/Pickers/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("Form", () => {
-  it("should be rendered with only required props and items", () => {
-    const mainForm = (
-      <Form onSubmit={mockFunction}>
+  runSnapshotDefaultsAndStandardPropsTest<FormRefType>(props =>
+    render(
+      <Form onSubmit={mockFunction} {...props}>
         <Form.Field name="inputName">
           <InputText name="inputName" />
         </Form.Field>
         <Form.Field name="inputName2">
           <InputText name="inputName2" />
         </Form.Field>
-      </Form>
-    );
-    expect(render(mainForm).container).toMatchSnapshot();
-  });
+      </Form>,
+    ),
+  );
 
   it("should render all form items in given formOrientation prop", () => {
     const form = (orientation: Orientation) => (

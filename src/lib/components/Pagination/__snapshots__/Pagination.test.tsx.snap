@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Pagination should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-testid="pagination"
+  >
+    <button
+      class="pageItem arrowIcon"
+      disabled=""
+    >
+      <span
+        class="Root lg motifIconsDefault"
+        lang="en"
+        translate="no"
+      >
+        arrow_back
+      </span>
+    </button>
+    <button
+      class="pageItem active"
+    >
+      1
+    </button>
+    <button
+      class="pageItem "
+    >
+      2
+    </button>
+    <span
+      class="separator"
+    />
+    <button
+      class="pageItem"
+    >
+      10
+    </button>
+    <button
+      class="pageItem arrowIcon"
+    >
+      <span
+        class="Root lg motifIconsDefault"
+        lang="en"
+        translate="no"
+      >
+        arrow_forward
+      </span>
+    </button>
+  </div>
+</div>
+`;

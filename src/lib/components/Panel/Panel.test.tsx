@@ -1,16 +1,15 @@
 import { render } from "@testing-library/react";
 import Panel from "@/components/Panel/Panel";
-import { runIconPropTest } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Panel", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container, getByText } = render(<Panel title="title" />);
-    expect(container).toMatchSnapshot();
-
-    // type: default
-    expect(container.firstElementChild).toHaveClass("default");
-    // titleSize: md
-    expect(getByText("title")).toHaveClass("title-md");
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Panel title="title" {...props} />), {
+    assertDefaults: ({ container, getByText }) => {
+      // type: default
+      expect(container.firstElementChild).toHaveClass("default");
+      // titleSize: md
+      expect(getByText("title")).toHaveClass("title-md");
+    },
   });
 
   it("should render a border around when bordered is true", () => {

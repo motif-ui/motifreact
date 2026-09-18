@@ -1,13 +1,18 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Pagination from "./Pagination";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Pagination", () => {
   const mockOnChange = jest.fn();
 
   beforeEach(() => {
     mockOnChange.mockClear();
   });
+
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
+    render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} {...props} />),
+  );
 
   it("should render pagination with correct number of pages", () => {
     render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} />);
@@ -130,12 +135,6 @@ describe("Pagination", () => {
 
     rerender(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} size="lg" />);
     expect(pagination).toHaveClass("lg");
-  });
-
-  it("should apply custom className", () => {
-    render(<Pagination total={100} current={1} pageSize={10} onChange={mockOnChange} className="custom-class" />);
-
-    expect(screen.getByTestId("pagination")).toHaveClass("custom-class");
   });
 
   it("should calculate correct total pages", () => {

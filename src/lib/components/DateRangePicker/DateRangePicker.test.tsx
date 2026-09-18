@@ -6,7 +6,8 @@ import { userEvent } from "@testing-library/user-event";
 import { DateUtils } from "../../../utils/dateUtils";
 import { ReactNode } from "react";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t } from "../../../utils/testUtils";
+import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("DateRangePicker", () => {
@@ -45,22 +46,22 @@ describe("DateRangePicker", () => {
     };
   };
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { getFirstPicker, getByTestId, container } = renderExt(
-      <DateRangePicker value={[new Date(2000, 1, 15), new Date(2000, 1, 18)]} />,
-    );
-    expect(container).toMatchSnapshot();
-    const pickerContainer = getByTestId("Picker");
-    // locale: TR
-    expect(within(getFirstPicker()).getByText("Mo")).toBeInTheDocument();
-    expect(within(getFirstPicker()).getByText("Tu")).toBeInTheDocument();
-
-    // variant: borderless
-    expect(pickerContainer).toHaveClass("borderless");
-
-    // size: md
-    expect(pickerContainer).toHaveClass("md");
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      renderExt(<DateRangePicker value={[new Date(2000, 1, 15), new Date(2000, 1, 18)]} {...props} />),
+    {
+      assertDefaults: ({ getByTestId, getFirstPicker }) => {
+        const pickerContainer = getByTestId("Picker");
+        // locale: TR
+        expect(within(getFirstPicker()).getByText("Mo")).toBeInTheDocument();
+        expect(within(getFirstPicker()).getByText("Tu")).toBeInTheDocument();
+        // variant: borderless
+        expect(pickerContainer).toHaveClass("borderless");
+        // size: md
+        expect(pickerContainer).toHaveClass("md");
+      },
+    },
+  );
 
   it("should render a dropdown to select predefined date ranges", async () => {
     const { queryByText, getByTestId } = renderExt(<DateRangePicker />);
