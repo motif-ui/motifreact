@@ -2,11 +2,10 @@ import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import InputPassword from "./InputPassword";
 import { InputSize } from "../Form/types";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("InputPassword", () => {
-  it("should be rendered with only required props", () => {
-    expect(render(<InputPassword />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<InputPassword {...props} />));
 
   it("should display given value when value prop is given", () => {
     const value = "Entered Text";

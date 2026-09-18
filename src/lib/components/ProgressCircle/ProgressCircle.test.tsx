@@ -1,10 +1,9 @@
 import { render } from "@testing-library/react";
 import ProgressCircle from "@/components/ProgressCircle/ProgressCircle";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("ProgressCircle", () => {
-  it("should be rendered with only required props", () => {
-    expect(render(<ProgressCircle />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<SVGSVGElement>) => render(<ProgressCircle {...props} />));
 
   it("should be rendered in different color scheme based on the variant prop", () => {
     const variants: ("primary" | "success" | "danger" | "warning" | "info" | "secondary")[] = [
@@ -64,12 +63,6 @@ describe("ProgressCircle", () => {
     expect(queryByText("50%")).not.toBeInTheDocument();
     rerender(<ProgressCircle progress={50} showPercentage size="md" />);
     expect(queryByText("50%")).not.toBeInTheDocument();
-  });
-
-  it("should apply given style and className props", () => {
-    const { container } = render(<ProgressCircle className="testClass" style={{ background: "red" }} />);
-    expect(container.firstChild).toHaveClass("testClass");
-    expect(container.firstChild).toHaveStyle("background: red");
   });
 
   it("should be able to use maxProgress prop and calculate the percentage accordingly", () => {

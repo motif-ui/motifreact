@@ -2,10 +2,12 @@ import "@testing-library/jest-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import Carousel from "./Carousel";
-import { IndicatorShape, Theme } from "./types";
+import { CarouselProps, IndicatorShape, Theme } from "./types";
 import { ReactNode } from "react";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { PropsWithRef, StandardPropsWithRef } from "../../types";
 
-const renderExt = (props = {}, component?: ReactNode) => {
+const renderExt = (props: PropsWithRef<CarouselProps, HTMLDivElement> = {}, component?: ReactNode) => {
   const result = render(
     component ?? (
       <Carousel height={400} {...props}>
@@ -37,28 +39,23 @@ const renderExt = (props = {}, component?: ReactNode) => {
 };
 
 describe("Carousel", () => {
-  it("should be rendered with only required props and should have default prop values", () => {
-    jest.useFakeTimers();
-    const { getIndicators, getTrack, container, rerender } = renderExt();
-    const autoplayIntervalDefault = 3000;
-    expect(container).toMatchSnapshot();
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(props), {
+    assertDefaults: ({ container, rerender, getTrack, getIndicators }) => {
+      expect(getIndicators()).toBeInTheDocument();
+      expect(screen.getAllByText("arrow_forward_ios")).toHaveLength(2);
+      expect(container.firstChild).toHaveClass("light");
 
-    expect(getIndicators()).toBeInTheDocument();
-    expect(screen.getAllByText("arrow_forward_ios")).toHaveLength(2);
-    expect(container.firstChild).toHaveClass("light");
-
-    rerender(
-      <Carousel height={400} autoplay>
-        <Carousel.Item title="Slide 1" />
-        <Carousel.Item title="Slide 2" />
-      </Carousel>,
-    );
-    act(() => {
-      jest.advanceTimersByTime(autoplayIntervalDefault);
-    });
-    expect(getTrack()).toHaveStyle({ transform: "translateX(-100%)" });
-
-    jest.useRealTimers();
+      jest.useFakeTimers();
+      rerender(
+        <Carousel height={400} autoplay>
+          <Carousel.Item title="Slide 1" />
+          <Carousel.Item title="Slide 2" />
+        </Carousel>,
+      );
+      act(() => jest.advanceTimersByTime(3000));
+      expect(getTrack()).toHaveStyle({ transform: "translateX(-100%)" });
+      jest.useRealTimers();
+    },
   });
 
   it("should render all carousel items as children", () => {

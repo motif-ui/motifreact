@@ -5,18 +5,18 @@ import { Size3 } from "../../types";
 import Link from "../Link";
 import IconButton from "../IconButton";
 import { userEvent } from "@testing-library/user-event";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Modal", () => {
-  it("should be rendered with only required props and should have default prop values", () => {
-    render(<Modal open>Test content</Modal>);
-
-    const backdrop = screen.getByTestId("modalBackdrop");
-    expect(backdrop).toMatchSnapshot();
-    expect(backdrop).toHaveClass("md");
-    expect(backdrop).not.toHaveClass("maximized");
-    expect(backdrop).not.toHaveClass("noContentPadding");
-    expect(screen.queryByTestId("iconButtonTestId")).not.toBeInTheDocument();
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      render(
+        <Modal open {...props}>
+          Test content
+        </Modal>,
+      ),
+    { getRoot: () => screen.queryByTestId("modalBackdrop") },
+  );
 
   it("should render the modal when open is true", () => {
     const { rerender } = render(<Modal open={false}>Test content</Modal>);

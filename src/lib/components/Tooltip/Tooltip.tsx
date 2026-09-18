@@ -25,12 +25,12 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
   } = usePropsWithThemeDefaults("Tooltip", props);
 
   const ref = useRef<HTMLDivElement>(null);
-  useImperativeHandle(outerRef, () => ref.current!, []);
   const domReady = useDomReady();
   const anchorRef = useRef<HTMLElement | undefined>(undefined);
 
   const [visible, setVisible] = useState(false);
   const [attached, setAttached] = useState(false);
+  useImperativeHandle(outerRef, () => (attached ? ref.current : null) as HTMLDivElement, [attached]);
   const { resetPosition, tryToKeepTooltipInTheScreen, positionStyle, setTooltipPosition, lastTriedPosition } = usePositionTooltip(
     position,
     anchorRef,

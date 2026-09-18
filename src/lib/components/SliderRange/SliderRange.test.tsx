@@ -2,7 +2,8 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import SliderRange from "@/components/SliderRange/SliderRange";
 import Slider from "@/components/Slider/Slider";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("SliderRange", () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
@@ -25,40 +26,39 @@ describe("SliderRange", () => {
     Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container } = render(<SliderRange />);
-    expect(container).toMatchSnapshot();
-
-    // size: md
-    expect(container.firstElementChild).toHaveClass("md");
-
-    const checkDefaultProps = (sliderItem: Element, val: string, min: string, fillStyle: string) => {
-      // variant: primary
-      expect(sliderItem).toHaveClass("primary");
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<SliderRange {...props} />), {
+    assertDefaults: ({ container }) => {
       // size: md
-      expect(sliderItem).toHaveClass("md");
+      expect(container.firstElementChild).toHaveClass("md");
 
-      // fill, start, end
-      // combination of these 3 props results in 0% width fill at 0% left
-      expect(sliderItem.getElementsByClassName("fill")[0]).toHaveStyle(fillStyle);
+      const checkDefaultProps = (sliderItem: Element, val: string, min: string, fillStyle: string) => {
+        // variant: primary
+        expect(sliderItem).toHaveClass("primary");
+        // size: md
+        expect(sliderItem).toHaveClass("md");
 
-      const slider = sliderItem.querySelector('input[type="range"]')!;
+        // fill, start, end
+        // combination of these 3 props results in 0% width fill at 0% left
+        expect(sliderItem.getElementsByClassName("fill")[0]).toHaveStyle(fillStyle);
 
-      // value
-      expect(slider).toHaveValue(val);
-      // min
-      expect(slider).toHaveAttribute("min", min);
-      // max: 100
-      expect(slider).toHaveAttribute("max", "100");
-      // step
-      fireEvent.change(slider, { target: { value: 0.5 } });
-      expect(slider).toHaveValue("1");
-    };
+        const slider = sliderItem.querySelector('input[type="range"]')!;
 
-    const slider1 = container.firstElementChild?.firstElementChild as HTMLDivElement;
-    checkDefaultProps(slider1, "0", "0", "display: none;");
-    const slider2 = container.firstElementChild?.lastElementChild as HTMLDivElement;
-    checkDefaultProps(slider2, "100", "1", "width: 99%; left: 1%;");
+        // value
+        expect(slider).toHaveValue(val);
+        // min
+        expect(slider).toHaveAttribute("min", min);
+        // max: 100
+        expect(slider).toHaveAttribute("max", "100");
+        // step
+        fireEvent.change(slider, { target: { value: 0.5 } });
+        expect(slider).toHaveValue("1");
+      };
+
+      const slider1 = container.firstElementChild?.firstElementChild as HTMLDivElement;
+      checkDefaultProps(slider1, "0", "0", "display: none;");
+      const slider2 = container.firstElementChild?.lastElementChild as HTMLDivElement;
+      checkDefaultProps(slider2, "100", "1", "width: 99%; left: 1%;");
+    },
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {

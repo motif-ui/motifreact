@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { render, screen } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Breadcrumb", () => {
   const testItems = [
     { label: "Ana Sayfa", path: "https://www.motif-ui.com" },
@@ -12,9 +12,9 @@ describe("Breadcrumb", () => {
     { label: "Motif", path: "https://www.motif-ui.com" },
   ];
 
-  it("should render with only required props", () => {
-    expect(render(<Breadcrumb items={testItems} />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLUListElement>) =>
+    render(<Breadcrumb items={testItems} {...props} />),
+  );
 
   it("should render the right number of elements", () => {
     render(<Breadcrumb items={testItems} maxVisibleItems={5} />);

@@ -1,16 +1,15 @@
 import BusinessCard from "@/components/BusinessCard/BusinessCard";
 import { fireEvent, render } from "@testing-library/react";
-import { runIconPropTest } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("BusinessCard", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container } = render(<BusinessCard />);
-    expect(container).toMatchSnapshot();
-
-    // position: center
-    expect(container.firstElementChild).toHaveClass("center");
-    // variant: neutral
-    expect(container.firstElementChild).toHaveClass("neutral");
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<BusinessCard {...props} />), {
+    assertDefaults: ({ container }) => {
+      // position: center
+      expect(container.firstElementChild).toHaveClass("center");
+      // variant: neutral
+      expect(container.firstElementChild).toHaveClass("neutral");
+    },
   });
 
   it("should render given text in the title prop", () => {
