@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import MenuList from "./MenuList";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { userEvent } from "@testing-library/user-event";
 import { Size3 } from "../../types";
 import { MainMenuItemProps } from "@/components/MenuList/types";
@@ -17,12 +18,12 @@ describe("MenuList", () => {
     },
   ];
 
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container } = render(<MenuList items={items} variant="solid" />);
-    expect(container).toMatchSnapshot();
-    const root = container.firstElementChild as HTMLElement;
-    expect(root).toHaveClass("solid");
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) => render(<MenuList items={items} variant="solid" {...props} />),
+    {
+      assertDefaults: ({ container }) => expect(container.firstElementChild).toHaveClass("solid"),
+    },
+  );
 
   it("should display logo given in logo prop", () => {
     const logo = "testLogo.png";

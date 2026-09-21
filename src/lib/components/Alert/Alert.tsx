@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { PropsWithRefAndChildren } from "../../types";
 import { AlertProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -13,18 +14,24 @@ const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
     message,
     hideIcon,
     closable,
+    onClose,
     children,
     ref,
     className,
     style,
   } = usePropsWithThemeDefaults("Alert", props);
 
-  const { visible, hide, toggleState } = useToggle(true, 300);
+  const { visible, hide, toggleState } = useToggle({ initialVisible: true, duration: 300 });
   const classes = sanitizeModuleRootClasses(styles, className, [variant, toggleState]);
   const iconName = variant === "danger" ? "error" : variant === "warning" ? "warning" : variant === "success" ? "check_circle" : "info";
 
+  const closeHandler = useCallback(() => {
+    hide();
+    onClose && onClose();
+  }, [hide, onClose]);
+
   return (
-    visible && (
+    (visible || !!toggleState) && (
       <div className={classes} style={style} ref={ref}>
         {!hideIcon && <MotifIcon name={iconName} variant={variant} size="lg" />}
         <div className={styles.contentBox}>
@@ -32,7 +39,7 @@ const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
           {message && <span className={styles.message}>{message}</span>}
           {children}
         </div>
-        {closable && <MotifIconButton name="close" size="lg" onClick={hide} />}
+        {closable && <MotifIconButton name="close" size="lg" onClick={closeHandler} />}
       </div>
     )
   );

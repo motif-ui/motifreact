@@ -1,19 +1,17 @@
 import { fireEvent, render } from "@testing-library/react";
 import Tab from "./Tab";
 import TabItem from "./components/TabItem";
-import { runIconPropTest } from "../../../utils/testUtils";
-
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Tab", () => {
-  it("should render with only required props", () => {
-    expect(
-      render(
-        <Tab tabs={[{ id: "home" }, { id: "profile" }]}>
-          <Tab.Panel id="home" />
-          <Tab.Panel id="profile" />
-        </Tab>,
-      ).container,
-    ).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
+    render(
+      <Tab tabs={[{ id: "home" }, { id: "profile" }]} {...props}>
+        <Tab.Panel id="home" />
+        <Tab.Panel id="profile" />
+      </Tab>,
+    ),
+  );
 
   it("fires onChangeTab when selected tab is changed", () => {
     const mockOnTabChange = jest.fn();

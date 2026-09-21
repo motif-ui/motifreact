@@ -1,22 +1,26 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import Popover from "./Popover";
 import { createRef } from "react";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Popover", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const anchorRef = createRef<HTMLDivElement>();
-    const { container, getByTestId } = render(<Popover anchorRef={anchorRef} open />);
+  const anchorRef = createRef<HTMLDivElement>();
 
-    expect(container).toMatchSnapshot();
-
-    const popoverElement = getByTestId("popover");
-    //Default value control for variant prop
-    expect(popoverElement).toHaveClass("light");
-    //default value control for position prop
-    expect(popoverElement).toHaveClass("bottom");
-    //default value control for spacing prop
-    expect(popoverElement).toHaveClass("callout");
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) => render(<Popover anchorRef={anchorRef} open {...props} />),
+    {
+      assertDefaults: ({ getByTestId }) => {
+        const popoverElement = getByTestId("popover");
+        //Default value control for variant prop
+        expect(popoverElement).toHaveClass("light");
+        //default value control for position prop
+        expect(popoverElement).toHaveClass("bottom");
+        //default value control for spacing prop
+        expect(popoverElement).toHaveClass("callout");
+      },
+      getRoot: result => result.queryByTestId("popover"),
+    },
+  );
 
   it("should render in a position given in placeOn prop relative to the anchor element", () => {
     const positions: ("top" | "bottom" | "right" | "left" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight")[] = [

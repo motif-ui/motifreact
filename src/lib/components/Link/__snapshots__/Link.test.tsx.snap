@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Link Component Tests should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
+<div>
+  <a
+    class="Root md rightIcon"
+    data-testid="linkComponent"
+    href="https://motif-ui.com"
+    rel=""
+    target="_self"
+  >
+    <span
+      class="label"
+    >
+      Motif
+    </span>
+  </a>
+</div>
+`;

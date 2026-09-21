@@ -1,6 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
 import NavBar from "./NavBar";
-import { runIconPropTest } from "../../../utils/testUtils";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 import { MenuItemProps } from "@/components/NavBar/components/NavBarMenu/types";
 import { userEvent } from "@testing-library/user-event";
 import { Size3 } from "src/lib/types.ts";
@@ -36,12 +37,10 @@ export const items: MenuItemProps[] = [
 ];
 
 describe("NavBar", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container } = render(<NavBar />);
-    expect(container).toMatchSnapshot();
-
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLElement>) => render(<NavBar {...props} />), {
     // variant default: "neutral"
-    expect(container.firstChild).toHaveClass("neutral");
+
+    assertDefaults: ({ container }) => expect(container.firstChild).toHaveClass("neutral"),
   });
 
   it("should be rendered in the color variant given in the variant prop", () => {

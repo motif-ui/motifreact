@@ -25,7 +25,7 @@ const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLD
   } = usePropsWithThemeDefaults("Accordion", props);
   const { expandedIndex, setExpandedIndex, multiExpand, groupEnabled } = useContext(AccordionGroupContext);
   const isGroupSingleSelect = groupEnabled && !multiExpand;
-  const { visible: localOpen, toggle } = useToggle(isGroupSingleSelect ? false : expanded);
+  const { visible: localOpen, toggle } = useToggle({ initialVisible: isGroupSingleSelect ? false : expanded });
   const open = isGroupSingleSelect ? expandedIndex === index : localOpen;
 
   if (groupEnabled && index === undefined) {

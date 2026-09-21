@@ -152,15 +152,15 @@ export const CustomNavigation: Story = {
 const stepper = useStepper();
 const { stepData, setStepData, goToNextStep } = stepper;
 const [step2Disabled, setStep2Disabled] = useState(false);
-const accountCode = (stepData[0]?.accountCode ?? "") as string;
+const code = (stepData[0]?.code ?? "") as string;
 
 const onNextClick = () => {
-  switch (step2Disabled) {
-    case accountCode === "1":
+  switch (code) {
+    case "1":
       setStep2Disabled(true);
       goToNextStep();
       break;
-    case accountCode === "2":
+    case "2":
       setStep2Disabled(false);
       alert("You shall not pass! Input cannot be 2.");
       break;
@@ -182,7 +182,7 @@ return (
         <br />
         <Form>
           <Form.Field name="code" label="Code">
-            <InputText value={accountCode} onChange={val => setStepData(0, { accountCode: val })} />
+            <InputText value={code} onChange={val => setStepData(0, { code: val })} />
           </Form.Field>
         </Form>
       </>

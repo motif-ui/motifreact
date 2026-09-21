@@ -8,11 +8,27 @@ import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
 
 const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
   const { index, title, icon = "motif_ui", variant: itemVariant, error, disabled } = props;
-  const { activeStep, variant: contextVariant, stepType, itemOrientation, onStepClick, goToStep } = useContext(StepperContext)!;
+  const {
+    activeStep,
+    visitedSteps,
+    variant: contextVariant,
+    stepType,
+    itemOrientation,
+    onStepClick,
+    goToStep,
+  } = useContext(StepperContext)!;
 
   const variant = itemVariant ?? contextVariant;
-  const status = error ? "error" : index === activeStep ? "active" : !disabled && index < activeStep ? "completed" : "upcoming";
-  const clickable = !disabled && status === "completed";
+  const status = error
+    ? "error"
+    : index === activeStep
+      ? "active"
+      : !disabled && index < activeStep
+        ? "completed"
+        : !disabled && index > activeStep && visitedSteps.includes(index)
+          ? "visited"
+          : undefined;
+  const clickable = !disabled && (status === "completed" || status === "visited");
 
   const itemRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +49,7 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
       status === "completed" || status === "error" ? (
         <Icon name={status === "completed" ? "check" : "error"} className={styles.dotStatusIcon} />
       ) : (
-        <span className={`${styles.stepIndicator} ${styles.stepDot}`} />
+        <span className={styles.stepIndicator} />
       )
     ) : (
       <span className={styles.stepIndicator}>

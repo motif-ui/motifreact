@@ -24,7 +24,7 @@
  * @example
  * // Advanced usage with custom template
  * transform: formatStoryTransform("Modal", ["children", "open"], (argsString) => `
- *   const { visible, show, hide } = useToggle(false);
+ *   const { visible, show, hide } = useToggle();
  *   return (
  *     <Modal open={visible} onClose={hide} ${argsString}>
  *       <p>Content</p>

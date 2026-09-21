@@ -2,7 +2,8 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Timeline from "@/components/Timeline/Timeline";
 import { TimelineItemProps, TimelineMarkerType, TimelineVariant } from "@/components/Timeline/types";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 const items: TimelineItemProps[] = [
   { title: "Step 1", content: "First step content" },
   { title: "Step 2", content: "Second step content" },
@@ -10,36 +11,28 @@ const items: TimelineItemProps[] = [
 ];
 
 describe("Timeline", () => {
-  it("should be rendered with only required props and should have default prop values stated here", () => {
-    const { container } = render(<Timeline items={items} />);
-    expect(container).toMatchSnapshot();
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Timeline items={items} {...props} />), {
+    assertDefaults: ({ container }) => {
+      const root = container.firstChild as HTMLElement;
+      // orientation: vertical
+      expect(root).toHaveClass("vertical");
+      // contentPosition: after
+      expect(root).toHaveClass("after");
+      // markerType: dot
+      expect(root).toHaveClass("dot");
+      // textAlign: start
+      expect(root).toHaveClass("start");
+      // variant: primary
+      expect(root).toHaveClass("primary");
+      // appearance: filled
+      expect(container.querySelector(".item")).toHaveClass("filled");
+      // disabled: false (default, no disabled class)
+      expect(container.querySelector(".item")).not.toHaveClass("disabled");
 
-    const root = container.firstChild as HTMLElement;
-
-    // orientation: vertical
-    expect(root).toHaveClass("vertical");
-
-    // contentPosition: after
-    expect(root).toHaveClass("after");
-
-    // markerType: dot
-    expect(root).toHaveClass("dot");
-
-    // textAlign: start
-    expect(root).toHaveClass("start");
-
-    // variant: primary
-    expect(root).toHaveClass("primary");
-
-    // appearance: filled
-    expect(container.querySelector(".item")).toHaveClass("filled");
-
-    // disabled: false (default, no disabled class)
-    expect(container.querySelector(".item")).not.toHaveClass("disabled");
-
-    // icon: motif_ui (default when markerType is icon)
-    const { container: iconContainer } = render(<Timeline items={[{ title: "Item" }]} markerType="icon" />);
-    expect(iconContainer.textContent).toContain("motif_ui");
+      // icon: motif_ui (default when markerType is icon)
+      const { container: iconContainer } = render(<Timeline items={[{ title: "Item" }]} markerType="icon" />);
+      expect(iconContainer.textContent).toContain("motif_ui");
+    },
   });
 
   it("should be rendered as given in orientation prop", () => {

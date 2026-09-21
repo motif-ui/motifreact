@@ -3,14 +3,15 @@ import { render } from "@testing-library/react";
 import Icon from "./Icon";
 import { motifIconNames } from "./motif-icon-names";
 import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
-import { Size7 } from "../../types";
+import { Size8LG } from "../../types";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import MotifProvider from "../../motif/context/MotifProvider";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Icon", () => {
-  it("should be rendered with only required props", () => {
-    expect(render(<Icon name="account_circle" />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLSpanElement>) =>
+    render(<Icon name="account_circle" {...props} />),
+  );
 
   it("should render the icon given in the name prop or child as string", () => {
     const { getByText, rerender } = render(<Icon name="testIcon" />);
@@ -26,7 +27,7 @@ describe("Icon", () => {
   });
 
   it("should be rendered with the size prop", () => {
-    const sizes: Size7[] = ["xxs", "sm", "md", "lg", "xs", "xl", "xxl"];
+    const sizes: Size8LG[] = ["xxs", "sm", "md", "lg", "xs", "xl", "xxl", "xxxl"];
 
     for (const size of sizes) {
       const { container } = render(<Icon name="account_circle" size={size} />);
@@ -59,12 +60,6 @@ describe("Icon", () => {
     );
     expect(container.firstChild).not.toHaveClass(MOTIF_ICONS_DEFAULT_CLASS);
     expect(container.firstChild).toHaveClass(testClass);
-  });
-
-  it("should apply the styles in the css class given in className prop", () => {
-    const testClassName = "testClassName";
-    const { container } = render(<Icon name="account_circle" className={testClassName} />);
-    expect(container.firstChild).toHaveClass(testClassName);
   });
 
   it("should be colored by the color prop", () => {

@@ -3,14 +3,15 @@ import { fireEvent, render } from "@testing-library/react";
 import IconButton from "./IconButton";
 import { motifIconNames } from "../Icon/motif-icon-names";
 import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
-import { Size7 } from "../../types";
+import { Size8LG } from "../../types";
 import Icon from "@/components/Icon";
 import MotifProvider from "../../motif/context/MotifProvider";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("IconButton", () => {
-  it("should be rendered with only required props", () => {
-    expect(render(<IconButton name="account_circle" />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLButtonElement>) =>
+    render(<IconButton name="account_circle" {...props} />),
+  );
 
   it("should render the icon given in the name prop", () => {
     const { getByText } = render(<Icon name="testIcon" />);
@@ -24,7 +25,7 @@ describe("IconButton", () => {
   });
 
   it("should be rendered with the size prop", () => {
-    const sizes: Size7[] = ["xxs", "sm", "md", "lg", "xs", "xl", "xxl"];
+    const sizes: Size8LG[] = ["xxs", "sm", "md", "lg", "xs", "xl", "xxl", "xxxl"];
 
     for (const size of sizes) {
       const { container } = render(<IconButton name="account_circle" size={size} />);
@@ -58,12 +59,6 @@ describe("IconButton", () => {
     const iconSpan = container.firstChild?.firstChild;
     expect(iconSpan).not.toHaveClass(MOTIF_ICONS_DEFAULT_CLASS);
     expect(iconSpan).toHaveClass(testClass);
-  });
-
-  it("should apply the styles in the css class given in className prop", () => {
-    const testClassName = "testClassName";
-    const { container } = render(<IconButton name="account_circle" className={testClassName} />);
-    expect(container.firstChild).toHaveClass(testClassName);
   });
 
   it("should be rendered as disabled when disabled prop is given", () => {

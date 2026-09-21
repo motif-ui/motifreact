@@ -1,11 +1,10 @@
 import { fireEvent, getByTestId, render, screen } from "@testing-library/react";
 import Chip from "@/components/Chip/Chip";
 import { Size4SM } from "../../types";
-
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../lib/types";
 describe("Chip", () => {
-  it("should be rendered with only required props", () => {
-    expect(render(<Chip label="test" />).container).toMatchSnapshot();
-  });
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Chip label="test" {...props} />));
 
   it("should render icon and label together when there are both set", () => {
     render(<Chip label="test" icon="info" />);
