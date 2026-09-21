@@ -81,9 +81,6 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   const activeContent = stepItems[activeStep]?.props.children;
   const classNames = sanitizeModuleRootClasses(styles, className, [orientation, stepType, `${itemOrientation}-items`]);
 
-  const visibleStart = Math.max(0, Math.min(Math.floor(activeStep / 2) * 2, count - 2));
-  const visibleEnd = Math.min(visibleStart + 1, count - 1);
-
   return (
     <StepperContext
       value={{
@@ -99,8 +96,6 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
         disabledSteps,
         stepData,
         setStepData,
-        visibleStart,
-        visibleEnd,
       }}
     >
       <div ref={ref} style={style} className={classNames}>

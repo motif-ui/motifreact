@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useContext } from "react";
+import { PropsWithChildren, useCallback, useContext, useEffect, useRef } from "react";
 import Icon from "../../Icon";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "../Stepper.module.scss";
@@ -8,36 +8,24 @@ import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
 
 const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
   const { index, title, icon = "motif_ui", variant: itemVariant, error, disabled } = props;
-  const {
-    activeStep,
-    variant: contextVariant,
-    stepType,
-    itemOrientation,
-    onStepClick,
-    goToStep,
-    visibleStart,
-    visibleEnd,
-  } = useContext(StepperContext)!;
+  const { activeStep, variant: contextVariant, stepType, itemOrientation, onStepClick, goToStep } = useContext(StepperContext)!;
 
   const variant = itemVariant ?? contextVariant;
   const status = error ? "error" : index === activeStep ? "active" : !disabled && index < activeStep ? "completed" : "upcoming";
   const clickable = !disabled && status === "completed";
-  const narrowHidden = index < visibleStart || index > visibleEnd;
+
+  const itemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    status === "active" && itemRef.current?.scrollIntoView({ inline: "nearest", block: "nearest" });
+  }, [status]);
 
   const handleClick = useCallback(() => {
     goToStep(index);
     onStepClick?.(index);
   }, [goToStep, onStepClick, index]);
 
-  const itemClasses = sanitizeModuleClasses(
-    styles,
-    "stepItem",
-    variant,
-    status,
-    disabled && "disabled",
-    clickable && "clickable",
-    narrowHidden && "narrowHidden",
-  );
+  const itemClasses = sanitizeModuleClasses(styles, "stepItem", variant, status, disabled && "disabled", clickable && "clickable");
   const stepHeaderClass = sanitizeModuleClasses(styles, "stepHeader", `item-${itemOrientation}`);
 
   const renderStep = () =>
@@ -60,7 +48,7 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
     );
 
   return (
-    <div className={itemClasses}>
+    <div ref={itemRef} className={itemClasses}>
       <div className={stepHeaderClass} {...(clickable && { tabIndex: 0, onClick: handleClick })}>
         {stepType !== "text" && renderStep()}
         <span className={styles.title}>{title}</span>
