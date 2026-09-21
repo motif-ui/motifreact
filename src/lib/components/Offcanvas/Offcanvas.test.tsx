@@ -1,19 +1,20 @@
 import Offcanvas from "@/components/Offcanvas/Offcanvas";
 import { fireEvent, render, screen, cleanup, act } from "@testing-library/react";
-import { Size3 } from "../../types";
+import { Size3, StandardPropsWithRef } from "../../types";
 import { OffcanvasPosition } from "./types";
 import { userEvent } from "@testing-library/user-event";
+import { runSnapshotDefaultsAndStandardPropsTest } from "src/utils/testUtils.tsx";
 
 describe("Offcanvas", () => {
-  it("should be rendered with only required props and should have default prop values", () => {
-    render(<Offcanvas open>Test Content</Offcanvas>);
-
-    const backdrop = screen.getByTestId("offcanvasBackdrop");
-    expect(backdrop).toMatchSnapshot();
-    expect(backdrop).toHaveClass("left");
-    expect(backdrop).toHaveClass("md");
-    expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
-  });
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      render(
+        <Offcanvas open {...props}>
+          Test Content
+        </Offcanvas>,
+      ),
+    { getRoot: () => screen.queryByTestId("offcanvasBackdrop") },
+  );
 
   it("should render the offcanvas when open is true", () => {
     const { rerender } = render(<Offcanvas open={false}>Test content</Offcanvas>);
@@ -61,8 +62,7 @@ describe("Offcanvas", () => {
   });
 
   it("should close the offcanvas when clicked outside of it when closable prop is true", async () => {
-    const user = userEvent.setup({ delay: null });
-    jest.useFakeTimers();
+    const user = userEvent.setup();
 
     const handleClose = jest.fn();
     const { rerender } = render(
@@ -71,10 +71,7 @@ describe("Offcanvas", () => {
       </Offcanvas>,
     );
 
-    await act(async () => {
-      await user.click(screen.getByTestId("offcanvasBackdrop"));
-      jest.advanceTimersByTime(300);
-    });
+    await user.click(screen.getByTestId("offcanvasBackdrop"));
     expect(handleClose).toHaveBeenCalled();
 
     const handleClose2 = jest.fn();
@@ -85,8 +82,6 @@ describe("Offcanvas", () => {
     );
     fireEvent.click(screen.getByTestId("offcanvasBackdrop"));
     expect(handleClose2).not.toHaveBeenCalled();
-
-    jest.useRealTimers();
   });
 
   it("should render children with the given content", () => {

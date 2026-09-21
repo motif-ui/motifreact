@@ -33,7 +33,7 @@ const meta: Meta<typeof Offcanvas> = {
 
 const OffcanvasComponent = (props: OffcanvasProps) => {
   const { open, ...otherProps } = props;
-  const { visible, show, hide } = useToggle(open);
+  const { visible, show, hide } = useToggle({ initialVisible: open });
 
   return (
     <>

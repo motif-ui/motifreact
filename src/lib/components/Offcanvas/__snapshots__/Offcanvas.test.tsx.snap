@@ -33,3 +33,5 @@ exports[`Offcanvas should be rendered with only required props and should have d
   </div>
 </div>
 `;
+
+exports[`Offcanvas should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `<div />`;
