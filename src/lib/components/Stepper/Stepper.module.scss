@@ -79,10 +79,6 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
     cursor: pointer;
   }
 
-  &.upcoming.clickable:hover .stepIndicator {
-    background-color: var(--theme-color-surface-base-base6);
-  }
-
   &.error {
     .stepIndicator {
       background-color: var(--theme-color-surface-danger-default);
@@ -219,6 +215,24 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 
       &:not(:last-child)::after {
         border-color: var(--theme-color-border-#{$variant}-default);
+      }
+    }
+
+    &.visited {
+      .title {
+        color: var(--theme-color-text-#{$variant}-default);
+      }
+      .stepIndicator {
+        background-color: var(--theme-color-surface-#{$variant}-default);
+      }
+
+      .stepHeader:hover {
+        .title {
+          color: var(--theme-color-text-#{$variant}-hover);
+        }
+        .stepIndicator {
+          background-color: var(--theme-color-surface-#{$variant}-hover);
+        }
       }
     }
   }

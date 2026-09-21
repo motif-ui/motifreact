@@ -67,6 +67,18 @@ describe("Alert", () => {
     expect(screen.queryByText("info")).toBeInTheDocument();
   });
 
+  it("should call onClose callback when close button is clicked", () => {
+    jest.useFakeTimers();
+    const onClose = jest.fn();
+    render(<Alert message="Alert Message" closable onClose={onClose} />);
+    fireEvent.click(screen.queryByText("close") as HTMLElement);
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+    expect(onClose).toHaveBeenCalledTimes(1);
+    jest.useRealTimers();
+  });
+
   it("should render given children as custom content", () => {
     render(
       <Alert>
