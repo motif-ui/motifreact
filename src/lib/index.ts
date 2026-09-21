@@ -36,6 +36,7 @@ export { default as ListView } from "./components/ListView";
 export { default as MenuList } from "./components/MenuList";
 export { default as Modal } from "./components/Modal/Modal";
 export { default as NavBar } from "./components/NavBar";
+export { default as Offcanvas } from "./components/Offcanvas";
 export { default as Pagination } from "./components/Pagination";
 export { default as Panel } from "./components/Panel";
 export { default as PinCode } from "./components/PinCode";

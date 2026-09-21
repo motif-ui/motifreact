@@ -8,6 +8,7 @@ import { userEvent } from "@testing-library/user-event";
 import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
+import { DateUtils } from "../../../utils/dateUtils";
 
 describe("DateTimePicker", () => {
   beforeEach(() => {
@@ -45,7 +46,12 @@ describe("DateTimePicker", () => {
 
   runTimePickerCommonTests();
 
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<DateTimePicker {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => {
+    const todaySpy = jest.spyOn(DateUtils, "getTodayTimeless").mockReturnValue(new Date(2025, 7, 4));
+    const result = render(<DateTimePicker {...props} />);
+    todaySpy.mockRestore();
+    return result;
+  });
 
   it("should render the date picker button", () => {
     const { getByText } = render(<DateTimePicker />);
