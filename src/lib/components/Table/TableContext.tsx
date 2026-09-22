@@ -13,6 +13,10 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
   const {
     dataRaw,
     columns,
+    totalRecords,
+    onSortChange,
+    onFilterChange,
+    onColumnFilterChange,
     showFixedRowNumbers,
     pagination,
     selectable,
@@ -49,20 +53,23 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     const normalizedColumnQueries = columnStates.map(s => s.filterQuery && normalize(s.filterQuery));
 
     const filteredRows = originalRows.filter(row => {
-      const columnMatches = !columns.some((column, index) => {
-        const data = getValueByChainedKey<never>(row.data, column.dataKey);
-        const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
-        const columnQuery = normalizedColumnQueries[index];
-        return !!columnQuery && !normalize(contentToBeSearched).includes(columnQuery);
-      });
+      const columnMatches =
+        !!onColumnFilterChange ||
+        !columns.some((column, index) => {
+          const data = getValueByChainedKey<never>(row.data, column.dataKey);
+          const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
+          const columnQuery = normalizedColumnQueries[index];
+          return !!columnQuery && !normalize(contentToBeSearched).includes(columnQuery);
+        });
 
-      const mainFilterMatches = normalizedMainQuery
-        ? columns.some(column => {
-            const data = getValueByChainedKey<never>(row.data, column.dataKey);
-            const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
-            return normalize(contentToBeSearched).includes(normalizedMainQuery);
-          })
-        : true;
+      const mainFilterMatches =
+        normalizedMainQuery && !onFilterChange
+          ? columns.some(column => {
+              const data = getValueByChainedKey<never>(row.data, column.dataKey);
+              const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
+              return normalize(contentToBeSearched).includes(normalizedMainQuery);
+            })
+          : true;
 
       return columnMatches && mainFilterMatches;
     });
@@ -70,7 +77,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     // Sort
     return columns.reduce((acc, column, index) => {
       const sortDirection = columnStates[index]?.lastSortDirection;
-      return sortDirection
+      return sortDirection && !onSortChange
         ? acc.sort((a, b) => {
             const data1 = getValueByChainedKey(sortDirection === "asc" ? a.data : b.data, column.dataKey);
             const data2 = getValueByChainedKey(sortDirection === "asc" ? b.data : a.data, column.dataKey);
@@ -78,7 +85,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
           })
         : acc;
     }, filteredRows);
-  }, [originalRows, columnStates, columns, mainFilterQuery, locale]);
+  }, [originalRows, columnStates, columns, mainFilterQuery, locale, onSortChange, onFilterChange, onColumnFilterChange]);
 
   // Data that is visible in the table. It can be less than usableRows if pagination is enabled.
   const visibleRows = useMemo(
@@ -128,27 +135,34 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
   const updateSortState = useCallback(
     (columnIndex: number) => {
       if (usableRows?.length) {
-        setColumnStates(prev => {
-          const sortDirection = getNextItemInArray(SORT_DIRECTIONS, prev[columnIndex]?.lastSortDirection);
-          return prev.map((c, index) => (index === columnIndex ? { ...c, lastSortDirection: sortDirection } : c));
-        });
+        const sortDirection = getNextItemInArray(SORT_DIRECTIONS, columnStates[columnIndex]?.lastSortDirection);
+        setColumnStates(prev => prev.map((c, index) => (index === columnIndex ? { ...c, lastSortDirection: sortDirection } : c)));
         setCurrentPage(1);
+        onSortChange?.({ dataKey: columns[columnIndex]?.dataKey, direction: sortDirection });
       }
     },
-    [usableRows?.length],
+    [usableRows?.length, columnStates, columns, onSortChange],
   );
 
-  const updateFilterState = useCallback((query: string, columnIndex?: number) => {
-    if (columnIndex !== undefined) {
-      setColumnStates(prev => prev.map((c, index) => (index === columnIndex ? { ...c, filterQuery: query } : c)));
-      setCurrentPage(1);
-    }
-  }, []);
+  const updateFilterState = useCallback(
+    (query: string, columnIndex?: number) => {
+      if (columnIndex !== undefined) {
+        setColumnStates(prev => prev.map((c, index) => (index === columnIndex ? { ...c, filterQuery: query } : c)));
+        setCurrentPage(1);
+        onColumnFilterChange?.({ dataKey: columns[columnIndex]?.dataKey, query });
+      }
+    },
+    [columns, onColumnFilterChange],
+  );
 
-  const handleMainFilterChange = useCallback((query: string) => {
-    setMainFilterQuery(query);
-    setCurrentPage(1);
-  }, []);
+  const handleMainFilterChange = useCallback(
+    (query: string) => {
+      setMainFilterQuery(query);
+      setCurrentPage(1);
+      onFilterChange?.(query);
+    },
+    [onFilterChange],
+  );
 
   const contextValue = useMemo(() => {
     return {
@@ -169,7 +183,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       filterPlaceholder,
       filterableColumns: columns.some(c => c.filter),
       updateFilterState,
-      totalRecords: originalRows?.length ?? 0,
+      totalRecords: totalRecords ?? originalRows?.length ?? 0,
       setMainFilterQuery: handleMainFilterChange,
       numberOfVisibleColumns: columns.length + (selectable ? 1 : 0) + (showFixedRowNumbers ? 1 : 0),
       rowColorCallback,
@@ -192,6 +206,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     updateFilterState,
     handleMainFilterChange,
     rowColorCallback,
+    totalRecords,
   ]);
 
   return <TableContext value={contextValue}>{props.children}</TableContext>;

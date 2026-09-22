@@ -8,6 +8,10 @@ const Table = <T extends object>(props: PropsWithRef<TableProps<T>, HTMLDivEleme
   const {
     columns,
     data,
+    totalRecords,
+    onSortChange,
+    onFilterChange,
+    onColumnFilterChange,
     showFixedRowNumbers,
     pagination,
     selectable,
@@ -25,6 +29,10 @@ const Table = <T extends object>(props: PropsWithRef<TableProps<T>, HTMLDivEleme
     <TableProvider
       columns={columns}
       dataRaw={data}
+      totalRecords={totalRecords}
+      onSortChange={onSortChange}
+      onFilterChange={onFilterChange}
+      onColumnFilterChange={onColumnFilterChange}
       showFixedRowNumbers={showFixedRowNumbers}
       pagination={pagination}
       selectable={selectable}

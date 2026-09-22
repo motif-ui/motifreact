@@ -38,6 +38,10 @@ export type TableProps<T = object> = {
   header?: ReactNode;
   footer?: () => ReactNode;
   loading?: boolean;
+  totalRecords?: number;
+  onSortChange?: (sort: { dataKey?: string; direction?: SortDirection }) => void;
+  onFilterChange?: (query: string) => void;
+  onColumnFilterChange?: (filter: { dataKey?: string; query: string }) => void;
   selectable?: boolean;
   selectionKey?: string;
   onSelect?: (selection: { all: T[]; current?: T }) => void;
@@ -75,7 +79,6 @@ export type Column = {
 };
 
 export type Sorting = {
-  desc?: boolean;
   customSort?: (a: unknown, b: unknown) => number;
 };
 
@@ -100,6 +103,10 @@ export type RowBackground = "transparent" | "solid" | "opposite";
 export type TableContextProps = {
   columns: Column[];
   dataRaw?: object[];
+  totalRecords?: number;
+  onSortChange?: (sort: { dataKey?: string; direction?: SortDirection }) => void;
+  onFilterChange?: (query: string) => void;
+  onColumnFilterChange?: (filter: { dataKey?: string; query: string }) => void;
   showFixedRowNumbers?: boolean;
   pagination?: Pagination;
   selectable?: boolean;
@@ -136,7 +143,7 @@ export type TableContextType = {
 };
 
 export type ColumnState = {
-  lastSortDirection?: "asc" | "desc";
+  lastSortDirection?: SortDirection;
   filterQuery?: string;
 };
 
@@ -164,3 +171,4 @@ export const TableContextDefaultValues: TableContextType = {
 //
 
 export type RowColor = "primary" | "secondary" | "light" | "success" | "danger" | "warning" | "info";
+export type SortDirection = "asc" | "desc";
