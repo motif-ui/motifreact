@@ -111,6 +111,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
   display: grid;
   grid-template-columns: max-content 1fr;
   row-gap: var(--base-sizing-8x);
+  --connector-size: clamp(var(--base-sizing-12x), calc(var(--base-sizing-12x) + (var(--base-sizing-80x) - var(--base-sizing-12x)) * (100vh - 36rem) / (62rem - 36rem)), var(--base-sizing-80x));
 
   .stepList {
     grid-row: 2;
@@ -131,7 +132,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
       box-sizing: content-box;
       margin: var(--base-sizing-8x) 0;
       width: 50%;
-      height: var(--base-sizing-80x);
+      height: var(--connector-size);
       top: 100%;
       border-right: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
     }
@@ -150,20 +151,45 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 .horizontal {
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  width: 100%;
+  --connector-size: clamp(var(--base-sizing-12x), calc(var(--base-sizing-12x) + (var(--base-sizing-80x) - var(--base-sizing-12x)) * (100vw - 36rem) / (75rem - 36rem)), var(--base-sizing-80x));
 
-  .stepItem:not(:last-child)::after {
-    content: "";
-    box-sizing: content-box;
-    margin: 0 var(--base-sizing-8x);
-    height: 50%;
-    width: var(--base-sizing-80x);
-    left: 100%;
-    border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  .stepList {
+    min-width: 0;
+    padding-block: var(--base-sizing-4x);
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .stepItem {
+    .stepIndicator {
+      flex-shrink: 0;
+    }
+
+    &:not(:last-child)::after {
+      content: "";
+      box-sizing: content-box;
+      flex-shrink: 0;
+      width: var(--connector-size);
+      margin: 0 var(--base-sizing-8x);
+      height: 50%;
+      left: 100%;
+      border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    }
   }
 
   .stepCount {
     align-self: flex-end;
+  }
+
+  @include screen-width("below", "sm") {
+    .stepList {
+      gap: var(--base-sizing-8x);
+    }
+
+    .stepItem:not(:last-child)::after {
+      display: none;
+    }
   }
 }
 

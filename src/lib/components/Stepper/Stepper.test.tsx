@@ -32,6 +32,10 @@ const renderExt = (props: PropsWithRef<StepperProps, HTMLDivElement> = {}, itemP
 };
 
 describe("Stepper", () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = jest.fn();
+  });
+
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(props), {
     assertDefaults: ({ container, getRoot }) => {
       // orientation = horizontal
