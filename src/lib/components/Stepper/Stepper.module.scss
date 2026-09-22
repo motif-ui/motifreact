@@ -111,7 +111,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
   display: grid;
   grid-template-columns: max-content 1fr;
   row-gap: var(--base-sizing-8x);
-  --connector-size: clamp(var(--base-sizing-12x), 17vh - 4.5625rem, var(--base-sizing-80x));
+  --connector-size: clamp(var(--base-sizing-12x), calc(var(--base-sizing-12x) + (var(--base-sizing-80x) - var(--base-sizing-12x)) * (100vh - 36rem) / (62rem - 36rem)), var(--base-sizing-80x));
 
   .stepList {
     grid-row: 2;
@@ -152,7 +152,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
   display: flex;
   flex-direction: column;
   width: 100%;
-  --connector-size: clamp(var(--base-sizing-12x), 10.8974vw - 3.173rem, var(--base-sizing-80x));
+  --connector-size: clamp(var(--base-sizing-12x), calc(var(--base-sizing-12x) + (var(--base-sizing-80x) - var(--base-sizing-12x)) * (100vw - 36rem) / (75rem - 36rem)), var(--base-sizing-80x));
 
   .stepList {
     min-width: 0;
