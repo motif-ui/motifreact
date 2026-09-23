@@ -35,14 +35,18 @@ cancellation) and wires directly into a small set of props `<Table>` already exp
   explicit action (the search button, **Enter**, or clearing) rather than a debounced keystroke — `useServerTable` uses
   it to skip its own debounce and fetch right away, so an explicit search isn't delayed on top of being explicit.
 - **onColumnFilterChange**: fired instead of filtering client-side, whenever a column's **filter** input changes.
-- **totalRecords**: overrides the footer's record count, since the table only ever holds the current page of data.
+- **onPageChange**: fired whenever the **pagination** footer's page changes — purely a notification, safe to use even
+  with client-side pagination (e.g. just to scroll to top).
+- **totalRecords**: overrides the footer's record count and the pagination total, since the table only ever holds the
+  current page of data. Setting it (not **onPageChange**) is what tells `<Table>` to stop re-slicing the **data** prop
+  for the current page, since it's now expected to already contain just that page's rows.
 - **reflectDataChanges**: must be set to `true` — otherwise `<Table>` only ever reads the **data** prop once, and later
   server responses would be ignored.
 
 > **Note:** Every field `useServerTable` returns (**data**, **totalRecords**, **loading**, **onSortChange**,
-> **onFilterChange**, **onColumnFilterChange**) is deliberately named to match one of these props one-to-one, so the
-> hook's result can usually be spread straight onto `<Table>` instead of wiring each field by hand — see the examples
-> below.
+> **onFilterChange**, **onColumnFilterChange**, **onPageChange**) is deliberately named to match one of these props
+> one-to-one, so the hook's result can usually be spread straight onto `<Table>` instead of wiring each field by hand —
+> see the examples below.
 
 ### Basic Use
 
@@ -69,9 +73,8 @@ a convention — every parameter it might send is opt-in, and nothing is invente
 - **method**: `"GET"` (default) sends the built parameters as a query string; `"POST"` sends them as a JSON body instead.
 
 Each of these is independent and optional — a parameter (or parameter pair, like page and pageSize) is only ever sent
-when its key name is actually configured. **page** and **setPage** aren't `<Table>` props, though — they're pulled out
-of the hook's result first, since they're only needed for `<Pagination>` (whose own **current**/**onChange** props use
-different names). The rest of the result still spreads straight onto `<Table>`:
+when its key name is actually configured. Pagination itself needs no separate wiring — give `<Table>` a **pagination**
+prop (`{ rowsPerPage }`) and the hook's result spreads straight onto it, **onPageChange** included:
 
 <Canvas of={Table.ServerSideParams} sourceState="shown" />
 

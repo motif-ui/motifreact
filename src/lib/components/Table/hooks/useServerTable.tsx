@@ -97,7 +97,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
     return () => controller.abort();
   }, [page, pageSize, sort, debouncedFilters]);
 
-  const setPage = useCallback((newPage: number) => dispatch({ type: "setPage", page: newPage }), []);
+  const onPageChange = useCallback((newPage: number) => dispatch({ type: "setPage", page: newPage }), []);
 
   const onSortChange = useCallback((newSort: Sort) => dispatch({ type: "sort", sort: newSort }), []);
 
@@ -110,7 +110,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
     dataKey && dispatch({ type: "columnFilter", dataKey, query });
   }, []);
 
-  return { data, totalRecords, loading, page, setPage, onSortChange, onFilterChange, onColumnFilterChange };
+  return { data, totalRecords, loading, page, onPageChange, onSortChange, onFilterChange, onColumnFilterChange };
 };
 
 export default useServerTable;

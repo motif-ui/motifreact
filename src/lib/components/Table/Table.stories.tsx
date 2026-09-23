@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Table from "./Table";
-import PaginationComponent from "../Pagination";
 import useServerTable from "./hooks/useServerTable";
 import { generateMockTableData } from "../../../docs/data/table";
 import Button from "@/components/Button";
@@ -83,7 +82,7 @@ const serverTable = useServerTable<User>({
 };
 
 const ServerSideParamsDemo = () => {
-  const { page, setPage, ...serverTable } = useServerTable<{ name: string; email: string; company: { name: string } }>({
+  const serverTable = useServerTable<{ name: string; email: string; company: { name: string } }>({
     url: "https://jsonplaceholder.typicode.com/users",
     pageSize: 3,
     queryStringKeys: {
@@ -98,19 +97,17 @@ const ServerSideParamsDemo = () => {
   });
 
   return (
-    <>
-      <Table
-        columns={[
-          { title: "Name", dataKey: "name", sorting: {} },
-          { title: "Email", dataKey: "email", sorting: {}, filter: true },
-          { title: "Company", dataKey: "company.name" },
-        ]}
-        filterableTable
-        reflectDataChanges
-        {...serverTable}
-      />
-      <PaginationComponent total={serverTable.totalRecords} current={page} pageSize={3} onChange={setPage} />
-    </>
+    <Table
+      columns={[
+        { title: "Name", dataKey: "name", sorting: {} },
+        { title: "Email", dataKey: "email", sorting: {}, filter: true },
+        { title: "Company", dataKey: "company.name" },
+      ]}
+      filterableTable
+      reflectDataChanges
+      pagination={{ rowsPerPage: 3 }}
+      {...serverTable}
+    />
   );
 };
 
@@ -120,7 +117,7 @@ export const ServerSideParams: Story = {
       source: {
         type: "code",
         code: `
-const { page, setPage, ...serverTable } = useServerTable<User>({
+const serverTable = useServerTable<User>({
   url: "https://api.example.com/users",
   pageSize: 3,
   queryStringKeys: {
@@ -134,8 +131,7 @@ const { page, setPage, ...serverTable } = useServerTable<User>({
   totalCount: { headerKey: "X-Total-Count" }
 });
 
-<Table columns={columns} filterableTable reflectDataChanges {...serverTable} />
-<Pagination total={serverTable.totalRecords} current={page} pageSize={3} onChange={setPage} />
+<Table columns={columns} filterableTable reflectDataChanges pagination={{ rowsPerPage: 3 }} {...serverTable} />
         `,
       },
     },
@@ -145,46 +141,41 @@ const { page, setPage, ...serverTable } = useServerTable<User>({
 
 const ServerSideFetcherDemo = () => {
   type DocsDummyUser = { id: number; firstName: string; lastName: string; email: string; gender: string };
-  const { page, setPage, ...serverTable } = useServerTable<DocsDummyUser>(
-    { pageSize: 3 },
-    async ({ page, pageSize = 3, sort, filters, signal }) => {
-      const { dataKey, direction } = sort;
-      const [filterKey, filterValue] = Object.entries(filters.columns).find(([, value]) => value) ?? [];
-      // DummyJSON needs a different endpoint depending on what's active — something a fixed `url` + `params` could never express.
-      const baseUrl = `https://dummyjson.com/users${filters.main ? "/search" : filterKey ? "/filter" : ""}`;
+  const serverTable = useServerTable<DocsDummyUser>({ pageSize: 3 }, async ({ page, pageSize = 3, sort, filters, signal }) => {
+    const { dataKey, direction } = sort;
+    const [filterKey, filterValue] = Object.entries(filters.columns).find(([, value]) => value) ?? [];
+    // DummyJSON needs a different endpoint depending on what's active — something a fixed `url` + `params` could never express.
+    const baseUrl = `https://dummyjson.com/users${filters.main ? "/search" : filterKey ? "/filter" : ""}`;
 
-      const params = new URLSearchParams({ limit: String(pageSize), skip: String((page - 1) * pageSize) });
-      if (dataKey && direction) {
-        params.set("sortBy", dataKey);
-        params.set("order", direction);
-      }
-      filters.main && params.set("q", filters.main);
-      if (filterKey) {
-        params.set("key", filterKey);
-        params.set("value", filterValue as string);
-      }
+    const params = new URLSearchParams({ limit: String(pageSize), skip: String((page - 1) * pageSize) });
+    if (dataKey && direction) {
+      params.set("sortBy", dataKey);
+      params.set("order", direction);
+    }
+    filters.main && params.set("q", filters.main);
+    if (filterKey) {
+      params.set("key", filterKey);
+      params.set("value", filterValue as string);
+    }
 
-      const response = await fetch(`${baseUrl}?${params}`, { signal });
-      const body = (await response.json()) as { users: DocsDummyUser[]; total: number };
-      return { data: body.users, totalRecords: body.total };
-    },
-  );
+    const response = await fetch(`${baseUrl}?${params}`, { signal });
+    const body = (await response.json()) as { users: DocsDummyUser[]; total: number };
+    return { data: body.users, totalRecords: body.total };
+  });
 
   return (
-    <>
-      <Table
-        columns={[
-          { title: "First Name", dataKey: "firstName", sorting: {} },
-          { title: "Last Name", dataKey: "lastName", sorting: {} },
-          { title: "Email", dataKey: "email" },
-          { title: "Gender", dataKey: "gender", filter: true },
-        ]}
-        filterableTable
-        reflectDataChanges
-        {...serverTable}
-      />
-      <PaginationComponent total={serverTable.totalRecords} current={page} pageSize={3} onChange={setPage} />
-    </>
+    <Table
+      columns={[
+        { title: "First Name", dataKey: "firstName", sorting: {} },
+        { title: "Last Name", dataKey: "lastName", sorting: {} },
+        { title: "Email", dataKey: "email" },
+        { title: "Gender", dataKey: "gender", filter: true },
+      ]}
+      filterableTable
+      reflectDataChanges
+      pagination={{ rowsPerPage: 3 }}
+      {...serverTable}
+    />
   );
 };
 
@@ -194,7 +185,7 @@ export const ServerSideFetcher: Story = {
       source: {
         type: "code",
         code: `
-const { page, setPage, ...serverTable } = useServerTable<User>(
+const serverTable = useServerTable<User>(
   { pageSize: 3 },
   async ({ page, pageSize, sort, filters, signal }) => {
     const { dataKey, direction } = sort;
@@ -213,8 +204,7 @@ const { page, setPage, ...serverTable } = useServerTable<User>(
   }
 );
 
-<Table columns={columns} filterableTable reflectDataChanges {...serverTable} />
-<Pagination total={serverTable.totalRecords} current={page} pageSize={3} onChange={setPage} />
+<Table columns={columns} filterableTable reflectDataChanges pagination={{ rowsPerPage: 3 }} {...serverTable} />
         `,
       },
     },

@@ -17,6 +17,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     onSortChange,
     onFilterChange,
     onColumnFilterChange,
+    onPageChange,
     showFixedRowNumbers,
     pagination,
     selectable,
@@ -97,8 +98,11 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
 
   // Data that is visible in the table. It can be less than usableRows if pagination is enabled.
   const visibleRows = useMemo(
-    () => (pagination ? usableRows?.slice((currentPage - 1) * pagination.rowsPerPage, currentPage * pagination.rowsPerPage) : usableRows),
-    [currentPage, usableRows, pagination],
+    () =>
+      pagination && totalRecords === undefined
+        ? usableRows?.slice((currentPage - 1) * pagination.rowsPerPage, currentPage * pagination.rowsPerPage)
+        : usableRows,
+    [currentPage, usableRows, pagination, totalRecords],
   );
 
   const spannedCellsMap = useMemo(() => getSpannedCellsMap(columns, visibleRows), [columns, visibleRows]);
@@ -185,6 +189,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       showFixedRowNumbers,
       setCurrentPage,
       currentPage,
+      onPageChange,
       pagination,
       selectable,
       selectHandler,
@@ -194,6 +199,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       filterableColumns: columns.some(c => c.filter),
       updateFilterState,
       totalRecords: totalRecords ?? originalRows?.length ?? 0,
+      explicitTotalRecords: totalRecords,
       mainFilterInputValue,
       setMainFilterInputValue,
       applyFilter,
@@ -210,6 +216,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       columnStates,
       showFixedRowNumbers,
       currentPage,
+      onPageChange,
       pagination,
       selectable,
       selectHandler,

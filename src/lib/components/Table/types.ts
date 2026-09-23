@@ -42,6 +42,7 @@ export type TableProps<T = object> = {
   onSortChange?: (sort: { dataKey?: string; direction?: SortDirection }) => void;
   onFilterChange?: (query: string, immediate?: boolean) => void;
   onColumnFilterChange?: (filter: { dataKey?: string; query: string }) => void;
+  onPageChange?: (page: number) => void;
   selectable?: boolean;
   selectionKey?: string;
   onSelect?: (selection: { all: T[]; current?: T }) => void;
@@ -108,6 +109,7 @@ export type TableContextProps = {
   onSortChange?: (sort: { dataKey?: string; direction?: SortDirection }) => void;
   onFilterChange?: (query: string, immediate?: boolean) => void;
   onColumnFilterChange?: (filter: { dataKey?: string; query: string }) => void;
+  onPageChange?: (page: number) => void;
   showFixedRowNumbers?: boolean;
   pagination?: Pagination;
   selectable?: boolean;
@@ -125,6 +127,8 @@ export type TableContextType = {
   usableRows?: RowDetail[];
   visibleRows?: RowDetail[];
   totalRecords: number;
+  /** The raw `totalRecords` prop, unmerged with any fallback — undefined unless the consumer explicitly set it. */
+  explicitTotalRecords?: number;
   columns: Column[];
   spannedCellsMap: SpannedCellsMap;
   updateSortState: (columnIndex: number) => void;
@@ -132,6 +136,7 @@ export type TableContextType = {
   showFixedRowNumbers?: boolean;
   currentPage: number;
   setCurrentPage?: Dispatch<SetStateAction<number>>;
+  onPageChange?: (page: number) => void;
   pagination?: Pagination;
   selectable?: boolean;
   selectHandler?: (selection: { row?: RowDetail; all?: "select" | "deselect" }) => void;
