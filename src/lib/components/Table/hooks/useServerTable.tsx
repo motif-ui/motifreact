@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { getValueByChainedKey } from "src/utils/utils";
-import { Fetcher, Filters, Sort, UseServerTableOptions } from "@/components/Table/hooks/types";
+import { Fetcher, Sort, UseServerTableOptions } from "@/components/Table/hooks/types";
+import { requestReducer } from "@/components/Table/hooks/requestReducer";
 
 const createUrlFetcher =
   <T,>({ url, method = "GET", queryStringKeys = {}, itemsKey, totalCount = {} }: UseServerTableOptions): Fetcher<T> =>
@@ -52,12 +53,14 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
   const { url, pageSize, filterKeyPressRequestDelay = 500 } = options;
   if (!fetcher && !url) throw new Error("useServerTable: provide either `options.url` or a `fetcher`.");
 
-  const [page, setPage] = useState(1);
-  const [sort, setSort] = useState<Sort>({});
-  const [filters, setFiltersState] = useState<Filters>({ main: "", columns: {} });
-  const filtersRef = useRef(filters);
-  const [debouncedFilters, setDebouncedFilters] = useState<Filters>({ main: "", columns: {} });
+  const [{ page, sort, filters, debouncedFilters }, dispatch] = useReducer(requestReducer, {
+    page: 1,
+    sort: {},
+    filters: { main: "", columns: {} },
+    debouncedFilters: { main: "", columns: {} },
+  });
   const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
   const [data, setData] = useState<T[]>([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -67,11 +70,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
   fetcherRef.current = resolvedFetcher;
 
   useEffect(() => {
-    debounceTimeoutRef.current = setTimeout(() => {
-      setDebouncedFilters(prev =>
-        prev.main === filters.main && JSON.stringify(prev.columns) === JSON.stringify(filters.columns) ? prev : filters,
-      );
-    }, filterKeyPressRequestDelay);
+    debounceTimeoutRef.current = setTimeout(() => dispatch({ type: "debounceElapsed" }), filterKeyPressRequestDelay);
     return () => clearTimeout(debounceTimeoutRef.current);
   }, [filters, filterKeyPressRequestDelay]);
 
@@ -98,31 +97,17 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
     return () => controller.abort();
   }, [page, pageSize, sort, debouncedFilters]);
 
-  const onSortChange = useCallback((newSort: Sort) => {
-    setSort(newSort);
-    setPage(1);
-  }, []);
+  const setPage = useCallback((newPage: number) => dispatch({ type: "setPage", page: newPage }), []);
+
+  const onSortChange = useCallback((newSort: Sort) => dispatch({ type: "sort", sort: newSort }), []);
 
   const onFilterChange = useCallback((query: string, immediate?: boolean) => {
-    const next = { ...filtersRef.current, main: query };
-    filtersRef.current = next;
-    setFiltersState(next);
-
-    if (immediate) {
-      clearTimeout(debounceTimeoutRef.current);
-      setDebouncedFilters(next);
-    }
-
-    setPage(1);
+    if (immediate) clearTimeout(debounceTimeoutRef.current);
+    dispatch({ type: "filter", query, immediate });
   }, []);
 
   const onColumnFilterChange = useCallback(({ dataKey, query }: { dataKey?: string; query: string }) => {
-    if (!dataKey) return;
-
-    const next = { ...filtersRef.current, columns: { ...filtersRef.current.columns, [dataKey]: query } };
-    filtersRef.current = next;
-    setFiltersState(next);
-    setPage(1);
+    dataKey && dispatch({ type: "columnFilter", dataKey, query });
   }, []);
 
   return { data, totalRecords, loading, page, setPage, onSortChange, onFilterChange, onColumnFilterChange };
