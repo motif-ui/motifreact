@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { foldNormalize, getNextItemInArray, getTextFromNode, getValueByChainedKey } from "../../../utils/utils";
 import { sortByType, SORT_DIRECTIONS, getSpannedCellsMap } from "@/components/Table/helper";
 import { ColumnState, RowDetail, TableContextDefaultValues, TableContextProps, TableContextType } from "@/components/Table/types";
@@ -24,12 +24,20 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     onSelect,
     filterableTable,
     filterPlaceholder,
+    filterOnKeyPress,
     reflectDataChanges,
     rowColorCallback,
   } = props;
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [mainFilterQuery, setMainFilterQuery] = useState<string>("");
+  const [appliedMainFilterQuery, setAppliedMainFilterQuery] = useState<string>("");
+  const [mainFilterInputValue, setMainFilterInputValueState] = useState<string>("");
+  const mainFilterInputValueRef = useRef(mainFilterInputValue);
+
+  const setMainFilterInputValue = useCallback((value: string) => {
+    mainFilterInputValueRef.current = value;
+    setMainFilterInputValueState(value);
+  }, []);
 
   const mapDataToMotifTableRow: (row: object, index: number) => RowDetail = useCallback(
     (row: object, index: number) => ({
@@ -49,7 +57,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     if (!originalRows) return undefined;
 
     const normalize = (s: string) => foldNormalize(s, locale);
-    const normalizedMainQuery = mainFilterQuery && normalize(mainFilterQuery);
+    const normalizedMainQuery = appliedMainFilterQuery && normalize(appliedMainFilterQuery);
     const normalizedColumnQueries = columnStates.map(s => s.filterQuery && normalize(s.filterQuery));
 
     const filteredRows = originalRows.filter(row => {
@@ -85,7 +93,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
           })
         : acc;
     }, filteredRows);
-  }, [originalRows, columnStates, columns, mainFilterQuery, locale, onSortChange, onFilterChange, onColumnFilterChange]);
+  }, [originalRows, columnStates, columns, appliedMainFilterQuery, locale, onSortChange, onFilterChange, onColumnFilterChange]);
 
   // Data that is visible in the table. It can be less than usableRows if pagination is enabled.
   const visibleRows = useMemo(
@@ -155,17 +163,15 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     [columns, onColumnFilterChange],
   );
 
-  const handleMainFilterChange = useCallback(
-    (query: string) => {
-      setMainFilterQuery(query);
-      setCurrentPage(1);
-      onFilterChange?.(query);
-    },
-    [onFilterChange],
-  );
+  const applyFilter = useCallback(() => {
+    if (mainFilterInputValueRef.current === appliedMainFilterQuery) return;
+    setAppliedMainFilterQuery(mainFilterInputValueRef.current);
+    setCurrentPage(1);
+    onFilterChange?.(mainFilterInputValueRef.current);
+  }, [appliedMainFilterQuery, onFilterChange]);
 
-  const contextValue = useMemo(() => {
-    return {
+  const contextValue = useMemo(
+    () => ({
       originalRows,
       usableRows,
       updateSortState,
@@ -181,33 +187,40 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       selectHandler,
       filterableTable,
       filterPlaceholder,
+      filterOnKeyPress,
       filterableColumns: columns.some(c => c.filter),
       updateFilterState,
       totalRecords: totalRecords ?? originalRows?.length ?? 0,
-      setMainFilterQuery: handleMainFilterChange,
+      mainFilterInputValue,
+      setMainFilterInputValue,
+      applyFilter,
       numberOfVisibleColumns: columns.length + (selectable ? 1 : 0) + (showFixedRowNumbers ? 1 : 0),
       rowColorCallback,
-    };
-  }, [
-    originalRows,
-    usableRows,
-    updateSortState,
-    visibleRows,
-    columns,
-    spannedCellsMap,
-    columnStates,
-    showFixedRowNumbers,
-    currentPage,
-    pagination,
-    selectable,
-    selectHandler,
-    filterableTable,
-    filterPlaceholder,
-    updateFilterState,
-    handleMainFilterChange,
-    rowColorCallback,
-    totalRecords,
-  ]);
+    }),
+    [
+      originalRows,
+      usableRows,
+      updateSortState,
+      visibleRows,
+      columns,
+      spannedCellsMap,
+      columnStates,
+      showFixedRowNumbers,
+      currentPage,
+      pagination,
+      selectable,
+      selectHandler,
+      filterableTable,
+      filterPlaceholder,
+      filterOnKeyPress,
+      updateFilterState,
+      mainFilterInputValue,
+      setMainFilterInputValue,
+      applyFilter,
+      rowColorCallback,
+      totalRecords,
+    ],
+  );
 
   return <TableContext value={contextValue}>{props.children}</TableContext>;
 };

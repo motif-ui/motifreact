@@ -63,7 +63,9 @@ describe("Table", () => {
   );
 
   it("should not change selected rows when it is filtered or filtered text is removed", async () => {
-    const { getFilterableTableInput, getSelectAllCheckbox } = renderExt(<Table columns={cols} data={data} filterableTable selectable />);
+    const { getFilterableTableInput, getSelectAllCheckbox } = renderExt(
+      <Table columns={cols} data={data} filterableTable filterOnKeyPress selectable />,
+    );
     const filterInput = getFilterableTableInput();
     const firstCheckbox = getSelectAllCheckbox();
     await userEvent.click(firstCheckbox);
@@ -74,13 +76,17 @@ describe("Table", () => {
   });
 
   it("should filter data based on partial text match", async () => {
-    const { getFilterableTableInput, getFirstRow } = renderExt(<Table columns={cols} data={data} filterableTable selectable />);
+    const { getFilterableTableInput, getFirstRow } = renderExt(
+      <Table columns={cols} data={data} filterableTable filterOnKeyPress selectable />,
+    );
     await userEvent.type(getFilterableTableInput(), data[2].testData.slice(0, 1));
     expect(within(getFirstRow()).getByText(data[2].testData)).toBeInTheDocument();
   });
 
   it("should show no data message when filter input does not match any row", async () => {
-    const { getFilterableTableInput, getFirstRow } = renderExt(<Table columns={cols} data={data} filterableTable selectable />);
+    const { getFilterableTableInput, getFirstRow } = renderExt(
+      <Table columns={cols} data={data} filterableTable filterOnKeyPress selectable />,
+    );
     const filterInput = getFilterableTableInput();
     await userEvent.type(filterInput, data[2].testData.slice(0, 1));
     expect(within(getFirstRow()).getByText(data[2].testData)).toBeInTheDocument();
@@ -91,7 +97,7 @@ describe("Table", () => {
   it("should not change the sorted order of the rows when data is filtered ", async () => {
     const data = [{ testData: "M Test" }, { testData: "A Test" }, { testData: "M Test Same" }, { testData: "N Test" }];
     const { getFilterableTableInput, getSortButton, getFirstRow, getTableBody } = renderExt(
-      <Table columns={cols} data={data} filterableTable />,
+      <Table columns={cols} data={data} filterableTable filterOnKeyPress />,
     );
     const filterInput = getFilterableTableInput();
     await userEvent.click(getSortButton());
@@ -103,7 +109,9 @@ describe("Table", () => {
   });
 
   it("should not change the selections when the data is filtered ", async () => {
-    const { getFilterableTableInput, getSelectAllCheckbox } = renderExt(<Table columns={cols} data={data} filterableTable selectable />);
+    const { getFilterableTableInput, getSelectAllCheckbox } = renderExt(
+      <Table columns={cols} data={data} filterableTable filterOnKeyPress selectable />,
+    );
     const filterInput = getFilterableTableInput();
     const firstCheckbox = getSelectAllCheckbox();
     await userEvent.click(firstCheckbox);
@@ -127,6 +135,7 @@ describe("Table", () => {
         columns={cols}
         data={data}
         filterableTable
+        filterOnKeyPress
         pagination={{
           rowsPerPage: 2,
         }}
@@ -270,7 +279,9 @@ describe("Table", () => {
   });
 
   it("should render the row count section when there is data and then it is filtered to show none", async () => {
-    const { getFilterableTableInput, getByText, getCountText } = renderExt(<Table columns={cols} data={data} filterableTable />);
+    const { getFilterableTableInput, getByText, getCountText } = renderExt(
+      <Table columns={cols} data={data} filterableTable filterOnKeyPress />,
+    );
     await userEvent.type(getFilterableTableInput(), "keywordWhichDoesNotExist");
     expect(getByText("No data")).toBeInTheDocument();
     expect(getCountText()).toBeInTheDocument();
@@ -283,6 +294,7 @@ describe("Table", () => {
         data={data}
         selectable
         filterableTable
+        filterOnKeyPress
         pagination={{
           rowsPerPage: 2,
         }}
@@ -553,7 +565,7 @@ describe("Table", () => {
       },
     ];
 
-    const { getFilterableTableInput, queryByText } = renderExt(<Table columns={columns} data={data} filterableTable />);
+    const { getFilterableTableInput, queryByText } = renderExt(<Table columns={columns} data={data} filterableTable filterOnKeyPress />);
     const filterInput = getFilterableTableInput();
 
     await userEvent.type(filterInput, "Another");
@@ -583,7 +595,7 @@ describe("Table", () => {
         render: (val: { nested: string }) => <span>{val.nested}</span>,
       },
     ];
-    const { getFilterableTableInput, queryByText } = renderExt(<Table columns={columns} data={data} filterableTable />);
+    const { getFilterableTableInput, queryByText } = renderExt(<Table columns={columns} data={data} filterableTable filterOnKeyPress />);
     await userEvent.type(getFilterableTableInput(), "Another");
     expect(queryByText("Another String")).toBeInTheDocument();
     expect(queryByText("Visible String")).not.toBeInTheDocument();
@@ -603,7 +615,7 @@ describe("Table", () => {
         render: (val: { nested: string }) => <span>{val.nested}</span>,
       },
     ];
-    const { getFilterableTableInput, queryByText } = renderExt(<Table columns={columns} data={data} filterableTable />);
+    const { getFilterableTableInput, queryByText } = renderExt(<Table columns={columns} data={data} filterableTable filterOnKeyPress />);
     await userEvent.type(getFilterableTableInput(), "Hidden Value");
     expect(queryByText("Hidden Value")).toBeInTheDocument();
     expect(queryByText("Another Hidden")).not.toBeInTheDocument();
@@ -663,7 +675,7 @@ describe("Table", () => {
   });
 
   it("should not change total records count when data is filtered", async () => {
-    const { getFilterableTableInput, getCountText } = renderExt(<Table columns={cols} data={data} filterableTable />);
+    const { getFilterableTableInput, getCountText } = renderExt(<Table columns={cols} data={data} filterableTable filterOnKeyPress />);
     expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3 }));
     await userEvent.type(getFilterableTableInput(), "M Test");
     expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3 }));
@@ -900,6 +912,7 @@ describe("Table", () => {
           { title: "Age", dataKey: "age" },
         ]}
         filterableTable
+        filterOnKeyPress
         border="cellBorders"
       />,
     );
@@ -1047,7 +1060,7 @@ describe("Table", () => {
   });
 
   it("should show locale default as placeholder in the global search input when filterPlaceholder prop is not given", () => {
-    const { getFilterableTableInput } = renderExt(<Table columns={cols} data={data} filterableTable />);
+    const { getFilterableTableInput } = renderExt(<Table columns={cols} data={data} filterableTable filterOnKeyPress />);
     const filterInput = getFilterableTableInput();
     expect(filterInput).toHaveAttribute("placeholder", t("g.search"));
   });
@@ -1055,7 +1068,7 @@ describe("Table", () => {
   it("should render filterPlaceholder value as global filter search box placeholder", () => {
     const customPlaceholder = "Search in table...";
     const { getFilterableTableInput } = renderExt(
-      <Table columns={cols} data={data} filterableTable filterPlaceholder={customPlaceholder} />,
+      <Table columns={cols} data={data} filterableTable filterOnKeyPress filterPlaceholder={customPlaceholder} />,
     );
     const filterInput = getFilterableTableInput();
     expect(filterInput).toHaveAttribute("placeholder", customPlaceholder);
@@ -1085,7 +1098,7 @@ describe("Table", () => {
     const colsWithFilter = [{ title: "Name", dataKey: "name", filter: true, filterPlaceholder: namePlaceholder }];
 
     const { getFilterableTableInput, getColumnFilterInputs } = renderExt(
-      <Table columns={colsWithFilter} data={data} filterableTable filterPlaceholder={customPlaceholder} />,
+      <Table columns={colsWithFilter} data={data} filterableTable filterOnKeyPress filterPlaceholder={customPlaceholder} />,
     );
     const filterInput = getFilterableTableInput();
     expect(filterInput).toHaveAttribute("placeholder", customPlaceholder);
@@ -1110,7 +1123,7 @@ describe("Table", () => {
     for (const locale of ["tr", "en"] as const) {
       const { getFilterableTableInput, getColumnFilterInputs, unmount } = renderExt(
         <MotifProvider locale={locale}>
-          <Table columns={localeCols} data={localeData} filterableTable />
+          <Table columns={localeCols} data={localeData} filterableTable filterOnKeyPress />
         </MotifProvider>,
       );
 

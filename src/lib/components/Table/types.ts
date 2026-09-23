@@ -60,6 +60,7 @@ export type TableDefaultableProps = {
   emptyMessage?: ReactNode;
   filterableTable?: boolean;
   filterPlaceholder?: string;
+  filterOnKeyPress?: boolean;
   hideTotalRecords?: boolean;
   distributeColsEvenly?: boolean;
   fluid?: boolean;
@@ -114,6 +115,7 @@ export type TableContextProps = {
   onSelect?: (selection: { all: object[]; current?: object }) => void;
   filterableTable?: boolean;
   filterPlaceholder?: string;
+  filterOnKeyPress?: boolean;
   reflectDataChanges?: boolean;
   rowColorCallback?: (rowData: object) => RowColor | undefined;
 };
@@ -135,9 +137,12 @@ export type TableContextType = {
   selectHandler?: (selection: { row?: RowDetail; all?: "select" | "deselect" }) => void;
   filterableTable?: boolean;
   filterPlaceholder?: string;
+  filterOnKeyPress?: boolean;
   filterableColumns?: boolean;
   updateFilterState: (query: string, columnIndex?: number) => void;
-  setMainFilterQuery: (query: string) => void;
+  mainFilterInputValue: string;
+  setMainFilterInputValue: (value: string) => void;
+  applyFilter: () => void;
   numberOfVisibleColumns: number;
   rowColorCallback?: (rowData: object) => RowColor | undefined;
 };
@@ -157,7 +162,9 @@ export const TableContextDefaultValues: TableContextType = {
   totalRecords: 0,
   updateSortState: () => {},
   updateFilterState: () => {},
-  setMainFilterQuery: () => {},
+  mainFilterInputValue: "",
+  setMainFilterInputValue: () => {},
+  applyFilter: () => {},
   columns: [],
   columnStates: [],
   currentPage: 1,
