@@ -24,7 +24,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     onSelect,
     filterableTable,
     filterPlaceholder,
-    filterOnKeyPress,
+    disableFilterOnKeyPress,
     reflectDataChanges,
     rowColorCallback,
   } = props;
@@ -163,12 +163,15 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     [columns, onColumnFilterChange],
   );
 
-  const applyFilter = useCallback(() => {
-    if (mainFilterInputValueRef.current === appliedMainFilterQuery) return;
-    setAppliedMainFilterQuery(mainFilterInputValueRef.current);
-    setCurrentPage(1);
-    onFilterChange?.(mainFilterInputValueRef.current);
-  }, [appliedMainFilterQuery, onFilterChange]);
+  const applyFilter = useCallback(
+    (forceImmediate?: boolean) => {
+      if (mainFilterInputValueRef.current === appliedMainFilterQuery) return;
+      setAppliedMainFilterQuery(mainFilterInputValueRef.current);
+      setCurrentPage(1);
+      onFilterChange?.(mainFilterInputValueRef.current, forceImmediate ?? disableFilterOnKeyPress);
+    },
+    [appliedMainFilterQuery, onFilterChange, disableFilterOnKeyPress],
+  );
 
   const contextValue = useMemo(
     () => ({
@@ -187,7 +190,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       selectHandler,
       filterableTable,
       filterPlaceholder,
-      filterOnKeyPress,
+      disableFilterOnKeyPress,
       filterableColumns: columns.some(c => c.filter),
       updateFilterState,
       totalRecords: totalRecords ?? originalRows?.length ?? 0,
@@ -212,7 +215,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       selectHandler,
       filterableTable,
       filterPlaceholder,
-      filterOnKeyPress,
+      disableFilterOnKeyPress,
       updateFilterState,
       mainFilterInputValue,
       setMainFilterInputValue,

@@ -29,8 +29,11 @@ and pagination handled entirely in the browser. When the data lives on a server 
 filtered there instead, a companion hook — **useServerTable** — takes care of the request lifecycle (state, debouncing,
 cancellation) and wires directly into a small set of props `<Table>` already exposes for this purpose:
 
-- **onSortChange**: fired instead of sorting client-side, whenever a sortable column header is clicked.
-- **onFilterChange**: fired instead of filtering client-side, whenever the global **filterableTable** search box changes.
+- **onSortChange**: fired whenever a sortable column header is clicked.
+- **onFilterChange**: fired whenever the global **filterableTable** search is applied (see the **Filtering** section
+  below for when that happens). Its second argument, **immediate**, is `true` when the query was applied through an
+  explicit action (the search button, **Enter**, or clearing) rather than a debounced keystroke — `useServerTable` uses
+  it to skip its own debounce and fetch right away, so an explicit search isn't delayed on top of being explicit.
 - **onColumnFilterChange**: fired instead of filtering client-side, whenever a column's **filter** input changes.
 - **totalRecords**: overrides the footer's record count, since the table only ever holds the current page of data.
 - **reflectDataChanges**: must be set to `true` — otherwise `<Table>` only ever reads the **data** prop once, and later
@@ -165,10 +168,15 @@ in it.
 There are two ways to provide filtering feature:
 
 - **filterableTable** prop enables a text input on top of the table to filter the data. This option searches for the given query in all columns.
-
 - Other option is to provide the **filter** prop in each column item which gives more flexibility to search the given queries only in the data of the related column.
 
 All the filtering queries may work together. If both **filterableTable** and **filter** prop in columns are provided, the queries are combined with an AND operation. This is also the same for the queries for different columns.
+
+By default, the global search box filters as you type, after a short debounce delay — matching the column-level **filter**
+inputs, which always work this way. Set **disableFilterOnKeyPress** to switch the global search box to manual mode
+instead: the decorative search icon becomes a clickable button, and the query only applies when that button is clicked
+or **Enter** is pressed. Either way, once the box has a value, a clear button appears to reset it, and clearing always
+applies immediately.
 
 **Important note:** Filtering only works for the columns which have a string-searchable data in it. This means, the data in the row object should point to a searchable primitive data type. For example, if the data to use in a custom render function it only searches the text content of the render output.
 

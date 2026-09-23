@@ -2,6 +2,7 @@
 
 import styles from "../../Table.module.scss";
 import InputText from "@/components/Motif/InputText/InputText";
+import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { TableContext } from "@/components/Table/TableContext";
 import { ReactNode, useContext } from "react";
 import { useMotifContext } from "../../../../motif/context/MotifProvider";
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const HeaderRow = ({ colspan, header }: Props) => {
-  const { filterableTable, filterPlaceholder, filterOnKeyPress, mainFilterInputValue, setMainFilterInputValue, applyFilter } =
+  const { filterableTable, filterPlaceholder, disableFilterOnKeyPress, mainFilterInputValue, setMainFilterInputValue, applyFilter } =
     useContext(TableContext);
   const { t } = useMotifContext();
 
@@ -25,17 +26,18 @@ const HeaderRow = ({ colspan, header }: Props) => {
             {filterableTable && (
               <InputText
                 value={mainFilterInputValue}
-                buttonRight={{ name: "search", onClick: applyFilter }}
+                {...(disableFilterOnKeyPress
+                  ? { buttonRight: { name: "search", onClick: applyFilter }, onKeyUp: e => e.key === "Enter" && applyFilter() }
+                  : { iconRight: <MotifIcon name="search" /> })}
                 clearable
                 className={styles.filterInput}
                 placeholder={filterPlaceholder ?? t("g.search")}
                 size="sm"
                 onChange={val => {
                   setMainFilterInputValue(val as string);
-                  filterOnKeyPress && applyFilter();
+                  !disableFilterOnKeyPress && applyFilter();
                 }}
-                onKeyUp={e => e.key === "Enter" && applyFilter()}
-                onClearClick={applyFilter}
+                onClearClick={() => applyFilter(true)}
               />
             )}
           </div>

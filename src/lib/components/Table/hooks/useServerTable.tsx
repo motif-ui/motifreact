@@ -34,6 +34,8 @@ const createUrlFetcher =
       }),
       signal,
     });
+    if (!response.ok) throw new Error(`useServerTable: request to ${response.url} failed with status ${response.status}`);
+
     const body = (await response.json()) as object;
     const data = (itemsKey ? getValueByChainedKey<T[] | undefined>(body, itemsKey) : (body as T[])) ?? [];
     const { bodyKey, headerKey } = totalCount;
@@ -52,8 +54,10 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
 
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<Sort>({});
-  const [filters, setFilters] = useState<Filters>({ main: "", columns: {} });
+  const [filters, setFiltersState] = useState<Filters>({ main: "", columns: {} });
+  const filtersRef = useRef(filters);
   const [debouncedFilters, setDebouncedFilters] = useState<Filters>({ main: "", columns: {} });
+  const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [data, setData] = useState<T[]>([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -63,12 +67,12 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
   fetcherRef.current = resolvedFetcher;
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    debounceTimeoutRef.current = setTimeout(() => {
       setDebouncedFilters(prev =>
         prev.main === filters.main && JSON.stringify(prev.columns) === JSON.stringify(filters.columns) ? prev : filters,
       );
     }, filterKeyPressRequestDelay);
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(debounceTimeoutRef.current);
   }, [filters, filterKeyPressRequestDelay]);
 
   useEffect(() => {
@@ -99,13 +103,25 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
     setPage(1);
   }, []);
 
-  const onFilterChange = useCallback((query: string) => {
-    setFilters(prev => ({ ...prev, main: query }));
+  const onFilterChange = useCallback((query: string, immediate?: boolean) => {
+    const next = { ...filtersRef.current, main: query };
+    filtersRef.current = next;
+    setFiltersState(next);
+
+    if (immediate) {
+      clearTimeout(debounceTimeoutRef.current);
+      setDebouncedFilters(next);
+    }
+
     setPage(1);
   }, []);
 
   const onColumnFilterChange = useCallback(({ dataKey, query }: { dataKey?: string; query: string }) => {
-    dataKey && setFilters(prev => ({ ...prev, columns: { ...prev.columns, [dataKey]: query } }));
+    if (!dataKey) return;
+
+    const next = { ...filtersRef.current, columns: { ...filtersRef.current.columns, [dataKey]: query } };
+    filtersRef.current = next;
+    setFiltersState(next);
     setPage(1);
   }, []);
 

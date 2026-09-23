@@ -40,7 +40,7 @@ export type TableProps<T = object> = {
   loading?: boolean;
   totalRecords?: number;
   onSortChange?: (sort: { dataKey?: string; direction?: SortDirection }) => void;
-  onFilterChange?: (query: string) => void;
+  onFilterChange?: (query: string, immediate?: boolean) => void;
   onColumnFilterChange?: (filter: { dataKey?: string; query: string }) => void;
   selectable?: boolean;
   selectionKey?: string;
@@ -60,7 +60,7 @@ export type TableDefaultableProps = {
   emptyMessage?: ReactNode;
   filterableTable?: boolean;
   filterPlaceholder?: string;
-  filterOnKeyPress?: boolean;
+  disableFilterOnKeyPress?: boolean;
   hideTotalRecords?: boolean;
   distributeColsEvenly?: boolean;
   fluid?: boolean;
@@ -106,7 +106,7 @@ export type TableContextProps = {
   dataRaw?: object[];
   totalRecords?: number;
   onSortChange?: (sort: { dataKey?: string; direction?: SortDirection }) => void;
-  onFilterChange?: (query: string) => void;
+  onFilterChange?: (query: string, immediate?: boolean) => void;
   onColumnFilterChange?: (filter: { dataKey?: string; query: string }) => void;
   showFixedRowNumbers?: boolean;
   pagination?: Pagination;
@@ -115,7 +115,7 @@ export type TableContextProps = {
   onSelect?: (selection: { all: object[]; current?: object }) => void;
   filterableTable?: boolean;
   filterPlaceholder?: string;
-  filterOnKeyPress?: boolean;
+  disableFilterOnKeyPress?: boolean;
   reflectDataChanges?: boolean;
   rowColorCallback?: (rowData: object) => RowColor | undefined;
 };
@@ -137,12 +137,12 @@ export type TableContextType = {
   selectHandler?: (selection: { row?: RowDetail; all?: "select" | "deselect" }) => void;
   filterableTable?: boolean;
   filterPlaceholder?: string;
-  filterOnKeyPress?: boolean;
+  disableFilterOnKeyPress?: boolean;
   filterableColumns?: boolean;
   updateFilterState: (query: string, columnIndex?: number) => void;
   mainFilterInputValue: string;
   setMainFilterInputValue: (value: string) => void;
-  applyFilter: () => void;
+  applyFilter: (forceImmediate?: boolean) => void;
   numberOfVisibleColumns: number;
   rowColorCallback?: (rowData: object) => RowColor | undefined;
 };
