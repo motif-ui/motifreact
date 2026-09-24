@@ -17,7 +17,8 @@ const Table = <T extends object>(props: PropsWithRef<TableProps<T>, HTMLDivEleme
     pagination,
     selectable,
     selectionKey,
-    onSelect,
+    defaultSelectedIds,
+    onSelectionChange,
     filterableTable,
     filterPlaceholder,
     disableFilterOnKeyPress,
@@ -40,7 +41,8 @@ const Table = <T extends object>(props: PropsWithRef<TableProps<T>, HTMLDivEleme
       pagination={pagination}
       selectable={selectable}
       selectionKey={selectionKey}
-      onSelect={onSelect as (selection: { all: object[]; current?: object }) => void}
+      defaultSelectedIds={defaultSelectedIds}
+      onSelectionChange={onSelectionChange}
       filterableTable={filterableTable}
       filterPlaceholder={filterPlaceholder}
       disableFilterOnKeyPress={disableFilterOnKeyPress}

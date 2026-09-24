@@ -22,7 +22,7 @@
     "fieldError": "Please fix the error in this field."
   },
   "table": {
-    "totalSelectedRecords": "{{selected}} of {{total}} records selected.",
+    "selectedRecords": "{{selected}} records selected.",
     "totalRecords": "Total {{total}} records"
   },
   "validation": {

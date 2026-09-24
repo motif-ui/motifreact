@@ -183,14 +183,14 @@ describe("Table", () => {
     expect(screen.queryByText("My New Data")).toBeInTheDocument();
   });
 
-  it("should select the rows when selectable prop and the row data corresponding to the 'selectionKey' key is true", () => {
+  it("should select the rows whose selectionKey value is listed in defaultSelectedIds", () => {
     const cols = [{ title: "My Title", dataKey: "myData" }];
     const data = [
-      { myData: "Data Row 1", selected: false },
-      { myData: "Data Row 2", selected: true },
+      { id: 1, myData: "Data Row 1" },
+      { id: 2, myData: "Data Row 2" },
     ];
 
-    render(<Table columns={cols} data={data} selectable selectionKey="selected" />);
+    render(<Table columns={cols} data={data} selectable selectionKey="id" defaultSelectedIds={[2]} />);
 
     const selections = screen.queryAllByTestId("checkbox");
 
@@ -264,9 +264,9 @@ describe("Table", () => {
     const { getByText, getCheckboxes, getSelectAllCheckbox, getCountText } = renderExt(<Table columns={cols} data={data} selectable />);
     expect(getCountText()).toBeInTheDocument();
     await userEvent.click(getSelectAllCheckbox());
-    expect(screen.getByText(t("table.totalSelectedRecords", { total: 3, selected: 3 }))).toBeInTheDocument();
+    expect(screen.getByText(t("table.selectedRecords", { selected: 3 }))).toBeInTheDocument();
     await userEvent.click(getCheckboxes()[1].firstElementChild as HTMLInputElement);
-    expect(getByText(t("table.totalSelectedRecords", { total: 3, selected: 2 }))).toBeInTheDocument();
+    expect(getByText(t("table.selectedRecords", { selected: 2 }))).toBeInTheDocument();
   });
 
   it("should render the row count section when there is data and then it is filtered to show none", async () => {
@@ -424,13 +424,13 @@ describe("Table", () => {
     expect(subtitleElement.parentElement).toHaveClass("titleSection");
   });
 
-  it("should fire onSelect callback when a row is selected", async () => {
-    const onSelect = jest.fn();
-    const { getSelectAllCheckbox } = renderExt(<Table columns={cols} data={data} selectable onSelect={onSelect} />);
+  it("should fire onSelectionChange callback when a row is selected", async () => {
+    const onSelectionChange = jest.fn();
+    const { getSelectAllCheckbox } = renderExt(<Table columns={cols} data={data} selectable onSelectionChange={onSelectionChange} />);
     await userEvent.click(getSelectAllCheckbox());
-    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelectionChange).toHaveBeenCalledTimes(1);
     await userEvent.click(getSelectAllCheckbox());
-    expect(onSelect).toHaveBeenCalledTimes(2);
+    expect(onSelectionChange).toHaveBeenCalledTimes(2);
   });
 
   it("should allow applying a custom sort function given in the sorting prop", async () => {

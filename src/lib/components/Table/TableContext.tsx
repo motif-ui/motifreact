@@ -3,7 +3,14 @@
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { foldNormalize, getNextItemInArray, getTextFromNode, getValueByChainedKey } from "../../../utils/utils";
 import { sortByType, SORT_DIRECTIONS, getSpannedCellsMap } from "@/components/Table/helper";
-import { ColumnState, RowDetail, TableContextDefaultValues, TableContextProps, TableContextType } from "@/components/Table/types";
+import {
+  ColumnState,
+  RowDetail,
+  TableContextDefaultValues,
+  TableContextProps,
+  TableContextType,
+  TableRowId,
+} from "@/components/Table/types";
 import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const TableContext = createContext<TableContextType>(TableContextDefaultValues);
@@ -22,7 +29,8 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     pagination,
     selectable,
     selectionKey,
-    onSelect,
+    defaultSelectedIds,
+    onSelectionChange,
     filterableTable,
     filterPlaceholder,
     disableFilterOnKeyPress,
@@ -34,6 +42,17 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
   const [appliedMainFilterQuery, setAppliedMainFilterQuery] = useState<string>("");
   const [mainFilterInputValue, setMainFilterInputValueState] = useState<string>("");
   const mainFilterInputValueRef = useRef(mainFilterInputValue);
+  const pendingDefaultIdsRef = useRef(new Set(defaultSelectedIds));
+  const [selectedIds, setSelectedIds] = useState<Set<TableRowId>>(() => {
+    const initial = new Set<TableRowId>();
+    if (selectionKey) {
+      dataRaw?.forEach(row => {
+        const rowUniqueId = (row as Record<string, unknown>)[selectionKey] as TableRowId;
+        pendingDefaultIdsRef.current.has(rowUniqueId) && initial.add(rowUniqueId);
+      });
+    }
+    return initial;
+  });
 
   const setMainFilterInputValue = useCallback((value: string) => {
     mainFilterInputValueRef.current = value;
@@ -44,13 +63,36 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     (row: object, index: number) => ({
       motifIndex: index,
       data: { "#": index + 1, ...row },
-      isSelected: !!selectionKey && !!row[selectionKey as keyof typeof row],
     }),
+    [],
+  );
+
+  const getRowId = useCallback(
+    (row: RowDetail) => (selectionKey ? (row.data as Record<string, unknown>)[selectionKey] : row.motifIndex) as TableRowId,
     [selectionKey],
   );
 
-  // Original data user provided. We only add some necessary internal props to it. It doesn't change at all.
-  const [originalRows, setOriginalRows] = useState<RowDetail[] | undefined>(dataRaw?.map(mapDataToMotifTableRow));
+  useEffect(() => {
+    if (!selectionKey || !pendingDefaultIdsRef.current.size || !dataRaw) return;
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      dataRaw.forEach(row => {
+        const rowUniqueId = (row as Record<string, unknown>)[selectionKey] as TableRowId;
+        pendingDefaultIdsRef.current.delete(rowUniqueId) && next.add(rowUniqueId);
+      });
+      return next.size === prev.size ? prev : next;
+    });
+  }, [dataRaw, selectionKey]);
+
+  // Original data user provided. We only add some necessary internal props to it. It doesn't change at all,
+  // unless reflectDataChanges is set — synced in-render (not via useEffect) so a dataRaw change is never
+  // painted a frame late, which would otherwise flash the previous page's rows (and their selection state).
+  const [originalRows, setOriginalRows] = useState<RowDetail[] | undefined>(() => dataRaw?.map(mapDataToMotifTableRow));
+  const [prevDataRaw, setPrevDataRaw] = useState(dataRaw);
+  if (dataRaw !== prevDataRaw) {
+    setPrevDataRaw(dataRaw);
+    ((dataRaw?.length && !originalRows?.length) || reflectDataChanges) && setOriginalRows(dataRaw?.map(mapDataToMotifTableRow));
+  }
   const [columnStates, setColumnStates] = useState<ColumnState[]>(columns.map(() => ({})));
 
   // Data that is used in the table. It can be sorted, filtered, paginated etc. (derived from originalRows)
@@ -97,51 +139,40 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
   }, [originalRows, columnStates, columns, appliedMainFilterQuery, locale, onSortChange, onFilterChange, onColumnFilterChange]);
 
   // Data that is visible in the table. It can be less than usableRows if pagination is enabled.
-  const visibleRows = useMemo(
-    () =>
+  // isSelected is derived here, fresh, from selectedIds — never stored on originalRows itself.
+  const visibleRows = useMemo(() => {
+    const sliced =
       pagination && totalRecords === undefined
         ? usableRows?.slice((currentPage - 1) * pagination.rowsPerPage, currentPage * pagination.rowsPerPage)
-        : usableRows,
-    [currentPage, usableRows, pagination, totalRecords],
-  );
+        : usableRows;
+    return sliced?.map(row => ({ ...row, isSelected: selectedIds.has(getRowId(row)) }));
+  }, [currentPage, usableRows, pagination, totalRecords, selectedIds, getRowId]);
 
   const spannedCellsMap = useMemo(() => getSpannedCellsMap(columns, visibleRows), [columns, visibleRows]);
 
-  const refillOriginalRows = useCallback(() => {
-    const mappedData = dataRaw?.map(mapDataToMotifTableRow);
-    setOriginalRows(mappedData);
-  }, [dataRaw, mapDataToMotifTableRow]);
-
-  useEffect(() => {
-    if ((dataRaw?.length && !originalRows?.length) || reflectDataChanges) {
-      refillOriginalRows();
-    }
-  }, [dataRaw, originalRows?.length, refillOriginalRows, reflectDataChanges]);
-
   const selectHandler = useCallback(
     ({ row, all }: { row?: RowDetail; all?: "select" | "deselect" }) => {
+      const next = new Set(selectedIds);
+
       if (all === "select") {
-        const selectedUsableRowsIndices = usableRows?.map(r => r.motifIndex);
-        setOriginalRows(originalRows?.map(r => (selectedUsableRowsIndices?.includes(r.motifIndex) ? { ...r, isSelected: true } : r)));
-        onSelect?.({
-          all: usableRows!.map(r => r.data),
-        });
+        const changedIds = (visibleRows ?? []).map(getRowId);
+        changedIds.forEach(id => next.add(id));
+        setSelectedIds(next);
+        onSelectionChange?.(changedIds, true, Array.from(next));
       } else if (all === "deselect") {
-        const deSelectedUsableRowIndices = usableRows?.map(r => r.motifIndex);
-        setOriginalRows(originalRows?.map(r => (deSelectedUsableRowIndices?.includes(r.motifIndex) ? { ...r, isSelected: false } : r)));
-        onSelect?.({
-          all: [],
-        });
+        const changedIds = (visibleRows ?? []).map(getRowId);
+        changedIds.forEach(id => next.delete(id));
+        setSelectedIds(next);
+        onSelectionChange?.(changedIds, false, Array.from(next));
       } else if (row) {
-        const updatedOriginalRows = originalRows?.map(r => (r.motifIndex === row.motifIndex ? { ...r, isSelected: !r.isSelected } : r));
-        onSelect?.({
-          all: updatedOriginalRows?.filter(r => r.isSelected).map(r => r.data) || [],
-          current: row.data,
-        });
-        setOriginalRows(updatedOriginalRows);
+        const id = getRowId(row);
+        const selected = !selectedIds.has(id);
+        selected ? next.add(id) : next.delete(id);
+        setSelectedIds(next);
+        onSelectionChange?.([id], selected, Array.from(next));
       }
     },
-    [usableRows, onSelect, originalRows],
+    [selectedIds, visibleRows, getRowId, onSelectionChange],
   );
 
   const updateSortState = useCallback(

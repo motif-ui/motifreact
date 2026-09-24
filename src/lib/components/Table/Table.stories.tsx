@@ -592,8 +592,9 @@ export const Selection: Story = {
   data={data}
   columns={columns}
   selectable
-  selectionKey="selected"
-  onSelect={selection => alert(JSON.stringify(selection))}
+  selectionKey="id"
+  defaultSelectedIds={[2]}
+  onSelectionChange={(changedIds, selected, selectedIds) => alert(JSON.stringify({ changedIds, selected, selectedIds }))}
 />
         `,
       },
@@ -601,15 +602,22 @@ export const Selection: Story = {
   },
   render: () => {
     const data = [
-      { name: "Foo", age: "43" },
-      { name: "Dummy", age: "32", selected: true },
+      { id: 1, name: "Foo", age: "43" },
+      { id: 2, name: "Dummy", age: "32" },
     ];
     const columns = [
       { title: "Name", dataKey: "name", sorting: {} },
       { title: "Age", dataKey: "age", sorting: {} },
     ];
     return (
-      <Table data={data} columns={columns} selectable selectionKey="selected" onSelect={selection => alert(JSON.stringify(selection))} />
+      <Table
+        data={data}
+        columns={columns}
+        selectable
+        selectionKey="id"
+        defaultSelectedIds={[2]}
+        onSelectionChange={(changedIds, selected, selectedIds) => alert(JSON.stringify({ changedIds, selected, selectedIds }))}
+      />
     );
   },
 };

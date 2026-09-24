@@ -14,6 +14,8 @@ export type RenderableColumn = {
   colSpan?: number;
 };
 
+export type TableRowId = string | number;
+
 export type TableProps<T = object> = {
   /**
    * ```
@@ -45,7 +47,8 @@ export type TableProps<T = object> = {
   onPageChange?: (page: number) => void;
   selectable?: boolean;
   selectionKey?: string;
-  onSelect?: (selection: { all: T[]; current?: T }) => void;
+  defaultSelectedIds?: TableRowId[];
+  onSelectionChange?: (changedIds: TableRowId[], selected: boolean, selectedIds: TableRowId[]) => void;
   reflectDataChanges?: boolean;
   rowColorCallback?: (rowData: T) => RowColor | undefined;
 } & TableDefaultableProps;
@@ -114,7 +117,8 @@ export type TableContextProps = {
   pagination?: Pagination;
   selectable?: boolean;
   selectionKey?: string;
-  onSelect?: (selection: { all: object[]; current?: object }) => void;
+  defaultSelectedIds?: TableRowId[];
+  onSelectionChange?: (changedIds: TableRowId[], selected: boolean, selectedIds: TableRowId[]) => void;
   filterableTable?: boolean;
   filterPlaceholder?: string;
   disableFilterOnKeyPress?: boolean;

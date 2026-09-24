@@ -188,11 +188,17 @@ applies immediately.
 ## Selection
 
 In order to select the rows in the table, **selectable** prop should be true. This prop enables the selection feature
-and renders a checkbox for the header colunn and the rows. When a row is selected or deselected, the callback given in
-the **onSelect** prop is fired. This callback will return an object with the current row and all the selected rows in
-the table.
+and renders a checkbox for the header column and the rows.
 
-When some rows are desired to be selected by default, **selectionKey** prop may be used. This key should refer to the value in the row data which indicates whether the row is selected.
+**selectionKey** should refer to the row data field holding each row's unique, stable identifier (e.g. `"id"`).
+
+When selection changes, **onSelectionChange** fires with three arguments:
+
+- **changedIds**: the **selectionKey** values this action just affected — a single id for one row, or every id on the page for "select all"/"deselect all".
+- **selected**: whether those ids are now selected or not.
+- **selectedIds**: every id currently selected, across every page visited so far.
+
+To have some rows start out selected, use **defaultSelectedIds** — an array of **selectionKey** values.
 
 <Canvas of={Table.Selection} />
 

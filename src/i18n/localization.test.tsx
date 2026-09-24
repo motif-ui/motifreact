@@ -40,8 +40,9 @@ describe("Localization", () => {
 
   it("should replace multiple params in a single string", () => {
     const t = createTranslator("en");
-    const result = t("table.totalSelectedRecords", { selected: 3, total: 10 });
+    const result = t("upload.maxSizeError", { maxSize: 3, fileName: "x", fileSize: 10 });
     expect(result).toContain("3");
+    expect(result).toContain("x");
     expect(result).toContain("10");
   });
 
