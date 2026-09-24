@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import type { KeyboardEvent, RefObject } from "react";
-import { usePopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
+import { useOverlayPosition } from "src/lib/hooks/useOverlayPosition";
 import { OverlayPosition } from "src/lib/types";
 
-export const usePickerPortal = (
+export const usePickerOverlay = (
   anchorRef: RefObject<HTMLElement | null>,
   pickerRef: RefObject<HTMLDivElement | null>,
   visible: boolean,
@@ -13,24 +13,27 @@ export const usePickerPortal = (
   onHide: () => void,
 ) => {
   const [alignment, setAlignment] = useState<OverlayPosition>("bottomLeft");
-  const { startShowing, startHiding, attached, positionStyle } = usePopoverPosition(anchorRef, pickerRef, alignment, 0);
+  const [attached, setAttached] = useState(false);
+  const { positionStyle, updatePosition } = useOverlayPosition(anchorRef, pickerRef, alignment);
 
-  useEffect(() => {
-    if (visible) {
-      startShowing();
-    } else {
-      startHiding(true);
-      anchorRef.current?.querySelector("input")?.blur();
+  useLayoutEffect(() => {
+    if (visible && !attached) {
+      updatePosition({ capture: true });
+      setAttached(true);
+    } else if (!visible && attached) {
+      setAttached(false);
     }
-  }, [visible, startShowing, startHiding, anchorRef]);
+  }, [visible, attached, updatePosition]);
 
   useEffect(() => {
-    if (!visible) return;
+    if (!visible) {
+      anchorRef.current?.querySelector("input")?.blur();
+      return;
+    }
 
     const handleResize = () => onHide();
     const handleScroll = () => {
-      if (pickerRef.current?.contains(document.activeElement)) return;
-      onHide();
+      if (!pickerRef.current?.contains(document.activeElement)) onHide();
     };
 
     window.addEventListener("scroll", handleScroll, { capture: true });
@@ -72,8 +75,7 @@ export const usePickerPortal = (
         }
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [visible, onHide],
+    [visible, onHide, anchorRef, pickerRef],
   );
 
   const pickerStyle = useMemo(() => {
@@ -97,5 +99,5 @@ export const usePickerPortal = (
     onOpen();
   }, [anchorRef, onOpen]);
 
-  return { attached, pickerStyle, openPicker, handleTabNavigation };
+  return { attached, pickerStyle, alignment, openPicker, handleTabNavigation };
 };

@@ -1,16 +1,6 @@
 import { act, render, renderHook, screen } from "@testing-library/react";
 import type { RefObject } from "react";
 import InputDateRange, { RANGE_ARROW } from "@/components/InputDateRange/InputDateRange";
-import { usePickerPortal } from "@/components/InputDateRange/usePickerPortal";
-import { usePopoverPosition } from "@/components/Popover/hooks/usePopoverPosition";
-
-jest.mock("@/components/Popover/hooks/usePopoverPosition", () => {
-  const real = jest.requireActual<typeof import("@/components/Popover/hooks/usePopoverPosition")>(
-    "@/components/Popover/hooks/usePopoverPosition",
-  );
-  return { usePopoverPosition: jest.fn(real.usePopoverPosition) };
-});
-
 import { formatDate } from "@/components/InputDate/helper";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../Form/types";
@@ -20,6 +10,7 @@ import { defaultDateFormat } from "../Motif/Pickers/types";
 import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
+import { usePickerOverlay } from "../../hooks/usePickerOverlay";
 
 describe("InputDateRange", () => {
   const user = userEvent.setup();
@@ -313,24 +304,12 @@ describe("InputDateRange", () => {
   });
 
   it.each(alignmentCases)("should pick $expected when anchor is in the $label", ({ anchorRect, expected }) => {
-    const mockedPosition = jest.mocked(usePopoverPosition);
-    const realUsePopoverPosition = mockedPosition.getMockImplementation()!;
-    mockedPosition.mockClear();
-    mockedPosition.mockReturnValue({
-      startShowing: jest.fn(),
-      startHiding: jest.fn(),
-      attached: false,
-      visible: false,
-      positionStyle: { top: 100, left: 50 },
-    });
-
     const { anchorRef, pickerRef } = makeRefs(anchorRect);
-    const { result } = renderHook(() => usePickerPortal(anchorRef, pickerRef, false, jest.fn(), jest.fn()));
+    const { result } = renderHook(() => usePickerOverlay(anchorRef, pickerRef, false, jest.fn(), jest.fn()));
 
     act(() => result.current.openPicker());
 
-    expect(mockedPosition).toHaveBeenCalledWith(anchorRef, pickerRef, expected, 0);
-    mockedPosition.mockImplementation(realUsePopoverPosition);
+    expect(result.current.alignment).toBe(expected);
   });
 
   it("should close the datepicker when the page is scrolled", async () => {

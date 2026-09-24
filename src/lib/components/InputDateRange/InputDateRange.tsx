@@ -19,7 +19,7 @@ import { isNullOrEmptyString } from "../../../utils/utils";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
-import { usePickerPortal } from "./usePickerPortal";
+import { usePickerOverlay } from "../../hooks/usePickerOverlay";
 
 export type MaybeDateRange = (Date | undefined)[] | undefined;
 
@@ -103,7 +103,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useImperativeHandle(ref, () => innerRef.current!, []);
 
-  const { attached, pickerStyle, openPicker, handleTabNavigation } = usePickerPortal(innerRef, pickerRef, visible, show, hide);
+  const { attached, pickerStyle, openPicker, handleTabNavigation } = usePickerOverlay(innerRef, pickerRef, visible, show, hide);
 
   const dateChangeHandler = useCallback(
     (dates: MaybeDateRange) => {
