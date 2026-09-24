@@ -17,6 +17,12 @@ $sizes: (
   flex-wrap: wrap;
 }
 
+.submitArea_fluid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+}
+
 .horizontal {
   display: inline-flex;
   width: 100%;
@@ -25,6 +31,10 @@ $sizes: (
 .horizontal .fields {
   display: inline-flex;
   align-items: flex-start;
+}
+
+.horizontal .submitArea_fluid {
+  flex-grow: 1;
 }
 
 .horizontalLabels .submitArea {
