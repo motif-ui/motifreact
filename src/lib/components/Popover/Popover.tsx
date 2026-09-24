@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Popover.module.scss";
-import { useEffect, useRef, useCallback } from "react";
+import { useCallback } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRefAndChildren } from "../../types";
 import { usePopoverPosition } from "./hooks/usePopoverPosition";
@@ -23,8 +23,7 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     className,
     style,
   } = usePropsWithThemeDefaults("Popover", props);
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const { startShowing, startHiding, attached, positionStyle, visible } = usePopoverPosition(anchorRef, popoverRef, placeOn, 300);
+  const { attached, visible, positionStyle, popoverRef } = usePopoverPosition(anchorRef, placeOn, open, onClose);
 
   const mergedRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -36,31 +35,8 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
         ref.current = node;
       }
     },
-    [ref],
+    [popoverRef, ref],
   );
-
-  useEffect(() => {
-    if (open) {
-      startShowing();
-    } else {
-      startHiding();
-      onClose?.();
-    }
-  }, [onClose, open, startHiding, startShowing]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (attached) {
-        onClose?.();
-        startHiding(true);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [attached, onClose, startHiding]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     spacing,
