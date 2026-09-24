@@ -27,7 +27,7 @@ const HeaderRow = ({ colspan, header }: Props) => {
               <InputText
                 value={mainFilterInputValue}
                 {...(disableFilterOnKeyPress
-                  ? { buttonRight: { name: "search", onClick: applyFilter }, onKeyUp: e => e.key === "Enter" && applyFilter() }
+                  ? { buttonRight: { name: "search", onClick: () => applyFilter() }, onKeyUp: e => e.key === "Enter" && applyFilter() }
                   : { iconRight: <MotifIcon name="search" /> })}
                 clearable
                 className={styles.filterInput}

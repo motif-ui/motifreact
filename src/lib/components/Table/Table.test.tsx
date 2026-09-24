@@ -1,14 +1,21 @@
 import "@testing-library/jest-dom";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import Table from "@/components/Table/Table";
 import { ReactNode } from "react";
 import { userEvent } from "@testing-library/user-event";
-import { RowColor } from "@/components/Table/types";
+import { RowColor, TableProps } from "@/components/Table/types";
+import useServerTable from "@/components/Table/hooks/useServerTable";
+import { Fetcher, UseServerTableOptions } from "@/components/Table/hooks/types";
 import { t, runSnapshotDefaultsAndStandardPropsTest } from "./../../../utils/testUtils";
 import { StandardPropsWithRef } from "./../../../lib/types";
 import MotifProvider from "../../motif/context/MotifProvider";
 
 describe("Table", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+    delete (global as { fetch?: typeof fetch }).fetch;
+  });
+
   const cols = [{ title: "Test Title", dataKey: "testData", sorting: {} }];
   const data = [{ testData: "M Test" }, { testData: "A Test" }, { testData: "Z Test" }];
   const renderExt = (ui: ReactNode) => {
@@ -48,6 +55,24 @@ describe("Table", () => {
       getBodyCells,
       getFooterCells,
     };
+  };
+
+  const jsonResponse = (body: unknown, opts: { ok?: boolean; status?: number; headers?: Record<string, string> } = {}) =>
+    ({
+      ok: opts.ok ?? true,
+      status: opts.status ?? 200,
+      url: "mock://test",
+      headers: { get: (key: string) => opts.headers?.[key] ?? null },
+      json: () => Promise.resolve(body),
+    }) as Response;
+
+  const ServerTable = ({
+    options,
+    fetcher,
+    ...tableProps
+  }: { options?: UseServerTableOptions; fetcher?: Fetcher<object> } & Omit<TableProps, "data">) => {
+    const serverTable = useServerTable(options, fetcher);
+    return <Table {...tableProps} {...serverTable} />;
   };
 
   runSnapshotDefaultsAndStandardPropsTest(
@@ -1130,5 +1155,311 @@ describe("Table", () => {
 
       unmount();
     }
+  });
+
+  it("should fetch and render data from options.url in useServerTable (url mode), defaulting total to data length", async () => {
+    const rows = [{ name: "Ann" }, { name: "Ben" }];
+    global.fetch = jest.fn().mockResolvedValue(jsonResponse(rows));
+
+    const { getCountText } = renderExt(
+      <ServerTable columns={[{ title: "Name", dataKey: "name" }]} options={{ url: "https://api.test/users" }} />,
+    );
+
+    await waitFor(() => expect(screen.getByText("Ann")).toBeInTheDocument());
+    expect(screen.getByText("Ben")).toBeInTheDocument();
+    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 2 }));
+    expect(global.fetch).toHaveBeenCalledWith("https://api.test/users?", expect.objectContaining({ method: "GET" }));
+  });
+
+  it("should resolve totalRecords from the response body via totalCount.bodyKey", async () => {
+    global.fetch = jest.fn().mockResolvedValue(jsonResponse({ items: [{ name: "Ann" }], total: 42 }));
+    const { getCountText } = renderExt(
+      <ServerTable
+        columns={[{ title: "Name", dataKey: "name" }]}
+        options={{ url: "https://api.test/users", itemsKey: "items", totalCount: { bodyKey: "total" } }}
+      />,
+    );
+    await waitFor(() => expect(screen.getByText("Ann")).toBeInTheDocument());
+    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 42 }));
+  });
+
+  it("should send params as a JSON body instead of a query string when method is POST", async () => {
+    global.fetch = jest.fn().mockResolvedValue(jsonResponse([{ name: "Ann" }]));
+    renderExt(
+      <ServerTable
+        columns={[{ title: "Name", dataKey: "name" }]}
+        options={{
+          url: "https://api.test/search",
+          method: "POST",
+          pageSize: 5,
+          queryStringKeys: { page: "page", pageSize: "size" },
+        }}
+      />,
+    );
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    const [calledUrl, calledInit] = (global.fetch as jest.Mock).mock.calls[0] as [string, RequestInit];
+    expect(calledUrl).toBe("https://api.test/search");
+    expect(calledInit.method).toBe("POST");
+    expect(JSON.parse(calledInit.body as string)).toEqual({ page: "1", size: "5" });
+  });
+
+  it("should combine pagination, sorting and filtering in server mode, sending the correct request each time and resetting to page 1 on sort/filter", async () => {
+    global.fetch = jest.fn().mockResolvedValue(jsonResponse([{ name: "Ann" }], { headers: { "X-Total-Count": "20" } }));
+    const { getSortButton, getPaginationBar, getFilterableTableInput, getColumnFilterInputs } = renderExt(
+      <ServerTable
+        columns={[{ title: "Name", dataKey: "name", sorting: {}, filter: true }]}
+        filterableTable
+        reflectDataChanges
+        pagination={{ rowsPerPage: 2 }}
+        options={{
+          url: "https://api.test/users",
+          pageSize: 2,
+          filterKeyPressRequestDelay: 0,
+          queryStringKeys: {
+            page: "_page",
+            pageSize: "_limit",
+            sortBy: "_sort",
+            sortOrder: "_order",
+            query: "q",
+            columnFilter: dataKey => `${dataKey}_like`,
+          },
+          totalCount: { headerKey: "X-Total-Count" },
+        }}
+      />,
+    );
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledWith("https://api.test/users?_page=1&_limit=2", expect.anything()));
+
+    await userEvent.click(within(getPaginationBar()).getByText("2"));
+    await waitFor(() => expect(global.fetch).toHaveBeenLastCalledWith("https://api.test/users?_page=2&_limit=2", expect.anything()));
+
+    await userEvent.click(getSortButton());
+    await waitFor(() =>
+      expect(global.fetch).toHaveBeenLastCalledWith("https://api.test/users?_page=1&_limit=2&_sort=name&_order=asc", expect.anything()),
+    );
+
+    await userEvent.type(getColumnFilterInputs()[0], "An");
+    await waitFor(() =>
+      expect(global.fetch).toHaveBeenLastCalledWith(
+        "https://api.test/users?_page=1&_limit=2&_sort=name&_order=asc&name_like=An",
+        expect.anything(),
+      ),
+    );
+
+    await userEvent.type(getFilterableTableInput(), "x");
+    await waitFor(() =>
+      expect(global.fetch).toHaveBeenLastCalledWith(
+        "https://api.test/users?_page=1&_limit=2&_sort=name&_order=asc&q=x&name_like=An",
+        expect.anything(),
+      ),
+    );
+  });
+
+  it("should allow using a custom fetcher function in useServerTable (fetcher mode) instead of options.url", async () => {
+    const fetcher = jest.fn().mockResolvedValue({ data: [{ name: "Ann" }], totalRecords: 1 });
+    renderExt(<ServerTable columns={[{ title: "Name", dataKey: "name" }]} fetcher={fetcher} options={{ pageSize: 5 }} />);
+
+    await waitFor(() => expect(screen.getByText("Ann")).toBeInTheDocument());
+    expect(fetcher).toHaveBeenCalledWith(expect.objectContaining({ page: 1, pageSize: 5, sort: {}, filters: { main: "", columns: {} } }));
+  });
+
+  it("should ignore a stale request's result when a newer request has already superseded it", async () => {
+    const resolvers: Array<(value: { data: { name: string }[]; totalRecords: number }) => void> = [];
+    const fetcher = jest.fn(() => new Promise<{ data: { name: string }[]; totalRecords: number }>(resolve => resolvers.push(resolve)));
+
+    const { getSortButton } = renderExt(
+      <ServerTable
+        columns={[{ title: "Name", dataKey: "name", sorting: {} }]}
+        fetcher={fetcher}
+        options={{ pageSize: 1 }}
+        reflectDataChanges
+      />,
+    );
+
+    await waitFor(() => expect(resolvers).toHaveLength(1));
+    resolvers[0]({ data: [{ name: "InitialRow" }], totalRecords: 1 });
+    await waitFor(() => expect(screen.getByText("InitialRow")).toBeInTheDocument());
+
+    await userEvent.click(getSortButton());
+    await waitFor(() => expect(resolvers).toHaveLength(2));
+
+    // A second sort click supersedes the first (still-pending) request before it resolves.
+    await userEvent.click(getSortButton());
+    await waitFor(() => expect(resolvers).toHaveLength(3));
+
+    resolvers[2]({ data: [{ name: "FreshRow" }], totalRecords: 1 });
+    await waitFor(() => expect(screen.getByText("FreshRow")).toBeInTheDocument());
+
+    resolvers[1]({ data: [{ name: "StaleRow" }], totalRecords: 1 });
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(screen.queryByText("StaleRow")).not.toBeInTheDocument();
+    expect(screen.getByText("FreshRow")).toBeInTheDocument();
+  });
+
+  it("should use the explicit totalRecords prop for the pagination total and not re-slice already-paginated data", () => {
+    const onePage = [{ testData: "Row A" }, { testData: "Row B" }];
+    const { getPaginationBar, getTableBody } = renderExt(
+      <Table columns={cols} data={onePage} totalRecords={20} pagination={{ rowsPerPage: 2 }} />,
+    );
+    expect(getTableBody().querySelectorAll("tr").length).toBe(2);
+    expect(within(getPaginationBar()).getByText("10")).toBeInTheDocument();
+  });
+
+  it("should still paginate client-side data and notify onPageChange, independent of whether totalRecords is set", async () => {
+    const onPageChange = jest.fn();
+    const { getPaginationBar, getTableBody } = renderExt(
+      <Table columns={cols} data={data} pagination={{ rowsPerPage: 2 }} onPageChange={onPageChange} />,
+    );
+    expect(getTableBody().querySelectorAll("tr").length).toBe(2);
+    await userEvent.click(within(getPaginationBar()).getByText("2"));
+    expect(onPageChange).toHaveBeenCalledWith(2);
+    expect(getTableBody().querySelectorAll("tr").length).toBe(1);
+  });
+
+  it("should call onFilterChange immediately as the user types by default", async () => {
+    const onFilterChange = jest.fn();
+    const { getFilterableTableInput } = renderExt(<Table columns={cols} data={data} filterableTable onFilterChange={onFilterChange} />);
+    await userEvent.type(getFilterableTableInput(), "A");
+    expect(onFilterChange).toHaveBeenLastCalledWith("A", undefined);
+  });
+
+  it("should not call onFilterChange while typing when disableFilterOnKeyPress is true, only on Enter", async () => {
+    const onFilterChange = jest.fn();
+    const { getFilterableTableInput } = renderExt(
+      <Table columns={cols} data={data} filterableTable disableFilterOnKeyPress onFilterChange={onFilterChange} />,
+    );
+    const filterInput = getFilterableTableInput();
+    await userEvent.type(filterInput, "A");
+    expect(onFilterChange).not.toHaveBeenCalled();
+
+    await userEvent.type(filterInput, "{Enter}");
+    expect(onFilterChange).toHaveBeenCalledWith("A", true);
+  });
+
+  it("should call onFilterChange when the search button is clicked when disableFilterOnKeyPress is true", async () => {
+    const onFilterChange = jest.fn();
+    const { getFilterableTableInput } = renderExt(
+      <Table columns={cols} data={data} filterableTable disableFilterOnKeyPress onFilterChange={onFilterChange} />,
+    );
+    const filterInput = getFilterableTableInput();
+    await userEvent.type(filterInput, "A");
+    const inputContainer = filterInput.closest('[data-testid="inputItem"]') as HTMLElement;
+    await userEvent.click(within(inputContainer).getByText("search"));
+    expect(onFilterChange).toHaveBeenCalledWith("A", true);
+  });
+
+  it("should call onFilterChange immediately when the filter input's clear button is clicked, regardless of disableFilterOnKeyPress", async () => {
+    const onFilterChange = jest.fn();
+    const { getFilterableTableInput } = renderExt(<Table columns={cols} data={data} filterableTable onFilterChange={onFilterChange} />);
+    const filterInput = getFilterableTableInput();
+    await userEvent.type(filterInput, "A");
+    const inputContainer = filterInput.closest('[data-testid="inputItem"]') as HTMLElement;
+    await userEvent.click(within(inputContainer).getByText("cancel_outline"));
+    expect(onFilterChange).toHaveBeenLastCalledWith("", true);
+  });
+
+  it("should call onSelectionChange using selectionKey values", async () => {
+    const onSelectionChange = jest.fn();
+    const rows = [
+      { id: 10, name: "Ann" },
+      { id: 20, name: "Ben" },
+    ];
+    const { getCheckboxes, getSelectAllCheckbox } = renderExt(
+      <Table
+        columns={[{ title: "Name", dataKey: "name" }]}
+        data={rows}
+        selectable
+        selectionKey="id"
+        onSelectionChange={onSelectionChange}
+      />,
+    );
+
+    const lastCall = () => {
+      const [changedIds, selected, selectedIds] = onSelectionChange.mock.calls.at(-1) as [number[], boolean, number[]];
+      return [changedIds, selected, [...selectedIds].sort((a, b) => a - b)];
+    };
+
+    await userEvent.click(getCheckboxes()[1].firstElementChild as HTMLInputElement);
+    expect(lastCall()).toEqual([[10], true, [10]]);
+
+    await userEvent.click(getCheckboxes()[2].firstElementChild as HTMLInputElement);
+    expect(lastCall()).toEqual([[20], true, [10, 20]]);
+
+    await userEvent.click(getCheckboxes()[1].firstElementChild as HTMLInputElement);
+    expect(lastCall()).toEqual([[10], false, [20]]);
+
+    await userEvent.click(getSelectAllCheckbox());
+    expect(lastCall()).toEqual([[10, 20], true, [10, 20]]);
+
+    await userEvent.click(getSelectAllCheckbox());
+    expect(lastCall()).toEqual([[10, 20], false, []]);
+  });
+
+  it("should scope select-all/deselect-all to the current page only when paginated", async () => {
+    const onSelectionChange = jest.fn();
+    const rows = Array.from({ length: 4 }, (_, i) => ({ id: i + 1, name: `Row ${i}` }));
+    const { getSelectAllCheckbox, getPaginationBar } = renderExt(
+      <Table
+        columns={[{ title: "Name", dataKey: "name" }]}
+        data={rows}
+        selectable
+        selectionKey="id"
+        pagination={{ rowsPerPage: 2 }}
+        onSelectionChange={onSelectionChange}
+      />,
+    );
+
+    await userEvent.click(getSelectAllCheckbox());
+    expect(onSelectionChange).toHaveBeenLastCalledWith([1, 2], true, [1, 2]);
+
+    await userEvent.click(within(getPaginationBar()).getByText("2"));
+    expect(getSelectAllCheckbox()).not.toBeChecked();
+
+    await userEvent.click(getSelectAllCheckbox());
+    expect(onSelectionChange).toHaveBeenLastCalledWith([3, 4], true, [1, 2, 3, 4]);
+  });
+
+  it("should not re-apply a defaultSelectedIds entry that the user has manually deselected, even after the data reloads", async () => {
+    const makeRows = () => [
+      { id: 1, name: "Ann" },
+      { id: 2, name: "Ben" },
+    ];
+    const cols = [{ title: "Name", dataKey: "name" }];
+    const { getCheckboxes, rerender } = renderExt(
+      <Table columns={cols} data={makeRows()} selectable selectionKey="id" defaultSelectedIds={[1]} reflectDataChanges />,
+    );
+    expect(getCheckboxes()[1].firstElementChild).toBeChecked();
+
+    await userEvent.click(getCheckboxes()[1].firstElementChild as HTMLInputElement);
+    expect(getCheckboxes()[1].firstElementChild).not.toBeChecked();
+
+    rerender(<Table columns={cols} data={makeRows()} selectable selectionKey="id" defaultSelectedIds={[1]} reflectDataChanges />);
+    expect(getCheckboxes()[1].firstElementChild).not.toBeChecked();
+  });
+
+  it("should apply a defaultSelectedIds entry the moment its row appears, even on a later data reload", () => {
+    const cols = [{ title: "Name", dataKey: "name" }];
+    const { getCheckboxes, rerender } = renderExt(
+      <Table columns={cols} data={[{ id: 1, name: "Ann" }]} selectable selectionKey="id" defaultSelectedIds={[5]} reflectDataChanges />,
+    );
+    expect(getCheckboxes()[1].firstElementChild).not.toBeChecked();
+
+    rerender(
+      <Table columns={cols} data={[{ id: 5, name: "Eve" }]} selectable selectionKey="id" defaultSelectedIds={[5]} reflectDataChanges />,
+    );
+    expect(getCheckboxes()[1].firstElementChild).toBeChecked();
+  });
+
+  it("should reflect the new row's own selection state (not the previous row's) when different data lands at the same position", async () => {
+    const cols = [{ title: "Name", dataKey: "name" }];
+    const { getCheckboxes, rerender } = renderExt(
+      <Table columns={cols} data={[{ id: 1, name: "Ann" }]} selectable selectionKey="id" reflectDataChanges />,
+    );
+    await userEvent.click(getCheckboxes()[1].firstElementChild as HTMLInputElement);
+    expect(getCheckboxes()[1].firstElementChild).toBeChecked();
+
+    rerender(<Table columns={cols} data={[{ id: 99, name: "Zed" }]} selectable selectionKey="id" reflectDataChanges />);
+    expect(screen.getByText("Zed")).toBeInTheDocument();
+    expect(getCheckboxes()[1].firstElementChild).not.toBeChecked();
   });
 });
