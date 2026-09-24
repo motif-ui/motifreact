@@ -8,7 +8,7 @@ import styles from "../Form.module.scss";
 import Button from "@/components/Button";
 import FormTitle from "@/components/Form/components/FormTitle";
 import { PropsWithRefAndChildren } from "../../../types";
-import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 
 type Props<T> = {
   submitButtonLabel: string;
@@ -54,9 +54,6 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
   );
 
   const classNames = sanitizeModuleRootClasses(styles, className, [size, formOrientation, labelOrientation + "Labels"]);
-  const submitAreaClassNames = [styles.submitArea, styles["submitArea_align_" + buttonPosition], fluidButtons && styles.submitArea_fluid]
-    .filter(Boolean)
-    .join(" ");
   const maybeButtonContainer = !preview && (enableClearButton || onSubmit || alternateButtons?.length);
 
   return (
@@ -65,7 +62,14 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
       <div className={styles.fields}>
         {children}
         {maybeButtonContainer && (
-          <div className={submitAreaClassNames}>
+          <div
+            className={sanitizeModuleClasses(
+              styles,
+              "submitArea",
+              `submitArea_align_${buttonPosition}`,
+              fluidButtons && "submitArea_fluid",
+            )}
+          >
             {alternateButtons?.map(button => cloneElement(button, { size, ...(fluidButtons && { fluid: true }) }))}
             {enableClearButton && (
               <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} fluid={fluidButtons} />
