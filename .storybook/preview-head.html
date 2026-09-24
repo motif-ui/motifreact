@@ -353,6 +353,108 @@
       }
     }
 
+    /* Collapsible (<details>) */
+    :where(details:not(.sb-anchor, .sb-unstyled, .sb-unstyled *)) {
+      margin: 14px 0;
+      border-radius: var(--mtfdocs-radius-md);
+      border: 1px solid var(--mtfdocs-border);
+      background: linear-gradient(180deg, #ffffff 0%, #fcfaff 100%);
+      box-shadow: 0 8px 24px var(--mtfdocs-preview-shadow);
+      overflow: hidden;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+      &:hover {
+        border-color: rgba(var(--mtfdocs-purple-rgb), 0.28);
+      }
+      &[open] {
+        border-color: rgba(var(--mtfdocs-purple-rgb), 0.34);
+        box-shadow: 0 12px 34px rgba(var(--mtfdocs-purple-rgb), 0.1);
+      }
+
+      > summary {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+        font-family: "Inter", sans-serif !important;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #292d42;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+
+        &::-webkit-details-marker {
+          display: none;
+        }
+        /* Chevron badge */
+        &::before {
+          content: "❯";
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          width: 28px;
+          height: 28px;
+          border-radius: var(--mtfdocs-radius-xs);
+          background: rgba(var(--mtfdocs-purple-rgb), 0.1);
+          color: var(--mtfdocs-purple-strong);
+          font-size: 12px;
+          transition:
+            transform 0.2s ease,
+            background 0.2s ease,
+            color 0.2s ease;
+        }
+        /* Hint pill on the right */
+        &::after {
+          content: "Show code";
+          margin-left: auto;
+          padding: 4px 12px;
+          border-radius: var(--mtfdocs-pill);
+          border: 1px solid var(--mtfdocs-border);
+          background: var(--mtfdocs-surface-muted);
+          color: var(--mtfdocs-code-chip-text);
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+        }
+        &:hover {
+          background: rgba(var(--mtfdocs-purple-rgb), 0.05);
+          color: var(--mtfdocs-purple-strong);
+        }
+        &:focus-visible {
+          outline: none;
+          box-shadow: inset 0 0 0 3px rgba(var(--mtfdocs-purple-rgb), 0.2);
+        }
+      }
+      &[open] > summary {
+        border-bottom: 1px solid var(--mtfdocs-divider);
+        color: var(--mtfdocs-purple-strong);
+        background: rgba(var(--mtfdocs-purple-rgb), 0.04);
+
+        &::before {
+          transform: rotate(90deg);
+          background: var(--mtfdocs-purple);
+          color: #ffffff;
+        }
+        &::after {
+          content: "Hide code";
+        }
+      }
+      /* Code block sits flush inside the card */
+      .docblock-source {
+        margin: 0;
+        border: none;
+        border-radius: 0;
+      }
+    }
+
     /* Args Table */
     div:has(> div > .docblock-argstable) {
       overflow-x: auto;
