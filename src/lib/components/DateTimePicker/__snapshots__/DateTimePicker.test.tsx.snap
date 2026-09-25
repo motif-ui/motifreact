@@ -348,7 +348,7 @@ exports[`DateTimePicker should render with only required props, and have standar
           >
             Sep
              
-            24
+            25
           </span>
           <span
             class="infoYear"
@@ -615,13 +615,13 @@ exports[`DateTimePicker should render with only required props, and have standar
               23
             </button>
             <button
-              class="today"
               data-date="1790208000000"
               type="button"
             >
               24
             </button>
             <button
+              class="today"
               data-date="1790294400000"
               type="button"
             >
