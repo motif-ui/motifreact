@@ -12,7 +12,7 @@ const Register = () => {
         title="Create your account"
         description="Start your journey with us today"
       />
-      <Form onSubmit={() => {}} fluidButtons>
+      <Form onSubmit={() => {}} buttonPosition="fluid">
         <Form.Field name="fullName" label="Full name">
           <InputText placeholder="Jane Cooper" iconLeft="person" />
         </Form.Field>

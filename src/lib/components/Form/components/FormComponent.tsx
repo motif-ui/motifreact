@@ -12,8 +12,7 @@ import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "src/utils/cssU
 
 type Props<T> = {
   submitButtonLabel: string;
-  buttonPosition: "left" | "center" | "right";
-  fluidButtons?: boolean;
+  buttonPosition: "left" | "center" | "right" | "fluid";
   enableClearButton?: boolean;
   clearButtonLabel: string;
   resetIfValidatedOnSubmit?: boolean;
@@ -28,7 +27,6 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
     onSubmit,
     submitButtonLabel,
     buttonPosition,
-    fluidButtons,
     clearButtonLabel,
     enableClearButton,
     resetIfValidatedOnSubmit,
@@ -55,6 +53,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
 
   const classNames = sanitizeModuleRootClasses(styles, className, [size, formOrientation, labelOrientation + "Labels"]);
   const maybeButtonContainer = !preview && (enableClearButton || onSubmit || alternateButtons?.length);
+  const fluid = buttonPosition === "fluid";
 
   return (
     <form onSubmit={submitHandler} className={classNames} ref={internalFormRef} style={style}>
@@ -62,19 +61,10 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
       <div className={styles.fields}>
         {children}
         {maybeButtonContainer && (
-          <div
-            className={sanitizeModuleClasses(
-              styles,
-              "submitArea",
-              `submitArea_align_${buttonPosition}`,
-              fluidButtons && "submitArea_fluid",
-            )}
-          >
-            {alternateButtons?.map(button => cloneElement(button, { size, ...(fluidButtons && { fluid: true }) }))}
-            {enableClearButton && (
-              <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} fluid={fluidButtons} />
-            )}
-            {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" fluid={fluidButtons} />}
+          <div className={sanitizeModuleClasses(styles, "submitArea", `submitArea_align_${buttonPosition}`, fluid && "submitArea_fluid")}>
+            {alternateButtons?.map(button => cloneElement(button, { size, ...(fluid && { fluid: true }) }))}
+            {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} fluid={fluid} />}
+            {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" fluid={fluid} />}
           </div>
         )}
       </div>
