@@ -62,15 +62,9 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
 
   const mapDataToMotifTableRow: (row: object, index: number) => RowDetail = useCallback(
     (row: object, index: number) => ({
+      rowId: (selectionKey ? (row as Record<string, unknown>)[selectionKey] : index) as TableRowId,
       data: { "#": index + 1, ...row },
     }),
-    [],
-  );
-
-  // Without selectionKey, selectable is disallowed (guarded above), so selectedIds is always empty and
-  // this fallback's return value is never actually consumed — it only needs to satisfy the return type.
-  const getRowId = useCallback(
-    (row: RowDetail) => (selectionKey ? (row.data as Record<string, unknown>)[selectionKey] : "") as TableRowId,
     [selectionKey],
   );
 
@@ -147,8 +141,8 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       pagination && totalRecords === undefined
         ? usableRows?.slice((currentPage - 1) * pagination.rowsPerPage, currentPage * pagination.rowsPerPage)
         : usableRows;
-    return sliced?.map(row => ({ ...row, isSelected: selectedIds.has(getRowId(row)) }));
-  }, [currentPage, usableRows, pagination, totalRecords, selectedIds, getRowId]);
+    return sliced?.map(row => ({ ...row, isSelected: selectedIds.has(row.rowId) }));
+  }, [currentPage, usableRows, pagination, totalRecords, selectedIds]);
 
   const spannedCellsMap = useMemo(() => getSpannedCellsMap(columns, visibleRows), [columns, visibleRows]);
 
@@ -157,24 +151,23 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       const next = new Set(selectedIds);
 
       if (all === "select") {
-        const changedIds = (visibleRows ?? []).map(getRowId);
+        const changedIds = (visibleRows ?? []).map(r => r.rowId);
         changedIds.forEach(id => next.add(id));
         setSelectedIds(next);
         onSelectionChange?.(changedIds, true, Array.from(next));
       } else if (all === "deselect") {
-        const changedIds = (visibleRows ?? []).map(getRowId);
+        const changedIds = (visibleRows ?? []).map(r => r.rowId);
         changedIds.forEach(id => next.delete(id));
         setSelectedIds(next);
         onSelectionChange?.(changedIds, false, Array.from(next));
       } else if (row) {
-        const id = getRowId(row);
-        const selected = !selectedIds.has(id);
-        selected ? next.add(id) : next.delete(id);
+        const selected = !selectedIds.has(row.rowId);
+        selected ? next.add(row.rowId) : next.delete(row.rowId);
         setSelectedIds(next);
-        onSelectionChange?.([id], selected, Array.from(next));
+        onSelectionChange?.([row.rowId], selected, Array.from(next));
       }
     },
-    [selectedIds, visibleRows, getRowId, onSelectionChange],
+    [selectedIds, visibleRows, onSelectionChange],
   );
 
   const updateSortState = useCallback(
@@ -225,6 +218,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       onPageChange,
       pagination,
       selectable,
+      selectedIds,
       selectHandler,
       filterableTable,
       filterPlaceholder,
@@ -252,6 +246,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       onPageChange,
       pagination,
       selectable,
+      selectedIds,
       selectHandler,
       filterableTable,
       filterPlaceholder,

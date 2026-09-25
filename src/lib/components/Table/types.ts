@@ -143,6 +143,7 @@ export type TableContextType = {
   onPageChange?: (page: number) => void;
   pagination?: Pagination;
   selectable?: boolean;
+  selectedIds: Set<TableRowId>;
   selectHandler?: (selection: { row?: RowDetail; all?: "select" | "deselect" }) => void;
   filterableTable?: boolean;
   filterPlaceholder?: string;
@@ -162,12 +163,14 @@ export type ColumnState = {
 };
 
 export type RowDetail = {
+  rowId: TableRowId;
   isSelected?: boolean;
   data: object;
 };
 
 export const TableContextDefaultValues: TableContextType = {
   totalRecords: 0,
+  selectedIds: new Set(),
   updateSortState: () => {},
   updateFilterState: () => {},
   mainFilterInputValue: "",

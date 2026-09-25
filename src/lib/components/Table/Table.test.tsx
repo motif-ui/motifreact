@@ -282,6 +282,20 @@ describe("Table", () => {
     expect(getSelectAllCheckbox()).toBeChecked();
   });
 
+  it("should show the cumulative selected count across pages in the footer, not just the current page's", async () => {
+    const data = Array.from({ length: 10 }, (_, i) => ({ myData: `Row ${i}` }));
+    const { getPaginationBar, getSelectAllCheckbox, getCountText } = renderExt(
+      <Table columns={cols} data={data} pagination={{ rowsPerPage: 5 }} selectable selectionKey="myData" />,
+    );
+
+    await userEvent.click(getSelectAllCheckbox());
+    expect(getCountText()).toHaveTextContent(t("table.selectedRecords", { selected: 5 }));
+
+    await userEvent.click(within(getPaginationBar()).getByText("2"));
+    await userEvent.click(getSelectAllCheckbox());
+    expect(getCountText()).toHaveTextContent(t("table.selectedRecords", { selected: 10 }));
+  });
+
   it("should show default and custom no data message when data is empty", () => {
     const { rerender } = render(<Table columns={cols} data={[]} />);
     expect(screen.getByText("No data")).toBeInTheDocument();
