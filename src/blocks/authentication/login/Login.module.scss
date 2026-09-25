@@ -1,0 +1,18 @@
+@use "@styles" as *;
+
+.panel {
+  padding: var(--base-sizing-32x) !important;
+  gap: var(--base-sizing-16x);
+  width: var(--base-sizing-400x);
+}
+
+.optionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text {
+  margin: 0;
+  color: var(--theme-color-text-base-caption);
+}

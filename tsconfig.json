@@ -48,7 +48,9 @@
       "src/*": [ "./src/*" ],
       "@/components/*": [ "./src/lib/components/*" ],
       "@styles": [ "./src/lib/styles" ],
-      "@styles/*": [ "./src/lib/styles/*" ]
+      "@styles/*": [ "./src/lib/styles/*" ],
+      "@motif-ui/react": [ "./src/lib/index.ts" ],
+      "@motif-ui/react/types": [ "./src/lib/types/index.ts" ]
     },
     // Keep import/export syntax exactly as written (do not transform)
     "verbatimModuleSyntax": false,
