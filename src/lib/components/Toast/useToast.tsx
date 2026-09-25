@@ -33,7 +33,7 @@ export const useToast: () => UseToastProps = () => {
         onDismiss: removeFromState,
         content,
         variant,
-        position: isSmallScreen ? smallScreenPositionsMapping[position] : position,
+        position: isSmallScreen() ? smallScreenPositionsMapping[position] : position,
         duration,
         closable,
         ...rest,

@@ -1,5 +1,4 @@
 import { RefObject, useLayoutEffect, useCallback, useState, CSSProperties, useRef } from "react";
-import useDomReady from "../../../hooks/useDomReady";
 import { OverlayPosition } from "src/lib/types";
 
 export const usePopoverPosition = (
@@ -8,7 +7,6 @@ export const usePopoverPosition = (
   position: OverlayPosition,
   transitionTime: number,
 ) => {
-  const domReady = useDomReady();
   const [attached, setAttached] = useState(false);
   const [visible, setVisible] = useState(false);
   const [initialStyle, setInitialStyle] = useState<CSSProperties>();
@@ -46,7 +44,7 @@ export const usePopoverPosition = (
 
   const positionThePopover = useCallback(
     (style?: CSSProperties) => {
-      if (!domReady || !style || !itemRef.current || !anchorRef.current) return;
+      if (!style || !itemRef.current || !anchorRef.current) return;
       const { scrollWidth, scrollHeight } = scrollSize.current;
       const { scrollX, scrollY } = window;
       const { top, left, bottom, right } = itemRef.current.getBoundingClientRect();
@@ -80,7 +78,7 @@ export const usePopoverPosition = (
         itemRef.current.style.setProperty("--caret-left", `${caretLeft}px`);
       }
     },
-    [domReady, itemRef, position, anchorRef],
+    [itemRef, position, anchorRef],
   );
 
   useLayoutEffect(() => {
@@ -89,7 +87,7 @@ export const usePopoverPosition = (
       positionThePopover(initialStyle);
       setVisible(true);
     }
-  }, [attached, domReady, initialStyle, positionThePopover]);
+  }, [attached, initialStyle, positionThePopover]);
 
   const startShowing = useCallback(() => {
     // Sets initial position

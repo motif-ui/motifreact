@@ -2,12 +2,12 @@
 
 import styles from "./Popover.module.scss";
 import { useEffect, useRef, useCallback } from "react";
-import { createPortal } from "react-dom";
 import { PropsWithRefAndChildren } from "../../types";
 import { usePopoverPosition } from "./hooks/usePopoverPosition";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import { PopoverProps } from "./types";
+import BrowserPortal from "../../../utils/BrowserPortal";
 
 const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) => {
   const {
@@ -72,12 +72,12 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
   ]);
 
   return (
-    attached &&
-    createPortal(
-      <div className={classNames} style={{ ...style, ...positionStyle }} ref={mergedRef} data-testid="popover">
-        <div className={styles.popover}>{children}</div>
-      </div>,
-      document.body,
+    attached && (
+      <BrowserPortal>
+        <div className={classNames} style={{ ...style, ...positionStyle }} ref={mergedRef} data-testid="popover">
+          <div className={styles.popover}>{children}</div>
+        </div>
+      </BrowserPortal>
     )
   );
 };
