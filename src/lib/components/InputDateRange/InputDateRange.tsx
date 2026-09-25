@@ -2,7 +2,7 @@
 
 import styles from "./InputDateRange.module.scss";
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import BrowserPortal from "../../../utils/BrowserPortal";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import { PropsWithRef } from "../../types";
@@ -145,8 +145,8 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         clearable
         onClearClick={onClearClickInInput}
       />
-      {attached &&
-        createPortal(
+      {attached && (
+        <BrowserPortal>
           <DateRangePicker
             ref={pickerRef}
             firstDayOfWeek={firstDayOfWeek}
@@ -158,9 +158,9 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
             className={styles.dateRangePicker}
             style={pickerStyle}
             locale={locale}
-          />,
-          document.body,
-        )}
+          />
+        </BrowserPortal>
+      )}
     </div>
   );
 };

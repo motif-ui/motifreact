@@ -5,9 +5,8 @@ import useControlledVisibility from "../../hooks/useControlledVisibility";
 import ModalHeader from "./components/ModalHeader";
 import { PropsWithRef } from "../../types";
 import ModalActions from "./components/ModalActions";
-import { createPortal } from "react-dom";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import useDomReady from "../../hooks/useDomReady";
+import BrowserPortal from "../../../utils/BrowserPortal";
 import { ModalProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -32,7 +31,6 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
     className,
   } = usePropsWithThemeDefaults("Modal", props);
 
-  const domReady = useDomReady();
   const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
 
   const modalRef = useOutsideClick<HTMLDivElement>(() => closable && hide());
@@ -44,18 +42,17 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
     size,
   ]);
   return (
-    attached &&
-    domReady &&
-    createPortal(
-      <div data-testid="modalBackdrop" className={classNames} style={style} ref={ref}>
-        <div className={styles.modal} ref={modalRef}>
-          {closable && <MotifIconButton name="close" onClick={hide} size="xxl" className={styles.closeButton} />}
-          <ModalHeader title={title} subtitle={subtitle} />
-          <div className={styles.content}> {children}</div>
-          <ModalActions actionButton={actionButton} alternateButton={alternateButton} buttons={buttons} />
+    attached && (
+      <BrowserPortal>
+        <div data-testid="modalBackdrop" className={classNames} style={style} ref={ref}>
+          <div className={styles.modal} ref={modalRef}>
+            {closable && <MotifIconButton name="close" onClick={hide} size="xxl" className={styles.closeButton} />}
+            <ModalHeader title={title} subtitle={subtitle} />
+            <div className={styles.content}> {children}</div>
+            <ModalActions actionButton={actionButton} alternateButton={alternateButton} buttons={buttons} />
+          </div>
         </div>
-      </div>,
-      document.body,
+      </BrowserPortal>
     )
   );
 };

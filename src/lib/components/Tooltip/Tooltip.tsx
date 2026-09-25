@@ -3,8 +3,7 @@
 import { RefObject, useLayoutEffect } from "react";
 import { cloneElement, Children, ReactElement, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import styles from "./Tooltip.module.scss";
-import { createPortal } from "react-dom";
-import useDomReady from "../../hooks/useDomReady";
+import BrowserPortal from "../../../utils/BrowserPortal";
 import { TooltipProps } from "./types";
 import { PropsWithRefAndChildren } from "../../types";
 import { usePositionTooltip } from "@/components/Tooltip/usePositionTooltip";
@@ -25,7 +24,6 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
   } = usePropsWithThemeDefaults("Tooltip", props);
 
   const ref = useRef<HTMLDivElement>(null);
-  const domReady = useDomReady();
   const anchorRef = useRef<HTMLElement | undefined>(undefined);
 
   const [visible, setVisible] = useState(false);
@@ -85,19 +83,17 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
         }>,
         { ref: anchorRef },
       )}
-      {!!text.length &&
-        domReady &&
-        attached &&
-        createPortal(
+      {!!text.length && attached && (
+        <BrowserPortal>
           <div className={classNames} data-testid="tooltipItem" style={mergedStyle} ref={ref} role="tooltip">
             <div className={styles.triangle} />
             <div className={styles.textWrapper}>
               {title && <span className={styles.title}>{title}</span>}
               <span className={styles.text}>{text}</span>
             </div>
-          </div>,
-          document.body,
-        )}
+          </div>
+        </BrowserPortal>
+      )}
     </>
   );
 };
