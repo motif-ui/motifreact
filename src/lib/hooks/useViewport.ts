@@ -8,12 +8,12 @@ export type Viewport = {
 
 const SERVER_VIEWPORT: Viewport = { width: 0, height: 0 };
 
-let viewport: Viewport = SERVER_VIEWPORT;
+const cache: { viewport: Viewport } = { viewport: SERVER_VIEWPORT };
 
 const readViewport = () => {
   const { innerWidth: width, innerHeight: height } = window;
-  if (viewport.width !== width || viewport.height !== height) viewport = { width, height };
-  return viewport;
+  if (cache.viewport.width !== width || cache.viewport.height !== height) cache.viewport = { width, height };
+  return cache.viewport;
 };
 
 const subscribe = (onChange: () => void) => {
