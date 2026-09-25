@@ -191,6 +191,8 @@ In order to select the rows in the table, **selectable** prop should be true. Th
 and renders a checkbox for the header column and the rows.
 
 **selectionKey** should refer to the row data field holding each row's unique, stable identifier (e.g. `"id"`).
+It is **required** whenever **selectable** is true — Table throws an error otherwise, since selection has no
+reliable identity to track a row by without it.
 
 When selection changes, **onSelectionChange** fires with three arguments:
 

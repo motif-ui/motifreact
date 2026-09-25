@@ -16,7 +16,6 @@ import { useMotifContext } from "../../motif/context/MotifProvider";
 export const TableContext = createContext<TableContextType>(TableContextDefaultValues);
 
 export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
-  const { locale } = useMotifContext();
   const {
     dataRaw,
     columns,
@@ -37,7 +36,9 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     reflectDataChanges,
     rowColorCallback,
   } = props;
+  if (selectable && !selectionKey) throw new Error("selectionKey is required when selectable is true");
 
+  const { locale } = useMotifContext();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [appliedMainFilterQuery, setAppliedMainFilterQuery] = useState<string>("");
   const [mainFilterInputValue, setMainFilterInputValueState] = useState<string>("");
@@ -61,14 +62,15 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
 
   const mapDataToMotifTableRow: (row: object, index: number) => RowDetail = useCallback(
     (row: object, index: number) => ({
-      motifIndex: index,
       data: { "#": index + 1, ...row },
     }),
     [],
   );
 
+  // Without selectionKey, selectable is disallowed (guarded above), so selectedIds is always empty and
+  // this fallback's return value is never actually consumed — it only needs to satisfy the return type.
   const getRowId = useCallback(
-    (row: RowDetail) => (selectionKey ? (row.data as Record<string, unknown>)[selectionKey] : row.motifIndex) as TableRowId,
+    (row: RowDetail) => (selectionKey ? (row.data as Record<string, unknown>)[selectionKey] : "") as TableRowId,
     [selectionKey],
   );
 

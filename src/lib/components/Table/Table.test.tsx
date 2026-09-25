@@ -6,7 +6,7 @@ import { userEvent } from "@testing-library/user-event";
 import { RowColor, TableProps } from "@/components/Table/types";
 import useServerTable from "@/components/Table/hooks/useServerTable";
 import { Fetcher, UseServerTableOptions } from "@/components/Table/hooks/types";
-import { t, runSnapshotDefaultsAndStandardPropsTest } from "./../../../utils/testUtils";
+import { t, expectToThrow, runSnapshotDefaultsAndStandardPropsTest } from "./../../../utils/testUtils";
 import { StandardPropsWithRef } from "./../../../lib/types";
 import MotifProvider from "../../motif/context/MotifProvider";
 
@@ -88,7 +88,9 @@ describe("Table", () => {
   );
 
   it("should not change selected rows when it is filtered or filtered text is removed", async () => {
-    const { getFilterableTableInput, getSelectAllCheckbox } = renderExt(<Table columns={cols} data={data} filterableTable selectable />);
+    const { getFilterableTableInput, getSelectAllCheckbox } = renderExt(
+      <Table columns={cols} data={data} filterableTable selectable selectionKey="testData" />,
+    );
     const filterInput = getFilterableTableInput();
     const firstCheckbox = getSelectAllCheckbox();
     await userEvent.click(firstCheckbox);
@@ -99,13 +101,17 @@ describe("Table", () => {
   });
 
   it("should filter data based on partial text match", async () => {
-    const { getFilterableTableInput, getFirstRow } = renderExt(<Table columns={cols} data={data} filterableTable selectable />);
+    const { getFilterableTableInput, getFirstRow } = renderExt(
+      <Table columns={cols} data={data} filterableTable selectable selectionKey="testData" />,
+    );
     await userEvent.type(getFilterableTableInput(), data[2].testData.slice(0, 1));
     expect(within(getFirstRow()).getByText(data[2].testData)).toBeInTheDocument();
   });
 
   it("should show no data message when filter input does not match any row", async () => {
-    const { getFilterableTableInput, getFirstRow } = renderExt(<Table columns={cols} data={data} filterableTable selectable />);
+    const { getFilterableTableInput, getFirstRow } = renderExt(
+      <Table columns={cols} data={data} filterableTable selectable selectionKey="testData" />,
+    );
     const filterInput = getFilterableTableInput();
     await userEvent.type(filterInput, data[2].testData.slice(0, 1));
     expect(within(getFirstRow()).getByText(data[2].testData)).toBeInTheDocument();
@@ -128,7 +134,9 @@ describe("Table", () => {
   });
 
   it("should not change the selections when the data is filtered ", async () => {
-    const { getFilterableTableInput, getSelectAllCheckbox } = renderExt(<Table columns={cols} data={data} filterableTable selectable />);
+    const { getFilterableTableInput, getSelectAllCheckbox } = renderExt(
+      <Table columns={cols} data={data} filterableTable selectable selectionKey="testData" />,
+    );
     const filterInput = getFilterableTableInput();
     const firstCheckbox = getSelectAllCheckbox();
     await userEvent.click(firstCheckbox);
@@ -223,6 +231,10 @@ describe("Table", () => {
     expect(selections[2].parentElement?.parentElement).toHaveClass("selected");
   });
 
+  it("should throw an error when selectable is true but selectionKey is not given", () => {
+    expectToThrow(() => render(<Table columns={cols} data={data} selectable />), "selectionKey is required when selectable is true");
+  });
+
   it("should color the rows based on the function given in the rowColorCallback prop", () => {
     render(
       <Table
@@ -260,7 +272,7 @@ describe("Table", () => {
   it("should preserve selected rows across pages", async () => {
     const data = Array.from({ length: 10 }, (_, i) => ({ myData: `Row ${i}` }));
     const { getPaginationBar, getSelectAllCheckbox } = renderExt(
-      <Table columns={cols} data={data} pagination={{ rowsPerPage: 5 }} selectable />,
+      <Table columns={cols} data={data} pagination={{ rowsPerPage: 5 }} selectable selectionKey="myData" />,
     );
 
     await userEvent.click(getSelectAllCheckbox());
@@ -286,7 +298,9 @@ describe("Table", () => {
   });
 
   it("should update selected row count text when checkbox selection changes", async () => {
-    const { getByText, getCheckboxes, getSelectAllCheckbox, getCountText } = renderExt(<Table columns={cols} data={data} selectable />);
+    const { getByText, getCheckboxes, getSelectAllCheckbox, getCountText } = renderExt(
+      <Table columns={cols} data={data} selectable selectionKey="testData" />,
+    );
     expect(getCountText()).toBeInTheDocument();
     await userEvent.click(getSelectAllCheckbox());
     expect(screen.getByText(t("table.selectedRecords", { selected: 3 }))).toBeInTheDocument();
@@ -307,6 +321,7 @@ describe("Table", () => {
         columns={cols}
         data={data}
         selectable
+        selectionKey="testData"
         filterableTable
         pagination={{
           rowsPerPage: 2,
@@ -451,7 +466,9 @@ describe("Table", () => {
 
   it("should fire onSelectionChange callback when a row is selected", async () => {
     const onSelectionChange = jest.fn();
-    const { getSelectAllCheckbox } = renderExt(<Table columns={cols} data={data} selectable onSelectionChange={onSelectionChange} />);
+    const { getSelectAllCheckbox } = renderExt(
+      <Table columns={cols} data={data} selectable selectionKey="testData" onSelectionChange={onSelectionChange} />,
+    );
     await userEvent.click(getSelectAllCheckbox());
     expect(onSelectionChange).toHaveBeenCalledTimes(1);
     await userEvent.click(getSelectAllCheckbox());
@@ -1044,6 +1061,7 @@ describe("Table", () => {
         ]}
         data={[{ name: "Alice", amount: 100 }]}
         selectable
+        selectionKey="name"
       />,
     );
 

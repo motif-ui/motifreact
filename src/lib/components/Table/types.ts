@@ -162,7 +162,6 @@ export type ColumnState = {
 };
 
 export type RowDetail = {
-  motifIndex: number;
   isSelected?: boolean;
   data: object;
 };
