@@ -1,332 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`DatePicker should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
-<div>
-  <div
-    class="Root md borderless mtf-DatePicker"
-    data-testid="Picker"
-  >
-    <div
-      class="dateSelector md"
-    >
-      <div
-        class="daySelector md"
-      >
-        <div
-          class="header"
-        >
-          <button
-            class="arrowButton"
-            type="button"
-          >
-            <span
-              class="Root md motifIconsDefault"
-              lang="en"
-              translate="no"
-            >
-              arrow_back
-            </span>
-          </button>
-          <div
-            class="headerMonthYearButtonContainer"
-          >
-            <button
-              type="button"
-            >
-              February
-            </button>
-            <button
-              type="button"
-            >
-              2000
-            </button>
-          </div>
-          <button
-            class="arrowButton"
-            type="button"
-          >
-            <span
-              class="Root md motifIconsDefault"
-              lang="en"
-              translate="no"
-            >
-              arrow_forward
-            </span>
-          </button>
-        </div>
-        <div
-          class="weekDays"
-        >
-          <span>
-            Mo
-          </span>
-          <span>
-            Tu
-          </span>
-          <span>
-            We
-          </span>
-          <span>
-            Th
-          </span>
-          <span>
-            Fr
-          </span>
-          <span>
-            Sa
-          </span>
-          <span>
-            Su
-          </span>
-        </div>
-        <div
-          class="days"
-          data-testid="DatePickerDayContainer"
-        >
-          <button
-            data-date="949276800000"
-            disabled=""
-            type="button"
-          >
-            31
-          </button>
-          <button
-            data-date="949363200000"
-            type="button"
-          >
-            1
-          </button>
-          <button
-            data-date="949449600000"
-            type="button"
-          >
-            2
-          </button>
-          <button
-            data-date="949536000000"
-            type="button"
-          >
-            3
-          </button>
-          <button
-            data-date="949622400000"
-            type="button"
-          >
-            4
-          </button>
-          <button
-            data-date="949708800000"
-            type="button"
-          >
-            5
-          </button>
-          <button
-            data-date="949795200000"
-            type="button"
-          >
-            6
-          </button>
-          <button
-            data-date="949881600000"
-            type="button"
-          >
-            7
-          </button>
-          <button
-            data-date="949968000000"
-            type="button"
-          >
-            8
-          </button>
-          <button
-            data-date="950054400000"
-            type="button"
-          >
-            9
-          </button>
-          <button
-            data-date="950140800000"
-            type="button"
-          >
-            10
-          </button>
-          <button
-            data-date="950227200000"
-            type="button"
-          >
-            11
-          </button>
-          <button
-            data-date="950313600000"
-            type="button"
-          >
-            12
-          </button>
-          <button
-            data-date="950400000000"
-            type="button"
-          >
-            13
-          </button>
-          <button
-            data-date="950486400000"
-            type="button"
-          >
-            14
-          </button>
-          <button
-            class="selected"
-            data-date="950572800000"
-            type="button"
-          >
-            15
-          </button>
-          <button
-            data-date="950659200000"
-            type="button"
-          >
-            16
-          </button>
-          <button
-            data-date="950745600000"
-            type="button"
-          >
-            17
-          </button>
-          <button
-            data-date="950832000000"
-            type="button"
-          >
-            18
-          </button>
-          <button
-            data-date="950918400000"
-            type="button"
-          >
-            19
-          </button>
-          <button
-            data-date="951004800000"
-            type="button"
-          >
-            20
-          </button>
-          <button
-            data-date="951091200000"
-            type="button"
-          >
-            21
-          </button>
-          <button
-            data-date="951177600000"
-            type="button"
-          >
-            22
-          </button>
-          <button
-            data-date="951264000000"
-            type="button"
-          >
-            23
-          </button>
-          <button
-            data-date="951350400000"
-            type="button"
-          >
-            24
-          </button>
-          <button
-            data-date="951436800000"
-            type="button"
-          >
-            25
-          </button>
-          <button
-            data-date="951523200000"
-            type="button"
-          >
-            26
-          </button>
-          <button
-            data-date="951609600000"
-            type="button"
-          >
-            27
-          </button>
-          <button
-            data-date="951696000000"
-            type="button"
-          >
-            28
-          </button>
-          <button
-            data-date="951782400000"
-            type="button"
-          >
-            29
-          </button>
-          <button
-            data-date="951868800000"
-            disabled=""
-            type="button"
-          >
-            1
-          </button>
-          <button
-            data-date="951955200000"
-            disabled=""
-            type="button"
-          >
-            2
-          </button>
-          <button
-            data-date="952041600000"
-            disabled=""
-            type="button"
-          >
-            3
-          </button>
-          <button
-            data-date="952128000000"
-            disabled=""
-            type="button"
-          >
-            4
-          </button>
-          <button
-            data-date="952214400000"
-            disabled=""
-            type="button"
-          >
-            5
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      class="actions"
-    >
-      <button
-        class="Root secondary solid md"
-        type="button"
-      >
-        <span>
-          Clear
-        </span>
-      </button>
-      <button
-        class="Root primary solid md"
-        type="button"
-      >
-        <span>
-          OK
-        </span>
-      </button>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`DateTimePicker should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
@@ -346,14 +19,14 @@ exports[`DateTimePicker should render with only required props, and have standar
           <span
             class="infoMonthDay"
           >
-            Sep
+            Aug
              
-            18
+            4
           </span>
           <span
             class="infoYear"
           >
-            2026
+            2025
           </span>
         </div>
         <span
@@ -419,12 +92,12 @@ exports[`DateTimePicker should render with only required props, and have standar
               <button
                 type="button"
               >
-                September
+                August
               </button>
               <button
                 type="button"
               >
-                2026
+                2025
               </button>
             </div>
             <button
@@ -470,220 +143,219 @@ exports[`DateTimePicker should render with only required props, and have standar
             data-testid="DatePickerDayContainer"
           >
             <button
-              data-date="1788134400000"
+              data-date="1753660800000"
+              disabled=""
+              type="button"
+            >
+              28
+            </button>
+            <button
+              data-date="1753747200000"
+              disabled=""
+              type="button"
+            >
+              29
+            </button>
+            <button
+              data-date="1753833600000"
+              disabled=""
+              type="button"
+            >
+              30
+            </button>
+            <button
+              data-date="1753920000000"
               disabled=""
               type="button"
             >
               31
             </button>
             <button
-              data-date="1788220800000"
+              data-date="1754006400000"
               type="button"
             >
               1
             </button>
             <button
-              data-date="1788307200000"
+              data-date="1754092800000"
               type="button"
             >
               2
             </button>
             <button
-              data-date="1788393600000"
+              data-date="1754179200000"
               type="button"
             >
               3
             </button>
             <button
-              data-date="1788480000000"
+              class="today"
+              data-date="1754265600000"
               type="button"
             >
               4
             </button>
             <button
-              data-date="1788566400000"
+              data-date="1754352000000"
               type="button"
             >
               5
             </button>
             <button
-              data-date="1788652800000"
+              data-date="1754438400000"
               type="button"
             >
               6
             </button>
             <button
-              data-date="1788739200000"
+              data-date="1754524800000"
               type="button"
             >
               7
             </button>
             <button
-              data-date="1788825600000"
+              data-date="1754611200000"
               type="button"
             >
               8
             </button>
             <button
-              data-date="1788912000000"
+              data-date="1754697600000"
               type="button"
             >
               9
             </button>
             <button
-              data-date="1788998400000"
+              data-date="1754784000000"
               type="button"
             >
               10
             </button>
             <button
-              data-date="1789084800000"
+              data-date="1754870400000"
               type="button"
             >
               11
             </button>
             <button
-              data-date="1789171200000"
+              data-date="1754956800000"
               type="button"
             >
               12
             </button>
             <button
-              data-date="1789257600000"
+              data-date="1755043200000"
               type="button"
             >
               13
             </button>
             <button
-              data-date="1789344000000"
+              data-date="1755129600000"
               type="button"
             >
               14
             </button>
             <button
-              data-date="1789430400000"
+              data-date="1755216000000"
               type="button"
             >
               15
             </button>
             <button
-              data-date="1789516800000"
+              data-date="1755302400000"
               type="button"
             >
               16
             </button>
             <button
-              data-date="1789603200000"
+              data-date="1755388800000"
               type="button"
             >
               17
             </button>
             <button
-              class="today"
-              data-date="1789689600000"
+              data-date="1755475200000"
               type="button"
             >
               18
             </button>
             <button
-              data-date="1789776000000"
+              data-date="1755561600000"
               type="button"
             >
               19
             </button>
             <button
-              data-date="1789862400000"
+              data-date="1755648000000"
               type="button"
             >
               20
             </button>
             <button
-              data-date="1789948800000"
+              data-date="1755734400000"
               type="button"
             >
               21
             </button>
             <button
-              data-date="1790035200000"
+              data-date="1755820800000"
               type="button"
             >
               22
             </button>
             <button
-              data-date="1790121600000"
+              data-date="1755907200000"
               type="button"
             >
               23
             </button>
             <button
-              data-date="1790208000000"
+              data-date="1755993600000"
               type="button"
             >
               24
             </button>
             <button
-              data-date="1790294400000"
+              data-date="1756080000000"
               type="button"
             >
               25
             </button>
             <button
-              data-date="1790380800000"
+              data-date="1756166400000"
               type="button"
             >
               26
             </button>
             <button
-              data-date="1790467200000"
+              data-date="1756252800000"
               type="button"
             >
               27
             </button>
             <button
-              data-date="1790553600000"
+              data-date="1756339200000"
               type="button"
             >
               28
             </button>
             <button
-              data-date="1790640000000"
+              data-date="1756425600000"
               type="button"
             >
               29
             </button>
             <button
-              data-date="1790726400000"
+              data-date="1756512000000"
               type="button"
             >
               30
             </button>
             <button
-              data-date="1790812800000"
-              disabled=""
+              data-date="1756598400000"
               type="button"
             >
-              1
-            </button>
-            <button
-              data-date="1790899200000"
-              disabled=""
-              type="button"
-            >
-              2
-            </button>
-            <button
-              data-date="1790985600000"
-              disabled=""
-              type="button"
-            >
-              3
-            </button>
-            <button
-              data-date="1791072000000"
-              disabled=""
-              type="button"
-            >
-              4
+              31
             </button>
           </div>
         </div>
@@ -708,663 +380,6 @@ exports[`DateTimePicker should render with only required props, and have standar
           </span>
         </button>
       </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`TimePicker should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
-<div>
-  <div
-    class="Root md borderless mtf-TimePicker"
-    data-testid="Picker"
-  >
-    <div
-      class="md"
-    >
-      <div
-        class="timeLabel"
-        data-testid="timeInfo"
-      >
-        <span>
-          __
-        </span>
-         : 
-        <span>
-          __
-        </span>
-      </div>
-      <div
-        class="abbrContainer"
-      >
-        <span>
-          Hr
-        </span>
-        <span>
-          Mn
-        </span>
-      </div>
-      <div
-        class="stripeContainer"
-        data-testid="timeStripeContainer"
-      >
-        <ul
-          class="timeStripe"
-        >
-          <li>
-            <button
-              type="button"
-            >
-              00
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              01
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              02
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              03
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              04
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              05
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              06
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              07
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              08
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              09
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              10
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              11
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              12
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              13
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              14
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              15
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              16
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              17
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              18
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              19
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              20
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              21
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              22
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              23
-            </button>
-          </li>
-        </ul>
-        <ul
-          class="timeStripe"
-        >
-          <li>
-            <button
-              type="button"
-            >
-              00
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              01
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              02
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              03
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              04
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              05
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              06
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              07
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              08
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              09
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              10
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              11
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              12
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              13
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              14
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              15
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              16
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              17
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              18
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              19
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              20
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              21
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              22
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              23
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              24
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              25
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              26
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              27
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              28
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              29
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              30
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              31
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              32
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              33
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              34
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              35
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              36
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              37
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              38
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              39
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              40
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              41
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              42
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              43
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              44
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              45
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              46
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              47
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              48
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              49
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              50
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              51
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              52
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              53
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              54
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              55
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              56
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              57
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              58
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-            >
-              59
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div
-      class="actions actionsSpread"
-    >
-      <button
-        class="Root secondary solid md"
-        type="button"
-      >
-        <span>
-          Clear
-        </span>
-      </button>
-      <button
-        class="Root primary solid md"
-        type="button"
-      >
-        <span>
-          OK
-        </span>
-      </button>
     </div>
   </div>
 </div>
