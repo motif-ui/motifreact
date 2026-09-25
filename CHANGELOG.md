@@ -1,3 +1,35 @@
+# [v0.4.8](https://github.com/motif-ui/motifreact/releases/tag/v0.4.8) (2026-09-21)
+
+## 🐛 Bug Fixes
+
+- fix: new component AlertModal created 🧩 ([#140](https://github.com/motif-ui/motifreact/pull/140)) [@hatesalp](https://github.com/hatesalp)
+- fix(Alert): onClose callback is introduced ([#165](https://github.com/motif-ui/motifreact/pull/165)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Stepper): add reachable state for previously visited steps ([#161](https://github.com/motif-ui/motifreact/pull/161)) [@hatesalp](https://github.com/hatesalp)
+- fix(Tooltip): resize re-rendering logic is fixed ([#149](https://github.com/motif-ui/motifreact/pull/149)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(DatePicker,TimePicker): context replacement for better usage ([#134](https://github.com/motif-ui/motifreact/pull/134)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: refactoring misbehaved readonly behaviour for Form components  ([#143](https://github.com/motif-ui/motifreact/pull/143)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Upload): updated test URLs from httpbin to httpbun ([#153](https://github.com/motif-ui/motifreact/pull/153)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Storybook): mobile and responsive view issues  ([#154](https://github.com/motif-ui/motifreact/pull/154)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(Storybook): resolve docs argstable rendering issue ([#148](https://github.com/motif-ui/motifreact/pull/148)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Icon): add missing download icon to motif-icons-default font ([#147](https://github.com/motif-ui/motifreact/pull/147)) [@hatesalp](https://github.com/hatesalp)
+- fix(IconButton): move iconClass from button root to Icon span ([#141](https://github.com/motif-ui/motifreact/pull/141)) [@hatesalp](https://github.com/hatesalp)
+- fix(InputNumber): update spinner buttons to horizontal layout ([#142](https://github.com/motif-ui/motifreact/pull/142)) [@hatesalp](https://github.com/hatesalp)
+
+## Other Changes
+
+- test: add className, style and ref props test to all components ([#150](https://github.com/motif-ui/motifreact/pull/150)) [@ZehranurC](https://github.com/ZehranurC)
+- chore: maintenance at 20260915 ([#160](https://github.com/motif-ui/motifreact/pull/160)) [@atakanbayrak](https://github.com/atakanbayrak)
+- chore: chromatic turbosnap flow change ([#163](https://github.com/motif-ui/motifreact/pull/163)) [@aktasmehmet](https://github.com/aktasmehmet)
+- chore: maintenance at 09042026 is completed ([#158](https://github.com/motif-ui/motifreact/pull/158)) [@atakanbayrak](https://github.com/atakanbayrak)
+- refactor(UploadInput): add conditions for showing the download button ([#144](https://github.com/motif-ui/motifreact/pull/144)) [@hatesalp](https://github.com/hatesalp)
+- docs(DesignTokenNamingDiagram): fix diagram layout breaking on resize ([#157](https://github.com/motif-ui/motifreact/pull/157)) [@ZehranurC](https://github.com/ZehranurC)
+- chore(Chromatic): chromatic mechanism update ([#156](https://github.com/motif-ui/motifreact/pull/156)) [@atakanbayrak](https://github.com/atakanbayrak)
+- refactor: Toast and UploadList refactoring fixes ([#146](https://github.com/motif-ui/motifreact/pull/146)) [@atakanbayrak](https://github.com/atakanbayrak)
+- refactor: i18n plural rules, docs and tests ([#145](https://github.com/motif-ui/motifreact/pull/145)) [@hatesalp](https://github.com/hatesalp)
+- chore: 20260807 maintenance ([#132](https://github.com/motif-ui/motifreact/pull/132)) [@ZehranurC](https://github.com/ZehranurC)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.7...v0.4.8)
+
 # [v0.4.7](https://github.com/motif-ui/motifreact/releases/tag/v0.4.7) (2026-08-25)
 
 ## 🐛 Bug Fixes
