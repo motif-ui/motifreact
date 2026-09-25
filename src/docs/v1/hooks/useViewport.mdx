@@ -1,19 +1,19 @@
 import { Meta, Canvas } from "@storybook/addon-docs/blocks";
 import * as hooks from "./hooks.stories.tsx";
 
-<Meta title="Hooks/useScreenSize" />
+<Meta title="Hooks/useViewport" />
 
-# useScreenSize
+# useViewport
 
-Tracks the current window dimensions and updates on resize.
+Tracks the current viewport (window) dimensions and updates on resize. The first client render already returns the real dimensions.
 
 ## Usage
 
 ```jsx
-import { useScreenSize } from "@motif-ui/react";
+import { useViewport } from "@motif-ui/react";
 
 const ResponsiveComponent = () => {
-  const { width, height } = useScreenSize();
+  const { width, height } = useViewport();
 
   return (
     <div>
