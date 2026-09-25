@@ -51,7 +51,7 @@ export { default as Skeleton } from "./components/Skeleton";
 export { default as Stepper, useStepper } from "./components/Stepper";
 export { default as Switch } from "./components/Switch";
 export { default as Tab } from "./components/Tab";
-export { default as Table } from "./components/Table";
+export { default as Table, useServerTable } from "./components/Table";
 export { default as Text } from "./components/Text";
 export { default as Textarea } from "./components/Textarea";
 export { default as Timeline } from "./components/Timeline";

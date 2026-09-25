@@ -11,7 +11,8 @@ type Props = {
 };
 
 const FooterForNumbers = ({ loading, hideTotalRecordsMessage }: Props) => {
-  const { originalRows, pagination, usableRows, totalRecords, currentPage, setCurrentPage } = useContext(TableContext);
+  const { originalRows, pagination, usableRows, totalRecords, explicitTotalRecords, currentPage, setCurrentPage, onPageChange } =
+    useContext(TableContext);
 
   const paginationPosition = pagination?.position || "center";
   const className = sanitizeModuleClasses(
@@ -28,10 +29,13 @@ const FooterForNumbers = ({ loading, hideTotalRecordsMessage }: Props) => {
         <div className={styles.pagination}>
           {!loading && originalRows && (
             <Pagination
-              total={usableRows?.length ?? 0}
+              total={explicitTotalRecords ?? usableRows?.length ?? 0}
               current={currentPage}
               pageSize={pagination.rowsPerPage}
-              onChange={setCurrentPage}
+              onChange={page => {
+                setCurrentPage?.(page);
+                onPageChange?.(page);
+              }}
               size="sm"
             />
           )}

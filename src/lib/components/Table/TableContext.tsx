@@ -1,43 +1,94 @@
 "use client";
 
-import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { foldNormalize, getNextItemInArray, getTextFromNode, getValueByChainedKey } from "../../../utils/utils";
 import { sortByType, SORT_DIRECTIONS, getSpannedCellsMap } from "@/components/Table/helper";
-import { ColumnState, RowDetail, TableContextDefaultValues, TableContextProps, TableContextType } from "@/components/Table/types";
+import {
+  ColumnState,
+  RowDetail,
+  TableContextDefaultValues,
+  TableContextProps,
+  TableContextType,
+  TableRowId,
+} from "@/components/Table/types";
 import { useMotifContext } from "../../motif/context/MotifProvider";
 
 export const TableContext = createContext<TableContextType>(TableContextDefaultValues);
 
 export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
-  const { locale } = useMotifContext();
   const {
     dataRaw,
     columns,
+    totalRecords,
+    onSortChange,
+    onFilterChange,
+    onColumnFilterChange,
+    onPageChange,
     showFixedRowNumbers,
     pagination,
     selectable,
     selectionKey,
-    onSelect,
+    defaultSelectedIds,
+    onSelectionChange,
     filterableTable,
     filterPlaceholder,
+    disableFilterOnKeyPress,
     reflectDataChanges,
     rowColorCallback,
   } = props;
+  if (selectable && !selectionKey) throw new Error("selectionKey is required when selectable is true");
 
+  const { locale } = useMotifContext();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [mainFilterQuery, setMainFilterQuery] = useState<string>("");
+  const [appliedMainFilterQuery, setAppliedMainFilterQuery] = useState<string>("");
+  const [mainFilterInputValue, setMainFilterInputValueState] = useState<string>("");
+  const mainFilterInputValueRef = useRef(mainFilterInputValue);
+  const pendingDefaultIdsRef = useRef(new Set(defaultSelectedIds));
+  const [selectedIds, setSelectedIds] = useState<Set<TableRowId>>(() => {
+    const initial = new Set<TableRowId>();
+    if (selectionKey) {
+      dataRaw?.forEach(row => {
+        const rowUniqueId = (row as Record<string, unknown>)[selectionKey] as TableRowId;
+        pendingDefaultIdsRef.current.has(rowUniqueId) && initial.add(rowUniqueId);
+      });
+    }
+    return initial;
+  });
+
+  const setMainFilterInputValue = useCallback((value: string) => {
+    mainFilterInputValueRef.current = value;
+    setMainFilterInputValueState(value);
+  }, []);
 
   const mapDataToMotifTableRow: (row: object, index: number) => RowDetail = useCallback(
     (row: object, index: number) => ({
-      motifIndex: index,
+      rowId: (selectionKey ? (row as Record<string, unknown>)[selectionKey] : index) as TableRowId,
       data: { "#": index + 1, ...row },
-      isSelected: !!selectionKey && !!row[selectionKey as keyof typeof row],
     }),
     [selectionKey],
   );
 
-  // Original data user provided. We only add some necessary internal props to it. It doesn't change at all.
-  const [originalRows, setOriginalRows] = useState<RowDetail[] | undefined>(dataRaw?.map(mapDataToMotifTableRow));
+  useEffect(() => {
+    if (!selectionKey || !pendingDefaultIdsRef.current.size || !dataRaw) return;
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      dataRaw.forEach(row => {
+        const rowUniqueId = (row as Record<string, unknown>)[selectionKey] as TableRowId;
+        pendingDefaultIdsRef.current.delete(rowUniqueId) && next.add(rowUniqueId);
+      });
+      return next.size === prev.size ? prev : next;
+    });
+  }, [dataRaw, selectionKey]);
+
+  // Original data user provided. We only add some necessary internal props to it. It doesn't change at all,
+  // unless reflectDataChanges is set — synced in-render (not via useEffect) so a dataRaw change is never
+  // painted a frame late, which would otherwise flash the previous page's rows (and their selection state).
+  const [originalRows, setOriginalRows] = useState<RowDetail[] | undefined>(() => dataRaw?.map(mapDataToMotifTableRow));
+  const [prevDataRaw, setPrevDataRaw] = useState(dataRaw);
+  if (dataRaw !== prevDataRaw) {
+    setPrevDataRaw(dataRaw);
+    ((dataRaw?.length && !originalRows?.length) || reflectDataChanges) && setOriginalRows(dataRaw?.map(mapDataToMotifTableRow));
+  }
   const [columnStates, setColumnStates] = useState<ColumnState[]>(columns.map(() => ({})));
 
   // Data that is used in the table. It can be sorted, filtered, paginated etc. (derived from originalRows)
@@ -45,24 +96,27 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     if (!originalRows) return undefined;
 
     const normalize = (s: string) => foldNormalize(s, locale);
-    const normalizedMainQuery = mainFilterQuery && normalize(mainFilterQuery);
+    const normalizedMainQuery = appliedMainFilterQuery && normalize(appliedMainFilterQuery);
     const normalizedColumnQueries = columnStates.map(s => s.filterQuery && normalize(s.filterQuery));
 
     const filteredRows = originalRows.filter(row => {
-      const columnMatches = !columns.some((column, index) => {
-        const data = getValueByChainedKey<never>(row.data, column.dataKey);
-        const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
-        const columnQuery = normalizedColumnQueries[index];
-        return !!columnQuery && !normalize(contentToBeSearched).includes(columnQuery);
-      });
+      const columnMatches =
+        !!onColumnFilterChange ||
+        !columns.some((column, index) => {
+          const data = getValueByChainedKey<never>(row.data, column.dataKey);
+          const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
+          const columnQuery = normalizedColumnQueries[index];
+          return !!columnQuery && !normalize(contentToBeSearched).includes(columnQuery);
+        });
 
-      const mainFilterMatches = normalizedMainQuery
-        ? columns.some(column => {
-            const data = getValueByChainedKey<never>(row.data, column.dataKey);
-            const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
-            return normalize(contentToBeSearched).includes(normalizedMainQuery);
-          })
-        : true;
+      const mainFilterMatches =
+        normalizedMainQuery && !onFilterChange
+          ? columns.some(column => {
+              const data = getValueByChainedKey<never>(row.data, column.dataKey);
+              const contentToBeSearched = !column.render ? data : getTextFromNode(column.render(data));
+              return normalize(contentToBeSearched).includes(normalizedMainQuery);
+            })
+          : true;
 
       return columnMatches && mainFilterMatches;
     });
@@ -70,7 +124,7 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
     // Sort
     return columns.reduce((acc, column, index) => {
       const sortDirection = columnStates[index]?.lastSortDirection;
-      return sortDirection
+      return sortDirection && !onSortChange
         ? acc.sort((a, b) => {
             const data1 = getValueByChainedKey(sortDirection === "asc" ? a.data : b.data, column.dataKey);
             const data2 = getValueByChainedKey(sortDirection === "asc" ? b.data : a.data, column.dataKey);
@@ -78,80 +132,79 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
           })
         : acc;
     }, filteredRows);
-  }, [originalRows, columnStates, columns, mainFilterQuery, locale]);
+  }, [originalRows, columnStates, columns, appliedMainFilterQuery, locale, onSortChange, onFilterChange, onColumnFilterChange]);
 
   // Data that is visible in the table. It can be less than usableRows if pagination is enabled.
-  const visibleRows = useMemo(
-    () => (pagination ? usableRows?.slice((currentPage - 1) * pagination.rowsPerPage, currentPage * pagination.rowsPerPage) : usableRows),
-    [currentPage, usableRows, pagination],
-  );
+  // isSelected is derived here, fresh, from selectedIds — never stored on originalRows itself.
+  const visibleRows = useMemo(() => {
+    const sliced =
+      pagination && totalRecords === undefined
+        ? usableRows?.slice((currentPage - 1) * pagination.rowsPerPage, currentPage * pagination.rowsPerPage)
+        : usableRows;
+    return sliced?.map(row => ({ ...row, isSelected: selectedIds.has(row.rowId) }));
+  }, [currentPage, usableRows, pagination, totalRecords, selectedIds]);
 
   const spannedCellsMap = useMemo(() => getSpannedCellsMap(columns, visibleRows), [columns, visibleRows]);
 
-  const refillOriginalRows = useCallback(() => {
-    const mappedData = dataRaw?.map(mapDataToMotifTableRow);
-    setOriginalRows(mappedData);
-  }, [dataRaw, mapDataToMotifTableRow]);
-
-  useEffect(() => {
-    if ((dataRaw?.length && !originalRows?.length) || reflectDataChanges) {
-      refillOriginalRows();
-    }
-  }, [dataRaw, originalRows?.length, refillOriginalRows, reflectDataChanges]);
-
   const selectHandler = useCallback(
     ({ row, all }: { row?: RowDetail; all?: "select" | "deselect" }) => {
+      const next = new Set(selectedIds);
+
       if (all === "select") {
-        const selectedUsableRowsIndices = usableRows?.map(r => r.motifIndex);
-        setOriginalRows(originalRows?.map(r => (selectedUsableRowsIndices?.includes(r.motifIndex) ? { ...r, isSelected: true } : r)));
-        onSelect?.({
-          all: usableRows!.map(r => r.data),
-        });
+        const changedIds = (visibleRows ?? []).map(r => r.rowId);
+        changedIds.forEach(id => next.add(id));
+        setSelectedIds(next);
+        onSelectionChange?.(changedIds, true, Array.from(next));
       } else if (all === "deselect") {
-        const deSelectedUsableRowIndices = usableRows?.map(r => r.motifIndex);
-        setOriginalRows(originalRows?.map(r => (deSelectedUsableRowIndices?.includes(r.motifIndex) ? { ...r, isSelected: false } : r)));
-        onSelect?.({
-          all: [],
-        });
+        const changedIds = (visibleRows ?? []).map(r => r.rowId);
+        changedIds.forEach(id => next.delete(id));
+        setSelectedIds(next);
+        onSelectionChange?.(changedIds, false, Array.from(next));
       } else if (row) {
-        const updatedOriginalRows = originalRows?.map(r => (r.motifIndex === row.motifIndex ? { ...r, isSelected: !r.isSelected } : r));
-        onSelect?.({
-          all: updatedOriginalRows?.filter(r => r.isSelected).map(r => r.data) || [],
-          current: row.data,
-        });
-        setOriginalRows(updatedOriginalRows);
+        const selected = !selectedIds.has(row.rowId);
+        selected ? next.add(row.rowId) : next.delete(row.rowId);
+        setSelectedIds(next);
+        onSelectionChange?.([row.rowId], selected, Array.from(next));
       }
     },
-    [usableRows, onSelect, originalRows],
+    [selectedIds, visibleRows, onSelectionChange],
   );
 
   const updateSortState = useCallback(
     (columnIndex: number) => {
       if (usableRows?.length) {
-        setColumnStates(prev => {
-          const sortDirection = getNextItemInArray(SORT_DIRECTIONS, prev[columnIndex]?.lastSortDirection);
-          return prev.map((c, index) => (index === columnIndex ? { ...c, lastSortDirection: sortDirection } : c));
-        });
+        const sortDirection = getNextItemInArray(SORT_DIRECTIONS, columnStates[columnIndex]?.lastSortDirection);
+        setColumnStates(prev => prev.map((c, index) => (index === columnIndex ? { ...c, lastSortDirection: sortDirection } : c)));
         setCurrentPage(1);
+        onSortChange?.({ dataKey: columns[columnIndex]?.dataKey, direction: sortDirection });
       }
     },
-    [usableRows?.length],
+    [usableRows?.length, columnStates, columns, onSortChange],
   );
 
-  const updateFilterState = useCallback((query: string, columnIndex?: number) => {
-    if (columnIndex !== undefined) {
-      setColumnStates(prev => prev.map((c, index) => (index === columnIndex ? { ...c, filterQuery: query } : c)));
+  const updateFilterState = useCallback(
+    (query: string, columnIndex?: number) => {
+      if (columnIndex !== undefined) {
+        setColumnStates(prev => prev.map((c, index) => (index === columnIndex ? { ...c, filterQuery: query } : c)));
+        setCurrentPage(1);
+        onColumnFilterChange?.({ dataKey: columns[columnIndex]?.dataKey, query });
+      }
+    },
+    [columns, onColumnFilterChange],
+  );
+
+  const applyFilter = useCallback(
+    (forceImmediate?: boolean) => {
+      if (mainFilterInputValueRef.current === appliedMainFilterQuery) return;
+      setAppliedMainFilterQuery(mainFilterInputValueRef.current);
       setCurrentPage(1);
-    }
-  }, []);
+      onFilterChange?.(mainFilterInputValueRef.current, forceImmediate ?? disableFilterOnKeyPress);
+    },
+    [appliedMainFilterQuery, onFilterChange, disableFilterOnKeyPress],
+  );
 
-  const handleMainFilterChange = useCallback((query: string) => {
-    setMainFilterQuery(query);
-    setCurrentPage(1);
-  }, []);
-
-  const contextValue = useMemo(() => {
-    return {
+  const contextValue = useMemo(
+    () => ({
       originalRows,
       usableRows,
       updateSortState,
@@ -162,37 +215,50 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
       showFixedRowNumbers,
       setCurrentPage,
       currentPage,
+      onPageChange,
       pagination,
       selectable,
+      selectedIds,
       selectHandler,
       filterableTable,
       filterPlaceholder,
+      disableFilterOnKeyPress,
       filterableColumns: columns.some(c => c.filter),
       updateFilterState,
-      totalRecords: originalRows?.length ?? 0,
-      setMainFilterQuery: handleMainFilterChange,
+      totalRecords: totalRecords ?? originalRows?.length ?? 0,
+      explicitTotalRecords: totalRecords,
+      mainFilterInputValue,
+      setMainFilterInputValue,
+      applyFilter,
       numberOfVisibleColumns: columns.length + (selectable ? 1 : 0) + (showFixedRowNumbers ? 1 : 0),
       rowColorCallback,
-    };
-  }, [
-    originalRows,
-    usableRows,
-    updateSortState,
-    visibleRows,
-    columns,
-    spannedCellsMap,
-    columnStates,
-    showFixedRowNumbers,
-    currentPage,
-    pagination,
-    selectable,
-    selectHandler,
-    filterableTable,
-    filterPlaceholder,
-    updateFilterState,
-    handleMainFilterChange,
-    rowColorCallback,
-  ]);
+    }),
+    [
+      originalRows,
+      usableRows,
+      updateSortState,
+      visibleRows,
+      columns,
+      spannedCellsMap,
+      columnStates,
+      showFixedRowNumbers,
+      currentPage,
+      onPageChange,
+      pagination,
+      selectable,
+      selectedIds,
+      selectHandler,
+      filterableTable,
+      filterPlaceholder,
+      disableFilterOnKeyPress,
+      updateFilterState,
+      mainFilterInputValue,
+      setMainFilterInputValue,
+      applyFilter,
+      rowColorCallback,
+      totalRecords,
+    ],
+  );
 
   return <TableContext value={contextValue}>{props.children}</TableContext>;
 };
