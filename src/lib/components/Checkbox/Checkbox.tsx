@@ -51,12 +51,12 @@ const Checkbox = (p: PropsWithRef<CheckboxProps, HTMLDivElement>) => {
         readOnly={readOnly}
         checked={isChecked}
       />
-      {(label || children) && (
+      {label && (
         <label htmlFor={id} className={styles.label}>
           {label}
-          {children}
         </label>
       )}
+      {children && <div className={styles.label}>{children}</div>}
     </div>
   );
 };
