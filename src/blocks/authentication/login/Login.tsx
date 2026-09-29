@@ -34,9 +34,7 @@ const Login = () => {
           <InputPassword iconLeft="lock" toggleMask placeholder="Enter your password" />
         </Form.Field>
         <div className={styles.optionsRow}>
-          <Checkbox>
-            <Text text="Remember me" variant="body3" className={styles.text} />
-          </Checkbox>
+          <Checkbox label="Remember me" className={styles.checkbox} />
           <Link label="Forgot password?" url="/forgot-password" size="sm" />
         </div>
       </Form>

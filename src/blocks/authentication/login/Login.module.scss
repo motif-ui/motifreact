@@ -12,7 +12,6 @@
   justify-content: space-between;
 }
 
-.text {
-  margin: 0;
-  color: var(--theme-color-text-base-caption);
+.checkbox label {
+  color: var(--theme-color-text-base-caption) !important;
 }
