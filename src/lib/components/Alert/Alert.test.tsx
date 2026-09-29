@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import Alert from "@/components/Alert/Alert";
-import { fireEvent, render, screen, act, cleanup } from "@testing-library/react";
+import { fireEvent, render, screen, act } from "@testing-library/react";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef, Variant } from "../../../lib/types";
 describe("Alert", () => {
@@ -46,9 +46,9 @@ describe("Alert", () => {
   it("should be rendered in the color set of the variant that is given in the variant prop", () => {
     const variants: Variant[] = ["primary", "secondary", "info", "success", "warning", "danger"];
     variants.forEach(variant => {
-      const { container } = render(<Alert variant={variant} message="Alert Message" />);
+      const { container, unmount } = render(<Alert variant={variant} message="Alert Message" />);
       expect(container.firstChild).toHaveClass(variant);
-      cleanup();
+      unmount();
     });
   });
 
