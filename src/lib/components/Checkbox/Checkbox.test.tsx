@@ -104,6 +104,27 @@ describe("Checkbox", () => {
     expect(screen.getByRole("checkbox")).toBeChecked();
   });
 
+  it("should display children alongside the label", () => {
+    render(
+      <Checkbox>
+        <a href="#">Terms & Privacy Policy</a>
+      </Checkbox>,
+    );
+    expect(screen.getByText("Terms & Privacy Policy")).toBeInTheDocument();
+  });
+
+  it("should not toggle the checkbox when an interactive child is clicked", async () => {
+    const handleChange = jest.fn();
+    render(
+      <Checkbox label="I agree to the" onChange={handleChange}>
+        <a href="#">Terms & Privacy Policy</a>
+      </Checkbox>,
+    );
+    await userEvent.click(screen.getByText("Terms & Privacy Policy"));
+    expect(screen.getByRole("checkbox")).not.toBeChecked();
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
   it("should be rendered with the size given in size prop", () => {
     const sizes: InputSize[] = ["xs", "sm", "md", "lg"];
     sizes.forEach(size => {

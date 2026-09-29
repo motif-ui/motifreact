@@ -18,6 +18,7 @@ export type FormDefaultableProps = {
   labelOrientation?: Orientation;
   submitButtonLabel?: string;
   buttonPosition?: "left" | "center" | "right";
+  fluidButtons?: boolean;
   enableClearButton?: boolean;
   clearButtonLabel?: string;
   resetIfValidatedOnSubmit?: boolean;
