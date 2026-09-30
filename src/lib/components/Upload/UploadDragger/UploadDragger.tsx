@@ -32,6 +32,7 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
     value: externalValue,
     className,
     style,
+    actionIcon,
   } = props;
   const mappedValue = mapExternalValue(externalValue);
 
@@ -64,7 +65,7 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
     >
       <div className={classes} style={style} ref={ref} data-testid="uploadDragger" data-mtf-component="upload-dragger">
         <DragArea disabled={disabled || readOnly} error={error} success={success} onChange={changeHandler} onError={onError} />
-        <FileList disabled={disabled} readOnly={readOnly} />
+        <FileList disabled={disabled} readOnly={readOnly} actionIcon={actionIcon} />
       </div>
     </UploadProvider>
   );

@@ -28,6 +28,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     deleteRequest,
     customValidation,
     value: externalValue,
+    actionIcon,
     ref,
     style,
     className,
@@ -66,13 +67,20 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
 
   return (
     <UploadProvider props={uploadProps} isUploadInput name={name} disabled={disabled} readOnly={readOnly} value={mappedValue}>
-      <UploadInputWrapper {...uploadProps} {...inputCommonPropsAfterRegister} ref={ref} style={style} className={className} />
+      <UploadInputWrapper
+        {...uploadProps}
+        {...inputCommonPropsAfterRegister}
+        ref={ref}
+        style={style}
+        className={className}
+        actionIcon={actionIcon}
+      />
     </UploadProvider>
   );
 };
 
 const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDivElement>) => {
-  const { ref, onChange, disabled, size, success, error, onError, onFormFieldValueUpdate, readOnly, style, className } = props;
+  const { ref, onChange, disabled, size, success, error, onError, onFormFieldValueUpdate, readOnly, style, className, actionIcon } = props;
   const {
     selectedFiles,
     browse,
@@ -139,7 +147,15 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
         <MotifIcon name="search" size={size} />
         {t("g.browse")}
       </button>
-      <LabelArea disabled={isDisabled} size={size} errors={errors} inputState={inputState} success={success} error={error} />
+      <LabelArea
+        disabled={isDisabled}
+        size={size}
+        errors={errors}
+        inputState={inputState}
+        success={success}
+        error={error}
+        actionIcon={actionIcon}
+      />
       {!autoUpload && !!selectedFiles.length && (
         <button className={styles.uploadButton} disabled={isUploadButtonDisabled} onClick={uploadHandler} type="button">
           <MotifIcon name="upload_2" size={size} />

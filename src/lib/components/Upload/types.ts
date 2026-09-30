@@ -2,7 +2,7 @@ import { HttpMethods, IconGlobalType, KeyValue, Size4SM } from "../../types";
 import { ReactNode } from "react";
 
 export type FileAction = {
-  icon: IconGlobalType;
+  icon?: IconGlobalType;
   onClick: () => void;
 };
 
@@ -69,6 +69,7 @@ export type UploadProps = {
    */
   onError?: (errors: string[]) => void;
   customValidation?: (file: File) => CustomValidation;
+  actionIcon?: IconGlobalType;
 } & UploadDefaultableProps;
 
 export type UploadDefaultableProps = {
