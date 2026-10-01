@@ -10,8 +10,25 @@ import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaul
 import GridContext from "@/components/Grid/GridContext";
 
 const GridComponent = (props: PropsWithRef<GridProps, HTMLDivElement>) => {
-  const { fluid, leanToEdge, gutter = "md", children, className, style, colProps = {}, ref } = usePropsWithThemeDefaults("Grid", props);
-  const classNames = sanitizeModuleRootClasses(styles, className, [fluid && "fluid", leanToEdge && "leanToEdge", `gutter-${gutter}`]);
+  const {
+    fluid,
+    leanToEdge,
+    gutter = "md",
+    gutterX,
+    gutterY,
+    children,
+    className,
+    style,
+    colProps = {},
+    ref,
+  } = usePropsWithThemeDefaults("Grid", props);
+  const classNames = sanitizeModuleRootClasses(styles, className, [
+    fluid && "fluid",
+    leanToEdge && "leanToEdge",
+    `gutter-${gutter}`,
+    gutterX && `gutter-x-${gutterX}`,
+    gutterY && `gutter-y-${gutterY}`,
+  ]);
 
   return (
     <GridContext value={{ ...colProps }}>

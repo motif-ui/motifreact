@@ -37,6 +37,15 @@ $grids: 12;
         }
       }
     }
+    &.gutter-x-#{$gutter-size} {
+      .row {
+        column-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
+      }
+    }
+
+    &.gutter-y-#{$gutter-size} {
+      row-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
+    }
   }
 
   &.leanToEdge {

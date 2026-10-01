@@ -1,0 +1,17 @@
+.noMargin {
+  margin: 0;
+}
+
+.centered {
+  text-align: center;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  padding: clamp(0.5rem, 2vw, 3.5rem) clamp(1.5rem, 5vw, 2rem);
+
+  .mtf-Card--headerTitle {
+    font-size: 1.75rem !important;
+  }
+}

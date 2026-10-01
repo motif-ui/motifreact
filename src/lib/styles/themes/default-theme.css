@@ -289,8 +289,28 @@
   --typography-heading-heading6-paragraph-indent: 0;
   --typography-heading-heading6-paragraph-spacing: 0;
   --typography-heading-heading6-text-case: none;
-  --typography-display-lg-font-size: 3.5rem;
-  --typography-display-lg-text-decoration: none;
+  --typography-display-xxl-font-size: 4.5rem;
+  --typography-display-xxl-text-decoration: none;
+  --typography-display-xxl-font-family: Inter;
+  --typography-display-xxl-font-weight: 600;
+  --typography-display-xxl-font-style: normal;
+  --typography-display-xxl-font-stretch: normal;
+  --typography-display-xxl-letter-spacing: 0;
+  --typography-display-xxl-line-height: 4.75rem;
+  --typography-display-xxl-paragraph-indent: 0;
+  --typography-display-xxl-paragraph-spacing: 0;
+  --typography-display-xxl-text-case: none;
+  --typography-display-xl-font-size: 4rem;
+  --typography-display-xl-text-decoration: none;
+  --typography-display-xl-font-family: Inter;
+  --typography-display-xl-font-weight: 600;
+  --typography-display-xl-font-style: normal;
+  --typography-display-xl-font-stretch: normal;
+  --typography-display-xl-letter-spacing: 0;
+  --typography-display-xl-line-height: 4.375rem;
+  --typography-display-xl-paragraph-indent: 0;
+  --typography-display-xl-paragraph-spacing: 0;
+  --typography-display-xl-text-case: none;
   --typography-display-lg-font-family: Inter;
   --typography-display-lg-font-weight: 400;
   --typography-display-lg-font-style: normal;
@@ -300,6 +320,7 @@
   --typography-display-lg-paragraph-indent: 0;
   --typography-display-lg-paragraph-spacing: 0;
   --typography-display-lg-text-case: none;
+
   --typography-display-md-font-size: 3rem;
   --typography-display-md-text-decoration: none;
   --typography-display-md-font-family: Inter;

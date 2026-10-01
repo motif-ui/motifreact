@@ -23,6 +23,13 @@ export type TextVariants =
   | "h4"
   | "h5"
   | "h6"
+  | "heading1"
+  | "heading2"
+  | "heading3"
+  | "heading4"
+  | "heading5"
+  | "heading6"
   | "p1"
   | "p2"
-  | "p3";
+  | "p3"
+  | "display-xl";

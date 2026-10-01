@@ -19,6 +19,7 @@ $sizes: (
   ("p2", "16x", "22x", 400, 1),
   ("p3", "14x", "20x", 400, 0.9)
 );
+$headings: ("heading1", 1), ("heading2", 2), ("heading3", 3), ("heading4", 4), ("heading5", 5), ("heading6", 6);
 
 @each $type, $fontSize, $lineHeight, $fontWeight, $marginEnd in $sizes {
   .#{$type} {
@@ -29,6 +30,22 @@ $sizes: (
     margin-top: $marginEnd + em;
     margin-bottom: $marginEnd + em;
   }
+}
+
+@each $type, $n in $headings {
+  .#{$type} {
+    all: unset;
+    font-size: var(--typography-heading-heading#{$n}-font-size);
+    line-height: var(--typography-heading-heading#{$n}-line-height);
+    font-weight: var(--typography-heading-heading#{$n}-font-weight);
+    font-family: var(--typography-heading-heading#{$n}-font-family);
+    letter-spacing: var(--typography-heading-heading#{$n}-letter-spacing);
+  }
+}
+
+.display-xl {
+  all: unset;
+  @include font("display", "xl");
 }
 
 .Root {

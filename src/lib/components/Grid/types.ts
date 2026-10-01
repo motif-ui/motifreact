@@ -11,4 +11,6 @@ export type GridDefaultableProps = {
   fluid?: boolean;
   leanToEdge?: boolean;
   gutter?: Size4LG;
+  gutterX?: Size4LG;
+  gutterY?: Size4LG;
 };
