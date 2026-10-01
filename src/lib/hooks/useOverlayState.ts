@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { RefObject } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { RefObject, SyntheticEvent } from "react";
 import useToggle, { type ToggleState } from "./useToggle";
 import { OverlayCloseReason } from "src/lib/types";
 
@@ -33,6 +33,11 @@ type UseOverlayStateReturn = {
   hide: () => void;
   toggle: () => void;
   close: (reason: OverlayCloseReason) => void;
+  /**
+   * Handlers to spread on an element whose React subtree belongs to the overlay (e.g. the overlay root or the anchor wrapper).
+   * Clicks in nested overlays rendered in their own portals bubble through the React tree, so they are not counted as outside.
+   */
+  insideProps: { onMouseUp: (e: SyntheticEvent) => void; onTouchEnd: (e: SyntheticEvent) => void };
 };
 
 const useOverlayState = (options: Options): UseOverlayStateReturn => {
@@ -52,6 +57,7 @@ const useOverlayState = (options: Options): UseOverlayStateReturn => {
   onCloseRef.current = onClose;
   const insideRefsRef = useRef(insideRefs);
   insideRefsRef.current = insideRefs;
+  const insideEventsRef = useRef(new WeakSet<Event>());
 
   // Keeps onClose to be called once per open cycle, whether the close is requested from inside or made by the open prop
   const closeNotifiedRef = useRef(!isOpen);
@@ -98,7 +104,9 @@ const useOverlayState = (options: Options): UseOverlayStateReturn => {
     const movesInside = (target: EventTarget | null) =>
       target === document || (target instanceof Node && !!insideRefsRef.current?.some(ref => ref.current && target.contains(ref.current)));
 
-    const handleOutsideClick = (e: MouseEvent | TouchEvent) => !isInside(e.target) && close("outsideClick");
+    // React handles the event before it reaches the document, so the events marked by insideProps are known here
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) =>
+      !isInside(e.target) && !insideEventsRef.current.has(e) && close("outsideClick");
     const handleKeyDown = (e: KeyboardEvent) => e.key === "Escape" && close("escape");
     const handleScroll = (e: Event) => !isInside(e.target) && movesInside(e.target) && close("scroll");
 
@@ -117,7 +125,12 @@ const useOverlayState = (options: Options): UseOverlayStateReturn => {
     };
   }, [isOpen, close, closeOnOutsideClick, closeOnEscape, closeOnScroll]);
 
-  return { open: isOpen, attached, visible, toggleState, show, hide, toggle, close };
+  const markInside = useCallback((e: SyntheticEvent) => {
+    insideEventsRef.current.add(e.nativeEvent);
+  }, []);
+  const insideProps = useMemo(() => ({ onMouseUp: markInside, onTouchEnd: markInside }), [markInside]);
+
+  return { open: isOpen, attached, visible, toggleState, show, hide, toggle, close, insideProps };
 };
 
 export default useOverlayState;

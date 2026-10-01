@@ -38,6 +38,7 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     placement,
     overlayRef: popoverRef,
     toggle,
+    insideProps,
   } = useAnchoredOverlay({
     anchorRef,
     placement: placeOn,
@@ -96,7 +97,7 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
   return (
     attached &&
     createPortal(
-      <div className={classNames} style={{ ...style, ...positionStyle }} ref={mergedRef} data-testid="popover">
+      <div className={classNames} style={{ ...style, ...positionStyle }} ref={mergedRef} data-testid="popover" {...insideProps}>
         <div className={styles.popover}>{children}</div>
       </div>,
       document.body,

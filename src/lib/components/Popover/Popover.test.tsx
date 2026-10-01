@@ -1,6 +1,8 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Popover from "./Popover";
 import { createRef, useRef } from "react";
+import type { PropsWithChildren } from "react";
+import { createPortal } from "react-dom";
 import { PopoverProps } from "./types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
@@ -136,7 +138,7 @@ describe("Popover", () => {
   });
 
   describe("uncontrolled", () => {
-    const UncontrolledPopover = (props: Partial<PopoverProps>) => {
+    const UncontrolledPopover = (props: PropsWithChildren<Partial<PopoverProps>>) => {
       const anchorRef = useRef<HTMLButtonElement>(null);
       return (
         <>
@@ -144,6 +146,7 @@ describe("Popover", () => {
           <div>outside</div>
           <Popover anchorRef={anchorRef} {...props}>
             Popover content
+            {props.children}
           </Popover>
         </>
       );
@@ -179,6 +182,22 @@ describe("Popover", () => {
       fireEvent.click(screen.getByText("anchor"));
       fireEvent.keyDown(document, { key: "Escape" });
       expect(onClose).toHaveBeenLastCalledWith("escape");
+    });
+
+    it("should not close when clicked in a nested overlay rendered in its own portal", () => {
+      const onClose = jest.fn();
+      const NestedOverlay = () => createPortal(<button>nested</button>, document.body);
+      render(
+        <UncontrolledPopover defaultOpen onClose={onClose}>
+          <NestedOverlay />
+        </UncontrolledPopover>,
+      );
+
+      fireEvent.mouseUp(screen.getByText("nested"));
+      expect(onClose).not.toHaveBeenCalled();
+
+      fireEvent.mouseUp(screen.getByText("outside"));
+      expect(onClose).toHaveBeenCalledWith("outsideClick");
     });
 
     it("should not close on outside click when closeOnOutsideClick is false", () => {

@@ -105,6 +105,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     show,
     hide,
     onKeyDown: handleTabNavigation,
+    insideProps,
   } = useAnchoredOverlay({
     anchorRef: innerRef,
     placement: "bottomLeft",
@@ -140,7 +141,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
-    <div ref={innerRef} className={classNames} style={style} onKeyDown={handleTabNavigation}>
+    <div ref={innerRef} className={classNames} style={style} onKeyDown={handleTabNavigation} {...insideProps}>
       <InputText
         name={name}
         size={size}
