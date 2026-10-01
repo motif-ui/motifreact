@@ -51,7 +51,6 @@ $sizes: (
   text-decoration: underline;
 }
 
-// Must stay after the variant classes so fontWeight prop overrides the variant default
 @each $name, $weight in $font-weights {
   .fw-#{$name} {
     font-weight: $weight;
