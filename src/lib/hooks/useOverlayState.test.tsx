@@ -63,6 +63,23 @@ describe("useOverlayState", () => {
       jest.useRealTimers();
     });
 
+    it("should render the state change and the transition start together", () => {
+      jest.useFakeTimers();
+      let renders = 0;
+      const { result } = renderHook(() => {
+        renders++;
+        return useOverlayState({ defaultOpen: true, duration: 300 });
+      });
+      act(() => jest.runOnlyPendingTimers());
+
+      renders = 0;
+      act(() => result.current.hide());
+      expect(renders).toBe(1);
+      expect(result.current.visible).toBe(false);
+      expect(result.current.attached).toBe(true);
+      jest.useRealTimers();
+    });
+
     it("should not be attached on mount when it is closed and duration is given", () => {
       const { result } = renderHook(() => useOverlayState({ duration: 300 }));
       expect(result.current.attached).toBe(false);

@@ -145,12 +145,8 @@ const useOverlayPosition = (anchorRef: RefObject<HTMLElement | null>, overlayRef
   );
 
   useLayoutEffect(() => {
-    if (enabled) {
-      calculate(true);
-    } else {
-      calculatedRef.current = undefined;
-      setCalculated(undefined);
-    }
+    // The last calculation is not cleared when disabled, it is ignored instead and replaced on the next enable
+    enabled && calculate(true);
   }, [enabled, calculate]);
 
   useEffect(() => {
@@ -184,9 +180,10 @@ const useOverlayPosition = (anchorRef: RefObject<HTMLElement | null>, overlayRef
     };
   }, [enabled, keepInView, calculate, anchorRef, overlayRef]);
 
+  const positioned = enabled && calculated;
   return {
-    style: calculated ? { top: calculated.top, left: calculated.left } : HIDDEN_STYLE,
-    placement: calculated?.placement ?? placement,
+    style: positioned ? { top: calculated.top, left: calculated.left } : HIDDEN_STYLE,
+    placement: positioned ? calculated.placement : placement,
   };
 };
 

@@ -51,8 +51,6 @@ const useOverlayState = (options: Options): UseOverlayStateReturn => {
 
   const isOpenRef = useRef(isOpen);
   isOpenRef.current = isOpen;
-  const attachedRef = useRef(attached);
-  attachedRef.current = attached;
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
   const insideRefsRef = useRef(insideRefs);
@@ -67,28 +65,48 @@ const useOverlayState = (options: Options): UseOverlayStateReturn => {
     onCloseRef.current?.(reason);
   }, []);
 
+  // Whether useToggle is showing the overlay, so the transitions are started once even when they are started from two places
+  const shownRef = useRef(false);
+  const showOverlay = useCallback(() => {
+    closeNotifiedRef.current = false;
+    if (shownRef.current) return;
+    shownRef.current = true;
+    showToggle();
+  }, [showToggle]);
+  const hideOverlay = useCallback(() => {
+    if (!shownRef.current) return;
+    shownRef.current = false;
+    hideToggle();
+  }, [hideToggle]);
+
+  // Follows the open prop in the controlled usage. In the uncontrolled usage, show and close start the transitions themselves,
+  // so they are rendered together with the state change instead of in an extra render after this effect
   useEffect(() => {
     if (isOpen) {
-      closeNotifiedRef.current = false;
-      showToggle();
+      showOverlay();
     } else {
       notifyClose("programmatic");
-      attachedRef.current && hideToggle();
+      hideOverlay();
     }
-  }, [isOpen, showToggle, hideToggle, notifyClose]);
+  }, [isOpen, showOverlay, hideOverlay, notifyClose]);
 
   const close = useCallback(
     (reason: OverlayCloseReason) => {
       if (!isOpenRef.current) return;
       notifyClose(reason);
-      !controlled && setInternalOpen(false);
+      if (!controlled) {
+        setInternalOpen(false);
+        hideOverlay();
+      }
     },
-    [controlled, notifyClose],
+    [controlled, notifyClose, hideOverlay],
   );
 
   const show = useCallback(() => {
-    !controlled && setInternalOpen(true);
-  }, [controlled]);
+    if (controlled) return;
+    setInternalOpen(true);
+    showOverlay();
+  }, [controlled, showOverlay]);
 
   const hide = useCallback(() => close("programmatic"), [close]);
 

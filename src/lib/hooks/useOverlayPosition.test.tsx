@@ -66,6 +66,30 @@ describe("useOverlayPosition", () => {
     expect(result.current.style).toEqual({ top: 0, left: 0, visibility: "hidden" });
   });
 
+  it("should not render again when it is disabled", () => {
+    let renders = 0;
+    const { rerender } = renderHook(
+      ({ enabled }) => {
+        renders++;
+        return useOverlayPosition(anchorRef, overlayRef, { placement: "bottom", enabled });
+      },
+      { initialProps: { enabled: true } },
+    );
+
+    renders = 0;
+    rerender({ enabled: false });
+    expect(renders).toBe(1);
+  });
+
+  it("should calculate the position again when it is enabled again", () => {
+    const { result, rerender } = renderPosition("bottomLeft");
+    rerender({ enabled: false, keepInView: false });
+
+    setAnchorRect({ top: 100, left: 100, width: 100, height: 40 });
+    rerender({ enabled: true, keepInView: false });
+    expect(result.current.style).toEqual({ top: 140, left: 100 });
+  });
+
   it.each([
     { placement: "top", expected: { top: 200, left: 350 } },
     { placement: "topLeft", expected: { top: 200, left: 400 } },
