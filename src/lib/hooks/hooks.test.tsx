@@ -1,5 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import useTimeout from "./useTimeout";
+import useToggle from "./useToggle";
 
 describe("useTimeout", () => {
   jest.useFakeTimers();
@@ -101,5 +102,53 @@ describe("useTimeout", () => {
 
     act(() => jest.advanceTimersByTime(1));
     expect(callback).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("useToggle", () => {
+  it("should toggle visibility when called without arguments", () => {
+    const { result } = renderHook(() => useToggle());
+
+    act(() => result.current.toggle());
+    expect(result.current.visible).toBe(true);
+    act(() => result.current.toggle());
+    expect(result.current.visible).toBe(false);
+  });
+
+  it("should force the visibility when a boolean is given", () => {
+    const { result } = renderHook(() => useToggle());
+
+    act(() => result.current.toggle(true));
+    act(() => result.current.toggle(true));
+    expect(result.current.visible).toBe(true);
+    act(() => result.current.toggle(false));
+    expect(result.current.visible).toBe(false);
+  });
+
+  it("should toggle when used directly as an event handler", () => {
+    const { result } = renderHook(() => useToggle());
+
+    act(() => (result.current.toggle as unknown as (e: object) => void)({ type: "click" }));
+    expect(result.current.visible).toBe(true);
+    act(() => (result.current.toggle as unknown as (e: object) => void)({ type: "click" }));
+    expect(result.current.visible).toBe(false);
+  });
+
+  it("should keep the hiding state for the given duration when hide is used as an event handler", () => {
+    jest.useFakeTimers();
+    const { result } = renderHook(() => useToggle({ duration: 300 }));
+
+    act(() => result.current.show());
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.advanceTimersByTime(300));
+    expect(result.current.visible).toBe(true);
+
+    act(() => (result.current.hide as unknown as (e: object) => void)({ type: "click" }));
+    expect(result.current.visible).toBe(false);
+    expect(result.current.toggleState).toBe("hiding");
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(result.current.toggleState).toBeUndefined();
   });
 });
