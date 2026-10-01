@@ -5,22 +5,26 @@ import { memo, useContext } from "react";
 import { FileType } from "@/components/Upload/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import IconButton from "@/components/IconButton";
+import { IconGlobalType } from "../../../../../types";
 
 type Props = {
   file: FileType;
   readOnly?: boolean;
   disabled?: boolean;
+  actionIcon?: IconGlobalType;
 };
 
-export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
+export const FileButton = memo(({ file, readOnly, disabled, actionIcon }: Props) => {
   const { removeFiles, reUpload, abort, size } = useContext(UploadContext);
   const iconSize = size === "xs" ? "xxs" : size === "sm" ? "xs" : size === "lg" ? "md" : "sm";
 
+  const fileActionIcon = actionIcon ?? file.action?.icon;
+
   return (
     <>
-      {file.action && (
+      {fileActionIcon && file.action?.onClick && (
         <IconButton
-          name={file.action.icon}
+          name={fileActionIcon}
           variant="secondary"
           size={iconSize}
           className={`${styles.icon} ${styles.iconPositiveAction}`}

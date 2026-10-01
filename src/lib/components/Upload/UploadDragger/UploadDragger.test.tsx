@@ -468,49 +468,95 @@ describe("UploadDragger", () => {
     expect(onDownloadClick).toHaveBeenCalledTimes(1);
   });
 
-  it("should show the download button but hide action buttons when readOnly or disabled", () => {
-    const { getDownloadButton, getDeleteButton, unmount } = renderExt(
-      <UploadDragger {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} readOnly />,
+  it("should show the download and action buttons but hide the delete button when readOnly or disabled", async () => {
+    const onClick = jest.fn();
+    const value = [{ ...serverFile, onDownloadClick: jest.fn(), action: { onClick } }];
+    const { getDownloadButton, getDeleteButton, rerender } = renderExt(
+      <UploadDragger {...requiredProps} value={value} actionIcon="visibility" readOnly />,
     );
     expect(getDownloadButton()).toBeInTheDocument();
-    expect(getDeleteButton()).not.toBeInTheDocument();
-    unmount();
-    renderExt(<UploadDragger {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} disabled />);
-    expect(getDownloadButton()).toBeInTheDocument();
-    expect(getDeleteButton()).not.toBeInTheDocument();
-  });
-
-  it("should render the action button with the given icon when action is provided in value", () => {
-    const { unmount } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} />);
-    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
-    unmount();
-
-    renderExt(<UploadDragger {...requiredProps} value={[{ ...serverFile, action: { icon: "visibility", onClick: jest.fn() } }]} />);
-    expect(screen.queryByText("visibility")).toBeInTheDocument();
-  });
-
-  it("should call the action's onClick when the action button is clicked", async () => {
-    const onClick = jest.fn();
-    renderExt(<UploadDragger {...requiredProps} value={[{ ...serverFile, action: { icon: "visibility", onClick } }]} />);
-    await userEvent.click(screen.getByText("visibility"));
-    expect(onClick).toHaveBeenCalledTimes(1);
-  });
-
-  it("should not show the action buttons when readOnly or disabled", async () => {
-    const onClick = jest.fn();
-    const value = [{ ...serverFile, action: { icon: "visibility", onClick } }];
-    const { rerender, getDeleteButton } = renderExt(<UploadDragger {...requiredProps} value={value} readOnly />);
-    expect(screen.queryByText("visibility")).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
     await userEvent.click(screen.getByText("visibility"));
     expect(onClick).toHaveBeenCalledTimes(1);
     onClick.mockClear();
 
-    rerender(<UploadDragger {...requiredProps} value={value} disabled />);
-    expect(screen.queryByText("visibility")).toBeInTheDocument();
+    rerender(<UploadDragger {...requiredProps} value={value} actionIcon="visibility" disabled />);
+    expect(getDownloadButton()).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
     await userEvent.click(screen.getByText("visibility"));
     expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should render the action button with the actionIcon only for files that have an action", () => {
+    renderExt(
+      <UploadDragger
+        {...requiredProps}
+        maxFile={2}
+        actionIcon="visibility"
+        value={[{ ...serverFile, action: { onClick: jest.fn() } }, serverFile2]}
+      />,
+    );
+    expect(screen.getAllByText("visibility")).toHaveLength(1);
+  });
+
+  it("should not render the action button when no icon is given", () => {
+    renderExt(<UploadDragger {...requiredProps} value={[{ ...serverFile, action: { onClick: jest.fn() } }]} />);
+    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+  });
+
+  it("should not render the action button for a file whose action has an icon but no onClick", () => {
+    renderExt(<UploadDragger {...requiredProps} value={[{ ...serverFile, action: { icon: "visibility" } }]} />);
+    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+  });
+
+  it("should render each file's own action.icon when the common actionIcon is not given", () => {
+    renderExt(
+      <UploadDragger
+        {...requiredProps}
+        maxFile={2}
+        value={[
+          { ...serverFile, action: { icon: "visibility", onClick: jest.fn() } },
+          { ...serverFile2, action: { icon: "person", onClick: jest.fn() } },
+        ]}
+      />,
+    );
+    expect(screen.getAllByText("visibility")).toHaveLength(1);
+    expect(screen.getAllByText("person")).toHaveLength(1);
+  });
+
+  it("should apply the component-level actionIcon to all files when actionIcon is given at both component and file level", () => {
+    renderExt(
+      <UploadDragger
+        {...requiredProps}
+        maxFile={2}
+        actionIcon="visibility"
+        value={[
+          { ...serverFile, action: { icon: "person", onClick: jest.fn() } },
+          { ...serverFile2, action: { onClick: jest.fn() } },
+        ]}
+      />,
+    );
+    expect(screen.getAllByText("visibility")).toHaveLength(2);
+    expect(screen.queryByText("person")).not.toBeInTheDocument();
+  });
+
+  it("should call only the clicked row's action.onClick", async () => {
+    const onClick1 = jest.fn();
+    const onClick2 = jest.fn();
+    renderExt(
+      <UploadDragger
+        {...requiredProps}
+        maxFile={2}
+        actionIcon="visibility"
+        value={[
+          { ...serverFile, action: { onClick: onClick1 } },
+          { ...serverFile2, action: { onClick: onClick2 } },
+        ]}
+      />,
+    );
+    await userEvent.click(screen.getAllByText("visibility")[1]);
+    expect(onClick1).not.toHaveBeenCalled();
+    expect(onClick2).toHaveBeenCalledTimes(1);
   });
 
   it("should disable the drag area when the maxFile limit is already reached by value files", () => {

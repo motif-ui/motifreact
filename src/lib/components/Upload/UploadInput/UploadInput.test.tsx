@@ -552,15 +552,23 @@ describe("UploadInput", () => {
     expect(onDownloadClick2).toHaveBeenCalledTimes(1);
   });
 
-  it("should not hide the download button when disabled or readOnly", () => {
-    const { unmount, getDownloadButton } = renderExt(
-      <UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} disabled />,
+  it("should show the download and action buttons but hide the delete button when disabled or readOnly", async () => {
+    const onClick = jest.fn();
+    const value = [{ ...serverFile, onDownloadClick: jest.fn(), action: { onClick } }];
+    const { getDownloadButton, getDeleteButton, rerender } = renderExt(
+      <UploadInput {...requiredProps} value={value} actionIcon="visibility" disabled />,
     );
     expect(getDownloadButton()).toBeInTheDocument();
-    unmount();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    onClick.mockClear();
 
-    renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} readOnly />);
+    rerender(<UploadInput {...requiredProps} value={value} actionIcon="visibility" readOnly />);
     expect(getDownloadButton()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it("should not show download button after value file is deleted", async () => {
@@ -570,6 +578,78 @@ describe("UploadInput", () => {
     );
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getDownloadButton()).not.toBeInTheDocument());
+    xhrSpy.mockRestore();
+  });
+
+  it("should render the action button with the actionIcon when a file has an action", () => {
+    const { unmount } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} actionIcon="visibility" />);
+    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+    unmount();
+
+    const { unmount: unmount2 } = renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, action: { onClick: jest.fn() } }]} />);
+    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+    unmount2();
+
+    renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, action: { onClick: jest.fn() } }]} actionIcon="visibility" />);
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
+  });
+
+  it("should ignore each file's own action.icon and only use the common actionIcon", () => {
+    const { unmount } = renderExt(
+      <UploadInput {...requiredProps} value={[{ ...serverFile, action: { icon: "person", onClick: jest.fn() } }]} />,
+    );
+    expect(screen.queryByText("person")).not.toBeInTheDocument();
+    unmount();
+
+    renderExt(
+      <UploadInput
+        {...requiredProps}
+        actionIcon="visibility"
+        value={[{ ...serverFile, action: { icon: "person", onClick: jest.fn() } }]}
+      />,
+    );
+    expect(screen.queryByText("person")).not.toBeInTheDocument();
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
+  });
+
+  it("should call action.onClick of every file when the action button is clicked with multiple value files", async () => {
+    const onClick1 = jest.fn();
+    const onClick2 = jest.fn();
+    renderExt(
+      <UploadInput
+        {...requiredProps}
+        maxFile={2}
+        actionIcon="visibility"
+        value={[
+          { ...serverFile, action: { onClick: onClick1 } },
+          { ...serverFile2, action: { onClick: onClick2 } },
+        ]}
+      />,
+    );
+    expect(screen.getAllByText("visibility")).toHaveLength(1);
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick1).toHaveBeenCalledTimes(1);
+    expect(onClick2).toHaveBeenCalledTimes(1);
+  });
+
+  it("should keep the action button visible when delete fails", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { getDeleteButton, getErrorIcon } = renderExt(
+      <UploadInput {...requiredProps} value={[{ ...serverFile, action: { onClick: jest.fn() } }]} actionIcon="visibility" />,
+    );
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getErrorIcon()).toBeInTheDocument());
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
+    xhrSpy.mockRestore();
+  });
+
+  it("should not show the action button after value file is deleted", async () => {
+    const xhrSpy = mockXHRs(200);
+    const { getDeleteButton } = renderExt(
+      <UploadInput {...requiredProps} value={[{ ...serverFile, action: { onClick: jest.fn() } }]} actionIcon="visibility" />,
+    );
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(screen.queryByText("visibility")).not.toBeInTheDocument());
     xhrSpy.mockRestore();
   });
 

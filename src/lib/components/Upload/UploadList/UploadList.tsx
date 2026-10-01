@@ -32,6 +32,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     value: externalValue,
     className,
     style,
+    actionIcon,
   } = props;
   const mappedValue = mapExternalValue(externalValue);
 
@@ -63,7 +64,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     >
       <div className={classes} style={style} ref={ref} data-mtf-component="upload-list">
         <DragArea disabled={disabled || readOnly} error={error} success={success} onChange={changeHandler} onError={onError} />
-        <FileList disabled={disabled} readOnly={readOnly} />
+        <FileList disabled={disabled} readOnly={readOnly} actionIcon={actionIcon} />
       </div>
     </UploadProvider>
   );
