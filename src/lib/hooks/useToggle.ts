@@ -14,7 +14,6 @@ type UseToggleReturn = {
   show: () => void;
   hide: () => void;
   toggle: (forceShow?: boolean) => void;
-  hideWithoutTransition: () => void;
 };
 
 const useToggle = (options: Options = {}): UseToggleReturn => {
@@ -51,21 +50,14 @@ const useToggle = (options: Options = {}): UseToggleReturn => {
     }
   }, [duration, clearPending]);
 
-  const hide = useCallback(
-    (withoutTransition = false) => {
-      clearPending();
-      setVisible(false);
-      if (duration && !withoutTransition) {
-        setToggleState("hiding");
-        pendingTimeoutRef.current = setTimeout(() => setToggleState(undefined), duration);
-      } else {
-        setToggleState(undefined);
-      }
-    },
-    [duration, clearPending],
-  );
-
-  const hideWithoutTransition = useCallback(() => hide(true), [hide]);
+  const hide = useCallback(() => {
+    clearPending();
+    setVisible(false);
+    if (duration) {
+      setToggleState("hiding");
+      pendingTimeoutRef.current = setTimeout(() => setToggleState(undefined), duration);
+    }
+  }, [duration, clearPending]);
 
   const toggle = useCallback(
     (forceShow?: boolean) => {
@@ -78,10 +70,7 @@ const useToggle = (options: Options = {}): UseToggleReturn => {
 
   useEffect(() => clearPending, [clearPending]);
 
-  return useMemo(
-    () => ({ visible, toggleState, show, hide, hideWithoutTransition, toggle }),
-    [hide, hideWithoutTransition, show, toggle, toggleState, visible],
-  );
+  return useMemo(() => ({ visible, toggleState, show, hide, toggle }), [hide, show, toggle, toggleState, visible]);
 };
 
 export default useToggle;

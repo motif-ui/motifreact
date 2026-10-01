@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import useToggle, { type ToggleState } from "./useToggle";
 
 type Options = {
@@ -13,11 +13,13 @@ type UseControlledVisibilityReturn = {
   toggleState?: ToggleState;
   attached: boolean;
   hide: () => void;
-  hideWithoutTransition: () => void;
 };
 
+/**
+ * @deprecated Use useOverlayState instead. Kept for Modal and AlertModal until they move to the overlay hooks.
+ */
 const useControlledVisibility = ({ open, onClose, duration }: Options): UseControlledVisibilityReturn => {
-  const { visible, toggleState, show, hide, hideWithoutTransition } = useToggle({ duration });
+  const { visible, toggleState, show, hide } = useToggle({ duration });
   const attached = visible || !!toggleState;
   const attachedRef = useRef(attached);
   attachedRef.current = attached;
@@ -28,22 +30,12 @@ const useControlledVisibility = ({ open, onClose, duration }: Options): UseContr
     prevToggleState.current = toggleState;
   }, [toggleState, onClose]);
 
-  const hideControlled = useCallback(() => {
-    if (duration) prevToggleState.current = "hiding";
-    hide();
-  }, [duration, hide]);
-
   useEffect(() => {
     if (open) show();
-    else if (attachedRef.current) hideControlled();
-  }, [open, show, hideControlled]);
+    else if (attachedRef.current) hide();
+  }, [open, show, hide]);
 
-  const hideWithoutTransitionControlled = useCallback(() => {
-    hideWithoutTransition();
-    if (prevToggleState.current !== "hiding") onClose?.();
-  }, [hideWithoutTransition, onClose]);
-
-  return { visible, toggleState, attached, hide: hideControlled, hideWithoutTransition: hideWithoutTransitionControlled };
+  return { visible, toggleState, attached, hide };
 };
 
 export default useControlledVisibility;
