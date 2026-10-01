@@ -22,6 +22,74 @@ Please note that, **dataKey** property supports to access nested properties. So 
 
 <Canvas of={Table.BasicUse} />
 
+## Server Side
+
+By default, `<Table>` expects the entire dataset to be provided upfront via the **data** prop, with sorting, filtering
+and pagination handled entirely in the browser. When the data lives on a server and should be fetched, sorted, and
+filtered there instead, a companion hook — **useServerTable** — takes care of the request lifecycle (state, debouncing,
+cancellation) and wires directly into a small set of props `<Table>` already exposes for this purpose:
+
+- **onSortChange**: fired whenever a sortable column header is clicked.
+- **onFilterChange**: fired whenever the global **filterableTable** search is applied (see the **Filtering** section
+  below for when that happens). Its second argument, **immediate**, is `true` when the query was applied through an
+  explicit action (the search button, **Enter**, or clearing) rather than a debounced keystroke — `useServerTable` uses
+  it to skip its own debounce and fetch right away, so an explicit search isn't delayed on top of being explicit.
+- **onColumnFilterChange**: fired instead of filtering client-side, whenever a column's **filter** input changes.
+- **onPageChange**: fired whenever the **pagination** footer's page changes — purely a notification, safe to use even
+  with client-side pagination (e.g. just to scroll to top).
+- **totalRecords**: overrides the footer's record count and the pagination total, since the table only ever holds the
+  current page of data. Setting it (not **onPageChange**) is what tells `<Table>` to stop re-slicing the **data** prop
+  for the current page, since it's now expected to already contain just that page's rows.
+- **reflectDataChanges**: must be set to `true` — otherwise `<Table>` only ever reads the **data** prop once, and later
+  server responses would be ignored.
+
+> **Note:** Every field `useServerTable` returns (**data**, **totalRecords**, **loading**, **onSortChange**,
+> **onFilterChange**, **onColumnFilterChange**, **onPageChange**) is deliberately named to match one of these props
+> one-to-one, so the hook's result can usually be spread straight onto `<Table>` instead of wiring each field by hand —
+> see the examples below.
+
+### Basic Use
+
+`useServerTable` takes an **options** object and an optional **fetcher** function, and returns the state and callbacks
+`<Table>` needs. With just a **url**, the hook fetches the endpoint as-is and returns whatever it gets back — no page,
+sort, or filter parameters are added, and **totalRecords** falls back to the number of rows in the response. This is
+enough for an endpoint that always returns its full dataset — and since the returned fields match `<Table>`'s props
+one-to-one, the hook's result can be spread straight onto it:
+
+<Canvas of={Table.ServerSideBasicUse} sourceState="shown" />
+
+### Params
+
+Real APIs usually need page, sort, and filter information sent along with the request. **useServerTable** never assumes
+a convention — every parameter it might send is opt-in, and nothing is invented on your behalf:
+
+- **pageSize**: the page size to request. Without it, no pagination parameters are sent at all.
+- **queryStringKeys**: the actual parameter names your API expects — **page**, **pageSize**, **sortBy**, **sortOrder**,
+  **query** (the global search box), and **columnFilter** (a function mapping a column's **dataKey** to its filter
+  parameter name).
+- **itemsKey**: a dotted path to the rows array inside the response body, if the body isn't a bare array.
+- **totalCount**: where the total record count comes from — **bodyKey** (a dotted path into the response body) or
+  **headerKey** (a response header name). Without either, **totalRecords** falls back to the number of rows received.
+- **method**: `"GET"` (default) sends the built parameters as a query string; `"POST"` sends them as a JSON body instead.
+
+Each of these is independent and optional — a parameter (or parameter pair, like page and pageSize) is only ever sent
+when its key name is actually configured. Pagination itself needs no separate wiring — give `<Table>` a **pagination**
+prop (`{ rowsPerPage }`) and the hook's result spreads straight onto it, **onPageChange** included:
+
+<Canvas of={Table.ServerSideParams} sourceState="shown" />
+
+### Fetcher
+
+When an API doesn't fit the "one URL, named query parameters" shape — a different endpoint per search/filter state, a
+non-REST protocol, custom headers, or anything else params alone can't express — pass a **fetcher** function as the
+hook's second argument instead. It receives the current page, sort, and filter state and is fully responsible for the
+request and for shaping the result into `{ data, totalRecords }`:
+
+<Canvas of={Table.ServerSideFetcher} sourceState="hidden" />
+
+> **Note:** With a **fetcher**, **url**, **queryStringKeys**, **itemsKey**, **totalCount**, and **method** are all
+> ignored — the fetcher owns the request end to end.
+
 ## Data Changes
 
 By default, `<Table>` is designed to only reflect UI the initial data changes in the data prop. If the data is initially
@@ -48,21 +116,6 @@ Providing **sorting** prop will enable sorting for the given column. Just giving
 very simple, ascending sort using the given primitive value in the cell.
 
 <Canvas of={Table.Sorting} />
-
-#### Descending
-
-Property **desc** in the sorting object may be set to true to set the default sorting order descending.
-
-```tsx
-const data: { name: string; surname: string }[] = []; // ...data array;
-
-const columns = [
-  { title: "Name", dataKey: "name", sorting: { desc: true } },
-  { title: "Surname", dataKey: "surname" },
-];
-
-<Table columns={columns} data={data} />;
-```
 
 #### Custom Sort
 
@@ -118,10 +171,15 @@ in it.
 There are two ways to provide filtering feature:
 
 - **filterableTable** prop enables a text input on top of the table to filter the data. This option searches for the given query in all columns.
-
 - Other option is to provide the **filter** prop in each column item which gives more flexibility to search the given queries only in the data of the related column.
 
 All the filtering queries may work together. If both **filterableTable** and **filter** prop in columns are provided, the queries are combined with an AND operation. This is also the same for the queries for different columns.
+
+By default, the global search box filters as you type, after a short debounce delay — matching the column-level **filter**
+inputs, which always work this way. Set **disableFilterOnKeyPress** to switch the global search box to manual mode
+instead: the decorative search icon becomes a clickable button, and the query only applies when that button is clicked
+or **Enter** is pressed. Either way, once the box has a value, a clear button appears to reset it, and clearing always
+applies immediately.
 
 **Important note:** Filtering only works for the columns which have a string-searchable data in it. This means, the data in the row object should point to a searchable primitive data type. For example, if the data to use in a custom render function it only searches the text content of the render output.
 
@@ -130,11 +188,19 @@ All the filtering queries may work together. If both **filterableTable** and **f
 ## Selection
 
 In order to select the rows in the table, **selectable** prop should be true. This prop enables the selection feature
-and renders a checkbox for the header colunn and the rows. When a row is selected or deselected, the callback given in
-the **onSelect** prop is fired. This callback will return an object with the current row and all the selected rows in
-the table.
+and renders a checkbox for the header column and the rows.
 
-When some rows are desired to be selected by default, **selectionKey** prop may be used. This key should refer to the value in the row data which indicates whether the row is selected.
+**selectionKey** should refer to the row data field holding each row's unique, stable identifier (e.g. `"id"`).
+It is **required** whenever **selectable** is true — Table throws an error otherwise, since selection has no
+reliable identity to track a row by without it.
+
+When selection changes, **onSelectionChange** fires with three arguments:
+
+- **changedIds**: the **selectionKey** values this action just affected — a single id for one row, or every id on the page for "select all"/"deselect all".
+- **selected**: whether those ids are now selected or not.
+- **selectedIds**: every id currently selected, across every page visited so far.
+
+To have some rows start out selected, use **defaultSelectedIds** — an array of **selectionKey** values.
 
 <Canvas of={Table.Selection} />
 
