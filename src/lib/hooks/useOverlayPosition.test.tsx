@@ -252,7 +252,7 @@ describe("useOverlayPosition", () => {
         top: "anchor(bottom)",
         right: "anchor(right)",
         left: "auto",
-        positionVisibility: "always",
+        positionVisibility: "anchors-visible",
       });
       expect(result.current.style).not.toHaveProperty("positionTryFallbacks");
       expect(anchor.style.getPropertyValue("anchor-name")).toBe(result.current.style.positionAnchor);

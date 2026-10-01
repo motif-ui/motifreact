@@ -119,8 +119,8 @@ const getCssAnchorStyle = (placement: OverlayPosition, anchorName: string, trans
   const side = getSide(placement);
   const style: Record<string, string> = {
     positionAnchor: anchorName,
-    // keeps it visible when the anchor is scrolled out of view, like the JS positioning
-    positionVisibility: "always",
+    // hides it while the anchor is completely clipped by a scroll container, so it does not float over unrelated content
+    positionVisibility: "anchors-visible",
     top: "auto",
     left: "auto",
     translate: `${translate.x}px ${translate.y}px`,
