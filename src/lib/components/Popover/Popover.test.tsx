@@ -117,21 +117,20 @@ describe("Popover", () => {
     await waitFor(() => expect(queryByTestId("popover")).not.toBeInTheDocument());
   });
 
-  it("should close popover when the window is resized", () => {
+  it("should stay open when the window is resized", () => {
     const anchorRef = createRef<HTMLDivElement>();
     const onClose = jest.fn();
-    const { getByTestId, queryByTestId } = render(
+    const { getByTestId } = render(
       <Popover anchorRef={anchorRef} open onClose={onClose}>
         <div>Popover content</div>
       </Popover>,
     );
-    expect(getByTestId("popover")).toBeInTheDocument();
 
     act(() => {
       window.dispatchEvent(new Event("resize"));
     });
 
-    expect(onClose).toHaveBeenCalled();
-    expect(queryByTestId("popover")).not.toBeInTheDocument();
+    expect(onClose).not.toHaveBeenCalled();
+    expect(getByTestId("popover")).toBeInTheDocument();
   });
 });

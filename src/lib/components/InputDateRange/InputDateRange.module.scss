@@ -1,3 +1,5 @@
+@use "@styles" as *;
+
 .Root {
   position: relative;
   display: inline-grid;
@@ -5,8 +7,8 @@
 
 .dateRangePicker {
   position: absolute;
-  left: 0;
-  top: 100%;
-  z-index: 1;
-  margin-top: var(--base-sizing-2x);
+  z-index: z-layer("anchored");
+
+  // the gap between the input and the picker on whichever side the picker is placed
+  margin: var(--base-sizing-2x);
 }

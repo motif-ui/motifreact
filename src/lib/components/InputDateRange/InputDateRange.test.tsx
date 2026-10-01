@@ -1,5 +1,4 @@
-import { act, render, renderHook, screen } from "@testing-library/react";
-import type { RefObject } from "react";
+import { act, render, screen } from "@testing-library/react";
 import InputDateRange, { RANGE_ARROW } from "@/components/InputDateRange/InputDateRange";
 import { formatDate } from "@/components/InputDate/helper";
 import { userEvent } from "@testing-library/user-event";
@@ -10,19 +9,11 @@ import { defaultDateFormat } from "../Motif/Pickers/types";
 import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { usePickerOverlay } from "../../hooks/usePickerOverlay";
 
 describe("InputDateRange", () => {
   const user = userEvent.setup();
   const testDateArr = [new Date(2025, 4, 12), new Date(2025, 4, 21)];
   const placeholder = "__ / __ / ____"; // default formata göre "DD/MM/YYYY"
-
-  const alignmentCases = [
-    { label: "top-left region of the viewport", anchorRect: {}, expected: "bottomLeft" },
-    { label: "near the right edge", anchorRect: { left: 800, right: 1000 }, expected: "bottomRight" },
-    { label: "near the bottom edge", anchorRect: { top: 600, bottom: 650 }, expected: "topLeft" },
-    { label: "bottom-right corner", anchorRect: { top: 600, bottom: 650, left: 800, right: 1000 }, expected: "topRight" },
-  ];
 
   const createDateRangeString = (inputDate1: Date | undefined, inputDate2: Date | undefined) => {
     const date1 = formatDate(inputDate1, defaultDateFormat, getDateLocale(t));
@@ -43,28 +34,6 @@ describe("InputDateRange", () => {
       getDateRangeInput,
       getPickerContainer,
       getDateButton,
-    };
-  };
-
-  const makeRefs = (anchorRect?: Partial<DOMRect>) => {
-    const anchorEl = document.createElement("div");
-    jest.spyOn(anchorEl, "getBoundingClientRect").mockReturnValue({
-      top: 100,
-      bottom: 150,
-      left: 50,
-      right: 200,
-      width: 150,
-      height: 50,
-      x: 50,
-      y: 100,
-      toJSON: () => {},
-      ...anchorRect,
-    });
-    const pickerEl = document.createElement("div");
-    return {
-      anchorRef: { current: anchorEl } as RefObject<HTMLElement>,
-      pickerRef: { current: pickerEl } as RefObject<HTMLDivElement>,
-      pickerEl,
     };
   };
 
@@ -303,33 +272,24 @@ describe("InputDateRange", () => {
     expect(document.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
 
-  it.each(alignmentCases)("should pick $expected when anchor is in the $label", ({ anchorRect, expected }) => {
-    const { anchorRef, pickerRef } = makeRefs(anchorRect);
-    const { result } = renderHook(() => usePickerOverlay(anchorRef, pickerRef, false, jest.fn(), jest.fn()));
-
-    act(() => result.current.openPicker());
-
-    expect(result.current.alignment).toBe(expected);
-  });
-
-  it("should close the datepicker when the page is scrolled", async () => {
+  it("should keep the datepicker open when the page is scrolled", async () => {
     const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
 
     await user.click(getDateRangeInput());
     expect(getPickerContainer()).toBeInTheDocument();
 
     await act(() => window.dispatchEvent(new Event("scroll")));
-    expect(getPickerContainer()).not.toBeInTheDocument();
+    expect(getPickerContainer()).toBeInTheDocument();
   });
 
-  it("should close the datepicker when the window is resized", async () => {
+  it("should keep the datepicker open when the window is resized", async () => {
     const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
 
     await user.click(getDateRangeInput());
     expect(getPickerContainer()).toBeInTheDocument();
 
     await act(() => window.dispatchEvent(new Event("resize")));
-    expect(getPickerContainer()).not.toBeInTheDocument();
+    expect(getPickerContainer()).toBeInTheDocument();
   });
 
   it("should focus inside the picker when picker is opened and then tab key is pressed", async () => {

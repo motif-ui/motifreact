@@ -1,13 +1,15 @@
 "use client";
 
 import styles from "./Popover.module.scss";
-import { useCallback } from "react";
+import { useCallback, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRefAndChildren } from "../../types";
-import { usePopoverPosition } from "./hooks/usePopoverPosition";
+import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import { PopoverProps } from "./types";
+
+const CARET_OFFSET = 6;
 
 const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) => {
   const {
@@ -23,7 +25,26 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     className,
     style,
   } = usePropsWithThemeDefaults("Popover", props);
-  const { attached, visible, positionStyle, popoverRef } = usePopoverPosition(anchorRef, placeOn, open, onClose);
+  const {
+    attached,
+    visible,
+    style: positionStyle,
+    placement,
+    overlayRef: popoverRef,
+  } = useAnchoredOverlay({ anchorRef, placement: placeOn, open: !!open, onClose, duration: 300 });
+
+  useLayoutEffect(() => {
+    // Points the caret to the anchor's center, also when the popover is shifted to stay in the screen
+    if (!attached || !popoverRef.current || !anchorRef.current) return;
+    const popoverRect = popoverRef.current.getBoundingClientRect();
+    const anchorRect = anchorRef.current.getBoundingClientRect();
+
+    if (placement === "left" || placement === "right") {
+      popoverRef.current.style.setProperty("--caret-top", `${anchorRect.top + anchorRect.height / 2 - popoverRect.top - CARET_OFFSET}px`);
+    } else {
+      popoverRef.current.style.setProperty("--caret-left", `${anchorRect.left + anchorRect.width / 2 - popoverRect.left - CARET_OFFSET}px`);
+    }
+  }, [attached, positionStyle, placement, anchorRef, popoverRef]);
 
   const mergedRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -40,7 +61,7 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     spacing,
-    placeOn,
+    placement,
     variant,
     visible && "visible",
     elevated && "elevated",
