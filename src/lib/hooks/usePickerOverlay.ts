@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
-import type { KeyboardEvent, RefObject } from "react";
+import type { RefObject } from "react";
 import { useOverlayPosition } from "src/lib/hooks/useOverlayPosition";
 import { OverlayPosition } from "src/lib/types";
+import useOverlayFocus from "src/lib/hooks/useOverlayFocus";
 
 export const usePickerOverlay = (
   anchorRef: RefObject<HTMLElement | null>,
@@ -46,37 +47,7 @@ export const usePickerOverlay = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, onHide]);
 
-  const handleTabNavigation = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key !== "Tab" || !visible || !pickerRef.current || !anchorRef.current) return;
-
-      const focusableSelector = 'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
-      const isVisible = (el: HTMLElement) => el.offsetParent !== null && !el.closest("[inert]");
-      const wrapperEls = Array.from(anchorRef.current.querySelectorAll<HTMLElement>(focusableSelector)).filter(isVisible);
-      const pickerEls = Array.from(pickerRef.current.querySelectorAll<HTMLElement>(focusableSelector)).filter(isVisible);
-      const lastInWrapper = wrapperEls.at(-1);
-      const firstInPicker = pickerEls.at(0);
-      const lastInPicker = pickerEls.at(-1);
-      const inPicker = pickerRef.current.contains(e.target as Node);
-
-      if (!e.shiftKey && e.target === lastInWrapper && firstInPicker) {
-        e.preventDefault();
-        firstInPicker.focus({ preventScroll: true });
-      } else if (inPicker && e.shiftKey && e.target === firstInPicker) {
-        e.preventDefault();
-        lastInWrapper?.focus({ preventScroll: true });
-      } else if (inPicker && !e.shiftKey && e.target === lastInPicker) {
-        const allEls = Array.from(document.querySelectorAll<HTMLElement>(focusableSelector)).filter(el => !pickerRef.current!.contains(el));
-        const nextEl = allEls.at(allEls.findLastIndex(el => anchorRef.current!.contains(el)) + 1);
-        onHide();
-        if (nextEl) {
-          e.preventDefault();
-          nextEl.focus({ preventScroll: true });
-        }
-      }
-    },
-    [visible, onHide, anchorRef, pickerRef],
-  );
+  const { onKeyDown: handleTabNavigation } = useOverlayFocus(anchorRef, pickerRef, { enabled: visible, onLeave: onHide });
 
   const pickerStyle = useMemo(() => {
     const isTop = alignment.startsWith("top");
