@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useContext, useEffect, useRef } from "react";
+import { PropsWithChildren, useCallback, useContext, useLayoutEffect, useRef } from "react";
 import Icon from "../../Icon";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import styles from "../Stepper.module.scss";
@@ -32,8 +32,8 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
 
   const itemRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    status === "active" && itemRef.current?.scrollIntoView({ inline: "nearest", block: "nearest" });
+  useLayoutEffect(() => {
+    status === "active" && itemRef.current?.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
   }, [status]);
 
   const handleClick = useCallback(() => {
@@ -64,8 +64,8 @@ const StepperItem = (props: PropsWithChildren<StepperItemInternalProps>) => {
     );
 
   return (
-    <div ref={itemRef} className={itemClasses}>
-      <div className={stepHeaderClass} {...(clickable && { tabIndex: 0, onClick: handleClick })}>
+    <div className={itemClasses}>
+      <div ref={itemRef} className={stepHeaderClass} {...(clickable && { tabIndex: 0, onClick: handleClick })}>
         {stepType !== "text" && renderStep()}
         <span className={styles.title}>{title}</span>
       </div>

@@ -6,6 +6,7 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 .Root {
   gap: var(--base-sizing-16x);
   padding: var(--base-sizing-4x);
+  display: flex;
 }
 
 .stepCount {
@@ -16,6 +17,9 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 .stepList {
   display: flex;
   justify-content: center;
+  gap: var(--base-sizing-8x);
+  padding-block: var(--base-sizing-4x);
+  align-items: safe center;
 }
 
 .stepNavigation {
@@ -25,10 +29,11 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
 }
 
 .stepItem {
-  display: flex;
+  display: contents;
 
   .stepHeader {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     text-align: center;
     &.item-vertical {
@@ -100,22 +105,28 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
       color: var(--theme-color-text-base-global-light);
     }
   }
+
+  &:not(:last-child)::after {
+    content: "";
+    flex: 0 1 var(--base-sizing-80x);
+    background: var(--theme-color-border-light-default);
+  }
 }
 
 .stepContent {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
 }
 
 .vertical {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  row-gap: var(--base-sizing-8x);
-  --connector-size: clamp(var(--base-sizing-12x), calc(var(--base-sizing-12x) + (var(--base-sizing-80x) - var(--base-sizing-12x)) * (100vh - 36rem) / (62rem - 36rem)), var(--base-sizing-80x));
-
   .stepList {
-    grid-row: 2;
     flex-direction: column;
+    justify-content: flex-start;
+    align-self: flex-start;
+    max-height: 100%;
+    overflow-y: auto;
   }
 
   .stepNavigation {
@@ -123,73 +134,32 @@ $types: (("dot", var(--base-sizing-12x)), ("number", var(--base-sizing-24x)), ("
     gap: var(--base-sizing-8x);
   }
 
-  .stepItem {
-    flex-direction: column;
-
-    &:not(:last-child)::after {
-      display: block;
-      content: "";
-      box-sizing: content-box;
-      margin: var(--base-sizing-8x) 0;
-      width: 50%;
-      height: var(--connector-size);
-      top: 100%;
-      border-right: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-    }
+  .stepItem:not(:last-child)::after {
+    min-height: 0;
+    width: var(--base-sizing-1x);
   }
 
   .stepCount {
     text-align: center;
   }
-
-  .stepContent {
-    grid-row: 2;
-    justify-content: space-between;
-  }
 }
 
 .horizontal {
-  display: flex;
   flex-direction: column;
-  width: 100%;
-  --connector-size: clamp(var(--base-sizing-12x), calc(var(--base-sizing-12x) + (var(--base-sizing-80x) - var(--base-sizing-12x)) * (100vw - 36rem) / (75rem - 36rem)), var(--base-sizing-80x));
 
   .stepList {
     min-width: 0;
-    padding-block: var(--base-sizing-4x);
     overflow-x: auto;
-    justify-content: flex-start;
+    justify-content: safe center;
   }
 
-  .stepItem {
-    .stepIndicator {
-      flex-shrink: 0;
-    }
-
-    &:not(:last-child)::after {
-      content: "";
-      box-sizing: content-box;
-      flex-shrink: 0;
-      width: var(--connector-size);
-      margin: 0 var(--base-sizing-8x);
-      height: 50%;
-      left: 100%;
-      border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-    }
+  .stepItem:not(:last-child)::after {
+    min-width: 0;
+    height: var(--base-sizing-1x);
   }
 
   .stepCount {
     align-self: flex-end;
-  }
-
-  @include screen-width("below", "sm") {
-    .stepList {
-      gap: var(--base-sizing-8x);
-    }
-
-    .stepItem:not(:last-child)::after {
-      display: none;
-    }
   }
 }
 
