@@ -104,6 +104,15 @@ describe("Checkbox", () => {
     expect(screen.getByRole("checkbox")).toBeChecked();
   });
 
+  it("should display children alongside the label", () => {
+    render(
+      <Checkbox>
+        <a href="#">Terms & Privacy Policy</a>
+      </Checkbox>,
+    );
+    expect(screen.getByText("Terms & Privacy Policy")).toBeInTheDocument();
+  });
+
   it("should be rendered with the size given in size prop", () => {
     const sizes: InputSize[] = ["xs", "sm", "md", "lg"];
     sizes.forEach(size => {

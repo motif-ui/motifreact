@@ -14,7 +14,7 @@ $variants: (("neutral", "light"), ("primary", "primary"), ("secondary", "seconda
     --mtf-icon-size: var(--base-sizing-40x);
   }
   .title {
-    @include font("base", "lg", "700");
+    @include font("heading", "heading4");
   }
   .description {
     @include font("body", "md");
@@ -26,7 +26,10 @@ $variants: (("neutral", "light"), ("primary", "primary"), ("secondary", "seconda
       text-decoration: underline;
     }
   }
-
+  .textWrapper {
+    display: flex;
+    flex-flow: column nowrap;
+  }
   &:not(.solid),
   &.neutral.solid {
     .title {
