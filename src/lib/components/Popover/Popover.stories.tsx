@@ -85,7 +85,7 @@ export const OutsideClickWithHook: Story = {
     docs: {
       description: {
         story:
-          "By default, ``Popover`` only depends on the ``open`` prop to appear/disappear and does not close itself with an outside click. In order to make it disappear with an outside click, a custom ``usePopover`` hook might be used. <br /><br />Click outside the popover to close it.",
+          "When the ``open`` prop is given, ``Popover`` only depends on it to appear/disappear and does not close itself with an outside click unless ``closeOnOutsideClick`` is set. The ``usePopover`` hook keeps the ``open`` state and closes it with an outside click. <br /><br />Click outside the popover to close it.",
       },
       source: {
         type: "code",
@@ -110,6 +110,44 @@ const { ref, open, toggle } = usePopover(anchorRef);
         <div style={containerStyle}>
           <Button label="Click" ref={anchorRef} onClick={toggle} />
           <Popover {...args} ref={ref} anchorRef={anchorRef} open={open}>
+            {item}
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const Uncontrolled: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "When the ``open`` prop is not given, ``Popover`` manages its own state: clicking the anchor toggles it, and an outside click or Escape closes it. ``defaultOpen`` sets the initial state. <br /><br />Click the button to toggle the popover.",
+      },
+      source: {
+        type: "code",
+        code: `
+const anchorRef = useRef(null);
+
+<Button label="Click" ref={anchorRef} />
+<Popover anchorRef={anchorRef}>
+  <div>Popover item...</div>
+</Popover>
+        `,
+      },
+    },
+  },
+  render: args => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+
+      return (
+        <div style={containerStyle}>
+          <Button label="Click" ref={anchorRef} />
+          <Popover {...args} anchorRef={anchorRef}>
             {item}
           </Popover>
         </div>

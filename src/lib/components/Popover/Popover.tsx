@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Popover.module.scss";
-import { useCallback, useLayoutEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRefAndChildren } from "../../types";
 import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
@@ -16,7 +16,12 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     anchorRef,
     children,
     open,
+    defaultOpen,
     onClose,
+    closeOnOutsideClick,
+    closeOnEscape,
+    closeOnScroll,
+    keepInView,
     variant = "light",
     placeOn = "bottom",
     spacing = "callout",
@@ -25,13 +30,33 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     className,
     style,
   } = usePropsWithThemeDefaults("Popover", props);
+  const uncontrolled = open === undefined;
   const {
     attached,
     visible,
     style: positionStyle,
     placement,
     overlayRef: popoverRef,
-  } = useAnchoredOverlay({ anchorRef, placement: placeOn, open: !!open, onClose, duration: 300 });
+    toggle,
+  } = useAnchoredOverlay({
+    anchorRef,
+    placement: placeOn,
+    keepInView,
+    open,
+    defaultOpen,
+    onClose,
+    duration: 300,
+    closeOnOutsideClick: closeOnOutsideClick ?? uncontrolled,
+    closeOnEscape: closeOnEscape ?? uncontrolled,
+    closeOnScroll,
+  });
+
+  useEffect(() => {
+    const anchor = anchorRef.current;
+    if (!uncontrolled || !anchor) return;
+    anchor.addEventListener("click", toggle);
+    return () => anchor.removeEventListener("click", toggle);
+  }, [anchorRef, toggle, uncontrolled]);
 
   useLayoutEffect(() => {
     // Points the caret to the anchor's center, also when the popover is shifted to stay in the screen

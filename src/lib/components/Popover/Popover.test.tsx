@@ -1,6 +1,7 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Popover from "./Popover";
-import { createRef } from "react";
+import { createRef, useRef } from "react";
+import { PopoverProps } from "./types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 describe("Popover", () => {
@@ -132,5 +133,124 @@ describe("Popover", () => {
 
     expect(onClose).not.toHaveBeenCalled();
     expect(getByTestId("popover")).toBeInTheDocument();
+  });
+
+  describe("uncontrolled", () => {
+    const UncontrolledPopover = (props: Partial<PopoverProps>) => {
+      const anchorRef = useRef<HTMLButtonElement>(null);
+      return (
+        <>
+          <button ref={anchorRef}>anchor</button>
+          <div>outside</div>
+          <Popover anchorRef={anchorRef} {...props}>
+            Popover content
+          </Popover>
+        </>
+      );
+    };
+
+    it("should toggle when the anchor is clicked", () => {
+      render(<UncontrolledPopover />);
+      expect(screen.queryByTestId("popover")).not.toBeInTheDocument();
+
+      fireEvent.click(screen.getByText("anchor"));
+      expect(screen.getByTestId("popover")).toBeInTheDocument();
+
+      fireEvent.click(screen.getByText("anchor"));
+      expect(screen.getByTestId("popover")).not.toHaveClass("visible");
+    });
+
+    it("should be open initially when defaultOpen is true", () => {
+      render(<UncontrolledPopover defaultOpen />);
+      expect(screen.getByTestId("popover")).toBeInTheDocument();
+    });
+
+    it("should close on outside click and Escape by default", () => {
+      const onClose = jest.fn();
+      render(<UncontrolledPopover defaultOpen onClose={onClose} />);
+
+      fireEvent.mouseUp(screen.getByText("Popover content"));
+      fireEvent.mouseUp(screen.getByText("anchor"));
+      expect(onClose).not.toHaveBeenCalled();
+
+      fireEvent.mouseUp(screen.getByText("outside"));
+      expect(onClose).toHaveBeenCalledWith("outsideClick");
+
+      fireEvent.click(screen.getByText("anchor"));
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(onClose).toHaveBeenLastCalledWith("escape");
+    });
+
+    it("should not close on outside click when closeOnOutsideClick is false", () => {
+      const onClose = jest.fn();
+      render(<UncontrolledPopover defaultOpen closeOnOutsideClick={false} onClose={onClose} />);
+
+      fireEvent.mouseUp(screen.getByText("outside"));
+      expect(onClose).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("controlled", () => {
+    it("should not close itself on outside click by default", () => {
+      const onClose = jest.fn();
+      render(
+        <Popover anchorRef={createRef()} open onClose={onClose}>
+          Popover content
+        </Popover>,
+      );
+
+      fireEvent.mouseUp(document.body);
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it("should request close on outside click when closeOnOutsideClick is true, and stay open until the open prop changes", async () => {
+      const onClose = jest.fn();
+      render(
+        <Popover anchorRef={createRef()} open onClose={onClose} closeOnOutsideClick>
+          Popover content
+        </Popover>,
+      );
+
+      fireEvent.mouseUp(document.body);
+      expect(onClose).toHaveBeenCalledWith("outsideClick");
+      await waitFor(() => expect(screen.getByTestId("popover")).toHaveClass("visible"));
+    });
+
+    it("should request close on scroll when closeOnScroll is true", () => {
+      const onClose = jest.fn();
+      render(
+        <Popover anchorRef={{ current: document.createElement("div") }} open onClose={onClose} closeOnScroll>
+          Popover content
+        </Popover>,
+      );
+
+      fireEvent.scroll(document);
+      expect(onClose).toHaveBeenCalledWith("scroll");
+    });
+  });
+
+  it("should flip to the opposite side and use it as its placement class when there is no room", () => {
+    const anchor = document.createElement("div");
+    jest.spyOn(anchor, "getBoundingClientRect").mockReturnValue({
+      top: 700,
+      bottom: 740,
+      left: 400,
+      right: 500,
+      width: 100,
+      height: 40,
+      x: 400,
+      y: 700,
+      toJSON: () => {},
+    });
+    const offsetHeight = jest.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockReturnValue(100);
+
+    render(
+      <Popover anchorRef={{ current: anchor }} placeOn="bottom" open>
+        Popover content
+      </Popover>,
+    );
+    expect(screen.getByTestId("popover")).toHaveClass("top");
+    offsetHeight.mockRestore();
   });
 });
