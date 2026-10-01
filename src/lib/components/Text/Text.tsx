@@ -16,10 +16,16 @@ const Text = (props: PropsWithRefAndChildren<TextProps, HTMLParagraphElement | H
     className: classNames,
     italic,
     underline,
+    fontWeight,
   } = usePropsWithThemeDefaults("Text", props);
 
   const Component = textVariantsMappings[variant] || "span";
-  const className = sanitizeModuleRootClasses(styles, classNames, [variant, italic && "italic", underline && "underline"]);
+  const className = sanitizeModuleRootClasses(styles, classNames, [
+    variant,
+    italic && "italic",
+    underline && "underline",
+    fontWeight && `fw-${fontWeight}`,
+  ]);
 
   return createElement(Component, { ref, className, style }, text ?? children);
 };

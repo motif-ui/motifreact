@@ -6,7 +6,10 @@ export type TextDefaultableProps = {
   variant?: TextVariants;
   italic?: boolean;
   underline?: boolean;
+  fontWeight?: TextFontWeights;
 };
+
+export type TextFontWeights = "regular" | "medium" | "semiBold" | "bold";
 
 export type TextVariants =
   | "title1"

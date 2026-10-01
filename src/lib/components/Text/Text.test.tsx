@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import Text from "@/components/Text/Text";
-import { TextVariants } from "@/components/Text/types";
+import { TextFontWeights, TextVariants } from "@/components/Text/types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 describe("Text", () => {
@@ -23,6 +23,14 @@ describe("Text", () => {
     const { container } = render(<Text text="Italic and Underline Text" italic underline />);
     expect(container.firstElementChild).toHaveClass("italic");
     expect(container.firstElementChild).toHaveClass("underline");
+  });
+
+  it("should be rendered with the given font weight in fontWeight prop", () => {
+    const fontWeights: TextFontWeights[] = ["regular", "medium", "semiBold", "bold"];
+    for (const fontWeight of fontWeights) {
+      const { container } = render(<Text fontWeight={fontWeight}>Test</Text>);
+      expect(container.firstElementChild).toHaveClass(`fw-${fontWeight}`);
+    }
   });
 
   it("should be rendered with the given variant in variant prop", () => {
