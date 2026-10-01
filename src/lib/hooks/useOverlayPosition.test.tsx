@@ -221,4 +221,77 @@ describe("useOverlayPosition", () => {
       expect(result.current.style).toEqual({ top: 340, left: 400 });
     });
   });
+
+  describe("with CSS anchor positioning", () => {
+    const css = Object.getOwnPropertyDescriptor(window, "CSS");
+
+    beforeEach(() => {
+      Object.defineProperty(window, "CSS", { configurable: true, value: { supports: () => true } });
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+      if (css) Object.defineProperty(window, "CSS", css);
+      else delete (window as { CSS?: unknown }).CSS;
+    });
+
+    // Puts the overlay where the browser would place it with the given style, since jsdom does no layout
+    const placeOverlayAt = (left: number, top: number) =>
+      jest.spyOn(overlay, "getBoundingClientRect").mockImplementation(() => {
+        const [x = 0, y = 0] = overlay.style.translate.split(" ").map(value => parseFloat(value) || 0);
+        return { left: left + x, top: top + y, right: 0, bottom: 0, width: 200, height: 100, x: 0, y: 0, toJSON: () => {} };
+      });
+
+    it("should follow the anchor with CSS at the placement chosen on open", () => {
+      setAnchorRect({ top: 300, left: 900, width: 100, height: 40 });
+      placeOverlayAt(800, 340);
+      const { result } = renderPosition("bottomLeft");
+
+      expect(result.current.placement).toBe("bottomRight");
+      expect(result.current.style).toMatchObject({
+        top: "anchor(bottom)",
+        right: "anchor(right)",
+        left: "auto",
+        positionVisibility: "always",
+      });
+      expect(result.current.style).not.toHaveProperty("positionTryFallbacks");
+      expect(anchor.style.getPropertyValue("anchor-name")).toBe(result.current.style.positionAnchor);
+    });
+
+    it("should correct the CSS position to the calculated one with a translate", () => {
+      setAnchorRect({ top: 300, left: 0, width: 40, height: 40 });
+      // CSS centers it on the anchor, the calculation shifts it into the viewport
+      placeOverlayAt(-80, 340);
+      const { result } = renderPosition("bottom");
+
+      expect(overlay.style.translate).toBe("80px 0px");
+      expect(result.current.style).toMatchObject({ justifySelf: "anchor-center", translate: "80px 0px" });
+    });
+
+    it("should not listen to scrolls, since the browser moves the overlay", () => {
+      placeOverlayAt(400, 340);
+      renderPosition("bottomLeft");
+
+      setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
+      scroll();
+      expect(overlay.style.top).toBe("");
+    });
+
+    it("should use the JS positioning when keepInView is true", () => {
+      placeOverlayAt(400, 340);
+      const { result } = renderPosition("bottomLeft", { keepInView: true });
+
+      expect(result.current.style).toEqual({ top: 340, left: 400 });
+      expect(anchor.style.getPropertyValue("anchor-name")).toBe("");
+    });
+
+    it("should remove the anchor name when it is disabled", () => {
+      placeOverlayAt(400, 340);
+      const { rerender } = renderPosition("bottomLeft");
+      expect(anchor.style.getPropertyValue("anchor-name")).not.toBe("");
+
+      rerender({ enabled: false, keepInView: false });
+      expect(anchor.style.getPropertyValue("anchor-name")).toBe("");
+    });
+  });
 });
