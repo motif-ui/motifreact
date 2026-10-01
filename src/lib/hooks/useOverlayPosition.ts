@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import type { CSSProperties, RefObject } from "react";
 import { OverlayPosition } from "src/lib/types";
 
@@ -19,6 +20,13 @@ type Point = { x: number; y: number };
 type Size = { width: number; height: number };
 type Box = { top: number; right: number; bottom: number; left: number };
 type Calculated = { placement: OverlayPosition; top: number; left: number };
+/**
+ * How a new position is applied:
+ * - render: a regular state update, used on open
+ * - syncRender: a state update rendered before the browser paints, used when the placement or the shift may change
+ * - dom: written to the overlay element directly, used while following the anchor, so the overlay and its content are not rendered
+ */
+type ApplyMode = "render" | "syncRender" | "dom";
 
 const HIDDEN_STYLE: CSSProperties = { top: 0, left: 0, visibility: "hidden" };
 
@@ -93,14 +101,14 @@ const clamp = (value: number, min: number, max: number) => Math.max(min, Math.mi
 
 const useOverlayPosition = (anchorRef: RefObject<HTMLElement | null>, overlayRef: RefObject<HTMLElement | null>, options: Options) => {
   const { placement, enabled, keepInView } = options;
-  const [calculated, setCalculated] = useState<Calculated>();
-  const calculatedRef = useRef(calculated);
-  calculatedRef.current = calculated;
+  // The latest calculation is kept in the ref, since it may be written to the DOM without a render. The state only triggers renders.
+  const calculatedRef = useRef<Calculated>(undefined);
+  const [, setCalculated] = useState<Calculated>();
   // The shift applied when the overlay is fitted into the viewport, kept while the overlay follows the anchor
   const shiftRef = useRef<Point>({ x: 0, y: 0 });
 
   const calculate = useCallback(
-    (fitIntoView: boolean) => {
+    (fitIntoView: boolean, mode: ApplyMode) => {
       const anchor = anchorRef.current;
       const overlay = overlayRef.current;
       if (!anchor || !overlay) return;
@@ -136,9 +144,16 @@ const useOverlayPosition = (anchorRef: RefObject<HTMLElement | null>, overlayRef
         left: coords.x + window.scrollX - margins.left,
       };
       const prev = calculatedRef.current;
-      if (prev?.placement !== next.placement || prev.top !== next.top || prev.left !== next.left) {
-        calculatedRef.current = next;
+      if (prev?.placement === next.placement && prev.top === next.top && prev.left === next.left) return;
+      calculatedRef.current = next;
+
+      if (mode === "dom" && prev?.placement === next.placement) {
+        overlay.style.top = `${next.top}px`;
+        overlay.style.left = `${next.left}px`;
+      } else if (mode === "render") {
         setCalculated(next);
+      } else {
+        flushSync(() => setCalculated(next));
       }
     },
     [anchorRef, overlayRef, placement],
@@ -146,44 +161,38 @@ const useOverlayPosition = (anchorRef: RefObject<HTMLElement | null>, overlayRef
 
   useLayoutEffect(() => {
     // The last calculation is not cleared when disabled, it is ignored instead and replaced on the next enable
-    enabled && calculate(true);
+    enabled && calculate(true, "render");
   }, [enabled, calculate]);
 
   useEffect(() => {
     if (!enabled) return;
 
-    let frame: number | undefined;
-    const scheduleUpdate = () => {
-      if (frame !== undefined) return;
-      frame = requestAnimationFrame(() => {
-        frame = undefined;
-        calculate(!!keepInView);
-      });
-    };
+    // Scroll and resize events and ResizeObserver callbacks run right before the browser paints the frame,
+    // so updating synchronously in them keeps the overlay stuck to the anchor without lagging a frame behind
+    const update = () => calculate(!!keepInView, keepInView ? "syncRender" : "dom");
     const handleScroll = ({ target }: Event) => {
       // Scrolls inside the overlay do not move it
       if (target instanceof Node && overlayRef.current?.contains(target)) return;
-      scheduleUpdate();
+      update();
     };
 
     window.addEventListener("scroll", handleScroll, { capture: true, passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-    const resizeObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(scheduleUpdate);
+    window.addEventListener("resize", update);
+    const resizeObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(update);
     anchorRef.current && resizeObserver?.observe(anchorRef.current);
     overlayRef.current && resizeObserver?.observe(overlayRef.current);
 
     return () => {
-      frame !== undefined && cancelAnimationFrame(frame);
       window.removeEventListener("scroll", handleScroll, { capture: true });
-      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("resize", update);
       resizeObserver?.disconnect();
     };
   }, [enabled, keepInView, calculate, anchorRef, overlayRef]);
 
-  const positioned = enabled && calculated;
+  const positioned = enabled ? calculatedRef.current : undefined;
   return {
-    style: positioned ? { top: calculated.top, left: calculated.left } : HIDDEN_STYLE,
-    placement: positioned ? calculated.placement : placement,
+    style: positioned ? { top: positioned.top, left: positioned.left } : HIDDEN_STYLE,
+    placement: positioned ? positioned.placement : placement,
   };
 };
 

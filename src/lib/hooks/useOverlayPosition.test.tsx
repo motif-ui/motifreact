@@ -35,10 +35,13 @@ describe("useOverlayPosition", () => {
       initialProps: { enabled: true, keepInView: false, ...options },
     });
 
-  const scrollAndWaitFrame = (target: Node = document) => {
-    fireEvent.scroll(target);
-    act(() => jest.advanceTimersByTime(16));
+  const scroll = (target: Node = document) => {
+    act(() => {
+      fireEvent.scroll(target);
+    });
   };
+  // While following the anchor, the position is written to the overlay element without a render
+  const domPosition = () => ({ top: parseFloat(overlay.style.top), left: parseFloat(overlay.style.left) });
 
   beforeAll(() => {
     overlay.append(overlayContent);
@@ -46,13 +49,12 @@ describe("useOverlayPosition", () => {
   });
 
   beforeEach(() => {
-    jest.useFakeTimers();
+    overlay.removeAttribute("style");
     overlay.style.margin = "0";
     setOverlaySize(200, 100);
     setAnchorRect({ top: 300, left: 400, width: 100, height: 40 });
   });
 
-  afterEach(() => jest.useRealTimers());
   afterAll(() => document.body.replaceChildren());
 
   it("should return a hidden style until it is enabled and after it is disabled", () => {
@@ -151,29 +153,43 @@ describe("useOverlayPosition", () => {
   });
 
   describe("while open", () => {
-    it("should move together with the anchor on scroll, even out of the screen", () => {
-      const { result } = renderPosition("bottomLeft");
+    it("should move together with the anchor on scroll, even out of the screen, without rendering", () => {
+      let renders = 0;
+      renderHook(() => {
+        renders++;
+        return useOverlayPosition(anchorRef, overlayRef, { placement: "bottomLeft", enabled: true });
+      });
+
+      renders = 0;
+      setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
+      scroll();
+      expect(domPosition()).toEqual({ top: 760, left: 400 });
+      expect(renders).toBe(0);
+    });
+
+    it("should use the latest position when it renders after following the anchor", () => {
+      const { result, rerender } = renderPosition("bottomLeft");
 
       setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
-      scrollAndWaitFrame();
-      expect(result.current.placement).toBe("bottomLeft");
+      scroll();
+      rerender({ enabled: true, keepInView: false });
       expect(result.current.style).toEqual({ top: 760, left: 400 });
     });
 
     it("should keep the shift applied on open while following the anchor", () => {
       setAnchorRect({ top: 300, left: 0, width: 40, height: 40 });
-      const { result } = renderPosition("bottom");
+      renderPosition("bottom");
 
       setAnchorRect({ top: 250, left: 0, width: 40, height: 40 });
-      scrollAndWaitFrame();
-      expect(result.current.style).toEqual({ top: 290, left: 0 });
+      scroll();
+      expect(domPosition()).toEqual({ top: 290, left: 0 });
     });
 
     it("should flip and stay in the viewport on scroll when keepInView is true", () => {
       const { result } = renderPosition("bottomLeft", { keepInView: true });
 
       setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
-      scrollAndWaitFrame();
+      scroll();
       expect(result.current.placement).toBe("topLeft");
       expect(result.current.style).toEqual({ top: 620, left: 400 });
     });
@@ -182,38 +198,27 @@ describe("useOverlayPosition", () => {
       const { result } = renderPosition("bottomLeft", { keepInView: true });
 
       setAnchorRect({ top: -200, left: 400, width: 100, height: 40 });
-      scrollAndWaitFrame();
+      scroll();
       expect(result.current.style).toEqual({ top: 0, left: 400 });
     });
 
     it("should follow the anchor on window resize", () => {
-      const { result } = renderPosition("bottomLeft");
+      renderPosition("bottomLeft");
 
       setAnchorRect({ top: 300, left: 250, width: 100, height: 40 });
-      fireEvent(window, new Event("resize"));
-      act(() => jest.advanceTimersByTime(16));
-      expect(result.current.style).toEqual({ top: 340, left: 250 });
+      act(() => {
+        fireEvent(window, new Event("resize"));
+      });
+      expect(domPosition()).toEqual({ top: 340, left: 250 });
     });
 
     it("should ignore the scrolls inside the overlay", () => {
       const { result } = renderPosition("bottomLeft");
 
       setAnchorRect({ top: 100, left: 100, width: 100, height: 40 });
-      scrollAndWaitFrame(overlayContent);
+      scroll(overlayContent);
+      expect(overlay.style.top).toBe("");
       expect(result.current.style).toEqual({ top: 340, left: 400 });
-    });
-
-    it("should update once per frame for many scroll events", () => {
-      const { result } = renderPosition("bottomLeft");
-      const spy = jest.spyOn(anchor, "getBoundingClientRect");
-      spy.mockClear();
-
-      fireEvent.scroll(document);
-      fireEvent.scroll(document);
-      fireEvent.scroll(document);
-      act(() => jest.advanceTimersByTime(16));
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(result.current.placement).toBe("bottomLeft");
     });
   });
 });
