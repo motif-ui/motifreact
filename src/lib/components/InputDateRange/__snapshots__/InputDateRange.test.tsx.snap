@@ -3,29 +3,25 @@
 exports[`InputDateRange should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
-    class="Root"
+    class="Root md"
+    data-mtf-component="mtf-input-text"
+    data-testid="inputItem"
   >
-    <div
-      class="Root md"
-      data-mtf-component="mtf-input-text"
-      data-testid="inputItem"
+    <span
+      class="Root md motifIconsDefault icon"
+      lang="en"
+      translate="no"
     >
-      <span
-        class="Root md motifIconsDefault icon"
-        lang="en"
-        translate="no"
-      >
-        calendar_expand_horizontal
-      </span>
-      <div
-        class="inputWrapper"
-      >
-        <input
-          placeholder="__ / __ / ____ ⮕ __ / __ / ____"
-          readonly=""
-          value=""
-        />
-      </div>
+      calendar_expand_horizontal
+    </span>
+    <div
+      class="inputWrapper"
+    >
+      <input
+        placeholder="__ / __ / ____ ⮕ __ / __ / ____"
+        readonly=""
+        value=""
+      />
     </div>
   </div>
 </div>

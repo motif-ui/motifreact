@@ -38,7 +38,7 @@ describe("useOverlayState", () => {
       const { result } = renderHook(() => useOverlayState({ onClose, insideRefs, closeOnEscape: true }));
 
       act(() => result.current.show());
-      act(() => result.current.close("escape"));
+      act(() => result.current.hide("escape"));
       act(() => result.current.hide());
       expect(onClose).toHaveBeenCalledTimes(1);
       expect(onClose).toHaveBeenCalledWith("escape");
@@ -46,7 +46,7 @@ describe("useOverlayState", () => {
       act(() => result.current.show());
       act(() => result.current.hide());
       expect(onClose).toHaveBeenCalledTimes(2);
-      expect(onClose).toHaveBeenLastCalledWith("programmatic");
+      expect(onClose).toHaveBeenLastCalledWith(undefined);
     });
 
     it("should stay attached during the exit transition when duration is given", () => {
@@ -105,7 +105,7 @@ describe("useOverlayState", () => {
       rerender({ open: true });
       rerender({ open: false });
       expect(onClose).toHaveBeenCalledTimes(1);
-      expect(onClose).toHaveBeenCalledWith("programmatic");
+      expect(onClose).toHaveBeenCalledWith(undefined);
     });
 
     it("should request close without closing itself, and not call onClose again when the prop closes it", () => {

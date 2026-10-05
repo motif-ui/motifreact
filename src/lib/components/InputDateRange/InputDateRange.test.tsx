@@ -24,7 +24,7 @@ describe("InputDateRange", () => {
   const renderExt = (ui: ReactNode) => {
     const result = render(ui);
 
-    const getInputText = () => result.container.firstElementChild?.firstElementChild;
+    const getInputText = () => result.container.firstElementChild;
     const getDateRangeInput = () => result.container.firstElementChild!.querySelector("input") as HTMLInputElement;
     const getDateButton = (date: Date) => document.body.querySelector('[data-date="' + date.getTime() + '"]') as HTMLButtonElement;
     const getPickerContainer = () => screen.queryByTestId("Picker");

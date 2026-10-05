@@ -13,7 +13,7 @@ const rowStyle: CSSProperties = { display: "flex", flexWrap: "wrap", gap: 12, al
 const boxStyle: CSSProperties = { border: "1px dashed #999", borderRadius: 8, padding: 16 };
 const content = <div style={{ padding: 12, maxWidth: 240 }}>Popover content</div>;
 
-type Log = (source: string) => (reason: OverlayCloseReason) => void;
+type Log = (source: string) => (reason?: OverlayCloseReason) => void;
 
 const Section = ({ title, hint, children }: { title: string; hint: ReactNode; children: ReactNode }) => (
   <section style={sectionStyle}>
@@ -38,7 +38,7 @@ const ControlledPopover = ({ log }: { log: Log }) => {
   const [closeOnRequest, setCloseOnRequest] = useState(true);
 
   const onClose = useCallback(
-    (reason: OverlayCloseReason) => {
+    (reason?: OverlayCloseReason) => {
       log("Controlled")(reason);
       closeOnRequest && setOpen(false);
     },
@@ -272,7 +272,8 @@ const PageBottom = () => (
 const OverlayDemos = () => {
   const [entries, setEntries] = useState<string[]>([]);
   const log: Log = useCallback(
-    source => reason => setEntries(prev => [`${new Date().toLocaleTimeString()}  ${source}: ${reason}`, ...prev].slice(0, 8)),
+    source => reason =>
+      setEntries(prev => [`${new Date().toLocaleTimeString()}  ${source}: ${reason ?? "no reason"}`, ...prev].slice(0, 8)),
     [],
   );
 

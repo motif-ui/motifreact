@@ -1,8 +1,7 @@
 @use "@styles" as *;
 
 .Root {
-  position: relative;
-  display: inline-grid;
+  @include retain-scoped-class;
 }
 
 .dateRangePicker {

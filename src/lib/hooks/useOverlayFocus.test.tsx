@@ -1,5 +1,4 @@
-import { renderHook } from "@testing-library/react";
-import type { KeyboardEvent } from "react";
+import { fireEvent, renderHook } from "@testing-library/react";
 import useOverlayFocus from "./useOverlayFocus";
 
 describe("useOverlayFocus", () => {
@@ -33,45 +32,70 @@ describe("useOverlayFocus", () => {
     document.body.replaceChildren();
   });
 
-  const pressTab = (onKeyDown: (e: KeyboardEvent) => void, target: HTMLElement, shiftKey = false) => {
-    const preventDefault = jest.fn();
-    onKeyDown({ key: "Tab", shiftKey, target, preventDefault } as unknown as KeyboardEvent);
-    return preventDefault;
-  };
+  // Returns whether the default action was prevented, like the browser does for a moved focus
+  const pressTab = (target: HTMLElement, shiftKey = false) => !fireEvent.keyDown(target, { key: "Tab", shiftKey });
 
   it("should move the focus from the last anchor element into the overlay", () => {
-    const { result } = renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: true }));
+    renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: true }));
 
-    const preventDefault = pressTab(result.current.onKeyDown, input);
-    expect(preventDefault).toHaveBeenCalled();
+    expect(pressTab(input)).toBe(true);
     expect(document.activeElement).toBe(firstButton);
   });
 
   it("should move the focus back to the anchor with Shift+Tab from the first overlay element", () => {
-    const { result } = renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: true }));
+    renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: true }));
 
-    pressTab(result.current.onKeyDown, firstButton, true);
+    pressTab(firstButton, true);
     expect(document.activeElement).toBe(input);
   });
 
   it("should call onLeave and focus the element after the anchor when tabbing from the last overlay element", () => {
     const onLeave = jest.fn();
-    const { result } = renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: true, onLeave }));
+    renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: true, onLeave }));
 
-    pressTab(result.current.onKeyDown, lastButton);
+    pressTab(lastButton);
     expect(onLeave).toHaveBeenCalledTimes(1);
+    expect(document.activeElement).toBe(nextButton);
+  });
+
+  it("should still bridge when an element inside stops the propagation of keydown", () => {
+    renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: true }));
+    const stop = (e: Event) => e.stopPropagation();
+    input.addEventListener("keydown", stop);
+
+    pressTab(input);
+    expect(document.activeElement).toBe(firstButton);
+    input.removeEventListener("keydown", stop);
+  });
+
+  it("should ignore the keys outside the anchor and the overlay", () => {
+    const onLeave = jest.fn();
+    nextButton.focus();
+    renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: true, onLeave }));
+
+    expect(pressTab(nextButton)).toBe(false);
     expect(document.activeElement).toBe(nextButton);
   });
 
   it("should do nothing when it is not enabled", () => {
     const onLeave = jest.fn();
     input.focus();
-    const { result } = renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: false, onLeave }));
+    renderHook(() => useOverlayFocus(anchorRef, overlayRef, { enabled: false, onLeave }));
 
-    const preventDefault = pressTab(result.current.onKeyDown, input);
-    pressTab(result.current.onKeyDown, lastButton);
-    expect(preventDefault).not.toHaveBeenCalled();
+    expect(pressTab(input)).toBe(false);
+    pressTab(lastButton);
     expect(onLeave).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(input);
+  });
+
+  it("should stop listening when it is disabled", () => {
+    input.focus();
+    const { rerender } = renderHook(({ enabled }) => useOverlayFocus(anchorRef, overlayRef, { enabled }), {
+      initialProps: { enabled: true },
+    });
+    rerender({ enabled: false });
+
+    expect(pressTab(input)).toBe(false);
     expect(document.activeElement).toBe(input);
   });
 });

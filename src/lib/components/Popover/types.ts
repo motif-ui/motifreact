@@ -24,9 +24,10 @@ export type PopoverProps = {
    *
    * Called once when the popover closes, with the reason. When it is controlled, it is also called when a close is requested
    * by an outside click, Escape or scroll; the popover stays open until the open prop becomes false.
+   * The reason is undefined when it is closed by the open prop or by clicking the anchor.
    *
    */
-  onClose?: (reason: OverlayCloseReason) => void;
+  onClose?: (reason?: OverlayCloseReason) => void;
   /**
    *
    * Closes the popover when clicked outside of it and its anchor. Defaults to true when uncontrolled, false when controlled.

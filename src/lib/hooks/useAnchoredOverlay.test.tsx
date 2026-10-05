@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import useAnchoredOverlay from "./useAnchoredOverlay";
 import { OverlayCloseReason } from "src/lib/types";
 
-const TestOverlay = ({ onClose }: { onClose: (reason: OverlayCloseReason) => void }) => {
+const TestOverlay = ({ onClose }: { onClose: (reason?: OverlayCloseReason) => void }) => {
   const anchorRef = useRef<HTMLButtonElement>(null);
   const { attached, style, placement, overlayRef, toggle } = useAnchoredOverlay({
     anchorRef,

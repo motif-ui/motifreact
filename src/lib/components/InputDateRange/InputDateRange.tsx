@@ -90,10 +90,10 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   useImperativeHandle(ref, () => innerRef.current!, []);
 
   const pickerCloseHandler = useCallback(
-    (reason: OverlayCloseReason) => {
+    (reason?: OverlayCloseReason) => {
       innerRef.current?.querySelector("input")?.blur();
       // A range with only one date is cleared when the user leaves the picker, but kept when it is closed by its own buttons
-      reason !== "programmatic" && !validateRange(itemValue) && clearDateValues();
+      reason && !validateRange(itemValue) && clearDateValues();
     },
     [clearDateValues, itemValue],
   );
@@ -104,8 +104,6 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     overlayRef: pickerRef,
     show,
     hide,
-    onKeyDown: handleTabNavigation,
-    insideProps,
   } = useAnchoredOverlay({
     anchorRef: innerRef,
     placement: "bottomLeft",
@@ -141,8 +139,11 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
-    <div ref={innerRef} className={classNames} style={style} onKeyDown={handleTabNavigation} {...insideProps}>
+    <>
       <InputText
+        ref={innerRef}
+        className={classNames}
+        style={style}
         name={name}
         size={size}
         pill={pill}
@@ -168,14 +169,14 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
             size={pickerSizeMap[size]}
             value={itemValue}
             onDateChange={dateChangeHandler}
-            onOkClick={hide}
+            onOkClick={() => hide()}
             className={styles.dateRangePicker}
             style={pickerStyle}
             locale={locale}
           />,
           document.body,
         )}
-    </div>
+    </>
   );
 };
 
