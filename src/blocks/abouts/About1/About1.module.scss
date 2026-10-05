@@ -13,16 +13,18 @@
   }
 }
 
-.title {
-  color: var(--theme-color-text-base-title);
+.text {
+  color: #21272cff;
+  margin: 0;
 }
 
 .stack {
   display: flex;
   flex-direction: column;
-  gap: var(--base-sizing-36x);
+  gap: 2.125rem;
 }
 
 .paragraph {
-  color: var(--theme-color-text-base-caption);
+  color: #717d87ff;
+  margin: 0;
 }

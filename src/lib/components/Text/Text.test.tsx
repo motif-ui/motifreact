@@ -25,12 +25,10 @@ describe("Text", () => {
     expect(container.firstElementChild).toHaveClass("underline");
   });
 
-  it("should be rendered with the given font weight in fontWeight prop", () => {
-    const fontWeights: TextFontWeights[] = ["regular", "medium", "semiBold", "bold"];
-    for (const fontWeight of fontWeights) {
-      const { container } = render(<Text fontWeight={fontWeight}>Test</Text>);
-      expect(container.firstElementChild).toHaveClass(`fw-${fontWeight}`);
-    }
+  const fontWeights: TextFontWeights[] = ["regular", "medium", "semiBold", "bold"];
+  it.each(fontWeights)("should be rendered with the %s font weight given in fontWeight prop", fontWeight => {
+    const { container } = render(<Text fontWeight={fontWeight}>Test</Text>);
+    expect(container.firstElementChild).toHaveClass(`fw-${fontWeight}`);
   });
 
   it("should be rendered with the given variant in variant prop", () => {
