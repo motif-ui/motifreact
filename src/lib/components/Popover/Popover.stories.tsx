@@ -157,3 +157,53 @@ const anchorRef = useRef(null);
     return <StoryComponent />;
   },
 };
+
+// Fixtures for the overlay positioning tests in .e2e, not shown in the docs
+const e2eContent = <div style={{ padding: 12, width: 220 }}>Popover item...</div>;
+
+export const ScrollingContainerForE2E: Story = {
+  tags: ["!autodocs", "!dev"],
+  parameters: { layout: "fullscreen", chromatic: { disableSnapshot: true } },
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+
+      return (
+        <div data-testid="scroller" style={{ overflow: "auto", width: "100%", height: 200, marginTop: 16, border: "1px solid" }}>
+          <div style={{ width: 2000, height: 600, paddingLeft: 900, paddingTop: 40, boxSizing: "border-box" }}>
+            <Button label="Anchor" ref={anchorRef} />
+          </div>
+          <Popover anchorRef={anchorRef} placeOn="bottomLeft">
+            {e2eContent}
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const GrowingContentForE2E: Story = {
+  tags: ["!autodocs", "!dev"],
+  parameters: { layout: "fullscreen", chromatic: { disableSnapshot: true } },
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+      const [wide, setWide] = useState(false);
+
+      return (
+        <div style={{ padding: 8 }}>
+          <Button label="Anchor" ref={anchorRef} />
+          <Popover anchorRef={anchorRef} placeOn="bottom" spacing="noSpace">
+            <div style={{ padding: 12, width: wide ? 500 : 300 }}>
+              <Button label="Grow" onClick={() => setWide(true)} />
+            </div>
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};

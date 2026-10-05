@@ -4,7 +4,8 @@ import { useCallback, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { Button, InputDateRange, InputText, Modal, Popover } from "../lib";
 import { usePopover } from "../lib/hooks";
-import { OverlayCloseReason, OverlayPosition } from "../lib/types";
+import { OverlayCloseReason } from "../lib/types";
+import { OverlayPosition } from "../lib/hooks/useOverlayPosition/types";
 
 const placements: OverlayPosition[] = ["topLeft", "top", "topRight", "left", "right", "bottomLeft", "bottom", "bottomRight"];
 

@@ -1,4 +1,4 @@
-import type { CSSProperties, Ref, ReactElement } from "react";
+import type { CSSProperties, ReactElement, Ref } from "react";
 import { PropsWithChildren } from "react";
 import { locales } from "../i18n/locales";
 
@@ -17,7 +17,6 @@ export type Size7 = "xxs" | Size5 | "xxl";
 export type Size8LG = Size7 | "xxxl";
 
 export type Variant = "primary" | "secondary" | "info" | "success" | "warning" | "danger";
-export type OverlayPosition = "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight" | "right" | "left";
 export type OverlayCloseReason = "outsideClick" | "escape" | "scroll" | "focusLeave";
 export type StandardProps = {
   className?: string;

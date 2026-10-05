@@ -49,8 +49,9 @@ const useOverlayState = (options: OverlayStateProps): UseOverlayStateReturn => {
   const isOpen = controlled ? open : internalOpen;
   const { attached, visible } = useVisibilityTransition(isOpen, duration);
   const onCloseRef = useRef(onClose);
-  // Events marked by insideProps, per instance so an event inside one overlay is not counted as inside another one
-  const [insideEvents] = useState(() => new WeakSet<Event>());
+  // The last event marked by insideProps. React handles an event before it reaches the document, so the last one is enough.
+  // It is per instance, so an event inside one overlay is not counted as inside another one.
+  const insideEventRef = useRef<Event>(undefined);
   // Keeps onClose to be called once per open cycle, whether the close is requested from inside or made by the open prop
   const closeNotifiedRef = useRef(!isOpen);
   const notifyClose = useCallback((reason?: OverlayCloseReason) => {
@@ -95,7 +96,7 @@ const useOverlayState = (options: OverlayStateProps): UseOverlayStateReturn => {
       target === document || (target instanceof Node && !!insideRefs?.some(ref => ref.current && target.contains(ref.current)));
 
     // React handles the event before it reaches the document, so the events marked by insideProps are known here
-    const handleOutsideClick = (e: MouseEvent | TouchEvent) => !isInside(e.target) && !insideEvents.has(e) && hide("outsideClick");
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => !isInside(e.target) && insideEventRef.current !== e && hide("outsideClick");
     const handleKeyDown = (e: KeyboardEvent) => e.key === "Escape" && hide("escape");
     const handleScroll = (e: Event) => !isInside(e.target) && movesInside(e.target) && hide("scroll");
 
@@ -112,14 +113,9 @@ const useOverlayState = (options: OverlayStateProps): UseOverlayStateReturn => {
       document.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("scroll", handleScroll, { capture: true });
     };
-  }, [isOpen, hide, insideRefs, insideEvents, closeOnOutsideClick, closeOnEscape, closeOnScroll]);
+  }, [isOpen, hide, insideRefs, closeOnOutsideClick, closeOnEscape, closeOnScroll]);
 
-  const markInside = useCallback(
-    (e: SyntheticEvent) => {
-      insideEvents.add(e.nativeEvent);
-    },
-    [insideEvents],
-  );
+  const markInside = useCallback((e: SyntheticEvent) => void (insideEventRef.current = e.nativeEvent), []);
   const insideProps = useMemo(() => ({ onMouseUp: markInside, onTouchEnd: markInside }), [markInside]);
 
   return { open: isOpen, attached, visible, show, hide, toggle, insideProps };

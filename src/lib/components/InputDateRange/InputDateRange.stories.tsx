@@ -42,3 +42,14 @@ export const PrimaryStaticForChromatic: Story = {
   tags: ["!autodocs", "!dev"],
   render: args => renderInputDateRange(args, [new Date(2026, 10, 12), new Date(2026, 10, 16)]),
 };
+
+// Fixture for the overlay positioning tests in .e2e, not shown in the docs
+export const ScrollingContainerForE2E: Story = {
+  tags: ["!autodocs", "!dev"],
+  parameters: { layout: "fullscreen", chromatic: { disableSnapshot: true } },
+  render: args => (
+    <div data-testid="scroller" style={{ overflow: "auto", height: 150, width: 400, margin: 16, border: "1px solid" }}>
+      <div style={{ height: 600, paddingTop: 20 }}>{renderInputDateRange(args, [new Date(2026, 10, 12), new Date(2026, 10, 16)])}</div>
+    </div>
+  ),
+};

@@ -1,6 +1,6 @@
 import { act, fireEvent, renderHook } from "@testing-library/react";
 import useOverlayPosition from "./useOverlayPosition";
-import { OverlayPosition } from "src/lib/types";
+import { OverlayPosition } from "./types";
 
 // jsdom viewport is 1024 x 768
 type Rect = { top: number; left: number; width: number; height: number };

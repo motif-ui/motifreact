@@ -5,7 +5,7 @@ import type { RefObject } from "react";
 import useOverlayState, { OverlayStateProps } from "./useOverlayState";
 import useOverlayPosition from "./useOverlayPosition";
 import useOverlayFocus from "./useOverlayFocus";
-import { OverlayPosition } from "src/lib/types";
+import { OverlayPosition } from "./useOverlayPosition/types";
 
 type Options = {
   anchorRef: RefObject<HTMLElement | null>;
