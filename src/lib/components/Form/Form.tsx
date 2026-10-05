@@ -17,7 +17,6 @@ const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormP
     labelOrientation = "vertical",
     submitButtonLabel = t("g.submit"),
     buttonPosition = "right",
-    fluidButtons,
     enableClearButton,
     clearButtonLabel = t("g.clear"),
     resetIfValidatedOnSubmit,
@@ -45,7 +44,6 @@ const FormTemp = <T extends NameInputValue>(props: PropsWithRefAndChildren<FormP
         onSubmit={onSubmit}
         submitButtonLabel={submitButtonLabel}
         buttonPosition={buttonPosition}
-        fluidButtons={fluidButtons}
         clearButtonLabel={clearButtonLabel}
         enableClearButton={enableClearButton}
         resetIfValidatedOnSubmit={resetIfValidatedOnSubmit}

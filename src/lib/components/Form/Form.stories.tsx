@@ -62,7 +62,6 @@ const meta: Meta<typeof Form> = {
     labelOrientation: { table: { defaultValue: { summary: "vertical" } } },
     submitButtonLabel: { table: { defaultValue: { summary: "Gönder" } } },
     buttonPosition: { table: { defaultValue: { summary: "right" } } },
-    fluidButtons: { table: { defaultValue: { summary: "false" } } },
     clearButtonLabel: { table: { defaultValue: { summary: "Temizle" } } },
   },
   args: {

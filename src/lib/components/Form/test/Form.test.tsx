@@ -163,9 +163,9 @@ describe("Form", () => {
     expect(submitButtonArea).toHaveClass("submitArea_align_right");
   });
 
-  it("should render all buttons as fluid and share the width equally when fluidButtons is true", () => {
+  it('should render all buttons as fluid and share the width equally when buttonPosition is "fluid"', () => {
     render(
-      <Form onSubmit={mockFunction} enableClearButton alternateButtons={[<Button key="alt" label="Alt" />]} fluidButtons>
+      <Form onSubmit={mockFunction} enableClearButton alternateButtons={[<Button key="alt" label="Alt" />]} buttonPosition="fluid">
         <Form.Field name="input">
           <InputText name="input" />
         </Form.Field>
