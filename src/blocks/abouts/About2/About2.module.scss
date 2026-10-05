@@ -1,0 +1,30 @@
+.panel {
+  width: 100%;
+  gap: clamp(2rem, 6vw, 7.5rem);
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+  gap: 2rem;
+}
+
+// These will be removed along with the new variant values coming from the 'text' component.
+.heroTitle {
+  margin: 0 !important;
+  font-size: 4rem !important;
+  font-weight: 700 !important;
+  line-height: 3.5rem !important;
+}
+
+.caption {
+  margin: 0;
+  color: #717d87;
+}
+
+.featureDescription {
+  margin: 0;
+  color: #475560;
+}
