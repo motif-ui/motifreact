@@ -106,7 +106,7 @@ const LOGO_MARK_URL = "https://cdn.jsdelivr.net/gh/motif-ui/assets@HEAD/images/m
 
 const Register = () => {
   return (
-    <Panel bordered style={{ padding: "32px" }} className={styles.panel}>
+    <Panel bordered className={styles.panel}>
       <BusinessCard
         icon={<img src={LOGO_MARK_URL} alt="Motif UI" width="100%" height="100%" />}
         title="Create your account"
@@ -160,6 +160,7 @@ export default Register;
   max-width: 25rem;
   margin: 0 auto;
   gap: var(--base-sizing-20x);
+  padding: 32px !important;
 }
 
 .footer {
