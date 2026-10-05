@@ -8,7 +8,7 @@ import { userEvent } from "@testing-library/user-event";
 import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { DateUtils } from "../../../utils/dateUtils";
+import { DateUtils } from "src/utils/dateUtils.ts";
 
 describe("DateTimePicker", () => {
   beforeEach(() => {
