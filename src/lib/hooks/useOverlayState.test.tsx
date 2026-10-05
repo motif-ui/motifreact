@@ -1,4 +1,6 @@
 import { act, fireEvent, renderHook } from "@testing-library/react";
+import { Profiler } from "react";
+import type { PropsWithChildren } from "react";
 import useOverlayState from "./useOverlayState";
 
 describe("useOverlayState", () => {
@@ -63,18 +65,48 @@ describe("useOverlayState", () => {
       jest.useRealTimers();
     });
 
-    it("should render the state change and the transition start together", () => {
+    it("should commit the close and the exit transition start together", () => {
       jest.useFakeTimers();
-      let renders = 0;
-      const { result } = renderHook(() => {
-        renders++;
-        return useOverlayState({ defaultOpen: true, duration: 300 });
-      });
+      const onRender = jest.fn();
+      const wrapper = ({ children }: PropsWithChildren) => (
+        <Profiler id="overlay" onRender={onRender}>
+          {children}
+        </Profiler>
+      );
+      const { result } = renderHook(() => useOverlayState({ defaultOpen: true, duration: 300 }), { wrapper });
+      act(() => jest.runOnlyPendingTimers());
       act(() => jest.runOnlyPendingTimers());
 
-      renders = 0;
+      onRender.mockClear();
       act(() => result.current.hide());
-      expect(renders).toBe(1);
+      expect(onRender).toHaveBeenCalledTimes(1);
+      expect(result.current.visible).toBe(false);
+      expect(result.current.attached).toBe(true);
+
+      act(() => jest.advanceTimersByTime(300));
+      expect(onRender).toHaveBeenCalledTimes(2);
+      expect(result.current.attached).toBe(false);
+      jest.useRealTimers();
+    });
+
+    it("should commit the close made by the open prop and the exit transition start together", () => {
+      jest.useFakeTimers();
+      const onRender = jest.fn();
+      const wrapper = ({ children }: PropsWithChildren) => (
+        <Profiler id="overlay" onRender={onRender}>
+          {children}
+        </Profiler>
+      );
+      const { result, rerender } = renderHook(({ open }) => useOverlayState({ open, duration: 300 }), {
+        wrapper,
+        initialProps: { open: true },
+      });
+      act(() => jest.runOnlyPendingTimers());
+      act(() => jest.runOnlyPendingTimers());
+
+      onRender.mockClear();
+      rerender({ open: false });
+      expect(onRender).toHaveBeenCalledTimes(1);
       expect(result.current.visible).toBe(false);
       expect(result.current.attached).toBe(true);
       jest.useRealTimers();

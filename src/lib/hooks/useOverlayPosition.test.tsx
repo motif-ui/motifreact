@@ -69,18 +69,18 @@ describe("useOverlayPosition", () => {
   });
 
   it("should not render again when it is disabled", () => {
-    let renders = 0;
+    const onRender = jest.fn();
     const { rerender } = renderHook(
       ({ enabled }) => {
-        renders++;
+        onRender();
         return useOverlayPosition(anchorRef, overlayRef, { placement: "bottom", enabled });
       },
       { initialProps: { enabled: true } },
     );
 
-    renders = 0;
+    onRender.mockClear();
     rerender({ enabled: false });
-    expect(renders).toBe(1);
+    expect(onRender).toHaveBeenCalledTimes(1);
   });
 
   it("should calculate the position again when it is enabled again", () => {
@@ -154,17 +154,17 @@ describe("useOverlayPosition", () => {
 
   describe("while open", () => {
     it("should move together with the anchor on scroll, even out of the screen, without rendering", () => {
-      let renders = 0;
+      const onRender = jest.fn();
       renderHook(() => {
-        renders++;
+        onRender();
         return useOverlayPosition(anchorRef, overlayRef, { placement: "bottomLeft", enabled: true });
       });
 
-      renders = 0;
+      onRender.mockClear();
       setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
       scroll();
       expect(domPosition()).toEqual({ top: 760, left: 400 });
-      expect(renders).toBe(0);
+      expect(onRender).not.toHaveBeenCalled();
     });
 
     it("should use the latest position when it renders after following the anchor", () => {

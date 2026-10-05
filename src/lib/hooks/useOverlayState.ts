@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { RefObject, SyntheticEvent } from "react";
-import useToggle, { type ToggleState } from "./useToggle";
+import useVisibilityTransition from "./useVisibilityTransition";
 import { OverlayCloseReason } from "src/lib/types";
 
 export type OverlayStateProps = {
@@ -14,7 +14,10 @@ export type OverlayStateProps = {
   duration?: number;
   /** Called once per open cycle, when the overlay starts closing or when a close is requested in the controlled usage */
   onClose?: (reason?: OverlayCloseReason) => void;
-  /** Elements that are part of the overlay. Clicks and scrolls inside them do not close it */
+  /**
+   * Elements that are part of the overlay. Clicks and scrolls inside them do not close it.
+   * Pass a stable array (e.g. with useMemo), otherwise the listeners are added again on each render.
+   */
   insideRefs?: RefObject<HTMLElement | null>[];
   closeOnOutsideClick?: boolean;
   closeOnEscape?: boolean;
@@ -28,13 +31,12 @@ type UseOverlayStateReturn = {
   attached: boolean;
   /** Whether the overlay should be shown, use it to trigger the enter/exit transitions */
   visible: boolean;
-  toggleState?: ToggleState;
   show: () => void;
   /** Closes the overlay with the given reason, passed to onClose. In the controlled usage it only calls onClose. */
   hide: (reason?: OverlayCloseReason) => void;
   toggle: () => void;
   /**
-   * Handlers to spread on an element whose React subtree belongs to the overlay (e.g. the overlay root or the anchor wrapper).
+   * Handlers to spread on an element whose React subtree belongs to the overlay, e.g. the overlay root.
    * Clicks in nested overlays rendered in their own portals bubble through the React tree, so they are not counted as outside.
    */
   insideProps: { onMouseUp: (e: SyntheticEvent) => void; onTouchEnd: (e: SyntheticEvent) => void };
@@ -45,18 +47,10 @@ const useOverlayState = (options: OverlayStateProps): UseOverlayStateReturn => {
   const controlled = open !== undefined;
   const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
   const isOpen = controlled ? open : internalOpen;
-
-  const { visible, toggleState, show: showToggle, hide: hideToggle } = useToggle({ duration });
-  const attached = visible || !!toggleState;
-
-  const isOpenRef = useRef(isOpen);
-  isOpenRef.current = isOpen;
+  const { attached, visible } = useVisibilityTransition(isOpen, duration);
   const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
-  const insideRefsRef = useRef(insideRefs);
-  insideRefsRef.current = insideRefs;
-  const insideEventsRef = useRef(new WeakSet<Event>());
-
+  // Events marked by insideProps, per instance so an event inside one overlay is not counted as inside another one
+  const [insideEvents] = useState(() => new WeakSet<Event>());
   // Keeps onClose to be called once per open cycle, whether the close is requested from inside or made by the open prop
   const closeNotifiedRef = useRef(!isOpen);
   const notifyClose = useCallback((reason?: OverlayCloseReason) => {
@@ -65,64 +59,43 @@ const useOverlayState = (options: OverlayStateProps): UseOverlayStateReturn => {
     onCloseRef.current?.(reason);
   }, []);
 
-  // Whether useToggle is showing the overlay, so the transitions are started once even when they are started from two places
-  const shownRef = useRef(false);
-  const showOverlay = useCallback(() => {
-    closeNotifiedRef.current = false;
-    if (shownRef.current) return;
-    shownRef.current = true;
-    showToggle();
-  }, [showToggle]);
-  const hideOverlay = useCallback(() => {
-    if (!shownRef.current) return;
-    shownRef.current = false;
-    hideToggle();
-  }, [hideToggle]);
+  onCloseRef.current = onClose;
 
-  // Follows the open prop in the controlled usage. In the uncontrolled usage, show and hide start the transitions themselves,
-  // so they are rendered together with the state change instead of in an extra render after this effect
+  // Starts a new open cycle when opened, and notifies the close made by the open prop in the controlled usage
   useEffect(() => {
     if (isOpen) {
-      showOverlay();
+      closeNotifiedRef.current = false;
     } else {
       notifyClose();
-      hideOverlay();
     }
-  }, [isOpen, showOverlay, hideOverlay, notifyClose]);
+  }, [isOpen, notifyClose]);
 
   const hide = useCallback(
     (reason?: OverlayCloseReason) => {
-      if (!isOpenRef.current) return;
+      // Does nothing when it is closed, since onClose is already notified in that case and the state is already closed
       notifyClose(reason);
-      if (!controlled) {
-        setInternalOpen(false);
-        hideOverlay();
-      }
+      !controlled && setInternalOpen(false);
     },
-    [controlled, notifyClose, hideOverlay],
+    [controlled, notifyClose],
   );
 
   const show = useCallback(() => {
-    if (controlled) return;
-    setInternalOpen(true);
-    showOverlay();
-  }, [controlled, showOverlay]);
+    !controlled && setInternalOpen(true);
+  }, [controlled]);
 
   const toggle = useCallback(() => {
-    isOpenRef.current ? hide() : show();
-  }, [hide, show]);
+    isOpen ? hide() : show();
+  }, [isOpen, hide, show]);
 
   useEffect(() => {
     if (!isOpen) return;
 
-    const isInside = (target: EventTarget | null) =>
-      target instanceof Node && !!insideRefsRef.current?.some(ref => ref.current?.contains(target));
+    const isInside = (target: EventTarget | null) => target instanceof Node && !!insideRefs?.some(ref => ref.current?.contains(target));
     const movesInside = (target: EventTarget | null) =>
-      target === document || (target instanceof Node && !!insideRefsRef.current?.some(ref => ref.current && target.contains(ref.current)));
+      target === document || (target instanceof Node && !!insideRefs?.some(ref => ref.current && target.contains(ref.current)));
 
     // React handles the event before it reaches the document, so the events marked by insideProps are known here
-    const handleOutsideClick = (e: MouseEvent | TouchEvent) =>
-      !isInside(e.target) && !insideEventsRef.current.has(e) && hide("outsideClick");
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => !isInside(e.target) && !insideEvents.has(e) && hide("outsideClick");
     const handleKeyDown = (e: KeyboardEvent) => e.key === "Escape" && hide("escape");
     const handleScroll = (e: Event) => !isInside(e.target) && movesInside(e.target) && hide("scroll");
 
@@ -139,14 +112,17 @@ const useOverlayState = (options: OverlayStateProps): UseOverlayStateReturn => {
       document.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("scroll", handleScroll, { capture: true });
     };
-  }, [isOpen, hide, closeOnOutsideClick, closeOnEscape, closeOnScroll]);
+  }, [isOpen, hide, insideRefs, insideEvents, closeOnOutsideClick, closeOnEscape, closeOnScroll]);
 
-  const markInside = useCallback((e: SyntheticEvent) => {
-    insideEventsRef.current.add(e.nativeEvent);
-  }, []);
+  const markInside = useCallback(
+    (e: SyntheticEvent) => {
+      insideEvents.add(e.nativeEvent);
+    },
+    [insideEvents],
+  );
   const insideProps = useMemo(() => ({ onMouseUp: markInside, onTouchEnd: markInside }), [markInside]);
 
-  return { open: isOpen, attached, visible, toggleState, show, hide, toggle, insideProps };
+  return { open: isOpen, attached, visible, show, hide, toggle, insideProps };
 };
 
 export default useOverlayState;

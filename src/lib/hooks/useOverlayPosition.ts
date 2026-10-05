@@ -99,6 +99,25 @@ const getOverflow = ({ x, y }: Point, { width, height }: Size, viewport: Box) =>
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
 
+/**
+ * Picks the candidate placement that overflows the viewport the least and shifts it into the viewport.
+ * Returns the shift too, so it can be kept while the overlay follows the anchor.
+ */
+const fitIntoViewport = (placement: OverlayPosition, anchorRect: DOMRect, size: Size, margins: Box) => {
+  const viewport = getViewport();
+  const best = getCandidates(placement)
+    .map(candidate => {
+      const coords = getCoords(candidate, anchorRect, size, margins);
+      return { candidate, coords, overflow: getOverflow(coords, size, viewport) };
+    })
+    .reduce((min, current) => (current.overflow < min.overflow ? current : min));
+  const coords = {
+    x: clamp(best.coords.x, viewport.left, Math.max(viewport.left, viewport.right - size.width)),
+    y: clamp(best.coords.y, viewport.top, Math.max(viewport.top, viewport.bottom - size.height)),
+  };
+  return { placement: best.candidate, coords, shift: { x: coords.x - best.coords.x, y: coords.y - best.coords.y } };
+};
+
 const supportsCssAnchor = () =>
   typeof CSS !== "undefined" &&
   typeof CSS.supports === "function" &&
@@ -161,26 +180,12 @@ const useOverlayPosition = (anchorRef: RefObject<HTMLElement | null>, overlayRef
       const anchorRect = anchor.getBoundingClientRect();
       const size = { width: overlay.offsetWidth, height: overlay.offsetHeight };
       const margins = getMargins(overlay);
-      let resolvedPlacement = calculatedRef.current?.placement ?? placement;
-      let coords: Point;
-
-      if (fitIntoView) {
-        const viewport = getViewport();
-        const candidates = getCandidates(placement).map(candidate => {
-          const candidateCoords = getCoords(candidate, anchorRect, size, margins);
-          return { candidate, candidateCoords, overflow: getOverflow(candidateCoords, size, viewport) };
-        });
-        const best = candidates.reduce((min, current) => (current.overflow < min.overflow ? current : min));
-        resolvedPlacement = best.candidate;
-        coords = {
-          x: clamp(best.candidateCoords.x, viewport.left, Math.max(viewport.left, viewport.right - size.width)),
-          y: clamp(best.candidateCoords.y, viewport.top, Math.max(viewport.top, viewport.bottom - size.height)),
-        };
-        shiftRef.current = { x: coords.x - best.candidateCoords.x, y: coords.y - best.candidateCoords.y };
-      } else {
-        const anchoredCoords = getCoords(resolvedPlacement, anchorRect, size, margins);
-        coords = { x: anchoredCoords.x + shiftRef.current.x, y: anchoredCoords.y + shiftRef.current.y };
-      }
+      const fitted = fitIntoView ? fitIntoViewport(placement, anchorRect, size, margins) : undefined;
+      if (fitted) shiftRef.current = fitted.shift;
+      const resolvedPlacement = fitted?.placement ?? calculatedRef.current?.placement ?? placement;
+      // While following the anchor, the placement and the shift chosen on open are kept
+      const anchoredCoords = getCoords(resolvedPlacement, anchorRect, size, margins);
+      const coords = fitted?.coords ?? { x: anchoredCoords.x + shiftRef.current.x, y: anchoredCoords.y + shiftRef.current.y };
 
       // The overlay is absolutely positioned in the document, so the margin box is positioned with document coordinates
       const next = {
