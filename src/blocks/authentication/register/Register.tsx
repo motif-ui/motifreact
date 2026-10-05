@@ -1,6 +1,18 @@
 "use client";
 
-import { BusinessCard, Checkbox, Divider, Form, InputPassword, InputText, Link, Panel, Text, Validations } from "@motif-ui/react";
+import {
+  BusinessCard,
+  Checkbox,
+  Divider,
+  Form,
+  InputPassword,
+  ImageView,
+  InputText,
+  Link,
+  Panel,
+  Text,
+  Validations,
+} from "@motif-ui/react";
 import styles from "./Register.module.scss";
 import { LOGO_MARK_URL } from "src/blocks/constants.ts";
 
@@ -8,7 +20,7 @@ const Register = () => {
   return (
     <Panel bordered className={styles.panel}>
       <BusinessCard
-        icon={<img src={LOGO_MARK_URL} alt="Motif UI" width="100%" height="100%" />}
+        icon={<ImageView src={LOGO_MARK_URL} alt="Motif UI" />}
         title="Create your account"
         description="Start your journey with us today"
       />
