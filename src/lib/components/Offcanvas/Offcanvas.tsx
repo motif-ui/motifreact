@@ -22,7 +22,7 @@ const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
     position = "left",
     size = "md",
     closable = true,
-    hideBackdrop = false,
+    hideBackdrop,
     ref,
     style,
     className,

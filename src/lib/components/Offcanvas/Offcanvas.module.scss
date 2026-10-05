@@ -20,50 +20,6 @@ $sizes: (
   &.hideBackdrop {
     background-color: transparent;
   }
-
-  &.left .offcanvas {
-    top: 0;
-    left: 0;
-    height: 100%;
-    border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
-  }
-
-  &.right .offcanvas {
-    top: 0;
-    right: 0;
-    height: 100%;
-    border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
-  }
-
-  &.top .offcanvas {
-    top: 0;
-    left: 0;
-    width: 100%;
-    border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
-  }
-
-  &.bottom .offcanvas {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
-  }
-
-  @each $size, $width, $height in $sizes {
-    &.left.#{$size} .offcanvas,
-    &.right.#{$size} .offcanvas {
-      width: var(--base-sizing-#{$width});
-    }
-
-    &.top.#{$size} .offcanvas,
-    &.bottom.#{$size} .offcanvas {
-      height: var(--base-sizing-#{$height});
-    }
-
-    &.#{$size} .headerTitle {
-      @include font("base", $size, "700");
-    }
-  }
 }
 
 .offcanvas {
@@ -76,6 +32,46 @@ $sizes: (
   max-height: 100%;
   overflow: hidden;
   @include shadow(4);
+
+  .left & {
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
+  }
+
+  .right & {
+    top: 0;
+    right: 0;
+    height: 100%;
+    border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
+  }
+
+  .top & {
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
+  }
+
+  .bottom & {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+  }
+
+  @each $size, $width, $height in $sizes {
+    .left.#{$size} &,
+    .right.#{$size} & {
+      width: var(--base-sizing-#{$width});
+    }
+
+    .top.#{$size} &,
+    .bottom.#{$size} & {
+      height: var(--base-sizing-#{$height});
+    }
+  }
 }
 
 .header {
@@ -90,6 +86,12 @@ $sizes: (
   flex: 1;
   color: var(--theme-color-text-base-title);
   overflow-wrap: break-word;
+
+  @each $size, $width, $height in $sizes {
+    .#{$size} & {
+      @include font("base", $size, "700");
+    }
+  }
 }
 
 .closeButton {
