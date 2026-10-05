@@ -69,6 +69,12 @@ export type UploadProps = {
    */
   onError?: (errors: string[]) => void;
   customValidation?: (file: File) => CustomValidation;
+  /**
+   * Fires after an upload request completes successfully (HTTP 200).
+   * `files` are the files sent with that request (one file per request, or all files for a bulk upload),
+   * `response` is the parsed JSON body of the server response, or the raw response text if it is not JSON.
+   */
+  onUpload?: (files: FileType[], response?: unknown) => void;
 } & UploadDefaultableProps;
 
 export type UploadDefaultableProps = {
