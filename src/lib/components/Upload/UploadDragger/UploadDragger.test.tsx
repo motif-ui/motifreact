@@ -107,7 +107,7 @@ describe("UploadDragger", () => {
 
   it("should allow uploading as many files as specified with the maxFile prop", async () => {
     const maxFile = 1;
-    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
+    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile, count: maxFile });
     const { getInput, getFileItemFirst, getFileItemLast } = renderExt(<UploadDragger {...requiredProps} maxFile={maxFile} />);
     await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb, MOCK.fileTxt1kb]);
 
@@ -139,7 +139,7 @@ describe("UploadDragger", () => {
 
   it("should override maximum number of files error message when set explicitly", async () => {
     const maxFile = 2;
-    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
+    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile, count: maxFile });
     const messages = { maxFileMessage: "Test Max File Message" };
     const { getInput } = renderExt(<UploadDragger {...requiredProps} maxFile={maxFile} messages={messages} />);
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb, MOCK.filePdf1kb, MOCK.fileGif1mb]);
@@ -311,7 +311,7 @@ describe("UploadDragger", () => {
 
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.fileGif1mb.name);
-    expect(fileItem2).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1 }));
+    expect(fileItem2).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1, count: 1 }));
 
     const fileItem1 = getFileItemFirst();
     expect(fileItem1).toHaveTextContent(MOCK.filePng2mb.name);
@@ -329,7 +329,7 @@ describe("UploadDragger", () => {
 
   it("should show error and prevent uploading for exceeding files when more files than the maxFile prop is dropped and autoUpload is false", async () => {
     const maxFile = 1;
-    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
+    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile, count: maxFile });
     const { getDragArea, getFileList, getUploadButton } = renderExt(
       <UploadDragger {...requiredProps} maxFile={maxFile} autoUpload={false} />,
     );

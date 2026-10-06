@@ -356,7 +356,9 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
 
         // Max File Check
         const maxFileError =
-          maxFile && acc.filesIteratedWithoutError >= maxFile && (messages?.maxFileMessage ?? t(MESSAGE.MAX_FILE, { maxFile }));
+          maxFile &&
+          acc.filesIteratedWithoutError >= maxFile &&
+          (messages?.maxFileMessage ?? t(MESSAGE.MAX_FILE, { maxFile, count: maxFile }));
 
         // Custom Validation
         const { errorMessage: customValidationError, isValid: customValidationValid } = customValidation?.(f.file as File) || {};
