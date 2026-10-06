@@ -105,6 +105,34 @@ test("Popover shifted into the screen stays in it when its content grows", async
   expect(grown.left).toBeGreaterThanOrEqual(0);
 });
 
+test("Popover wraps long text within the screen instead of stretching out of it", async ({ page }) => {
+  const popover = "[data-testid=popover]";
+  await page.goto(storyUrl("components-popover--long-text-for-e-2-e"));
+  await expect(page.locator(popover)).toHaveClass(/visible/);
+
+  const rect = await getRect(page, popover);
+  const anchorRect = await getRect(page, "button:has-text('Anchor')");
+  expect(rect.left).toBeGreaterThanOrEqual(0);
+  expect(rect.right).toBeLessThanOrEqual(1000);
+  // wrapped into several lines above the anchor
+  expect(rect.bottom - rect.top).toBeGreaterThan(60);
+  expect(rect.bottom).toBeLessThanOrEqual(anchorRect.top + 1);
+  await expect(page.locator(popover)).toHaveClass(/top/);
+});
+
+test("Popover taller than the screen opens next to its anchor when the page can be scrolled to it", async ({ page }) => {
+  const popover = "[data-testid=popover]";
+  await page.goto(storyUrl("components-popover--tall-content-for-e-2-e"));
+  await expect(page.locator(popover)).toHaveClass(/visible/);
+
+  const rect = await getRect(page, popover);
+  const anchorRect = await getRect(page, "button:has-text('Anchor')");
+  // below the anchor instead of being pushed up over it, and out of the 700px high screen
+  expect(rect.top).toBeGreaterThanOrEqual(anchorRect.bottom - 1);
+  expect(rect.bottom).toBeGreaterThan(700);
+  await expect(page.locator(popover)).toHaveClass(/bottom/);
+});
+
 test.describe("InputDateRange in a scrolling container", () => {
   const picker = "[data-testid=Picker]";
   const input = "[data-mtf-component=mtf-input-text]";

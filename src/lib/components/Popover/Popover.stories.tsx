@@ -207,3 +207,47 @@ export const GrowingContentForE2E: Story = {
     return <StoryComponent />;
   },
 };
+
+export const LongTextForE2E: Story = {
+  tags: ["!autodocs", "!dev"],
+  parameters: { layout: "fullscreen", chromatic: { disableSnapshot: true } },
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+
+      return (
+        <div style={{ paddingTop: 400, paddingLeft: 300 }}>
+          <Button label="Anchor" ref={anchorRef} />
+          <Popover anchorRef={anchorRef} placeOn="top" open variant="dark">
+            {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ".repeat(
+              4,
+            )}
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const TallContentForE2E: Story = {
+  tags: ["!autodocs", "!dev"],
+  parameters: { layout: "fullscreen", chromatic: { disableSnapshot: true } },
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+
+      return (
+        <div style={{ height: 3000, paddingTop: 300, paddingLeft: 300, boxSizing: "border-box" }}>
+          <Button label="Anchor" ref={anchorRef} />
+          <Popover anchorRef={anchorRef} placeOn="bottom" open>
+            <div style={{ width: 300, height: 900 }}>Tall content</div>
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};

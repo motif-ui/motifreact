@@ -2,15 +2,15 @@
 
 import { useCallback, useEffect, useId, useLayoutEffect, useReducer, useRef } from "react";
 import type { RefObject } from "react";
-import { Calculated, OverlayPositionProps, Point } from "./types";
+import { Calculated, OverlayPositionProps, OverlayPositionReturn, Point } from "./types";
 import { calculatePosition, getCssAnchorStyle, getCssAnchorTranslate, isSamePosition, supportsCssAnchor } from "./helper";
 
 const useOverlayPosition = (
   anchorRef: RefObject<HTMLElement | null>,
   overlayRef: RefObject<HTMLElement | null>,
   props: OverlayPositionProps,
-) => {
-  const { placement, enabled } = props;
+): OverlayPositionReturn => {
+  const { placement, enabled, limitWidth = false } = props;
   const anchorName = `--motif-overlay-${useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
   // The placement is chosen by JS on open. While open, CSS anchor positioning follows the anchor where it is supported, JS otherwise.
   const cssAnchor = supportsCssAnchor();
@@ -32,7 +32,7 @@ const useOverlayPosition = (
       if (!anchor || !overlay) return;
 
       const prev = calculatedRef.current;
-      const position = calculatePosition(anchor, overlay, placement, !followAnchor, prev);
+      const position = calculatePosition(anchor, overlay, placement, !followAnchor, limitWidth, prev);
       // Kept even when the position is the same, so the shift calculated on open is followed
       calculatedRef.current = position;
       if (isSamePosition(prev, position)) return;
@@ -44,7 +44,7 @@ const useOverlayPosition = (
         countRenderedCalculation();
       }
     },
-    [anchorRef, overlayRef, placement],
+    [anchorRef, overlayRef, placement, limitWidth],
   );
 
   useLayoutEffect(() => {
@@ -95,13 +95,11 @@ const useOverlayPosition = (
   }, [enabled, calculate, anchorRef, overlayRef, cssAnchor]);
 
   const positioned = enabled ? calculatedRef.current : undefined;
-  if (!positioned) return { style: { top: 0, left: 0, visibility: "hidden" as const }, placement };
-  return {
-    style: cssAnchor
-      ? getCssAnchorStyle(positioned.placement, anchorName, cssTranslateRef.current)
-      : { top: positioned.top, left: positioned.left },
-    placement: positioned.placement,
-  };
+  if (!positioned) return { style: { top: 0, left: 0, visibility: "hidden" }, placement };
+  const position = cssAnchor
+    ? getCssAnchorStyle(positioned.placement, anchorName, cssTranslateRef.current)
+    : { top: positioned.top, left: positioned.left };
+  return { style: { ...position, maxWidth: positioned.maxWidth }, placement: positioned.placement };
 };
 
 export default useOverlayPosition;

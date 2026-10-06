@@ -138,6 +138,16 @@ describe("Popover", () => {
     expect(getByTestId("popover")).toBeInTheDocument();
   });
 
+  it("should limit its width to the space at its placement, so long content wraps", () => {
+    render(
+      <Popover anchorRef={{ current: document.createElement("div") }} placeOn="bottom" open>
+        Popover content
+      </Popover>,
+    );
+    // the centered bottom placement can use the whole width of the 1024px wide jsdom viewport
+    expect(screen.getByTestId("popover").style.maxWidth).toBe("1024px");
+  });
+
   it("should not render on the server, even when it is open initially", () => {
     // The server renderer does not support portals, so rendering the popover there would throw
     expect(() =>

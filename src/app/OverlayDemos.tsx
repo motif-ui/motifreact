@@ -108,7 +108,17 @@ const PlacementPopover = ({ placement, log }: { placement: OverlayPosition; log:
     <>
       <Button label={placement} ref={anchorRef} size="sm" />
       <Popover anchorRef={anchorRef} placeOn={placement} onClose={log(placement)} variant="dark">
-        {content}
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+        in culpa qui officia deserunt mollit anim id est laborum. Section 1.10.32 of de Finibus Bonorum et Malorum, written by Cicero in 45
+        BC Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+        quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+        aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
+        est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore
+        et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit
+        laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
+        nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
       </Popover>
     </>
   );
@@ -132,30 +142,13 @@ const Placements = ({ log }: { log: Log }) => (
   </Section>
 );
 
-const FilterHeader = ({
-  column,
-  keepInView,
-  closeOnScroll,
-  log,
-}: {
-  column: string;
-  keepInView: boolean;
-  closeOnScroll: boolean;
-  log: Log;
-}) => {
+const FilterHeader = ({ column, closeOnScroll, log }: { column: string; closeOnScroll: boolean; log: Log }) => {
   const anchorRef = useRef<HTMLButtonElement>(null);
   return (
     <th style={{ position: "sticky", top: 0, background: "#f3f4f6", padding: 8, textAlign: "left" }}>
       <span style={{ marginRight: 8 }}>{column}</span>
       <Button label="Filter" ref={anchorRef} size="xs" shape="outline" />
-      <Popover
-        anchorRef={anchorRef}
-        placeOn="bottomLeft"
-        keepInView={keepInView}
-        closeOnScroll={closeOnScroll}
-        onClose={log(`Filter ${column}`)}
-        elevated
-      >
+      <Popover anchorRef={anchorRef} placeOn="bottomLeft" closeOnScroll={closeOnScroll} onClose={log(`Filter ${column}`)} elevated>
         <div style={{ padding: 12, display: "grid", gap: 8, width: 220 }}>
           <InputText placeholder={`Filter by ${column}`} size="sm" />
           <InputDateRange size="sm" />
@@ -166,17 +159,15 @@ const FilterHeader = ({
 };
 
 const TableFilter = ({ log }: { log: Log }) => {
-  const [keepInView, setKeepInView] = useState(false);
   const [closeOnScroll, setCloseOnScroll] = useState(false);
   const columns = ["Name", "Department", "Start date", "City", "Phone", "Email"];
 
   return (
     <Section
       title="Popover · filter form in a scrolling table"
-      hint="Open a filter and scroll the table horizontally, or scroll the page. By default the form moves with its header, even out of the screen. keepInView keeps it in the screen, closeOnScroll closes it."
+      hint="Open a filter and scroll the table horizontally, or scroll the page. The form moves with its header, also out of the screen, and is hidden while the header is scrolled out of the table. closeOnScroll closes it instead."
     >
       <div style={rowStyle}>
-        <Toggle label="keepInView" checked={keepInView} onChange={setKeepInView} />
         <Toggle label="closeOnScroll" checked={closeOnScroll} onChange={setCloseOnScroll} />
       </div>
       <div style={{ overflow: "auto", maxHeight: 240, border: "1px solid #ddd", borderRadius: 8 }}>
@@ -184,7 +175,7 @@ const TableFilter = ({ log }: { log: Log }) => {
           <thead>
             <tr>
               {columns.map(column => (
-                <FilterHeader key={column} column={column} keepInView={keepInView} closeOnScroll={closeOnScroll} log={log} />
+                <FilterHeader key={column} column={column} closeOnScroll={closeOnScroll} log={log} />
               ))}
             </tr>
           </thead>

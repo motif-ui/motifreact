@@ -30,10 +30,18 @@ describe("useOverlayPosition", () => {
     Object.defineProperty(overlay, "offsetHeight", { configurable: true, value: height });
   };
 
-  const renderPosition = (placement: OverlayPosition, options: { enabled?: boolean } = {}) =>
-    renderHook(({ enabled }) => useOverlayPosition(anchorRef, overlayRef, { placement, enabled }), {
+  type HookProps = { enabled: boolean; limitWidth?: boolean };
+  const renderPosition = (placement: OverlayPosition, options: Partial<HookProps> = {}) =>
+    renderHook(({ enabled, limitWidth }: HookProps) => useOverlayPosition(anchorRef, overlayRef, { placement, enabled, limitWidth }), {
       initialProps: { enabled: true, ...options },
     });
+
+  // Text that wraps into lines of the given height when its width is limited by max-width
+  const setWrappingOverlay = (naturalWidth: number, lineHeight: number) => {
+    const width = () => Math.min(naturalWidth, parseFloat(overlay.style.maxWidth) || naturalWidth);
+    Object.defineProperty(overlay, "offsetWidth", { configurable: true, get: width });
+    Object.defineProperty(overlay, "offsetHeight", { configurable: true, get: () => Math.ceil(naturalWidth / width()) * lineHeight });
+  };
 
   const scroll = (target: Node = document) => {
     act(() => {
@@ -52,6 +60,9 @@ describe("useOverlayPosition", () => {
     overlay.removeAttribute("style");
     overlay.style.margin = "0";
     setOverlaySize(200, 100);
+    // content that fits its box, jsdom reports 0 otherwise
+    Object.defineProperty(overlay, "scrollWidth", { configurable: true, value: 0 });
+    Object.defineProperty(overlay, "scrollHeight", { configurable: true, value: 0 });
     setAnchorRect({ top: 300, left: 400, width: 100, height: 40 });
   });
 
@@ -150,6 +161,123 @@ describe("useOverlayPosition", () => {
     const { result } = renderPosition("bottomLeft");
     expect(result.current.style).toEqual({ top: 840, left: 400 });
     Object.defineProperty(window, "scrollY", scrollY!);
+  });
+
+  it("should use the size of content that overflows the overlay, e.g. a fixed width form", () => {
+    setAnchorRect({ top: 300, left: 700, width: 100, height: 40 });
+    // the overlay box is 200px wide, but its content is 600px wide and does not fit at the anchor's left edge
+    Object.defineProperty(overlay, "scrollWidth", { configurable: true, value: 600 });
+    const { result } = renderPosition("bottomLeft");
+    expect(result.current.placement).toBe("bottomRight");
+  });
+
+  describe("when it does not fit into the viewport", () => {
+    const pageHeight = Object.getOwnPropertyDescriptor(document.documentElement, "scrollHeight");
+    const setPageHeight = (height: number) =>
+      Object.defineProperty(document.documentElement, "scrollHeight", { configurable: true, value: height });
+
+    beforeEach(() => {
+      // taller than the 768px viewport on both sides of the anchor
+      setOverlaySize(200, 900);
+    });
+
+    afterEach(() => {
+      if (pageHeight) Object.defineProperty(document.documentElement, "scrollHeight", pageHeight);
+      else delete (document.documentElement as { scrollHeight?: number }).scrollHeight;
+    });
+
+    it("should flip to the side where the whole content fits before using the scrollable page", () => {
+      setPageHeight(2000);
+      // as wide as the viewport, so the centered top placement only fits after a shift, and only top has the height
+      setOverlaySize(1024, 258);
+      // 600px above the anchor and 136px below it in the 768px high viewport
+      setAnchorRect({ top: 600, left: 600, width: 80, height: 32 });
+      const { result } = renderPosition("bottom");
+
+      expect(result.current.placement).toBe("top");
+      expect(result.current.style).toEqual({ top: 342, left: 0 });
+    });
+
+    it("should prefer the alignment that fits without a shift", () => {
+      setOverlaySize(200, 100);
+      setAnchorRect({ top: 300, left: 900, width: 100, height: 40 });
+      const { result } = renderPosition("bottomLeft");
+      expect(result.current.placement).toBe("bottomRight");
+    });
+
+    it("should open next to the anchor when the page can be scrolled to it", () => {
+      setPageHeight(2000);
+      const { result } = renderPosition("bottom");
+
+      expect(result.current.placement).toBe("bottom");
+      // right below the anchor, out of the viewport at the bottom instead of covering the anchor
+      expect(result.current.style).toEqual({ top: 340, left: 350 });
+    });
+
+    it("should pick the side that fits into the page", () => {
+      setAnchorRect({ top: 1500, left: 400, width: 100, height: 40 });
+      setPageHeight(1800);
+      const { result } = renderPosition("bottom");
+
+      expect(result.current.placement).toBe("top");
+      expect(result.current.style).toEqual({ top: 600, left: 350 });
+    });
+
+    it("should be kept in the viewport when it does not fit into the page either", () => {
+      setPageHeight(800);
+      const { result } = renderPosition("bottom");
+      expect(result.current.style).toEqual({ top: 0, left: 350 });
+    });
+
+    it("should measure the page without the overlay, and restore it", () => {
+      setPageHeight(2000);
+      overlay.style.display = "flex";
+      renderPosition("bottom");
+      expect(overlay.style.display).toBe("flex");
+    });
+  });
+
+  describe("with limitWidth", () => {
+    it("should limit the width to the space at the placement", () => {
+      setWrappingOverlay(800, 20);
+      const { result } = renderPosition("right", { limitWidth: true });
+
+      // the anchor's right edge is at 500 in the 1024px wide viewport
+      expect(result.current.style.maxWidth).toBe(524);
+      expect(result.current.placement).toBe("right");
+    });
+
+    it("should use the whole viewport width for the centered top and bottom placements", () => {
+      setWrappingOverlay(3000, 20);
+      const { result } = renderPosition("top", { limitWidth: true });
+      expect(result.current.style.maxWidth).toBe(1024);
+    });
+
+    it("should judge the candidates by their wrapped size", () => {
+      setAnchorRect({ top: 300, left: 50, width: 100, height: 40 });
+      // 50px on the left wraps into a column taller than the viewport, so the right side is chosen
+      setWrappingOverlay(800, 60);
+      const { result } = renderPosition("left", { limitWidth: true });
+
+      expect(result.current.placement).toBe("right");
+      expect(result.current.style.maxWidth).toBe(874);
+    });
+
+    it("should keep the max width while following the anchor", () => {
+      setWrappingOverlay(800, 20);
+      const { result } = renderPosition("right", { limitWidth: true });
+
+      setAnchorRect({ top: 250, left: 400, width: 100, height: 40 });
+      scroll();
+      expect(overlay.style.maxWidth).toBe("524px");
+      expect(result.current.style.maxWidth).toBe(524);
+    });
+
+    it("should not limit the width without limitWidth", () => {
+      setWrappingOverlay(800, 20);
+      const { result } = renderPosition("right");
+      expect(result.current.style.maxWidth).toBeUndefined();
+    });
   });
 
   describe("while open", () => {

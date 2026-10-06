@@ -67,29 +67,102 @@ const getCoords = (placement: OverlayPosition, anchor: DOMRect, { width, height 
       };
 };
 
-const getOverflow = ({ x, y }: Point, { width, height }: Size, viewport: Box) =>
-  Math.max(0, viewport.left - x) +
-  Math.max(0, x + width - viewport.right) +
-  Math.max(0, viewport.top - y) +
-  Math.max(0, y + height - viewport.bottom);
+const getOverflowX = ({ x }: Point, { width }: Size, box: Box) => Math.max(0, box.left - x) + Math.max(0, x + width - box.right);
+const getOverflowY = ({ y }: Point, { height }: Size, box: Box) => Math.max(0, box.top - y) + Math.max(0, y + height - box.bottom);
 
 /**
- * Picks the candidate placement that overflows the viewport the least and shifts it into the viewport.
- * Returns the shift too, so it can be kept while the overlay follows the anchor.
+ * The scrollable area of the page in viewport coordinates. The overlay is taken out of the layout while measuring,
+ * since it is absolutely positioned in the document and may otherwise extend the page by itself.
  */
-const fitIntoViewport = (placement: OverlayPosition, anchorRect: DOMRect, size: Size, margins: Box) => {
+const getDocumentBox = (overlay: HTMLElement): Box => {
+  const { display } = overlay.style;
+  overlay.style.display = "none";
+  const { scrollWidth, scrollHeight } = document.documentElement;
+  overlay.style.display = display;
+  return { top: -window.scrollY, left: -window.scrollX, right: scrollWidth - window.scrollX, bottom: scrollHeight - window.scrollY };
+};
+
+// Overflows below a pixel come from subpixel positions of an overlay touching an edge, so they do not count
+const fits = (overflow: number) => overflow < 1;
+
+/** The candidate with the lowest score, the earlier one on equal scores since the candidates are in the order of preference */
+const pickBest = (candidates: PlacementCandidate[], score: (candidate: PlacementCandidate) => number) =>
+  candidates.reduce((best, candidate) => (score(candidate) < score(best) ? candidate : best));
+
+/** The widest the overlay's border box can be at the placement without overflowing the viewport horizontally */
+const getMaxWidth = (placement: OverlayPosition, anchor: DOMRect, viewport: Box, margins: Box) => {
+  const side = getSide(placement);
+  const alignment = getAlignment(placement);
+  const space =
+    side === "left"
+      ? anchor.left - margins.right - viewport.left
+      : side === "right"
+        ? viewport.right - anchor.right - margins.left
+        : alignment === "Left"
+          ? viewport.right - anchor.left
+          : alignment === "Right"
+            ? anchor.right - viewport.left
+            : viewport.right - viewport.left;
+  return Math.max(0, space);
+};
+
+/**
+ * Measures the overlay, after limiting its width when a max width is given.
+ * Content that cannot shrink, e.g. a fixed width form, may overflow the limited box, so its scroll size is taken into account.
+ */
+const measure = (overlay: HTMLElement, maxWidth?: number): Size => {
+  if (maxWidth !== undefined) overlay.style.maxWidth = `${maxWidth}px`;
+  return { width: Math.max(overlay.offsetWidth, overlay.scrollWidth), height: Math.max(overlay.offsetHeight, overlay.scrollHeight) };
+};
+
+/**
+ * Picks the placement for the overlay, in this order, so the whole content can be seen:
+ * 1. the first candidate that fits into the viewport as it is, e.g. bottomLeft or bottomRight near the right edge
+ * 2. the first one that fits into the viewport on its side and can be shifted into it along the anchor, e.g. a wide top popover
+ * 3. the first one that fits vertically into the page, so it opens next to the anchor and the page can be scrolled to it
+ * 4. otherwise the one that overflows the viewport the least, kept in the viewport even if it covers the anchor
+ * It is always shifted horizontally into the viewport, and vertically only in the last step.
+ * With limitWidth, each candidate is measured with its width limited to the space at that placement, so long content wraps
+ * and the candidate is judged by its wrapped size. Returns the shift and the max width too, so they are kept while following.
+ */
+const fitIntoViewport = (placement: OverlayPosition, anchorRect: DOMRect, overlay: HTMLElement, margins: Box, limitWidth: boolean) => {
   const viewport = getViewport();
-  // On equal overflows the earlier candidate is kept, since the candidates are in the order of preference
-  const best = getCandidates(placement).reduce<PlacementCandidate | undefined>((min, candidate) => {
+  const candidates = getCandidates(placement).map<PlacementCandidate>(candidate => {
+    const maxWidth = limitWidth ? getMaxWidth(candidate, anchorRect, viewport, margins) : undefined;
+    const size = measure(overlay, maxWidth);
     const coords = getCoords(candidate, anchorRect, size, margins);
-    const overflow = getOverflow(coords, size, viewport);
-    return min && min.overflow <= overflow ? min : { candidate, coords, overflow };
-  }, undefined)!;
+    return { candidate, coords, size, maxWidth, overflow: getOverflowX(coords, size, viewport) + getOverflowY(coords, size, viewport) };
+  });
+
+  const fitsOnItsSide = ({ candidate, coords, size }: PlacementCandidate) => {
+    const vertical = ["top", "bottom"].includes(getSide(candidate));
+    return vertical
+      ? fits(getOverflowY(coords, size, viewport)) && size.width <= viewport.right - viewport.left + 1
+      : fits(getOverflowX(coords, size, viewport)) && size.height <= viewport.bottom - viewport.top + 1;
+  };
+  const inViewport = candidates.find(({ overflow }) => fits(overflow)) ?? candidates.find(fitsOnItsSide);
+  const page = inViewport ? undefined : getDocumentBox(overlay);
+  const inPage = page && candidates.filter(({ coords, size }) => fits(getOverflowY(coords, size, page)));
+  const best =
+    inViewport ??
+    (inPage?.length ? pickBest(inPage, ({ coords, size }) => getOverflowX(coords, size, viewport)) : pickBest(candidates, c => c.overflow));
+  const keepInViewportVertically = !inViewport && !inPage?.length;
+
+  // The last measured candidate may not be the chosen one, so the chosen max width is applied again
+  if (limitWidth) measure(overlay, best.maxWidth);
+
+  const { size } = best;
   const coords = {
     x: clamp(best.coords.x, viewport.left, Math.max(viewport.left, viewport.right - size.width)),
-    y: clamp(best.coords.y, viewport.top, Math.max(viewport.top, viewport.bottom - size.height)),
+    y: keepInViewportVertically ? clamp(best.coords.y, viewport.top, Math.max(viewport.top, viewport.bottom - size.height)) : best.coords.y,
   };
-  return { placement: best.candidate, coords, shift: { x: coords.x - best.coords.x, y: coords.y - best.coords.y } };
+  return {
+    placement: best.candidate,
+    coords,
+    size,
+    maxWidth: best.maxWidth,
+    shift: { x: coords.x - best.coords.x, y: coords.y - best.coords.y },
+  };
 };
 
 /**
@@ -102,13 +175,15 @@ export const calculatePosition = (
   overlay: HTMLElement,
   placement: OverlayPosition,
   fitIntoView: boolean,
+  limitWidth: boolean,
   previous?: Calculated,
 ): Calculated => {
   const anchorRect = anchor.getBoundingClientRect();
-  const size = { width: overlay.offsetWidth, height: overlay.offsetHeight };
   const margins = getMargins(overlay);
-  const fitted = fitIntoView ? fitIntoViewport(placement, anchorRect, size, margins) : undefined;
+  const fitted = fitIntoView ? fitIntoViewport(placement, anchorRect, overlay, margins, limitWidth) : undefined;
+  const size = fitted?.size ?? measure(overlay);
   const shift = fitted?.shift ?? previous?.shift ?? { x: 0, y: 0 };
+  const maxWidth = fitted ? fitted.maxWidth : previous?.maxWidth;
   const resolvedPlacement = fitted?.placement ?? previous?.placement ?? placement;
   const anchoredCoords = getCoords(resolvedPlacement, anchorRect, size, margins);
   const coords = fitted?.coords ?? { x: anchoredCoords.x + shift.x, y: anchoredCoords.y + shift.y };
@@ -119,11 +194,12 @@ export const calculatePosition = (
     top: coords.y + window.scrollY - margins.top,
     left: coords.x + window.scrollX - margins.left,
     shift,
+    maxWidth,
   };
 };
 
 export const isSamePosition = (a: Calculated | undefined, b: Calculated) =>
-  a?.placement === b.placement && a.top === b.top && a.left === b.left;
+  a?.placement === b.placement && a.top === b.top && a.left === b.left && a.maxWidth === b.maxWidth;
 
 export const supportsCssAnchor = () =>
   typeof CSS !== "undefined" &&

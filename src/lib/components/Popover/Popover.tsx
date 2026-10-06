@@ -41,6 +41,8 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
   } = useAnchoredOverlay({
     anchorRef,
     placement: placeOn,
+    // long content wraps within the space at the placement instead of overflowing the screen
+    limitWidth: true,
     open,
     defaultOpen,
     onClose,
