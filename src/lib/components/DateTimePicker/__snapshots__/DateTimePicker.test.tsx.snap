@@ -346,15 +346,9 @@ exports[`DateTimePicker should render with only required props, and have standar
           <span
             class="infoMonthDay"
           >
-<<<<<<< HEAD
-            Oct
-             
-            1
-=======
             Aug
              
             4
->>>>>>> main
           </span>
           <span
             class="infoYear"
