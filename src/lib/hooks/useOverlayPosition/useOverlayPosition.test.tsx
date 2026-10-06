@@ -30,9 +30,9 @@ describe("useOverlayPosition", () => {
     Object.defineProperty(overlay, "offsetHeight", { configurable: true, value: height });
   };
 
-  const renderPosition = (placement: OverlayPosition, options: { enabled?: boolean; keepInView?: boolean } = {}) =>
-    renderHook(({ enabled, keepInView }) => useOverlayPosition(anchorRef, overlayRef, { placement, enabled, keepInView }), {
-      initialProps: { enabled: true, keepInView: false, ...options },
+  const renderPosition = (placement: OverlayPosition, options: { enabled?: boolean } = {}) =>
+    renderHook(({ enabled }) => useOverlayPosition(anchorRef, overlayRef, { placement, enabled }), {
+      initialProps: { enabled: true, ...options },
     });
 
   const scroll = (target: Node = document) => {
@@ -61,10 +61,10 @@ describe("useOverlayPosition", () => {
     const { result, rerender } = renderPosition("bottom", { enabled: false });
     expect(result.current.style).toEqual({ top: 0, left: 0, visibility: "hidden" });
 
-    rerender({ enabled: true, keepInView: false });
+    rerender({ enabled: true });
     expect(result.current.style).toEqual({ top: 340, left: 350 });
 
-    rerender({ enabled: false, keepInView: false });
+    rerender({ enabled: false });
     expect(result.current.style).toEqual({ top: 0, left: 0, visibility: "hidden" });
   });
 
@@ -85,10 +85,10 @@ describe("useOverlayPosition", () => {
 
   it("should calculate the position again when it is enabled again", () => {
     const { result, rerender } = renderPosition("bottomLeft");
-    rerender({ enabled: false, keepInView: false });
+    rerender({ enabled: false });
 
     setAnchorRect({ top: 100, left: 100, width: 100, height: 40 });
-    rerender({ enabled: true, keepInView: false });
+    rerender({ enabled: true });
     expect(result.current.style).toEqual({ top: 140, left: 100 });
   });
 
@@ -172,7 +172,7 @@ describe("useOverlayPosition", () => {
 
       setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
       scroll();
-      rerender({ enabled: true, keepInView: false });
+      rerender({ enabled: true });
       expect(result.current.style).toEqual({ top: 760, left: 400 });
     });
 
@@ -183,23 +183,6 @@ describe("useOverlayPosition", () => {
       setAnchorRect({ top: 250, left: 0, width: 40, height: 40 });
       scroll();
       expect(domPosition()).toEqual({ top: 290, left: 0 });
-    });
-
-    it("should flip and stay in the viewport on scroll when keepInView is true", () => {
-      const { result } = renderPosition("bottomLeft", { keepInView: true });
-
-      setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
-      scroll();
-      expect(result.current.placement).toBe("topLeft");
-      expect(result.current.style).toEqual({ top: 620, left: 400 });
-    });
-
-    it("should stick to the viewport edge when keepInView is true and the anchor leaves the screen", () => {
-      const { result } = renderPosition("bottomLeft", { keepInView: true });
-
-      setAnchorRect({ top: -200, left: 400, width: 100, height: 40 });
-      scroll();
-      expect(result.current.style).toEqual({ top: 0, left: 400 });
     });
 
     it("should follow the anchor on window resize", () => {
@@ -277,20 +260,12 @@ describe("useOverlayPosition", () => {
       expect(overlay.style.top).toBe("");
     });
 
-    it("should use the JS positioning when keepInView is true", () => {
-      placeOverlayAt(400, 340);
-      const { result } = renderPosition("bottomLeft", { keepInView: true });
-
-      expect(result.current.style).toEqual({ top: 340, left: 400 });
-      expect(anchor.style.getPropertyValue("anchor-name")).toBe("");
-    });
-
     it("should remove the anchor name when it is disabled", () => {
       placeOverlayAt(400, 340);
       const { rerender } = renderPosition("bottomLeft");
       expect(anchor.style.getPropertyValue("anchor-name")).not.toBe("");
 
-      rerender({ enabled: false, keepInView: false });
+      rerender({ enabled: false });
       expect(anchor.style.getPropertyValue("anchor-name")).toBe("");
     });
   });

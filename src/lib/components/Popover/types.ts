@@ -46,12 +46,6 @@ export type PopoverProps = {
    *
    */
   closeOnScroll?: boolean;
-  /**
-   *
-   * Keeps the popover in the screen while scrolling, instead of moving together with the anchor.
-   *
-   */
-  keepInView?: boolean;
 } & PopoverDefaultableProps;
 
 export type PopoverDefaultableProps = {

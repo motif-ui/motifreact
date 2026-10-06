@@ -21,7 +21,6 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     closeOnOutsideClick,
     closeOnEscape,
     closeOnScroll,
-    keepInView,
     variant = "light",
     placeOn = "bottom",
     spacing = "callout",
@@ -42,7 +41,6 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
   } = useAnchoredOverlay({
     anchorRef,
     placement: placeOn,
-    keepInView,
     open,
     defaultOpen,
     onClose,

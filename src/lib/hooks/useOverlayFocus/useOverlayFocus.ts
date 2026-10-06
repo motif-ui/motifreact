@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import type { RefObject } from "react";
 
-type Options = {
+type Props = {
   enabled: boolean;
   /** Called when the focus leaves the overlay by tabbing forward from its last element */
   onLeave?: () => void;
@@ -18,8 +18,8 @@ const isVisible = (el: HTMLElement) => el.offsetParent !== null && !el.closest("
  * and Tab from the last overlay element moves to the element after the anchor.
  * It listens on the document while enabled, so the anchor and the overlay need no common ancestor.
  */
-const useOverlayFocus = (anchorRef: RefObject<HTMLElement | null>, overlayRef: RefObject<HTMLElement | null>, options: Options) => {
-  const { enabled, onLeave } = options;
+const useOverlayFocus = (anchorRef: RefObject<HTMLElement | null>, overlayRef: RefObject<HTMLElement | null>, props: Props) => {
+  const { enabled, onLeave } = props;
 
   useEffect(() => {
     if (!enabled) return;

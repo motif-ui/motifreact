@@ -3,6 +3,7 @@ import Popover from "./Popover";
 import { createRef, useRef } from "react";
 import type { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
+import { renderToString } from "react-dom/server";
 import { PopoverProps } from "./types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
@@ -135,6 +136,24 @@ describe("Popover", () => {
 
     expect(onClose).not.toHaveBeenCalled();
     expect(getByTestId("popover")).toBeInTheDocument();
+  });
+
+  it("should not render on the server, even when it is open initially", () => {
+    // The server renderer does not support portals, so rendering the popover there would throw
+    expect(() =>
+      renderToString(
+        <Popover anchorRef={createRef()} defaultOpen>
+          Popover content
+        </Popover>,
+      ),
+    ).not.toThrow();
+    expect(
+      renderToString(
+        <Popover anchorRef={createRef()} open>
+          Popover content
+        </Popover>,
+      ),
+    ).not.toContain("Popover content");
   });
 
   describe("uncontrolled", () => {
