@@ -15,15 +15,16 @@ export type PopoverProps = {
    */
   defaultOpen?: boolean;
   /**
-   * Called once when the popover closes, with the reason.
+   * Called when the popover closes, with the reason. When controlled, it is called for each close request,
+   * and the popover stays open until the open prop becomes false.
    */
   onClose?: (reason?: OverlayCloseReason) => void;
   /**
-   * Closes the popover when clicked outside of it and its anchor. Defaults to true when uncontrolled, false when controlled.
+   * Closes the popover when clicked outside of it and its anchor.
    */
   closeOnOutsideClick?: boolean;
   /**
-   * Closes the popover when Escape is pressed. Defaults to true when uncontrolled, false when controlled.
+   * Closes the popover when Escape is pressed.
    */
   closeOnEscape?: boolean;
   /**

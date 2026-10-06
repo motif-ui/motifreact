@@ -14,6 +14,8 @@ const meta: Meta<typeof Popover> = {
     placeOn: { table: { defaultValue: { summary: "bottom" } } },
     variant: { table: { defaultValue: { summary: "light" } } },
     spacing: { table: { defaultValue: { summary: "callout" } } },
+    closeOnEscape: { table: { defaultValue: { summary: "true (uncont`d), false (cont`d)" } } },
+    closeOnOutsideClick: { table: { defaultValue: { summary: "true (uncont`d), false (cont`d)" } } },
     anchorRef: {
       control: false,
     },
@@ -44,7 +46,41 @@ export const Primary: Story = {
   render: args => <PopoverExample {...args} />,
 };
 
-export const HandleWithState: Story = {
+export const Uncontrolled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        type: "code",
+        code: `
+const anchorRef = useRef(null);
+
+<Button label="Click" ref={anchorRef} />
+<Popover anchorRef={anchorRef}>
+  <div>Popover item...</div>
+</Popover>
+        `,
+      },
+    },
+  },
+  render: args => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+
+      return (
+        <div style={containerStyle}>
+          <Button label="Click" ref={anchorRef} />
+          <Popover {...args} anchorRef={anchorRef}>
+            {item}
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const Controlled: Story = {
   parameters: {
     docs: {
       source: {
@@ -52,11 +88,11 @@ export const HandleWithState: Story = {
         code: `
 const anchorRef = useRef(null);
 const [open, setOpen] = useState(false);
-  
-<Popover open={open} anchorRef={anchorRef} >
+
+<Button label="Click" ref={anchorRef} onClick={() => setOpen(!open)} />
+<Popover anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} closeOnOutsideClick closeOnEscape>
   <div>Popover item...</div>
 </Popover>
-<Button label="Click" ref={anchorRef} onClick={() => setOpen(!open)} />    
         `,
       },
     },
@@ -69,7 +105,7 @@ const [open, setOpen] = useState(false);
       return (
         <div style={containerStyle}>
           <Button label="Click" ref={anchorRef} onClick={() => setOpen(!open)} />
-          <Popover {...args} anchorRef={anchorRef} open={open}>
+          <Popover {...args} anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} closeOnOutsideClick closeOnEscape>
             {item}
           </Popover>
         </div>
@@ -80,13 +116,10 @@ const [open, setOpen] = useState(false);
   },
 };
 
-export const OutsideClickWithHook: Story = {
+export const UsePopover: Story = {
+  name: "usePopover",
   parameters: {
     docs: {
-      description: {
-        story:
-          "When the ``open`` prop is given, ``Popover`` only depends on it to appear/disappear and does not close itself with an outside click unless ``closeOnOutsideClick`` is set. The ``usePopover`` hook keeps the ``open`` state and closes it with an outside click. <br /><br />Click outside the popover to close it.",
-      },
       source: {
         type: "code",
         code: `
@@ -110,44 +143,6 @@ const { ref, open, toggle } = usePopover(anchorRef);
         <div style={containerStyle}>
           <Button label="Click" ref={anchorRef} onClick={toggle} />
           <Popover {...args} ref={ref} anchorRef={anchorRef} open={open}>
-            {item}
-          </Popover>
-        </div>
-      );
-    };
-
-    return <StoryComponent />;
-  },
-};
-
-export const Uncontrolled: Story = {
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "When the ``open`` prop is not given, ``Popover`` manages its own state: clicking the anchor toggles it, and an outside click or Escape closes it. ``defaultOpen`` sets the initial state. <br /><br />Click the button to toggle the popover.",
-      },
-      source: {
-        type: "code",
-        code: `
-const anchorRef = useRef(null);
-
-<Button label="Click" ref={anchorRef} />
-<Popover anchorRef={anchorRef}>
-  <div>Popover item...</div>
-</Popover>
-        `,
-      },
-    },
-  },
-  render: args => {
-    const StoryComponent = () => {
-      const anchorRef = useRef<HTMLButtonElement | null>(null);
-
-      return (
-        <div style={containerStyle}>
-          <Button label="Click" ref={anchorRef} />
-          <Popover {...args} anchorRef={anchorRef}>
             {item}
           </Popover>
         </div>

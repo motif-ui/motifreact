@@ -1,0 +1,65 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as Popover from "./Popover.stories";
+
+<Meta of={Popover} />
+
+# Guide
+
+`<Popover>` shows content attached to an anchor element, e.g. a button or an avatar. The anchor is given with the
+**anchorRef** prop. The popover is rendered in the document body, so it is not cut off by the anchor's scrolling or
+`overflow: hidden` containers.
+
+There are two ways to use it:
+
+- **Uncontrolled:** the popover manages its own state.
+- **Controlled:** the state is kept in your component and given with the **open** prop. The `usePopover` hook makes
+  this easier by keeping the state for you.
+
+## Uncontrolled
+
+When the **open** prop is not given, clicking the anchor toggles the popover, and an outside click or Escape closes it.
+Only **anchorRef** is needed. **defaultOpen** may be set to show it initially.
+
+<Canvas of={Popover.Uncontrolled} />
+
+## Controlled
+
+When the **open** prop is given, the popover only depends on it to appear and disappear. By default, it does not close
+itself; the following props make it request a close instead:
+
+- **closeOnOutsideClick**: a click outside the popover and its anchor
+- **closeOnEscape**: the Escape key
+- **closeOnScroll**: a scroll of the page or a container that moves the anchor
+
+A close request calls **onClose** with its reason (`"outsideClick"`, `"escape"` or `"scroll"`), and the popover stays
+open until the **open** prop becomes false. So the parent decides whether to close it, e.g. it may keep it open while a
+form inside has unsaved changes.
+
+<Canvas of={Popover.Controlled} />
+
+#### With usePopover Hook
+
+The `usePopover` hook keeps the open state of a controlled popover for you, and closes it with an outside click. It
+returns:
+
+- **open**: whether the popover is open, to be given to the **open** prop
+- **toggle**: opens or closes the popover, e.g. on the anchor's click
+- **ref**: to be given to the **ref** prop of the popover, so the clicks inside it are not counted as outside
+
+<Canvas of={Popover.UsePopover} />
+
+#### Default closing behavior
+
+- **closeOnOutsideClick** and **closeOnEscape** are `true` when uncontrolled, `false` when controlled.
+- **closeOnScroll** is `false` in both, since the popover follows the anchor while scrolling.
+
+## Placement
+
+**placeOn** sets where the popover is placed relative to the anchor; it is `bottom` by default. When the popover is
+opened, the given placement is used if it fits into the screen. Otherwise, it is flipped to the other alignment or to
+the opposite side, or shifted into the screen. The caret always points to the anchor.
+
+While it is open, the popover follows the anchor when the page or a container is scrolled. Long text wraps within the
+space at its placement instead of stretching out of the screen.
+
+Use the **placeOn** control at the top of the page to try the placements.
