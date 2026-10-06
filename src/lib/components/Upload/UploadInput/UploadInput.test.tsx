@@ -554,21 +554,45 @@ describe("UploadInput", () => {
 
   it("should show the download and action buttons but hide the delete button when disabled or readOnly", async () => {
     const onClick = jest.fn();
-    const value = [{ ...serverFile, onDownloadClick: jest.fn(), action: { onClick } }];
+    const onDownloadClick = jest.fn();
+    const value = [{ ...serverFile, onDownloadClick, action: { onClick } }];
     const { getDownloadButton, getDeleteButton, rerender } = renderExt(
       <UploadInput {...requiredProps} value={value} actionIcon="visibility" disabled />,
     );
     expect(getDownloadButton()).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
     await userEvent.click(screen.getByText("visibility"));
+    await userEvent.click(getDownloadButton());
     expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
     onClick.mockClear();
+    onDownloadClick.mockClear();
 
     rerender(<UploadInput {...requiredProps} value={value} actionIcon="visibility" readOnly />);
     expect(getDownloadButton()).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
     await userEvent.click(screen.getByText("visibility"));
+    await userEvent.click(getDownloadButton());
     expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should disable but not hide the action and download buttons while the delete request is in flight", async () => {
+    const xhrSpy = mockXHRs(200);
+    const onClick = jest.fn();
+    const onDownloadClick = jest.fn();
+    const { getDeleteButton, getDownloadButton } = renderExt(
+      <UploadInput {...requiredProps} actionIcon="visibility" value={[{ ...serverFile, onDownloadClick, action: { onClick } }]} />,
+    );
+    fireEvent.click(getDeleteButton());
+    expect(screen.getByText("visibility").parentElement).toBeDisabled();
+    expect(getDownloadButton().parentElement).toBeDisabled();
+    fireEvent.click(screen.getByText("visibility"));
+    fireEvent.click(getDownloadButton());
+    expect(onClick).not.toHaveBeenCalled();
+    expect(onDownloadClick).not.toHaveBeenCalled();
+    await waitFor(() => expect(getDeleteButton()).not.toBeInTheDocument());
+    xhrSpy.mockRestore();
   });
 
   it("should not show download button after value file is deleted", async () => {

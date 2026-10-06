@@ -29,6 +29,7 @@ export const FileButton = memo(({ file, readOnly, disabled, actionIcon }: Props)
           size={iconSize}
           className={`${styles.icon} ${styles.iconPositiveAction}`}
           onClick={file.action.onClick}
+          disabled={file.deleting}
         />
       )}
       {file.download && (
@@ -38,6 +39,7 @@ export const FileButton = memo(({ file, readOnly, disabled, actionIcon }: Props)
           size={iconSize}
           className={`${styles.icon} ${styles.iconPositiveAction}`}
           onClick={file.download}
+          disabled={file.deleting}
         />
       )}
       {!disabled && !readOnly && (
