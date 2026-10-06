@@ -18,7 +18,8 @@ const config = {
     "^@/components/(.*)$": "<rootDir>/src/lib/components/$1",
   },
   testEnvironment: "jest-environment-jsdom",
-  testPathIgnorePatterns: ["/node_modules/", "<rootDir>/.e2e/"],
+  // Playwright tests run with "npm run test:e2e"
+  testPathIgnorePatterns: ["/node_modules/", "\\.e2e\\.spec\\.ts$"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

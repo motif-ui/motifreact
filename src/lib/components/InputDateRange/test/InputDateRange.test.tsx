@@ -2,12 +2,12 @@ import { act, render, screen } from "@testing-library/react";
 import InputDateRange, { RANGE_ARROW } from "@/components/InputDateRange/InputDateRange";
 import { formatDate } from "@/components/InputDate/helper";
 import { userEvent } from "@testing-library/user-event";
-import { InputSize } from "../Form/types";
+import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
-import { DateUtils } from "../../../utils/dateUtils";
-import { defaultDateFormat } from "../Motif/Pickers/types";
-import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { DateUtils } from "../../../../utils/dateUtils";
+import { defaultDateFormat } from "../../Motif/Pickers/types";
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDateRange", () => {

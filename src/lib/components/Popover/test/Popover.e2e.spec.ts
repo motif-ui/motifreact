@@ -1,45 +1,8 @@
 import { test, expect } from "@playwright/test";
-import type { Page } from "@playwright/test";
+import { getRect, isPainted, setScroll, storyUrl } from "../../../../utils/e2eUtils";
 
-// Behavior tests of the anchored overlay positioning in a real browser. jsdom has no layout and no CSS anchor positioning,
-// so the unit tests can only check the generated styles. Chromium supports CSS anchor positioning, so the CSS path is covered here.
-
-const storyUrl = (id: string) => `/iframe.html?id=${id}&viewMode=story`;
-
-type Rect = { top: number; bottom: number; left: number; right: number };
-
-const getRect = (page: Page, selector: string): Promise<Rect> =>
-  page
-    .locator(selector)
-    .first()
-    .evaluate(el => {
-      const { top, bottom, left, right } = el.getBoundingClientRect();
-      return { top, bottom, left, right };
-    });
-
-// Waits two frames after scrolling, since the browser applies the CSS anchor positions and visibility in the next frame
-const setScroll = (page: Page, position: { top?: number; left?: number }) =>
-  page.getByTestId("scroller").evaluate(
-    (el, { top, left }) =>
-      new Promise(resolve => {
-        if (top !== undefined) el.scrollTop = top;
-        if (left !== undefined) el.scrollLeft = left;
-        requestAnimationFrame(() => requestAnimationFrame(resolve));
-      }),
-    position,
-  );
-
-// Checks whether the overlay is painted, by hit testing its visible center. position-visibility hides it without changing its style.
-const isPainted = (page: Page, selector: string) =>
-  page
-    .locator(selector)
-    .first()
-    .evaluate(el => {
-      const rect = el.getBoundingClientRect();
-      const x = Math.min(Math.max(rect.left + rect.width / 2, 1), window.innerWidth - 1);
-      const y = Math.min(Math.max(rect.top + rect.height / 2, 1), window.innerHeight - 1);
-      return el.contains(document.elementFromPoint(x, y));
-    });
+// Behavior tests of the Popover positioning in a real browser, on the scenes in Popover.e2e.story.tsx. Chromium
+// supports CSS anchor positioning, so the CSS path is covered here.
 
 test.use({ viewport: { width: 1000, height: 700 } });
 
@@ -48,7 +11,7 @@ test.describe("Popover in a scrolling container", () => {
   const anchor = "button:has-text('Anchor')";
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(storyUrl("components-popover--scrolling-container-for-e-2-e"));
+    await page.goto(storyUrl("e2e-popover--scrolling-container"));
     await setScroll(page, { left: 300 });
     await page.locator(anchor).click();
     await expect(page.locator(popover)).toHaveClass(/visible/);
@@ -94,7 +57,7 @@ test.describe("Popover in a scrolling container", () => {
 
 test("Popover shifted into the screen stays in it when its content grows", async ({ page }) => {
   const popover = "[data-testid=popover]";
-  await page.goto(storyUrl("components-popover--growing-content-for-e-2-e"));
+  await page.goto(storyUrl("e2e-popover--growing-content"));
   await page.getByRole("button", { name: "Anchor" }).click();
   await expect(page.locator(popover)).toHaveClass(/visible/);
   expect((await getRect(page, popover)).left).toBeGreaterThanOrEqual(0);
@@ -107,7 +70,7 @@ test("Popover shifted into the screen stays in it when its content grows", async
 
 test("Popover wraps long text within the screen instead of stretching out of it", async ({ page }) => {
   const popover = "[data-testid=popover]";
-  await page.goto(storyUrl("components-popover--long-text-for-e-2-e"));
+  await page.goto(storyUrl("e2e-popover--long-text"));
   await expect(page.locator(popover)).toHaveClass(/visible/);
 
   const rect = await getRect(page, popover);
@@ -122,7 +85,7 @@ test("Popover wraps long text within the screen instead of stretching out of it"
 
 test("Popover taller than the screen opens next to its anchor when the page can be scrolled to it", async ({ page }) => {
   const popover = "[data-testid=popover]";
-  await page.goto(storyUrl("components-popover--tall-content-for-e-2-e"));
+  await page.goto(storyUrl("e2e-popover--tall-content"));
   await expect(page.locator(popover)).toHaveClass(/visible/);
 
   const rect = await getRect(page, popover);
@@ -137,7 +100,7 @@ test.describe("Popover near the right edge", () => {
   const popovers = "[data-testid=popover]";
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(storyUrl("components-popover--near-the-right-edge-for-e-2-e"));
+    await page.goto(storyUrl("e2e-popover--near-the-right-edge"));
     await expect(page.locator(popovers).first()).toHaveClass(/visible/);
   });
 
@@ -158,27 +121,5 @@ test.describe("Popover near the right edge", () => {
     await page.setViewportSize({ width: 600, height: 700 });
     await expect.poll(() => text.evaluate(el => Math.round(el.getBoundingClientRect().right))).toBeLessThanOrEqual(600);
     expect(await text.evaluate(el => el.getBoundingClientRect().left)).toBeGreaterThanOrEqual(0);
-  });
-});
-
-test.describe("InputDateRange in a scrolling container", () => {
-  const picker = "[data-testid=Picker]";
-  const input = "[data-mtf-component=mtf-input-text]";
-
-  test("opens the picker aligned with the input and follows it while scrolling", async ({ page }) => {
-    await page.goto(storyUrl("components-inputdaterange--scrolling-container-for-e-2-e"));
-    await page.locator(`${input} input`).click();
-    await expect(page.locator(picker)).toBeVisible();
-
-    const inputRect = await getRect(page, input);
-    const pickerRect = await getRect(page, picker);
-    expect(pickerRect.left).toBeCloseTo(inputRect.left, 0);
-    expect(pickerRect.top).toBeGreaterThanOrEqual(inputRect.bottom);
-    expect(pickerRect.top - inputRect.bottom).toBeLessThan(10);
-
-    await setScroll(page, { top: 40 });
-    const pickerAfter = await getRect(page, picker);
-    expect(pickerRect.top - pickerAfter.top).toBeCloseTo(40, 0);
-    await expect(page.locator(picker)).toBeVisible();
   });
 });
