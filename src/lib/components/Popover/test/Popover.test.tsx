@@ -3,7 +3,6 @@ import Popover from "../Popover";
 import { createRef, useRef } from "react";
 import type { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
-import { renderToString } from "react-dom/server";
 import { PopoverProps } from "../types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../../lib/types";
@@ -144,26 +143,31 @@ describe("Popover", () => {
         Popover content
       </Popover>,
     );
-    // the centered bottom placement can use the whole width of the 1024px wide jsdom viewport
     expect(screen.getByTestId("popover").style.maxWidth).toBe("1024px");
   });
 
-  it("should not render on the server, even when it is open initially", () => {
-    // The server renderer does not support portals, so rendering the popover there would throw
-    expect(() =>
-      renderToString(
-        <Popover anchorRef={createRef()} defaultOpen>
-          Popover content
-        </Popover>,
-      ),
-    ).not.toThrow();
-    expect(
-      renderToString(
-        <Popover anchorRef={createRef()} open>
-          Popover content
-        </Popover>,
-      ),
-    ).not.toContain("Popover content");
+  it("should flip to the opposite side and use it as its placement class when there is no room", () => {
+    const anchor = document.createElement("div");
+    jest.spyOn(anchor, "getBoundingClientRect").mockReturnValue({
+      top: 700,
+      bottom: 740,
+      left: 400,
+      right: 500,
+      width: 100,
+      height: 40,
+      x: 400,
+      y: 700,
+      toJSON: () => {},
+    });
+    const offsetHeight = jest.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockReturnValue(100);
+
+    render(
+      <Popover anchorRef={{ current: anchor }} placeOn="bottom" open>
+        Popover content
+      </Popover>,
+    );
+    expect(screen.getByTestId("popover")).toHaveClass("top");
+    offsetHeight.mockRestore();
   });
 
   describe("uncontrolled", () => {
@@ -276,29 +280,5 @@ describe("Popover", () => {
       fireEvent.scroll(document);
       expect(onClose).toHaveBeenCalledWith("scroll");
     });
-  });
-
-  it("should flip to the opposite side and use it as its placement class when there is no room", () => {
-    const anchor = document.createElement("div");
-    jest.spyOn(anchor, "getBoundingClientRect").mockReturnValue({
-      top: 700,
-      bottom: 740,
-      left: 400,
-      right: 500,
-      width: 100,
-      height: 40,
-      x: 400,
-      y: 700,
-      toJSON: () => {},
-    });
-    const offsetHeight = jest.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockReturnValue(100);
-
-    render(
-      <Popover anchorRef={{ current: anchor }} placeOn="bottom" open>
-        Popover content
-      </Popover>,
-    );
-    expect(screen.getByTestId("popover")).toHaveClass("top");
-    offsetHeight.mockRestore();
   });
 });

@@ -61,7 +61,6 @@ const useToggle = (options: Options = {}): UseToggleReturn => {
 
   const toggle = useCallback(
     (forceShow?: boolean) => {
-      // forceShow may receive a DOM event when passed directly as a handler (e.g. onClick={toggle}), only booleans force
       const nextVisible = typeof forceShow === "boolean" ? forceShow : !visible;
       nextVisible ? show() : hide();
     },

@@ -4,10 +4,12 @@ import styles from "./InputDateRange.module.scss";
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
+import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import { PropsWithRef } from "../../types";
 import DateRangePicker from "@/components/DateRangePicker";
 import { formatDate } from "../InputDate/helper";
 import { defaultDateFormat } from "../Motif/Pickers/types";
+import { OverlayCloseReason } from "../../types";
 import { areRangesEquals, sanitizeRange, validateRange } from "@/components/InputDateRange/helper";
 import { orderDatesAndPutTimes } from "@/components/DateRangePicker/helper";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -17,8 +19,6 @@ import { isNullOrEmptyString } from "../../../utils/utils";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
-import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
-import { OverlayCloseReason } from "../../types";
 
 export type MaybeDateRange = (Date | undefined)[] | undefined;
 
@@ -90,10 +90,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   useImperativeHandle(ref, () => innerRef.current!, []);
 
   const pickerCloseHandler = useCallback(
-    (reason?: OverlayCloseReason) => {
-      // A range with only one date is cleared when the user leaves the picker, but kept when it is closed by its own buttons
-      reason && !validateRange(itemValue) && clearDateValues();
-    },
+    (reason?: OverlayCloseReason) => reason && !validateRange(itemValue) && clearDateValues(),
     [clearDateValues, itemValue],
   );
 

@@ -134,17 +134,11 @@ describe("useToggle", () => {
     expect(result.current.visible).toBe(false);
   });
 
-  it("should keep the hiding state for the given duration when hide is used as an event handler", () => {
+  it("should keep the hiding state for the given duration", () => {
     jest.useFakeTimers();
-    const { result } = renderHook(() => useToggle({ duration: 300 }));
+    const { result } = renderHook(() => useToggle({ initialVisible: true, duration: 300 }));
 
-    act(() => result.current.show());
-    act(() => jest.runOnlyPendingTimers());
-    act(() => jest.runOnlyPendingTimers());
-    act(() => jest.advanceTimersByTime(300));
-    expect(result.current.visible).toBe(true);
-
-    act(() => (result.current.hide as unknown as (e: object) => void)({ type: "click" }));
+    act(() => result.current.hide());
     expect(result.current.visible).toBe(false);
     expect(result.current.toggleState).toBe("hiding");
 

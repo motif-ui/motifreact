@@ -38,13 +38,19 @@ describe("InputDateRange", () => {
   };
 
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputDateRange {...props} />), {
-    assertDefaults: ({ getInputText, getDateRangeInput, getByText }) => {
+    assertDefaults: async ({ getInputText, getDateRangeInput, getPickerContainer, getByText }) => {
       // placeholder = DD/MM/YYYY ⮕ DD/MM/YYYY (default)
       expect(getDateRangeInput()).toHaveAttribute("placeholder", `${placeholder} ${RANGE_ARROW} ${placeholder}`);
       // size = md (default)
       expect(getInputText()).toHaveClass("md");
       // icon = calendar_expand_horizontal (default)
       expect(getByText("calendar_expand_horizontal")).toBeInTheDocument();
+      // placement = bottomLeft (default), the picker opens below the input aligned with its left edge
+      jest
+        .spyOn(getInputText()!, "getBoundingClientRect")
+        .mockReturnValue({ top: 100, bottom: 140, left: 50, right: 250, width: 200, height: 40, x: 50, y: 100, toJSON: () => {} });
+      await user.click(getDateRangeInput());
+      expect(getPickerContainer()).toHaveStyle({ top: "140px", left: "50px" });
     },
   });
 

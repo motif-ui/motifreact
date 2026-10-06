@@ -9,8 +9,6 @@ import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaul
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import { PopoverProps } from "./types";
 
-const CARET_OFFSET = 6;
-
 const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) => {
   const {
     anchorRef,
@@ -41,7 +39,6 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
   } = useAnchoredOverlay({
     anchorRef,
     placement: placeOn,
-    // long content wraps within the space at the placement instead of overflowing the screen
     limitWidth: true,
     open,
     defaultOpen,
@@ -60,15 +57,14 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
   }, [anchorRef, toggle, uncontrolled]);
 
   useLayoutEffect(() => {
-    // Points the caret to the anchor's center, also when the popover is shifted to stay in the screen
     if (!attached || !popoverRef.current || !anchorRef.current) return;
     const popoverRect = popoverRef.current.getBoundingClientRect();
     const anchorRect = anchorRef.current.getBoundingClientRect();
 
     if (placement === "left" || placement === "right") {
-      popoverRef.current.style.setProperty("--caret-top", `${anchorRect.top + anchorRect.height / 2 - popoverRect.top - CARET_OFFSET}px`);
+      popoverRef.current.style.setProperty("--caret-top", `${anchorRect.top + anchorRect.height / 2 - popoverRect.top - 6}px`);
     } else {
-      popoverRef.current.style.setProperty("--caret-left", `${anchorRect.left + anchorRect.width / 2 - popoverRect.left - CARET_OFFSET}px`);
+      popoverRef.current.style.setProperty("--caret-left", `${anchorRect.left + anchorRect.width / 2 - popoverRect.left - 6}px`);
     }
   }, [attached, positionStyle, placement, anchorRef, popoverRef]);
 
