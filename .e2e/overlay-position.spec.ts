@@ -133,6 +133,34 @@ test("Popover taller than the screen opens next to its anchor when the page can 
   await expect(page.locator(popover)).toHaveClass(/bottom/);
 });
 
+test.describe("Popover near the right edge", () => {
+  const popovers = "[data-testid=popover]";
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(storyUrl("components-popover--near-the-right-edge-for-e-2-e"));
+    await expect(page.locator(popovers).first()).toHaveClass(/visible/);
+  });
+
+  test("flips fixed width content that does not fit instead of cutting it off", async ({ page }) => {
+    const form = page.locator(popovers).filter({ hasText: "Popover item" });
+    await expect(form).toHaveClass(/bottomRight/);
+    const { right, cutOff } = await form.evaluate(el => {
+      const wrapper = el.firstElementChild as HTMLElement;
+      // the Popover's wrapper hides overflowing content, so the content is cut off when it is wider than the wrapper
+      return { right: el.getBoundingClientRect().right, cutOff: wrapper.scrollWidth > wrapper.clientWidth };
+    });
+    expect(cutOff).toBe(false);
+    expect(right).toBeLessThanOrEqual(1000);
+  });
+
+  test("stays in the screen when the window gets narrower", async ({ page }) => {
+    const text = page.locator(popovers).filter({ hasText: "Lorem ipsum" });
+    await page.setViewportSize({ width: 600, height: 700 });
+    await expect.poll(() => text.evaluate(el => Math.round(el.getBoundingClientRect().right))).toBeLessThanOrEqual(600);
+    expect(await text.evaluate(el => el.getBoundingClientRect().left)).toBeGreaterThanOrEqual(0);
+  });
+});
+
 test.describe("InputDateRange in a scrolling container", () => {
   const picker = "[data-testid=Picker]";
   const input = "[data-mtf-component=mtf-input-text]";

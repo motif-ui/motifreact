@@ -273,6 +273,21 @@ describe("useOverlayPosition", () => {
       expect(result.current.style.maxWidth).toBe(524);
     });
 
+    it("should not limit the width below the content's minimum width, and choose another placement instead", () => {
+      setWrappingOverlay(800, 20);
+      // a 220px wide form that cannot shrink, the overlay box overflows at a zero max width
+      Object.defineProperty(overlay, "scrollWidth", {
+        configurable: true,
+        get: () => (overlay.style.maxWidth === "0px" ? 220 : 0),
+      });
+      // 124px from the anchor's left edge to the right edge of the viewport
+      setAnchorRect({ top: 300, left: 900, width: 100, height: 40 });
+      const { result } = renderPosition("bottomLeft", { limitWidth: true });
+
+      expect(result.current.placement).toBe("bottomRight");
+      expect(result.current.style.maxWidth).toBeGreaterThanOrEqual(220);
+    });
+
     it("should not limit the width without limitWidth", () => {
       setWrappingOverlay(800, 20);
       const { result } = renderPosition("right");
@@ -313,14 +328,32 @@ describe("useOverlayPosition", () => {
       expect(domPosition()).toEqual({ top: 290, left: 0 });
     });
 
-    it("should follow the anchor on window resize", () => {
-      renderPosition("bottomLeft");
-
-      setAnchorRect({ top: 300, left: 250, width: 100, height: 40 });
+    const resize = () => {
       act(() => {
         fireEvent(window, new Event("resize"));
       });
-      expect(domPosition()).toEqual({ top: 340, left: 250 });
+    };
+
+    it("should choose the placement again on window resize", () => {
+      const { result } = renderPosition("left");
+      expect(result.current.placement).toBe("left");
+
+      // the viewport got narrower and moved the anchor to the left edge, so there is no room on the left anymore
+      setAnchorRect({ top: 300, left: 50, width: 100, height: 40 });
+      resize();
+      expect(result.current.placement).toBe("right");
+      expect(result.current.style).toEqual({ top: 270, left: 150 });
+    });
+
+    it("should limit the width again on window resize", () => {
+      setWrappingOverlay(800, 20);
+      const { result } = renderPosition("left", { limitWidth: true });
+      expect(result.current.style.maxWidth).toBe(400);
+
+      setAnchorRect({ top: 300, left: 300, width: 100, height: 40 });
+      resize();
+      expect(result.current.placement).toBe("left");
+      expect(result.current.style.maxWidth).toBe(300);
     });
 
     it("should ignore the scrolls inside the overlay", () => {
@@ -386,6 +419,19 @@ describe("useOverlayPosition", () => {
       setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
       scroll();
       expect(overlay.style.top).toBe("");
+    });
+
+    it("should choose the placement again on window resize", () => {
+      placeOverlayAt(400, 340);
+      const { result } = renderPosition("left");
+      expect(result.current.style).toMatchObject({ right: "anchor(left)" });
+
+      setAnchorRect({ top: 300, left: 50, width: 100, height: 40 });
+      act(() => {
+        fireEvent(window, new Event("resize"));
+      });
+      expect(result.current.placement).toBe("right");
+      expect(result.current.style).toMatchObject({ left: "anchor(right)" });
     });
 
     it("should remove the anchor name when it is disabled", () => {

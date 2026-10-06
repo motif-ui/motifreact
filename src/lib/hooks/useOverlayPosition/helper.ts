@@ -107,6 +107,25 @@ const getMaxWidth = (placement: OverlayPosition, anchor: DOMRect, viewport: Box,
 };
 
 /**
+ * The narrowest the overlay's content can get, e.g. its longest word or a fixed width form. Measured with a zero max width,
+ * where the content overflows at its minimum width. A narrower limit would cut it off instead of wrapping it.
+ * The direct children are measured too, since a wrapper with overflow: hidden (like the Popover's) shrinks to zero
+ * and keeps its content's overflow inside, so the overlay itself does not see it.
+ */
+const measureMinWidth = (overlay: HTMLElement) => {
+  overlay.style.maxWidth = "0px";
+  const px = (value: string) => parseFloat(value) || 0;
+  const style = getComputedStyle(overlay);
+  const ownSpace = px(style.paddingLeft) + px(style.paddingRight) + px(style.borderLeftWidth) + px(style.borderRightWidth);
+  const childWidths = Array.from(overlay.children, child => {
+    const { marginLeft, marginRight } = getComputedStyle(child);
+    const borders = (child as HTMLElement).offsetWidth - child.clientWidth;
+    return child.scrollWidth + borders + px(marginLeft) + px(marginRight);
+  });
+  return Math.max(overlay.scrollWidth, ownSpace + Math.max(0, ...childWidths));
+};
+
+/**
  * Measures the overlay, after limiting its width when a max width is given.
  * Content that cannot shrink, e.g. a fixed width form, may overflow the limited box, so its scroll size is taken into account.
  */
@@ -123,12 +142,14 @@ const measure = (overlay: HTMLElement, maxWidth?: number): Size => {
  * 4. otherwise the one that overflows the viewport the least, kept in the viewport even if it covers the anchor
  * It is always shifted horizontally into the viewport, and vertically only in the last step.
  * With limitWidth, each candidate is measured with its width limited to the space at that placement, so long content wraps
- * and the candidate is judged by its wrapped size. Returns the shift and the max width too, so they are kept while following.
+ * and the candidate is judged by its wrapped size. The limit never goes below the content's minimum width, so content that
+ * cannot wrap makes the candidate overflow and another one is chosen, instead of being cut off. Returns the shift and the max width too, so they are kept while following.
  */
 const fitIntoViewport = (placement: OverlayPosition, anchorRect: DOMRect, overlay: HTMLElement, margins: Box, limitWidth: boolean) => {
   const viewport = getViewport();
+  const minWidth = limitWidth ? measureMinWidth(overlay) : 0;
   const candidates = getCandidates(placement).map<PlacementCandidate>(candidate => {
-    const maxWidth = limitWidth ? getMaxWidth(candidate, anchorRect, viewport, margins) : undefined;
+    const maxWidth = limitWidth ? Math.max(getMaxWidth(candidate, anchorRect, viewport, margins), minWidth) : undefined;
     const size = measure(overlay, maxWidth);
     const coords = getCoords(candidate, anchorRect, size, margins);
     return { candidate, coords, size, maxWidth, overflow: getOverflowX(coords, size, viewport) + getOverflowY(coords, size, viewport) };

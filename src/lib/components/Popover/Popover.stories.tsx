@@ -251,3 +251,31 @@ export const TallContentForE2E: Story = {
     return <StoryComponent />;
   },
 };
+
+export const NearTheRightEdgeForE2E: Story = {
+  tags: ["!autodocs", "!dev"],
+  parameters: { layout: "fullscreen", chromatic: { disableSnapshot: true } },
+  render: () => {
+    const StoryComponent = () => {
+      const formAnchorRef = useRef<HTMLButtonElement | null>(null);
+      const textAnchorRef = useRef<HTMLButtonElement | null>(null);
+
+      return (
+        <div style={{ display: "flex", justifyContent: "space-between", padding: "100px 16px" }}>
+          <Button label="Text" ref={textAnchorRef} />
+          <Button label="Form" ref={formAnchorRef} />
+          <Popover anchorRef={textAnchorRef} placeOn="right" open variant="dark">
+            {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ".repeat(
+              3,
+            )}
+          </Popover>
+          <Popover anchorRef={formAnchorRef} placeOn="bottomLeft" open>
+            {e2eContent}
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};

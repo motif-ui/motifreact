@@ -91,7 +91,6 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
 
   const pickerCloseHandler = useCallback(
     (reason?: OverlayCloseReason) => {
-      innerRef.current?.querySelector("input")?.blur();
       // A range with only one date is cleared when the user leaves the picker, but kept when it is closed by its own buttons
       reason && !validateRange(itemValue) && clearDateValues();
     },

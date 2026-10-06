@@ -72,27 +72,34 @@ const useOverlayPosition = (
   useEffect(() => {
     if (!enabled || cssAnchor) return;
 
-    // Scroll and resize events and ResizeObserver callbacks run right before the browser paints the frame,
+    // Scroll events and ResizeObserver callbacks run right before the browser paints the frame,
     // so updating synchronously in them keeps the overlay stuck to the anchor without lagging a frame behind
-    const update = () => calculate(true);
+    const follow = () => calculate(true);
     const handleScroll = ({ target }: Event) => {
       // Scrolls inside the overlay do not move it
       if (target instanceof Node && overlayRef.current?.contains(target)) return;
-      update();
+      follow();
     };
 
     window.addEventListener("scroll", handleScroll, { capture: true, passive: true });
-    window.addEventListener("resize", update);
-    const resizeObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(update);
+    const resizeObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(follow);
     anchorRef.current && resizeObserver?.observe(anchorRef.current);
     overlayRef.current && resizeObserver?.observe(overlayRef.current);
 
     return () => {
       window.removeEventListener("scroll", handleScroll, { capture: true });
-      window.removeEventListener("resize", update);
       resizeObserver?.disconnect();
     };
   }, [enabled, calculate, anchorRef, overlayRef, cssAnchor]);
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    // The placement chosen on open no longer holds when the viewport changes, so it is chosen again, also with CSS anchor positioning
+    const fitAgain = () => calculate(false);
+    window.addEventListener("resize", fitAgain);
+    return () => window.removeEventListener("resize", fitAgain);
+  }, [enabled, calculate]);
 
   const positioned = enabled ? calculatedRef.current : undefined;
   if (!positioned) return { style: { top: 0, left: 0, visibility: "hidden" }, placement };
