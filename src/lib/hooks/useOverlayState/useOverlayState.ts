@@ -21,8 +21,10 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   // The last event marked by insideProps. React handles an event before it reaches the document, so the last one is enough.
   // It is per instance, so an event inside one overlay is not counted as inside another one.
   const insideEventRef = useRef<Event>(undefined);
-  // Keeps onClose to be called once per open cycle, whether the close is requested from inside or made by the open prop
+  // Keeps the close made by the open prop from being notified again after a close request in the same open cycle
   const closeNotifiedRef = useRef(!isOpen);
+  // A tap fires touchend and then a compatibility mouseup, kept so they are handled as a single outside click
+  const lastTouchEndRef = useRef(-Infinity);
   const notifyClose = useCallback((reason?: OverlayCloseReason) => {
     if (closeNotifiedRef.current) return;
     closeNotifiedRef.current = true;
@@ -42,11 +44,17 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
 
   const hide = useCallback(
     (reason?: OverlayCloseReason) => {
-      // Does nothing when it is closed, since onClose is already notified in that case and the state is already closed
-      notifyClose(reason);
-      !controlled && setInternalOpen(false);
+      if (!controlled) {
+        // Does nothing when it is closed, since onClose is already notified in that case and the state is already closed
+        notifyClose(reason);
+        setInternalOpen(false);
+      } else if (isOpen) {
+        // Each request is notified, since the parent may keep it open and decide again on the next one
+        closeNotifiedRef.current = true;
+        onCloseRef.current?.(reason);
+      }
     },
-    [controlled, notifyClose],
+    [controlled, isOpen, notifyClose],
   );
 
   const show = useCallback(() => {
@@ -65,7 +73,16 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
       target === document || (target instanceof Node && !!insideRefs?.some(ref => ref.current && target.contains(ref.current)));
 
     // React handles the event before it reaches the document, so the events marked by insideProps are known here
-    const handleOutsideClick = (e: MouseEvent | TouchEvent) => !isInside(e.target) && insideEventRef.current !== e && hide("outsideClick");
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (e.type === "touchend") {
+        lastTouchEndRef.current = e.timeStamp;
+      } else if (e.timeStamp - lastTouchEndRef.current < 1000) {
+        // Tap mouse up delay: 1000ms => Browsers fire the compatibility mouse events
+        // of a tap within about 300ms after touchend, kept longer for slow devices
+        return;
+      }
+      !isInside(e.target) && insideEventRef.current !== e && hide("outsideClick");
+    };
     const handleKeyDown = (e: KeyboardEvent) => e.key === "Escape" && hide("escape");
     const handleScroll = (e: Event) => !isInside(e.target) && movesInside(e.target) && hide("scroll");
 

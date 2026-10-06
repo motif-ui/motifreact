@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import InputDateRange from "@/components/InputDateRange/InputDateRange";
-import type { ComponentProps } from "react";
+import React from "react";
 
 const today = new Date();
 
@@ -27,7 +27,7 @@ const meta: Meta<typeof InputDateRange> = {
 export default meta;
 type Story = StoryObj<typeof InputDateRange>;
 
-const renderInputDateRange = (args: ComponentProps<typeof InputDateRange>, value?: [Date, Date]) => (
+const renderInputDateRange = (args: React.ComponentProps<typeof InputDateRange>, value?: [Date, Date]) => (
   <InputDateRange {...args} value={value} />
 );
 
@@ -41,15 +41,4 @@ export const Primary: Story = {
 export const PrimaryStaticForChromatic: Story = {
   tags: ["!autodocs", "!dev"],
   render: args => renderInputDateRange(args, [new Date(2026, 10, 12), new Date(2026, 10, 16)]),
-};
-
-// Fixture for the overlay positioning tests in .e2e, not shown in the docs
-export const ScrollingContainerForE2E: Story = {
-  tags: ["!autodocs", "!dev"],
-  parameters: { layout: "fullscreen", chromatic: { disableSnapshot: true } },
-  render: args => (
-    <div data-testid="scroller" style={{ overflow: "auto", height: 150, width: 400, margin: 16, border: "1px solid" }}>
-      <div style={{ height: 600, paddingTop: 20 }}>{renderInputDateRange(args, [new Date(2026, 10, 12), new Date(2026, 10, 16)])}</div>
-    </div>
-  ),
 };

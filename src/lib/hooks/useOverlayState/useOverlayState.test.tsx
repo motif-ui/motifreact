@@ -154,6 +154,31 @@ describe("useOverlayState", () => {
       expect(onClose).toHaveBeenCalledTimes(1);
     });
 
+    it("should call onClose for each close request while the parent keeps it open", () => {
+      const onClose = jest.fn();
+      const { rerender } = renderHook(({ open }) => useOverlayState({ open, onClose, closeOnEscape: true }), {
+        initialProps: { open: true },
+      });
+
+      fireEvent.keyDown(document, { key: "Escape" });
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(onClose).toHaveBeenCalledTimes(2);
+
+      rerender({ open: false });
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(onClose).toHaveBeenCalledTimes(2);
+    });
+
+    it("should handle the touchend and the mouseup of a tap as a single outside click", () => {
+      const onClose = jest.fn();
+      renderHook(() => useOverlayState({ open: true, onClose, insideRefs, closeOnOutsideClick: true }));
+
+      fireEvent.touchEnd(outside);
+      fireEvent.mouseUp(outside);
+      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(onClose).toHaveBeenCalledWith("outsideClick");
+    });
+
     it("should not call onClose again when its identity changes during the exit transition", () => {
       const { rerender } = renderHook(
         ({ open, onClose }: { open: boolean; onClose: () => void }) => useOverlayState({ open, onClose, duration: 300 }),

@@ -1,12 +1,12 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import Popover from "./Popover";
+import Popover from "../Popover";
 import { createRef, useRef } from "react";
 import type { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 import { renderToString } from "react-dom/server";
-import { PopoverProps } from "./types";
-import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { PopoverProps } from "../types";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 describe("Popover", () => {
   const anchorRef = createRef<HTMLDivElement>();
 

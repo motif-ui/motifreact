@@ -8,7 +8,10 @@ export type OverlayStateProps = {
   defaultOpen?: boolean;
   /** Length in ms of the enter/exit transition */
   duration?: number;
-  /** Called once per open cycle, when the overlay starts closing or when a close is requested in the controlled usage */
+  /**
+   * Called when the overlay starts closing, once per open cycle. In the controlled usage it is called for each close request,
+   * since the parent may keep it open, and not again when the open prop then closes it.
+   */
   onClose?: (reason?: OverlayCloseReason) => void;
   /**
    * Elements that are part of the overlay. Clicks and scrolls inside them do not close it.
