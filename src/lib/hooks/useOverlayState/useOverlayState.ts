@@ -13,7 +13,6 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
   const isOpen = controlled ? open : internalOpen;
   const transition = useVisibilityTransition(isOpen, duration);
-  // Overlays are rendered in the document, e.g. with a portal, so they are attached only after mount, never on the server
   const domReady = useDomReady();
   const attached = transition.attached && domReady;
   const { visible } = transition;
