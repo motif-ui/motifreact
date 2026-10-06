@@ -419,11 +419,7 @@ exports[`DateTimePicker should render with only required props, and have standar
               <button
                 type="button"
               >
-<<<<<<< HEAD
-                October
-=======
                 August
->>>>>>> main
               </button>
               <button
                 type="button"
@@ -474,10 +470,6 @@ exports[`DateTimePicker should render with only required props, and have standar
             data-testid="DatePickerDayContainer"
           >
             <button
-<<<<<<< HEAD
-              data-date="1790553600000"
-              disabled=""
-=======
               data-date="1753660800000"
               disabled=""
               type="button"
@@ -670,233 +662,27 @@ exports[`DateTimePicker should render with only required props, and have standar
             </button>
             <button
               data-date="1756339200000"
->>>>>>> main
               type="button"
             >
               28
             </button>
             <button
-<<<<<<< HEAD
-              data-date="1790640000000"
-              disabled=""
-=======
               data-date="1756425600000"
->>>>>>> main
               type="button"
             >
               29
             </button>
             <button
-<<<<<<< HEAD
-              data-date="1790726400000"
-              disabled=""
-=======
               data-date="1756512000000"
->>>>>>> main
               type="button"
             >
               30
             </button>
             <button
-<<<<<<< HEAD
-              class="today"
-              data-date="1790812800000"
-              type="button"
-            >
-              1
-            </button>
-            <button
-              data-date="1790899200000"
-              type="button"
-            >
-              2
-            </button>
-            <button
-              data-date="1790985600000"
-              type="button"
-            >
-              3
-            </button>
-            <button
-              data-date="1791072000000"
-              type="button"
-            >
-              4
-=======
               data-date="1756598400000"
               type="button"
             >
               31
->>>>>>> main
-            </button>
-            <button
-              data-date="1791158400000"
-              type="button"
-            >
-              5
-            </button>
-            <button
-              data-date="1791244800000"
-              type="button"
-            >
-              6
-            </button>
-            <button
-              data-date="1791331200000"
-              type="button"
-            >
-              7
-            </button>
-            <button
-              data-date="1791417600000"
-              type="button"
-            >
-              8
-            </button>
-            <button
-              data-date="1791504000000"
-              type="button"
-            >
-              9
-            </button>
-            <button
-              data-date="1791590400000"
-              type="button"
-            >
-              10
-            </button>
-            <button
-              data-date="1791676800000"
-              type="button"
-            >
-              11
-            </button>
-            <button
-              data-date="1791763200000"
-              type="button"
-            >
-              12
-            </button>
-            <button
-              data-date="1791849600000"
-              type="button"
-            >
-              13
-            </button>
-            <button
-              data-date="1791936000000"
-              type="button"
-            >
-              14
-            </button>
-            <button
-              data-date="1792022400000"
-              type="button"
-            >
-              15
-            </button>
-            <button
-              data-date="1792108800000"
-              type="button"
-            >
-              16
-            </button>
-            <button
-              data-date="1792195200000"
-              type="button"
-            >
-              17
-            </button>
-            <button
-              data-date="1792281600000"
-              type="button"
-            >
-              18
-            </button>
-            <button
-              data-date="1792368000000"
-              type="button"
-            >
-              19
-            </button>
-            <button
-              data-date="1792454400000"
-              type="button"
-            >
-              20
-            </button>
-            <button
-              data-date="1792540800000"
-              type="button"
-            >
-              21
-            </button>
-            <button
-              data-date="1792627200000"
-              type="button"
-            >
-              22
-            </button>
-            <button
-              data-date="1792713600000"
-              type="button"
-            >
-              23
-            </button>
-            <button
-              data-date="1792800000000"
-              type="button"
-            >
-              24
-            </button>
-            <button
-              data-date="1792886400000"
-              type="button"
-            >
-              25
-            </button>
-            <button
-              data-date="1792972800000"
-              type="button"
-            >
-              26
-            </button>
-            <button
-              data-date="1793059200000"
-              type="button"
-            >
-              27
-            </button>
-            <button
-              data-date="1793145600000"
-              type="button"
-            >
-              28
-            </button>
-            <button
-              data-date="1793232000000"
-              type="button"
-            >
-              29
-            </button>
-            <button
-              data-date="1793318400000"
-              type="button"
-            >
-              30
-            </button>
-            <button
-              data-date="1793404800000"
-              type="button"
-            >
-              31
-            </button>
-            <button
-              data-date="1793491200000"
-              disabled=""
-              type="button"
-            >
-              1
             </button>
           </div>
         </div>
