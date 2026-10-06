@@ -346,14 +346,20 @@ exports[`DateTimePicker should render with only required props, and have standar
           <span
             class="infoMonthDay"
           >
+<<<<<<< HEAD
             Oct
              
             1
+=======
+            Aug
+             
+            4
+>>>>>>> main
           </span>
           <span
             class="infoYear"
           >
-            2026
+            2025
           </span>
         </div>
         <span
@@ -419,12 +425,16 @@ exports[`DateTimePicker should render with only required props, and have standar
               <button
                 type="button"
               >
+<<<<<<< HEAD
                 October
+=======
+                August
+>>>>>>> main
               </button>
               <button
                 type="button"
               >
-                2026
+                2025
               </button>
             </div>
             <button
@@ -470,27 +480,231 @@ exports[`DateTimePicker should render with only required props, and have standar
             data-testid="DatePickerDayContainer"
           >
             <button
+<<<<<<< HEAD
               data-date="1790553600000"
+              disabled=""
+=======
+              data-date="1753660800000"
               disabled=""
               type="button"
             >
               28
             </button>
             <button
-              data-date="1790640000000"
+              data-date="1753747200000"
               disabled=""
               type="button"
             >
               29
             </button>
             <button
-              data-date="1790726400000"
+              data-date="1753833600000"
               disabled=""
               type="button"
             >
               30
             </button>
             <button
+              data-date="1753920000000"
+              disabled=""
+              type="button"
+            >
+              31
+            </button>
+            <button
+              data-date="1754006400000"
+              type="button"
+            >
+              1
+            </button>
+            <button
+              data-date="1754092800000"
+              type="button"
+            >
+              2
+            </button>
+            <button
+              data-date="1754179200000"
+              type="button"
+            >
+              3
+            </button>
+            <button
+              class="today"
+              data-date="1754265600000"
+              type="button"
+            >
+              4
+            </button>
+            <button
+              data-date="1754352000000"
+              type="button"
+            >
+              5
+            </button>
+            <button
+              data-date="1754438400000"
+              type="button"
+            >
+              6
+            </button>
+            <button
+              data-date="1754524800000"
+              type="button"
+            >
+              7
+            </button>
+            <button
+              data-date="1754611200000"
+              type="button"
+            >
+              8
+            </button>
+            <button
+              data-date="1754697600000"
+              type="button"
+            >
+              9
+            </button>
+            <button
+              data-date="1754784000000"
+              type="button"
+            >
+              10
+            </button>
+            <button
+              data-date="1754870400000"
+              type="button"
+            >
+              11
+            </button>
+            <button
+              data-date="1754956800000"
+              type="button"
+            >
+              12
+            </button>
+            <button
+              data-date="1755043200000"
+              type="button"
+            >
+              13
+            </button>
+            <button
+              data-date="1755129600000"
+              type="button"
+            >
+              14
+            </button>
+            <button
+              data-date="1755216000000"
+              type="button"
+            >
+              15
+            </button>
+            <button
+              data-date="1755302400000"
+              type="button"
+            >
+              16
+            </button>
+            <button
+              data-date="1755388800000"
+              type="button"
+            >
+              17
+            </button>
+            <button
+              data-date="1755475200000"
+              type="button"
+            >
+              18
+            </button>
+            <button
+              data-date="1755561600000"
+              type="button"
+            >
+              19
+            </button>
+            <button
+              data-date="1755648000000"
+              type="button"
+            >
+              20
+            </button>
+            <button
+              data-date="1755734400000"
+              type="button"
+            >
+              21
+            </button>
+            <button
+              data-date="1755820800000"
+              type="button"
+            >
+              22
+            </button>
+            <button
+              data-date="1755907200000"
+              type="button"
+            >
+              23
+            </button>
+            <button
+              data-date="1755993600000"
+              type="button"
+            >
+              24
+            </button>
+            <button
+              data-date="1756080000000"
+              type="button"
+            >
+              25
+            </button>
+            <button
+              data-date="1756166400000"
+              type="button"
+            >
+              26
+            </button>
+            <button
+              data-date="1756252800000"
+              type="button"
+            >
+              27
+            </button>
+            <button
+              data-date="1756339200000"
+>>>>>>> main
+              type="button"
+            >
+              28
+            </button>
+            <button
+<<<<<<< HEAD
+              data-date="1790640000000"
+              disabled=""
+=======
+              data-date="1756425600000"
+>>>>>>> main
+              type="button"
+            >
+              29
+            </button>
+            <button
+<<<<<<< HEAD
+              data-date="1790726400000"
+              disabled=""
+=======
+              data-date="1756512000000"
+>>>>>>> main
+              type="button"
+            >
+              30
+            </button>
+            <button
+<<<<<<< HEAD
               class="today"
               data-date="1790812800000"
               type="button"
@@ -514,6 +728,12 @@ exports[`DateTimePicker should render with only required props, and have standar
               type="button"
             >
               4
+=======
+              data-date="1756598400000"
+              type="button"
+            >
+              31
+>>>>>>> main
             </button>
             <button
               data-date="1791158400000"
