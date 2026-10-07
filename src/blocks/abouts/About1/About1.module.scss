@@ -1,0 +1,30 @@
+@use "../../../lib/styles/index" as *;
+
+.grid {
+  --theme-grid-gutter-gutter-md: 1.5rem;
+  max-width: 75rem;
+
+  @include screen-width("above", "md") {
+    --theme-grid-gutter-gutter-md: 3rem;
+  }
+
+  @include screen-width("above", "xl") {
+    --theme-grid-gutter-gutter-md: 4.5rem;
+  }
+}
+
+.text {
+  color: #21272cff;
+  margin: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.125rem;
+}
+
+.paragraph {
+  color: #717d87ff;
+  margin: 0;
+}
