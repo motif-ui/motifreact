@@ -24,9 +24,8 @@ export const MESSAGE: Record<string, LocaleKey> = {
   FILES_BEING_UPLOADED: "upload.filesBeingUploaded",
   WAITING_TO_UPLOAD: "upload.waitingToUpload",
   UPLOAD_SUCCESS: "upload.uploadSuccess",
-  DRAGGER_MAX_SIZE: "upload.draggerMaxSize",
-  DRAGGER_MAX_FILE: "upload.draggerMaxFile",
-  DRAGGER_CAN_UPLOAD_FILES: "upload.draggerCanUploadFiles",
+  DRAGGER_INFO: "upload.draggerInfo",
+  DRAGGER_INFO_WITH_SIZE: "upload.draggerInfoWithSize",
   CUSTOM_VALIDATION_ERROR: "upload.customValidationError",
 };
 

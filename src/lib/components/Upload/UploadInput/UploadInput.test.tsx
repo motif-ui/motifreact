@@ -241,7 +241,7 @@ describe("UploadInput", () => {
   });
 
   it("should override maximum number of files error message when set explicitly", async () => {
-    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: 2 });
+    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: 2, count: 2 });
     const messages = { maxFileMessage: "Test max file message" };
     const { getInput, actHoverToErrorIcon } = renderExt(
       <UploadInput {...requiredProps} maxFile={2} messages={messages} autoUpload={false} />,

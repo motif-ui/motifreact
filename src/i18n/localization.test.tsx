@@ -14,6 +14,8 @@ const flattenKeys = (obj: Record<string, unknown>, prefix = ""): string[] =>
     return typeof v === "object" && v !== null ? flattenKeys(v as Record<string, unknown>, full) : [full];
   });
 
+const flattenBaseKeys = (obj: Record<string, unknown>) => flattenKeys(obj).filter(k => !/_(zero|one|two|few|many)$/.test(k));
+
 describe("Localization", () => {
   it("should return the English string for the given key", () => {
     const t = createTranslator("en");
@@ -272,21 +274,21 @@ describe("Localization", () => {
   });
 
   it("should have all English keys present in the Turkish locale", () => {
-    const enKeys = flattenKeys(en);
-    const trKeys = new Set(flattenKeys(tr));
+    const enKeys = flattenBaseKeys(en);
+    const trKeys = new Set(flattenBaseKeys(tr));
     const missing = enKeys.filter(k => !trKeys.has(k));
     expect(missing).toEqual([]);
   });
 
   it("should have all Turkish keys present in the English locale", () => {
-    const trKeys = flattenKeys(tr);
-    const enKeys = new Set(flattenKeys(en));
+    const trKeys = flattenBaseKeys(tr);
+    const enKeys = new Set(flattenBaseKeys(en));
     const missing = trKeys.filter(k => !enKeys.has(k));
     expect(missing).toEqual([]);
   });
 
   it("should have string values for all leaf keys in given language locale", () => {
-    const enKeys = flattenKeys(en);
+    const enKeys = flattenBaseKeys(en);
     enKeys.forEach(key => {
       const t = createTranslator("en");
       expect(typeof t(key as Parameters<typeof t>[0])).toBe("string");
@@ -324,5 +326,35 @@ describe("Localization", () => {
     const t = createTranslator("en");
     expect(t("g.save", { count: 1 })).toBe(en.g.save);
     expect(t("g.save", { count: 3 })).toBe(en.g.save);
+  });
+
+  it("should resolve plural forms of table record messages", () => {
+    const t = createTranslator("en");
+    expect(t("table.totalRecords", { total: 1, count: 1 })).toBe(en.table.totalRecords_one.replace("{{total}}", "1"));
+    expect(t("table.totalRecords", { total: 5, count: 5 })).toBe(en.table.totalRecords.replace("{{total}}", "5"));
+    expect(t("table.totalSelectedRecords", { selected: 1, total: 1, count: 1 })).toBe(
+      en.table.totalSelectedRecords_one.replace("{{selected}}", "1").replace("{{total}}", "1"),
+    );
+    expect(t("table.totalSelectedRecords", { selected: 1, total: 5, count: 5 })).toBe(
+      en.table.totalSelectedRecords.replace("{{selected}}", "1").replace("{{total}}", "5"),
+    );
+  });
+
+  it("should resolve plural forms of validation messages", () => {
+    const t = createTranslator("en");
+    expect(t("validation.minLength", { min: 1, count: 1 })).toBe(en.validation.minLength_one.replace("{{min}}", "1"));
+    expect(t("validation.maxLength", { max: 1, count: 1 })).toBe(en.validation.maxLength_one.replace("{{max}}", "1"));
+    expect(t("validation.atLeastN", { n: 1, count: 1 })).toBe(en.validation.atLeastN_one.replace("{{n}}", "1"));
+    expect(t("validation.atLeastN", { n: 2, count: 2 })).toBe(en.validation.atLeastN.replace("{{n}}", "2"));
+  });
+
+  it("should resolve plural forms of upload messages", () => {
+    const t = createTranslator("en");
+    expect(t("upload.maxFileError", { maxFile: 1, count: 1 })).toBe(en.upload.maxFileError_one.replace("{{maxFile}}", "1"));
+    expect(t("upload.maxFileError", { maxFile: 3, count: 3 })).toBe(en.upload.maxFileError.replace("{{maxFile}}", "3"));
+    expect(t("upload.draggerInfo", { count: 1 })).toBe(en.upload.draggerInfo_one.replace("{{count}}", "1"));
+    expect(t("upload.draggerInfoWithSize", { count: 3, maxSize: "5 MB" })).toBe(
+      en.upload.draggerInfoWithSize.replace("{{count}}", "3").replace("{{maxSize}}", "5 MB"),
+    );
   });
 });

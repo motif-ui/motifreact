@@ -60,9 +60,9 @@
     "filesBeingUploaded_one": "Dosya yükleniyor...",
     "waitingToUpload": "Yüklemek için bekleniyor...",
     "uploadSuccess": "Dosya başarıyla yüklendi.",
-    "draggerMaxSize": "her biri en fazla {{maxSize}} boyutunda",
-    "draggerMaxFile": "maksimum {{maxFile}}",
-    "draggerCanUploadFiles": " dosya yükleyebilirsiniz.",
+    "draggerInfo": "Maksimum {{count}} dosya yükleyebilirsiniz.",
+    "draggerInfoWithSize": "Her biri en fazla {{maxSize}} boyutunda maksimum {{count}} dosya yükleyebilirsiniz.",
+    "draggerInfoWithSize_one": "En fazla {{maxSize}} boyutunda maksimum {{count}} dosya yükleyebilirsiniz.",
     "customValidationError": "Hata oluştu.",
     "chooseOrDragImage": "Bir resim seçin veya sürükleyin"
   },

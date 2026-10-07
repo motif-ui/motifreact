@@ -88,13 +88,13 @@ export class Validations {
 
   static MinLength: (min: number) => InputValidation = min => ({
     errorMessage: "validation.minLength",
-    errorParams: { min },
+    errorParams: { min, count: min },
     validate: value => isNotAvailable(value) || checkMinLength(value, min),
   });
 
   static MaxLength: (max: number) => InputValidation = max => ({
     errorMessage: "validation.maxLength",
-    errorParams: { max },
+    errorParams: { max, count: max },
     validate: value => isNotAvailable(value) || checkMaxLength(value, max),
   });
 
@@ -112,7 +112,7 @@ export class Validations {
 
   static AtLeastN: (n: number) => InputValidation = n => ({
     errorMessage: "validation.atLeastN",
-    errorParams: { n },
+    errorParams: { n, count: n },
     validate: value => checkAtLeastNTruthy(value, n),
     requiredValidation: true,
   });

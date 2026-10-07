@@ -87,7 +87,7 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
         {isUploading
           ? t(MESSAGE.FILES_BEING_UPLOADED, { count: selectedFiles.filter(f => f.status === STATUS.UPLOADING).length })
           : hovered && maxFileReached
-            ? t(MESSAGE.MAX_FILE, { maxFile })
+            ? t(MESSAGE.MAX_FILE, { maxFile, count: maxFile })
             : !autoUpload && isWaitingToUpload
               ? t(MESSAGE.WAITING_TO_UPLOAD)
               : t(MESSAGE.PLEASE_DROP, { count: maxFile })}
