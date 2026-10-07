@@ -10,6 +10,16 @@ import { useState } from "react";
 const meta: Meta<typeof Stepper> = {
   title: "Components/Stepper",
   component: Stepper,
+  parameters: {
+    layout: "fullscreen",
+  },
+  decorators: [
+    Story => (
+      <div style={{ padding: 20 }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     stepType: { table: { defaultValue: { summary: "number" } } },
     orientation: { table: { defaultValue: { summary: "horizontal" } } },
