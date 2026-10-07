@@ -41,7 +41,7 @@ const ModalComponent = (props: ModalProps) => {
 
   return (
     <>
-      <Button label="Modal Aç" onClick={show} />
+      <Button label="Open Modal" onClick={show} />
       <Modal open={visible} onClose={hide} alternateButton={{ text: "Close", onClick: hide }} {...otherProps} />
     </>
   );
@@ -61,7 +61,7 @@ const { visible, show, hide } = useToggle();
 
 return (
   <>
-    <Button label="Modal Aç" onClick={show} />
+    <Button label="Open Modal" onClick={show} />
     <Modal
       open={visible}
       onClose={hide}

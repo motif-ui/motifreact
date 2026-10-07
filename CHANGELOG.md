@@ -7,9 +7,9 @@
 - fix(Stepper): add reachable state for previously visited steps ([#161](https://github.com/motif-ui/motifreact/pull/161)) [@hatesalp](https://github.com/hatesalp)
 - fix(Tooltip): resize re-rendering logic is fixed ([#149](https://github.com/motif-ui/motifreact/pull/149)) [@atakanbayrak](https://github.com/atakanbayrak)
 - fix(DatePicker,TimePicker): context replacement for better usage ([#134](https://github.com/motif-ui/motifreact/pull/134)) [@atakanbayrak](https://github.com/atakanbayrak)
-- fix: refactoring misbehaved readonly behaviour for Form components  ([#143](https://github.com/motif-ui/motifreact/pull/143)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: refactoring misbehaved readonly behaviour for Form components ([#143](https://github.com/motif-ui/motifreact/pull/143)) [@atakanbayrak](https://github.com/atakanbayrak)
 - fix(Upload): updated test URLs from httpbin to httpbun ([#153](https://github.com/motif-ui/motifreact/pull/153)) [@ZehranurC](https://github.com/ZehranurC)
-- fix(Storybook): mobile and responsive view issues  ([#154](https://github.com/motif-ui/motifreact/pull/154)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(Storybook): mobile and responsive view issues ([#154](https://github.com/motif-ui/motifreact/pull/154)) [@aktasmehmet](https://github.com/aktasmehmet)
 - fix(Storybook): resolve docs argstable rendering issue ([#148](https://github.com/motif-ui/motifreact/pull/148)) [@ZehranurC](https://github.com/ZehranurC)
 - fix(Icon): add missing download icon to motif-icons-default font ([#147](https://github.com/motif-ui/motifreact/pull/147)) [@hatesalp](https://github.com/hatesalp)
 - fix(IconButton): move iconClass from button root to Icon span ([#141](https://github.com/motif-ui/motifreact/pull/141)) [@hatesalp](https://github.com/hatesalp)
@@ -56,7 +56,7 @@
 - fix(Form Inputs): min-width's are removed ([#114](https://github.com/motif-ui/motifreact/pull/114)) [@emreekiziltoprak](https://github.com/emreekiziltoprak)
 - fix(Table): locale-aware case normalization for filter matching ([#128](https://github.com/motif-ui/motifreact/pull/128)) [@hatesalp](https://github.com/hatesalp)
 - fix: sass if function deprecation ([#127](https://github.com/motif-ui/motifreact/pull/127)) [@ZehranurC](https://github.com/ZehranurC)
-- fix(Table): solved the issue with rowspan and striped  ([#107](https://github.com/motif-ui/motifreact/pull/107)) [@emreekiziltoprak](https://github.com/emreekiziltoprak)
+- fix(Table): solved the issue with rowspan and striped ([#107](https://github.com/motif-ui/motifreact/pull/107)) [@emreekiziltoprak](https://github.com/emreekiziltoprak)
 
 ## Other Changes
 
