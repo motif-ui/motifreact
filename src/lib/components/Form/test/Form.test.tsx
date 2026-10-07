@@ -163,6 +163,21 @@ describe("Form", () => {
     expect(submitButtonArea).toHaveClass("submitArea_align_right");
   });
 
+  it('should render all buttons as fluid and share the width equally when buttonPosition is "fluid"', () => {
+    render(
+      <Form onSubmit={mockFunction} enableClearButton alternateButtons={[<Button key="alt" label="Alt" />]} buttonPosition="fluid">
+        <Form.Field name="input">
+          <InputText name="input" />
+        </Form.Field>
+      </Form>,
+    );
+
+    const buttons = screen.getAllByRole("button");
+    expect(buttons).toHaveLength(3);
+    expect(buttons[0].parentElement).toHaveClass("submitArea_fluid");
+    buttons.forEach(button => expect(button).toHaveClass("fluid"));
+  });
+
   it("should enable clear button and should clear the form when clicked when enableClearButton is true", async () => {
     const handleSubmit = (data: FormSubmitData) => {
       expect(data.isValid).toBe(true);
