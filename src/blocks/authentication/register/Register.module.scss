@@ -4,17 +4,18 @@
   width: 100%;
   max-width: 25rem;
   margin: 0 auto;
-  gap: var(--base-sizing-20x);
+  gap: 1.25rem;
+  padding: 2rem !important;
 }
 
 .footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--base-sizing-4x);
+  gap: 0.25rem;
 }
 
 .footerText {
   margin: 0;
-  color: var(--theme-color-text-base-caption);
+  color: #717d87ff;
 }

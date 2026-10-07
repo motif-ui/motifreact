@@ -1,31 +1,43 @@
 "use client";
 
-import { BusinessCard, Checkbox, Divider, Form, InputPassword, InputText, Link, Panel, Text } from "@motif-ui/react";
+import {
+  BusinessCard,
+  Checkbox,
+  Divider,
+  Form,
+  InputPassword,
+  ImageView,
+  InputText,
+  Link,
+  Panel,
+  Text,
+  Validations,
+} from "@motif-ui/react";
 import styles from "./Register.module.scss";
 import { LOGO_MARK_URL } from "src/blocks/constants.ts";
 
 const Register = () => {
   return (
-    <Panel bordered style={{ padding: "32px" }} className={styles.panel}>
+    <Panel bordered className={styles.panel}>
       <BusinessCard
-        icon={<img src={LOGO_MARK_URL} alt="Motif UI" width="100%" height="100%" />}
+        icon={<ImageView src={LOGO_MARK_URL} alt="Motif UI" />}
         title="Create your account"
         description="Start your journey with us today"
       />
       <Form onSubmit={() => {}} buttonPosition="fluid">
-        <Form.Field name="fullName" label="Full name">
+        <Form.Field name="fullName" label="Full name" validations={[Validations.Required]}>
           <InputText placeholder="Jane Cooper" iconLeft="person" />
         </Form.Field>
 
-        <Form.Field name="email" label="Email address">
+        <Form.Field name="email" label="Email address" validations={[Validations.Required, Validations.EMAIL]}>
           <InputText placeholder="you@example.com" iconLeft="person" />
         </Form.Field>
 
-        <Form.Field name="password" label="Password">
+        <Form.Field name="password" label="Password" validations={[Validations.Required]}>
           <InputPassword placeholder="Create a password" toggleMask />
         </Form.Field>
 
-        <Form.Field name="confirmPassword" label="Confirm password">
+        <Form.Field name="confirmPassword" label="Confirm password" validations={[Validations.Required]}>
           <InputPassword placeholder="Re-enter your password" toggleMask />
         </Form.Field>
 

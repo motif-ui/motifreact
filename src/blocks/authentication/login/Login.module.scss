@@ -1,9 +1,9 @@
 @use "@styles" as *;
 
 .panel {
-  padding: var(--base-sizing-32x) !important;
-  gap: var(--base-sizing-16x);
-  width: var(--base-sizing-400x);
+  padding: 2rem !important;
+  gap: 1rem;
+  width: 25rem;
 }
 
 .optionsRow {
@@ -13,5 +13,5 @@
 }
 
 .checkbox label {
-  color: var(--theme-color-text-base-caption) !important;
+  color: #717d87ff !important;
 }
