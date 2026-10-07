@@ -10,6 +10,16 @@ import { useState } from "react";
 const meta: Meta<typeof Stepper> = {
   title: "Components/Stepper",
   component: Stepper,
+  parameters: {
+    layout: "fullscreen",
+  },
+  decorators: [
+    Story => (
+      <div style={{ padding: 20 }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     stepType: { table: { defaultValue: { summary: "number" } } },
     orientation: { table: { defaultValue: { summary: "horizontal" } } },
@@ -117,7 +127,7 @@ const StepperCustomNavigation = () => {
   };
 
   return (
-    <Stepper state={stepper} onNextClick={onNextClick} style={{ width: 340 }}>
+    <Stepper state={stepper} onNextClick={onNextClick}>
       <Stepper.Item title="Account" icon="person">
         <>
           <Alert variant="info">
