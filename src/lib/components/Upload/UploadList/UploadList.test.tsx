@@ -621,4 +621,30 @@ describe("UploadList", () => {
     expect(getFileList()).toHaveTextContent(serverFile.name);
     expect(getFileList()).toHaveTextContent(serverFile2.name);
   });
+
+  it("should fire onUpload with the uploaded files and parsed server response when upload succeeds", async () => {
+    const xhrSpy = mockXHRWithResponse(200, JSON.stringify({ status: "success", message: "ok" }));
+    const handleUpload = jest.fn<void, [FileType[], unknown]>();
+    const { getInput } = renderExt(<UploadList {...requiredProps} onUpload={handleUpload} />);
+    await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
+
+    await waitFor(() => expect(handleUpload).toHaveBeenCalledTimes(1));
+    const [files, response] = handleUpload.mock.calls[0];
+    expect(files).toHaveLength(1);
+    expect(files[0]).toMatchObject({ file: { name: MOCK.fileJpeg1kb.name }, uploaded: true });
+    expect(files[0].request).toBeUndefined();
+    expect(response).toEqual({ status: "success", message: "ok" });
+    xhrSpy.mockRestore();
+  });
+
+  it("should not fire onUpload when upload fails", async () => {
+    const xhrSpy = mockXHRs(500);
+    const handleUpload = jest.fn<void, [FileType[], unknown]>();
+    const { getInput } = renderExt(<UploadList {...requiredProps} onUpload={handleUpload} />);
+    await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
+
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument());
+    expect(handleUpload).not.toHaveBeenCalled();
+    xhrSpy.mockRestore();
+  });
 });
