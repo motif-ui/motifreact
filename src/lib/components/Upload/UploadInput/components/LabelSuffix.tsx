@@ -1,9 +1,13 @@
 import { memo, useContext } from "react";
 import styles from "../UploadInput.module.scss";
 import { MotifIcon, MotifIconButton } from "@/components/Motif/Icon";
+import IconButton from "@/components/IconButton";
 import Tooltip from "@/components/Tooltip";
 import { InputSize } from "../../../Form/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
+import { STATUS } from "@/components/Upload/constants";
+import { FileType } from "@/components/Upload/types";
+import { IconGlobalType } from "../../../../types";
 
 type Props = {
   size: InputSize;
@@ -11,19 +15,25 @@ type Props = {
   labelSuffix: LabelSuffix;
   enableDelete: boolean;
   enableDownload: boolean;
+  actionIcon?: IconGlobalType;
 };
 
 export type LabelSuffix = "error" | "errorTooltip" | "success" | null;
 
 export const LabelSuffix = memo((props: Props) => {
-  const { size, errors, labelSuffix, enableDelete, enableDownload } = props;
+  const { size, errors, labelSuffix, enableDelete, enableDownload, actionIcon } = props;
   const { removeFiles, selectedFiles } = useContext(UploadContext);
   const isDeleting = selectedFiles.some(f => f.deleting);
-  const downloadAll = () => selectedFiles.forEach(f => f.download?.());
+  const isFileReady = (f: FileType) => !f.deleting && (f.status === STATUS.SUCCESS || f.status === STATUS.DELETE_FAIL);
+  const readyDownloadFiles = selectedFiles.filter(f => !!f.download && isFileReady(f));
+  const readyActionFiles = selectedFiles.filter(f => !!f.action?.onClick && isFileReady(f));
+  const downloadAll = () => readyDownloadFiles.forEach(f => f.download?.());
+  const actionAll = () => readyActionFiles.forEach(f => f.action?.onClick());
 
   return (
     <div className={styles.labelSuffixWrapper} data-testid="labelSuffix">
-      {enableDownload && <MotifIconButton onClick={downloadAll} name="download" size={size} />}
+      {enableDownload && <MotifIconButton onClick={downloadAll} name="download" size={size} disabled={!readyDownloadFiles.length} />}
+      {actionIcon && <IconButton onClick={actionAll} name={actionIcon} size={size} disabled={!readyActionFiles.length} />}
       {enableDelete && <MotifIconButton onClick={() => removeFiles(selectedFiles)} name="delete" size={size} disabled={isDeleting} />}
       {labelSuffix === "errorTooltip" ? (
         <Tooltip text={errors?.join("\n\n") || ""} position="bottomRight" size={size}>
