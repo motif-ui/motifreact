@@ -44,10 +44,18 @@ describe("Alert", () => {
   });
 
   it("should be rendered in the color set of the variant that is given in the variant prop", () => {
-    const variants: Variant[] = ["primary", "secondary", "info", "success", "warning", "danger"];
-    variants.forEach(variant => {
-      const { container, unmount } = render(<Alert variant={variant} message="Alert Message" />);
+    const variantIcons: [Variant, string][] = [
+      ["primary", "info"],
+      ["secondary", "info"],
+      ["info", "info"],
+      ["success", "check_circle"],
+      ["warning", "warning"],
+      ["danger", "error"],
+    ];
+    variantIcons.forEach(([variant, icon]) => {
+      const { container, getByText, unmount } = render(<Alert variant={variant} message="Alert Message" />);
       expect(container.firstChild).toHaveClass(variant);
+      expect(getByText(icon)).toBeInTheDocument();
       unmount();
     });
   });
