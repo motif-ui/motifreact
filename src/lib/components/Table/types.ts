@@ -14,6 +14,8 @@ export type RenderableColumn = {
   colSpan?: number;
 };
 
+export type TableRowId = string | number;
+
 export type TableProps<T = object> = {
   /**
    * ```
@@ -38,9 +40,15 @@ export type TableProps<T = object> = {
   header?: ReactNode;
   footer?: () => ReactNode;
   loading?: boolean;
+  totalRecords?: number;
+  onSortChange?: (sort: { dataKey?: string; direction?: SortDirection }) => void;
+  onFilterChange?: (query: string, immediate?: boolean) => void;
+  onColumnFilterChange?: (filter: { dataKey?: string; query: string }) => void;
+  onPageChange?: (page: number) => void;
   selectable?: boolean;
   selectionKey?: string;
-  onSelect?: (selection: { all: T[]; current?: T }) => void;
+  defaultSelectedIds?: TableRowId[];
+  onSelectionChange?: (changedIds: TableRowId[], selected: boolean, selectedIds: TableRowId[]) => void;
   reflectDataChanges?: boolean;
   rowColorCallback?: (rowData: T) => RowColor | undefined;
 } & TableDefaultableProps;
@@ -56,6 +64,7 @@ export type TableDefaultableProps = {
   emptyMessage?: ReactNode;
   filterableTable?: boolean;
   filterPlaceholder?: string;
+  disableFilterOnKeyPress?: boolean;
   hideTotalRecords?: boolean;
   distributeColsEvenly?: boolean;
   fluid?: boolean;
@@ -75,7 +84,6 @@ export type Column = {
 };
 
 export type Sorting = {
-  desc?: boolean;
   customSort?: (a: unknown, b: unknown) => number;
 };
 
@@ -100,13 +108,20 @@ export type RowBackground = "transparent" | "solid" | "opposite";
 export type TableContextProps = {
   columns: Column[];
   dataRaw?: object[];
+  totalRecords?: number;
+  onSortChange?: (sort: { dataKey?: string; direction?: SortDirection }) => void;
+  onFilterChange?: (query: string, immediate?: boolean) => void;
+  onColumnFilterChange?: (filter: { dataKey?: string; query: string }) => void;
+  onPageChange?: (page: number) => void;
   showFixedRowNumbers?: boolean;
   pagination?: Pagination;
   selectable?: boolean;
   selectionKey?: string;
-  onSelect?: (selection: { all: object[]; current?: object }) => void;
+  defaultSelectedIds?: TableRowId[];
+  onSelectionChange?: (changedIds: TableRowId[], selected: boolean, selectedIds: TableRowId[]) => void;
   filterableTable?: boolean;
   filterPlaceholder?: string;
+  disableFilterOnKeyPress?: boolean;
   reflectDataChanges?: boolean;
   rowColorCallback?: (rowData: object) => RowColor | undefined;
 };
@@ -116,6 +131,8 @@ export type TableContextType = {
   usableRows?: RowDetail[];
   visibleRows?: RowDetail[];
   totalRecords: number;
+  /** The raw `totalRecords` prop, unmerged with any fallback — undefined unless the consumer explicitly set it. */
+  explicitTotalRecords?: number;
   columns: Column[];
   spannedCellsMap: SpannedCellsMap;
   updateSortState: (columnIndex: number) => void;
@@ -123,34 +140,42 @@ export type TableContextType = {
   showFixedRowNumbers?: boolean;
   currentPage: number;
   setCurrentPage?: Dispatch<SetStateAction<number>>;
+  onPageChange?: (page: number) => void;
   pagination?: Pagination;
   selectable?: boolean;
+  selectedIds: Set<TableRowId>;
   selectHandler?: (selection: { row?: RowDetail; all?: "select" | "deselect" }) => void;
   filterableTable?: boolean;
   filterPlaceholder?: string;
+  disableFilterOnKeyPress?: boolean;
   filterableColumns?: boolean;
   updateFilterState: (query: string, columnIndex?: number) => void;
-  setMainFilterQuery: (query: string) => void;
+  mainFilterInputValue: string;
+  setMainFilterInputValue: (value: string) => void;
+  applyFilter: (forceImmediate?: boolean) => void;
   numberOfVisibleColumns: number;
   rowColorCallback?: (rowData: object) => RowColor | undefined;
 };
 
 export type ColumnState = {
-  lastSortDirection?: "asc" | "desc";
+  lastSortDirection?: SortDirection;
   filterQuery?: string;
 };
 
 export type RowDetail = {
-  motifIndex: number;
+  rowId: TableRowId;
   isSelected?: boolean;
   data: object;
 };
 
 export const TableContextDefaultValues: TableContextType = {
   totalRecords: 0,
+  selectedIds: new Set(),
   updateSortState: () => {},
   updateFilterState: () => {},
-  setMainFilterQuery: () => {},
+  mainFilterInputValue: "",
+  setMainFilterInputValue: () => {},
+  applyFilter: () => {},
   columns: [],
   columnStates: [],
   currentPage: 1,
@@ -164,3 +189,4 @@ export const TableContextDefaultValues: TableContextType = {
 //
 
 export type RowColor = "primary" | "secondary" | "light" | "success" | "danger" | "warning" | "info";
+export type SortDirection = "asc" | "desc";
