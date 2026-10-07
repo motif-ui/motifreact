@@ -127,7 +127,7 @@ const StepperCustomNavigation = () => {
   };
 
   return (
-    <Stepper state={stepper} onNextClick={onNextClick} style={{ width: 340 }}>
+    <Stepper state={stepper} onNextClick={onNextClick}>
       <Stepper.Item title="Account" icon="person">
         <>
           <Alert variant="info">
