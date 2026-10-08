@@ -50,7 +50,7 @@ describe("Slider", () => {
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {
-    const variants = ["primary", "secondary", "success", "warning", "danger"] as const;
+    const variants = ["primary", "secondary", "success", "warning", "danger", "info"] as const;
     variants.forEach(variant => {
       const { container, unmount } = render(<Slider variant={variant} />);
       expect(container.firstChild).toHaveClass(variant);

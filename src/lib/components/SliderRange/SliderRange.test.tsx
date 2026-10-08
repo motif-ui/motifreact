@@ -62,7 +62,7 @@ describe("SliderRange", () => {
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {
-    const variants = ["primary", "secondary", "success", "warning", "danger"] as const;
+    const variants = ["primary", "secondary", "success", "warning", "danger", "info"] as const;
     variants.forEach(variant => {
       const { getAllByTestId, unmount } = render(<SliderRange variant={variant} />);
       const [slider1, slider2] = getAllByTestId("slider");
