@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import PanelTitle from "@/components/Panel/components/PanelTitle";
 import { PropsWithRefAndChildren } from "../../types";
 import styles from "./Panel.module.scss";
@@ -20,11 +19,7 @@ const PanelComponent = (props: PropsWithRefAndChildren<PanelProps, HTMLDivElemen
     ref,
   } = usePropsWithThemeDefaults("Panel", props);
 
-  const leans = useMemo(() => {
-    return !lean ? [] : lean === "all" ? ["lean-all"] : lean.split(" ").map(p => `lean-${p}`);
-  }, [lean]);
-
-  const classNames = sanitizeModuleRootClasses(styles, className, [type, ...leans, bordered && "bordered"]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [type, lean && "lean", bordered && "bordered"]);
 
   return (
     <div className={classNames} ref={ref} style={style}>

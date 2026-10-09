@@ -7,7 +7,7 @@ import { ButtonProps } from "@/components/Button/types";
 import { LinkProps } from "../../Link/types";
 import { IconButtonProps } from "../../IconButton/types";
 import type { IconGlobalType } from "../../../types";
-import { Link } from "src/lib";
+import Link from "@/components/Link";
 
 type Props = {
   actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };

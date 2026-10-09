@@ -6,6 +6,7 @@ $lean-positions: ("top", "bottom", "left", "right");
   display: flex;
   flex-direction: column;
   border-radius: var(--theme-sizing-radius-default);
+  padding: var(--base-sizing-24x);
 
   &.bordered {
     border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
@@ -24,14 +25,8 @@ $lean-positions: ("top", "bottom", "left", "right");
     @include shadow(3);
   }
 
-  &:not(.lean-all) {
-    padding: var(--base-sizing-24x);
-  }
-
-  @each $lean in $lean-positions {
-    &.lean-#{$lean} {
-      padding-#{$lean}: 0;
-    }
+  &.lean {
+    padding: 0;
   }
 }
 

@@ -2,8 +2,6 @@ import browserslist from "browserslist";
 import { useMemo } from "react";
 import BrowserList from "./components/BrowserList";
 import styles from "./SupportedBrowsers.module.scss";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import browserslistrc from "../../../../.browserslistrc?raw";
 import { BrowserProps } from "./components/BrowserBox";
 import { BROWSER_ICONS, MOBILE_BROWSERS, BROWSER_NAME_MAP } from "./constants";
@@ -16,7 +14,7 @@ type BrowserWithVersionInfo = {
 
 const SupportedBrowsers = () => {
   const browsers = useMemo<BrowserProps[]>(() => {
-    const query = (browserslistrc as string).split("\n").filter(line => !line.trim().startsWith("#"));
+    const query = browserslistrc.split("\n").filter(line => !line.trim().startsWith("#"));
     const supported = browserslist(query);
 
     const grouped = supported.reduce<Record<string, BrowserWithVersionInfo>>((acc, curr) => {

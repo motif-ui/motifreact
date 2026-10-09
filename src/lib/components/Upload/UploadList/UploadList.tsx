@@ -10,7 +10,7 @@ import { PropsWithRef } from "../../../types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { UploadListProps } from "./types";
-import { Validations } from "src/lib";
+import { Validations } from "@/components/Form/validation/validations";
 import { mapExternalValue, toFormValue } from "@/components/Upload/helper";
 import { FileType } from "@/components/Upload/types.ts";
 
