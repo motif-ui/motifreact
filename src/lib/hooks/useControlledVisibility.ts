@@ -15,6 +15,9 @@ type UseControlledVisibilityReturn = {
   hide: () => void;
 };
 
+/**
+ * @deprecated Use useOverlayState instead. Kept for Modal and AlertModal until they move to the overlay hooks.
+ */
 const useControlledVisibility = ({ open, onClose, duration }: Options): UseControlledVisibilityReturn => {
   const { visible, toggleState, show, hide } = useToggle({ duration });
   const attached = visible || !!toggleState;

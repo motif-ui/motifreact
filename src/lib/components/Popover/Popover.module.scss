@@ -105,7 +105,7 @@ $caret-margin: var(--base-sizing-12x);
       margin: map.get($values, "margin");
 
       @if $elevated {
-        filter: drop-shadow(#{map.get($values, "shadowPos")} #0000001a);
+        filter: drop-shadow(#{map.get($values, "shadowPos")} var(--theme-elevation-elevation1-shadow));
       }
     }
 
@@ -121,7 +121,7 @@ $caret-margin: var(--base-sizing-12x);
 }
 
 .Root {
-  z-index: 1;
+  z-index: z-layer("anchored");
   box-sizing: border-box;
   position: absolute;
   display: flex; // DO NOT REMOVE: this prevents borders get cut off when popover overflows

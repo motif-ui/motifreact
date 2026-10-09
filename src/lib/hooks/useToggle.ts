@@ -60,8 +60,9 @@ const useToggle = (options: Options = {}): UseToggleReturn => {
   }, [duration, clearPending]);
 
   const toggle = useCallback(
-    (visibility?: boolean) => {
-      (visibility === undefined ? visible : !visibility) ? hide() : show();
+    (forceShow?: boolean) => {
+      const nextVisible = typeof forceShow === "boolean" ? forceShow : !visible;
+      nextVisible ? show() : hide();
     },
     [visible, show, hide],
   );

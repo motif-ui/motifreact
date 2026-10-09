@@ -1,12 +1,12 @@
+@use "@styles" as *;
+
 .Root {
-  position: relative;
-  display: inline-grid;
+  @include retain-scoped-class;
 }
 
 .dateRangePicker {
   position: absolute;
-  left: 0;
-  top: 100%;
-  z-index: 1;
-  margin-top: var(--base-sizing-2x);
+  z-index: z-layer("anchored");
+
+  margin: var(--base-sizing-2x);
 }

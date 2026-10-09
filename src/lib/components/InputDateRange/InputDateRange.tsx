@@ -4,12 +4,12 @@ import styles from "./InputDateRange.module.scss";
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
-import useOutsideClick from "../../hooks/useOutsideClick";
+import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import { PropsWithRef } from "../../types";
 import DateRangePicker from "@/components/DateRangePicker";
 import { formatDate } from "../InputDate/helper";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import useToggle from "../../hooks/useToggle";
+import { OverlayCloseReason } from "../../types";
 import { areRangesEquals, sanitizeRange, validateRange } from "@/components/InputDateRange/helper";
 import { orderDatesAndPutTimes } from "@/components/DateRangePicker/helper";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -19,7 +19,6 @@ import { isNullOrEmptyString } from "../../../utils/utils";
 import MotifIcon from "../Motif/Icon/MotifIcon";
 import InputText from "@/components/Motif/InputText/InputText";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
-import { usePickerPortal } from "./usePickerPortal";
 
 export type MaybeDateRange = (Date | undefined)[] | undefined;
 
@@ -53,7 +52,6 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     [datePlaceholder, format, locale],
   );
 
-  const { visible, show, hide } = useToggle();
   const [itemValue, setItemValue] = useState<MaybeDateRange>(sanitizeRange(value as Date[]));
   const [typedValue, setTypedValue] = useState<string | undefined>(formatRangeString(itemValue));
   const setTypedValueWithFormat = useCallback((val: MaybeDateRange) => setTypedValue(formatRangeString(val)), [formatRangeString]);
@@ -88,22 +86,32 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     setTypedValue("");
   }, [applyChanges]);
 
+  const innerRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(ref, () => innerRef.current!, []);
+
+  const pickerCloseHandler = useCallback(
+    (reason?: OverlayCloseReason) => reason && !validateRange(itemValue) && clearDateValues(),
+    [clearDateValues, itemValue],
+  );
+
+  const {
+    attached,
+    style: pickerStyle,
+    overlayRef: pickerRef,
+    show,
+    hide,
+  } = useAnchoredOverlay({
+    anchorRef: innerRef,
+    placement: "bottomLeft",
+    onClose: pickerCloseHandler,
+    closeOnOutsideClick: true,
+    tabBridge: true,
+  });
+
   const onClearClickInInput = useCallback(() => {
     clearDateValues();
     hide();
   }, [clearDateValues, hide]);
-
-  const outsideClickHandler = useCallback(() => {
-    hide();
-    !validateRange(itemValue) && clearDateValues();
-  }, [clearDateValues, hide, itemValue]);
-
-  const pickerRef = useRef<HTMLDivElement>(null);
-  const innerRef = useOutsideClick<HTMLDivElement>(outsideClickHandler, [pickerRef]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useImperativeHandle(ref, () => innerRef.current!, []);
-
-  const { attached, pickerStyle, openPicker, handleTabNavigation } = usePickerPortal(innerRef, pickerRef, visible, show, hide);
 
   const dateChangeHandler = useCallback(
     (dates: MaybeDateRange) => {
@@ -113,8 +121,8 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     [applyChanges, setTypedValueWithFormat],
   );
   const pickerShowHandler = useCallback(() => {
-    !readOnly && !disabled && openPicker();
-  }, [disabled, readOnly, openPicker]);
+    !readOnly && !disabled && show();
+  }, [disabled, readOnly, show]);
 
   useEffect(() => {
     setTypedValueWithFormat(value as MaybeDateRange);
@@ -127,8 +135,11 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
-    <div ref={innerRef} className={classNames} style={style} onKeyDown={handleTabNavigation}>
+    <>
       <InputText
+        ref={innerRef}
+        className={classNames}
+        style={style}
         name={name}
         size={size}
         pill={pill}
@@ -154,14 +165,14 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
             size={pickerSizeMap[size]}
             value={itemValue}
             onDateChange={dateChangeHandler}
-            onOkClick={hide}
+            onOkClick={() => hide()}
             className={styles.dateRangePicker}
             style={pickerStyle}
             locale={locale}
           />,
           document.body,
         )}
-    </div>
+    </>
   );
 };
 

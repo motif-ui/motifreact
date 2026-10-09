@@ -1,0 +1,13 @@
+@use "sass:map";
+
+// Stacking order of the elements rendered on top of the page (in a portal at the end of document.body).
+// "anchored" is above "modal", so an anchored overlay (Popover, picker) opened in a modal is shown over it.
+// Modal, AlertModal and Tooltip still use these values literally and will use this map when they move to the overlay hooks.
+$overlay-layers: (
+  "modal": 999,
+  "anchored": 1000
+);
+
+@function z-layer($name) {
+  @return map.get($overlay-layers, $name);
+}
