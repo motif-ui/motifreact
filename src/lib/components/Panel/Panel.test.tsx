@@ -43,32 +43,9 @@ describe("Panel", () => {
     }
   });
 
-  it("should render with lean prop", () => {
-    const leans = [
-      "all",
-      "top",
-      "right",
-      "bottom",
-      "left",
-      "top right",
-      "top left",
-      "bottom right",
-      "bottom left",
-      "left right",
-      "top bottom",
-      "left right top",
-      "left right bottom",
-      "top right bottom",
-      "top left bottom",
-    ] as const;
-    for (const lean of leans) {
-      const { container } = render(<Panel lean={lean} />);
-      const leanClasses = lean
-        .split(" ")
-        .map(l => `lean-${l}`)
-        .join(" ");
-      expect(container.firstElementChild).toHaveClass(leanClasses);
-    }
+  it("should lean the content to the edges when lean is true", () => {
+    const { container } = render(<Panel lean />);
+    expect(container.firstElementChild).toHaveClass("lean");
   });
 
   it("should render the children", () => {

@@ -43,16 +43,21 @@ describe("Grid", () => {
 });
 
 describe("Row", () => {
-  it("should align items accordingly if justifyCols prop is set", async () => {
-    render(
-      <Grid>
-        <Grid.Row justifyCols="center">
-          <Grid.Col />
-        </Grid.Row>
-      </Grid>,
-    );
-    expect(await screen.findByTestId("grid-row")).toHaveClass("center");
-    expect(await screen.findByTestId("grid-row")).not.toHaveClass("left");
+  it("should align items accordingly if justifyCols prop is set", () => {
+    const justifyCols = ["start", "center", "end", "evenly", "apart"] as const;
+
+    justifyCols.forEach(justify => {
+      const { unmount } = render(
+        <Grid>
+          <Grid.Row justifyCols={justify}>
+            <Grid.Col />
+          </Grid.Row>
+        </Grid>,
+      );
+      const row = screen.getByTestId("grid-row");
+      expect(row).toHaveClass(justify);
+      unmount();
+    });
   });
 
   it("should render the cols width the width of their contents when colsAuto is set true", async () => {

@@ -3,7 +3,7 @@
 exports[`Text should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <span
-    class="Root body2"
+    class="Root body md"
   >
     Test Message
   </span>

@@ -4,11 +4,14 @@ import { PropsWithRefAndChildren } from "../../types";
 import { TextProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { textVariantsMappings } from "@/components/Text/constants";
+import { textVariantsMappings, typeMappings } from "@/components/Text/constants";
 
 const Text = (props: PropsWithRefAndChildren<TextProps, HTMLParagraphElement | HTMLSpanElement | HTMLHeadingElement>) => {
   const {
-    variant = "body2",
+    variant,
+    type = "body",
+    size = "md",
+    weight,
     text,
     children,
     ref,
@@ -16,10 +19,28 @@ const Text = (props: PropsWithRefAndChildren<TextProps, HTMLParagraphElement | H
     className: classNames,
     italic,
     underline,
+    center,
+    tone,
+    marginless,
+    uppercase,
   } = usePropsWithThemeDefaults("Text", props);
 
-  const Component = textVariantsMappings[variant] || "span";
-  const className = sanitizeModuleRootClasses(styles, classNames, [variant, italic && "italic", underline && "underline"]);
+  /*
+   * @deprecated. The `variant` prop is deprecated and will be removed in future versions.
+   * */
+  const Component = variant ? textVariantsMappings[variant] : typeMappings[type === "heading" ? (`heading_${size}` as const) : type];
+  const className = sanitizeModuleRootClasses(styles, classNames, [
+    variant,
+    tone,
+    type,
+    size,
+    weight,
+    italic && "italic",
+    underline && "underline",
+    center && "center",
+    marginless && "marginless",
+    uppercase && "uppercase",
+  ]);
 
   return createElement(Component, { ref, className, style }, text ?? children);
 };

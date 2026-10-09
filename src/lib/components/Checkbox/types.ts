@@ -1,11 +1,9 @@
-import type { ReactNode } from "react";
 import { InputCommonProps, InputSize } from "../Form/types";
 
 export type CheckboxProps = {
   label?: string;
   checked?: boolean;
   partialCheck?: boolean;
-  children?: ReactNode;
 } & Omit<InputCommonProps, "value"> &
   CheckboxDefaultableProps;
 

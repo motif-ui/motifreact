@@ -1,15 +1,13 @@
 import browserslist from "browserslist";
 import { useEffect, useState } from "react";
 import styles from "./BrowserCoverage.module.scss";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import browserslistrc from "../../../../.browserslistrc?raw";
 
 const BrowserCoverage = () => {
   const [coverage, setCoverage] = useState<number>(0);
 
   useEffect(() => {
-    const query = (browserslistrc as string).split("\n").filter(line => !line.trim().startsWith("#"));
+    const query = browserslistrc.split("\n").filter(line => !line.trim().startsWith("#"));
     const coverageData = browserslist.coverage(browserslist(query));
 
     setCoverage(Number(coverageData.toFixed(1)));
