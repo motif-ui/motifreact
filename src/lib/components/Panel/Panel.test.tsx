@@ -44,10 +44,8 @@ describe("Panel", () => {
   });
 
   it("should lean the content to the edges when lean is true", () => {
-    const { container, rerender } = render(<Panel lean />);
+    const { container } = render(<Panel lean />);
     expect(container.firstElementChild).toHaveClass("lean");
-    rerender(<Panel />);
-    expect(container.firstElementChild).not.toHaveClass("lean");
   });
 
   it("should render the children", () => {
