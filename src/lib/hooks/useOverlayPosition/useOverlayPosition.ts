@@ -10,6 +10,7 @@ import {
   getContainingBlockOrigin,
   getCssAnchorTranslate,
   getScrollAncestors,
+  hasResized,
   isSamePosition,
   removeAnchorName,
   setAnchorOffsets,
@@ -134,7 +135,13 @@ const useOverlayPosition = (
 
     // ResizeObserver callbacks run before the browser paints the frame too. The overlay is fitted into the viewport again
     // when its content resizes it, keeping its placement. The anchor's size is followed by CSS where it is supported.
-    const resizeObserver = new ResizeObserver(entries => calculate(entries.some(({ target }) => target === overlay) ? "refit" : "follow"));
+    const resizeObserver = new ResizeObserver(entries => {
+      if (entries.some(({ target }) => target === overlay) && hasResized(overlay, calculatedRef.current)) {
+        calculate("refit");
+      } else if (entries.some(({ target }) => target !== overlay)) {
+        calculate("follow");
+      }
+    });
     resizeObserver.observe(overlay);
     if (anchor && !supportsCssAnchor()) resizeObserver.observe(anchor);
     return () => resizeObserver.disconnect();

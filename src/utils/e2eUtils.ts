@@ -49,3 +49,15 @@ export const disableCssAnchor = () => {
 /** Waits two frames, so the updates made before the browser paints, e.g. by ResizeObserver callbacks, are done */
 export const waitForFrames = (page: Page) =>
   page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+
+/**
+ * Opens the story and waits until it is rendered with its fonts, so the measurements do not race the page settling,
+ * e.g. a story rendered again that resets a scroll, or a font that changes the size of the anchor
+ */
+export const openStory = async (page: Page, id: string) => {
+  await page.goto(storyUrl(id));
+  // the root may also hold the stylesheets of the story, which are never visible
+  await page.locator("body.sb-show-main #storybook-root > :not(link, style, script)").first().waitFor();
+  await page.evaluate(() => document.fonts.ready);
+  await waitForFrames(page);
+};

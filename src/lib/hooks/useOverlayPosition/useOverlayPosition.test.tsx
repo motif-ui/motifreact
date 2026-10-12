@@ -496,6 +496,17 @@ describe("useOverlayPosition", () => {
       unrelated.remove();
     });
 
+    it("should not move it when it is observed without being resized, e.g. when the observation starts after a scroll", () => {
+      const resizeObserved = observeResizes();
+      setAnchorRect({ top: 300, left: 800, width: 100, height: 40 });
+      renderPosition("bottomLeft");
+
+      // the anchor moved toward the edge, so a refit would shift the overlay back into the viewport
+      setAnchorRect({ top: 300, left: 900, width: 100, height: 40 });
+      resizeObserved(overlay);
+      expect(overlay.style.left).toBe("");
+    });
+
     it("should keep the shift applied on open while following the anchor", () => {
       setAnchorRect({ top: 300, left: 0, width: 40, height: 40 });
       renderPosition("bottom");

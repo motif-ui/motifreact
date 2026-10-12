@@ -272,6 +272,16 @@ export const calculatePosition = (
   };
 };
 
+/**
+ * Whether the overlay's size differs from the one it is positioned with. ResizeObserver also notifies when it starts
+ * observing, and that notification may arrive after the anchor has moved, e.g. by a scroll, so it is told apart this way.
+ */
+export const hasResized = (overlay: HTMLElement, calculated?: Calculated) => {
+  if (!calculated) return true;
+  const { width, height } = measure(overlay);
+  return Math.abs(width - calculated.size.width) >= 0.5 || Math.abs(height - calculated.size.height) >= 0.5;
+};
+
 export const isSamePosition = (a: Calculated | undefined, b: Calculated) =>
   a?.placement === b.placement && a.top === b.top && a.left === b.left && a.maxWidth === b.maxWidth;
 

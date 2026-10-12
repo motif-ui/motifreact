@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getRect, setScroll, storyUrl } from "../../../../utils/e2eUtils";
+import { getRect, openStory, setScroll } from "../../../../utils/e2eUtils";
 
 // Behavior tests of the picker positioning in a real browser, on the scenes in InputDateRange.e2e.story.tsx. Chromium
 // supports CSS anchor positioning, so the CSS path is covered here.
@@ -11,7 +11,7 @@ test.describe("InputDateRange in a scrolling container", () => {
   const input = "[data-mtf-component=mtf-input-text]";
 
   test("opens the picker aligned with the input and follows it while scrolling", async ({ page }) => {
-    await page.goto(storyUrl("e2e-inputdaterange--scrolling-container"));
+    await openStory(page, "e2e-inputdaterange--scrolling-container");
     await page.locator(`${input} input`).click();
     await expect(page.locator(picker)).toBeVisible();
 
