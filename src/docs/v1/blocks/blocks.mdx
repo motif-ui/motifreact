@@ -4,4 +4,99 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 # Blocks
 
-###### to be implemented...
+Blocks are guides that show how Motif UI components work together to build real-world UI sections. Where a component
+solves a single UI need (a button, an input, a panel), a block demonstrates how several components are combined into a
+complete piece of an interface, such as a login screen or a registration form. Use them as a starting point to build your
+website or app faster.
+
+## Blocks vs Components
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Components</th>
+      <th>Blocks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Scope</strong></td>
+      <td>A single UI element</td>
+      <td>A complete section composed of many components</td>
+    </tr>
+    <tr>
+      <td><strong>How to use</strong></td>
+      <td>Import from <code>@motif-ui/react</code></td>
+      <td>Copy the source code into your project</td>
+    </tr>
+    <tr>
+      <td><strong>Customization</strong></td>
+      <td>Through props, design tokens and theming</td>
+      <td>Edit the code freely; it becomes part of your codebase</td>
+    </tr>
+    <tr>
+      <td><strong>Updates</strong></td>
+      <td>Delivered with every Motif UI release</td>
+      <td>Yours to maintain once copied</td>
+    </tr>
+    <tr>
+      <td><strong>Example</strong></td>
+      <td><code>Form</code>, <code>InputText</code>, <code>Panel</code>, <code>Link</code></td>
+      <td>Login, Register</td>
+    </tr>
+  </tbody>
+</table>
+
+## How to Use a Block
+
+Blocks are not shipped inside the `@motif-ui/react` package, as they are not extra components. Each block is provided
+as source code built only with Motif UI components, so you can copy it and have full control over it.
+
+1. Make sure Motif UI is [installed](?path=/docs/getting-started-installation--docs) and your app is wrapped with
+   [`MotifProvider`](?path=/docs/getting-started-motifprovider--docs).
+2. Open the block's page from the menu and expand its source files below the preview.
+3. Copy the files into your project.
+4. Replace the placeholder parts with your own content: the logo, texts and link URLs.
+
+Blocks are built only with the public Motif UI API, so a copied block imports its components from `@motif-ui/react`
+just like the rest of your app:
+
+```tsx
+// src/blocks/Login.tsx
+import { BusinessCard, Form, InputPassword, InputText, Panel, Validations } from "@motif-ui/react";
+
+const Login = () => (
+  <Panel bordered>
+    <BusinessCard title="Log in to your account" description="Enter your credentials to access your account" />
+    <Form onSubmit={() => {}} submitButtonLabel="Log In" buttonPosition="fluid">
+      <Form.Field name="email" label="Email Address" validations={[Validations.Required, Validations.EMAIL]}>
+        <InputText iconLeft="mail" placeholder="you@example.com" />
+      </Form.Field>
+      <Form.Field name="password" label="Password" validations={[Validations.Required]}>
+        <InputPassword iconLeft="lock" toggleMask placeholder="Enter your password" />
+      </Form.Field>
+    </Form>
+  </Panel>
+);
+
+export default Login;
+```
+
+Then use it anywhere in your app like any other React component:
+
+```tsx
+import Login from "./blocks/Login";
+
+export default function LoginPage() {
+  return <Login />;
+}
+```
+
+## Customizing a Block
+
+Once copied, a block is plain React code. Change it however you need:
+
+- **Content:** Edit titles, descriptions, labels and placeholders directly in the code.
+- **Behavior:** Add or remove fields and adjust [validations](?path=/docs/form-validation--docs) to fit your rules.
+- **Assets:** Logos and images in the blocks point to Motif UI assets. Replace them with your own brand assets.

@@ -5,7 +5,7 @@ import { PropsWithRef } from "../../../types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
 export type RowProps = {
-  justifyCols?: "start" | "center" | "end" | "evenly";
+  justifyCols?: "start" | "center" | "end" | "evenly" | "apart";
   colsAuto?: boolean;
   children: ReactElement<ColProps> | (ReactElement<ColProps> | null | boolean)[] | null | boolean;
 };
