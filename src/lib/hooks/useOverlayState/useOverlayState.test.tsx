@@ -2,6 +2,7 @@ import { act, fireEvent, renderHook } from "@testing-library/react";
 import { Profiler } from "react";
 import type { PropsWithChildren } from "react";
 import useOverlayState from "./useOverlayState";
+import { browserClick } from "../../../utils/testUtils";
 
 describe("useOverlayState", () => {
   const anchor = document.createElement("button");
@@ -146,7 +147,7 @@ describe("useOverlayState", () => {
         initialProps: { open: true },
       });
 
-      fireEvent.mouseUp(outside);
+      browserClick(outside);
       expect(onClose).toHaveBeenCalledWith("outsideClick");
       expect(result.current.open).toBe(true);
 
@@ -169,14 +170,23 @@ describe("useOverlayState", () => {
       expect(onClose).toHaveBeenCalledTimes(2);
     });
 
-    it("should handle the touchend and the mouseup of a tap as a single outside click", () => {
+    it("should not close when the page is scrolled by touch, since the browser fires no click after it", () => {
       const onClose = jest.fn();
       renderHook(() => useOverlayState({ open: true, onClose, insideRefs, closeOnOutsideClick: true }));
 
+      fireEvent.pointerDown(outside);
       fireEvent.touchEnd(outside);
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it("should not close when a press started inside is released outside, e.g. while selecting text", () => {
+      const onClose = jest.fn();
+      renderHook(() => useOverlayState({ open: true, onClose, insideRefs, closeOnOutsideClick: true }));
+
+      fireEvent.pointerDown(overlay);
       fireEvent.mouseUp(outside);
-      expect(onClose).toHaveBeenCalledTimes(1);
-      expect(onClose).toHaveBeenCalledWith("outsideClick");
+      fireEvent.click(outside);
+      expect(onClose).not.toHaveBeenCalled();
     });
 
     it("should not call onClose again when its identity changes during the exit transition", () => {
@@ -202,15 +212,15 @@ describe("useOverlayState", () => {
         },
       );
 
-      fireEvent.mouseUp(outside);
+      browserClick(outside);
       expect(result.current.open).toBe(true);
 
       rerender({ closeOnOutsideClick: true });
-      fireEvent.mouseUp(anchor);
-      fireEvent.mouseUp(overlay);
+      browserClick(anchor);
+      browserClick(overlay);
       expect(result.current.open).toBe(true);
 
-      fireEvent.touchEnd(outside);
+      browserClick(outside);
       expect(result.current.open).toBe(false);
     });
 
@@ -252,7 +262,7 @@ describe("useOverlayState", () => {
       const onClose = jest.fn();
       renderHook(() => useOverlayState({ onClose, insideRefs, closeOnOutsideClick: true, closeOnEscape: true, closeOnScroll: true }));
 
-      fireEvent.mouseUp(outside);
+      browserClick(outside);
       fireEvent.keyDown(document, { key: "Escape" });
       fireEvent.scroll(document);
       expect(onClose).not.toHaveBeenCalled();

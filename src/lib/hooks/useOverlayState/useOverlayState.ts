@@ -22,8 +22,6 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   const insideEventRef = useRef<Event>(undefined);
   // Keeps the close made by the open prop from being notified again after a close request in the same open cycle
   const closeNotifiedRef = useRef(!isOpen);
-  // A tap fires touchend and then a compatibility mouseup, kept so they are handled as a single outside click
-  const lastTouchEndRef = useRef(-Infinity);
   const notifyClose = useCallback((reason?: OverlayCloseReason) => {
     if (closeNotifiedRef.current) return;
     closeNotifiedRef.current = true;
@@ -72,36 +70,34 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
       target === document || (target instanceof Node && !!insideRefs?.some(ref => ref.current && target.contains(ref.current)));
 
     // React handles the event before it reaches the document, so the events marked by insideProps are known here
-    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-      if (e.type === "touchend") {
-        lastTouchEndRef.current = e.timeStamp;
-      } else if (e.timeStamp - lastTouchEndRef.current < 1000) {
-        // Tap mouse up delay: 1000ms => Browsers fire the compatibility mouse events
-        // of a tap within about 300ms after touchend, kept longer for slow devices
-        return;
-      }
-      !isInside(e.target) && insideEventRef.current !== e && hide("outsideClick");
-    };
+    const isOutside = (e: Event) => !isInside(e.target) && insideEventRef.current !== e;
+    /**
+     * An outside click is a click whose press also started outside. So a text selection started inside and released
+     * outside does not close it, and neither does scrolling the page by touch, since the browser fires no click after it.
+     */
+    const press = { outside: false };
+    const handlePointerDown = (e: PointerEvent) => void (press.outside = isOutside(e));
+    const handleClick = (e: MouseEvent) => press.outside && isOutside(e) && hide("outsideClick");
     const handleKeyDown = (e: KeyboardEvent) => e.key === "Escape" && hide("escape");
     const handleScroll = (e: Event) => !isInside(e.target) && movesInside(e.target) && hide("scroll");
 
     if (closeOnOutsideClick) {
-      document.addEventListener("mouseup", handleOutsideClick);
-      document.addEventListener("touchend", handleOutsideClick);
+      document.addEventListener("pointerdown", handlePointerDown);
+      document.addEventListener("click", handleClick);
     }
     closeOnEscape && document.addEventListener("keydown", handleKeyDown);
     closeOnScroll && window.addEventListener("scroll", handleScroll, { capture: true, passive: true });
 
     return () => {
-      document.removeEventListener("mouseup", handleOutsideClick);
-      document.removeEventListener("touchend", handleOutsideClick);
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("click", handleClick);
       document.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("scroll", handleScroll, { capture: true });
     };
   }, [isOpen, hide, insideRefs, closeOnOutsideClick, closeOnEscape, closeOnScroll]);
 
   const markInside = useCallback((e: SyntheticEvent) => void (insideEventRef.current = e.nativeEvent), []);
-  const insideProps = useMemo(() => ({ onMouseUp: markInside, onTouchEnd: markInside }), [markInside]);
+  const insideProps = useMemo(() => ({ onPointerDown: markInside, onClick: markInside }), [markInside]);
 
   return { open: isOpen, attached, visible, show, hide, toggle, insideProps };
 };

@@ -39,3 +39,13 @@ export const isPainted = (page: Page, selector: string) =>
       const y = Math.min(Math.max(rect.top + rect.height / 2, 1), window.innerHeight - 1);
       return el.contains(document.elementFromPoint(x, y));
     });
+
+/** Makes the page use the JS positioning, as in the browsers without CSS anchor positioning. Pass it to page.addInitScript. */
+export const disableCssAnchor = () => {
+  const supports = CSS.supports.bind(CSS);
+  CSS.supports = (condition: string) => !condition.includes("anchor") && supports(condition);
+};
+
+/** Waits two frames, so the updates made before the browser paints, e.g. by ResizeObserver callbacks, are done */
+export const waitForFrames = (page: Page) =>
+  page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));

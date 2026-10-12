@@ -38,5 +38,5 @@ export type UseOverlayStateReturn = {
    * Handlers to spread on an element whose React subtree belongs to the overlay, e.g. the overlay root.
    * Clicks in nested overlays rendered in their own portals bubble through the React tree, so they are not counted as outside.
    */
-  insideProps: { onMouseUp: (e: SyntheticEvent) => void; onTouchEnd: (e: SyntheticEvent) => void };
+  insideProps: { onPointerDown: (e: SyntheticEvent) => void; onClick: (e: SyntheticEvent) => void };
 };

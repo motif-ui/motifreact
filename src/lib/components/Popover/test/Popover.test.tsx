@@ -1,10 +1,10 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Popover from "../Popover";
-import { createRef, useRef } from "react";
-import type { PropsWithChildren } from "react";
+import { createRef, useRef, useState } from "react";
+import type { PropsWithChildren, RefObject } from "react";
 import { createPortal } from "react-dom";
 import { PopoverProps } from "../types";
-import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { browserClick, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../../lib/types";
 describe("Popover", () => {
   const anchorRef = createRef<HTMLDivElement>();
@@ -189,11 +189,95 @@ describe("Popover", () => {
       render(<UncontrolledPopover />);
       expect(screen.queryByTestId("popover")).not.toBeInTheDocument();
 
-      fireEvent.click(screen.getByText("anchor"));
+      browserClick(screen.getByText("anchor"));
       expect(screen.getByTestId("popover")).toBeInTheDocument();
 
-      fireEvent.click(screen.getByText("anchor"));
+      browserClick(screen.getByText("anchor"));
       expect(screen.getByTestId("popover")).not.toHaveClass("visible");
+    });
+
+    it("should toggle when the anchor is removed and rendered again, e.g. in a filtered list", async () => {
+      const FilteredButtons = () => {
+        const anchorRef = useRef<HTMLButtonElement>(null);
+        const [filter, setFilter] = useState("");
+        return (
+          <>
+            <input aria-label="filter" value={filter} onChange={e => setFilter(e.target.value)} />
+            {["First", "Second", "Third"]
+              .filter(label => label.toLowerCase().includes(filter))
+              .map(label => (
+                <button key={label} ref={label === "Second" ? anchorRef : undefined}>
+                  {label}
+                </button>
+              ))}
+            <Popover anchorRef={anchorRef}>Popover content</Popover>
+          </>
+        );
+      };
+      render(<FilteredButtons />);
+
+      browserClick(screen.getByText("Second"));
+      expect(screen.getByTestId("popover")).toBeInTheDocument();
+      browserClick(screen.getByText("Second"));
+      await waitFor(() => expect(screen.queryByTestId("popover")).not.toBeInTheDocument());
+
+      fireEvent.change(screen.getByLabelText("filter"), { target: { value: "first" } });
+      expect(screen.queryByText("Second")).not.toBeInTheDocument();
+      fireEvent.change(screen.getByLabelText("filter"), { target: { value: "" } });
+
+      browserClick(screen.getByText("Second"));
+      expect(screen.getByTestId("popover")).toBeInTheDocument();
+    });
+
+    it("should toggle when the anchor is rendered again by another component, without rendering the popover", () => {
+      const FilteredButtons = ({ anchorRef }: { anchorRef: RefObject<HTMLButtonElement | null> }) => {
+        const [filter, setFilter] = useState("");
+        return (
+          <>
+            <input aria-label="filter" value={filter} onChange={e => setFilter(e.target.value)} />
+            {["First", "Second"]
+              .filter(label => label.toLowerCase().includes(filter))
+              .map(label => (
+                <button key={label} ref={label === "Second" ? anchorRef : undefined}>
+                  {label}
+                </button>
+              ))}
+          </>
+        );
+      };
+      const Page = () => {
+        const anchorRef = useRef<HTMLButtonElement>(null);
+        return (
+          <>
+            <FilteredButtons anchorRef={anchorRef} />
+            <Popover anchorRef={anchorRef}>Popover content</Popover>
+          </>
+        );
+      };
+      render(<Page />);
+
+      fireEvent.change(screen.getByLabelText("filter"), { target: { value: "first" } });
+      fireEvent.change(screen.getByLabelText("filter"), { target: { value: "" } });
+      browserClick(screen.getByText("Second"));
+      expect(screen.getByTestId("popover")).toBeInTheDocument();
+    });
+
+    it("should toggle even when a click handler of the anchor stops the propagation", () => {
+      const StoppingAnchor = () => {
+        const anchorRef = useRef<HTMLButtonElement>(null);
+        return (
+          <>
+            <button ref={anchorRef} onClick={e => e.stopPropagation()}>
+              anchor
+            </button>
+            <Popover anchorRef={anchorRef}>Popover content</Popover>
+          </>
+        );
+      };
+      render(<StoppingAnchor />);
+
+      browserClick(screen.getByText("anchor"));
+      expect(screen.getByTestId("popover")).toBeInTheDocument();
     });
 
     it("should be open initially when defaultOpen is true", () => {
@@ -205,14 +289,15 @@ describe("Popover", () => {
       const onClose = jest.fn();
       render(<UncontrolledPopover defaultOpen onClose={onClose} />);
 
-      fireEvent.mouseUp(screen.getByText("Popover content"));
-      fireEvent.mouseUp(screen.getByText("anchor"));
+      browserClick(screen.getByText("Popover content"));
+      // only the press, since a click on the anchor toggles it
+      fireEvent.pointerDown(screen.getByText("anchor"));
       expect(onClose).not.toHaveBeenCalled();
 
-      fireEvent.mouseUp(screen.getByText("outside"));
+      browserClick(screen.getByText("outside"));
       expect(onClose).toHaveBeenCalledWith("outsideClick");
 
-      fireEvent.click(screen.getByText("anchor"));
+      browserClick(screen.getByText("anchor"));
       fireEvent.keyDown(document, { key: "Escape" });
       expect(onClose).toHaveBeenLastCalledWith("escape");
     });
@@ -226,10 +311,10 @@ describe("Popover", () => {
         </UncontrolledPopover>,
       );
 
-      fireEvent.mouseUp(screen.getByText("nested"));
+      browserClick(screen.getByText("nested"));
       expect(onClose).not.toHaveBeenCalled();
 
-      fireEvent.mouseUp(screen.getByText("outside"));
+      browserClick(screen.getByText("outside"));
       expect(onClose).toHaveBeenCalledWith("outsideClick");
     });
 
@@ -237,7 +322,7 @@ describe("Popover", () => {
       const onClose = jest.fn();
       render(<UncontrolledPopover defaultOpen closeOnOutsideClick={false} onClose={onClose} />);
 
-      fireEvent.mouseUp(screen.getByText("outside"));
+      browserClick(screen.getByText("outside"));
       expect(onClose).not.toHaveBeenCalled();
     });
   });
@@ -251,7 +336,7 @@ describe("Popover", () => {
         </Popover>,
       );
 
-      fireEvent.mouseUp(document.body);
+      browserClick(document.body);
       fireEvent.keyDown(document, { key: "Escape" });
       expect(onClose).not.toHaveBeenCalled();
     });
@@ -264,7 +349,7 @@ describe("Popover", () => {
         </Popover>,
       );
 
-      fireEvent.mouseUp(document.body);
+      browserClick(document.body);
       expect(onClose).toHaveBeenCalledWith("outsideClick");
       await waitFor(() => expect(screen.getByTestId("popover")).toHaveClass("visible"));
     });
@@ -280,5 +365,21 @@ describe("Popover", () => {
       fireEvent.scroll(document);
       expect(onClose).toHaveBeenCalledWith("scroll");
     });
+  });
+
+  it.each([
+    { placeOn: "bottomLeft", expected: "caretLeft" },
+    { placeOn: "topRight", expected: "caretRight" },
+    { placeOn: "bottom", expected: "caretCenter" },
+  ] as const)("should point the caret of $placeOn to its spot of the anchor, wherever the popover is", ({ placeOn, expected }) => {
+    // the anchor's offsets are written by the positioning, the popover only picks the spot that placeOn asks for
+    render(
+      <Popover anchorRef={{ current: document.createElement("div") }} placeOn={placeOn} open>
+        Popover content
+      </Popover>,
+    );
+    const popover = screen.getByTestId("popover");
+    expect(popover).toHaveClass(expected);
+    expect(popover.style.getPropertyValue("--overlay-anchor-left")).not.toBe("");
   });
 });

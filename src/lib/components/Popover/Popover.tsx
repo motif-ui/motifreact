@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Popover.module.scss";
-import { useCallback, useEffect, useLayoutEffect } from "react";
+import { useCallback } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRefAndChildren } from "../../types";
 import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
@@ -34,12 +34,12 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     style: positionStyle,
     placement,
     overlayRef: popoverRef,
-    toggle,
     insideProps,
   } = useAnchoredOverlay({
     anchorRef,
     placement: placeOn,
     limitWidth: true,
+    toggleOnAnchorClick: uncontrolled,
     open,
     defaultOpen,
     onClose,
@@ -48,25 +48,6 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     closeOnEscape: closeOnEscape ?? uncontrolled,
     closeOnScroll,
   });
-
-  useEffect(() => {
-    const anchor = anchorRef.current;
-    if (!uncontrolled || !anchor) return;
-    anchor.addEventListener("click", toggle);
-    return () => anchor.removeEventListener("click", toggle);
-  }, [anchorRef, toggle, uncontrolled]);
-
-  useLayoutEffect(() => {
-    if (!attached || !popoverRef.current || !anchorRef.current) return;
-    const popoverRect = popoverRef.current.getBoundingClientRect();
-    const anchorRect = anchorRef.current.getBoundingClientRect();
-
-    if (placement === "left" || placement === "right") {
-      popoverRef.current.style.setProperty("--caret-top", `${anchorRect.top + anchorRect.height / 2 - popoverRect.top - 6}px`);
-    } else {
-      popoverRef.current.style.setProperty("--caret-left", `${anchorRect.left + anchorRect.width / 2 - popoverRect.left - 6}px`);
-    }
-  }, [attached, positionStyle, placement, anchorRef, popoverRef]);
 
   const mergedRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -81,9 +62,11 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     [popoverRef, ref],
   );
 
+  const caretSpot = placeOn.endsWith("Left") ? "caretLeft" : placeOn.endsWith("Right") ? "caretRight" : "caretCenter";
   const classNames = sanitizeModuleRootClasses(styles, className, [
     spacing,
     placement,
+    caretSpot,
     variant,
     visible && "visible",
     elevated && "elevated",

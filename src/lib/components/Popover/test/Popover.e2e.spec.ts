@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getRect, isPainted, setScroll, storyUrl } from "../../../../utils/e2eUtils";
+import { disableCssAnchor, getRect, isPainted, setScroll, storyUrl, waitForFrames } from "../../../../utils/e2eUtils";
 
 // Behavior tests of the Popover positioning in a real browser, on the scenes in Popover.e2e.story.tsx. Chromium
 // supports CSS anchor positioning, so the CSS path is covered here.
@@ -55,18 +55,49 @@ test.describe("Popover in a scrolling container", () => {
   });
 });
 
-test("Popover shifted into the screen stays in it when its content grows", async ({ page }) => {
-  const popover = "[data-testid=popover]";
-  await page.goto(storyUrl("e2e-popover--growing-content"));
-  await page.getByRole("button", { name: "Anchor" }).click();
-  await expect(page.locator(popover)).toHaveClass(/visible/);
-  expect((await getRect(page, popover)).left).toBeGreaterThanOrEqual(0);
+[
+  { path: "CSS anchor positioning", init: undefined },
+  { path: "JS positioning", init: disableCssAnchor },
+].forEach(({ path, init }) =>
+  test.describe(`Popover whose content grows, with ${path}`, () => {
+    const popover = "[data-testid=popover]";
 
-  await page.getByRole("button", { name: "Grow" }).click();
-  const grown = await getRect(page, popover);
-  expect(grown.right - grown.left).toBeGreaterThan(500);
-  expect(grown.left).toBeGreaterThanOrEqual(0);
-});
+    test.beforeEach(async ({ page }) => {
+      if (init) await page.addInitScript(init);
+    });
+
+    test("stays in the screen when it is centered and shifted", async ({ page }) => {
+      await page.goto(storyUrl("e2e-popover--growing-content"));
+      await page.getByRole("button", { name: "Anchor" }).click();
+      await expect(page.locator(popover)).toHaveClass(/visible/);
+      expect((await getRect(page, popover)).left).toBeGreaterThanOrEqual(0);
+
+      await page.getByRole("button", { name: "Grow" }).click();
+      // the popover is fitted again before the next frame is painted, so it is measured after that
+      await waitForFrames(page);
+      const grown = await getRect(page, popover);
+      expect(grown.right - grown.left).toBeGreaterThan(500);
+      expect(grown.left).toBeGreaterThanOrEqual(0);
+    });
+
+    test("stays in the screen and keeps its placement when it is aligned near the edge", async ({ page }) => {
+      await page.goto(storyUrl("e2e-popover--growing-near-the-right-edge"));
+      await expect(page.locator(popover)).toHaveClass(/bottomLeft/);
+      const anchorRect = await getRect(page, "button:has-text('Anchor')");
+      expect((await getRect(page, popover)).left).toBeCloseTo(anchorRect.left, 0);
+
+      await page.getByRole("button", { name: "Grow" }).click();
+      await waitForFrames(page);
+      // as wide as its content instead of cutting it off, since its width limit is calculated again
+      expect(await page.locator(popover).evaluate(el => Math.round(el.getBoundingClientRect().width))).toBeGreaterThanOrEqual(400);
+      const isCutOff = await page.locator(popover).evaluate(el => el.firstElementChild!.scrollWidth > el.firstElementChild!.clientWidth);
+      expect(isCutOff).toBe(false);
+      // shifted to the left to stay in the 1000px wide screen, with the popover's 8px distance from its edge
+      expect(Math.round((await getRect(page, popover)).right)).toBeLessThanOrEqual(992);
+      await expect(page.locator(popover)).toHaveClass(/bottomLeft/);
+    });
+  }),
+);
 
 test("Popover wraps long text within the screen instead of stretching out of it", async ({ page }) => {
   const popover = "[data-testid=popover]";
@@ -123,3 +154,144 @@ test.describe("Popover near the right edge", () => {
     expect(await text.evaluate(el => el.getBoundingClientRect().left)).toBeGreaterThanOrEqual(0);
   });
 });
+
+test.describe("Popover shifted into the screen", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto(storyUrl("e2e-popover--shifted-into-the-screen"));
+    await expect(page.locator("[data-testid=popover]").first()).toHaveClass(/visible/);
+  });
+
+  [
+    { index: 0, placement: "bottomLeft", anchor: "Left" },
+    { index: 1, placement: "topRight", anchor: "Right" },
+  ].forEach(({ index, placement, anchor }) =>
+    test(`keeps the caret of ${placement} at its anchor`, async ({ page }) => {
+      const popover = page.getByTestId("popover").nth(index);
+      await expect(popover).toHaveClass(new RegExp(placement));
+      const anchorRect = await getRect(page, `button:has-text('${anchor}')`);
+      const { left, right, caretCenter } = await popover.evaluate(el => {
+        // the caret is the ::before of the popover's wrapper, absolutely positioned in the popover
+        const caret = getComputedStyle(el.firstElementChild!, "::before");
+        const rect = el.getBoundingClientRect();
+        return { left: rect.left, right: rect.right, caretCenter: rect.left + parseFloat(caret.marginLeft) + parseFloat(caret.width) / 2 };
+      });
+      // shifted: the popover's aligned edge is not at the anchor's edge
+      expect(placement === "bottomLeft" ? left < anchorRect.left : right > anchorRect.right).toBe(true);
+      expect(caretCenter).toBeGreaterThan(anchorRect.left);
+      expect(caretCenter).toBeLessThan(anchorRect.right);
+    }),
+  );
+
+  test("keeps the given alignment and the caret at the anchor when it is wider than the screen", async ({ page }) => {
+    // narrower than the 700px content, so the popover starts at the left edge of the screen, kept away from it by its margin
+    await page.setViewportSize({ width: 500, height: 700 });
+    const popover = page.getByTestId("popover").first();
+    await expect.poll(() => popover.evaluate(el => Math.round(el.getBoundingClientRect().left))).toBe(8);
+    await expect(popover).toHaveClass(/bottomLeft/);
+
+    const anchorRect = await getRect(page, "button:has-text('Left')");
+    const caretCenter = await popover.evaluate(el => {
+      const caret = getComputedStyle(el.firstElementChild!, "::before");
+      return el.getBoundingClientRect().left + parseFloat(caret.marginLeft) + parseFloat(caret.width) / 2;
+    });
+    expect(caretCenter).toBeGreaterThan(anchorRect.left);
+    expect(caretCenter).toBeLessThan(anchorRect.right);
+  });
+});
+
+test("Popover flipped to the other alignment keeps its caret at the spot of the anchor that placeOn asks for", async ({ page }) => {
+  await page.goto(storyUrl("e2e-popover--flipped-alignment"));
+  const popover = page.getByTestId("popover");
+  // bottomRight does not fit at the left edge of the screen, so it is flipped to bottomLeft
+  await expect(popover).toHaveClass(/bottomLeft/);
+
+  const anchorRect = await getRect(page, "button:has-text('bottomRight')");
+  const caretCenter = await popover.evaluate(el => {
+    const caret = getComputedStyle(el.firstElementChild!, "::before");
+    return el.getBoundingClientRect().left + parseFloat(caret.marginLeft) + parseFloat(caret.width) / 2;
+  });
+  // near the anchor's right edge, as for bottomRight
+  expect(caretCenter).toBeGreaterThan((anchorRect.left + anchorRect.right) / 2);
+  expect(caretCenter).toBeLessThan(anchorRect.right);
+});
+
+test("Popover keeps the same distance from the screen edge whether it is shifted or not", async ({ page }) => {
+  await page.goto(storyUrl("e2e-popover--flipped-alignment"));
+  const popover = page.getByTestId("popover");
+  await expect(popover).toHaveClass(/visible/);
+  // the visible box is the popover's wrapper
+  const visibleLeft = () => popover.evaluate(el => Math.round(el.firstElementChild!.getBoundingClientRect().left));
+  // aligned with the anchor, which is 8px away from the edge
+  expect(await visibleLeft()).toBe(8);
+
+  // narrower than the popover, so it is shifted and kept away from the edge by its margin
+  await page.setViewportSize({ width: 280, height: 700 });
+  await expect.poll(visibleLeft).toBe(8);
+});
+
+test("Popovers on the same anchor stay attached to it when one of them closes", async ({ page }) => {
+  await page.goto(storyUrl("e2e-popover--shared-anchor"));
+  const bottom = page.getByTestId("popover").filter({ hasText: "Bottom" });
+  await expect(page.getByTestId("popover").filter({ hasText: "Top" })).toHaveClass(/visible/);
+  await expect(bottom).toHaveClass(/visible/);
+
+  await page.getByRole("button", { name: "Close top" }).click();
+  await expect(page.getByTestId("popover").filter({ hasText: "Top" })).toHaveCount(0);
+  const anchorRect = await getRect(page, "button:has-text('Anchor')");
+  const bottomRect = await getRect(page, "[data-testid=popover]:has-text('Bottom')");
+  // still right below its anchor, so it did not lose the anchor's name
+  expect(bottomRect.top).toBeGreaterThanOrEqual(anchorRect.bottom - 1);
+  expect(bottomRect.top - anchorRect.bottom).toBeLessThan(20);
+  await expect.poll(() => isPainted(page, "[data-testid=popover]:has-text('Bottom')")).toBe(true);
+});
+
+test("Popover does not close when a text selection started in it ends outside", async ({ page }) => {
+  await page.goto(storyUrl("e2e-popover--scrolling-container"));
+  await page.locator("button:has-text('Anchor')").click();
+  const popover = page.getByTestId("popover");
+  await expect(popover).toHaveClass(/visible/);
+
+  const text = await getRect(page, "[data-testid=popover] div div");
+  await page.mouse.move(text.left + 2, (text.top + text.bottom) / 2);
+  await page.mouse.down();
+  await page.mouse.move(text.left + 2, 650, { steps: 5 });
+  await page.mouse.up();
+  await expect(popover).toHaveClass(/visible/);
+
+  // a click that starts outside still closes it
+  await page.mouse.click(5, 650);
+  await expect(popover).toHaveCount(0);
+});
+
+test("Popover follows the anchor in a scrolling container with JS positioning", async ({ page }) => {
+  await page.addInitScript(disableCssAnchor);
+  await page.goto(storyUrl("e2e-popover--scrolling-container"));
+  await setScroll(page, { left: 300 });
+  await page.locator("button:has-text('Anchor')").click();
+  const popover = "[data-testid=popover]";
+  await expect(page.locator(popover)).toHaveClass(/visible/);
+  const offset = async () => (await getRect(page, popover)).left - (await getRect(page, "button:has-text('Anchor')")).left;
+  const before = await offset();
+
+  await setScroll(page, { left: 250 });
+  expect(await offset()).toBeCloseTo(before, 0);
+});
+
+[
+  { path: "CSS anchor positioning", init: undefined },
+  { path: "JS positioning", init: disableCssAnchor },
+].forEach(({ path, init }) =>
+  test(`Popover is placed at its anchor when the body is positioned away from the document's origin, with ${path}`, async ({ page }) => {
+    if (init) await page.addInitScript(init);
+    await page.goto(storyUrl("e2e-popover--positioned-body"));
+    const popover = "[data-testid=popover]";
+    await expect(page.locator(popover)).toHaveClass(/visible/);
+    await waitForFrames(page);
+
+    const anchorRect = await getRect(page, "button:has-text('Anchor')");
+    const popoverRect = await getRect(page, popover);
+    expect(popoverRect.left).toBeCloseTo(anchorRect.left, 0);
+    expect(popoverRect.top).toBeGreaterThanOrEqual(anchorRect.bottom - 1);
+    expect(popoverRect.top - anchorRect.bottom).toBeLessThan(20);
+  }),
+);

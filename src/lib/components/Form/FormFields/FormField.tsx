@@ -49,7 +49,7 @@ const FormField = (props: PropsWithRef<FormFieldProps, HTMLDivElement>) => {
         {label && <span className={styles.label}>{label}</span>}
         <div className={styles.inputContainer}>
           {children}
-          <span className={styles.helper}>{error ?? (helperText || "")}</span>
+          {error || helperText} && <span className={styles.helper}>{error ?? helperText}</span>
         </div>
       </div>
     </FieldProvider>

@@ -2,8 +2,19 @@
 
 import { useCallback, useEffect, useId, useLayoutEffect, useReducer, useRef } from "react";
 import type { RefObject } from "react";
-import { Calculated, OverlayPositionProps, OverlayPositionReturn, Point } from "./types";
-import { calculatePosition, getCssAnchorStyle, getCssAnchorTranslate, isSamePosition, supportsCssAnchor } from "./helper";
+import { Calculated, OverlayPositionProps, OverlayPositionReturn, Point, PositionMode } from "./types";
+import {
+  addAnchorName,
+  calculatePosition,
+  getCssAnchorStyle,
+  getContainingBlockOrigin,
+  getCssAnchorTranslate,
+  getScrollAncestors,
+  isSamePosition,
+  removeAnchorName,
+  setAnchorOffsets,
+  supportsCssAnchor,
+} from "./helper";
 
 const useOverlayPosition = (
   anchorRef: RefObject<HTMLElement | null>,
@@ -17,95 +28,140 @@ const useOverlayPosition = (
   // Counts the calculations applied with a render, so the effect correcting the CSS position runs again for each of them
   const [renderedCalculation, countRenderedCalculation] = useReducer(count => count + 1, 0);
   const cssTranslateRef = useRef<Point>({ x: 0, y: 0 });
+  // Where the overlay's containing block starts in the document when JS positions it, measured after it is placed
+  const originRef = useRef<Point>({ x: 0, y: 0 });
+  const writePosition = useCallback((overlay: HTMLElement, position: Calculated) => {
+    overlay.style.top = `${position.top - originRef.current.y}px`;
+    overlay.style.left = `${position.left - originRef.current.x}px`;
+  }, []);
+
+  // Corrects where CSS places the overlay to the calculated position
+  const correctCssPosition = useCallback((overlay: HTMLElement, target: Calculated) => {
+    const translate = getCssAnchorTranslate(overlay, target);
+    cssTranslateRef.current = translate;
+    overlay.style.translate = `${translate.x}px ${translate.y}px`;
+  }, []);
 
   /**
    * The placement is chosen by JS on open. While open, CSS anchor positioning follows the anchor where it is supported, JS otherwise.
    *
    * On open, the placement and the shift are chosen to fit the overlay into the viewport, and applied with a render.
-   * While following the anchor, they are kept and the position is written to the overlay element directly,
-   * so neither the overlay nor its content renders on each scroll frame.
+   * While following the anchor or refitting a resized overlay, the placement is kept and the position is written to
+   * the overlay element directly, so neither the overlay nor its content renders on each scroll frame.
    */
   const calculate = useCallback(
-    (followAnchor: boolean) => {
+    (mode: PositionMode) => {
       const anchor = anchorRef.current;
       const overlay = overlayRef.current;
       if (!anchor || !overlay) return;
 
       const prev = calculatedRef.current;
-      const position = calculatePosition(anchor, overlay, placement, !followAnchor, limitWidth, prev);
+      const position = calculatePosition(anchor, overlay, placement, mode, limitWidth, prev);
       // Kept even when the position is the same, so the shift calculated on open is followed
       calculatedRef.current = position;
-      if (isSamePosition(prev, position)) return;
 
-      if (followAnchor && prev) {
-        overlay.style.top = `${position.top}px`;
-        overlay.style.left = `${position.left}px`;
-      } else {
-        countRenderedCalculation();
+      if (prev && !supportsCssAnchor()) {
+        // Written directly also when it is rendered, since React skips a style value it rendered before,
+        // while the element may have another one written while following
+        writePosition(overlay, position);
       }
+      if (mode === "fit" || !prev) {
+        if (!isSamePosition(prev, position)) return countRenderedCalculation();
+        if (!prev) return;
+      } else if (mode === "follow" || isSamePosition(prev, position)) {
+        // While following, the anchor's offsets stay the same, since the shift is kept
+        return;
+      }
+      // Applied without a render, also when fitted again to the same position: CSS keeps the overlay at the anchor,
+      // which may have moved or resized since the last correction
+      if (supportsCssAnchor()) correctCssPosition(overlay, position);
+      setAnchorOffsets(anchor, overlay);
     },
-    [anchorRef, overlayRef, placement, limitWidth],
+    [anchorRef, overlayRef, placement, limitWidth, correctCssPosition, writePosition],
   );
 
   useLayoutEffect(() => {
+    const anchor = anchorRef.current;
+    if (!enabled || !anchor || !supportsCssAnchor()) return;
+    // Added to the names of the anchor, which may have other overlays on it, e.g. a tooltip and a popover
+    addAnchorName(anchor, anchorName);
+    return () => removeAnchorName(anchor, anchorName);
+  }, [enabled, anchorRef, anchorName]);
+
+  useLayoutEffect(() => {
     // The last calculation is not cleared when disabled, it is ignored instead and replaced on the next enable
-    enabled && calculate(false);
+    enabled && calculate("fit");
   }, [enabled, calculate]);
 
   useLayoutEffect(() => {
     const anchor = anchorRef.current;
     const overlay = overlayRef.current;
     const target = calculatedRef.current;
-    if (!supportsCssAnchor() || !enabled || !anchor || !overlay || !target) return;
+    if (!enabled || !anchor || !overlay || !target) return;
 
-    // Corrects where CSS places the overlay to the calculated position, before the browser paints
-    anchor.style.setProperty("anchor-name", anchorName);
-    const translate = getCssAnchorTranslate(overlay, target);
-    cssTranslateRef.current = translate;
-    overlay.style.translate = `${translate.x}px ${translate.y}px`;
-
-    return () => {
-      anchor.style.removeProperty("anchor-name");
-    };
-  }, [enabled, renderedCalculation, anchorRef, overlayRef, anchorName]);
+    // Done before the browser paints. While following, the anchor's offsets stay the same, since the shift is kept.
+    if (supportsCssAnchor()) {
+      correctCssPosition(overlay, target);
+    } else {
+      // The position is written as if the overlay were positioned in the document, which holds unless its containing block
+      // starts elsewhere, e.g. a positioned body with a margin. Then it is written again with where it starts.
+      const origin = getContainingBlockOrigin(overlay, target, originRef.current);
+      if (Math.abs(origin.x - originRef.current.x) >= 0.5 || Math.abs(origin.y - originRef.current.y) >= 0.5) {
+        originRef.current = origin;
+        writePosition(overlay, target);
+      }
+    }
+    setAnchorOffsets(anchor, overlay);
+  }, [enabled, renderedCalculation, anchorRef, overlayRef, correctCssPosition, writePosition]);
 
   useEffect(() => {
-    if (!enabled || supportsCssAnchor()) return;
+    const anchor = anchorRef.current;
+    if (!enabled || !anchor || supportsCssAnchor()) return;
 
-    // Scroll events and ResizeObserver callbacks run right before the browser paints the frame,
-    // so updating synchronously in them keeps the overlay stuck to the anchor without lagging a frame behind
-    const follow = () => calculate(true);
-    const handleScroll = ({ target }: Event) => {
-      // Scrolls inside the overlay do not move it
-      if (target instanceof Node && overlayRef.current?.contains(target)) return;
-      follow();
-    };
+    // Scroll events run right before the browser paints the frame,
+    // so updating synchronously in them keeps the overlay stuck to the anchor without lagging a frame behind.
+    // Only the scrolls that move the anchor are listened to: of the page and of the anchor's scrolling ancestors.
+    const follow = () => calculate("follow");
+    const targets = [document, ...getScrollAncestors(anchor.parentElement)];
+    targets.forEach(target => target.addEventListener("scroll", follow, { passive: true }));
+    return () => targets.forEach(target => target.removeEventListener("scroll", follow));
+  }, [enabled, calculate, anchorRef]);
 
-    window.addEventListener("scroll", handleScroll, { capture: true, passive: true });
-    const resizeObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(follow);
-    anchorRef.current && resizeObserver?.observe(anchorRef.current);
-    overlayRef.current && resizeObserver?.observe(overlayRef.current);
+  useEffect(() => {
+    const anchor = anchorRef.current;
+    const overlay = overlayRef.current;
+    if (!enabled || !overlay || typeof ResizeObserver === "undefined") return;
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll, { capture: true });
-      resizeObserver?.disconnect();
-    };
+    // ResizeObserver callbacks run before the browser paints the frame too. The overlay is fitted into the viewport again
+    // when its content resizes it, keeping its placement. The anchor's size is followed by CSS where it is supported.
+    const resizeObserver = new ResizeObserver(entries => calculate(entries.some(({ target }) => target === overlay) ? "refit" : "follow"));
+    resizeObserver.observe(overlay);
+    if (anchor && !supportsCssAnchor()) resizeObserver.observe(anchor);
+    return () => resizeObserver.disconnect();
   }, [enabled, calculate, anchorRef, overlayRef]);
 
   useEffect(() => {
     if (!enabled) return;
 
-    // The placement chosen on open no longer holds when the viewport changes, so it is chosen again, also with CSS anchor positioning
-    const fitAgain = () => calculate(false);
+    // The placement chosen on open no longer holds when the viewport changes, so it is chosen again, also with CSS anchor positioning.
+    // Resizing the window fires many events in a frame, so it is chosen once per frame, still before the frame is painted.
+    const frame = { id: 0 };
+    const fitAgain = () => {
+      cancelAnimationFrame(frame.id);
+      frame.id = requestAnimationFrame(() => calculate("fit"));
+    };
     window.addEventListener("resize", fitAgain);
-    return () => window.removeEventListener("resize", fitAgain);
+    return () => {
+      cancelAnimationFrame(frame.id);
+      window.removeEventListener("resize", fitAgain);
+    };
   }, [enabled, calculate]);
 
   const positioned = enabled ? calculatedRef.current : undefined;
   if (!positioned) return { style: { top: 0, left: 0, visibility: "hidden" }, placement };
   const position = supportsCssAnchor()
     ? getCssAnchorStyle(positioned.placement, anchorName, cssTranslateRef.current)
-    : { top: positioned.top, left: positioned.left };
+    : { top: positioned.top - originRef.current.y, left: positioned.left - originRef.current.x };
   return { style: { ...position, maxWidth: positioned.maxWidth }, placement: positioned.placement };
 };
 

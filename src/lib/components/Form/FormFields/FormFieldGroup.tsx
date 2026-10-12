@@ -63,7 +63,7 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
         {label && <span className={styles.label}>{label}</span>}
         <div className={styles.inputContainer}>
           <div className={styles.groupItems}>{children}</div>
-          <span className={styles.helper}>{error ?? (helperText || "")}</span>
+          {error || helperText} && <span className={styles.helper}>{error ?? helperText}</span>
         </div>
       </div>
     </FieldProvider>

@@ -1,6 +1,6 @@
-import { act, fireEvent, renderHook } from "@testing-library/react";
+import { act, fireEvent, render, renderHook } from "@testing-library/react";
 import useOverlayPosition from "./useOverlayPosition";
-import { OverlayPosition } from "./types";
+import { OverlayPlaceOn } from "../../types";
 
 // jsdom viewport is 1024 x 768
 type Rect = { top: number; left: number; width: number; height: number };
@@ -31,7 +31,7 @@ describe("useOverlayPosition", () => {
   };
 
   type HookProps = { enabled: boolean; limitWidth?: boolean };
-  const renderPosition = (placement: OverlayPosition, options: Partial<HookProps> = {}) =>
+  const renderPosition = (placement: OverlayPlaceOn, options: Partial<HookProps> = {}) =>
     renderHook(({ enabled, limitWidth }: HookProps) => useOverlayPosition(anchorRef, overlayRef, { placement, enabled, limitWidth }), {
       initialProps: { enabled: true, ...options },
     });
@@ -47,6 +47,32 @@ describe("useOverlayPosition", () => {
     act(() => {
       fireEvent.scroll(target);
     });
+  };
+  // The placement is chosen again in the next frame after the window is resized, so the frame is run right away here
+  const resize = () => {
+    const frame = jest.spyOn(window, "requestAnimationFrame").mockImplementation(callback => {
+      callback(0);
+      return 0;
+    });
+    act(() => {
+      fireEvent(window, new Event("resize"));
+    });
+    frame.mockRestore();
+  };
+  // jsdom has no ResizeObserver, so a fake one lets the tests resize the observed elements
+  const observeResizes = () => {
+    const observer = { callback: (() => {}) as ResizeObserverCallback };
+    Object.defineProperty(window, "ResizeObserver", {
+      configurable: true,
+      value: class {
+        constructor(callback: ResizeObserverCallback) {
+          observer.callback = callback;
+        }
+        observe() {}
+        disconnect() {}
+      },
+    });
+    return (target: Element) => act(() => observer.callback([{ target } as unknown as ResizeObserverEntry], {} as ResizeObserver));
   };
   // While following the anchor, the position is written to the overlay element without a render
   const domPosition = () => ({ top: parseFloat(overlay.style.top), left: parseFloat(overlay.style.left) });
@@ -64,6 +90,10 @@ describe("useOverlayPosition", () => {
     Object.defineProperty(overlay, "scrollWidth", { configurable: true, value: 0 });
     Object.defineProperty(overlay, "scrollHeight", { configurable: true, value: 0 });
     setAnchorRect({ top: 300, left: 400, width: 100, height: 40 });
+  });
+
+  afterEach(() => {
+    delete (window as { ResizeObserver?: unknown }).ResizeObserver;
   });
 
   afterAll(() => document.body.replaceChildren());
@@ -112,7 +142,7 @@ describe("useOverlayPosition", () => {
     { placement: "bottomRight", expected: { top: 340, left: 300 } },
     { placement: "left", expected: { top: 270, left: 200 } },
     { placement: "right", expected: { top: 270, left: 500 } },
-  ] as { placement: OverlayPosition; expected: { top: number; left: number } }[])(
+  ] as { placement: OverlayPlaceOn; expected: { top: number; left: number } }[])(
     "should place the overlay at $placement of the anchor",
     ({ placement, expected }) => {
       const { result } = renderPosition(placement);
@@ -205,6 +235,35 @@ describe("useOverlayPosition", () => {
       expect(result.current.placement).toBe("bottomRight");
     });
 
+    it("should keep the given alignment when it is wider than the viewport, since it is placed at the left edge anyway", () => {
+      setPageHeight(2000);
+      // wider than the 1024px viewport, so no alignment fits and both are moved to the left edge
+      setOverlaySize(1100, 100);
+      setAnchorRect({ top: 300, left: 800, width: 100, height: 40 });
+      const { result } = renderPosition("bottomLeft");
+
+      expect(result.current.placement).toBe("bottomLeft");
+      expect(result.current.style).toEqual({ top: 340, left: 0 });
+    });
+
+    it("should keep the margins that do not face the anchor in the viewport, so they are its distance from the edges", () => {
+      setPageHeight(2000);
+      overlay.style.margin = "0 8px";
+      setOverlaySize(1100, 100);
+      setAnchorRect({ top: 300, left: 800, width: 100, height: 40 });
+      const { result } = renderPosition("bottomLeft");
+
+      // the margin box starts at the left edge, so the border box is 8px away from it
+      expect(result.current.style).toEqual({ top: 340, left: 0 });
+    });
+
+    it("should keep the given alignment when it does not fit into the page either", () => {
+      setOverlaySize(1100, 100);
+      setAnchorRect({ top: 300, left: 800, width: 100, height: 40 });
+      const { result } = renderPosition("bottomLeft");
+      expect(result.current.placement).toBe("bottomLeft");
+    });
+
     it("should open next to the anchor when the page can be scrolled to it", () => {
       setPageHeight(2000);
       const { result } = renderPosition("bottom");
@@ -238,6 +297,17 @@ describe("useOverlayPosition", () => {
   });
 
   describe("with limitWidth", () => {
+    it("should measure the candidates with the same width limit once", () => {
+      setWrappingOverlay(800, 20);
+      const heightReads = jest.fn(() => 20);
+      Object.defineProperty(overlay, "offsetHeight", { configurable: true, get: heightReads });
+      // in the middle of the screen, so bottomLeft and topLeft share a limit, and so do bottomRight and topRight
+      setAnchorRect({ top: 300, left: 400, width: 100, height: 40 });
+      renderPosition("bottomLeft", { limitWidth: true });
+      // two limits for the four candidates, and none for applying the chosen one
+      expect(heightReads).toHaveBeenCalledTimes(2);
+    });
+
     it("should limit the width to the space at the placement", () => {
       setWrappingOverlay(800, 20);
       const { result } = renderPosition("right", { limitWidth: true });
@@ -295,6 +365,37 @@ describe("useOverlayPosition", () => {
     });
   });
 
+  it("should write where the anchor's edges are relative to the overlay, e.g. for a caret", () => {
+    const overlayRect = jest.spyOn(overlay, "getBoundingClientRect").mockReturnValue(new DOMRect(350, 340, 200, 100));
+    renderPosition("bottomLeft");
+
+    expect(overlay.style.getPropertyValue("--overlay-anchor-left")).toBe("50px");
+    expect(overlay.style.getPropertyValue("--overlay-anchor-right")).toBe("150px");
+    expect(overlay.style.getPropertyValue("--overlay-anchor-top")).toBe("-40px");
+    expect(overlay.style.getPropertyValue("--overlay-anchor-bottom")).toBe("0px");
+    overlayRect.mockRestore();
+  });
+
+  it("should be placed where it is calculated when its containing block does not start at the document's origin", () => {
+    const positionedRef = { current: null as HTMLDivElement | null };
+    const Overlay = () => {
+      const { style } = useOverlayPosition(anchorRef, positionedRef, { placement: "bottomLeft", enabled: true });
+      return <div ref={positionedRef} style={style} />;
+    };
+    // like a positioned body with a 20px left and 30px top margin, which the overlay is positioned in
+    const rect = jest.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (this: HTMLElement) {
+      const left = parseFloat(this.style.left) + 20;
+      const top = parseFloat(this.style.top) + 30;
+      return { left, top, right: left + 200, bottom: top + 100, width: 200, height: 100, x: left, y: top, toJSON: () => {} };
+    });
+    render(<Overlay />);
+
+    // right below the anchor at 400, 340 in the viewport
+    expect(positionedRef.current!.style.left).toBe("380px");
+    expect(positionedRef.current!.style.top).toBe("310px");
+    rect.mockRestore();
+  });
+
   describe("while open", () => {
     it("should move together with the anchor on scroll, even out of the screen, without rendering", () => {
       const onRender = jest.fn();
@@ -319,6 +420,82 @@ describe("useOverlayPosition", () => {
       expect(result.current.style).toEqual({ top: 760, left: 400 });
     });
 
+    it("should write the position to the element when it is fitted again after following the anchor", () => {
+      renderPosition("bottomLeft");
+      setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
+      scroll();
+      expect(domPosition()).toEqual({ top: 760, left: 400 });
+
+      // the rendered style is the same as on open, which React would not write again over the followed position
+      setAnchorRect({ top: 300, left: 400, width: 100, height: 40 });
+      resize();
+      expect(domPosition()).toEqual({ top: 340, left: 400 });
+    });
+
+    it("should choose the placement once per frame while the window is being resized", () => {
+      const frames: FrameRequestCallback[] = [];
+      const requestFrame = jest.spyOn(window, "requestAnimationFrame").mockImplementation(callback => frames.push(callback));
+      const cancelFrame = jest.spyOn(window, "cancelAnimationFrame").mockImplementation(id => void (frames[id - 1] = () => {}));
+      const { result } = renderPosition("left");
+
+      setAnchorRect({ top: 300, left: 50, width: 100, height: 40 });
+      act(() => {
+        fireEvent(window, new Event("resize"));
+        fireEvent(window, new Event("resize"));
+      });
+      expect(result.current.placement).toBe("left");
+
+      const anchorRect = jest.spyOn(anchor, "getBoundingClientRect");
+      anchorRect.mockClear();
+      act(() => frames.forEach(frame => frame(0)));
+      // positioned once for the last event in the frame: measured for the position and for the anchor's offsets
+      expect(anchorRect).toHaveBeenCalledTimes(2);
+      expect(result.current.placement).toBe("right");
+      requestFrame.mockRestore();
+      cancelFrame.mockRestore();
+    });
+
+    it("should shift it into the viewport again when its content resizes it, keeping its placement", () => {
+      const resizeObserved = observeResizes();
+      setAnchorRect({ top: 300, left: 800, width: 100, height: 40 });
+      const { result } = renderPosition("bottomLeft");
+      expect(result.current.style).toEqual({ top: 340, left: 800 });
+
+      setOverlaySize(400, 100);
+      resizeObserved(overlay);
+      expect(domPosition()).toEqual({ top: 340, left: 624 });
+      expect(result.current.placement).toBe("bottomLeft");
+
+      setOverlaySize(200, 100);
+      resizeObserved(overlay);
+      expect(domPosition()).toEqual({ top: 340, left: 800 });
+    });
+
+    it("should follow only the scrolls that move the anchor, without measuring the overlay again", () => {
+      const container = document.createElement("div");
+      const unrelated = document.createElement("div");
+      container.style.overflow = "auto";
+      unrelated.style.overflow = "auto";
+      document.body.append(container, unrelated);
+      container.append(anchor);
+      renderPosition("bottomLeft");
+      const computedStyle = jest.spyOn(window, "getComputedStyle");
+
+      setAnchorRect({ top: 200, left: 400, width: 100, height: 40 });
+      scroll(unrelated);
+      expect(overlay.style.top).toBe("");
+
+      scroll(container);
+      expect(domPosition()).toEqual({ top: 240, left: 400 });
+      // the size and the margins measured on open are kept, so only the anchor's position is read
+      expect(computedStyle).not.toHaveBeenCalled();
+
+      computedStyle.mockRestore();
+      document.body.append(anchor);
+      container.remove();
+      unrelated.remove();
+    });
+
     it("should keep the shift applied on open while following the anchor", () => {
       setAnchorRect({ top: 300, left: 0, width: 40, height: 40 });
       renderPosition("bottom");
@@ -327,12 +504,6 @@ describe("useOverlayPosition", () => {
       scroll();
       expect(domPosition()).toEqual({ top: 290, left: 0 });
     });
-
-    const resize = () => {
-      act(() => {
-        fireEvent(window, new Event("resize"));
-      });
-    };
 
     it("should choose the placement again on window resize", () => {
       const { result } = renderPosition("left");
@@ -427,11 +598,42 @@ describe("useOverlayPosition", () => {
       expect(result.current.style).toMatchObject({ right: "anchor(left)" });
 
       setAnchorRect({ top: 300, left: 50, width: 100, height: 40 });
-      act(() => {
-        fireEvent(window, new Event("resize"));
-      });
+      resize();
       expect(result.current.placement).toBe("right");
       expect(result.current.style).toMatchObject({ left: "anchor(right)" });
+    });
+
+    it("should shift it into the viewport again when its content resizes it, keeping its placement", () => {
+      const resizeObserved = observeResizes();
+      setAnchorRect({ top: 300, left: 800, width: 100, height: 40 });
+      placeOverlayAt(800, 340);
+      const { result } = renderPosition("bottomLeft");
+      expect(overlay.style.translate).toBe("0px 0px");
+
+      // CSS keeps the overlay at the anchor's left edge, so it is moved into the viewport with the translate
+      setOverlaySize(400, 100);
+      resizeObserved(overlay);
+      expect(overlay.style.translate).toBe("-176px 0px");
+      expect(result.current.placement).toBe("bottomLeft");
+    });
+
+    it("should keep the anchor names of the page and of other overlays on the same anchor", () => {
+      placeOverlayAt(400, 340);
+      const names = () => anchor.style.getPropertyValue("anchor-name").split(", ");
+      anchor.style.setProperty("anchor-name", "--page");
+      const tooltip = renderPosition("top");
+      const popover = renderPosition("bottomLeft");
+      const tooltipName = tooltip.result.current.style.positionAnchor;
+      const popoverName = popover.result.current.style.positionAnchor;
+      expect(names()).toEqual(["--page", tooltipName, popoverName]);
+
+      // closing one keeps the other one attached
+      tooltip.rerender({ enabled: false });
+      expect(names()).toEqual(["--page", popoverName]);
+
+      popover.rerender({ enabled: false });
+      expect(names()).toEqual(["--page"]);
+      anchor.style.removeProperty("anchor-name");
     });
 
     it("should remove the anchor name when it is disabled", () => {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Button from "@/components/Button";
 import Popover from "@/components/Popover";
 
@@ -115,6 +115,128 @@ export const NearTheRightEdge: Story = {
             )}
           </Popover>
           <Popover anchorRef={formAnchorRef} placeOn="bottomLeft" open>
+            {fixedWidthContent}
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const ShiftedIntoTheScreen: Story = {
+  render: () => {
+    const StoryComponent = () => {
+      const leftAnchorRef = useRef<HTMLButtonElement | null>(null);
+      const rightAnchorRef = useRef<HTMLButtonElement | null>(null);
+      // wider than the space on both sides of the anchors, so the popovers are shifted to stay in the screen
+      const wideContent = <div style={{ padding: 12, width: 700 }}>Wide content</div>;
+
+      return (
+        <div style={{ display: "grid", gap: 400, padding: "100px 0", justifyItems: "start" }}>
+          <Button label="Left" ref={leftAnchorRef} style={{ marginLeft: 400 }} />
+          <Button label="Right" ref={rightAnchorRef} style={{ marginLeft: 520 }} />
+          <Popover anchorRef={leftAnchorRef} placeOn="bottomLeft" open>
+            {wideContent}
+          </Popover>
+          <Popover anchorRef={rightAnchorRef} placeOn="topRight" open>
+            {wideContent}
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const FlippedAlignment: Story = {
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+
+      return (
+        <div style={{ padding: "100px 8px" }}>
+          <Button label="bottomRight" ref={anchorRef} />
+          <Popover anchorRef={anchorRef} placeOn="bottomRight" open>
+            <div style={{ padding: 12, width: 300 }}>Wider than the space at the left of the anchor</div>
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const SharedAnchor: Story = {
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+      const [tooltipOpen, setTooltipOpen] = useState(true);
+
+      return (
+        <div style={{ padding: "200px 300px" }}>
+          <Button label="Anchor" ref={anchorRef} />
+          <Button label="Close top" onClick={() => setTooltipOpen(false)} />
+          <Popover anchorRef={anchorRef} placeOn="top" open={tooltipOpen} variant="dark">
+            Top
+          </Popover>
+          <Popover anchorRef={anchorRef} placeOn="bottom" open>
+            Bottom
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const GrowingNearTheRightEdge: Story = {
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+      const [wide, setWide] = useState(false);
+
+      return (
+        <div style={{ display: "flex", justifyContent: "space-between", padding: 8 }}>
+          <Button label="Grow" onClick={() => setWide(true)} />
+          <Button label="Anchor" ref={anchorRef} />
+          <Popover anchorRef={anchorRef} placeOn="bottomLeft" spacing="noSpace" open>
+            <div style={{ height: 40, width: wide ? 400 : 20 }} />
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const PositionedBody: Story = {
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+
+      // the popover is rendered in the body, which starts away from the document's origin when it is positioned
+      useLayoutEffect(() => {
+        const { style } = document.body;
+        style.position = "relative";
+        style.top = "37px";
+        style.left = "23px";
+        return () => {
+          style.position = "";
+          style.top = "";
+          style.left = "";
+        };
+      }, []);
+
+      return (
+        <div style={{ padding: "100px 300px" }}>
+          <Button label="Anchor" ref={anchorRef} />
+          <Popover anchorRef={anchorRef} placeOn="bottomLeft" open>
             {fixedWidthContent}
           </Popover>
         </div>
