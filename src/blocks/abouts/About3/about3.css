@@ -1,9 +1,0 @@
-.about3-row {
-  margin-bottom: clamp(8px, 2vw, 24px);
-}
-
-.about3-card {
-  display: flex;
-  justify-content: space-between;
-  padding: clamp(8px, 4.67vw, 56px) clamp(24px, 5vw, 32px);
-}

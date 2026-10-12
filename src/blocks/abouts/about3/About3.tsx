@@ -1,8 +1,8 @@
-import { Card, Grid, ImageView, Text } from "src/lib";
+import { Card, Grid, ImageView, Panel, Text } from "src/lib";
 import "./about3.css";
 
-const About3 = () => {
-  return (
+const About3 = () => (
+  <Panel className="about3-panel">
     <Grid gutterX="xl" gutterY="xxl" leanToEdge>
       <Grid.Row justifyCols="center" className="about3-row">
         <Grid.Col size={12} lg={8}>
@@ -88,6 +88,6 @@ const About3 = () => {
         </Grid.Col>
       </Grid.Row>
     </Grid>
-  );
-};
+  </Panel>
+);
 export default About3;
