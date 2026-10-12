@@ -39,8 +39,10 @@ const BusinessCard = (props: PropsWithRef<BusinessCardProps, HTMLDivElement>) =>
     <div className={classNames} ref={ref} onClick={onClick} style={style}>
       {image && <Avatar image={image} size="xxl" />}
       {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
-      {title && <span className={styles.title}>{title}</span>}
-      {description && <span className={styles.description}>{description}</span>}
+      <div className={styles.textWrapper}>
+        {title && <span className={styles.title}>{title}</span>}
+        {description && <span className={styles.description}>{description}</span>}
+      </div>
       {link && (
         <a className={styles.link} href={link.href} {...(link.targetBlank && { target: "_blank" })}>
           {link.text}

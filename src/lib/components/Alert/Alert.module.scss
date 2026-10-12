@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-$color-types: (("secondary", "light"), ("warning", "warning"), ("success", "success"), ("danger", "danger"), ("info", "info"));
+$color-types: (("primary", "primary"), ("secondary", "light"), ("warning", "warning"), ("success", "success"), ("danger", "danger"), ("info", "info"));
 
 .Root {
   display: flex;

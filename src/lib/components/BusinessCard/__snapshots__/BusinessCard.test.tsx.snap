@@ -4,6 +4,10 @@ exports[`BusinessCard should render with only required props, have default prop 
 <div>
   <div
     class="Root neutral center"
-  />
+  >
+    <div
+      class="textWrapper"
+    />
+  </div>
 </div>
 `;

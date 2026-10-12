@@ -96,6 +96,31 @@ export default [
     ],
   },
   {
+    // "@motif-ui/react" is aliased to src/lib only so blocks can import it like an external consumer would.
+    // Anywhere else, it would make the library import itself (circular in the published bundle).
+    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    ignores: ["src/blocks/**"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "@motif-ui/react",
+              message: '"@motif-ui/react" can only be imported under src/blocks. Use internal paths (e.g. "@/components/...") instead.',
+            },
+          ],
+          patterns: [
+            {
+              group: ["@motif-ui/react/*"],
+              message: '"@motif-ui/react/*" can only be imported under src/blocks. Use internal paths (e.g. "@/types/...") instead.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // Configuration specific to TypeScript files
     files: ["**/*.{ts,tsx}"],
     rules: {

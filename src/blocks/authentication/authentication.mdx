@@ -1,0 +1,24 @@
+import { Meta, Canvas, Source } from "@storybook/addon-docs/blocks";
+import * as AuthenticationStories from "./Authentication.stories";
+import loginCss from "./login/login.css?raw";
+import registerCss from "./register/register.css?raw";
+
+<Meta title="Blocks/Authentication" />
+
+# Authentication
+
+## Login
+
+<Canvas of={AuthenticationStories.LoginBlock} sourceState="shown" />
+<details>
+  <summary>CSS File: login.css</summary>
+  <Source code={loginCss} language="css" />
+</details>
+
+## Register
+
+<Canvas of={AuthenticationStories.RegisterBlock} sourceState="shown" />
+<details>
+  <summary>CSS File: register.css</summary>
+  <Source code={registerCss} language="css" />
+</details>

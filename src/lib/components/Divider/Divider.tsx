@@ -10,14 +10,14 @@ const Divider = (props: PropsWithRef<DividerProps, HTMLDivElement>) => {
   const {
     size = "md",
     orientation = "horizontal",
-    gap = "md",
+    gap,
     shape = "solid",
     style,
     className,
     ref,
   } = usePropsWithThemeDefaults("Divider", props);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [size, orientation, `gap-${gap}`, shape]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [size, orientation, gap && `gap-${gap}`, shape]);
 
   return <div ref={ref} className={classNames} data-testid="dividerItem" style={style} />;
 };

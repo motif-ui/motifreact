@@ -24,7 +24,6 @@ const meta: Meta<typeof Divider> = {
   },
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
-    gap: { table: { defaultValue: { summary: "md" } } },
     orientation: { table: { defaultValue: { summary: "horizontal" } } },
     shape: { table: { defaultValue: { summary: "solid" } } },
   },
