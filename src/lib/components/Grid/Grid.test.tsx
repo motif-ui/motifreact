@@ -30,6 +30,23 @@ describe("Grid", () => {
     });
   });
 
+  it("should be rendered with the given size in gutterX and gutterY props", () => {
+    const gutterSizes: (Size4LG | "xxl")[] = ["sm", "md", "lg", "xl", "xxl"];
+
+    gutterSizes.forEach(size => {
+      const { container } = render(
+        <Grid gutterX={size} gutterY={size}>
+          <Grid.Row>
+            <Grid.Col />
+          </Grid.Row>
+        </Grid>,
+      );
+      expect(container.firstChild).toHaveClass(`gutter-x-${size}`);
+      expect(container.firstChild).toHaveClass(`gutter-y-${size}`);
+      expect(container.firstChild).not.toHaveClass(`gutter-${size}`);
+    });
+  });
+
   it("should fill the container when fluid prop is true", () => {
     const { container } = render(
       <Grid fluid>

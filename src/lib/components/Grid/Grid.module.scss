@@ -43,6 +43,8 @@ $grids: 12;
     }
 
     &.gutter-x-#{$gutter-size} {
+      padding-inline: var(--theme-grid-gutter-gutter-#{$gutter-size});
+
       .row {
         gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
       }
@@ -51,6 +53,7 @@ $grids: 12;
     }
 
     &.gutter-y-#{$gutter-size} {
+      padding-block: var(--theme-grid-gutter-gutter-#{$gutter-size});
       gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
     }
   }
