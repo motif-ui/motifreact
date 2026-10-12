@@ -65,10 +65,6 @@ const About2 = () => {
         <Grid.Row justifyCols="center">
           <Grid.Col size={12} lg={8} className={styles.title}>
             <Text text="We make creating software easy." variant="title1" className={styles.heroTitle} />
-          </Grid.Col>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Col size={12} lg={12} className={styles.title}>
             <Text
               text="We aim to help empower 1,000,000 teams to create their own software. Here is how we plan on doing it."
               variant="h5"
