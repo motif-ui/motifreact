@@ -115,11 +115,20 @@ const useOverlayPosition = (
     const anchor = anchorRef.current;
     if (!enabled || !anchor || supportsCssAnchor()) return;
 
-    // Only the scrolls that move the anchor are followed: of the page, e.g. for a fixed anchor, and of its scrolling ancestors
+    // JS follows what moves the anchor without resizing it, which CSS anchor positioning follows by itself:
+    // - the scrolls of the page, e.g. for a fixed anchor, and of the anchor's scrolling ancestors
+    // - the end of an animation, e.g. a modal popping in or a panel collapsing above the anchor. It does not follow
+    //   while the animation runs. Following keeps the placement and does not measure the overlay, so it is cheap
+    //   to run on the end of any animation on the page, also the ones that do not move the anchor.
     const follow = () => update("follow");
-    const targets = [document, ...getScrollAncestors(anchor.parentElement)];
-    targets.forEach(target => target.addEventListener("scroll", follow, { passive: true }));
-    return () => targets.forEach(target => target.removeEventListener("scroll", follow));
+    const scrollTargets = [document, ...getScrollAncestors(anchor.parentElement)];
+    const animationEnds = ["transitionend", "animationend"] as const;
+    scrollTargets.forEach(target => target.addEventListener("scroll", follow, { passive: true }));
+    animationEnds.forEach(type => document.addEventListener(type, follow, { capture: true }));
+    return () => {
+      scrollTargets.forEach(target => target.removeEventListener("scroll", follow));
+      animationEnds.forEach(type => document.removeEventListener(type, follow, { capture: true }));
+    };
   }, [enabled, update, anchorRef]);
 
   useEffect(() => {

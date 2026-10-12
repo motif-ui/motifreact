@@ -196,6 +196,17 @@ describe("useOverlayPosition", () => {
       unrelated.remove();
     });
 
+    it("should follow the anchor when an animation that moved it ends, keeping its placement", () => {
+      const { result } = renderPosition("bottomLeft");
+
+      // e.g. a container moved by a transition, which moves the anchor without a scroll or a resize. bottomLeft does not
+      // fit here, but an open overlay keeps its placement.
+      setAnchorRect({ top: 700, left: 420, width: 100, height: 40 });
+      act(() => void document.body.dispatchEvent(new Event("transitionend", { bubbles: true })));
+      expect(domPosition()).toEqual({ top: 740, left: 420 });
+      expect(result.current.placement).toBe("bottomLeft");
+    });
+
     it("should follow the anchor when it resizes", () => {
       const resizeObserved = observeResizes();
       renderPosition("bottomLeft");

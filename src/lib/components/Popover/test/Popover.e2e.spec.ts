@@ -343,8 +343,9 @@ test("Popover in a modal is not moved by the wheel, since the page behind the mo
   expect((await getRect(page, popover)).top).toBeCloseTo(before.top, 0);
 });
 
-// CSS anchor positioning keeps the popover at the anchor while the modal animates. The JS fallback does not follow
-// an animating anchor, which is accepted for the browsers without CSS anchor positioning.
+// CSS anchor positioning keeps the popover at the anchor while the modal animates. The JS fallback follows the anchor
+// when the animation ends, which is tested with a moving container below, since a late resize of the popover, e.g. by
+// a font, may also correct it here.
 test("Popover opened while its modal pops in is at its anchor when the animation ends", async ({ page }) => {
   // a slow CPU, as on CI, so the popover is placed while the modal still grows, which moves the anchor without a scroll or a resize
   await slowDownCpu(page, 6);
@@ -358,3 +359,28 @@ test("Popover opened while its modal pops in is at its anchor when the animation
   expect(popoverRect.top - anchorRect.bottom).toBeCloseTo(0, 0);
   expect(popoverRect.left).toBeCloseTo(anchorRect.left, 0);
 });
+
+[
+  { path: "CSS anchor positioning", init: undefined },
+  { path: "JS positioning", init: disableCssAnchor },
+].forEach(({ path, init }) =>
+  test(`Popover stays at its anchor and keeps its placement when an animation moves the anchor, with ${path}`, async ({ page }) => {
+    if (init) await page.addInitScript(init);
+    await openStory(page, "e2e-popover--moving-container");
+    const popover = "[data-testid=popover]";
+    const anchor = "button:has-text('Anchor')";
+    await page.locator(anchor).click();
+    await expect(page.locator(popover)).toHaveClass(/visible/);
+    await waitForAnimations(page);
+    const anchorBefore = await getRect(page, anchor);
+
+    await page.locator("button:has-text('Move')").click();
+    await waitForAnimations(page);
+    const anchorRect = await getRect(page, anchor);
+    const popoverRect = await getRect(page, popover);
+    // the anchor moved without a scroll or a resize
+    expect(anchorRect.top - anchorBefore.top).toBeCloseTo(120, 0);
+    expect(popoverRect.top - anchorRect.bottom).toBeCloseTo(0, 0);
+    await expect(page.locator(popover)).toHaveClass(/bottomLeft/);
+  }),
+);

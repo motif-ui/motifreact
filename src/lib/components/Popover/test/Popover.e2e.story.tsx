@@ -269,3 +269,27 @@ export const InModal: Story = {
     return <StoryComponent />;
   },
 };
+
+export const MovingContainer: Story = {
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+      const [moved, setMoved] = useState(false);
+
+      // the container moves with a transition, which moves the anchor without a scroll or a resize
+      return (
+        <div style={{ padding: 16 }}>
+          <Button label="Move" onClick={() => setMoved(true)} />
+          <div style={{ translate: moved ? "0 120px" : "0 0", transition: "translate 200ms" }}>
+            <Button label="Anchor" ref={anchorRef} />
+          </div>
+          <Popover anchorRef={anchorRef} placeOn="bottomLeft" closeOnOutsideClick={false}>
+            {fixedWidthContent}
+          </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
