@@ -16,7 +16,7 @@ describe("Grid", () => {
   );
 
   it("should be rendered with the given size in gutter prop", () => {
-    const gutterSizes: Size4LG[] = ["sm", "md", "lg", "xl"];
+    const gutterSizes: (Size4LG | "xxl")[] = ["sm", "md", "lg", "xl", "xxl"];
 
     gutterSizes.forEach(size => {
       const { container } = render(

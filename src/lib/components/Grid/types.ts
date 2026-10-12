@@ -10,7 +10,7 @@ export type GridProps = {
 export type GridDefaultableProps = {
   fluid?: boolean;
   leanToEdge?: boolean;
-  gutter?: Size4LG;
-  gutterX?: Size4LG;
-  gutterY?: Size4LG;
+  gutter?: Size4LG | "xxl";
+  gutterX?: Size4LG | "xxl";
+  gutterY?: Size4LG | "xxl";
 };

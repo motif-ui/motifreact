@@ -25,7 +25,7 @@ const GridComponent = (props: PropsWithRef<GridProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className, [
     fluid && "fluid",
     leanToEdge && "leanToEdge",
-    `gutter-${gutter}`,
+    !(gutterX && gutterY) && `gutter-${gutter}`,
     gutterX && `gutter-x-${gutterX}`,
     gutterY && `gutter-y-${gutterY}`,
   ]);

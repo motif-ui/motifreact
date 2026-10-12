@@ -7,6 +7,7 @@
 
 :root {
   --theme-sizing-limit-input-min-width: 10rem;
+  --theme-grid-gutter-gutter-xxl: 3rem;
   --theme-grid-gutter-gutter-xl: 1.5rem;
   --theme-grid-gutter-gutter-lg: 1rem;
   --theme-grid-gutter-gutter-md: 0.75rem;
