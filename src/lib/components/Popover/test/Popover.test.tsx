@@ -100,7 +100,7 @@ describe("Popover", () => {
     expect(screen.getByText("Popover Content")).toBeInTheDocument();
   });
 
-  it("should call onClose when popover is closed", async () => {
+  it("should not call onClose when the open prop closes it", async () => {
     const onClose = jest.fn();
 
     const anchorRef = createRef<HTMLDivElement>();
@@ -116,7 +116,7 @@ describe("Popover", () => {
         <div>Popover content</div>
       </Popover>,
     );
-    expect(onClose).toHaveBeenCalledTimes(1);
+    expect(onClose).not.toHaveBeenCalled();
     await waitFor(() => expect(queryByTestId("popover")).not.toBeInTheDocument());
   });
 
@@ -300,6 +300,14 @@ describe("Popover", () => {
       browserClick(screen.getByText("anchor"));
       fireEvent.keyDown(document, { key: "Escape" });
       expect(onClose).toHaveBeenLastCalledWith("escape");
+    });
+
+    it("should call onClose with anchorClick when the anchor click closes it", () => {
+      const onClose = jest.fn();
+      render(<UncontrolledPopover defaultOpen onClose={onClose} />);
+
+      browserClick(screen.getByText("anchor"));
+      expect(onClose).toHaveBeenCalledWith("anchorClick");
     });
 
     it("should not close when clicked in a nested overlay rendered in its own portal", () => {

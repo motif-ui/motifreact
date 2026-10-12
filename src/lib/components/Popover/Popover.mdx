@@ -35,6 +35,9 @@ A close request calls **onClose** with its reason (`"outsideClick"`, `"escape"` 
 open until the **open** prop becomes false. So the parent decides whether to close it, e.g. it may keep it open while a
 form inside has unsaved changes.
 
+**onClose** is called only for the closes requested by the user, not when the **open** prop closes the popover. When
+uncontrolled, closing it with an anchor click calls it with `"anchorClick"`.
+
 <Canvas of={Popover.Controlled} />
 
 #### With usePopover Hook
@@ -59,7 +62,12 @@ returns:
 opened, the given placement is used if it fits into the screen. Otherwise, it is flipped to the other alignment or to
 the opposite side, or shifted into the screen. The caret always points to the anchor.
 
-While it is open, the popover follows the anchor when the page or a container is scrolled. Long text wraps within the
-space at its placement instead of stretching out of the screen.
+While it is open, the popover follows the anchor when the page or a container is scrolled. When the anchor is in a fixed
+element, e.g. a modal, the popover is fixed on the screen too, so a scroll of the page behind does not move it away. Long
+text wraps within the space at its placement instead of stretching out of the screen.
+
+A popover taller than the screen is kept in the screen from its top edge, so it may cover its anchor; limit the height
+of such content and let it scroll. In the browsers without CSS anchor positioning, the popover follows a scrolling
+container a frame late, and the document body is expected not to be positioned.
 
 Use the **placeOn** control at the top of the page to try the placements.

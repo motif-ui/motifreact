@@ -9,7 +9,6 @@ import { PropsWithRef } from "../../types";
 import DateRangePicker from "@/components/DateRangePicker";
 import { formatDate } from "../InputDate/helper";
 import { defaultDateFormat } from "../Motif/Pickers/types";
-import { OverlayCloseReason } from "../../types";
 import { areRangesEquals, sanitizeRange, validateRange } from "@/components/InputDateRange/helper";
 import { orderDatesAndPutTimes } from "@/components/DateRangePicker/helper";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -89,10 +88,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
   const innerRef = useRef<HTMLDivElement>(null);
   useImperativeHandle(ref, () => innerRef.current!, []);
 
-  const pickerCloseHandler = useCallback(
-    (reason?: OverlayCloseReason) => reason && !validateRange(itemValue) && clearDateValues(),
-    [clearDateValues, itemValue],
-  );
+  const pickerCloseHandler = useCallback(() => !validateRange(itemValue) && clearDateValues(), [clearDateValues, itemValue]);
 
   const {
     attached,

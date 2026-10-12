@@ -9,10 +9,11 @@ export type OverlayStateProps = {
   /** Length in ms of the enter/exit transition */
   duration?: number;
   /**
-   * Called when the overlay starts closing, once per open cycle. In the controlled usage it is called for each close request,
-   * since the parent may keep it open, and not again when the open prop then closes it.
+   * Called when the user requests a close, e.g. with an outside click or Escape, with the reason.
+   * It is not called when the overlay is closed by the code that owns it, e.g. with hide() or the open prop.
+   * In the controlled usage the overlay stays open until the open prop becomes false.
    */
-  onClose?: (reason?: OverlayCloseReason) => void;
+  onClose?: (reason: OverlayCloseReason) => void;
   /**
    * Elements that are part of the overlay. Clicks and scrolls inside them do not close it.
    * Pass a stable array (e.g. with useMemo), otherwise the listeners are added again on each render.
@@ -31,7 +32,10 @@ export type UseOverlayStateReturn = {
   /** Whether the overlay should be shown, use it to trigger the enter/exit transitions */
   visible: boolean;
   show: () => void;
-  /** Closes the overlay with the given reason, passed to onClose. In the controlled usage it only calls onClose. */
+  /**
+   * Closes the overlay. With a reason, it is a close requested by the user and onClose is called with it.
+   * In the controlled usage it only calls onClose.
+   */
   hide: (reason?: OverlayCloseReason) => void;
   toggle: () => void;
   /**

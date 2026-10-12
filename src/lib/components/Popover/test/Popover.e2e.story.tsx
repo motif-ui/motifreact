@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { useLayoutEffect, useRef, useState } from "react";
 import Button from "@/components/Button";
 import Popover from "@/components/Popover";
+import Modal from "@/components/Modal";
 
 // Scenes for the positioning tests in Popover.e2e.spec.ts. They are added to Storybook only in development, see .storybook/main.ts
 const meta: Meta<typeof Popover> = {
@@ -239,6 +240,28 @@ export const PositionedBody: Story = {
           <Popover anchorRef={anchorRef} placeOn="bottomLeft" open>
             {fixedWidthContent}
           </Popover>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const InModal: Story = {
+  render: () => {
+    const StoryComponent = () => {
+      const anchorRef = useRef<HTMLButtonElement | null>(null);
+
+      // the page behind the modal can be scrolled, the modal and the anchor in it stay fixed on the screen
+      return (
+        <div style={{ height: 3000 }}>
+          <Modal open title="Modal">
+            <Button label="Anchor" ref={anchorRef} />
+            <Popover anchorRef={anchorRef} placeOn="bottomLeft" open>
+              {fixedWidthContent}
+            </Popover>
+          </Modal>
         </div>
       );
     };

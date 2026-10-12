@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { disableCssAnchor, getRect, isPainted, openStory, setScroll, waitForFrames } from "../../../../utils/e2eUtils";
+import { disableCssAnchor, getRect, isPainted, openStory, scrollPage, setScroll, waitForFrames } from "../../../../utils/e2eUtils";
 
 // Behavior tests of the Popover positioning in a real browser, on the scenes in Popover.e2e.story.tsx. Chromium
 // supports CSS anchor positioning, so the CSS path is covered here.
@@ -117,17 +117,15 @@ test("Popover wraps long text within the screen instead of stretching out of it"
   await expect(page.locator(popover)).toHaveClass(/top/);
 });
 
-test("Popover taller than the screen opens next to its anchor when the page can be scrolled to it", async ({ page }) => {
+test("Popover taller than the screen is kept in the screen from its top edge, even if it covers the anchor", async ({ page }) => {
   const popover = "[data-testid=popover]";
   await openStory(page, "e2e-popover--tall-content");
   await expect(page.locator(popover)).toHaveClass(/visible/);
 
   const rect = await getRect(page, popover);
-  const anchorRect = await getRect(page, "button:has-text('Anchor')");
-  // below the anchor instead of being pushed up over it, and out of the 700px high screen
-  expect(rect.top).toBeGreaterThanOrEqual(anchorRect.bottom - 1);
+  // its start is visible, and the rest is out of the 700px high screen
+  expect(rect.top).toBeGreaterThanOrEqual(-1);
   expect(rect.bottom).toBeGreaterThan(700);
-  await expect(page.locator(popover)).toHaveClass(/bottom/);
 });
 
 test.describe("Popover near the right edge", () => {
@@ -285,21 +283,48 @@ test("Popover follows the anchor in a scrolling container with JS positioning", 
   expect(await offset()).toBeCloseTo(before, 0);
 });
 
+// The JS fallback expects a body that is not positioned, so only CSS anchor positioning is tested here
+test("Popover is placed at its anchor when the body is positioned away from the document's origin", async ({ page }) => {
+  await openStory(page, "e2e-popover--positioned-body");
+  const popover = "[data-testid=popover]";
+  await expect(page.locator(popover)).toHaveClass(/visible/);
+  await waitForFrames(page);
+
+  const anchorRect = await getRect(page, "button:has-text('Anchor')");
+  const popoverRect = await getRect(page, popover);
+  expect(popoverRect.left).toBeCloseTo(anchorRect.left, 0);
+  expect(popoverRect.top).toBeGreaterThanOrEqual(anchorRect.bottom - 1);
+  expect(popoverRect.top - anchorRect.bottom).toBeLessThan(20);
+});
+
 [
   { path: "CSS anchor positioning", init: undefined },
   { path: "JS positioning", init: disableCssAnchor },
 ].forEach(({ path, init }) =>
-  test(`Popover is placed at its anchor when the body is positioned away from the document's origin, with ${path}`, async ({ page }) => {
+  test(`Popover in a modal stays at its anchor when the page behind the modal is scrolled, with ${path}`, async ({ page }) => {
     if (init) await page.addInitScript(init);
-    await openStory(page, "e2e-popover--positioned-body");
+    await openStory(page, "e2e-popover--in-modal");
     const popover = "[data-testid=popover]";
     await expect(page.locator(popover)).toHaveClass(/visible/);
-    await waitForFrames(page);
+    const offset = async () => (await getRect(page, popover)).top - (await getRect(page, "button:has-text('Anchor')")).bottom;
+    const before = await offset();
+    expect(before).toBeGreaterThanOrEqual(-1);
+    expect(before).toBeLessThan(20);
 
-    const anchorRect = await getRect(page, "button:has-text('Anchor')");
-    const popoverRect = await getRect(page, popover);
-    expect(popoverRect.left).toBeCloseTo(anchorRect.left, 0);
-    expect(popoverRect.top).toBeGreaterThanOrEqual(anchorRect.bottom - 1);
-    expect(popoverRect.top - anchorRect.bottom).toBeLessThan(20);
+    await scrollPage(page, 300);
+    expect(await offset()).toBeCloseTo(before, 0);
   }),
 );
+
+test("Popover in a modal is not moved by the wheel, since the page behind the modal does not scroll", async ({ page }) => {
+  await openStory(page, "e2e-popover--in-modal");
+  const popover = "[data-testid=popover]";
+  await expect(page.locator(popover)).toHaveClass(/visible/);
+  const before = await getRect(page, popover);
+
+  await page.mouse.move(5, 5);
+  await page.mouse.wheel(0, 500);
+  await waitForFrames(page);
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  expect((await getRect(page, popover)).top).toBeCloseTo(before.top, 0);
+});

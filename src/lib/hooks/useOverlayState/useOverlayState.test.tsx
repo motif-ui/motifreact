@@ -36,20 +36,20 @@ describe("useOverlayState", () => {
       expect(result.current.attached).toBe(true);
     });
 
-    it("should call onClose with the reason once per open cycle", () => {
+    it("should call onClose only for the closes requested by the user, once per open cycle", () => {
       const onClose = jest.fn();
       const { result } = renderHook(() => useOverlayState({ onClose, insideRefs, closeOnEscape: true }));
 
       act(() => result.current.show());
       act(() => result.current.hide("escape"));
-      act(() => result.current.hide());
+      act(() => result.current.hide("escape"));
       expect(onClose).toHaveBeenCalledTimes(1);
       expect(onClose).toHaveBeenCalledWith("escape");
 
       act(() => result.current.show());
       act(() => result.current.hide());
-      expect(onClose).toHaveBeenCalledTimes(2);
-      expect(onClose).toHaveBeenLastCalledWith(undefined);
+      expect(result.current.open).toBe(false);
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
 
     it("should stay attached during the exit transition when duration is given", () => {
@@ -130,15 +130,13 @@ describe("useOverlayState", () => {
       expect(result.current.open).toBe(true);
     });
 
-    it("should call onClose when the open prop becomes false, but not on mount", () => {
+    it("should not call onClose when the open prop closes it", () => {
       const onClose = jest.fn();
       const { rerender } = renderHook(({ open }) => useOverlayState({ open, onClose }), { initialProps: { open: false } });
-      expect(onClose).not.toHaveBeenCalled();
 
       rerender({ open: true });
       rerender({ open: false });
-      expect(onClose).toHaveBeenCalledTimes(1);
-      expect(onClose).toHaveBeenCalledWith(undefined);
+      expect(onClose).not.toHaveBeenCalled();
     });
 
     it("should request close without closing itself, and not call onClose again when the prop closes it", () => {
@@ -187,19 +185,6 @@ describe("useOverlayState", () => {
       fireEvent.mouseUp(outside);
       fireEvent.click(outside);
       expect(onClose).not.toHaveBeenCalled();
-    });
-
-    it("should not call onClose again when its identity changes during the exit transition", () => {
-      const { rerender } = renderHook(
-        ({ open, onClose }: { open: boolean; onClose: () => void }) => useOverlayState({ open, onClose, duration: 300 }),
-        {
-          initialProps: { open: true, onClose: () => {} },
-        },
-      );
-      const onClose = jest.fn();
-      rerender({ open: false, onClose });
-      rerender({ open: false, onClose: () => {} });
-      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 

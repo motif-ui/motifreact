@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:string";
 @use "@styles" as *;
 
 // variant, bg, border, text
@@ -65,41 +66,17 @@ $caret-left: clamp(0px, var(--caret-left, 0px), calc(100% - 2 * #{$caret-margin}
       margin: var(--caret-top) 0 0 0,
       beforePos: 0 auto 0 0,
       afterPos: 0 0 0 var(--base-sizing-2x)
-    ),
-    "bottomLeft": (
-      shadowPos: $shadow-bottom,
-      borderWidth: $border-bottom,
-      caretPosition: bottom,
-      margin: 0 0 0 $caret-left,
-      beforePos: $position-bottom-before,
-      afterPos: var(--base-sizing-2x) 0 auto 0
-    ),
-    "bottomRight": (
-      shadowPos: $shadow-bottom,
-      borderWidth: $border-bottom,
-      caretPosition: bottom,
-      margin: 0 0 0 $caret-left,
-      beforePos: $position-bottom-before,
-      afterPos: var(--base-sizing-2x) 0 auto 0
-    ),
-    "topLeft": (
-      shadowPos: $shadow-top,
-      borderWidth: $border-top,
-      caretPosition: top,
-      margin: 0 0 0 $caret-left,
-      beforePos: $position-top-before,
-      afterPos: auto 0 var(--base-sizing-2x) 0
-    ),
-    "topRight": (
-      shadowPos: $shadow-top,
-      borderWidth: $border-top,
-      caretPosition: top,
-      margin: 0 0 0 $caret-left,
-      beforePos: $position-top-before,
-      afterPos: auto 0 var(--base-sizing-2x) 0
     )
   );
-  $values: map.get($caret-positions, $position);
+
+  // The caret only depends on the side, e.g. bottomLeft and bottomRight have the caret of bottom
+  $side: $position;
+  @each $vertical in ("top", "bottom") {
+    @if string.index($position, $vertical) == 1 {
+      $side: $vertical;
+    }
+  }
+  $values: map.get($caret-positions, $side);
 
   .popover {
     &::before {
@@ -157,7 +134,10 @@ $caret-left: clamp(0px, var(--caret-left, 0px), calc(100% - 2 * #{$caret-margin}
 .popover {
   width: max-content;
   border-radius: var(--theme-sizing-radius-default);
-  overflow: hidden;
+
+  // clip instead of hidden: it rounds the content's corners too, but does not let the wrapper shrink below its content,
+  // so the positioning measures the content's minimum width on the popover itself
+  overflow: clip;
   .justText & {
     padding: var(--base-sizing-10x);
   }

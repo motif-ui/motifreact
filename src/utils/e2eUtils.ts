@@ -61,3 +61,14 @@ export const openStory = async (page: Page, id: string) => {
   await page.evaluate(() => document.fonts.ready);
   await waitForFrames(page);
 };
+
+/** Scrolls the page and waits two frames, so the overlays have followed the scroll */
+export const scrollPage = (page: Page, top: number) =>
+  page.evaluate(
+    top =>
+      new Promise(resolve => {
+        window.scrollTo(0, top);
+        requestAnimationFrame(() => requestAnimationFrame(resolve));
+      }),
+    top,
+  );

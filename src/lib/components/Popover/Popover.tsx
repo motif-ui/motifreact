@@ -1,12 +1,13 @@
 "use client";
 
 import styles from "./Popover.module.scss";
-import { useCallback } from "react";
+import { useMemo } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRefAndChildren } from "../../types";
 import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { mergeRefs } from "../../../utils/reactUtils";
 import { PopoverProps } from "./types";
 
 const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) => {
@@ -49,18 +50,7 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     closeOnScroll,
   });
 
-  const mergedRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      popoverRef.current = node;
-
-      if (typeof ref === "function") {
-        ref(node);
-      } else if (ref) {
-        ref.current = node;
-      }
-    },
-    [popoverRef, ref],
-  );
+  const mergedRef = useMemo(() => mergeRefs(popoverRef, ref), [popoverRef, ref]);
 
   const caretSpot = placeOn.endsWith("Left") ? "caretLeft" : placeOn.endsWith("Right") ? "caretRight" : "caretCenter";
   const classNames = sanitizeModuleRootClasses(styles, className, [

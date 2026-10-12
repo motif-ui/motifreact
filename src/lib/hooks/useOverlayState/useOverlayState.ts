@@ -20,38 +20,18 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   // The last event marked by insideProps. React handles an event before it reaches the document, so the last one is enough.
   // It is per instance, so an event inside one overlay is not counted as inside another one.
   const insideEventRef = useRef<Event>(undefined);
-  // Keeps the close made by the open prop from being notified again after a close request in the same open cycle
-  const closeNotifiedRef = useRef(!isOpen);
-  const notifyClose = useCallback((reason?: OverlayCloseReason) => {
-    if (closeNotifiedRef.current) return;
-    closeNotifiedRef.current = true;
-    onCloseRef.current?.(reason);
-  }, []);
 
   onCloseRef.current = onClose;
 
-  // Starts a new open cycle when opened, and notifies the close made by the open prop in the controlled usage
-  useEffect(() => {
-    if (isOpen) {
-      closeNotifiedRef.current = false;
-    } else {
-      notifyClose();
-    }
-  }, [isOpen, notifyClose]);
-
   const hide = useCallback(
     (reason?: OverlayCloseReason) => {
-      if (!controlled) {
-        // Does nothing when it is closed, since onClose is already notified in that case and the state is already closed
-        notifyClose(reason);
-        setInternalOpen(false);
-      } else if (isOpen) {
-        // Each request is notified, since the parent may keep it open and decide again on the next one
-        closeNotifiedRef.current = true;
-        onCloseRef.current?.(reason);
-      }
+      if (!isOpen) return;
+      // Only the closes requested by the user are notified, the ones made by the code that owns the overlay are not
+      if (reason) onCloseRef.current?.(reason);
+      // In the controlled usage the parent decides whether to close it
+      if (!controlled) setInternalOpen(false);
     },
-    [controlled, isOpen, notifyClose],
+    [controlled, isOpen],
   );
 
   const show = useCallback(() => {

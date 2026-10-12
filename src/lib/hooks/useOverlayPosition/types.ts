@@ -5,11 +5,17 @@ export type OverlayPositionProps = {
   placement: OverlayPlaceOn;
   /** Position is calculated only while enabled, typically while the overlay is attached */
   enabled: boolean;
-  /** Limits the overlay's width to the space at its placement, so long content wraps instead of overflowing the screen */
+  /**
+   * Limits the overlay's width to the space at its placement, so long content wraps instead of overflowing the screen.
+   * A max width in px given by the overlay's stylesheet, e.g. of a tooltip, is kept when it is narrower.
+   */
   limitWidth?: boolean;
+  /** Makes the overlay as wide as its anchor, e.g. a list under a select, also when the anchor resizes */
+  matchAnchorWidth?: boolean;
 };
 
 export type OverlayPositionReturn = {
+  /** Hides the overlay until it is positioned. The position itself is written to the overlay element. */
   style: CSSProperties;
   /** The placement chosen on open, e.g. the opposite side when the given one does not fit */
   placement: OverlayPlaceOn;
@@ -18,26 +24,22 @@ export type OverlayPositionReturn = {
 export type Point = { x: number; y: number };
 export type Size = { width: number; height: number };
 export type Box = { top: number; right: number; bottom: number; left: number };
-/** A placement tried for the overlay, with its viewport coordinates and how much it overflows the viewport */
-export type PlacementCandidate = { candidate: OverlayPlaceOn; coords: Point; overflow: number; size: Size; maxWidth?: number };
-/**
- * The overlay's position: its margin box in document coordinates, as if it were positioned in the document itself,
- * with the placement it is calculated for. The shift applied to fit it into the viewport, the max width (with limitWidth),
- * the size and the margins are kept while the overlay follows the anchor, so the overlay is not measured on each scroll.
- */
-export type Calculated = {
-  placement: OverlayPlaceOn;
-  top: number;
-  left: number;
-  shift: Point;
-  maxWidth?: number;
-  size: Size;
-  margins: Box;
-};
 
 /**
- * fit: chooses the placement and the shift to fit into the viewport, e.g. on open
- * follow: keeps them, so the overlay moves with the anchor, e.g. on scroll
- * refit: keeps the placement and shifts it horizontally into the viewport again, e.g. when its content grows
+ * The overlay's position, calculated on open and kept while it is open.
+ * - x, y: viewport coordinates of its border box when it is calculated
+ * - shift: how far it is moved from its placement to fit into the viewport
+ * - margins: the overlay's CSS margins. The one facing the anchor is the gap, the others keep it away from the viewport's edges.
+ * - fixed: whether it is fixed on the screen like its anchor, e.g. in a modal, otherwise it is positioned in the document
+ * The size and the margins are kept, so the overlay is not measured again while it follows the anchor.
  */
-export type PositionMode = "fit" | "follow" | "refit";
+export type Position = {
+  placement: OverlayPlaceOn;
+  fixed: boolean;
+  x: number;
+  y: number;
+  shift: Point;
+  size: Size;
+  margins: Box;
+  maxWidth?: number;
+};
