@@ -17,3 +17,15 @@ export const textVariantsMappings = {
   p2: "p",
   p3: "p",
 };
+
+export const typeMappings = {
+  body: "span",
+  heading_xs: "h5",
+  heading_sm: "h4",
+  heading_md: "h3",
+  heading_lg: "h2",
+  heading_xl: "h1",
+  paragraph: "p",
+  display: "h1",
+  caption: "span",
+};

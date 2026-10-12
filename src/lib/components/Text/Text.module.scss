@@ -1,6 +1,8 @@
 @use "@styles" as *;
+@use "sass:map";
 
-$sizes: (
+/* @deprecated */
+$sizes-old: (
   ("title1", "56x", "64x", 400, 4),
   ("title2", "48x", "56x", 400, 3),
   ("title3", "40x", "48x", 400, 2),
@@ -20,7 +22,7 @@ $sizes: (
   ("p3", "14x", "20x", 400, 0.9)
 );
 
-@each $type, $fontSize, $lineHeight, $fontWeight, $marginEnd in $sizes {
+@each $type, $fontSize, $lineHeight, $fontWeight, $marginEnd in $sizes-old {
   .#{$type} {
     all: unset;
     font-size: var(--base-sizing-#{$fontSize});
@@ -31,14 +33,115 @@ $sizes: (
   }
 }
 
+/* end - @deprecated */
+
+$types: (
+  /* size: fontSize lineHeight margin */
+  body: (
+      weight: 400,
+      sizes: (
+        xs 12x 18x,
+        sm 14x 20x,
+        md 16x 22x,
+        lg 18x 24x,
+        xl 20x 28x
+      )
+    ),
+  caption: (
+    weight: 400,
+    sizes: (
+      xs 10x 16x,
+      sm 12x 18x,
+      md 14x 20x,
+      lg 16x 22x,
+      xl 18x 24x
+    )
+  ),
+  paragraph: (
+    weight: 400,
+    sizes: (
+      xs 12x 18x,
+      sm 14x 20x,
+      md 16x 22x,
+      lg 18x 24x,
+      xl 20x 28x
+    )
+  ),
+  heading: (
+    weight: 600,
+    sizes: (
+      xs 14x 20x 1.2,
+      sm 16x 22x 1.1,
+      md 20x 28x 1,
+      lg 24x 32x 0.9,
+      xl 32x 40x 0.8
+    )
+  ),
+  display: (
+    weight: 700,
+    sizes: (
+      xs 36x 44x 1.4,
+      sm 40x 48x 1.3,
+      md 48x 56x 1.2,
+      lg 56x 64x 1.1,
+      xl 72x 96x 1
+    )
+  )
+);
+$weights: (
+  light: 300,
+  regular: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700
+);
+
+@each $typeName, $config in $types {
+  @each $size, $fontSize, $lineHeight, $margin in map.get($config, sizes) {
+    .#{$typeName}.#{$size} {
+      font-size: var(--base-sizing-#{$fontSize});
+      line-height: var(--base-sizing-#{$lineHeight});
+      font-weight: map.get($config, weight);
+      @if $margin {
+        margin-block: $margin + em calc($margin / 2) + em;
+      }
+    }
+  }
+}
+
 .Root {
-  display: inline-block;
-}
+  color: var(--theme-color-text-base-title-light);
 
-.italic {
-  font-style: italic;
-}
-
-.underline {
-  text-decoration: underline;
+  &.italic {
+    font-style: italic;
+  }
+  &.underline {
+    text-decoration: underline;
+  }
+  &.center {
+    text-align: center;
+  }
+  &.soft {
+    color: var(--theme-color-text-base-subtitle-light);
+  }
+  &.softer {
+    color: var(--theme-color-text-base-disabled);
+  }
+  &.strong {
+    color: var(--theme-color-text-base-title);
+  }
+  &.stronger {
+    color: var(--theme-color-text-base-text-dark);
+  }
+  @each $weight, $weightValue in $weights {
+    &.#{$weight} {
+      font-weight: $weightValue;
+    }
+  }
+  &.marginless {
+    margin-block: 0;
+  }
+  &.uppercase {
+    text-transform: uppercase;
+  }
 }
