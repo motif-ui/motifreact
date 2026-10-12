@@ -1,5 +1,16 @@
 import { test, expect } from "@playwright/test";
-import { disableCssAnchor, getRect, isPainted, openStory, scrollPage, setScroll, waitForFrames } from "../../../../utils/e2eUtils";
+import {
+  disableCssAnchor,
+  getRect,
+  isPainted,
+  openStory,
+  scrollPage,
+  setScroll,
+  slowDownCpu,
+  storyUrl,
+  waitForAnimations,
+  waitForFrames,
+} from "../../../../utils/e2eUtils";
 
 // Behavior tests of the Popover positioning in a real browser, on the scenes in Popover.e2e.story.tsx. Chromium
 // supports CSS anchor positioning, so the CSS path is covered here.
@@ -306,6 +317,8 @@ test("Popover is placed at its anchor when the body is positioned away from the 
     await openStory(page, "e2e-popover--in-modal");
     const popover = "[data-testid=popover]";
     await expect(page.locator(popover)).toHaveClass(/visible/);
+    // the modal pops in, which moves the anchor
+    await waitForAnimations(page);
     const offset = async () => (await getRect(page, popover)).top - (await getRect(page, "button:has-text('Anchor')")).bottom;
     const before = await offset();
     expect(before).toBeGreaterThanOrEqual(-1);
@@ -320,6 +333,7 @@ test("Popover in a modal is not moved by the wheel, since the page behind the mo
   await openStory(page, "e2e-popover--in-modal");
   const popover = "[data-testid=popover]";
   await expect(page.locator(popover)).toHaveClass(/visible/);
+  await waitForAnimations(page);
   const before = await getRect(page, popover);
 
   await page.mouse.move(5, 5);
@@ -327,4 +341,20 @@ test("Popover in a modal is not moved by the wheel, since the page behind the mo
   await waitForFrames(page);
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
   expect((await getRect(page, popover)).top).toBeCloseTo(before.top, 0);
+});
+
+// CSS anchor positioning keeps the popover at the anchor while the modal animates. The JS fallback does not follow
+// an animating anchor, which is accepted for the browsers without CSS anchor positioning.
+test("Popover opened while its modal pops in is at its anchor when the animation ends", async ({ page }) => {
+  // a slow CPU, as on CI, so the popover is placed while the modal still grows, which moves the anchor without a scroll or a resize
+  await slowDownCpu(page, 6);
+  // not openStory, which waits until the page settles, so the popover is placed while the modal animates
+  await page.goto(storyUrl("e2e-popover--in-modal"));
+  await page.getByTestId("popover").waitFor({ state: "attached" });
+  await waitForAnimations(page);
+
+  const popoverRect = await getRect(page, "[data-testid=popover]");
+  const anchorRect = await getRect(page, "button:has-text('Anchor')");
+  expect(popoverRect.top - anchorRect.bottom).toBeCloseTo(0, 0);
+  expect(popoverRect.left).toBeCloseTo(anchorRect.left, 0);
 });

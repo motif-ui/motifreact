@@ -104,23 +104,6 @@ const measureMinWidth = (overlay: HTMLElement) => {
   return overlay.scrollWidth;
 };
 
-/**
- * The overlay's own max width from its stylesheet in px, e.g. a tooltip limited to 300px, which the width limit keeps.
- * Read with the inline limit removed. A relative one, e.g. a percentage, is not kept.
- */
-const getStylesheetMaxWidth = (overlay: HTMLElement) => {
-  overlay.style.maxWidth = "";
-  const { maxWidth } = getComputedStyle(overlay);
-  return maxWidth.endsWith("px") ? parseFloat(maxWidth) : Infinity;
-};
-
-/** Reads the limits that do not depend on the placement, and returns the width limit at a placement */
-const createWidthLimit = (overlay: HTMLElement, anchor: DOMRect, viewport: Box, margins: Box) => {
-  const stylesheetMaxWidth = getStylesheetMaxWidth(overlay);
-  const minWidth = measureMinWidth(overlay);
-  return (placement: OverlayPlaceOn) => Math.min(stylesheetMaxWidth, Math.max(getMaxWidth(placement, anchor, viewport, margins), minWidth));
-};
-
 /** The x of the overlay's border box that keeps its margin box in the viewport horizontally, or at its left edge when it is wider */
 const clampIntoViewportX = (x: number, width: number, viewport: Box, margins: Box) => {
   const left = viewport.left + margins.left;
@@ -151,14 +134,13 @@ const fits = (overflow: number) => overflow < 1;
  * 3. otherwise the one that overflows the viewport the least, kept in the viewport even if it covers the anchor
  * It is always shifted horizontally into the viewport, and vertically only in the last step.
  * With limitWidth, each candidate is measured with its width limited to the space at that placement, so long content wraps
- * and the candidate is judged by its wrapped size. The limit never goes below the content's minimum width,
- * nor above the overlay's own max width from its stylesheet.
+ * and the candidate is judged by its wrapped size. The limit never goes below the content's minimum width.
  */
 const choosePlacement = (placement: OverlayPlaceOn, anchor: DOMRect, overlay: HTMLElement, margins: Box, limitWidth: boolean) => {
   const viewport = getViewport();
   const viewportWidth = viewport.right - viewport.left;
   const viewportHeight = viewport.bottom - viewport.top;
-  const widthLimit = limitWidth ? createWidthLimit(overlay, anchor, viewport, margins) : undefined;
+  const minWidth = limitWidth ? measureMinWidth(overlay) : 0;
   // Each measurement makes the browser lay out the page, so candidates with the same width limit share one
   const sizes = new Map<number | undefined, Size>();
   const measureWith = (maxWidth?: number) => {
@@ -168,7 +150,7 @@ const choosePlacement = (placement: OverlayPlaceOn, anchor: DOMRect, overlay: HT
   };
 
   const candidates = getCandidates(placement).map(candidate => {
-    const maxWidth = widthLimit?.(candidate);
+    const maxWidth = limitWidth ? Math.max(getMaxWidth(candidate, anchor, viewport, margins), minWidth) : undefined;
     const size = measureWith(maxWidth);
     const result: Candidate = { placement: candidate, coords: getCoords(candidate, anchor, size, margins), size, maxWidth };
     return { ...result, overflow: getOverflow(result, viewport, margins) };
@@ -223,7 +205,7 @@ export const calculatePosition = (
   }
 
   const viewport = getViewport();
-  const maxWidth = limitWidth ? createWidthLimit(overlay, anchorRect, viewport, margins)(keep.placement) : undefined;
+  const maxWidth = limitWidth ? Math.max(getMaxWidth(keep.placement, anchorRect, viewport, margins), measureMinWidth(overlay)) : undefined;
   const size = measure(overlay, maxWidth);
   const coords = getCoords(keep.placement, anchorRect, size, margins);
   const x = clampIntoViewportX(coords.x, size.width, viewport, margins);

@@ -5,13 +5,8 @@ export type OverlayPositionProps = {
   placement: OverlayPlaceOn;
   /** Position is calculated only while enabled, typically while the overlay is attached */
   enabled: boolean;
-  /**
-   * Limits the overlay's width to the space at its placement, so long content wraps instead of overflowing the screen.
-   * A max width in px given by the overlay's stylesheet, e.g. of a tooltip, is kept when it is narrower.
-   */
+  /** Limits the overlay's width to the space at its placement, so long content wraps instead of overflowing the screen */
   limitWidth?: boolean;
-  /** Makes the overlay as wide as its anchor, e.g. a list under a select, also when the anchor resizes */
-  matchAnchorWidth?: boolean;
 };
 
 export type OverlayPositionReturn = {

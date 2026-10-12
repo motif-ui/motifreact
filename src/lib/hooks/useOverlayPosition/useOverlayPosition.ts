@@ -36,15 +36,6 @@ const setAnchorOffsets = (anchor: HTMLElement, overlay: HTMLElement) => {
   overlay.style.setProperty("--overlay-anchor-bottom", `${anchorRect.bottom - overlayRect.top}px`);
 };
 
-/** Makes the overlay's border box as wide as the anchor, e.g. a list under a select */
-const setAnchorWidth = (anchor: HTMLElement, overlay: HTMLElement) => {
-  overlay.style.boxSizing = "border-box";
-  overlay.style.width = `${anchor.getBoundingClientRect().width}px`;
-};
-
-const matchesAnchorWidth = (anchor: HTMLElement, overlay: HTMLElement) =>
-  Math.abs(anchor.getBoundingClientRect().width - parseFloat(overlay.style.width)) < 0.5;
-
 type Mode = "place" | "refit" | "follow";
 
 const POSITIONED: CSSProperties = {};
@@ -62,7 +53,7 @@ const useOverlayPosition = (
   overlayRef: RefObject<HTMLElement | null>,
   props: OverlayPositionProps,
 ): OverlayPositionReturn => {
-  const { placement, enabled, limitWidth = false, matchAnchorWidth = false } = props;
+  const { placement, enabled, limitWidth = false } = props;
   const anchorName = `--motif-overlay-${useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
   const positionRef = useRef<Position>(undefined);
   // Not cleared when disabled, it is ignored instead and replaced on the next enable before the overlay is painted
@@ -84,7 +75,6 @@ const useOverlayPosition = (
       const measure = (keep?: Position) => {
         const fixed = keep ? keep.fixed : isFixed(anchor);
         resetPosition(overlay, fixed);
-        if (matchAnchorWidth) setAnchorWidth(anchor, overlay);
         return calculatePosition(anchor, overlay, placement, limitWidth, fixed, keep);
       };
       const position = mode === "follow" && previous ? followAnchor(anchor, previous) : measure(mode === "refit" ? previous : undefined);
@@ -99,7 +89,7 @@ const useOverlayPosition = (
       // Only a new placement is rendered, the other modes keep it
       if (mode === "place") setPlaced(position.placement);
     },
-    [anchorRef, overlayRef, placement, limitWidth, matchAnchorWidth, anchorName],
+    [anchorRef, overlayRef, placement, limitWidth, anchorName],
   );
 
   useLayoutEffect(() => {
@@ -138,22 +128,18 @@ const useOverlayPosition = (
     if (!enabled || !overlay || typeof ResizeObserver === "undefined") return;
 
     // ResizeObserver callbacks run before the browser paints the frame. The overlay is fitted into the viewport again
-    // when its content resizes it, or when the anchor's width it matches changes. Otherwise the anchor's size is followed
-    // by CSS where it is supported, by JS elsewhere.
+    // when its content resizes it. The anchor's size is followed by CSS where it is supported.
     const resizeObserver = new ResizeObserver(entries => {
-      const anchorResized = entries.some(({ target }) => target !== overlay);
       if (entries.some(({ target }) => target === overlay) && needsRefit(overlay, positionRef.current)) {
         update("refit");
-      } else if (anchorResized && anchor && matchAnchorWidth && !matchesAnchorWidth(anchor, overlay)) {
-        update("refit");
-      } else if (anchorResized && !supportsCssAnchor()) {
+      } else if (entries.some(({ target }) => target !== overlay)) {
         update("follow");
       }
     });
     resizeObserver.observe(overlay);
-    if (anchor && (matchAnchorWidth || !supportsCssAnchor())) resizeObserver.observe(anchor);
+    if (anchor && !supportsCssAnchor()) resizeObserver.observe(anchor);
     return () => resizeObserver.disconnect();
-  }, [enabled, update, matchAnchorWidth, anchorRef, overlayRef]);
+  }, [enabled, update, anchorRef, overlayRef]);
 
   useEffect(() => {
     if (!enabled) return;

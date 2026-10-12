@@ -159,18 +159,6 @@ describe("placement", () => {
       expect(place("right", true)).toMatchObject({ placement: "right", maxWidth: 300 });
     });
 
-    it("should keep the overlay's own max width from its stylesheet when it is narrower, e.g. of a tooltip", () => {
-      const stylesheet = document.createElement("style");
-      stylesheet.textContent = ".tooltip { max-width: 300px; }";
-      document.head.append(stylesheet);
-      overlay.className = "tooltip";
-      setWrappingOverlay(2000, 20);
-
-      expect(place("bottom", true).maxWidth).toBe(300);
-      overlay.className = "";
-      stylesheet.remove();
-    });
-
     it("should not limit the width without limitWidth", () => {
       setWrappingOverlay(2000, 20);
       place("bottom");

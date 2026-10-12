@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getRect, openStory, scrollPage, setScroll } from "../../../../utils/e2eUtils";
+import { getRect, openStory, scrollPage, setScroll, waitForAnimations } from "../../../../utils/e2eUtils";
 
 // Behavior tests of the picker positioning in a real browser, on the scenes in InputDateRange.e2e.story.tsx. Chromium
 // supports CSS anchor positioning, so the CSS path is covered here.
@@ -34,6 +34,7 @@ test("InputDateRange in a modal keeps the picker at the input when the page behi
   await openStory(page, "e2e-inputdaterange--in-modal");
   await page.locator(`${input} input`).click();
   await expect(page.locator(picker)).toBeVisible();
+  await waitForAnimations(page);
   const offset = async () => (await getRect(page, picker)).top - (await getRect(page, input)).bottom;
   const before = await offset();
 

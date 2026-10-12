@@ -72,3 +72,22 @@ export const scrollPage = (page: Page, top: number) =>
       }),
     top,
   );
+
+/**
+ * Waits until the animations and the transitions on the page have finished, e.g. a modal popping in, and two more frames.
+ * The infinite ones, e.g. a loading indicator, never finish, so they are not waited for.
+ */
+export const waitForAnimations = async (page: Page) => {
+  await page.waitForFunction(() =>
+    document
+      .getAnimations()
+      .every(animation => animation.playState !== "running" || animation.effect?.getComputedTiming().endTime === Infinity),
+  );
+  await waitForFrames(page);
+};
+
+/** Slows down the page's CPU, e.g. to run a test as on a slow CI machine. Chromium only. */
+export const slowDownCpu = async (page: Page, rate: number) => {
+  const session = await page.context().newCDPSession(page);
+  await session.send("Emulation.setCPUThrottlingRate", { rate });
+};
