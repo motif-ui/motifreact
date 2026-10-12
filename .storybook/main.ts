@@ -41,6 +41,12 @@ const config: StorybookConfig = {
       type: "asset/source",
     });
 
+    // Keep "?raw" imports (e.g. a block's source shown in docs) away from the code loaders, so that the raw rule
+    // returns the original file content instead of the compiled output.
+    config.module?.rules?.forEach(rule => {
+      if (rule && typeof rule === "object" && !rule.resourceQuery) rule.resourceQuery = { not: [/raw/] };
+    });
+
     // Baked at config time so MotifDoc's CSSClassNames.tsx can read it as a static value instead of a
     // computed dynamic import (see cssClassNamesManifest.ts for why that broke Chromatic's TurboSnap).
     const scssClassNamesManifest = buildScssClassNamesManifest(

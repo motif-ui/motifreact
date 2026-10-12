@@ -37,6 +37,7 @@ const preview: Preview = {
           "Design",
           ["Themes", "Figma", "Design Tokens", "Color Palette"],
           "Blocks",
+          ["Blocks"],
           "Components",
           "Icons",
           "Form",
