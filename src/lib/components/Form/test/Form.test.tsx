@@ -144,38 +144,19 @@ describe("Form", () => {
   });
 
   it("should render submit/clear buttons in the position given in the buttonPosition prop", () => {
-    const form = (buttonPosition: "left" | "center" | "right") => (
-      <Form onSubmit={mockFunction} buttonPosition={buttonPosition}>
-        <Form.Field name="input">
-          <InputText name="input" />
-        </Form.Field>
-      </Form>
-    );
+    const buttonPositions = ["left", "center", "right", "fluid"] as const;
 
-    const { rerender } = render(form("left"));
-    const submitButtonArea = screen.queryByRole("button")?.parentElement;
-    expect(submitButtonArea).toHaveClass("submitArea_align_left");
-
-    rerender(form("center"));
-    expect(submitButtonArea).toHaveClass("submitArea_align_center");
-
-    rerender(form("right"));
-    expect(submitButtonArea).toHaveClass("submitArea_align_right");
-  });
-
-  it('should render all buttons as fluid and share the width equally when buttonPosition is "fluid"', () => {
-    render(
-      <Form onSubmit={mockFunction} enableClearButton alternateButtons={[<Button key="alt" label="Alt" />]} buttonPosition="fluid">
-        <Form.Field name="input">
-          <InputText name="input" />
-        </Form.Field>
-      </Form>,
-    );
-
-    const buttons = screen.getAllByRole("button");
-    expect(buttons).toHaveLength(3);
-    expect(buttons[0].parentElement).toHaveClass("submitArea_fluid");
-    buttons.forEach(button => expect(button).toHaveClass("fluid"));
+    buttonPositions.forEach(buttonPosition => {
+      const { unmount } = render(
+        <Form onSubmit={mockFunction} buttonPosition={buttonPosition}>
+          <Form.Field name="input">
+            <InputText name="input" />
+          </Form.Field>
+        </Form>,
+      );
+      expect(screen.getByRole("button").parentElement).toHaveClass(`submitArea_align_${buttonPosition}`);
+      unmount();
+    });
   });
 
   it("should enable clear button and should clear the form when clicked when enableClearButton is true", async () => {

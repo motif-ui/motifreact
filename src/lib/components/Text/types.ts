@@ -1,15 +1,22 @@
+import { Size5 } from "src/lib/types.ts";
+
 export type TextProps = {
   text?: string;
+  tone?: "softer" | "soft" | "normal" | "strong" | "stronger";
+  type?: "body" | "heading" | "paragraph" | "display" | "caption";
+  size?: Size5;
+  weight?: "light" | "regular" | "medium" | "semibold" | "bold";
+  marginless?: boolean;
+  uppercase?: boolean;
+  /** @deprecated */
+  variant?: TextVariants;
 } & TextDefaultableProps;
 
 export type TextDefaultableProps = {
-  variant?: TextVariants;
   italic?: boolean;
   underline?: boolean;
-  fontWeight?: TextFontWeights;
+  center?: boolean;
 };
-
-export type TextFontWeights = "regular" | "medium" | "semiBold" | "bold";
 
 export type TextVariants =
   | "title1"
