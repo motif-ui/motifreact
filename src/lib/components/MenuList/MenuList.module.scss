@@ -60,12 +60,6 @@ $sizes: (
   object-position: left;
 }
 
-.footerText {
-  @include font("body", "xxs");
-  color: var(--theme-color-text-base-caption-light);
-  white-space: nowrap;
-}
-
 .collapsed {
   width: fit-content;
 
@@ -273,9 +267,5 @@ $sizes: (
 
   &.disabled {
     color: var(--theme-color-text-base-disabled);
-  }
-
-  .footerText {
-    color: var(--theme-color-text-base-disabled-light);
   }
 }

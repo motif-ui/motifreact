@@ -45,7 +45,7 @@ const meta: Meta<typeof MenuList> = {
       },
     ],
     logo: "https://cdn.e-devlet.gov.tr/downloads/kurumsal-kimlik/logo/e-devlet-logo.png",
-    footerText: "© 2024 All rights reserved.",
+    footer: <span>© 2024 All rights reserved.</span>,
     size: "sm",
   },
 };

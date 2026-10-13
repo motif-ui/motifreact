@@ -34,7 +34,7 @@ export type MenuListProps = {
    */
   items: MainMenuItemProps[];
   logo?: string;
-  footerText?: string;
+  footer?: ReactNode;
   collapsed?: boolean; // controlled - for controlling from outside
   onCollapsedChange?: (collapsed: boolean) => void;
 } & MenuListDefaultableProps;
@@ -88,7 +88,7 @@ export type MenuItemCommonProps = {
 export type MainMenuProps = {
   items: MainMenuItemProps[];
   logo?: string;
-  footerText?: string;
+  footer?: ReactNode;
   enableCollapseButton?: boolean;
   size?: Size3;
 };
