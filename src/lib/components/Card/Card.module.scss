@@ -166,6 +166,28 @@ $variants: (
   }
 }
 
+.actionButton-left {
+  justify-content: flex-start;
+}
+
+.actionButton-center {
+  justify-content: center;
+}
+
+.actionButton-right {
+  justify-content: flex-end;
+}
+
+.actionButton-spaceBetween {
+  justify-content: space-between;
+}
+
+.actionButton-stretch {
+  & > * {
+    flex: 1;
+  }
+}
+
 @each $variant, $bgColor, $titleColor, $subtitleColor, $avatarBgColor, $avatarTextColor in $variants {
   .#{$variant} {
     background-color: $bgColor;

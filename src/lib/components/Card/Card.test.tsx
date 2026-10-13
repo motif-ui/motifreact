@@ -1,10 +1,12 @@
 import Card from "@/components/Card/Card";
-import { render, screen } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import Button from "@/components/Button";
 import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
+import { CardActionButtonPosition } from "./types";
+
 describe("Card", () => {
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Card {...props} />));
 
@@ -208,5 +210,19 @@ describe("Card", () => {
     expect(screen.getByText("subtitle")).toBeInTheDocument();
     expect(screen.getByText("title")).toBeInTheDocument();
     expect(screen.getByText("child 1")).toBeInTheDocument();
+  });
+
+  it("should render with right as the default buttonsPosition", () => {
+    render(<Card contentActionButton={{ text: "action", onClick: jest.fn() }} />);
+    expect(screen.getByTestId("cardActions")).toHaveClass("actionButton-right");
+  });
+
+  it("should position the buttons as given in buttonsPosition prop", () => {
+    const positions: CardActionButtonPosition[] = ["left", "center", "right", "spaceBetween", "stretch"];
+    positions.forEach(buttonsPosition => {
+      render(<Card contentActionButton={{ text: "action", onClick: jest.fn() }} buttonsPosition={buttonsPosition} />);
+      expect(screen.getByTestId("cardActions")).toHaveClass(`actionButton-${buttonsPosition}`);
+      cleanup();
+    });
   });
 });
