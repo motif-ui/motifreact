@@ -1,9 +1,34 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Card should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
+exports[`Card should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
     class="Root secondary"
-  />
+  >
+    <div
+      class="header"
+      data-testid="cardHeader"
+    >
+      <img
+        alt=""
+        class="Root fit placeholder solid"
+        src="/imagePath"
+        style="width: auto; height: auto; aspect-ratio: 1; object-position: top left;"
+      />
+    </div>
+    <div
+      class="actionsContainer actions-right"
+      data-testid="cardActions"
+    >
+      <button
+        class="Root primary solid md pill"
+        type="button"
+      >
+        <span>
+          action
+        </span>
+      </button>
+    </div>
+  </div>
 </div>
 `;

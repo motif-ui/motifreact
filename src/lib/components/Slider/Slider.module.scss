@@ -7,7 +7,8 @@ $color-types: (
   ("warning", var(--theme-color-surface-warning-default), var(--theme-color-surface-warning-default), var(--theme-color-surface-warning-inverse), var(--theme-color-border-warning-disabled)),
   ("success", var(--theme-color-surface-success-default), var(--theme-color-surface-success-default), var(--theme-color-surface-success-inverse), var(--theme-color-border-success-disabled)),
   ("danger", var(--theme-color-surface-danger-default), var(--theme-color-surface-danger-default), var(--theme-color-surface-danger-inverse), var(--theme-color-border-danger-disabled)),
-  ("primary", var(--theme-color-surface-primary-default), var(--theme-color-surface-primary-default), var(--theme-color-surface-primary-inverse), var(--theme-color-border-primary-disabled))
+  ("primary", var(--theme-color-surface-primary-default), var(--theme-color-surface-primary-default), var(--theme-color-surface-primary-inverse), var(--theme-color-border-primary-disabled)),
+  ("info", var(--theme-color-surface-info-default), var(--theme-color-surface-info-default), var(--theme-color-surface-info-inverse), var(--theme-color-border-info-disabled))
 );
 
 @mixin slider-style-thumb {
