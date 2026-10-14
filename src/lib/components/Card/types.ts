@@ -9,6 +9,7 @@ export type CardProps = {
   subtitle?: string;
   avatarText?: string;
   icon?: IconGlobalType;
+  avatarIcon?: IconGlobalType;
   image?: string;
   action?: { icon: IconGlobalType; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   contentTitle?: string;
@@ -25,6 +26,6 @@ export type CardProps = {
 export type CardDefaultableProps = {
   outlined?: boolean;
   elevated?: boolean;
-  variant?: Variant;
+  variant?: "neutral" | Variant;
   imagePosition?: "left" | "right";
 };

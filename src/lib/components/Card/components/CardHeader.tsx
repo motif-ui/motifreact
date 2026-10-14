@@ -5,26 +5,28 @@ import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 import type { MouseEvent } from "react";
 import type { IconGlobalType, Variant } from "../../../types";
 import ImageView from "@/components/ImageView";
+import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 
 type Props = {
   icon?: IconGlobalType;
+  avatarIcon?: IconGlobalType;
   avatarText?: string;
   title?: string;
   subtitle?: string;
   image?: string;
   imagePosition?: "left" | "right";
   action?: { icon: IconGlobalType; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
-  variant: Variant;
+  variant: "neutral" | Variant;
 };
 
 const CardHeader = (props: Props) => {
-  const { icon, avatarText, action, image, imagePosition, subtitle, title, variant } = props;
+  const { icon, avatarIcon, avatarText, action, image, imagePosition, subtitle, title, variant } = props;
 
-  const isVisible = title || subtitle || avatarText || icon || image || action;
-  const iconButtonVariant = variant === "secondary" ? "secondary" : variant === "warning" ? "strong" : "negative";
+  const isVisible = title || subtitle || avatarText || avatarIcon || icon || image || action;
+  const iconButtonVariant = variant === "neutral" || variant === "secondary" ? "secondary" : variant === "warning" ? "strong" : "negative";
   const headerClassName = sanitizeModuleClasses(styles, "header", image && imagePosition === "right" && "headerImageAlignRight");
 
-  const maybeContent = title || subtitle || avatarText || icon || action;
+  const maybeContent = title || subtitle || avatarText || avatarIcon || icon || action;
 
   return (
     isVisible && (
@@ -32,11 +34,9 @@ const CardHeader = (props: Props) => {
         {image && <ImageView solid src={image} aspectRatio={1} alt={title ?? subtitle ?? ""} />}
         {maybeContent && (
           <div className={styles.headerContainer}>
-            {icon ? (
-              <Avatar icon={icon} size="lg" className={styles.avatar} />
-            ) : (
-              avatarText && <Avatar letters={avatarText} size="lg" className={styles.avatar} />
-            )}
+            {icon && <GlobalIconWrapper icon={icon} size="lg" className={styles.headerIcon} />}
+            {avatarIcon && <Avatar icon={avatarIcon} size="lg" className={styles.avatar} />}
+            {avatarText && <Avatar letters={avatarText} size="lg" className={styles.avatar} />}
             {(title || subtitle) && (
               <div className={styles.headerContent}>
                 {title && <span className={styles.headerTitle}>{title}</span>}

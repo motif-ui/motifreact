@@ -8,7 +8,7 @@ const meta: Meta<typeof Card> = {
   component: Card,
   argTypes: {
     imagePosition: { table: { defaultValue: { summary: "left" } } },
-    variant: { table: { defaultValue: { summary: "secondary" } } },
+    variant: { table: { defaultValue: { summary: "neutral" } } },
   },
   args: {
     title: "Card Header Title",

@@ -17,6 +17,8 @@ describe("Card", () => {
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
     rerender(<Card icon="folder" />);
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
+    rerender(<Card avatarIcon="person" />);
+    expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
     rerender(<Card image="/imagePath" />);
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
     rerender(<Card action={{ icon: "download", onClick: () => {} }} />);
@@ -66,10 +68,16 @@ describe("Card", () => {
     expect(screen.getByText("AB")).toBeInTheDocument();
   });
 
-  it("should should give precendence to icon prop when icon and avatarText is both set", () => {
-    render(<Card icon="folder" avatarText="AB" />);
+  it("should render avatar icon when avatarIcon is set", () => {
+    render(<Card avatarIcon="person" />);
+    expect(screen.getByText("person")).toBeInTheDocument();
+  });
+
+  it("should render icon, avatarIcon and avatarText together when all of them are set", () => {
+    render(<Card icon="folder" avatarIcon="person" avatarText="AB" />);
     expect(screen.getByText("folder")).toBeInTheDocument();
-    expect(screen.queryByText("AB")).not.toBeInTheDocument();
+    expect(screen.getByText("person")).toBeInTheDocument();
+    expect(screen.getByText("AB")).toBeInTheDocument();
   });
 
   it("should position the given image correctly considering the imagePosition property", () => {

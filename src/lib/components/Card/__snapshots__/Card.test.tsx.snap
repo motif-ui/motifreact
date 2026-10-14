@@ -3,7 +3,7 @@
 exports[`Card should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
-    class="Root secondary"
+    class="Root neutral"
   />
 </div>
 `;

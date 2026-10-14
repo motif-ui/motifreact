@@ -2,14 +2,15 @@
 
 $variants: (
   // variant, bgColor, contentTitleColor, contentSubtitleColor, avatarBgColor, avatarTextColor
+  ("neutral", transparent, var(--theme-color-text-base-title), var(--theme-color-text-base-caption), var(--theme-color-surface-base-base7), var(--theme-color-text-base-text-light)),
   (
-      "secondary",
-      var(--theme-color-surface-base-base3),
-      var(--theme-color-text-base-title),
-      var(--theme-color-text-base-caption),
-      var(--theme-color-surface-primary-default),
-      var(--theme-color-text-base-text-light)
-    ),
+    "secondary",
+    var(--theme-color-surface-base-base3),
+    var(--theme-color-text-base-title),
+    var(--theme-color-text-base-caption),
+    var(--theme-color-surface-primary-default),
+    var(--theme-color-text-base-text-light)
+  ),
   (
     "primary",
     var(--theme-color-surface-primary-default),
@@ -170,7 +171,8 @@ $variants: (
   .#{$variant} {
     background-color: $bgColor;
 
-    .headerTitle {
+    .headerTitle,
+    .headerIcon {
       color: $titleColor;
     }
     .headerSubtitle {
