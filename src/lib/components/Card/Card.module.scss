@@ -165,25 +165,23 @@ $variants: (
   }
 }
 
-.actionButton-left {
-  justify-content: flex-start;
-}
-
-.actionButton-center {
-  justify-content: center;
-}
-
-.actionButton-right {
-  justify-content: flex-end;
-}
-
-.actionButton-spaceBetween {
-  justify-content: space-between;
-}
-
-.actionButton-stretch {
-  & > * {
-    flex: 1;
+.actions {
+  &-left {
+    justify-content: flex-start;
+  }
+  &-center {
+    justify-content: center;
+  }
+  &-right {
+    justify-content: flex-end;
+  }
+  &-spaceBetween {
+    justify-content: space-between;
+  }
+  &-stretch {
+    & > * {
+      flex: 1;
+    }
   }
 }
 

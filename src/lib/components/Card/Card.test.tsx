@@ -8,7 +8,20 @@ import { StandardPropsWithRef } from "../../../lib/types";
 import { CardActionButtonPosition } from "./types";
 
 describe("Card", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Card {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      render(<Card image="/imagePath" contentActionButton={{ text: "action", onClick: jest.fn() }} {...props} />),
+    {
+      assertDefaults: ({ getByTestId, container }) => {
+        // buttonsPosition: right
+        expect(getByTestId("cardActions")).toHaveClass("actions-right");
+        // imagePosition: left
+        expect(getByTestId("cardHeader")).not.toHaveClass("headerImageAlignRight");
+        // variant: secondary
+        expect(container.firstElementChild).toHaveClass("secondary");
+      },
+    },
+  );
 
   it("should render header part when title or subtitle or avatarText or icon or image or action is set", () => {
     const { rerender } = render(<Card title="title" />);
@@ -75,9 +88,7 @@ describe("Card", () => {
   });
 
   it("should position the given image correctly considering the imagePosition property", () => {
-    const { rerender } = render(<Card image="/imagePath" />);
-    expect(screen.getByTestId("cardHeader")).not.toHaveClass("headerImageAlignRight");
-    rerender(<Card image="/imagePath" imagePosition="right" />);
+    render(<Card image="/imagePath" imagePosition="right" />);
     expect(screen.getByTestId("cardHeader")).toHaveClass("headerImageAlignRight");
   });
 
@@ -212,18 +223,11 @@ describe("Card", () => {
     expect(screen.getByText("child 1")).toBeInTheDocument();
   });
 
-  const actionButton = { text: "action", onClick: jest.fn() };
-
-  it("should render with right as the default buttonsPosition", () => {
-    render(<Card contentActionButton={actionButton} />);
-    expect(screen.getByTestId("cardActions")).toHaveClass("actionButton-right");
-  });
-
   it.each(["left", "center", "right", "spaceBetween", "stretch"] as CardActionButtonPosition[])(
     "should position the buttons as %s when buttonsPosition prop is given",
     buttonsPosition => {
-      render(<Card contentActionButton={actionButton} buttonsPosition={buttonsPosition} />);
-      expect(screen.getByTestId("cardActions")).toHaveClass(`actionButton-${buttonsPosition}`);
+      render(<Card contentActionButton={{ text: "action", onClick: jest.fn() }} buttonsPosition={buttonsPosition} />);
+      expect(screen.getByTestId("cardActions")).toHaveClass(`actions-${buttonsPosition}`);
     },
   );
 });

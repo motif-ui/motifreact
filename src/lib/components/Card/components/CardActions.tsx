@@ -23,7 +23,7 @@ const CardActions = (props: Props) => {
   const { alternateButton, buttons, actionButton, actionLink, buttonsPosition } = props;
 
   const isVisible = actionButton || alternateButton || buttons?.length || actionLink;
-  const classNames = sanitizeModuleClasses(styles, "actionsContainer", `actionButton-${buttonsPosition}`);
+  const classNames = sanitizeModuleClasses(styles, "actionsContainer", `actions-${buttonsPosition}`);
 
   return (
     isVisible && (
