@@ -52,8 +52,8 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
   );
 
   const classNames = sanitizeModuleRootClasses(styles, className, [size, formOrientation, labelOrientation + "Labels"]);
+  const buttonContainerClassNames = sanitizeModuleClasses(styles, "submitArea", `submitArea_align_${buttonPosition}`);
   const maybeButtonContainer = !preview && (enableClearButton || onSubmit || alternateButtons?.length);
-  const fluid = buttonPosition === "fluid";
 
   return (
     <form onSubmit={submitHandler} className={classNames} ref={internalFormRef} style={style}>
@@ -61,10 +61,10 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
       <div className={styles.fields}>
         {children}
         {maybeButtonContainer && (
-          <div className={sanitizeModuleClasses(styles, "submitArea", `submitArea_align_${buttonPosition}`, fluid && "submitArea_fluid")}>
-            {alternateButtons?.map(button => cloneElement(button, { size, ...(fluid && { fluid: true }) }))}
-            {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} fluid={fluid} />}
-            {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" fluid={fluid} />}
+          <div className={buttonContainerClassNames}>
+            {alternateButtons?.map(button => cloneElement(button, { size }))}
+            {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
+            {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" />}
           </div>
         )}
       </div>

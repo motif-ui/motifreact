@@ -1,0 +1,14 @@
+.login-panel {
+  padding: 32px;
+  gap: 20px;
+  width: 400px;
+
+  .mtf-Checkbox {
+    .mtf-Checkbox--label {
+      color: #717d87;
+    }
+    .mtf-Link {
+      flex: 1;
+    }
+  }
+}
