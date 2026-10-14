@@ -3,9 +3,8 @@ import { screen, render, waitFor, act, fireEvent } from "@testing-library/react"
 import Tooltip from "@/components/Tooltip/Tooltip";
 import Button from "../Button/Button";
 import { userEvent } from "@testing-library/user-event";
-import { Position } from "@/components/Tooltip/types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { OverlayPlaceOn, StandardPropsWithRef } from "../../../lib/types";
 import { PropsWithRef, Size4SM } from "../../types";
 
 describe("Tooltip", () => {
@@ -95,7 +94,7 @@ describe("Tooltip", () => {
   });
 
   it("should render correctly in all positions", async () => {
-    const positions: Position[] = ["top", "right", "bottom", "left", "topLeft", "topRight", "bottomLeft", "bottomRight"];
+    const positions: OverlayPlaceOn[] = ["top", "right", "bottom", "left", "topLeft", "topRight", "bottomLeft", "bottomRight"];
 
     for (const position of positions) {
       render(

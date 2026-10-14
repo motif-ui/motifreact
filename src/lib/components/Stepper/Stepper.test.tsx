@@ -31,7 +31,14 @@ const renderExt = (props: PropsWithRef<StepperProps, HTMLDivElement> = {}, itemP
   };
 };
 
+const scrollIntoViewMock = jest.fn();
+Element.prototype.scrollIntoView = scrollIntoViewMock;
+
 describe("Stepper", () => {
+  beforeEach(() => {
+    scrollIntoViewMock.mockClear();
+  });
+
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(props), {
     assertDefaults: ({ container, getRoot }) => {
       // orientation = horizontal
@@ -98,6 +105,25 @@ describe("Stepper", () => {
     const { getStepItems } = renderExt({ defaultActiveStep: 1 });
     expect(getStepItems()[0]).toHaveClass("completed");
     expect(getStepItems()[1]).toHaveClass("active");
+  });
+
+  it("should scroll the active step into view when it becomes active", () => {
+    const { getStepItems } = renderExt({ defaultActiveStep: 1 });
+
+    expect(scrollIntoViewMock).toHaveBeenCalledWith({ inline: "nearest", block: "nearest", behavior: "smooth" });
+    expect(scrollIntoViewMock.mock.instances[0]).toBe(getStepItems()[1].querySelector(".stepHeader"));
+  });
+
+  it("should scroll the newly active step into view after navigating", () => {
+    const { getStepItems } = renderExt();
+    scrollIntoViewMock.mockClear();
+
+    fireEvent.click(screen.getByText(NEXT));
+
+    expect(scrollIntoViewMock).toHaveBeenCalledWith({ inline: "nearest", block: "nearest", behavior: "smooth" });
+    expect(scrollIntoViewMock.mock.instances[scrollIntoViewMock.mock.instances.length - 1]).toBe(
+      getStepItems()[1].querySelector(".stepHeader"),
+    );
   });
 
   it("should clamp defaultActiveStep to valid range", () => {

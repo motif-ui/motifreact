@@ -4,6 +4,16 @@ import Stepper from "./Stepper";
 const meta: Meta<typeof Stepper.Item> = {
   title: "Components/Stepper/Stepper.Item",
   component: Stepper.Item,
+  parameters: {
+    layout: "fullscreen",
+  },
+  decorators: [
+    Story => (
+      <div style={{ padding: 20 }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     variant: { table: { defaultValue: { summary: "[parent variant]" } } },
     icon: { table: { defaultValue: { summary: "motif_ui" } } },

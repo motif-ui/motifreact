@@ -84,6 +84,9 @@ $grids: 12;
   &.evenly {
     justify-content: space-evenly;
   }
+  &.apart {
+    justify-content: space-between;
+  }
 
   &.colsAuto > * {
     flex: initial;
