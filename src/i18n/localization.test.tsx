@@ -14,7 +14,7 @@ const flattenKeys = (obj: Record<string, unknown>, prefix = ""): string[] =>
     return typeof v === "object" && v !== null ? flattenKeys(v as Record<string, unknown>, full) : [full];
   });
 
-const flattenBaseKeys = (obj: Record<string, unknown>) => flattenKeys(obj).filter(k => !/_(zero|one|two|few|many)$/.test(k));
+const flattenBaseKeys = (obj: Record<string, unknown>) => flattenKeys(obj).filter(k => !/_(zero|one|two|few|many|other)$/.test(k));
 
 describe("Localization", () => {
   it("should return the English string for the given key", () => {
@@ -281,8 +281,8 @@ describe("Localization", () => {
   });
 
   it("should have all Turkish keys present in the English locale", () => {
-    const trKeys = flattenBaseKeys(tr);
-    const enKeys = new Set(flattenBaseKeys(en));
+    const trKeys = flattenKeys(tr);
+    const enKeys = new Set(flattenKeys(en));
     const missing = trKeys.filter(k => !enKeys.has(k));
     expect(missing).toEqual([]);
   });
@@ -355,6 +355,22 @@ describe("Localization", () => {
     expect(t("upload.draggerInfo", { count: 1 })).toBe(en.upload.draggerInfo_one.replace("{{count}}", "1"));
     expect(t("upload.draggerInfoWithSize", { count: 3, maxSize: "5 MB" })).toBe(
       en.upload.draggerInfoWithSize.replace("{{count}}", "3").replace("{{maxSize}}", "5 MB"),
+    );
+  });
+
+  it("should fall back to the base key for Turkish when no singular form is defined", () => {
+    const t = createTranslator("tr");
+    expect(t("table.totalRecords", { total: 1, count: 1 })).toBe(tr.table.totalRecords.replace("{{total}}", "1"));
+    expect(t("upload.draggerInfo", { count: 1 })).toBe(tr.upload.draggerInfo.replace("{{count}}", "1"));
+  });
+
+  it("should resolve the Turkish singular form of the dragger info message with size", () => {
+    const t = createTranslator("tr");
+    expect(t("upload.draggerInfoWithSize", { count: 1, maxSize: "5 MB" })).toBe(
+      tr.upload.draggerInfoWithSize_one.replace("{{count}}", "1").replace("{{maxSize}}", "5 MB"),
+    );
+    expect(t("upload.draggerInfoWithSize", { count: 3, maxSize: "5 MB" })).toBe(
+      tr.upload.draggerInfoWithSize.replace("{{count}}", "3").replace("{{maxSize}}", "5 MB"),
     );
   });
 });

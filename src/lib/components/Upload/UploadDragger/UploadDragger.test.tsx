@@ -121,6 +121,33 @@ describe("UploadDragger", () => {
     expect(fileItem2).toHaveTextContent(expectedErrorMessage);
   });
 
+  it("should render the singular dragger info message when maxFile is 1", () => {
+    renderExt(<UploadDragger {...requiredProps} maxFile={1} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO, { count: 1 }))).toBeInTheDocument();
+  });
+
+  it("should render the plural dragger info message when maxFile is greater than 1", () => {
+    renderExt(<UploadDragger {...requiredProps} maxFile={3} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO, { count: 3 }))).toBeInTheDocument();
+  });
+
+  it("should render the singular dragger info message with size when maxFile is 1 and maxSize is given", () => {
+    const maxSize = 500000;
+    renderExt(<UploadDragger {...requiredProps} maxFile={1} maxSize={maxSize} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO_WITH_SIZE, { count: 1, maxSize: formatBytes(maxSize) }))).toBeInTheDocument();
+  });
+
+  it("should render the plural dragger info message with size when maxFile is greater than 1 and maxSize is given", () => {
+    const maxSize = 500000;
+    renderExt(<UploadDragger {...requiredProps} maxFile={3} maxSize={maxSize} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO_WITH_SIZE, { count: 3, maxSize: formatBytes(maxSize) }))).toBeInTheDocument();
+  });
+
+  it("should clamp a negative maxFile to 0 in the dragger info message", () => {
+    renderExt(<UploadDragger {...requiredProps} maxFile={-2} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO, { count: 0 }))).toBeInTheDocument();
+  });
+
   it("should not upload files whose file size is larger than given size in maxSize prop", async () => {
     const maxSize = 500000;
     const expectedErrorMessage = t(MESSAGE.MAX_SIZE_ERROR, {
