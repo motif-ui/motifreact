@@ -15,11 +15,7 @@ const meta: Meta<typeof Slider> = {
     start: { table: { defaultValue: { summary: "0" } } },
     end: { table: { defaultValue: { summary: "100" } } },
     step: { table: { defaultValue: { summary: "1" } } },
-    variant: {
-      options: ["primary", "secondary", "info", "success", "warning", "danger"],
-      control: { type: "select" },
-      table: { defaultValue: { summary: "primary" } },
-    },
+    variant: { table: { defaultValue: { summary: "primary" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     fill: { table: { defaultValue: { summary: "left" } } },
     min: { table: { defaultValue: { summary: "0" } } },
