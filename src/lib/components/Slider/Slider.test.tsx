@@ -3,7 +3,7 @@ import { userEvent } from "@testing-library/user-event";
 import Slider from "@/components/Slider/Slider";
 import { InputSize } from "../Form/types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { StandardPropsWithRef, Variant } from "../../../lib/types";
 describe("Slider", () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
@@ -50,7 +50,7 @@ describe("Slider", () => {
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {
-    const variants = ["primary", "secondary", "success", "warning", "danger"] as const;
+    const variants: Variant[] = ["primary", "secondary", "success", "warning", "danger", "info"];
     variants.forEach(variant => {
       const { container, unmount } = render(<Slider variant={variant} />);
       expect(container.firstChild).toHaveClass(variant);
