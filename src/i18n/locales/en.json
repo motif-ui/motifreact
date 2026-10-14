@@ -14,7 +14,8 @@
     "previous": "Previous",
     "next": "Next",
     "finish": "Finish",
-    "x_message": "{{count}} message",
+    "x_message": "{{count}} messages",
+    "x_message_one": "{{count}} message",
     "ok": "OK",
     "choosePlease": "Please choose"
   },
@@ -23,7 +24,9 @@
   },
   "table": {
     "totalSelectedRecords": "{{selected}} of {{total}} records selected.",
-    "totalRecords": "Total {{total}} records"
+    "totalSelectedRecords_one": "{{selected}} of {{total}} record selected.",
+    "totalRecords": "Total {{total}} records",
+    "totalRecords_one": "Total {{total}} record"
   },
   "validation": {
     "required": "Please fill in this field",
@@ -37,17 +40,23 @@
     "ipAddress": "Please enter a valid IP address",
     "phone": "Please enter a valid phone number",
     "minLength": "This field must be at least {{min}} characters long",
+    "minLength_one": "This field must be at least {{min}} character long",
     "maxLength": "This field must be at most {{max}} characters long",
+    "maxLength_one": "This field must be at most {{max}} character long",
     "min": "You must enter at least {{min}}",
     "max": "You must enter at most {{max}}",
-    "atLeastN": "You must select at least {{n}} items"
+    "atLeastN": "You must select at least {{n}} items",
+    "atLeastN_one": "You must select at least {{n}} item"
   },
   "upload": {
     "selectFile": "Select file",
     "filesSelected": "{{count}} files selected",
+    "filesSelected_one": "{{count}} file selected",
     "filesUploaded": "{{count}} files uploaded",
+    "filesUploaded_one": "{{count}} file uploaded",
     "maxSizeError": "File size must be at most {{maxSize}}. '{{fileName}}' file size: {{fileSize}}",
     "maxFileError": "You can upload a maximum of {{maxFile}} files.",
+    "maxFileError_one": "You can upload a maximum of {{maxFile}} file.",
     "mimeTypeError": "Only '{{acceptType}}' format files can be uploaded. Your file format: '{{fileType}}'",
     "uploadError": "An error occurred while uploading the file. Please try again.",
     "uploadStalledError": "The upload appears to be stuck and hasn't made progress in a while. Please check your connection and try again.",
@@ -60,9 +69,10 @@
     "filesBeingUploaded_one": "File is being uploaded...",
     "waitingToUpload": "Waiting to upload...",
     "uploadSuccess": "File uploaded successfully.",
-    "draggerMaxSize": "each up to {{maxSize}} in size",
-    "draggerMaxFile": "maximum {{maxFile}}",
-    "draggerCanUploadFiles": " files can be uploaded.",
+    "draggerInfo": "A maximum of {{count}} files can be uploaded.",
+    "draggerInfo_one": "A maximum of {{count}} file can be uploaded.",
+    "draggerInfoWithSize": "A maximum of {{count}} files, each up to {{maxSize}} in size, can be uploaded.",
+    "draggerInfoWithSize_one": "A maximum of {{count}} file, up to {{maxSize}} in size, can be uploaded.",
     "customValidationError": "An error occurred.",
     "chooseOrDragImage": "Choose or drag an image"
   },

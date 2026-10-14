@@ -107,7 +107,7 @@ describe("UploadDragger", () => {
 
   it("should allow uploading as many files as specified with the maxFile prop", async () => {
     const maxFile = 1;
-    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
+    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile, count: maxFile });
     const { getInput, getFileItemFirst, getFileItemLast } = renderExt(<UploadDragger {...requiredProps} maxFile={maxFile} />);
     await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb, MOCK.fileTxt1kb]);
 
@@ -119,6 +119,33 @@ describe("UploadDragger", () => {
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.fileTxt1kb.name);
     expect(fileItem2).toHaveTextContent(expectedErrorMessage);
+  });
+
+  it("should render the singular dragger info message when maxFile is 1", () => {
+    renderExt(<UploadDragger {...requiredProps} maxFile={1} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO, { count: 1 }))).toBeInTheDocument();
+  });
+
+  it("should render the plural dragger info message when maxFile is greater than 1", () => {
+    renderExt(<UploadDragger {...requiredProps} maxFile={3} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO, { count: 3 }))).toBeInTheDocument();
+  });
+
+  it("should render the singular dragger info message with size when maxFile is 1 and maxSize is given", () => {
+    const maxSize = 500000;
+    renderExt(<UploadDragger {...requiredProps} maxFile={1} maxSize={maxSize} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO_WITH_SIZE, { count: 1, maxSize: formatBytes(maxSize) }))).toBeInTheDocument();
+  });
+
+  it("should render the plural dragger info message with size when maxFile is greater than 1 and maxSize is given", () => {
+    const maxSize = 500000;
+    renderExt(<UploadDragger {...requiredProps} maxFile={3} maxSize={maxSize} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO_WITH_SIZE, { count: 3, maxSize: formatBytes(maxSize) }))).toBeInTheDocument();
+  });
+
+  it("should clamp a negative maxFile to 0 in the dragger info message", () => {
+    renderExt(<UploadDragger {...requiredProps} maxFile={-2} />);
+    expect(screen.getByText(t(MESSAGE.DRAGGER_INFO, { count: 0 }))).toBeInTheDocument();
   });
 
   it("should not upload files whose file size is larger than given size in maxSize prop", async () => {
@@ -139,7 +166,7 @@ describe("UploadDragger", () => {
 
   it("should override maximum number of files error message when set explicitly", async () => {
     const maxFile = 2;
-    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
+    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile, count: maxFile });
     const messages = { maxFileMessage: "Test Max File Message" };
     const { getInput } = renderExt(<UploadDragger {...requiredProps} maxFile={maxFile} messages={messages} />);
     await simulateChooseFiles(getInput(), [MOCK.filePng2mb, MOCK.filePdf1kb, MOCK.fileGif1mb]);
@@ -311,7 +338,7 @@ describe("UploadDragger", () => {
 
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.fileGif1mb.name);
-    expect(fileItem2).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1 }));
+    expect(fileItem2).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1, count: 1 }));
 
     const fileItem1 = getFileItemFirst();
     expect(fileItem1).toHaveTextContent(MOCK.filePng2mb.name);
@@ -329,7 +356,7 @@ describe("UploadDragger", () => {
 
   it("should show error and prevent uploading for exceeding files when more files than the maxFile prop is dropped and autoUpload is false", async () => {
     const maxFile = 1;
-    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
+    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile, count: maxFile });
     const { getDragArea, getFileList, getUploadButton } = renderExt(
       <UploadDragger {...requiredProps} maxFile={maxFile} autoUpload={false} />,
     );
