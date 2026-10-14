@@ -317,9 +317,9 @@ describe("Table", () => {
     );
     expect(getCountText()).toBeInTheDocument();
     await userEvent.click(getSelectAllCheckbox());
-    expect(screen.getByText(t("table.selectedRecords", { selected: 3 }))).toBeInTheDocument();
+    expect(screen.getByText(t("table.selectedRecords", { selected: 3, count: 3 }))).toBeInTheDocument();
     await userEvent.click(getCheckboxes()[1].firstElementChild as HTMLInputElement);
-    expect(getByText(t("table.selectedRecords", { selected: 2 }))).toBeInTheDocument();
+    expect(getByText(t("table.selectedRecords", { selected: 2, count: 3 }))).toBeInTheDocument();
   });
 
   it("should render the row count section when there is data and then it is filtered to show none", async () => {
@@ -715,14 +715,14 @@ describe("Table", () => {
 
   it("should show total records count when data is provided", () => {
     const { getCountText } = renderExt(<Table columns={cols} data={data} />);
-    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3 }));
+    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3, count: 3 }));
   });
 
   it("should not change total records count when data is filtered", async () => {
     const { getFilterableTableInput, getCountText } = renderExt(<Table columns={cols} data={data} filterableTable />);
-    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3 }));
+    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3, count: 3 }));
     await userEvent.type(getFilterableTableInput(), "M Test");
-    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3 }));
+    expect(getCountText()).toHaveTextContent(t("table.totalRecords", { total: 3, count: 3 }));
   });
 
   it("should sort the rows in ascending order when the related header cell is clicked once", async () => {

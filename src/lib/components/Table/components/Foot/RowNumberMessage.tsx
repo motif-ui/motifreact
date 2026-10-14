@@ -8,7 +8,7 @@ const RowNumberMessage = memo(() => {
   const { selectedIds, selectable, totalRecords } = useContext(TableContext);
 
   const message = selectable
-    ? t("table.selectedRecords", { selected: selectedIds.size })
+    ? t("table.selectedRecords", { selected: selectedIds.size, count: totalRecords })
     : t("table.totalRecords", { total: totalRecords });
 
   return <span className={styles.totalRecordsLabel}>{message}</span>;
