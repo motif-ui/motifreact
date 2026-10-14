@@ -27,7 +27,8 @@ const createUrlFetcher =
         .filter(([, value]) => value)
         .forEach(([columnKey, value]) => params.set(columnFilter(columnKey), value));
 
-    const response = await fetch(method === "GET" ? `${url}?${params}` : `${url}`, {
+    const separator = url?.includes("?") ? "&" : "?";
+    const response = await fetch(method === "GET" ? `${url}${separator}${params}` : `${url}`, {
       method,
       ...(method === "POST" && {
         headers: { "Content-Type": "application/json" },
@@ -62,6 +63,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
   const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const [data, setData] = useState<T[]>([]);
+  const [error, setError] = useState<Error | null>(null);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -78,6 +80,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
     const controller = new AbortController();
     const { signal } = controller;
     setLoading(true);
+    setError(null);
 
     fetcherRef
       .current({ page, pageSize, sort, filters: debouncedFilters, signal })
@@ -88,7 +91,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
         }
       })
       .catch((error: unknown) => {
-        if (error instanceof Error && error.name !== "AbortError") throw error;
+        error instanceof Error && error.name !== "AbortError" && setError(error);
       })
       .finally(() => {
         !signal.aborted && setLoading(false);
@@ -110,7 +113,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
     dataKey && dispatch({ type: "columnFilter", dataKey, query });
   }, []);
 
-  return { data, totalRecords, loading, page, onPageChange, onSortChange, onFilterChange, onColumnFilterChange };
+  return { data, totalRecords, loading, error, page, onPageChange, onSortChange, onFilterChange, onColumnFilterChange };
 };
 
 export default useServerTable;

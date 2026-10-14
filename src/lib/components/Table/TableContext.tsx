@@ -172,9 +172,9 @@ export const TableProvider = (props: PropsWithChildren<TableContextProps>) => {
 
   const updateSortState = useCallback(
     (columnIndex: number) => {
-      if (usableRows?.length) {
+      if (usableRows?.length || onSortChange) {
         const sortDirection = getNextItemInArray(SORT_DIRECTIONS, columnStates[columnIndex]?.lastSortDirection);
-        setColumnStates(prev => prev.map((c, index) => (index === columnIndex ? { ...c, lastSortDirection: sortDirection } : c)));
+        setColumnStates(prev => prev.map((c, index) => ({ ...c, lastSortDirection: index === columnIndex ? sortDirection : undefined })));
         setCurrentPage(1);
         onSortChange?.({ dataKey: columns[columnIndex]?.dataKey, direction: sortDirection });
       }

@@ -24,16 +24,18 @@ export const requestReducer = (state: RequestState, action: RequestAction): Requ
       return { ...state, sort: action.sort, page: 1 };
     case "filter": {
       const nextFilters = { ...filters, main: action.query };
-      return { ...state, filters: nextFilters, debouncedFilters: action.immediate ? nextFilters : debouncedFilters, page: 1 };
+      return action.immediate
+        ? { ...state, filters: nextFilters, debouncedFilters: nextFilters, page: 1 }
+        : { ...state, filters: nextFilters };
     }
     case "columnFilter": {
       const nextFilters = { ...filters, columns: { ...filters.columns, [action.dataKey]: action.query } };
-      return { ...state, filters: nextFilters, page: 1 };
+      return { ...state, filters: nextFilters };
     }
     case "debounceElapsed": {
       const unchanged =
         filters.main === debouncedFilters.main && JSON.stringify(filters.columns) === JSON.stringify(debouncedFilters.columns);
-      return unchanged ? state : { ...state, debouncedFilters: filters };
+      return unchanged ? state : { ...state, debouncedFilters: filters, page: 1 };
     }
   }
 };
