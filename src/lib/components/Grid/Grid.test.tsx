@@ -5,8 +5,6 @@ import type { Size4LG } from "../../types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 
-const gutterSizes: (Size4LG | "xxl")[] = ["sm", "md", "lg", "xl", "xxl"];
-
 describe("Grid", () => {
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) =>
@@ -26,6 +24,8 @@ describe("Grid", () => {
   );
 
   it("should render with gutter-x and gutter-y classes based on gutter, gutterX, gutterY props", () => {
+    const gutterSizes: (Size4LG | "xxl")[] = ["sm", "md", "lg", "xl", "xxl"];
+
     const child = (
       <Grid.Row>
         <Grid.Col />
