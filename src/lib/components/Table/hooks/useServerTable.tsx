@@ -59,6 +59,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
     sort: {},
     filters: { main: "", columns: {} },
     debouncedFilters: { main: "", columns: {} },
+    pageResetPending: false,
   });
   const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -91,7 +92,7 @@ const useServerTable = <T,>(options: UseServerTableOptions = {}, fetcher?: Fetch
         }
       })
       .catch((error: unknown) => {
-        error instanceof Error && error.name !== "AbortError" && setError(error);
+        !signal.aborted && error instanceof Error && error.name !== "AbortError" && setError(error);
       })
       .finally(() => {
         !signal.aborted && setLoading(false);

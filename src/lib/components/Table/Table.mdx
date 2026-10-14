@@ -43,10 +43,13 @@ cancellation) and wires directly into a small set of props `<Table>` already exp
 - **reflectDataChanges**: must be set to `true` — otherwise `<Table>` only ever reads the **data** prop once, and later
   server responses would be ignored.
 
-> **Note:** Every field `useServerTable` returns (**data**, **totalRecords**, **loading**, **onSortChange**,
-> **onFilterChange**, **onColumnFilterChange**, **onPageChange**) is deliberately named to match one of these props
-> one-to-one, so the hook's result can usually be spread straight onto `<Table>` instead of wiring each field by hand —
-> see the examples below.
+> **Note:** Every field `useServerTable` returns except **error** (**data**, **totalRecords**, **loading**,
+> **onSortChange**, **onFilterChange**, **onColumnFilterChange**, **onPageChange**) is deliberately named to match one
+> of these props one-to-one, so the hook's result can usually be spread straight onto `<Table>` instead of wiring each
+> field by hand — see the examples below. **error** (`Error | null`) is the one exception: it's set when a request
+> fails for a reason other than being superseded/aborted, and reset at the start of every new request, but `<Table>`
+> doesn't consume it — since it isn't part of `TableProps`, showing an error state (a message, a retry action, etc.)
+> is the consumer's own responsibility.
 
 ### Basic Use
 

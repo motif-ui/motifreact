@@ -1494,4 +1494,25 @@ describe("Table", () => {
     expect(screen.getByText("Zed")).toBeInTheDocument();
     expect(getCheckboxes()[1].firstElementChild).not.toBeChecked();
   });
+
+  it("should reset other columns' sort direction when a different column is sorted (single-column sort only)", async () => {
+    const cols = [
+      { title: "Name", dataKey: "name", sorting: {} },
+      { title: "Age", dataKey: "age", sorting: {} },
+    ];
+    const data = [
+      { name: "Zed", age: 20 },
+      { name: "Amy", age: 20 },
+      { name: "Mid", age: 5 },
+    ];
+    const { getHeaderCells, getTableBody } = renderExt(<Table columns={cols} data={data} />);
+
+    await userEvent.click(within(getHeaderCells()[0]).getByRole("button")); // Name'e göre sırala
+    await userEvent.click(within(getHeaderCells()[1]).getByRole("button")); // Age'e göre sırala
+
+    const rows = Array.from(getTableBody().children) as HTMLTableRowElement[];
+    expect(within(rows[0]).getByText("Mid")).toBeInTheDocument();
+    expect(within(rows[1]).getByText("Zed")).toBeInTheDocument(); // orijinal array sırası (Zed index 0)
+    expect(within(rows[2]).getByText("Amy")).toBeInTheDocument(); // Amy index 1 — age eşitliğinde tie-break
+  });
 });

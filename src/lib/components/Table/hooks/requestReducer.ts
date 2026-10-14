@@ -5,6 +5,7 @@ export type RequestState = {
   sort: Sort;
   filters: Filters;
   debouncedFilters: Filters;
+  pageResetPending: boolean;
 };
 
 export type RequestAction =
@@ -25,17 +26,18 @@ export const requestReducer = (state: RequestState, action: RequestAction): Requ
     case "filter": {
       const nextFilters = { ...filters, main: action.query };
       return action.immediate
-        ? { ...state, filters: nextFilters, debouncedFilters: nextFilters, page: 1 }
-        : { ...state, filters: nextFilters };
+        ? { ...state, filters: nextFilters, debouncedFilters: nextFilters, page: 1, pageResetPending: false }
+        : { ...state, filters: nextFilters, pageResetPending: true };
     }
     case "columnFilter": {
       const nextFilters = { ...filters, columns: { ...filters.columns, [action.dataKey]: action.query } };
-      return { ...state, filters: nextFilters };
+      return { ...state, filters: nextFilters, pageResetPending: true };
     }
     case "debounceElapsed": {
       const unchanged =
         filters.main === debouncedFilters.main && JSON.stringify(filters.columns) === JSON.stringify(debouncedFilters.columns);
-      return unchanged ? state : { ...state, debouncedFilters: filters, page: 1 };
+      if (unchanged && !state.pageResetPending) return state;
+      return { ...state, debouncedFilters: filters, page: state.pageResetPending ? 1 : state.page, pageResetPending: false };
     }
   }
 };
