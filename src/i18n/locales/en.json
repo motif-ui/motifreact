@@ -23,8 +23,8 @@
     "fieldError": "Please fix the error in this field."
   },
   "table": {
-    "totalSelectedRecords": "{{selected}} of {{total}} records selected.",
-    "totalSelectedRecords_one": "{{selected}} of {{total}} record selected.",
+    "selectedRecords": "{{selected}} record selected.",
+    "selectedRecords_one": "{{selected}} records selected.",
     "totalRecords": "Total {{total}} records",
     "totalRecords_one": "Total {{total}} record"
   },

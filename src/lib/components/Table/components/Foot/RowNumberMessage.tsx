@@ -5,15 +5,11 @@ import { useMotifContext } from "src/lib/motif/context/MotifProvider";
 
 const RowNumberMessage = memo(() => {
   const { t } = useMotifContext();
-  const { originalRows, selectable, totalRecords } = useContext(TableContext);
+  const { selectedIds, selectable, totalRecords } = useContext(TableContext);
 
   const message = selectable
-    ? t("table.totalSelectedRecords", {
-        total: totalRecords,
-        selected: originalRows?.filter(r => r.isSelected).length || 0,
-        count: totalRecords,
-      })
-    : t("table.totalRecords", { total: totalRecords, count: totalRecords });
+    ? t("table.selectedRecords", { selected: selectedIds.size, count: totalRecords })
+    : t("table.totalRecords", { total: totalRecords });
 
   return <span className={styles.totalRecordsLabel}>{message}</span>;
 });

@@ -22,7 +22,7 @@
     "fieldError": "Lütfen bu alandaki hatayı giderin."
   },
   "table": {
-    "totalSelectedRecords": "Toplam {{total}} veriden {{selected}} tanesi seçildi.",
+    "selectedRecords": "{{selected}} veri seçildi.",
     "totalRecords": "Toplam veri: {{total}}"
   },
   "validation": {

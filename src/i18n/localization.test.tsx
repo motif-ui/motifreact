@@ -42,8 +42,9 @@ describe("Localization", () => {
 
   it("should replace multiple params in a single string", () => {
     const t = createTranslator("en");
-    const result = t("table.totalSelectedRecords", { selected: 3, total: 10 });
+    const result = t("upload.maxSizeError", { maxSize: 3, fileName: "x", fileSize: 10 });
     expect(result).toContain("3");
+    expect(result).toContain("x");
     expect(result).toContain("10");
   });
 
@@ -332,12 +333,8 @@ describe("Localization", () => {
     const t = createTranslator("en");
     expect(t("table.totalRecords", { total: 1, count: 1 })).toBe(en.table.totalRecords_one.replace("{{total}}", "1"));
     expect(t("table.totalRecords", { total: 5, count: 5 })).toBe(en.table.totalRecords.replace("{{total}}", "5"));
-    expect(t("table.totalSelectedRecords", { selected: 1, total: 1, count: 1 })).toBe(
-      en.table.totalSelectedRecords_one.replace("{{selected}}", "1").replace("{{total}}", "1"),
-    );
-    expect(t("table.totalSelectedRecords", { selected: 1, total: 5, count: 5 })).toBe(
-      en.table.totalSelectedRecords.replace("{{selected}}", "1").replace("{{total}}", "5"),
-    );
+    expect(t("table.selectedRecords", { selected: 1, count: 1 })).toBe(en.table.selectedRecords_one.replace("{{selected}}", "1"));
+    expect(t("table.selectedRecords", { selected: 1, count: 5 })).toBe(en.table.selectedRecords.replace("{{selected}}", "1"));
   });
 
   it("should resolve plural forms of validation messages", () => {
