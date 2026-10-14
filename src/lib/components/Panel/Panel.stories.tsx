@@ -39,19 +39,3 @@ export const Sample: Story = {
     </Panel>
   ),
 };
-
-export const Lean: Story = {
-  render: () => (
-    <div style={{ display: "flex", gap: 24 }}>
-      <Panel bordered lean="left" title="Left">
-        <Text>{textShort}</Text>
-      </Panel>
-      <Panel bordered lean="bottom right" title="Bottom Right">
-        <Text>{textShort}</Text>
-      </Panel>
-      <Panel bordered lean="all" title="All">
-        <Text>{textShort}</Text>
-      </Panel>
-    </div>
-  ),
-};

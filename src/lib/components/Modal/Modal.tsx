@@ -8,6 +8,7 @@ import ModalActions from "./components/ModalActions";
 import { createPortal } from "react-dom";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useDomReady from "../../hooks/useDomReady";
+import useScrollLock from "../../hooks/useScrollLock";
 import { ModalProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
@@ -34,6 +35,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
 
   const domReady = useDomReady();
   const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
+  useScrollLock(!!open);
 
   const modalRef = useOutsideClick<HTMLDivElement>(() => closable && hide());
 

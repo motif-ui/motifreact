@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import styles from "./FormField.module.scss";
 import { useForm } from "@/components/Form/context/FormContext";
-import { FieldProvider } from "@/components/Form/context/FieldContext";
+import { FieldContext } from "@/components/Form/context/FieldContext";
 import { PropsWithRefAndChildren } from "../../../types";
 import { FormFieldGroupProps } from "@/components/Form/FormFields/types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
@@ -49,24 +49,26 @@ const FormFieldGroup = (props: PropsWithRefAndChildren<FormFieldGroupProps, HTML
   );
 
   return (
-    <FieldProvider
-      fieldName={name}
-      validations={groupValidations}
-      groupName={name}
-      success={success}
-      readOnly={readOnly}
-      disabled={disabled}
-      setFieldError={setError}
-      error={!!error}
+    <FieldContext
+      value={{
+        fieldName: name,
+        validations: groupValidations,
+        groupName: name,
+        success,
+        readOnly,
+        disabled,
+        setFieldError: setError,
+        error: !!error,
+      }}
     >
       <div className={classNames} data-testid="formFieldGroup" ref={ref} style={style} {...(label && { "data-has-label": "" })}>
         {label && <span className={styles.label}>{label}</span>}
         <div className={styles.inputContainer}>
           <div className={styles.groupItems}>{children}</div>
-          <span className={styles.helper}>{error ?? (helperText || "")}</span>
+          {(error || helperText) && <span className={styles.helper}>{error ?? helperText}</span>}
         </div>
       </div>
-    </FieldProvider>
+    </FieldContext>
   );
 };
 
