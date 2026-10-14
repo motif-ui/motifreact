@@ -111,7 +111,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
           ? "waitingToUpload"
           : "noFile";
 
-  const styleVariant = isDisabled ? "disabled" : error || inputState === "error" ? "error" : success && "success";
+  const styleVariant = disabled ? "disabled" : readOnly ? "readOnly" : error || inputState === "error" ? "error" : success && "success";
 
   useEffect(() => {
     const sanitizedValue = toFormValue(selectedFiles);

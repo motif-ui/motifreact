@@ -17,6 +17,23 @@ $sizes: (("xs", "4x", "6x"), ("sm", "6x", "12x"), ("md", "8x", "16x"), ("lg", "1
     }
   }
 
+  &.readOnly {
+    background: var(--theme-color-surface-base-base5);
+    border-color: var(--theme-color-border-light-default);
+    .label {
+      color: var(--theme-color-text-base-caption-light);
+    }
+    .browseButton:disabled,
+    .uploadButton:disabled {
+      background: var(--theme-color-surface-light-hover);
+      border-color: var(--theme-color-border-light-default);
+      &,
+      span {
+        color: var(--theme-color-text-base-caption);
+      }
+    }
+  }
+
   &.error {
     &,
     .browseButton,
