@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:string";
 @use "@styles" as *;
 
 // variant, bg, border, text
@@ -10,17 +11,21 @@ $variants: (
 
 // position, gapPos, edgeMarginPositions
 $positions: (
-  ("top", "bottom", ("top", "left", "right")),
-  ("bottom", "top", ("bottom", "left", "right")),
+  ("top", "bottom", ("top")),
+  ("bottom", "top", ("bottom")),
   ("right", "left", ("top", "bottom", "right")),
   ("left", "right", ("top", "bottom", "left")),
-  ("topRight", "bottom", ("top", "left")),
-  ("topLeft", "bottom", ("top", "right")),
-  ("bottomRight", "top", ("bottom", "left")),
-  ("bottomLeft", "top", ("bottom", "right"))
+  ("topRight", "bottom", ("top")),
+  ("topLeft", "bottom", ("top")),
+  ("bottomRight", "top", ("bottom")),
+  ("bottomLeft", "top", ("bottom"))
 );
 
 $caret-margin: var(--base-sizing-12x);
+
+// The caret's offset from the popover's left edge for the top and bottom placements, calculated by the component
+// to point to the anchor. It is kept inside the popover.
+$caret-left: clamp(0px, var(--caret-left, 0px), calc(100% - 2 * #{$caret-margin}));
 @mixin caret-tip($position, $color, $elevated: false, $borderColor: null) {
   $shadow-bottom: 0 calc(-1 * var(--base-sizing-3x)) var(--base-sizing-2x);
   $shadow-top: 0 var(--base-sizing-3x) var(--base-sizing-2x);
@@ -34,7 +39,7 @@ $caret-margin: var(--base-sizing-12x);
       shadowPos: $shadow-bottom,
       borderWidth: $border-bottom,
       caretPosition: bottom,
-      margin: 0 0 0 var(--caret-left, 0),
+      margin: 0 0 0 $caret-left,
       beforePos: $position-bottom-before,
       afterPos: var(--base-sizing-2x) 0 auto 0
     ),
@@ -42,7 +47,7 @@ $caret-margin: var(--base-sizing-12x);
       shadowPos: $shadow-top,
       borderWidth: $border-top,
       caretPosition: top,
-      margin: 0 0 0 var(--caret-left, 0),
+      margin: 0 0 0 $caret-left,
       beforePos: $position-top-before,
       afterPos: auto 0 var(--base-sizing-2x) 0
     ),
@@ -61,41 +66,17 @@ $caret-margin: var(--base-sizing-12x);
       margin: var(--caret-top) 0 0 0,
       beforePos: 0 auto 0 0,
       afterPos: 0 0 0 var(--base-sizing-2x)
-    ),
-    "bottomLeft": (
-      shadowPos: $shadow-bottom,
-      borderWidth: $border-bottom,
-      caretPosition: bottom,
-      margin: 0 0 0 $caret-margin,
-      beforePos: $position-bottom-before,
-      afterPos: var(--base-sizing-2x) 0 auto 0
-    ),
-    "bottomRight": (
-      shadowPos: $shadow-bottom,
-      borderWidth: $border-bottom,
-      caretPosition: bottom,
-      margin: 0 $caret-margin 0 auto,
-      beforePos: $position-bottom-before,
-      afterPos: var(--base-sizing-2x) 0 auto 0
-    ),
-    "topLeft": (
-      shadowPos: $shadow-top,
-      borderWidth: $border-top,
-      caretPosition: top,
-      margin: 0 0 0 $caret-margin,
-      beforePos: $position-top-before,
-      afterPos: auto 0 var(--base-sizing-2x) 0
-    ),
-    "topRight": (
-      shadowPos: $shadow-top,
-      borderWidth: $border-top,
-      caretPosition: top,
-      margin: 0 $caret-margin 0 auto,
-      beforePos: $position-top-before,
-      afterPos: auto 0 var(--base-sizing-2x) 0
     )
   );
-  $values: map.get($caret-positions, $position);
+
+  // The caret only depends on the side, e.g. bottomLeft and bottomRight have the caret of bottom
+  $side: $position;
+  @each $vertical in ("top", "bottom") {
+    @if string.index($position, $vertical) == 1 {
+      $side: $vertical;
+    }
+  }
+  $values: map.get($caret-positions, $side);
 
   .popover {
     &::before {
@@ -105,7 +86,7 @@ $caret-margin: var(--base-sizing-12x);
       margin: map.get($values, "margin");
 
       @if $elevated {
-        filter: drop-shadow(#{map.get($values, "shadowPos")} #0000001a);
+        filter: drop-shadow(#{map.get($values, "shadowPos")} var(--theme-elevation-elevation1-shadow));
       }
     }
 
@@ -121,11 +102,29 @@ $caret-margin: var(--base-sizing-12x);
 }
 
 .Root {
-  z-index: 1;
+  z-index: z-layer("anchored");
   box-sizing: border-box;
   position: absolute;
   display: flex; // DO NOT REMOVE: this prevents borders get cut off when popover overflows
   @include fade-default;
+
+  // The caret points to the anchor's center on the left and right placements
+  --caret-top: calc((var(--overlay-anchor-top) + var(--overlay-anchor-bottom)) / 2 - var(--base-sizing-6x));
+}
+
+// The spot of the anchor that the caret points to on the top and bottom placements: the edge or the center that placeOn
+// asks for. It is kept when the popover is flipped to the other alignment or shifted to stay in the screen.
+// The anchor's offsets from the popover are written by the positioning.
+.caretLeft {
+  --caret-left: calc(var(--overlay-anchor-left) + #{$caret-margin});
+}
+
+.caretRight {
+  --caret-left: calc(var(--overlay-anchor-right) - 2 * #{$caret-margin});
+}
+
+.caretCenter {
+  --caret-left: calc((var(--overlay-anchor-left) + var(--overlay-anchor-right)) / 2 - var(--base-sizing-6x));
 }
 
 .visible {
@@ -135,7 +134,10 @@ $caret-margin: var(--base-sizing-12x);
 .popover {
   width: max-content;
   border-radius: var(--theme-sizing-radius-default);
-  overflow: hidden;
+
+  // clip instead of hidden: it rounds the content's corners too, but does not let the wrapper shrink below its content,
+  // so the positioning measures the content's minimum width on the popover itself
+  overflow: clip;
   .justText & {
     padding: var(--base-sizing-10x);
   }
@@ -170,8 +172,15 @@ $caret-margin: var(--base-sizing-12x);
   }
 }
 
+// Distance from the screen edges when a top or bottom popover is shifted to stay in the screen.
+$screen-edge-space: var(--base-sizing-8x);
+
 @each $position, $gapPosition, $edgeMarginPositions in $positions {
   .#{$position} {
+    @if $gapPosition == "top" or $gapPosition == "bottom" {
+      margin-left: $screen-edge-space;
+      margin-right: $screen-edge-space;
+    }
     @each $variant, $bgColor, $borderColor, $textColor in $variants {
       &.#{$variant} {
         &.callout {

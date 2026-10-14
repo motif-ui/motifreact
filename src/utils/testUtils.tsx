@@ -1,4 +1,4 @@
-import { RenderResult } from "@testing-library/react";
+import { fireEvent, RenderResult } from "@testing-library/react";
 import { createRef } from "react";
 import { createTranslator } from "../i18n/translate";
 import type { IconGlobalType, StandardPropsWithRef } from "../lib/types";
@@ -185,4 +185,13 @@ export const mockXHRWithResponse = (status: number, responseText: string) => {
     originalMockRestore();
   };
   return spy;
+};
+
+/**
+ * Clicks the element as the browser does: the press, then the click. fireEvent.click alone skips the press,
+ * which the overlays use to tell an outside click from a text selection or a touch scroll.
+ */
+export const browserClick = (target: Element) => {
+  fireEvent.pointerDown(target);
+  fireEvent.click(target);
 };

@@ -14,13 +14,18 @@ $sizes: (
 
 .submitArea {
   display: flex;
-  flex-wrap: wrap;
-}
-
-.submitArea_fluid {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
+  &.submitArea_align_left {
+    justify-content: flex-start;
+  }
+  &.submitArea_align_center {
+    justify-content: center;
+  }
+  &.submitArea_align_right {
+    justify-content: flex-end;
+  }
+  &.submitArea_align_fluid > button {
+    flex: 1 1 0;
+  }
 }
 
 .horizontal {
@@ -31,10 +36,6 @@ $sizes: (
 .horizontal .fields {
   display: inline-flex;
   align-items: flex-start;
-}
-
-.horizontal .submitArea_fluid {
-  flex-grow: 1;
 }
 
 .horizontalLabels .submitArea {
@@ -50,15 +51,7 @@ $sizes: (
   }
 
   .submitArea {
-    &.submitArea_align_left {
-      justify-content: flex-start;
-    }
-    &.submitArea_align_center {
-      justify-content: center;
-    }
-    &.submitArea_align_right {
-      justify-content: flex-end;
-    }
+    flex-wrap: wrap;
   }
 }
 
