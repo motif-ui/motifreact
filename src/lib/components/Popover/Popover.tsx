@@ -1,11 +1,12 @@
 "use client";
 
 import styles from "./Popover.module.scss";
-import { useEffect, useRef, useCallback } from "react";
+import { useMemo } from "react";
 import { PropsWithRefAndChildren } from "../../types";
-import { usePopoverPosition } from "./hooks/usePopoverPosition";
+import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { mergeRefs } from "../../../utils/reactUtils";
 import { PopoverProps } from "./types";
 import BrowserPortal from "../../../utils/BrowserPortal";
 
@@ -14,7 +15,11 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     anchorRef,
     children,
     open,
+    defaultOpen,
     onClose,
+    closeOnOutsideClick,
+    closeOnEscape,
+    closeOnScroll,
     variant = "light",
     placeOn = "bottom",
     spacing = "callout",
@@ -23,48 +28,35 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     className,
     style,
   } = usePropsWithThemeDefaults("Popover", props);
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const { startShowing, startHiding, attached, positionStyle, visible } = usePopoverPosition(anchorRef, popoverRef, placeOn, 300);
+  const uncontrolled = open === undefined;
+  const {
+    attached,
+    visible,
+    style: positionStyle,
+    placement,
+    overlayRef: popoverRef,
+    insideProps,
+  } = useAnchoredOverlay({
+    anchorRef,
+    placement: placeOn,
+    limitWidth: true,
+    toggleOnAnchorClick: uncontrolled,
+    open,
+    defaultOpen,
+    onClose,
+    duration: 300,
+    closeOnOutsideClick: closeOnOutsideClick ?? uncontrolled,
+    closeOnEscape: closeOnEscape ?? uncontrolled,
+    closeOnScroll,
+  });
 
-  const mergedRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      popoverRef.current = node;
+  const mergedRef = useMemo(() => mergeRefs(popoverRef, ref), [popoverRef, ref]);
 
-      if (typeof ref === "function") {
-        ref(node);
-      } else if (ref) {
-        ref.current = node;
-      }
-    },
-    [ref],
-  );
-
-  useEffect(() => {
-    if (open) {
-      startShowing();
-    } else {
-      startHiding();
-      onClose?.();
-    }
-  }, [onClose, open, startHiding, startShowing]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (attached) {
-        onClose?.();
-        startHiding(true);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [attached, onClose, startHiding]);
-
+  const caretSpot = placeOn.endsWith("Left") ? "caretLeft" : placeOn.endsWith("Right") ? "caretRight" : "caretCenter";
   const classNames = sanitizeModuleRootClasses(styles, className, [
     spacing,
-    placeOn,
+    placement,
+    caretSpot,
     variant,
     visible && "visible",
     elevated && "elevated",
@@ -74,7 +66,7 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
   return (
     attached && (
       <BrowserPortal>
-        <div className={classNames} style={{ ...style, ...positionStyle }} ref={mergedRef} data-testid="popover">
+        <div className={classNames} style={{ ...style, ...positionStyle }} ref={mergedRef} data-testid="popover" {...insideProps}>
           <div className={styles.popover}>{children}</div>
         </div>
       </BrowserPortal>

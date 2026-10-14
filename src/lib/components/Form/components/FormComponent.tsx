@@ -8,11 +8,11 @@ import styles from "../Form.module.scss";
 import Button from "@/components/Button";
 import FormTitle from "@/components/Form/components/FormTitle";
 import { PropsWithRefAndChildren } from "../../../types";
-import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 
 type Props<T> = {
   submitButtonLabel: string;
-  buttonPosition: "left" | "center" | "right";
+  buttonPosition: "left" | "center" | "right" | "fluid";
   enableClearButton?: boolean;
   clearButtonLabel: string;
   resetIfValidatedOnSubmit?: boolean;
@@ -52,6 +52,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
   );
 
   const classNames = sanitizeModuleRootClasses(styles, className, [size, formOrientation, labelOrientation + "Labels"]);
+  const buttonContainerClassNames = sanitizeModuleClasses(styles, "submitArea", `submitArea_align_${buttonPosition}`);
   const maybeButtonContainer = !preview && (enableClearButton || onSubmit || alternateButtons?.length);
 
   return (
@@ -60,7 +61,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
       <div className={styles.fields}>
         {children}
         {maybeButtonContainer && (
-          <div className={`${styles.submitArea} ${styles["submitArea_align_" + buttonPosition]}`}>
+          <div className={buttonContainerClassNames}>
             {alternateButtons?.map(button => cloneElement(button, { size }))}
             {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
             {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" />}

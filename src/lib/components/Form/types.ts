@@ -17,7 +17,7 @@ export type FormDefaultableProps = {
   formOrientation?: Orientation;
   labelOrientation?: Orientation;
   submitButtonLabel?: string;
-  buttonPosition?: "left" | "center" | "right";
+  buttonPosition?: "left" | "center" | "right" | "fluid";
   enableClearButton?: boolean;
   clearButtonLabel?: string;
   resetIfValidatedOnSubmit?: boolean;
@@ -157,10 +157,10 @@ export type FormFieldInfo = {
 };
 
 /////////////////////////////////////////
-/////// FieldProvider/State Types ///////
+/////// FieldContext/State Types ////////
 /////////////////////////////////////////
 
-// Props for FormField and FormFieldProvider
+// Value provided by FormField and FormFieldGroup through FieldContext
 export type FormFieldProps = {
   fieldName: string;
   groupName?: string;

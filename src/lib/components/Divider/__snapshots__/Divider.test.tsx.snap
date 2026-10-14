@@ -3,7 +3,7 @@
 exports[`Divider should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
-    class="Root md horizontal gap-md solid"
+    class="Root md horizontal solid"
     data-testid="dividerItem"
   />
 </div>

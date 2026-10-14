@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { validateChildren, validateElement } from "./reactUtils";
+import { mergeRefs, validateChildren, validateElement } from "./reactUtils";
 import { rotateArray } from "./utils";
 import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "./cssUtils";
 
@@ -28,6 +28,22 @@ describe("validateElement()", () => {
 
   it("should throw an error when given element is not in allowedChildren", () => {
     expect(() => validateChildren(<AllowedComponent />, ["div"])).toThrow();
+  });
+});
+
+describe("mergeRefs()", () => {
+  it("should set object refs and call callback refs, skipping the missing ones", () => {
+    const objectRef = { current: null as HTMLDivElement | null };
+    const callbackRef = jest.fn();
+    const node = document.createElement("div");
+
+    mergeRefs(objectRef, callbackRef, undefined, null)(node);
+    expect(objectRef.current).toBe(node);
+    expect(callbackRef).toHaveBeenCalledWith(node);
+
+    mergeRefs(objectRef, callbackRef)(null);
+    expect(objectRef.current).toBeNull();
+    expect(callbackRef).toHaveBeenLastCalledWith(null);
   });
 });
 
