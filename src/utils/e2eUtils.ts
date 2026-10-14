@@ -1,0 +1,93 @@
+import type { Page } from "@playwright/test";
+
+/* ************
+  Helpers for the Playwright tests (*.e2e.spec.ts), which run against the development Storybook
+  ************ */
+
+export const storyUrl = (id: string) => `/iframe.html?id=${id}&viewMode=story`;
+
+// Returns the bounding rect of the first element matching the selector, in page coordinates
+export const getRect = (page: Page, selector: string): Promise<{ top: number; bottom: number; left: number; right: number }> =>
+  page
+    .locator(selector)
+    .first()
+    .evaluate(el => {
+      const { top, bottom, left, right } = el.getBoundingClientRect();
+      return { top, bottom, left, right };
+    });
+
+// Waits two frames after scrolling, since the browser applies the CSS anchor positions and visibility in the next frame
+export const setScroll = (page: Page, position: { top?: number; left?: number }) =>
+  page.getByTestId("scroller").evaluate(
+    (el, { top, left }) =>
+      new Promise(resolve => {
+        if (top !== undefined) el.scrollTop = top;
+        if (left !== undefined) el.scrollLeft = left;
+        requestAnimationFrame(() => requestAnimationFrame(resolve));
+      }),
+    position,
+  );
+
+// Checks whether the overlay is painted, by hit testing its visible center. position-visibility hides it without changing its style.
+export const isPainted = (page: Page, selector: string) =>
+  page
+    .locator(selector)
+    .first()
+    .evaluate(el => {
+      const rect = el.getBoundingClientRect();
+      const x = Math.min(Math.max(rect.left + rect.width / 2, 1), window.innerWidth - 1);
+      const y = Math.min(Math.max(rect.top + rect.height / 2, 1), window.innerHeight - 1);
+      return el.contains(document.elementFromPoint(x, y));
+    });
+
+/** Makes the page use the JS positioning, as in the browsers without CSS anchor positioning. Pass it to page.addInitScript. */
+export const disableCssAnchor = () => {
+  const supports = CSS.supports.bind(CSS);
+  CSS.supports = (condition: string) => !condition.includes("anchor") && supports(condition);
+};
+
+/** Waits two frames, so the updates made before the browser paints, e.g. by ResizeObserver callbacks, are done */
+export const waitForFrames = (page: Page) =>
+  page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+
+/**
+ * Opens the story and waits until it is rendered with its fonts, so the measurements do not race the page settling,
+ * e.g. a story rendered again that resets a scroll, or a font that changes the size of the anchor
+ */
+export const openStory = async (page: Page, id: string) => {
+  await page.goto(storyUrl(id));
+  // the root may also hold the stylesheets of the story, which are never visible
+  await page.locator("body.sb-show-main #storybook-root > :not(link, style, script)").first().waitFor();
+  await page.evaluate(() => document.fonts.ready);
+  await waitForFrames(page);
+};
+
+/** Scrolls the page and waits two frames, so the overlays have followed the scroll */
+export const scrollPage = (page: Page, top: number) =>
+  page.evaluate(
+    top =>
+      new Promise(resolve => {
+        window.scrollTo(0, top);
+        requestAnimationFrame(() => requestAnimationFrame(resolve));
+      }),
+    top,
+  );
+
+/**
+ * Waits until the animations and the transitions on the page have finished, e.g. a modal popping in, and two more frames.
+ * The infinite ones, e.g. a loading indicator, never finish, so they are not waited for.
+ */
+export const waitForAnimations = async (page: Page) => {
+  await page.waitForFunction(() =>
+    document
+      .getAnimations()
+      .every(animation => animation.playState !== "running" || animation.effect?.getComputedTiming().endTime === Infinity),
+  );
+  await waitForFrames(page);
+};
+
+/** Slows down the page's CPU, e.g. to run a test as on a slow CI machine. Chromium only. */
+export const slowDownCpu = async (page: Page, rate: number) => {
+  const session = await page.context().newCDPSession(page);
+  await session.send("Emulation.setCPUThrottlingRate", { rate });
+};
