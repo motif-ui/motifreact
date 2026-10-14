@@ -1,5 +1,5 @@
 import Card from "@/components/Card/Card";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Button from "@/components/Button";
 import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
@@ -212,17 +212,18 @@ describe("Card", () => {
     expect(screen.getByText("child 1")).toBeInTheDocument();
   });
 
+  const actionButton = { text: "action", onClick: jest.fn() };
+
   it("should render with right as the default buttonsPosition", () => {
-    render(<Card contentActionButton={{ text: "action", onClick: jest.fn() }} />);
+    render(<Card contentActionButton={actionButton} />);
     expect(screen.getByTestId("cardActions")).toHaveClass("actionButton-right");
   });
 
-  it("should position the buttons as given in buttonsPosition prop", () => {
-    const positions: CardActionButtonPosition[] = ["left", "center", "right", "spaceBetween", "stretch"];
-    positions.forEach(buttonsPosition => {
-      render(<Card contentActionButton={{ text: "action", onClick: jest.fn() }} buttonsPosition={buttonsPosition} />);
+  it.each(["left", "center", "right", "spaceBetween", "stretch"] as CardActionButtonPosition[])(
+    "should position the buttons as %s when buttonsPosition prop is given",
+    buttonsPosition => {
+      render(<Card contentActionButton={actionButton} buttonsPosition={buttonsPosition} />);
       expect(screen.getByTestId("cardActions")).toHaveClass(`actionButton-${buttonsPosition}`);
-      cleanup();
-    });
-  });
+    },
+  );
 });
