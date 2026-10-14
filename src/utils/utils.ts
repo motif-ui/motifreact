@@ -78,3 +78,6 @@ export const foldNormalize = (s: string, locale: string) =>
     .normalize("NFKD")
     .replace(/\p{Diacritic}/gu, "")
     .replace(/\u0131/g, "i");
+
+/** Clamps a number between a minimum and maximum value */
+export const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
