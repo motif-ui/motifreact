@@ -1,17 +1,17 @@
 import { CSSProperties, RefObject, useCallback, useRef, useState } from "react";
-import { Position } from "@/components/Tooltip/types";
+import { OverlayPlaceOn } from "src/lib/types.ts";
 
-const positions: Position[] = ["top", "topLeft", "right", "bottomLeft", "bottom", "bottomRight", "left", "topRight"] as const;
+const positions: OverlayPlaceOn[] = ["top", "topLeft", "right", "bottomLeft", "bottom", "bottomRight", "left", "topRight"];
 const getMaxWidth = (maxWidth: number) => Math.min(maxWidth, 300);
 
 export const usePositionTooltip = (
-  position: Position,
+  position: OverlayPlaceOn,
   anchorRef: RefObject<HTMLElement | undefined>,
   tooltipRef: RefObject<HTMLDivElement | null>,
 ) => {
   const [positionStyle, setPositionStyle] = useState<CSSProperties>();
   const tryCounter = useRef(0);
-  const lastTriedPosition = useRef<Position>(position);
+  const lastTriedPosition = useRef<OverlayPlaceOn>(position);
 
   const resetPosition = useCallback(() => {
     tryCounter.current = 0;
@@ -19,7 +19,7 @@ export const usePositionTooltip = (
   }, [position]);
 
   const getStyleOfPosition = useCallback(
-    (positionToPut: Position) => {
+    (positionToPut: OverlayPlaceOn) => {
       if (!anchorRef.current) return;
 
       const { top, left, right, bottom, width, height } = anchorRef.current.getBoundingClientRect();

@@ -1,6 +1,4 @@
-import { Size4SM } from "../../types";
-
-export type Position = "top" | "bottom" | "right" | "left" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
+import { OverlayPlaceOn, Size4SM } from "../../types";
 
 export type TooltipProps = {
   title?: string;
@@ -10,5 +8,5 @@ export type TooltipProps = {
 export type TooltipDefaultableProps = {
   size?: Size4SM;
   variant?: "light" | "dark";
-  position?: Position;
+  position?: OverlayPlaceOn;
 };
