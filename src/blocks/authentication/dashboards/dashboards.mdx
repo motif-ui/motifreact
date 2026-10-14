@@ -1,0 +1,15 @@
+import { Meta, Canvas, Source } from "@storybook/addon-docs/blocks";
+import * as DashboardStories from "./Dahsboards.stories";
+import dashboard1Css from "./dashboard1/dashboard1.css?raw";
+
+<Meta title="Blocks/Dashboards" />
+
+# Dashboards
+
+## Dashboard 1
+
+<Canvas of={DashboardStories.Dashboard1Block} sourceState="shown" />
+<details>
+  <summary>CSS File: dashboard1.css</summary>
+  <Source code={dashboard1Css} language="css" />
+</details>

@@ -1,0 +1,40 @@
+.fullWidth {
+  width: 100%;
+}
+
+.layout {
+  display: flex;
+}
+.sidebar {
+  flex-shrink: 0;
+}
+.content {
+  flex: 1;
+  min-width: 0;
+}
+.cardBg {
+  background-color: white;
+}
+.arrivalsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.topbarLeft {
+  display: flex;
+  align-items: center;
+}
+.topbarRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.topbarIconButton {
+  padding: 6px;
+}
+.topbarUser {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
