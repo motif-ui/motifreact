@@ -1,4 +1,5 @@
 import { isValidElement, Children, ReactElement, ReactNode } from "react";
+import type { Ref } from "react";
 
 /**
  * Validates children with allowed element types.
@@ -51,3 +52,15 @@ const _getType = (child: ReactElement): string => (typeof child.type === "string
 const _isSupportedElement = (child: ReactElement, allowedChildren: string[]) => allowedChildren.some(c => c === _getType(child));
 const _isAllowed = (element: ReactElement, allowedElements: string[]) =>
   isValidElement(element) && _isSupportedElement(element, allowedElements);
+
+/**
+ * Combines refs into one callback ref, e.g. a component's own ref of an element and the ref given to it by its parent.
+ * Memoize the result (e.g. with useMemo), otherwise React detaches and attaches the refs again on each render.
+ */
+export const mergeRefs =
+  <T>(...refs: (Ref<T> | undefined)[]) =>
+  (node: T | null) =>
+    refs.forEach(ref => {
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    });

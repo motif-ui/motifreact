@@ -5,7 +5,13 @@ import { applyCustomCSSModuleNaming } from "../src/lib/styles/scripts/build.ts";
 import { buildScssClassNamesManifest } from "../src/lib/styles/scripts/cssClassNamesManifest.ts";
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: [
+    "../src/**/*.mdx",
+    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    // Scenes of the Playwright tests, kept out of the published Storybook. Storybook is used for
+    // those scenes just to run them in a real browser environment.
+    ...(process.env.NODE_ENV === "production" ? [] : ["../src/**/*.e2e.story.tsx"]),
+  ],
   typescript: { reactDocgen: "react-docgen-typescript" },
   features: {
     interactions: process.env.NODE_ENV === "development",
