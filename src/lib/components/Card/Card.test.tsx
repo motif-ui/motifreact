@@ -78,6 +78,12 @@ describe("Card", () => {
     expect(screen.getByText("folder")).toBeInTheDocument();
   });
 
+  it("should render icon as a bare icon instead of an avatar when icon is set", () => {
+    render(<Card icon="folder" />);
+    expect(screen.getByText("folder")).toHaveClass("headerIcon");
+    expect(screen.queryByTestId("avatarItem")).not.toBeInTheDocument();
+  });
+
   it("should render avatar text when avatarText is set", () => {
     render(<Card avatarText="AB" />);
     expect(screen.getByText("AB")).toBeInTheDocument();
@@ -238,4 +244,12 @@ describe("Card", () => {
       expect(screen.getByTestId("cardActions")).toHaveClass(`actions-${buttonsPosition}`);
     },
   );
+
+  it("should render in the variant given in the variant  prop", () => {
+    const variants = ["neutral", "primary", "secondary", "info", "success", "warning", "danger"] as const;
+    variants.forEach(variant => {
+      const { container } = render(<Card variant={variant} />);
+      expect(container.firstElementChild).toHaveClass(variant);
+    });
+  });
 });

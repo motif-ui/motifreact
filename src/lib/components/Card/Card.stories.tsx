@@ -16,7 +16,6 @@ const meta: Meta<typeof Card> = {
     subtitle: "Motif Card Subtitle",
     avatarIcon: "folder",
     action: { icon: "download", onClick: () => console.log("Action clicked!") },
-    elevated: true,
   },
 };
 
