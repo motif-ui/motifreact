@@ -5,6 +5,7 @@ import type { SyntheticEvent } from "react";
 import useVisibilityTransition from "../useVisibilityTransition";
 import { OverlayCloseReason } from "src/lib/types";
 import { OverlayStateProps, UseOverlayStateReturn } from "./types";
+import useDomReady from "src/lib/hooks/useDomReady.ts";
 
 const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   const { open, defaultOpen, duration, onClose, insideRefs, closeOnOutsideClick, closeOnEscape, closeOnScroll } = props;
@@ -12,7 +13,9 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
   const isOpen = controlled ? open : internalOpen;
   const transition = useVisibilityTransition(isOpen, duration);
-  const { attached, visible } = transition;
+  const domReady = useDomReady();
+  const attached = transition.attached && domReady;
+  const { visible } = transition;
   const onCloseRef = useRef(onClose);
   // The last event marked by insideProps. React handles an event before it reaches the document, so the last one is enough.
   // It is per instance, so an event inside one overlay is not counted as inside another one.

@@ -1,6 +1,5 @@
 import type { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from "react";
-import { SyntheticEvent, use, useCallback, useEffect, useRef, useState } from "react";
-import { browser } from "react-dom";
+import { SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
 import useViewport from "../../../../hooks/useViewport";
 
 const { ZOOM_STEP, MIN_SCALE, MAX_SCALE } = {
@@ -10,7 +9,6 @@ const { ZOOM_STEP, MIN_SCALE, MAX_SCALE } = {
 };
 
 export const useImageControls = (onClose: () => void) => {
-  use(browser("Image preview is sized against the browser viewport."));
   const browserSize = useViewport();
   const [{ width: naturalWidth, height: naturalHeight }, setNaturalSize] = useState({ width: 0, height: 0 });
   const [scale, setScale] = useState(1);

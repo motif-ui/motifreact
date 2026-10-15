@@ -1,6 +1,6 @@
 import styles from "../ImageUpload.module.scss";
 import { STATUS } from "@/components/Upload/constants";
-import { Suspense, useContext, useEffect, useState, MouseEvent } from "react";
+import { useContext, useEffect, useState, MouseEvent } from "react";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import { shortenText } from "src/utils/utils.ts";
@@ -73,11 +73,7 @@ export const Image = ({ file: { status, progress, file, src, deleting, addedByVa
           <div className={styles.iconContainer}>{deleteIcon}</div>
         </div>
       )}
-      {visible && image && (
-        <Suspense fallback={null}>
-          <Preview image={image} onClose={hide} />
-        </Suspense>
-      )}
+      {visible && image && <Preview image={image} onClose={hide} />}
     </>
   );
 };
