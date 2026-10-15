@@ -7,6 +7,7 @@ const meta: Meta<typeof Card> = {
   title: "Components/Card",
   component: Card,
   argTypes: {
+    buttonsPosition: { table: { defaultValue: { summary: "right" } } },
     imagePosition: { table: { defaultValue: { summary: "left" } } },
     variant: { table: { defaultValue: { summary: "neutral" } } },
   },

@@ -1,5 +1,5 @@
 import { InputCommonProps } from "../Form/types";
-import { Size4SM } from "../../types";
+import { Size4SM, Variant } from "../../types";
 
 export type SliderBaseProps = {
   start?: number;
@@ -14,7 +14,7 @@ export type SliderBaseProps = {
 export type SliderProps = Omit<SliderBaseProps, "inRangeSelector">;
 
 export type SliderDefaultableProps = {
-  variant?: "secondary" | "danger" | "warning" | "primary" | "success";
+  variant?: Variant;
   fill?: "left" | "right" | "none";
   hideTooltip?: boolean;
   size?: Size4SM;

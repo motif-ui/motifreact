@@ -160,10 +160,29 @@ $variants: (
   flex-wrap: wrap;
   padding: var(--base-sizing-16x);
   gap: var(--base-sizing-16x);
-  justify-content: flex-end;
   align-items: center;
   &:not(:first-child) {
     border-top: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+  }
+}
+
+.actions {
+  &-left {
+    justify-content: flex-start;
+  }
+  &-center {
+    justify-content: center;
+  }
+  &-right {
+    justify-content: flex-end;
+  }
+  &-spaceBetween {
+    justify-content: space-between;
+  }
+  &-stretch {
+    & > * {
+      flex: 1;
+    }
   }
 }
 
