@@ -21,6 +21,7 @@ const meta: Meta<typeof MenuList> = {
         targetBlank: true,
         href: "https://motif-ui.com/",
         chip: { label: "New", variant: "success" },
+        divider: true,
       },
       {
         label: "SubMenu",

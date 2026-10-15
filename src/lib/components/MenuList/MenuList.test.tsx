@@ -41,6 +41,32 @@ describe("MenuList", () => {
     expect(screen.getByRole("button", { name: "Footer Action" })).toBeInTheDocument();
   });
 
+  it("should render a divider under the mainMenu item whose 'divider' property is true", () => {
+    const dividerItems: MainMenuItemProps[] = [
+      { ...items[0], divider: true },
+      { label: "About", icon: "info" },
+    ];
+    render(<MenuList items={dividerItems} />);
+
+    expect(screen.getByText("Home").closest("li")).toHaveClass("withDivider");
+    expect(screen.getByText("About").closest("li")).not.toHaveClass("withDivider");
+  });
+
+  it("should render a divider under the subMenu item whose 'divider' property is true", async () => {
+    const dividerSubItems: MainMenuItemProps[] = [
+      {
+        label: "SubMenu",
+        icon: "folder",
+        items: [{ label: "SubMenu 1", divider: true }, { label: "SubMenu 2" }],
+      },
+    ];
+    render(<MenuList items={dividerSubItems} />);
+    await user.click(screen.getByText("SubMenu"));
+
+    expect(screen.getByText("SubMenu 1").closest("li")).toHaveClass("withDivider");
+    expect(screen.getByText("SubMenu 2").closest("li")).not.toHaveClass("withDivider");
+  });
+
   it("should display menu item as given variant in variant prop", () => {
     const { rerender, container } = render(<MenuList items={items} variant="solid" />);
 

@@ -19,6 +19,7 @@ export type MenuListProps = {
    *   targetBlank?: boolean;
    *   chip?: { label: string; variant?: ChipVariant };
    *   items?: SubMenuItemProps[];
+   *   divider?: boolean;
    * }
    *
    * SubMenuItemProps: {
@@ -29,6 +30,7 @@ export type MenuListProps = {
    *   targetBlank?: boolean;
    *   chip?: { label: string; variant?: ChipVariant };
    *   items?: SubMenuItemProps[];
+   *   divider?: boolean;
    * }
    * ```
    */
@@ -83,6 +85,7 @@ export type MenuItemCommonProps = {
   active?: boolean;
   subMenuRenderer?: (props: SubMenuProps) => ReactNode;
   chip?: { label: string; variant?: ChipVariant };
+  divider?: boolean;
 };
 
 export type MainMenuProps = {
