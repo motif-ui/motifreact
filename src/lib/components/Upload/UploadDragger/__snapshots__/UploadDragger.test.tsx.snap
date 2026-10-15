@@ -28,7 +28,7 @@ exports[`UploadDragger should render with only required props, and have standard
         <span
           class="dragInfo"
         >
-          Maximum 1 files can be uploaded.
+          A maximum of 1 file can be uploaded.
         </span>
       </div>
     </div>
