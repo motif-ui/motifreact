@@ -2,16 +2,18 @@
   width: 100%;
   gap: clamp(2rem, 6vw, 7.5rem);
 }
+
 .title {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  /* Margin will be removed along with the updates coming from the 'text' component. */
   margin: 0;
   gap: 2rem;
 }
 
-// These will be removed along with the new variant values coming from the 'text' component.
+/* These will be removed along with the new variant values coming from the 'text' component. */
 .heroTitle {
   margin: 0 !important;
   font-size: 4rem !important;
@@ -20,11 +22,13 @@
 }
 
 .caption {
+  /* Margin will be removed along with the updates coming from the 'text' component. */
   margin: 0;
   color: #717d87;
 }
 
 .featureDescription {
+  /* Margin will be removed along with the updates coming from the 'text' component. */
   margin: 0;
   color: #475560;
 }

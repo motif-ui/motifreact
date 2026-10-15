@@ -1,7 +1,5 @@
-"use client";
-
 import { Grid, ImageView, Panel, Text } from "@motif-ui/react";
-import styles from "./About2.module.scss";
+import "./about2.css";
 
 const features = [
   {
@@ -26,15 +24,15 @@ const features = [
 
 const About2 = () => {
   return (
-    <Panel className={styles.panel}>
+    <Panel className="panel">
       <Grid gutter="xl" leanToEdge>
         <Grid.Row justifyCols="center">
-          <Grid.Col size={12} lg={8} className={styles.title}>
-            <Text text="About Us" variant="h1" className={styles.heroTitle} />
+          <Grid.Col size={12} lg={8} className="title">
+            <Text text="About Us" variant="h1" className="heroTitle" />
             <Text
               text="Motif UI makes it easy to build customer portals, CRMs, internal tools, and other business applications for your team. In minutes, not months."
               variant="h5"
-              className={styles.caption}
+              className="caption"
             />
           </Grid.Col>
         </Grid.Row>
@@ -63,12 +61,12 @@ const About2 = () => {
 
       <Grid gutter="xl" leanToEdge>
         <Grid.Row justifyCols="center">
-          <Grid.Col size={12} lg={8} className={styles.title}>
-            <Text text="We make creating software easy." variant="title1" className={styles.heroTitle} />
+          <Grid.Col size={12} lg={8} className="title">
+            <Text text="We make creating software easy." variant="title1" className="heroTitle" />
             <Text
               text="We aim to help empower 1,000,000 teams to create their own software. Here is how we plan on doing it."
               variant="h5"
-              className={styles.caption}
+              className="caption"
             />
           </Grid.Col>
         </Grid.Row>
@@ -79,7 +77,7 @@ const About2 = () => {
           {features.map(feature => (
             <Grid.Col size={12} md={4} key={feature.title}>
               <Panel bordered title={feature.title} titleIcon={feature.icon}>
-                <Text text={feature.description} variant="body3" className={styles.featureDescription} />
+                <Text text={feature.description} variant="body3" className="featureDescription" />
               </Panel>
             </Grid.Col>
           ))}
