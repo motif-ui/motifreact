@@ -1,7 +1,6 @@
 import styles from "../MenuList.module.scss";
 import { SubMenuProps } from "@/components/MenuList/types";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
-
 export const subMenuRenderer = (props: SubMenuProps) => <SubMenu {...props} />;
 
 const SubMenu = (props: SubMenuProps) => {

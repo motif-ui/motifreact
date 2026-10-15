@@ -4,11 +4,11 @@ import { useContext, useMemo } from "react";
 import { TableContext } from "@/components/Table/TableContext";
 
 const RowSelectionCell = () => {
-  const { usableRows, selectHandler } = useContext(TableContext);
+  const { visibleRows, selectHandler } = useContext(TableContext);
 
-  const selectedUsabledRows = useMemo(() => usableRows?.filter(r => r.isSelected), [usableRows]);
-  const checked = !!usableRows?.length && selectedUsabledRows?.length === usableRows.length;
-  const partialCheck = !checked && !!selectedUsabledRows?.length && selectedUsabledRows.length > 0;
+  const selectedVisibleRows = useMemo(() => visibleRows?.filter(r => r.isSelected), [visibleRows]);
+  const checked = !!visibleRows?.length && selectedVisibleRows?.length === visibleRows.length;
+  const partialCheck = !checked && !!selectedVisibleRows?.length && selectedVisibleRows.length > 0;
 
   return (
     <th className={styles.selectable}>
