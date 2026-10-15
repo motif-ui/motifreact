@@ -10,16 +10,19 @@ import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { DEFAULT_UPLOAD_STALL_TIMEOUT_MS, MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
 import { formatBytes, generateUUIDV4, shortenText, tryParseJsonString } from "../../../utils/utils";
 import { useMotifContext } from "../../motif/context/MotifProvider";
+import { toFormValue } from "@/components/Upload/helper";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
 export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, readOnly, value }: UploadProviderProps) => {
-  const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation } = props;
+  const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation, onUpload } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const activeRequestsRef = useRef<Set<XMLHttpRequest>>(new Set());
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(value ?? []);
   const { t } = useMotifContext();
 
+  const onUploadRef = useRef(onUpload);
+  onUploadRef.current = onUpload;
   /*  //TODO: Task opened, it effects to work mechanism of
          error condition deletion after filling with correct details.
   // Abort any in-flight requests left over when the provider unmounts, instead of
@@ -165,7 +168,16 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
         activeRequestsRef.current.delete(request);
         handler();
       };
-      request.addEventListener("load", () => settle(() => _transferComplete(fileIds, request)));
+      request.addEventListener("load", () =>
+        settle(() => {
+          _transferComplete(fileIds, request);
+          if (request.status === 200) {
+            const uploadedFiles = files.map(file => ({ ...file, status: STATUS.SUCCESS, uploaded: true, messages: [] }));
+            const response = tryParseJsonString(request.responseText) ?? (request.responseText || undefined);
+            onUploadRef.current?.(toFormValue(uploadedFiles), response);
+          }
+        }),
+      );
       request.addEventListener("error", () => settle(() => _transferFailed(fileIds)));
       request.addEventListener("abort", () => settle(() => (stallState.stalled ? _transferStalled(fileIds) : _transferAborted(fileIds))));
       request.upload.addEventListener("progress", e => {

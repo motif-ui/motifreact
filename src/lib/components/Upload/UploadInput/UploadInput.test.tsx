@@ -1,3 +1,4 @@
+import { FileType } from "@/components/Upload/types";
 import { cleanup, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import UploadInput from "@/components/Upload/UploadInput/UploadInput";
 import { simulateChooseFiles } from "@/components/Upload/testHelper";
@@ -576,5 +577,31 @@ describe("UploadInput", () => {
   it("should not render the download, delete and status icon area when there is no file and no error or success prop", () => {
     renderExt(<UploadInput {...requiredProps} />);
     expect(screen.queryByTestId("labelSuffix")).not.toBeInTheDocument();
+  });
+
+  it("should fire onUpload with the uploaded files and parsed server response when upload succeeds", async () => {
+    const xhrSpy = mockXHRWithResponse(200, JSON.stringify({ status: "success", message: "ok" }));
+    const handleUpload = jest.fn<void, [FileType[], unknown]>();
+    const { getInput } = renderExt(<UploadInput {...requiredProps} onUpload={handleUpload} />);
+    await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
+
+    await waitFor(() => expect(handleUpload).toHaveBeenCalledTimes(1));
+    const [files, response] = handleUpload.mock.calls[0];
+    expect(files).toHaveLength(1);
+    expect(files[0]).toMatchObject({ file: { name: MOCK.fileJpeg1kb.name }, uploaded: true });
+    expect(files[0].request).toBeUndefined();
+    expect(response).toEqual({ status: "success", message: "ok" });
+    xhrSpy.mockRestore();
+  });
+
+  it("should not fire onUpload when upload fails", async () => {
+    const xhrSpy = mockXHRs(500);
+    const handleUpload = jest.fn<void, [FileType[], unknown]>();
+    const { getInput, getErrorIcon } = renderExt(<UploadInput {...requiredProps} onUpload={handleUpload} />);
+    await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
+
+    await waitFor(() => expect(getErrorIcon()).toBeInTheDocument());
+    expect(handleUpload).not.toHaveBeenCalled();
+    xhrSpy.mockRestore();
   });
 });
