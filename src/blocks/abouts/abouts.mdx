@@ -1,0 +1,15 @@
+import { Meta, Canvas, Source } from "@storybook/addon-docs/blocks";
+import * as About2Stories from "./About2/About2.stories";
+import about2Css from "./About2/about2.css?raw";
+
+<Meta title="Blocks/Abouts" />
+
+# Abouts
+
+## About2
+
+<Canvas of={About2Stories.Primary} sourceState="shown" />
+<details>
+  <summary>CSS File: about2.css</summary>
+  <Source code={about2Css} language="css" />
+</details>
