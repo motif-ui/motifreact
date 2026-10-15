@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { SyntheticEvent } from "react";
 import useVisibilityTransition from "../useVisibilityTransition";
-import useDomReady from "../useDomReady";
 import { OverlayCloseReason } from "src/lib/types";
 import { OverlayStateProps, UseOverlayStateReturn } from "./types";
+import useDomReady from "../useDomReady";
 
 const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   const { open, defaultOpen, duration, onClose, insideRefs, closeOnOutsideClick, closeOnEscape, closeOnScroll } = props;

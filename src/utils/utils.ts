@@ -4,7 +4,7 @@ import { isValidElement } from "react";
 
 export const generateUUIDV4 = () =>
   "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => (c === "4" ? "4" : ((Math.random() * 16) | 0x8).toString(16)));
-export const isSmallScreen = typeof window !== "undefined" && window.innerWidth <= SCREEN_SIZES.SM;
+export const isSmallScreen = () => window.innerWidth <= SCREEN_SIZES.SM;
 
 export const capitalizeFirstLetter = (str: string) => {
   return str && str.charAt(0).toUpperCase() + str.slice(1);

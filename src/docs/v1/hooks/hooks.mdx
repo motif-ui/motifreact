@@ -16,6 +16,6 @@ All hooks are written in TypeScript and include full type definitions. You'll ge
 const ref = useOutsideClick<HTMLDivElement>(() => {});
 
 // Full type inference
-const { width, height } = useScreenSize(); // width and height are numbers
+const { width, height } = useViewport(); // width and height are numbers
 const { visible, show, hide } = useToggle(); // All properly typed
 ```
