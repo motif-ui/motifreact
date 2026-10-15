@@ -86,9 +86,12 @@ $variants: (
   }
 
   .headerContent {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     overflow: hidden;
     white-space: nowrap;
+    gap: var(--base-sizing-4x);
   }
 
   .headerTitle {
