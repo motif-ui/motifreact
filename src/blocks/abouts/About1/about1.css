@@ -1,0 +1,8 @@
+.about1-grid {
+  &.about1-grid {
+    row-gap: 4.5rem;
+  }
+  .about1-card {
+    background: none;
+  }
+}
