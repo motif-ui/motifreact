@@ -1,0 +1,9 @@
+.about3-panel {
+  padding: 120px;
+}
+
+.about3-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 32px;
+}
