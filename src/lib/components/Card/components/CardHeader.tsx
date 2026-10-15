@@ -6,7 +6,7 @@ import type { MouseEvent } from "react";
 import type { IconGlobalType } from "../../../types";
 import ImageView from "@/components/ImageView";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
-import { CardVariant } from "@/components/Card/types.ts";
+import type { CardVariant } from "../types";
 
 type Props = {
   icon?: IconGlobalType;
