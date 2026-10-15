@@ -16,7 +16,7 @@ describe("Grid", () => {
   );
 
   it("should be rendered with the given size in gutter prop", () => {
-    const gutterSizes: (Size4LG | "xxl")[] = ["sm", "md", "lg", "xl", "xxl"];
+    const gutterSizes: Size4LG[] = ["sm", "md", "lg", "xl"];
 
     gutterSizes.forEach(size => {
       const { container } = render(
@@ -27,23 +27,6 @@ describe("Grid", () => {
         </Grid>,
       );
       expect(container.firstChild).toHaveClass(`gutter-${size}`);
-    });
-  });
-
-  it("should be rendered with the given size in gutterX and gutterY props", () => {
-    const gutterSizes: (Size4LG | "xxl")[] = ["sm", "md", "lg", "xl", "xxl"];
-
-    gutterSizes.forEach(size => {
-      const { container } = render(
-        <Grid gutterX={size} gutterY={size}>
-          <Grid.Row>
-            <Grid.Col />
-          </Grid.Row>
-        </Grid>,
-      );
-      expect(container.firstChild).toHaveClass(`gutter-x-${size}`);
-      expect(container.firstChild).toHaveClass(`gutter-y-${size}`);
-      expect(container.firstChild).not.toHaveClass(`gutter-${size}`);
     });
   });
 
