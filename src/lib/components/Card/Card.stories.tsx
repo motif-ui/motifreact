@@ -9,13 +9,14 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     buttonsPosition: { table: { defaultValue: { summary: "right" } } },
     imagePosition: { table: { defaultValue: { summary: "left" } } },
-    variant: { table: { defaultValue: { summary: "neutral" } } },
+    variant: { table: { defaultValue: { summary: "secondary" } } },
   },
   args: {
     title: "Card Header Title",
     subtitle: "Motif Card Subtitle",
-    icon: "folder",
+    avatarIcon: "folder",
     action: { icon: "download", onClick: () => console.log("Action clicked!") },
+    elevated: true,
   },
 };
 

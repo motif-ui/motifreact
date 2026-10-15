@@ -29,6 +29,8 @@ export type CardProps = {
 export type CardDefaultableProps = {
   outlined?: boolean;
   elevated?: boolean;
-  variant?: "neutral" | Variant;
+  variant?: CardVariant;
   imagePosition?: "left" | "right";
 };
+
+export type CardVariant = "neutral" | Variant;
