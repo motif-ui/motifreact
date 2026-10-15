@@ -1,0 +1,8 @@
+@use "@styles" as *;
+
+// View Transition API definitions
+@include view-transition-fade("motif-backdrop");
+@include view-transition-slide("motif-slide-left", "left");
+@include view-transition-slide("motif-slide-right", "right");
+@include view-transition-slide("motif-slide-top", "top");
+@include view-transition-slide("motif-slide-bottom", "bottom");
