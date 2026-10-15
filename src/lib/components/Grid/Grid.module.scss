@@ -7,22 +7,6 @@ $grids: 12;
   @return calc(($colIdx / $grids * 100%) - ((1 - $colIdx / $grids) * #{$gutter}));
 }
 
-@mixin col-flex-widths($gutter-size) {
-  @for $i from 1 through $grids {
-    .col-size-#{$i} {
-      flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
-    }
-  }
-
-  @include screen-width-breakpoints($grid-sizes) using ($size) {
-    @for $i from 1 through $grids {
-      .col-#{$size}-#{$i} {
-        flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
-      }
-    }
-  }
-}
-
 .Root {
   width: 100%;
   margin: 0 auto;
@@ -38,16 +22,24 @@ $grids: 12;
         column-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
       }
 
-      @include col-flex-widths($gutter-size);
+      @for $i from 1 through $grids {
+        .col-size-#{$i} {
+          flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
+        }
+      }
+
+      @include screen-width-breakpoints($grid-sizes) using ($size) {
+        @for $i from 1 through $grids {
+          .col-#{$size}-#{$i} {
+            flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
+          }
+        }
+      }
     }
 
     &.gutter-y-#{$gutter-size} {
       padding-block: var(--theme-grid-gutter-gutter-#{$gutter-size});
       row-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
-
-      .row {
-        row-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
-      }
     }
   }
 
