@@ -3,7 +3,8 @@ import "./about3.css";
 
 const About3 = () => (
   <Panel className="about3-panel">
-    <Grid gutterX="xl" gutterY="xxl" leanToEdge>
+    {/* <Grid gutterX="xl" gutterY="xxl" leanToEdge> */}
+    <Grid gutter="md" leanToEdge>
       <Grid.Row justifyCols="center" className="about3-row">
         <Grid.Col size={12} lg={8}>
           <Text text="Our Background" type="display" size="lg" marginless center />
