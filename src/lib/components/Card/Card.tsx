@@ -29,7 +29,7 @@ const Card = (props: PropsWithRefAndChildren<CardProps, HTMLDivElement>) => {
     icon,
     avatarIcon,
     buttons,
-    variant = "neutral",
+    variant = "secondary",
     children,
     className,
     style,
