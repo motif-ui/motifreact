@@ -8,6 +8,7 @@ import { InputSize } from "../../../Form/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import ProgressBar from "@/components/ProgressBar";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
+import { IconGlobalType } from "../../../../types";
 
 type Props = {
   disabled?: boolean;
@@ -16,10 +17,11 @@ type Props = {
   errors?: string[];
   error?: boolean;
   success?: boolean;
+  actionIcon?: IconGlobalType;
 };
 
 export const LabelArea = (props: Props) => {
-  const { disabled, success, error, errors, size, inputState } = props;
+  const { disabled, success, error, errors, size, inputState, actionIcon } = props;
   const {
     selectedFiles,
     uploadProps: { autoUpload },
@@ -43,7 +45,9 @@ export const LabelArea = (props: Props) => {
   const suffixType: LabelSuffix = errors?.length ? "errorTooltip" : error ? "error" : success ? "success" : null;
   const enableDelete = !disabled && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
   const enableDownload = selectedFiles.some(f => !!f.download && (f.status === STATUS.SUCCESS || f.status === STATUS.DELETE_FAIL));
-  const showLabelSuffix = !!(suffixType || enableDelete || enableDownload);
+  const enableAction =
+    !!actionIcon && selectedFiles.some(f => !!f.action?.onClick && (f.status === STATUS.SUCCESS || f.status === STATUS.DELETE_FAIL));
+  const showLabelSuffix = !!(suffixType || enableDelete || enableDownload || enableAction);
   const buttonDisabled = disabled || (inputState !== "noFile" && inputState !== "uploading");
 
   const wrapperClassNames = sanitizeModuleClasses(
@@ -63,7 +67,14 @@ export const LabelArea = (props: Props) => {
             {text}
           </button>
           {showLabelSuffix && (
-            <LabelSuffix size={size} errors={errors} labelSuffix={suffixType} enableDelete={enableDelete} enableDownload={enableDownload} />
+            <LabelSuffix
+              size={size}
+              errors={errors}
+              labelSuffix={suffixType}
+              enableDelete={enableDelete}
+              enableDownload={enableDownload}
+              actionIcon={enableAction ? actionIcon : undefined}
+            />
           )}
         </>
       )}
