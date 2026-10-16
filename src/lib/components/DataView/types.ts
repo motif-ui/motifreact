@@ -21,5 +21,5 @@ export type DataViewItemProps = {
   label: string;
   value?: string | number;
   icon?: IconGlobalType;
-  variant?: "primary" | "info" | "success" | "warning" | "danger";
+  variant?: "primary" | "info" | "success" | "warning" | "danger" | "secondary";
 };
