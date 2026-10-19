@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import Alert from "@/components/Alert/Alert";
 import { fireEvent, render, screen, act } from "@testing-library/react";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { StandardPropsWithRef, Variant } from "../../../lib/types";
 describe("Alert", () => {
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) => render(<Alert message="This is a test message" {...props} />),
@@ -44,27 +44,20 @@ describe("Alert", () => {
   });
 
   it("should be rendered in the color set of the variant that is given in the variant prop", () => {
-    const { rerender, container } = render(<Alert variant="success" message="Alert Message" />);
-    const alertContainer = container.firstChild;
-
-    expect(alertContainer).toHaveClass("success");
-    expect(screen.queryByText("check_circle")).toBeInTheDocument();
-
-    rerender(<Alert variant="warning" message="Alert Message" />);
-    expect(alertContainer).toHaveClass("warning");
-    expect(screen.queryByText("warning")).toBeInTheDocument();
-
-    rerender(<Alert variant="secondary" message="Alert Message" />);
-    expect(alertContainer).toHaveClass("secondary");
-    expect(screen.queryByText("info")).toBeInTheDocument();
-
-    rerender(<Alert variant="danger" message="Alert Message" />);
-    expect(alertContainer).toHaveClass("danger");
-    expect(screen.queryByText("error")).toBeInTheDocument();
-
-    rerender(<Alert variant="info" message="Alert Message" />);
-    expect(alertContainer).toHaveClass("info");
-    expect(screen.queryByText("info")).toBeInTheDocument();
+    const variantIcons: [Variant, string][] = [
+      ["primary", "info"],
+      ["secondary", "info"],
+      ["info", "info"],
+      ["success", "check_circle"],
+      ["warning", "warning"],
+      ["danger", "error"],
+    ];
+    variantIcons.forEach(([variant, icon]) => {
+      const { container, getByText, unmount } = render(<Alert variant={variant} message="Alert Message" />);
+      expect(container.firstChild).toHaveClass(variant);
+      expect(getByText(icon)).toBeInTheDocument();
+      unmount();
+    });
   });
 
   it("should call onClose callback when close button is clicked", () => {

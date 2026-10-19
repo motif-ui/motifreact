@@ -83,7 +83,7 @@ export default [
           noEmit: false,
           emitDeclarationOnly: true,
         },
-        exclude: ["**/*.test.*", "**/*.spec.*", "**/testHelper.*", "**/*.stories.*", ".storybook"],
+        exclude: ["**/*.test.*", "**/*.spec.*", "**/testHelper.*", "**/*.stories.*", "**/*.story.*", ".storybook"],
       }),
       commonjs(),
       json(),

@@ -10,7 +10,7 @@ import { InputValue } from "../../Form/types";
 import { PropsWithRef } from "../../../types";
 import { UploadDraggerProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
-import { Validations } from "src/lib";
+import { Validations } from "@/components/Form/validation/validations";
 import { mapExternalValue, toFormValue } from "@/components/Upload/helper";
 import { FileType } from "@/components/Upload/types.ts";
 

@@ -149,7 +149,7 @@ describe("UploadList", () => {
 
     const fileItem2 = getFileItemLast();
     expect(fileItem2).toHaveTextContent(MOCK.filePdf1kb.name);
-    expect(fileItem2).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1 }));
+    expect(fileItem2).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1, count: 1 }));
     expect(getBrowseButton()).toBeDisabled();
 
     const fileItem1 = getFileItemFirst();
@@ -175,7 +175,7 @@ describe("UploadList", () => {
 
   it("should override maximum number of files error message when set explicitly", async () => {
     const maxFile = 2;
-    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
+    const defaultErrorMessage = t(MESSAGE.MAX_FILE, { maxFile, count: maxFile });
     const messages = { maxFileMessage: "Maximum %maxFile% Files Could Be Uploaded" };
     const { getInput } = renderExt(<UploadList {...requiredProps} maxFile={maxFile} messages={messages} />);
 
@@ -362,7 +362,7 @@ describe("UploadList", () => {
     expect(getFileList()?.childNodes).toHaveLength(2);
 
     expect(getFileItemLast()).toHaveTextContent(MOCK.filePdf1kb.name);
-    expect(getFileItemLast()).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1 }));
+    expect(getFileItemLast()).toHaveTextContent(t(MESSAGE.MAX_FILE, { maxFile: 1, count: 1 }));
 
     expect(getFileItemFirst()).toHaveTextContent(initialFile1.name);
     await waitForSuccessfulUpload(getFileItemFirst());
@@ -376,7 +376,7 @@ describe("UploadList", () => {
 
   it("should show error and prevent uploading for exceeding files when more files than the maxFile prop is dropped and autoUpload is false", async () => {
     const maxFile = 2;
-    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile: maxFile });
+    const expectedErrorMessage = t(MESSAGE.MAX_FILE, { maxFile, count: maxFile });
     const { getDragArea, getFileList, getUploadButton, getFileItemLast } = renderExt(
       <UploadList {...requiredProps} maxFile={maxFile} autoUpload={false} />,
     );
