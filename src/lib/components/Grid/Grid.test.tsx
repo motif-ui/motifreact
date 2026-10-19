@@ -102,7 +102,7 @@ describe("Col", () => {
     const { container } = render(
       <Grid>
         <Grid.Row>
-          <Grid.Col size={12} sm={10} md={8} lg={6} xl={3}>
+          <Grid.Col size={12} xs={6} sm={10} md={8} lg={6} xl={3}>
             Column
           </Grid.Col>
         </Grid.Row>
@@ -113,6 +113,7 @@ describe("Col", () => {
     expect(container.querySelector(".col-lg-6")).toBeInTheDocument();
     expect(container.querySelector(".col-md-8")).toBeInTheDocument();
     expect(container.querySelector(".col-sm-10")).toBeInTheDocument();
+    expect(container.querySelector(".col-xs-6")).toBeInTheDocument();
   });
 
   it("should fill the width of [size prop] / 12", () => {
