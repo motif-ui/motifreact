@@ -4,11 +4,14 @@ import { ButtonProps } from "../Button/types";
 import { LinkProps } from "../Link/types";
 import { IconButtonProps } from "../IconButton/types";
 
+export type CardActionButtonPosition = "left" | "center" | "right" | "spaceBetween" | "stretch";
+
 export type CardProps = {
   title?: string;
   subtitle?: string;
   avatarText?: string;
   icon?: IconGlobalType;
+  avatarIcon?: IconGlobalType;
   image?: string;
   action?: { icon: IconGlobalType; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   contentTitle?: string;
@@ -20,11 +23,14 @@ export type CardProps = {
   contentAlternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   contentActionLink?: { text: string; href: string; icon?: IconGlobalType; targetBlank?: boolean };
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
+  buttonsPosition?: CardActionButtonPosition;
 } & CardDefaultableProps;
 
 export type CardDefaultableProps = {
   outlined?: boolean;
   elevated?: boolean;
-  variant?: Variant;
+  variant?: CardVariant;
   imagePosition?: "left" | "right";
 };
+
+export type CardVariant = "neutral" | Variant;
