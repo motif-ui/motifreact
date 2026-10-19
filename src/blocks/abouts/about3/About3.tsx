@@ -3,9 +3,8 @@ import "./about3.css";
 
 const About3 = () => (
   <Panel className="about3-panel">
-    {/* <Grid gutterX="xl" gutterY="xxl" leanToEdge> */}
-    <Grid gutter="md" leanToEdge>
-      <Grid.Row justifyCols="center" className="about3-row">
+    <Grid gutterX="md" gutterY="xl" leanToEdge>
+      <Grid.Row justifyCols="center">
         <Grid.Col size={12} lg={8}>
           <Text text="Our Background" type="display" size="lg" marginless center />
           <Text
@@ -16,7 +15,7 @@ const About3 = () => (
           />
         </Grid.Col>
       </Grid.Row>
-      <Grid.Row className="about3-row">
+      <Grid.Row>
         <Grid.Col size={12} md={4}>
           <ImageView src="https://picsum.photos/seed/about1/384/320" width="100%" aspectRatio={384 / 320} scaleType="fillKeepAspectRatio" />
         </Grid.Col>
