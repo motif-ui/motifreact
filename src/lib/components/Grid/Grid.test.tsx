@@ -5,6 +5,8 @@ import type { Size7 } from "../../types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 
+const DEFAULT_GUTTER = "sm";
+
 describe("Grid", () => {
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) =>
@@ -17,8 +19,8 @@ describe("Grid", () => {
       ),
     {
       assertDefaults: ({ container }) => {
-        expect(container.firstChild).toHaveClass("gutter-x-sm");
-        expect(container.firstChild).toHaveClass("gutter-y-sm");
+        expect(container.firstChild).toHaveClass(`gutter-x-${DEFAULT_GUTTER}`);
+        expect(container.firstChild).toHaveClass(`gutter-y-${DEFAULT_GUTTER}`);
       },
     },
   );
@@ -39,10 +41,10 @@ describe("Grid", () => {
 
       const { container: c2 } = render(<Grid gutterX={size}>{child}</Grid>);
       expect(c2.firstChild).toHaveClass(`gutter-x-${size}`);
-      expect(c2.firstChild).toHaveClass(`gutter-y-sm`);
+      expect(c2.firstChild).toHaveClass(`gutter-y-${DEFAULT_GUTTER}`);
 
       const { container: c3 } = render(<Grid gutterY={size}>{child}</Grid>);
-      expect(c3.firstChild).toHaveClass(`gutter-x-sm`);
+      expect(c3.firstChild).toHaveClass(`gutter-x-${DEFAULT_GUTTER}`);
       expect(c3.firstChild).toHaveClass(`gutter-y-${size}`);
 
       const { container: c4 } = render(
