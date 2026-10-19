@@ -11,12 +11,13 @@ export type ColProps = {
   md?: number;
   lg?: number;
   xl?: number;
+  xxl?: number;
 };
 
 const Col = (props: PropsWithRefAndChildren<ColProps, HTMLDivElement>) => {
-  const { children, size, xs, sm, md, lg, xl, ref, style, className } = props;
+  const { children, size, xs, sm, md, lg, xl, xxl, ref, style, className } = props;
   const { style: styleFromContext, className: classNameFromContext } = useContext(GridContext);
-  const sizeClasses = Object.entries({ xs, sm, md, lg, xl, size })
+  const sizeClasses = Object.entries({ xs, sm, md, lg, xl, xxl, size })
     .filter(([, value]) => !!value)
     .map(([key, value]) => `col-${key}-${value}`);
 

@@ -104,13 +104,14 @@ describe("Col", () => {
     const { container } = render(
       <Grid>
         <Grid.Row>
-          <Grid.Col size={12} xs={6} sm={10} md={8} lg={6} xl={3}>
+          <Grid.Col size={12} xs={6} sm={10} md={8} lg={6} xl={3} xxl={6}>
             Column
           </Grid.Col>
         </Grid.Row>
       </Grid>,
     );
     expect(container.querySelector(".col-size-12")).toBeInTheDocument();
+    expect(container.querySelector(".col-xxl-6")).toBeInTheDocument();
     expect(container.querySelector(".col-xl-3")).toBeInTheDocument();
     expect(container.querySelector(".col-lg-6")).toBeInTheDocument();
     expect(container.querySelector(".col-md-8")).toBeInTheDocument();
