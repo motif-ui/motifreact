@@ -150,7 +150,7 @@ describe("extractDefaults", () => {
 });
 
 describe("extractDefaults of fixture components", () => {
-  const extracted = extractDefaults(path.resolve(import.meta.dirname, "__fixtures__/components"));
+  const extracted = extractDefaults(path.resolve(import.meta.dirname, "__mini_library__/components"));
 
   test("resolves constants to their literal values", () => {
     expect(extracted.WithConstant).toEqual({ size: "lg", pill: true, count: -1 });
