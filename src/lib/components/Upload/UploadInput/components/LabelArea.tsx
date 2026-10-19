@@ -16,10 +16,11 @@ type Props = {
   errors?: string[];
   error?: boolean;
   success?: boolean;
+  readOnly?: boolean;
 };
 
 export const LabelArea = (props: Props) => {
-  const { disabled, success, error, errors, size, inputState } = props;
+  const { disabled, success, error, errors, size, inputState, readOnly } = props;
   const {
     selectedFiles,
     uploadProps: { autoUpload },
@@ -41,7 +42,7 @@ export const LabelArea = (props: Props) => {
   const aboutToUpload = autoUpload && !!selectedFiles.length && selectedFiles.every(f => f.status === STATUS.IDLE);
 
   const suffixType: LabelSuffix = errors?.length ? "errorTooltip" : error ? "error" : success ? "success" : null;
-  const enableDelete = !disabled && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
+  const enableDelete = !disabled && !readOnly && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
   const enableDownload = selectedFiles.some(f => !!f.download && (f.status === STATUS.SUCCESS || f.status === STATUS.DELETE_FAIL));
   const showLabelSuffix = !!(suffixType || enableDelete || enableDownload);
   const buttonDisabled = disabled || (inputState !== "noFile" && inputState !== "uploading");
@@ -52,7 +53,7 @@ export const LabelArea = (props: Props) => {
     disabled ? "disabled" : error || errors?.length ? "error" : success && "success",
   );
 
-  const classNames = sanitizeModuleClasses(styles, "label", noFiles && "placeholder");
+  const classNames = sanitizeModuleClasses(styles, "label", noFiles && "placeholder", disabled && "disabled", readOnly && "readOnly");
   return (
     <div className={wrapperClassNames}>
       {aboutToUpload || uploading ? (
