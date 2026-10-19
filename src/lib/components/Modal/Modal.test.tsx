@@ -25,6 +25,25 @@ describe("Modal", () => {
     expect(screen.getByText("Test content")).toBeInTheDocument();
   });
 
+  it("should stay mounted until the exit transition ends when open changes from true to false", () => {
+    jest.useFakeTimers();
+    const { rerender } = render(<Modal open>Test content</Modal>);
+    const backdrop = screen.getByTestId("modalBackdrop");
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(backdrop).toHaveClass("show");
+
+    rerender(<Modal open={false}>Test content</Modal>);
+    expect(backdrop).not.toHaveClass("show");
+    expect(screen.getByText("Test content")).toBeInTheDocument();
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(screen.queryByText("Test content")).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
   it("should render title given in the title prop", () => {
     render(
       <Modal open title="Modal Title">

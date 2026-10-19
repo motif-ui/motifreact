@@ -8,7 +8,7 @@ import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useDomReady from "../../hooks/useDomReady";
-import useControlledVisibility from "../../hooks/useControlledVisibility";
+import useVisibilityTransition from "../../hooks/useVisibilityTransition";
 import AlertModalActions from "./components/AlertModalActions";
 import AlertModalContent from "./components/AlertModalContent";
 
@@ -36,11 +36,9 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("AlertModal", props);
 
   const domReady = useDomReady();
-  const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
+  const { visible, attached } = useVisibilityTransition(!!open, 300);
 
-  const modalRef = useOutsideClick<HTMLDivElement>(() => {
-    closable && hide();
-  });
+  const modalRef = useOutsideClick<HTMLDivElement>(() => closable && onClose?.());
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
