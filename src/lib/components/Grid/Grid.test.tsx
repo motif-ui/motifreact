@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Grid } from "../../index";
-import type { Size4LG } from "../../types";
+import type { Size7 } from "../../types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 
@@ -17,14 +17,14 @@ describe("Grid", () => {
       ),
     {
       assertDefaults: ({ container }) => {
-        expect(container.firstChild).toHaveClass("gutter-x-md");
-        expect(container.firstChild).toHaveClass("gutter-y-md");
+        expect(container.firstChild).toHaveClass("gutter-x-sm");
+        expect(container.firstChild).toHaveClass("gutter-y-sm");
       },
     },
   );
 
   it("should render with gutter-x and gutter-y classes based on gutter, gutterX, gutterY props", () => {
-    const gutterSizes: (Size4LG | "xxl")[] = ["sm", "md", "lg", "xl", "xxl"];
+    const gutterSizes: Size7[] = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl"];
 
     const child = (
       <Grid.Row>
@@ -39,10 +39,10 @@ describe("Grid", () => {
 
       const { container: c2 } = render(<Grid gutterX={size}>{child}</Grid>);
       expect(c2.firstChild).toHaveClass(`gutter-x-${size}`);
-      expect(c2.firstChild).toHaveClass(`gutter-y-md`);
+      expect(c2.firstChild).toHaveClass(`gutter-y-sm`);
 
       const { container: c3 } = render(<Grid gutterY={size}>{child}</Grid>);
-      expect(c3.firstChild).toHaveClass(`gutter-x-md`);
+      expect(c3.firstChild).toHaveClass(`gutter-x-sm`);
       expect(c3.firstChild).toHaveClass(`gutter-y-${size}`);
 
       const { container: c4 } = render(

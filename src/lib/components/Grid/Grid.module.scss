@@ -1,6 +1,6 @@
 ﻿@use "@styles" as *;
 
-$grid-sizes: ("sm", "md", "lg", "xl", "xxl");
+$grid-sizes: ("xxs", "xs", "sm", "md", "lg", "xl", "xxl");
 $grids: 12;
 
 @function calculate-grid-flex-width($colIdx, $gutter) {

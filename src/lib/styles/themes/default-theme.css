@@ -7,11 +7,13 @@
 
 :root {
   --theme-sizing-limit-input-min-width: 10rem;
-  --theme-grid-gutter-gutter-xxl: 3rem;
-  --theme-grid-gutter-gutter-xl: 1.5rem;
-  --theme-grid-gutter-gutter-lg: 1rem;
-  --theme-grid-gutter-gutter-md: 0.75rem;
-  --theme-grid-gutter-gutter-sm: 0.5rem;
+  --theme-grid-gutter-gutter-xxl: 4rem;
+  --theme-grid-gutter-gutter-xl: 3rem;
+  --theme-grid-gutter-gutter-lg: 2rem;
+  --theme-grid-gutter-gutter-md: 1.5rem;
+  --theme-grid-gutter-gutter-sm: 1rem;
+  --theme-grid-gutter-gutter-xs: 0.5rem;
+  --theme-grid-gutter-gutter-xxs: 0.25rem;
   --theme-grid-breakpoint-sm: 36rem;
   --theme-grid-breakpoint-md: 48rem;
   --theme-grid-breakpoint-lg: 62rem;
