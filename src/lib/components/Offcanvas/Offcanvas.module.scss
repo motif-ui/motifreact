@@ -16,6 +16,11 @@ $sizes: (
   background-color: var(--base-colors-black-black-overlay50);
   display: flex;
   z-index: 999;
+  @include fade-default;
+
+  &.show {
+    @include fade-in;
+  }
 
   &.hideBackdrop {
     background-color: transparent;
@@ -34,6 +39,7 @@ $sizes: (
   @include shadow(4);
 
   .left & {
+    @include slide-default("left");
     top: 0;
     left: 0;
     height: 100%;
@@ -41,6 +47,7 @@ $sizes: (
   }
 
   .right & {
+    @include slide-default("right");
     top: 0;
     right: 0;
     height: 100%;
@@ -48,6 +55,7 @@ $sizes: (
   }
 
   .top & {
+    @include slide-default("top");
     top: 0;
     left: 0;
     width: 100%;
@@ -55,10 +63,15 @@ $sizes: (
   }
 
   .bottom & {
+    @include slide-default("bottom");
     bottom: 0;
     left: 0;
     width: 100%;
     border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+  }
+
+  .show & {
+    @include slide-in;
   }
 
   @each $size, $width, $height in $sizes {

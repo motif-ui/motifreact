@@ -23,14 +23,24 @@ describe("Offcanvas", () => {
     expect(screen.getByText("Test content")).toBeInTheDocument();
   });
 
-  it("should unmount the offcanvas when open changes from true to false", () => {
+  it("should slide in after opening and slide out before unmounting when open changes from true to false", () => {
+    jest.useFakeTimers();
     const { rerender } = render(<Offcanvas open>Test content</Offcanvas>);
+    const backdrop = screen.getByTestId("offcanvasBackdrop");
+    expect(backdrop).not.toHaveClass("show");
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(backdrop).toHaveClass("show");
+
+    rerender(<Offcanvas open={false}>Test content</Offcanvas>);
+    expect(backdrop).not.toHaveClass("show");
     expect(screen.getByText("Test content")).toBeInTheDocument();
 
-    act(() => {
-      rerender(<Offcanvas open={false}>Test content</Offcanvas>);
-    });
+    act(() => jest.advanceTimersByTime(300));
     expect(screen.queryByText("Test content")).not.toBeInTheDocument();
+    jest.useRealTimers();
   });
 
   it("should render title given in the title prop", () => {
