@@ -33,6 +33,7 @@ const About3 = () => (
             type="paragraph"
             size="lg"
             tone="soft"
+            weight="medium"
             text="For years, the process of building custom software has remained challenging. Today, visual builders exist, 
               but tailored solutions still require technical expertise and a lot of time. This is a problem for businesses and individuals alike"
           />
@@ -40,18 +41,21 @@ const About3 = () => (
             type="paragraph"
             size="lg"
             tone="soft"
+            weight="medium"
             text="What if you could create custom software without writing a single line of code? What if you could build your own tools"
           />
           <Text
             type="paragraph"
             size="lg"
             tone="soft"
+            weight="medium"
             text="With our platform, you can! Our tools let you design layouts and create functionality—all without needing to code."
           />
           <Text
             type="paragraph"
             size="lg"
             tone="soft"
+            weight="medium"
             text="We believe that everyone should be able to build their own solutions, regardless of their technical background."
           />
         </Grid.Col>
@@ -61,6 +65,7 @@ const About3 = () => (
             type="paragraph"
             size="lg"
             tone="soft"
+            weight="medium"
             text="Our Company has been building web tools for over a decade, focusing on efficiency and user control in every project.
                We know that the best solutions are the ones that you can create yourself."
           />
@@ -68,12 +73,14 @@ const About3 = () => (
             type="paragraph"
             size="lg"
             tone="soft"
+            weight="medium"
             text="We initially developed these solutions for our own team, and now everyone can benefit from them too. We are proud to offer a platform that is accessible to all, regardless of technical expertise."
           />
           <Text
             type="paragraph"
             size="lg"
             tone="soft"
+            weight="medium"
             text="Our team is made up of talented individuals who are passionate about creating tools that empower users to build their own solutions with ease. We are dedicated to helping you achieve your goals, and we can’t wait to see what you create!"
           />
         </Grid.Col>
