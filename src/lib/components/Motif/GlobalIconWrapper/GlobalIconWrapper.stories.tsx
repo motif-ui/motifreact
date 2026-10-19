@@ -116,7 +116,7 @@ export const CardIcons: Story = {
         <Card
           key={"cdf" + idx}
           title="Full Card"
-          icon={iconItem}
+          avatarIcon={iconItem}
           action={{ icon: iconItem, onClick: () => {} }}
           contentActionLink={{ text: "Details", href: "#", icon: iconItem }}
           contentText="Card with all icon types"
