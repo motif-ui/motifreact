@@ -1,48 +1,53 @@
-"use client";
+import {
+  BusinessCard,
+  Checkbox,
+  Divider,
+  Form,
+  ImageView,
+  InputPassword,
+  InputText,
+  Link,
+  Panel,
+  Text,
+  Validations,
+} from "@motif-ui/react";
+import "./register.css";
 
-import { BusinessCard, Checkbox, Divider, Form, InputPassword, InputText, Link, Panel, Text } from "@motif-ui/react";
-import styles from "./Register.module.scss";
-import { LOGO_MARK_URL } from "src/blocks/constants.ts";
+const Register = () => (
+  <Panel bordered className="register-panel">
+    <BusinessCard
+      icon={<ImageView src="https://cdn.jsdelivr.net/gh/motif-ui/assets@HEAD/images/motifui-logo-mark.svg" alt="Motif UI" />}
+      title="Create your account"
+      description="Start your journey with us today"
+    />
+    <Form onSubmit={console.log} buttonPosition="fluid" submitButtonLabel="Create Account">
+      <Form.Field name="fullName" label="Full name" validations={[Validations.Required]}>
+        <InputText placeholder="Jane Cooper" iconLeft="person" />
+      </Form.Field>
 
-const Register = () => {
-  return (
-    <Panel bordered style={{ padding: "32px" }} className={styles.panel}>
-      <BusinessCard
-        icon={<img src={LOGO_MARK_URL} alt="Motif UI" width="100%" height="100%" />}
-        title="Create your account"
-        description="Start your journey with us today"
-      />
-      <Form onSubmit={() => {}} buttonPosition="fluid">
-        <Form.Field name="fullName" label="Full name">
-          <InputText placeholder="Jane Cooper" iconLeft="person" />
-        </Form.Field>
+      <Form.Field name="email" label="Email address" validations={[Validations.Required, Validations.EMAIL]}>
+        <InputText placeholder="you@example.com" iconLeft="person" />
+      </Form.Field>
 
-        <Form.Field name="email" label="Email address">
-          <InputText placeholder="you@example.com" iconLeft="person" />
-        </Form.Field>
+      <Form.Field name="password" label="Password" validations={[Validations.Required]}>
+        <InputPassword placeholder="Create a password" toggleMask />
+      </Form.Field>
 
-        <Form.Field name="password" label="Password">
-          <InputPassword placeholder="Create a password" toggleMask />
-        </Form.Field>
+      <Form.Field name="confirmPassword" label="Confirm password" validations={[Validations.Required]}>
+        <InputPassword placeholder="Re-enter your password" toggleMask />
+      </Form.Field>
 
-        <Form.Field name="confirmPassword" label="Confirm password">
-          <InputPassword placeholder="Re-enter your password" toggleMask />
-        </Form.Field>
+      <Form.Field name="confirmPolicy">
+        <Checkbox>
+          <Link label="I agree to the Terms & Privacy Policy" url="#" />
+        </Checkbox>
+      </Form.Field>
+    </Form>
+    <Divider size="sm" />
+    <Text size="sm" center tone="softer">
+      Already have an account? <Link size="sm" label="Log in" url="www.motif-ui.com/" targetBlank />
+    </Text>
+  </Panel>
+);
 
-        <Form.Field name="confirmPolicy">
-          <Checkbox style={{ padding: 0 }}>
-            <Link label="I agree to the Terms & Privacy Policy" url="#" />
-          </Checkbox>
-        </Form.Field>
-      </Form>
-      <Divider size="sm" style={{ marginBlock: 0 }} />
-      <div className={styles.footer}>
-        <Text text="Already have an account?" variant="body3" className={styles.footerText} />
-        <Link size="sm" label="Log in" url="#" />
-      </div>
-    </Panel>
-  );
-};
-
-Register.displayName = "Register";
 export default Register;

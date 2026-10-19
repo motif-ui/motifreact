@@ -3,12 +3,12 @@
 import styles from "./Checkbox.module.scss";
 import { useCallback, useEffect, useId, useState } from "react";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
-import { PropsWithRef } from "../../types";
+import { PropsWithRefAndChildren } from "../../types";
 import { CheckboxProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 
-const Checkbox = (p: PropsWithRef<CheckboxProps, HTMLDivElement>) => {
+const Checkbox = (p: PropsWithRefAndChildren<CheckboxProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("Checkbox", p);
   const { label, children, partialCheck, checked = false, onChange, ref, style, className } = props;
   const [isChecked, setIsChecked] = useState(checked);
@@ -56,7 +56,7 @@ const Checkbox = (p: PropsWithRef<CheckboxProps, HTMLDivElement>) => {
           {label}
         </label>
       )}
-      {children && <div className={styles.label}>{children}</div>}
+      {children}
     </div>
   );
 };

@@ -13,7 +13,7 @@ import Chip from "@/components/Chip";
 const menuItemRenderer = (props: MenuItemCommonProps) => <MenuItem key={`${props.level} ${props.id}`} {...props} />;
 
 const MenuItem = (props: MenuItemCommonProps) => {
-  const { label, icon, active, disabled, href, targetBlank, items, action, level, id, subMenuRenderer, chip } = props;
+  const { label, icon, active, disabled, href, targetBlank, items, action, level, id, subMenuRenderer, chip, divider } = props;
   const { darkMode, collapsed, setOpenSubmenus, openSubmenus } = useContext(MenuListContext);
 
   const toggleSubMenu = (id: string) =>
@@ -80,7 +80,7 @@ const MenuItem = (props: MenuItemCommonProps) => {
     );
 
   return (
-    <li className={styles.menuItemContainer} ref={menuRef}>
+    <li className={sanitizeModuleClasses(styles, "menuItemContainer", divider && "withDivider")} ref={menuRef}>
       {maybeWithTooltip}
       {subMenuOpen && (
         <div ref={subMenuRef}>

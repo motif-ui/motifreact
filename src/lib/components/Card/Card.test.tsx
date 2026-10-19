@@ -5,8 +5,23 @@ import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
+import { CardActionButtonPosition } from "./types";
+
 describe("Card", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Card {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      render(<Card image="/imagePath" contentActionButton={{ text: "action", onClick: jest.fn() }} {...props} />),
+    {
+      assertDefaults: ({ getByTestId, container }) => {
+        // buttonsPosition: right
+        expect(getByTestId("cardActions")).toHaveClass("actions-right");
+        // imagePosition: left
+        expect(getByTestId("cardHeader")).not.toHaveClass("headerImageAlignRight");
+        // variant: secondary
+        expect(container.firstElementChild).toHaveClass("secondary");
+      },
+    },
+  );
 
   it("should render header part when title or subtitle or avatarText or icon or image or action is set", () => {
     const { rerender } = render(<Card title="title" />);
@@ -16,6 +31,8 @@ describe("Card", () => {
     rerender(<Card avatarText="AB" />);
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
     rerender(<Card icon="folder" />);
+    expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
+    rerender(<Card avatarIcon="person" />);
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
     rerender(<Card image="/imagePath" />);
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
@@ -61,21 +78,31 @@ describe("Card", () => {
     expect(screen.getByText("folder")).toBeInTheDocument();
   });
 
+  it("should render icon as a bare icon instead of an avatar when icon is set", () => {
+    render(<Card icon="folder" />);
+    expect(screen.getByText("folder")).toHaveClass("headerIcon");
+    expect(screen.queryByTestId("avatarItem")).not.toBeInTheDocument();
+  });
+
   it("should render avatar text when avatarText is set", () => {
     render(<Card avatarText="AB" />);
     expect(screen.getByText("AB")).toBeInTheDocument();
   });
 
-  it("should should give precendence to icon prop when icon and avatarText is both set", () => {
-    render(<Card icon="folder" avatarText="AB" />);
+  it("should render avatar icon when avatarIcon is set", () => {
+    render(<Card avatarIcon="person" />);
+    expect(screen.getByText("person")).toBeInTheDocument();
+  });
+
+  it("should render icon, avatarIcon and avatarText together when all of them are set", () => {
+    render(<Card icon="folder" avatarIcon="person" avatarText="AB" />);
     expect(screen.getByText("folder")).toBeInTheDocument();
-    expect(screen.queryByText("AB")).not.toBeInTheDocument();
+    expect(screen.getByText("person")).toBeInTheDocument();
+    expect(screen.getByText("AB")).toBeInTheDocument();
   });
 
   it("should position the given image correctly considering the imagePosition property", () => {
-    const { rerender } = render(<Card image="/imagePath" />);
-    expect(screen.getByTestId("cardHeader")).not.toHaveClass("headerImageAlignRight");
-    rerender(<Card image="/imagePath" imagePosition="right" />);
+    render(<Card image="/imagePath" imagePosition="right" />);
     expect(screen.getByTestId("cardHeader")).toHaveClass("headerImageAlignRight");
   });
 
@@ -208,5 +235,21 @@ describe("Card", () => {
     expect(screen.getByText("subtitle")).toBeInTheDocument();
     expect(screen.getByText("title")).toBeInTheDocument();
     expect(screen.getByText("child 1")).toBeInTheDocument();
+  });
+
+  it.each(["left", "center", "right", "spaceBetween", "stretch"] as CardActionButtonPosition[])(
+    "should position the buttons as %s when buttonsPosition prop is given",
+    buttonsPosition => {
+      render(<Card contentActionButton={{ text: "action", onClick: jest.fn() }} buttonsPosition={buttonsPosition} />);
+      expect(screen.getByTestId("cardActions")).toHaveClass(`actions-${buttonsPosition}`);
+    },
+  );
+
+  it("should render in the variant given in the variant  prop", () => {
+    const variants = ["neutral", "primary", "secondary", "info", "success", "warning", "danger"] as const;
+    variants.forEach(variant => {
+      const { container } = render(<Card variant={variant} />);
+      expect(container.firstElementChild).toHaveClass(variant);
+    });
   });
 });

@@ -29,9 +29,6 @@ exports[`Form should render with only required props, and have standard props; c
               />
             </div>
           </div>
-          <span
-            class="helper"
-          />
         </div>
       </div>
       <div
@@ -55,9 +52,6 @@ exports[`Form should render with only required props, and have standard props; c
               />
             </div>
           </div>
-          <span
-            class="helper"
-          />
         </div>
       </div>
       <div
