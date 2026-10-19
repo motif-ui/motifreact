@@ -307,12 +307,15 @@ describe("InputTime", () => {
   });
 
   it("should restore previous valid value when input has a valid value, then invalid/incomplete value is entered and outside is clicked", async () => {
-    const { getInput } = renderExt(<InputTime value={testTime} />);
+    Element.prototype.scrollTo = jest.fn();
+    const { getInput, getPickerContainer } = renderExt(<InputTime value={testTime} editable />);
     const input = getInput();
 
     expect(input).toHaveValue(testTimeStr);
 
     // Invalid
+    await userEvent.click(input);
+    expect(getPickerContainer()).toBeInTheDocument();
     await waitFor(() => {
       fireEvent.change(input, { target: { value: "25:70" } });
     });
@@ -322,6 +325,8 @@ describe("InputTime", () => {
     });
 
     // Incomplete
+    await userEvent.click(input);
+    expect(getPickerContainer()).toBeInTheDocument();
     await waitFor(() => {
       fireEvent.change(input, { target: { value: "12:" } });
     });

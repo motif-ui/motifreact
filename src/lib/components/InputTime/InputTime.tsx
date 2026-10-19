@@ -1,9 +1,10 @@
 "use client";
 
 import styles from "./InputTime.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
-import useOutsideClick from "../../hooks/useOutsideClick";
+import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import TimePicker from "@/components/TimePicker";
 import { Time } from "../TimePicker/types";
 import { formatTime, parseTime, validateTime } from "@/components/InputTime/helper";
@@ -42,7 +43,6 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
   } = props;
 
   const locale = useDateLocale(propsLocale);
-  const [pickerVisible, setPickerVisible] = useState(false);
   const [itemValue, setItemValue] = useState<Time | undefined>(validateTime(value as Time, !!secondsEnabled));
   const [typedValue, setTypedValue] = useState<string>(formatTime(itemValue, false, !!secondsEnabled, format, locale));
 
@@ -60,17 +60,34 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     valueStateSetter,
   });
 
-  const onClickedOutside = useCallback(() => {
+  const innerRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(ref, () => innerRef.current!, []);
+
+  const pickerCloseHandler = useCallback(() => {
     const validatedTime = parseTime(typedValue, !!secondsEnabled);
     if (!validatedTime) {
       setTypedValue(formatTime(itemValue, false, !!secondsEnabled, format, locale));
     }
-    setPickerVisible(false);
   }, [format, itemValue, locale, secondsEnabled, typedValue]);
 
-  const innerRef = useOutsideClick<HTMLDivElement>(onClickedOutside);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useImperativeHandle(ref, () => innerRef.current!, []);
+  const {
+    attached,
+    style: pickerStyle,
+    overlayRef: pickerRef,
+    show,
+    hide,
+  } = useAnchoredOverlay({
+    anchorRef: innerRef,
+    placement: "bottomLeft",
+    onClose: pickerCloseHandler,
+    closeOnOutsideClick: true,
+    tabBridge: true,
+  });
+
+  const okClickHandler = useCallback(() => {
+    pickerCloseHandler();
+    hide();
+  }, [hide, pickerCloseHandler]);
 
   useEffect(() => {
     const validatedTime = validateTime(value as Time, !!secondsEnabled);
@@ -118,20 +135,23 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     (dismissPicker?: boolean) => {
       applyChanges(undefined);
       setTypedValue("");
-      setPickerVisible(!dismissPicker);
+      dismissPicker && hide();
     },
-    [applyChanges],
+    [applyChanges, hide],
   );
 
   const pickerShowHandler = useCallback(() => {
-    !readOnly && !disabled && setPickerVisible(true);
-  }, [disabled, readOnly]);
+    !readOnly && !disabled && show();
+  }, [disabled, readOnly, show]);
 
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
-    <div ref={innerRef} className={classNames} style={style}>
+    <>
       <InputText
+        ref={innerRef}
+        className={classNames}
+        style={style}
         name={name}
         iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="schedule" size={size} />)}
         clearable
@@ -150,21 +170,25 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
         onFocus={pickerShowHandler}
       />
 
-      {pickerVisible && (
-        <TimePicker
-          variant="bordered"
-          secondsEnabled={secondsEnabled}
-          format={format}
-          locale={locale}
-          size={pickerSizeMap[size]}
-          value={itemValue}
-          onTimeChange={timeChangeHandler}
-          className={styles.timePicker}
-          onOkClick={onClickedOutside}
-          onClearClick={() => clearClickHandler()}
-        />
-      )}
-    </div>
+      {attached &&
+        createPortal(
+          <TimePicker
+            ref={pickerRef}
+            variant="bordered"
+            secondsEnabled={secondsEnabled}
+            format={format}
+            locale={locale}
+            size={pickerSizeMap[size]}
+            value={itemValue}
+            onTimeChange={timeChangeHandler}
+            className={styles.timePicker}
+            style={pickerStyle}
+            onOkClick={okClickHandler}
+            onClearClick={() => clearClickHandler()}
+          />,
+          document.body,
+        )}
+    </>
   );
 };
 
