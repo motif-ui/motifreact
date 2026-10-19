@@ -3,12 +3,42 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
-// Named imports from these modules are components: `import { Button } from "@motif-ui/react"` (src/blocks), `from "../lib"`
-const COMPONENTS_ENTRY = /^@motif-ui\/react$|(^|\/)lib(\/index)?$/;
-// Default imports from these paths are components: `import Button from "@/components/Button"`, `from "../components/Button/Button"`
-const COMPONENT_PATH = /components\/([A-Z]\w*)(?:\/[A-Z]\w*)?$/;
+const SRC_DIR = fileURLToPath(new URL("../../src", import.meta.url));
+const LIB_DIR = path.join(SRC_DIR, "lib");
+const COMPONENTS_DIR = path.join(LIB_DIR, "components");
 
-const COMPONENTS_DIR = fileURLToPath(new URL("../../src/lib/components", import.meta.url));
+// Path aliases of tsconfig.json which may point into src/lib
+const ALIASES = [
+  [/^@motif-ui\/react$/, LIB_DIR],
+  [/^@\/components\//, `${COMPONENTS_DIR}/`],
+  [/^src\//, `${SRC_DIR}/`],
+];
+
+// Paths of a component relative to COMPONENTS_DIR: "Button", "Button/index", "Button/Button(.tsx)". Not "Upload/UploadInput".
+const COMPONENT_PATH = /^([A-Z]\w*)(?:\/(?:\1|index))?(?:\.tsx?)?$/;
+
+/** Resolves an import source to an absolute path, `undefined` for packages other than the aliases. */
+const resolveImport = (source, filename) => {
+  if (source.startsWith(".")) return path.resolve(path.dirname(filename), source);
+  const alias = ALIASES.find(([pattern]) => pattern.test(source));
+  return alias && path.normalize(source.replace(alias[0], alias[1]));
+};
+
+const toPosix = relativePath => relativePath.split(path.sep).join("/");
+
+/**
+ * Named imports from the library entry are components: `import { Button } from "@motif-ui/react"`, `from "../lib"`.
+ * Default imports from a component path are components: `import Button from "@/components/Button"`, `from "../components/Button/Button"`.
+ * Imports are resolved against the file, so app-local modules such as `./lib` or `../components/Button` are not matched.
+ */
+const classifyImport = (source, filename) => {
+  const resolved = resolveImport(source, filename);
+  if (!resolved) return {};
+  const fromLib = toPosix(path.relative(LIB_DIR, resolved));
+  const isEntry = /^(index(\.tsx?)?)?$/.test(fromLib);
+  const componentMatch = COMPONENT_PATH.exec(toPosix(path.relative(COMPONENTS_DIR, resolved)));
+  return { isEntry, component: componentMatch?.[1] };
+};
 
 /**
  * Reports a JSX attribute whose value equals the component's default value, e.g. `<Button size="md" />`.
@@ -54,10 +84,8 @@ export const createNoRedundantDefaultProps = getDefaults => ({
     return {
       ImportDeclaration(node) {
         if (node.importKind === "type") return;
-        const source = node.source.value;
-        const isEntry = COMPONENTS_ENTRY.test(source);
-        const pathMatch = !isEntry && COMPONENT_PATH.exec(source);
-        if (!isEntry && !pathMatch) return;
+        const { isEntry, component } = classifyImport(node.source.value, context.filename);
+        if (!isEntry && !component) return;
 
         for (const specifier of node.specifiers) {
           if (specifier.importKind === "type") continue;
@@ -66,8 +94,8 @@ export const createNoRedundantDefaultProps = getDefaults => ({
             localComponents.set(specifier.local.name, imported);
           } else if (specifier.type === "ImportNamespaceSpecifier" && isEntry) {
             localComponents.set(specifier.local.name, "*");
-          } else if (specifier.type === "ImportDefaultSpecifier" && pathMatch) {
-            localComponents.set(specifier.local.name, pathMatch[1]);
+          } else if (specifier.type === "ImportDefaultSpecifier" && component) {
+            localComponents.set(specifier.local.name, component);
           }
         }
       },
@@ -85,14 +113,16 @@ export const createNoRedundantDefaultProps = getDefaults => ({
           const value = readAttributeValue(attribute.value);
           if (!value.known || value.value !== componentDefaultValues[prop]) return;
 
-          // A spread before the attribute may set another value which this attribute overrides. Removing it would change the behaviour.
-          const hasSpreadBefore = node.attributes.slice(0, index).some(a => a.type === "JSXSpreadAttribute");
+          // A spread or a duplicate attribute before may set another value which this attribute overrides. Removing it would change the behaviour.
+          const isOverriding = node.attributes
+            .slice(0, index)
+            .some(a => a.type === "JSXSpreadAttribute" || (a.name.type === "JSXIdentifier" && a.name.name === prop));
 
           context.report({
             node: attribute,
             messageId: "redundant",
             data: { prop, component, value: JSON.stringify(componentDefaultValues[prop]) },
-            fix: hasSpreadBefore
+            fix: isOverriding
               ? null
               : fixer => {
                   const tokenBefore = context.sourceCode.getTokenBefore(attribute);
