@@ -19,6 +19,7 @@ export type MenuListProps = {
    *   targetBlank?: boolean;
    *   chip?: { label: string; variant?: ChipVariant };
    *   items?: SubMenuItemProps[];
+   *   divider?: boolean;
    * }
    *
    * SubMenuItemProps: {
@@ -29,12 +30,13 @@ export type MenuListProps = {
    *   targetBlank?: boolean;
    *   chip?: { label: string; variant?: ChipVariant };
    *   items?: SubMenuItemProps[];
+   *   divider?: boolean;
    * }
    * ```
    */
   items: MainMenuItemProps[];
   logo?: string;
-  footerText?: string;
+  footer?: ReactNode;
   collapsed?: boolean; // controlled - for controlling from outside
   onCollapsedChange?: (collapsed: boolean) => void;
 } & MenuListDefaultableProps;
@@ -83,12 +85,13 @@ export type MenuItemCommonProps = {
   active?: boolean;
   subMenuRenderer?: (props: SubMenuProps) => ReactNode;
   chip?: { label: string; variant?: ChipVariant };
+  divider?: boolean;
 };
 
 export type MainMenuProps = {
   items: MainMenuItemProps[];
   logo?: string;
-  footerText?: string;
+  footer?: ReactNode;
   enableCollapseButton?: boolean;
   size?: Size3;
 };
