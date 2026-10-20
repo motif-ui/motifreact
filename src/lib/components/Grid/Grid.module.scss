@@ -1,6 +1,6 @@
-@use "@styles" as *;
+﻿@use "@styles" as *;
 
-$grid-sizes: ("sm", "md", "lg", "xl");
+$grid-sizes: ("xxs", "xs", "sm", "md", "lg", "xl", "xxl");
 $grids: 12;
 
 @function calculate-grid-flex-width($colIdx, $gutter) {
@@ -15,12 +15,11 @@ $grids: 12;
   box-sizing: border-box;
 
   @each $gutter-size in $grid-sizes {
-    &.gutter-#{$gutter-size} {
-      gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
-      padding: var(--theme-grid-gutter-gutter-#{$gutter-size});
+    &.gutter-x-#{$gutter-size} {
+      padding-inline: var(--theme-grid-gutter-gutter-#{$gutter-size});
 
       .row {
-        gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
+        column-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
       }
 
       @for $i from 1 through $grids {
@@ -35,6 +34,15 @@ $grids: 12;
             flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
           }
         }
+      }
+    }
+
+    &.gutter-y-#{$gutter-size} {
+      padding-block: var(--theme-grid-gutter-gutter-#{$gutter-size});
+      row-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
+
+      .row {
+        row-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
       }
     }
   }
