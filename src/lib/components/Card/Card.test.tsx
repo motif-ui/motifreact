@@ -32,6 +32,8 @@ describe("Card", () => {
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
     rerender(<Card icon="folder" />);
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
+    rerender(<Card avatarIcon="person" />);
+    expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
     rerender(<Card image="/imagePath" />);
     expect(screen.getByTestId("cardHeader")).toBeInTheDocument();
     rerender(<Card action={{ icon: "download", onClick: () => {} }} />);
@@ -76,15 +78,27 @@ describe("Card", () => {
     expect(screen.getByText("folder")).toBeInTheDocument();
   });
 
+  it("should render icon as a bare icon instead of an avatar when icon is set", () => {
+    render(<Card icon="folder" />);
+    expect(screen.getByText("folder")).toHaveClass("headerIcon");
+    expect(screen.queryByTestId("avatarItem")).not.toBeInTheDocument();
+  });
+
   it("should render avatar text when avatarText is set", () => {
     render(<Card avatarText="AB" />);
     expect(screen.getByText("AB")).toBeInTheDocument();
   });
 
-  it("should should give precendence to icon prop when icon and avatarText is both set", () => {
-    render(<Card icon="folder" avatarText="AB" />);
+  it("should render avatar icon when avatarIcon is set", () => {
+    render(<Card avatarIcon="person" />);
+    expect(screen.getByText("person")).toBeInTheDocument();
+  });
+
+  it("should render icon, avatarIcon and avatarText together when all of them are set", () => {
+    render(<Card icon="folder" avatarIcon="person" avatarText="AB" />);
     expect(screen.getByText("folder")).toBeInTheDocument();
-    expect(screen.queryByText("AB")).not.toBeInTheDocument();
+    expect(screen.getByText("person")).toBeInTheDocument();
+    expect(screen.getByText("AB")).toBeInTheDocument();
   });
 
   it("should position the given image correctly considering the imagePosition property", () => {
@@ -230,4 +244,12 @@ describe("Card", () => {
       expect(screen.getByTestId("cardActions")).toHaveClass(`actions-${buttonsPosition}`);
     },
   );
+
+  it("should render in the variant given in the variant  prop", () => {
+    const variants = ["neutral", "primary", "secondary", "info", "success", "warning", "danger"] as const;
+    variants.forEach(variant => {
+      const { container } = render(<Card variant={variant} />);
+      expect(container.firstElementChild).toHaveClass(variant);
+    });
+  });
 });
