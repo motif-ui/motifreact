@@ -5,6 +5,9 @@ import Grid from "@/components/Grid/Grid";
 const meta: Meta<typeof Grid> = {
   title: "Components/Grid",
   component: Grid,
+  argTypes: {
+    gutter: { table: { defaultValue: { summary: "sm" } } },
+  },
   parameters: {
     layout: "fullscreen",
   },

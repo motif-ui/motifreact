@@ -89,8 +89,6 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
   } = useContext(UploadContext);
   const { t } = useMotifContext();
 
-  const isDisabled = disabled || readOnly;
-
   const selectedFilesEqualityString = selectedFiles
     .map(f => f.id + f.file.name + f.file.size + f.file.type + f.status + (f.messages?.join("") || ""))
     .join(",");
@@ -119,7 +117,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
           ? "waitingToUpload"
           : "noFile";
 
-  const styleVariant = isDisabled ? "disabled" : error || inputState === "error" ? "error" : success && "success";
+  const styleVariant = disabled ? "disabled" : readOnly ? "readOnly" : error || inputState === "error" ? "error" : success && "success";
 
   useEffect(() => {
     const sanitizedValue = toFormValue(selectedFiles);
@@ -148,7 +146,8 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
         {t("g.browse")}
       </button>
       <LabelArea
-        disabled={isDisabled}
+        disabled={disabled}
+        readOnly={readOnly}
         size={size}
         errors={errors}
         inputState={inputState}
