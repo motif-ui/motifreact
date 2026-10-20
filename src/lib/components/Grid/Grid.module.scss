@@ -18,20 +18,19 @@ $grids: 12;
     &.gutter-x-#{$gutter-size} {
       padding-inline: var(--theme-grid-gutter-gutter-#{$gutter-size});
 
-      .row {
+      > .row {
         column-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
-      }
 
-      @for $i from 1 through $grids {
-        .col-size-#{$i} {
-          flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
-        }
-      }
-
-      @include screen-width-breakpoints($grid-sizes) using ($size) {
         @for $i from 1 through $grids {
-          .col-#{$size}-#{$i} {
+          > .col-size-#{$i} {
             flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
+          }
+        }
+        @include screen-width-breakpoints($grid-sizes) using ($size) {
+          @for $i from 1 through $grids {
+            > .col-#{$size}-#{$i} {
+              flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
+            }
           }
         }
       }
@@ -41,7 +40,7 @@ $grids: 12;
       padding-block: var(--theme-grid-gutter-gutter-#{$gutter-size});
       row-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
 
-      .row {
+      > .row {
         row-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
       }
     }
