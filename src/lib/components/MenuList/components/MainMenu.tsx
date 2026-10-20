@@ -47,7 +47,7 @@ const MainMenu = (props: PropsWithRef<MainMenuProps, HTMLDivElement>) => {
           <MenuItem {...item} key={index} level={0} id={`0-${index}`} subMenuRenderer={subMenuRenderer} />
         ))}
       </ul>
-      {!collapsed && footer}
+      {!collapsed && (typeof footer === "string" ? <div className={styles.footerText}>{footer}</div> : footer)}
     </div>
   );
 };
