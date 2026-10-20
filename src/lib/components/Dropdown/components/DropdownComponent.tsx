@@ -5,9 +5,11 @@ import DropdownMenu from "@/components/Dropdown/components/DropdownMenu";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import styles from "@/components/Dropdown/Dropdown.module.scss";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
-import { useContext, useImperativeHandle } from "react";
+import { useContext, useMemo, useRef } from "react";
 import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
-import useOutsideClick from "../../../hooks/useOutsideClick";
+import useAnchoredOverlay from "src/lib/hooks/useAnchoredOverlay";
+import { createPortal } from "react-dom";
+import { mergeRefs } from "../../../../utils/reactUtils";
 
 type Props = Omit<DropdownProps, "size" | "disabled">;
 
@@ -26,23 +28,38 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Dropdown", props);
   const { size, open, hideMenu, disabled } = useContext(DropdownContext);
 
-  const dropdownRef = useOutsideClick<HTMLDivElement>(hideMenu);
-  useImperativeHandle(ref, () => dropdownRef.current!, [dropdownRef]);
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const {
+    attached,
+    overlayRef,
+    insideProps,
+    style: overlayStyle,
+    placement,
+  } = useAnchoredOverlay({
+    anchorRef,
+    placement: "bottomRight",
+    tabBridge: true,
+    open,
+    onClose: hideMenu,
+    closeOnOutsideClick: true,
+    closeOnEscape: true,
+  });
+  const mergedRef = useMemo(() => mergeRefs(overlayRef, ref), [overlayRef, ref]);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [
-    size,
-    variant,
-    shape,
-    open && "open",
-    pill && "pill",
-    disabled && "disabled",
-  ]);
+  const side = placement.startsWith("top") ? "top" : "bottom";
+  const classNames = sanitizeModuleRootClasses(styles, className, [size, spacing, side, disabled && "disabled"]);
 
   return (
-    <div className={classNames} ref={dropdownRef} style={style} data-testid="Dropdown">
-      <DropdownButton label={label} icon={icon} />
-      {open && !disabled && <DropdownMenu items={items} spacing={spacing} />}
-    </div>
+    <>
+      <DropdownButton label={label} icon={icon} anchorRef={anchorRef} variant={variant} shape={shape} pill={pill} />
+      {attached &&
+        createPortal(
+          <div className={classNames} ref={mergedRef} style={{ ...style, ...overlayStyle }} {...insideProps} data-testid="Dropdown">
+            {open && !disabled && <DropdownMenu items={items} spacing={spacing} />}
+          </div>,
+          document.body,
+        )}
+    </>
   );
 };
 

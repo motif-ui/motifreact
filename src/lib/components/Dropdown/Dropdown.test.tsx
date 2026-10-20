@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { StandardPropsWithRef, Variant } from "../../../lib/types";
 import Dropdown from "./Dropdown";
 import { userEvent } from "@testing-library/user-event";
 import { Size4SM } from "../../types";
@@ -10,26 +10,23 @@ describe("Dropdown", () => {
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
     {
+      getRoot: ({ getByText, getByTestId }) => {
+        fireEvent.click(getByText("Dropdown"));
+        return getByTestId("Dropdown");
+      },
       assertDefaults: ({ container, getByText }) => {
         expect(container.firstElementChild).toHaveClass("primary");
         expect(container.firstElementChild).toHaveClass("solid");
         expect(container.firstElementChild).toHaveClass("md");
 
         fireEvent.click(getByText("Dropdown"));
-        expect(container.querySelector("ul")).toHaveClass("callout");
+        expect(screen.getByRole("list")).toHaveClass("callout");
       },
     },
   );
 
   it("should be rendered in different color schemas given in the variant prop", () => {
-    const variants: ("primary" | "secondary" | "success" | "danger" | "warning" | "info")[] = [
-      "primary",
-      "secondary",
-      "success",
-      "danger",
-      "warning",
-      "info",
-    ];
+    const variants: Variant[] = ["primary", "secondary", "success", "danger", "warning", "info"];
     variants.forEach(variant => {
       expect(render(<Dropdown items={[{ label: "Home" }]} variant={variant} />).container.firstElementChild).toHaveClass(variant);
     });
@@ -145,7 +142,7 @@ describe("Dropdown", () => {
 
   it("should be rendered in a pill shape when pill prop is true", () => {
     const { getByTestId } = render(<Dropdown label="Dropdown Menu" pill items={[{ label: "Item 1" }]} />);
-    expect(getByTestId("Dropdown")).toHaveClass("pill");
+    expect(getByTestId("dropdown-button")).toHaveClass("pill");
   });
 
   it("should be rendered with the shape given in shape prop", () => {
@@ -166,10 +163,9 @@ describe("Dropdown", () => {
 
   it("should be rendered in different spacing options given in the spacing prop", () => {
     (["withGap", "callout", "noSpace"] as Spacing[]).forEach(spacing => {
-      const { unmount, getByText, container } = render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} spacing={spacing} />);
+      const { unmount, getByText } = render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} spacing={spacing} />);
       fireEvent.click(getByText("Dropdown Menu"));
-      const menu = container.querySelector("ul");
-      expect(menu).toHaveClass(spacing);
+      expect(screen.getByRole("list")).toHaveClass(spacing);
       unmount();
     });
   });

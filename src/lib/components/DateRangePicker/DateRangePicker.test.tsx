@@ -65,7 +65,7 @@ describe("DateRangePicker", () => {
 
   it("should render a dropdown to select predefined date ranges", async () => {
     const { queryByText, getByTestId } = renderExt(<DateRangePicker />);
-    await userEvent.click(getByTestId("Dropdown").firstElementChild!);
+    await userEvent.click(getByTestId("dropdown-button"));
 
     expect(queryByText(getDateLocale(t).today)).toBeInTheDocument();
     dropdownDays.forEach(day => {
@@ -75,7 +75,7 @@ describe("DateRangePicker", () => {
 
   it("should select clicked the date range in the pickers when an item from the dropdown is clicked ", async () => {
     const { getByText, getByTestId, getFirstPicker } = renderExt(<DateRangePicker />);
-    const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
+    const dropdownTrigger = getByTestId("dropdown-button");
     await userEvent.click(dropdownTrigger);
 
     const lastXDays = 7;
@@ -91,7 +91,7 @@ describe("DateRangePicker", () => {
 
   it("should render the end date in one of the pickers visible when an item from the dropdown is clicked ", async () => {
     const { getByText, getByTestId, rerender, getFirstPicker } = renderExt(<DateRangePicker />);
-    const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
+    const dropdownTrigger = getByTestId("dropdown-button");
     await userEvent.click(dropdownTrigger);
 
     const chosenDay = getByText(`${getDateLocale(t).last} ${dropdownDays[2]} ${getDateLocale(t).days}`);
@@ -125,7 +125,7 @@ describe("DateRangePicker", () => {
 
   it("should reflect the date range to the inputs when an item from the dropdown is clicked", async () => {
     const { getByText, getByTestId, getFirstInput, getSecondInput } = renderExt(<DateRangePicker />);
-    const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
+    const dropdownTrigger = getByTestId("dropdown-button");
     await userEvent.click(dropdownTrigger);
 
     const chosenDay = getByText(`${getDateLocale(t).last} ${dropdownDays[0]} ${getDateLocale(t).days}`);
