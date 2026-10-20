@@ -1,6 +1,5 @@
-import { Meta, Canvas, Source } from "@storybook/addon-docs/blocks";
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
 import * as AboutStories from "./About.stories";
-import about1Css from "./About1/about1.css?raw";
 
 <Meta title="Blocks/About" />
 
@@ -9,7 +8,3 @@ import about1Css from "./About1/about1.css?raw";
 ## About 1
 
 <Canvas of={AboutStories.About1Block} sourceState="shown" />
-<details>
-  <summary>CSS File: about1.css</summary>
-  <Source code={about1Css} language="css" />
-</details>
