@@ -16,7 +16,7 @@ type Props = Omit<
   | "pagination"
   | "selectable"
   | "selectionKey"
-  | "onSelect"
+  | "onSelectionChange"
   | "filterableTable"
   | "rowColorCallback"
   | "reflectDataChanges"

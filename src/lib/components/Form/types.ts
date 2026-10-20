@@ -157,10 +157,10 @@ export type FormFieldInfo = {
 };
 
 /////////////////////////////////////////
-/////// FieldProvider/State Types ///////
+/////// FieldContext/State Types ////////
 /////////////////////////////////////////
 
-// Props for FormField and FormFieldProvider
+// Value provided by FormField and FormFieldGroup through FieldContext
 export type FormFieldProps = {
   fieldName: string;
   groupName?: string;

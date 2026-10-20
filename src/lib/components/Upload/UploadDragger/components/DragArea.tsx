@@ -4,7 +4,7 @@ import { useContext, useEffect, useMemo, useRef } from "react";
 import { useMotifContext } from "../../../../motif/context/MotifProvider";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
-import { capitalizeFirstLetter, formatBytes } from "../../../../../utils/utils";
+import { formatBytes } from "../../../../../utils/utils";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
 import useDeepCompareEffect from "use-deep-compare-effect";
@@ -48,11 +48,10 @@ const DragArea = (props: Props) => {
     error ? "error" : success && "success",
   );
 
-  const infoMessage = capitalizeFirstLetter(
-    (maxSize ? t(MESSAGE.DRAGGER_MAX_SIZE, { maxSize: formatBytes(maxSize) }) + " " : "") +
-      t(MESSAGE.DRAGGER_MAX_FILE, { maxFile: maxFile <= 0 ? 0 : maxFile }) +
-      t(MESSAGE.DRAGGER_CAN_UPLOAD_FILES),
-  );
+  const infoCount = Math.max(maxFile, 0);
+  const infoMessage = maxSize
+    ? t(MESSAGE.DRAGGER_INFO_WITH_SIZE, { count: infoCount, maxSize: formatBytes(maxSize) })
+    : t(MESSAGE.DRAGGER_INFO, { count: infoCount });
 
   const selectedFilesEqualityString = selectedFiles
     .map(f => f.id + f.file.name + f.file.size + f.file.type + f.status + (f.messages?.join("") || ""))

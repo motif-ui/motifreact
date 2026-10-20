@@ -1,8 +1,16 @@
-import { Column, RowDetail, ResolvedCellSpan, RenderableColumn, SpannedCellKey, SpannedCellsMap } from "@/components/Table/types";
+import {
+  Column,
+  RowDetail,
+  ResolvedCellSpan,
+  RenderableColumn,
+  SpannedCellKey,
+  SpannedCellsMap,
+  SortDirection,
+} from "@/components/Table/types";
 import { getValueByChainedKey } from "src/utils/utils";
 
 // Constants
-export const SORT_DIRECTIONS: ("asc" | "desc" | undefined)[] = ["asc", "desc", undefined] as const;
+export const SORT_DIRECTIONS: (SortDirection | undefined)[] = ["asc", "desc", undefined] as const;
 
 // Cell Span Utils
 const clampSpanValue = (span: number | undefined, maxSpan?: number): number => {
