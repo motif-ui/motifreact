@@ -173,7 +173,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
           _transferComplete(fileIds, request);
           if (request.status === 200) {
             const uploadedFiles = files.map(file => ({ ...file, status: STATUS.SUCCESS, uploaded: true, messages: [] }));
-            const response = tryParseJsonString(request.responseText) ?? (request.responseText || undefined);
+            const response = tryParseJsonString(request.responseText) ?? request.responseText;
             onUploadRef.current?.(toFormValue(uploadedFiles), response);
           }
         }),
