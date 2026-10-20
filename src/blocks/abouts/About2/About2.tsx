@@ -24,23 +24,26 @@ const features = [
 
 const About2 = () => (
   <Panel className="panel">
-    <Grid gutter="xl" leanToEdge>
+    <Grid gutter="xxl" leanToEdge>
       <Grid.Row justifyCols="center">
-        <Grid.Col size={12} lg={8} className="title">
-          <Text text="About Us" type="display" size="lg" marginless center tone="strong" />
-          <Text
-            text="Motif UI makes it easy to build customer portals, CRMs, internal tools, and other business applications for your team. In minutes, not months."
-            type="heading"
-            size="md"
-            marginless
-            center
-            tone="soft"
-          />
+        <Grid.Col size={12} lg={8}>
+          <Grid gutter="lg" leanToEdge>
+            <Grid.Row justifyCols="center">
+              <Text text="About Us" type="display" size="lg" marginless center tone="strong" />
+            </Grid.Row>
+            <Grid.Row justifyCols="center">
+              <Text
+                text="Motif UI makes it easy to build customer portals, CRMs, internal tools, and other business applications for your team. In minutes, not months."
+                type="heading"
+                size="md"
+                marginless
+                center
+                tone="soft"
+              />
+            </Grid.Row>
+          </Grid>
         </Grid.Col>
       </Grid.Row>
-    </Grid>
-
-    <Grid gutter="xl" leanToEdge>
       <Grid.Row>
         <Grid.Col size={12} md={6}>
           <ImageView
@@ -59,33 +62,37 @@ const About2 = () => (
           />
         </Grid.Col>
       </Grid.Row>
-    </Grid>
-
-    <Grid gutter="xl" leanToEdge>
       <Grid.Row justifyCols="center">
-        <Grid.Col size={12} lg={8} className="title">
-          <Text text="We make creating software easy." type="display" size="lg" marginless center tone="strong" />
-          <Text
-            text="We aim to help empower 1,000,000 teams to create their own software. Here is how we plan on doing it."
-            type="heading"
-            size="md"
-            marginless
-            center
-            tone="soft"
-          />
+        <Grid.Col size={12} lg={8}>
+          <Grid gutter="lg" leanToEdge>
+            <Grid.Row justifyCols="center">
+              <Text text="We make creating software easy." type="display" size="lg" marginless center tone="strong" />
+            </Grid.Row>
+            <Grid.Row justifyCols="center">
+              <Text
+                text="We aim to help empower 1,000,000 teams to create their own software. Here is how we plan on doing it."
+                type="heading"
+                size="md"
+                marginless
+                center
+                tone="soft"
+              />
+            </Grid.Row>
+          </Grid>
         </Grid.Col>
       </Grid.Row>
-    </Grid>
-
-    <Grid gutter="md" leanToEdge>
       <Grid.Row>
-        {features.map(feature => (
-          <Grid.Col size={12} md={4} key={feature.title}>
-            <Panel bordered title={feature.title} titleIcon={feature.icon} titleSize="lg">
-              <Text text={feature.description} type="caption" size="lg" marginless tone="strong" />
-            </Panel>
-          </Grid.Col>
-        ))}
+        <Grid gutterX="md" leanToEdge>
+          <Grid.Row>
+            {features.map(feature => (
+              <Grid.Col size={12} md={4} key={feature.title}>
+                <Panel bordered title={feature.title} titleIcon={feature.icon} titleSize="lg">
+                  <Text text={feature.description} type="caption" size="lg" marginless tone="strong" />
+                </Panel>
+              </Grid.Col>
+            ))}
+          </Grid.Row>
+        </Grid>
       </Grid.Row>
     </Grid>
   </Panel>
