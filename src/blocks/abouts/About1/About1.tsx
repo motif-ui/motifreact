@@ -1,5 +1,3 @@
-"use client";
-
 import { Card, Grid, ImageView, Text } from "@motif-ui/react";
 
 const About1 = () => {
@@ -22,7 +20,7 @@ const About1 = () => {
           <Text type="body" size="xl" weight="semibold" tone="strong" text="Our Crew, Our Story" />
         </Grid.Col>
         <Grid.Col size={12} md={5} lg={5} xl={4}>
-          <Grid fluid leanToEdge gutterY="md">
+          <Grid fluid leanToEdge gutterY="xl">
             <Grid.Row>
               <Grid.Col>
                 <Text
@@ -67,5 +65,4 @@ const About1 = () => {
   );
 };
 
-About1.displayName = "About1";
 export default About1;
