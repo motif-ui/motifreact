@@ -20,18 +20,17 @@ $grids: 12;
 
       > .row {
         column-gap: var(--theme-grid-gutter-gutter-#{$gutter-size});
-      }
 
-      @for $i from 1 through $grids {
-        > .row > .col-size-#{$i} {
-          flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
-        }
-      }
-
-      @include screen-width-breakpoints($grid-sizes) using ($size) {
         @for $i from 1 through $grids {
-          > .row > .col-#{$size}-#{$i} {
+          > .col-size-#{$i} {
             flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
+          }
+        }
+        @include screen-width-breakpoints($grid-sizes) using ($size) {
+          @for $i from 1 through $grids {
+            > .col-#{$size}-#{$i} {
+              flex: 0 0 calculate-grid-flex-width($i, var(--theme-grid-gutter-gutter-#{$gutter-size}));
+            }
           }
         }
       }
