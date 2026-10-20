@@ -90,6 +90,38 @@ describe("ButtonGroup", () => {
     await userEvent.click(document.body);
     expect(queryByText("Item 2.1")).not.toBeInTheDocument();
   });
+
+  it("should render the submenu in document.body with the size of the group", async () => {
+    const { container, getByText } = render(
+      <ButtonGroup size="sm">
+        <ButtonGroup.Item label="Item 1">
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    const submenu = getByText("Item 1.1").parentElement!;
+    expect(container).not.toContainElement(submenu);
+    expect(submenu.parentElement).toBe(document.body);
+    expect(submenu).toHaveClass("sm");
+  });
+
+  it("should keep the submenu open when clicked inside of it and close it on Escape", async () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1">
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    await userEvent.click(getByText("Item 1.1"));
+    expect(queryByText("Item 1.1")).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+  });
 });
 
 describe("ButtonGroup.Item", () => {
