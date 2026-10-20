@@ -1,32 +1,59 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Grid } from "../../index";
-import type { Size4LG } from "../../types";
+import type { Size7 } from "../../types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
+
+const DEFAULT_GUTTER = "sm";
+
 describe("Grid", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
-    render(
-      <Grid {...props}>
-        <Grid.Row>
-          <Grid.Col />
-        </Grid.Row>
-      </Grid>,
-    ),
-  );
-
-  it("should be rendered with the given size in gutter prop", () => {
-    const gutterSizes: Size4LG[] = ["sm", "md", "lg", "xl"];
-
-    gutterSizes.forEach(size => {
-      const { container } = render(
-        <Grid gutter={size}>
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      render(
+        <Grid {...props}>
           <Grid.Row>
             <Grid.Col />
           </Grid.Row>
         </Grid>,
+      ),
+    {
+      assertDefaults: ({ container }) => {
+        expect(container.firstChild).toHaveClass(`gutter-x-${DEFAULT_GUTTER}`);
+        expect(container.firstChild).toHaveClass(`gutter-y-${DEFAULT_GUTTER}`);
+      },
+    },
+  );
+
+  it("should render with gutter-x and gutter-y classes based on gutter, gutterX, gutterY props", () => {
+    const gutterSizes: Size7[] = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl"];
+
+    const child = (
+      <Grid.Row>
+        <Grid.Col />
+      </Grid.Row>
+    );
+
+    gutterSizes.forEach(size => {
+      const { container: c1 } = render(<Grid gutter={size}>{child}</Grid>);
+      expect(c1.firstChild).toHaveClass(`gutter-x-${size}`);
+      expect(c1.firstChild).toHaveClass(`gutter-y-${size}`);
+
+      const { container: c2 } = render(<Grid gutterX={size}>{child}</Grid>);
+      expect(c2.firstChild).toHaveClass(`gutter-x-${size}`);
+      expect(c2.firstChild).toHaveClass(`gutter-y-${DEFAULT_GUTTER}`);
+
+      const { container: c3 } = render(<Grid gutterY={size}>{child}</Grid>);
+      expect(c3.firstChild).toHaveClass(`gutter-x-${DEFAULT_GUTTER}`);
+      expect(c3.firstChild).toHaveClass(`gutter-y-${size}`);
+
+      const { container: c4 } = render(
+        <Grid gutterX={size} gutterY={size}>
+          {child}
+        </Grid>,
       );
-      expect(container.firstChild).toHaveClass(`gutter-${size}`);
+      expect(c4.firstChild).toHaveClass(`gutter-x-${size}`);
+      expect(c4.firstChild).toHaveClass(`gutter-y-${size}`);
     });
   });
 
@@ -77,17 +104,19 @@ describe("Col", () => {
     const { container } = render(
       <Grid>
         <Grid.Row>
-          <Grid.Col size={12} sm={10} md={8} lg={6} xl={3}>
+          <Grid.Col size={12} xs={6} sm={10} md={8} lg={6} xl={3} xxl={6}>
             Column
           </Grid.Col>
         </Grid.Row>
       </Grid>,
     );
     expect(container.querySelector(".col-size-12")).toBeInTheDocument();
+    expect(container.querySelector(".col-xxl-6")).toBeInTheDocument();
     expect(container.querySelector(".col-xl-3")).toBeInTheDocument();
     expect(container.querySelector(".col-lg-6")).toBeInTheDocument();
     expect(container.querySelector(".col-md-8")).toBeInTheDocument();
     expect(container.querySelector(".col-sm-10")).toBeInTheDocument();
+    expect(container.querySelector(".col-xs-6")).toBeInTheDocument();
   });
 
   it("should fill the width of [size prop] / 12", () => {
