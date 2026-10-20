@@ -53,7 +53,7 @@ export const LabelArea = (props: Props) => {
     disabled ? "disabled" : error || errors?.length ? "error" : success && "success",
   );
 
-  const classNames = sanitizeModuleClasses(styles, "label", noFiles && "placeholder", disabled && "disabled", readOnly && "readOnly");
+  const classNames = sanitizeModuleClasses(styles, "label", noFiles && "placeholder", disabled ? "disabled" : readOnly && "readOnly");
   return (
     <div className={wrapperClassNames}>
       {aboutToUpload || uploading ? (
