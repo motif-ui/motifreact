@@ -32,12 +32,15 @@ Page size aliases alongside with the container sizes are:
       <td>**sm**</td><td>>= 576px</td><td>540px</td>
     </tr>
     <tr>
-      <td>**xs**</td><td>< 576px</td><td>auto</td>
+      <td>**xs**</td><td>>= 384px</td><td>360px</td>
+    </tr>
+     <tr>
+      <td>**xxs**</td><td>< 384px</td><td>auto</td>
     </tr>
   </tbody>
 </table>
 
-The **minimum** supported width of the `<Grid>` is **420px** even if the width below 576px is considered as `xs`.
+The **minimum** supported width of the `<Grid>` is **420px** even if the width below 384px is considered as `xxs`.
 Most of the contents below 420px might still look good, but it isn't `<Grid>`'s responsibility.
 
 `<Grid>` itself is a pretty simple component which only accepts `<Grid.Row>` as children. In order to correctly place the

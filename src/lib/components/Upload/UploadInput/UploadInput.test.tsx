@@ -120,7 +120,8 @@ describe("UploadInput", () => {
       <UploadInput {...requiredProps} readOnly onChange={handleChange} />,
     );
     await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
-    expect(container.firstElementChild).toHaveClass("disabled");
+    expect(container.firstElementChild).toHaveClass("readOnly");
+    expect(container.firstElementChild).not.toHaveClass("disabled");
     expect(handleChange).not.toHaveBeenCalled();
 
     rerender(<UploadInput {...requiredProps} value={[serverFile]} readOnly onChange={handleChange} />);

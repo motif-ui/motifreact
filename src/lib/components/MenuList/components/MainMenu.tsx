@@ -8,7 +8,7 @@ import { subMenuRenderer } from "@/components/MenuList/components/SubMenu";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 
 const MainMenu = (props: PropsWithRef<MainMenuProps, HTMLDivElement>) => {
-  const { items, logo, footerText, enableCollapseButton, ref, className, style, size } = props;
+  const { items, logo, footer, enableCollapseButton, ref, className, style, size } = props;
   const { collapsed, setOpenSubmenus, darkMode, variant, toggle } = useContext(MenuListContext);
 
   const searchActiveSubmenuTree = (items: SubMenuItemProps[], parentMenuId: string): string[] =>
@@ -47,7 +47,7 @@ const MainMenu = (props: PropsWithRef<MainMenuProps, HTMLDivElement>) => {
           <MenuItem {...item} key={index} level={0} id={`0-${index}`} subMenuRenderer={subMenuRenderer} />
         ))}
       </ul>
-      {footerText && !collapsed && <span className={styles.footerText}>{footerText}</span>}
+      {!collapsed && (typeof footer === "string" ? <div className={styles.footerText}>{footer}</div> : footer)}
     </div>
   );
 };
