@@ -102,12 +102,7 @@ $sizes: (
   overflow-y: auto;
   @include shadow(3);
 
-  width: var(--overlay-anchor-width);
-
-  // If we accept that consumer should have 2026+ version of browser there is no need to define @supports
-  @supports (width: anchor-size(width)) {
-    width: anchor-size(width, var(--overlay-anchor-width));
-  }
+  @include anchor-width;
 
   &.dropUp {
     border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
