@@ -6,13 +6,6 @@ import { Tooltip } from "../../index";
 const meta: Meta<typeof Tooltip> = {
   title: "Components/Tooltip",
   component: Tooltip,
-  decorators: [
-    Story => (
-      <div style={{ padding: "30px 0" }}>
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
     position: { table: { defaultValue: { summary: "top" } } },

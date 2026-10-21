@@ -3,38 +3,55 @@
 // size, horizontalPadding, verticalPadding, textSize, pointerSize
 $sizes: (("xs", "4x", "2x", "xxs", "6x"), ("sm", "8x", "4x", "xs", "8x"), ("md", "12x", "6x", "sm", "10x"), ("lg", "16x", "8x", "md", "12x"));
 
-// position, flexDirection, alignArrow, rotation, transformOrigin, trianglePosition
+// position, flexDirection, triangleOrder, rotation
+// The triangle is put after the text with order instead of a reversed flex direction. A reversed one makes the content
+// overflow to the start side, which scrollWidth does not count, so the positioning would measure its minimum width wrong.
 $positions: (
-  ("top", column-reverse, center, 180deg, bottom left, bottom),
-  ("bottom", column, center, 0deg, top left, top),
-  ("right", row, center, -90deg, top left, left),
-  ("left", row-reverse, center, 90deg, top right, right),
-  ("topRight", column-reverse, flex-end, 180deg, right bottom, bottom),
-  ("topLeft", column-reverse, flex-start, 180deg, left bottom, bottom),
-  ("bottomRight", column, flex-end, 0deg, right top, top),
-  ("bottomLeft", column, flex-start, 0deg, left top, top)
+  ("top", column, 1, 180deg),
+  ("bottom", column, 0, 0deg),
+  ("right", row, 0, -90deg),
+  ("left", row, 1, 90deg),
+  ("topRight", column, 1, 180deg),
+  ("topLeft", column, 1, 180deg),
+  ("bottomRight", column, 0, 0deg),
+  ("bottomLeft", column, 0, 0deg)
 );
+
+// Distance from the screen edges when the tooltip is shifted to stay in the screen
+$screen-edge-space: var(--base-sizing-4x);
+$radius: var(--theme-sizing-radius-default);
 
 .Root {
   @include pop-default(1);
   position: absolute;
-  z-index: 1000;
+  z-index: z-layer("anchored");
   display: flex;
   width: max-content;
   text-wrap: auto;
-  will-change: transform;
   box-sizing: border-box;
+
+  // The triangle points to the anchor's center on the left and right placements.
+  // The anchor's offsets from the tooltip are written by the positioning.
+  --triangle-top: calc((var(--overlay-anchor-top) + var(--overlay-anchor-bottom)) / 2 - var(--pointer-size) / 2);
 
   &.visible {
     @include pop-in;
   }
 
   .triangle {
+    flex-shrink: 0;
+    align-self: flex-start;
+    width: var(--pointer-size);
+    height: var(--pointer-size);
+    border-left: calc(var(--pointer-size) / 2) solid transparent;
+    border-right: calc(var(--pointer-size) / 2) solid transparent;
+    border-bottom: var(--pointer-size) solid var(--theme-color-surface-base-base3);
     box-sizing: border-box;
   }
 
   .textWrapper {
-    border-radius: var(--theme-sizing-radius-default);
+    max-width: 300px;
+    border-radius: $radius;
     display: flex;
     flex-direction: column;
 
@@ -47,6 +64,8 @@ $positions: (
 
   @each $size, $paddingH, $paddingV, $textSize, $pointerSize in $sizes {
     &.#{$size} {
+      --pointer-size: var(--base-sizing-#{$pointerSize});
+
       .textWrapper {
         padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
 
@@ -57,32 +76,34 @@ $positions: (
           @include font("body", $textSize);
         }
       }
-
-      .triangle {
-        width: var(--base-sizing-#{$pointerSize});
-        height: var(--base-sizing-#{$pointerSize});
-        border-left: calc(var(--base-sizing-#{$pointerSize}) / 2) solid transparent;
-        border-right: calc(var(--base-sizing-#{$pointerSize}) / 2) solid transparent;
-        border-bottom: var(--base-sizing-#{$pointerSize}) solid var(--theme-color-surface-base-base3);
-        margin: 0 var(--base-sizing-#{$pointerSize});
-      }
     }
   }
 
-  @each $position, $flexDir, $alignArrow, $rotate, $transformOrigin, $trianglePos in $positions {
+  @each $position, $flexDir, $triangleOrder, $rotate in $positions {
     &.#{$position} {
       flex-direction: $flexDir;
-      transform-origin: $transformOrigin;
 
       .triangle {
-        align-self: $alignArrow;
+        order: $triangleOrder;
         transform: rotate($rotate);
-        @if $trianglePos != "top" and $trianglePos != "bottom" {
-          margin: 0;
+        @if $flexDir == row {
+          margin-top: var(--triangle-top);
+        } @else {
+          // kept inside the tooltip, clear of its rounded corners
+          margin-left: clamp(#{$radius}, var(--triangle-left), calc(100% - var(--pointer-size) - #{$radius}));
         }
+      }
+
+      @if $flexDir == row {
+        margin-top: $screen-edge-space;
+        margin-bottom: $screen-edge-space;
+      } @else {
+        margin-left: $screen-edge-space;
+        margin-right: $screen-edge-space;
       }
     }
   }
+
   &.light {
     .textWrapper {
       background-color: var(--theme-color-surface-base-base3);
@@ -112,4 +133,18 @@ $positions: (
       border-bottom-color: var(--theme-color-text-secondary-active);
     }
   }
+}
+
+// The spot of the anchor that the triangle points to on the top and bottom placements, as the position asks for:
+// the left edge (as before, a pointer size inside it), the right edge or the center
+.triangleLeft {
+  --triangle-left: calc(var(--overlay-anchor-left) + var(--pointer-size));
+}
+
+.triangleRight {
+  --triangle-left: calc(var(--overlay-anchor-right) - 2 * var(--pointer-size));
+}
+
+.triangleCenter {
+  --triangle-left: calc((var(--overlay-anchor-left) + var(--overlay-anchor-right)) / 2 - var(--pointer-size) / 2);
 }

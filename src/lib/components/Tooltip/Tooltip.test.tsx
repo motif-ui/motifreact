@@ -146,80 +146,53 @@ describe("Tooltip", () => {
     }
   });
 
-  it("should be rendered in another position clockwise when it overflows the screen", async () => {
-    /*
-    What this test aims to show when the tooltip overflows the screen, it should try to render in another position
-    clockwise. Especially in this test, the tooltip is tried to render in "topRight" position, but it is mocked to
-    overflow the screen from the left. And then automatically, it is tried to render in "top" position but this time it
-    is mocked to overflow from the top. And finally, when it is tried to render in "topLeft" position, it fits into the
-    screen and the final expected position becomes "topLeft".
-    */
+  describe("when it does not fit into the screen at the given position", () => {
+    const anchorRect = (rect: Partial<DOMRect>) => ({ x: 0, y: 0, width: 0, height: 0, toJSON: () => {}, ...rect }) as DOMRect;
 
-    const { container } = render(
-      <Tooltip text="test" position="topRight">
-        <Button label="Test Button" />
-      </Tooltip>,
-    );
+    // jsdom does not lay out, so the tooltip is given a size
+    beforeEach(() => {
+      jest.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(function (this: HTMLElement) {
+        return this.dataset.testid === "tooltipItem" ? 200 : 0;
+      });
+      jest.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockImplementation(function (this: HTMLElement) {
+        return this.dataset.testid === "tooltipItem" ? 40 : 0;
+      });
+    });
+    afterEach(() => jest.restoreAllMocks());
 
-    // This section is to render the tooltip once to be able to mock. This has nothing to do with the test states
-    await act(() => user.hover(screen.getByText("Test Button")));
-    const tooltip = screen.queryByTestId("tooltipItem") as HTMLElement;
-    await act(() => user.hover(container)); // Hovering the container to remove the tooltip
-
-    //
-    // Actual test starts here
-    //
-
-    // Setting the screen width to 800px
-    jest.spyOn(document.documentElement, "clientWidth", "get").mockReturnValue(800);
-    // Setting the screen width to 600px
-    jest.spyOn(document.documentElement, "clientHeight", "get").mockReturnValue(600);
-    jest
-      .spyOn(tooltip, "getBoundingClientRect")
-      // 1. Trying position: "topRight". Mocking the tooltip to overflow the screen from LEFT
-      .mockImplementationOnce(
-        () =>
-          ({
-            left: -100,
-            right: 300,
-            width: 400,
-            top: 0,
-            bottom: 200,
-            height: 200,
-          }) as DOMRect,
-      )
-      // 2. Trying position: "top". Mocking the tooltip to overflow the screen from TOP
-      .mockImplementationOnce(
-        () =>
-          ({
-            top: -100,
-            bottom: 100,
-            height: 200,
-            left: 100,
-            right: 500,
-            width: 400,
-          }) as DOMRect,
-      )
-      // 3. Trying position: "topLeft". Mocking the tooltip to stay within the screen
-      .mockImplementationOnce(
-        () =>
-          ({
-            top: 0,
-            bottom: 200,
-            height: 200,
-            left: 100,
-            right: 500,
-            width: 400,
-          }) as DOMRect,
+    it("should be rendered on the opposite side when there is no room on the given side", async () => {
+      render(
+        <Tooltip text="test" position="top">
+          <Button label="Test Button" />
+        </Tooltip>,
       );
+      // at the top edge of the screen, so there is no room above it
+      jest
+        .spyOn(screen.getByRole("button"), "getBoundingClientRect")
+        .mockReturnValue(anchorRect({ top: 0, bottom: 30, left: 400, right: 500, width: 100, height: 30 }));
 
-    await act(() => user.hover(screen.getByText("Test Button")));
-    // 1. tries "topRight" position but overflows from the left. Next try: "top"
-    // 2. tries "top" position but overflows from the top. Next try: "topLeft"
-    // 3. tries "topLeft" position and fits into the screen
-    expect(screen.queryByTestId("tooltipItem")).toHaveClass("topLeft");
+      await act(() => user.hover(screen.getByText("Test Button")));
+      const tooltip = screen.getByTestId("tooltipItem");
+      expect(tooltip).toHaveClass("bottom");
+      expect(tooltip).toHaveStyle({ top: "30px", left: "350px" });
+    });
 
-    jest.clearAllMocks();
+    it("should be rendered with the other alignment when it overflows the screen at the given alignment", async () => {
+      render(
+        <Tooltip text="test" position="topRight">
+          <Button label="Test Button" />
+        </Tooltip>,
+      );
+      // near the left edge of the screen, so the tooltip aligned to the anchor's right edge overflows it from the left
+      jest
+        .spyOn(screen.getByRole("button"), "getBoundingClientRect")
+        .mockReturnValue(anchorRect({ top: 300, bottom: 330, left: 10, right: 50, width: 40, height: 30 }));
+
+      await act(() => user.hover(screen.getByText("Test Button")));
+      const tooltip = screen.getByTestId("tooltipItem");
+      expect(tooltip).toHaveClass("topLeft");
+      expect(tooltip).toHaveStyle({ top: "260px", left: "10px" });
+    });
   });
 
   it("should not re-render the anchor child on window resize while the tooltip is closed", () => {
