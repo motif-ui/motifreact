@@ -43,6 +43,7 @@ const HIDDEN: CSSProperties = { visibility: "hidden" };
 
 /**
  * Positions an overlay next to its anchor. The placement is chosen by JS on open, so it fits into the viewport.
+ * The anchor's width is written to the overlay as --overlay-anchor-width before it is measured, e.g. for its width or min-width.
  * While it is open, CSS anchor positioning keeps it at the anchor where it is supported, JS follows the anchor otherwise.
  *
  * The position is written to the overlay element, so neither the overlay nor its content renders on each update.
@@ -75,6 +76,7 @@ const useOverlayPosition = (
       const measure = (keep?: Position) => {
         const fixed = keep ? keep.fixed : isFixed(anchor);
         resetPosition(overlay, fixed);
+        overlay.style.setProperty("--overlay-anchor-width", `${anchor.offsetWidth}px`);
         return calculatePosition(anchor, overlay, placement, limitWidth, fixed, keep);
       };
       const position = mode === "follow" && previous ? followAnchor(anchor, previous) : measure(mode === "refit" ? previous : undefined);
