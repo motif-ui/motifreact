@@ -11,6 +11,7 @@ export type CardProps = {
   subtitle?: string;
   avatarText?: string;
   icon?: IconGlobalType;
+  iconVariant?: Variant;
   avatarIcon?: IconGlobalType;
   image?: string;
   action?: { icon: IconGlobalType; onClick: (event: MouseEvent<HTMLButtonElement>) => void };

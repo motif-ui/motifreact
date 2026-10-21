@@ -3,13 +3,14 @@ import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 import type { MouseEvent } from "react";
-import type { IconGlobalType } from "../../../types";
+import type { IconGlobalType, Variant } from "../../../types";
 import ImageView from "@/components/ImageView";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import type { CardVariant } from "../types";
 
 type Props = {
   icon?: IconGlobalType;
+  iconVariant?: Variant;
   avatarIcon?: IconGlobalType;
   avatarText?: string;
   title?: string;
@@ -21,7 +22,7 @@ type Props = {
 };
 
 const CardHeader = (props: Props) => {
-  const { icon, avatarIcon, avatarText, action, image, imagePosition, subtitle, title, variant } = props;
+  const { icon, iconVariant, avatarIcon, avatarText, action, image, imagePosition, subtitle, title, variant } = props;
 
   const isVisible = title || subtitle || avatarText || avatarIcon || icon || image || action;
   const iconButtonVariant = variant === "neutral" || variant === "secondary" ? "secondary" : variant === "warning" ? "strong" : "negative";
@@ -35,7 +36,9 @@ const CardHeader = (props: Props) => {
         {image && <ImageView solid src={image} aspectRatio={1} alt={title ?? subtitle ?? ""} />}
         {maybeContent && (
           <div className={styles.headerContainer}>
-            {icon && <GlobalIconWrapper icon={icon} size="lg" className={styles.headerIcon} />}
+            {icon && (
+              <GlobalIconWrapper icon={icon} variant={typeof icon === "string" ? iconVariant : undefined} className={styles.headerIcon} />
+            )}
             {avatarIcon && <Avatar icon={avatarIcon} size="lg" className={styles.avatar} />}
             {avatarText && <Avatar letters={avatarText} size="lg" className={styles.avatar} />}
             {(title || subtitle) && (
