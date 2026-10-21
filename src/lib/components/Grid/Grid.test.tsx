@@ -142,4 +142,30 @@ describe("Col", () => {
     );
     expect(container.firstChild).toHaveClass("leanToEdge");
   });
+  it("should apply independent gutter classes to outer and inner grids", () => {
+    const { container } = render(
+      <Grid gutterX="md" gutterY="md">
+        <Grid.Row>
+          <Grid.Col md={8}>
+            <Grid gutterX="xs" gutterY="xs">
+              <Grid.Row>
+                <Grid.Col md={6}>inner</Grid.Col>
+              </Grid.Row>
+            </Grid>
+          </Grid.Col>
+          <Grid.Col md={4}>outer</Grid.Col>
+        </Grid.Row>
+      </Grid>,
+    );
+
+    const grids = container.querySelectorAll("[class*='Root']");
+    const outerGrid = grids[0];
+    const innerGrid = grids[1];
+
+    expect(outerGrid).toHaveClass("gutter-x-md");
+    expect(outerGrid).toHaveClass("gutter-y-md");
+    expect(innerGrid).toHaveClass("gutter-x-xs");
+    expect(innerGrid).toHaveClass("gutter-y-xs");
+    expect(innerGrid).not.toHaveClass("gutter-x-md");
+  });
 });
