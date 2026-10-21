@@ -35,7 +35,7 @@ Page size aliases alongside with the container sizes are:
       <td>**xs**</td><td>>= 384px</td><td>360px</td>
     </tr>
      <tr>
-      <td>**xxs**</td><td>< 384px</td><td>auto</td>
+      <td>**xxs**</td><td>&lt; 384px</td><td>auto</td>
     </tr>
   </tbody>
 </table>
@@ -46,10 +46,14 @@ Most of the contents below 420px might still look good, but it isn't `<Grid>`'s 
 `<Grid>` itself is a pretty simple component which only accepts `<Grid.Row>` as children. In order to correctly place the
 content, it provides two additional components to help:
 
+<br />
+
 ### `<Grid.Row>`
 
 **Row** is the wrapper for those 12 columns mentioned above. It (literally) provides a row container which only
 allows `<Grid.Col>` as children.
+
+#### Justify
 
 Alignment of the content can be set using `<Grid.Row>` in case all 12 columns are not filled.
 
@@ -62,6 +66,8 @@ Alignment of the content can be set using `<Grid.Row>` in case all 12 columns ar
     <Col size={2}>My content</Col>
   </Row>
 </GridComponent>
+
+#### colsAuto
 
 By default, given Cols are disributed evenly if there is no size given. But it is also possible to distribute the Cols
 depending on their content. **colsAuto** is used for this.
@@ -77,6 +83,25 @@ depending on their content. **colsAuto** is used for this.
     <Col>My long long long long long long content</Col>
   </Row>
 </GridComponent>
+
+#### stretchItems
+
+Cols in the same row always have equal heights, but their content keeps its own size. **stretchItems** stretches the
+content of each Col to fill it, which is useful for showing cards with equal heights.
+
+```tsx
+<Grid.Row stretchItems>...</Grid.Row>
+```
+
+<GridComponent style={{ background: "#FFFFFF", padding: 24, border: "2px solid #f6f7fb", borderRadius: 22 }}>
+  <Row stretchItems>
+    <Col size={4}><div style={{ border: "solid 1px #CCC" }}>My short content</div></Col>
+    <Col size={4}><div style={{ border: "solid 1px #CCC" }}>My long long long long long long long long long long long long long long content</div></Col>
+    <Col size={4}><div style={{ border: "solid 1px #CCC" }}>My medium medium content</div></Col>
+  </Row>
+</GridComponent>
+
+<br />
 
 ### `<Grid.Col>`
 
@@ -135,10 +160,148 @@ All size props are optional. `<Grid.Col>` fills the remaining space if no size p
   </Row>
 </GridComponent>
 
+### Gap
+
+The space between Cols is set using 3 props, on both `<Grid>` and `<Grid.Row>`:
+
+- **gap**: the space between Cols, both horizontally and vertically
+- **columnGap**: the horizontal space between side by side Cols. Takes precedence over **gap**
+- **rowGap**: the vertical space between Cols wrapped onto a new line. Takes precedence over **gap**
+
+On `<Grid>`, the vertical space is also used as the space between Rows. Col sizes are always calculated with the
+horizontal space of their row. Gaps do not change the padding of the Grid, see [Padding](#padding).
+
+All of them accept a gap size alias, `"xxs"` to `"xxl"`, or `"none"` for no space. Default is `"sm"`.
+
+```tsx
+<Grid gap="md">...</Grid>
+<Grid gap="md" rowGap="xl">...</Grid>
+```
+
+#### Responsive gaps
+
+The gap can be changed depending on the page size by giving an object with the keys **base**, **xsUp**, **smUp**,
+**mdUp**, **lgUp**, **xlUp** and **xxlUp**. **base** is the smallest page size and the starting point. Each of the
+others applies to its page size **and above**, e.g. **mdUp** applies to **md**, **lg**, **xl** and **xxl**. So a page
+size without a value takes the value of the closest smaller page size, and it is not needed to give all of them.
+
+```tsx
+// base, xs, sm => "sm" | md, lg, xl, xxl => "xl"
+<Grid gap={{ base: "sm", mdUp: "xl" }}>...</Grid>
+```
+
+To have a value up to a page size, give it as **base**, and give the other value for the next page size:
+
+```tsx
+// md and below => "xl" | lg and above => "xxl"
+<Grid gap={{ base: "xl", lgUp: "xxl" }}>...</Grid>
+```
+
+When a value is not given for a page size and any smaller page sizes, it is taken from the upper level. A Row takes the
+value of its Grid, and a Grid uses the default value.
+
+```tsx
+<Grid gap={{ base: "sm", lgUp: "xl" }}>
+  {/* base, xs, sm => "sm" (from Grid) | md, lg, xl, xxl => "xxl" */}
+  <Grid.Row gap={{ mdUp: "xxl" }}>...</Grid.Row>
+  {/* "md" on every page size, overrides the Grid's values */}
+  <Grid.Row gap="md">...</Grid.Row>
+</Grid>
+```
+
+**columnGap** and **rowGap** always take precedence over **gap**, on every page size. For example, the horizontal space
+below is `"xs"` on **md**, since **columnGap** has a value for **smUp**:
+
+```tsx
+<Grid gap={{ mdUp: "xl" }} columnGap={{ smUp: "xs" }}>...</Grid>
+```
+
+<GridComponent gap={{ base: "xs", mdUp: "lg", xlUp: "xxl" }} style={{ background: "#FFFFFF", border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC" } }}>
+  <Row>
+    <Col size={4}>Resize the page</Col>
+    <Col size={4}>Resize the page</Col>
+    <Col size={4}>Resize the page</Col>
+  </Row>
+  <Row rowGap="xxs">
+    <Col size={12}>rowGap="xxs"</Col>
+    <Col size={12}>rowGap="xxs"</Col>
+  </Row>
+</GridComponent>
+
+#### Custom values
+
+Values out of the gap size aliases can be given using CSS variables. Each prop and page size has its own variable,
+named as `--mtf-grid-{pageSize}-{prop}` with the plain page size name, e.g. `--mtf-grid-lg-gap` for **lgUp**:
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th><th>CSS variables</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**gap**</td><td>`--mtf-grid-base-gap`, `--mtf-grid-xs-gap` ... `--mtf-grid-xxl-gap`</td>
+    </tr>
+    <tr>
+      <td>**rowGap**</td><td>`--mtf-grid-base-row-gap`, `--mtf-grid-xs-row-gap` ... `--mtf-grid-xxl-row-gap`</td>
+    </tr>
+    <tr>
+      <td>**columnGap**</td><td>`--mtf-grid-base-column-gap`, `--mtf-grid-xs-column-gap` ... `--mtf-grid-xxl-column-gap`</td>
+    </tr>
+  </tbody>
+</table>
+
+They work exactly like the props, so no media queries are needed. Set them on the `<Grid>` or `<Grid.Row>` itself, they
+are not inherited by nested Grids and Rows. Do not set `column-gap` directly, since Col sizes are calculated with these
+variables.
+
+```css
+.hero {
+  --mtf-grid-base-gap: 30px;
+  --mtf-grid-lg-gap: 120px;
+}
+```
+
+```tsx
+<Grid className="hero">...</Grid>
+```
+
+### Padding
+
+The padding of `<Grid>` is set on all sides using **padding**. It accepts the same values as **gap**, including `"none"`
+and the responsive object, and it is independent of the gaps. Default is `"sm"`.
+
+```tsx
+<Grid padding="xl">...</Grid>
+<Grid padding="none">...</Grid>
+<Grid gap="xs" padding={{ base: "none", lgUp: "xxl" }}>...</Grid>
+```
+
+Custom values can be given directly with CSS `padding`, since nothing else depends on it.
+
+**The default padding will be `"none"` in the next major version.** To keep the current padding after that, or to switch
+to the new default now, set it globally with `componentDefaults` of `MotifProvider`:
+
+```tsx
+<MotifProvider componentDefaults={{ Grid: { padding: "sm" } }}>...</MotifProvider>   // keeps the current padding
+<MotifProvider componentDefaults={{ Grid: { padding: "none" } }}>...</MotifProvider> // switches to the new default
+```
+
+### Deprecated `leanToEdge`
+
+**leanToEdge** prop is deprecated and will be removed in the next major version. Use `padding="none"` instead.
+
+### Deprecated `gutter`
+
+**gutter** prop is deprecated and will be removed in the next major version. It sets both the gap and the padding, so `gutter="lg"` is equal to
+`gap="lg" padding="lg"`. It is still supported as the lowest priority value: it is used only for the page sizes that
+**gap**, **rowGap**, **columnGap** and **padding** have no value for.
+
 ### A Complete Example
 
 ```tsx
-<Grid>
+<Grid gap={{ base: "xs", mdUp: "md" }} padding="md">
   <Grid.Row>
     <Grid.Col sm={6} lg={8}>small-6 large-8</Grid.Col>
     <Grid.Col lg={4} size={6}><div>large-4 size-6</div></Grid.Col>
@@ -190,10 +353,19 @@ All size props are optional. `<Grid.Col>` fills the remaining space if no size p
     <Grid.Col size={1}>size-1</Grid.Col>
     <Grid.Col size={1}>size-1</Grid.Col>
   </Grid.Row>
+  <Grid.Row columnGap="xl" stretchItems>
+    <Grid.Col size={12} md={6}><div>this row has a wider columnGap than the Grid</div></Grid.Col>
+    <Grid.Col size={12} md={6}><div>and stretchItems, so the content of the cols in the same row have equal heights, even if one of them is longer than the other</div></Grid.Col>
+  </Grid.Row>
+  <Grid.Row gap="none">
+    <Grid.Col size={4}>gap="none"</Grid.Col>
+    <Grid.Col size={4}>so the cols</Grid.Col>
+    <Grid.Col size={4}>touch each other</Grid.Col>
+  </Grid.Row>
 </Grid>
 ```
 
-<GridComponent style={{ background: "#FFFFFF", padding: 24, border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 }, alignItems: "center" }}>
+<GridComponent gap={{ base: "xs", mdUp: "md" }} padding="md" style={{ background: "#FFFFFF", border: "2px solid #f6f7fb", borderRadius: 22 }} colProps={{ style: { border: "solid 1px #CCC", margin: 1 }, alignItems: "center" }}>
   <Row>
     <Col sm={6} lg={8}>small-6 large-8</Col>
     <Col lg={4} size={6}><div>large-4 size-6</div></Col>
@@ -239,5 +411,14 @@ All size props are optional. `<Grid.Col>` fills the remaining space if no size p
     <Col size={2}>size-2</Col>
     <Col size={1}>size-1</Col>
     <Col size={1}>size-1</Col>
+  </Row>
+  <Row columnGap="xl" stretchItems>
+    <Col size={12} md={6}><div style={{ background: "#f6f7fb" }}>this row has a wider columnGap than the Grid</div></Col>
+    <Col size={12} md={6}><div style={{ background: "#f6f7fb" }}>and stretchItems, so the content of the cols in the same row have equal heights, even if one of them is longer than the other</div></Col>
+  </Row>
+  <Row gap="none">
+    <Col size={4}>gap="none"</Col>
+    <Col size={4}>so the cols</Col>
+    <Col size={4}>touch each other</Col>
   </Row>
 </GridComponent>

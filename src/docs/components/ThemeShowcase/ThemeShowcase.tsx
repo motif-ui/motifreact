@@ -32,7 +32,7 @@ const ThemeShowcase = () => {
 
   return (
     <div className={styles.container}>
-      <Grid fluid leanToEdge>
+      <Grid fluid padding="none">
         {/* Color Palette Section */}
         <Grid.Row>
           <Grid.Col>
