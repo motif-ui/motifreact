@@ -55,7 +55,7 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLDivElement>) => {
       {attached &&
         createPortal(
           <div className={classNames} ref={mergedRef} style={{ ...style, ...overlayStyle }} {...insideProps} data-testid="Dropdown">
-            {open && !disabled && <DropdownMenu items={items} spacing={spacing} />}
+            {open && !disabled && <DropdownMenu items={items} />}
           </div>,
           document.body,
         )}

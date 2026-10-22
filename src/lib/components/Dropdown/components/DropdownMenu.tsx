@@ -1,18 +1,14 @@
 import styles from "../Dropdown.module.scss";
-import { DropdownMenuItemProps, Spacing } from "@/components/Dropdown/types";
+import { DropdownMenuItemProps } from "@/components/Dropdown/types";
 import DropdownMenuItem from "@/components/Dropdown/components/DropdownMenuItem";
-import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 
 type Props = {
   items: DropdownMenuItemProps[];
-  spacing: Spacing;
 };
 
-const DropdownMenu = ({ items, spacing }: Props) => {
-  const classNames = sanitizeModuleClasses(styles, ["Menu", spacing]);
-
+const DropdownMenu = ({ items }: Props) => {
   return (
-    <ul className={classNames}>
+    <ul className={styles.Menu}>
       {items.map((item, index) => (
         <DropdownMenuItem key={index} {...item} />
       ))}

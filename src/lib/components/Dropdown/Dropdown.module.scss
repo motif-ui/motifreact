@@ -46,11 +46,11 @@ $caret-margin: var(--base-sizing-12x);
   position: absolute;
   width: max-content;
   box-sizing: border-box;
+}
 
-  @each $pos in bottom, top {
-    &.#{$pos}.callout {
-      @include caret-tip($pos);
-    }
+@each $pos in bottom, top {
+  .#{$pos}.callout {
+    @include caret-tip($pos);
   }
 }
 
@@ -135,7 +135,7 @@ $caret-margin: var(--base-sizing-12x);
   background-color: var(--theme-color-surface-base-global-light);
   @include shadow(6);
 
-  &.noSpace {
+  .noSpace & {
     margin-block: 0;
   }
 }

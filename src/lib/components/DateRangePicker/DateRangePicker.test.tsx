@@ -113,8 +113,7 @@ describe("DateRangePicker", () => {
       await userEvent.click(getAllByText("arrow_back")[0]);
     }
 
-    const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
-    await userEvent.click(dropdownTrigger);
+    await userEvent.click(getByTestId("dropdown-button"));
 
     const chosenDay = getByText(`${getDateLocale(t).last} ${dropdownDays[1]} ${getDateLocale(t).days}`);
     await userEvent.click(chosenDay);

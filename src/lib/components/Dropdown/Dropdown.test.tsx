@@ -20,7 +20,7 @@ describe("Dropdown", () => {
         expect(container.firstElementChild).toHaveClass("md");
 
         fireEvent.click(getByText("Dropdown"));
-        expect(screen.getByRole("list")).toHaveClass("callout");
+        expect(screen.getByTestId("Dropdown")).toHaveClass("callout");
       },
     },
   );
@@ -165,7 +165,7 @@ describe("Dropdown", () => {
     (["withGap", "callout", "noSpace"] as Spacing[]).forEach(spacing => {
       const { unmount, getByText } = render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} spacing={spacing} />);
       fireEvent.click(getByText("Dropdown Menu"));
-      expect(screen.getByRole("list")).toHaveClass(spacing);
+      expect(screen.getByTestId("Dropdown")).toHaveClass(spacing);
       unmount();
     });
   });
