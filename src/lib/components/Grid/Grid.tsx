@@ -28,7 +28,7 @@ const GridComponent = (props: PropsWithRef<GridProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className, [
     fluid && "fluid",
     leanToEdge && "leanToEdge",
-    // TODO: To be removed after gutter is removed - Deprecated gutter is the lowest priority value of both gap and padding, used for the breakpoints they have no value forExpand annotationCheck warning on line R31
+    // TODO: To be removed after gutter is removed - Deprecated gutter is the lowest priority value of both gap and padding, used for the breakpoints they have no value
     getGapClasses({ gap, rowGap, columnGap }, gutter),
     getSpacingClasses("padding", padding, gutter),
   ]);
