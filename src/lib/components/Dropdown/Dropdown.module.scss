@@ -19,7 +19,11 @@ $caret-margin: var(--base-sizing-12x);
     content: " ";
     position: absolute;
     pointer-events: none;
-    #{if($pos == bottom, top, bottom)}: var(--base-sizing-2x);
+    @if $pos == bottom {
+      top: var(--base-sizing-2x);
+    } @else {
+      bottom: var(--base-sizing-2x);
+    }
   }
   &::before {
     left: calc(var(--overlay-anchor-right) - $caret-margin - var(--base-sizing-6x));

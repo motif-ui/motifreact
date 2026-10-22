@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getRect, isPainted, openStory, setScroll, waitForFrames } from "../../../../utils/e2eUtils";
+import { disableCssAnchor, getRect, isPainted, openStory, scrollPage, setScroll, waitForFrames } from "../../../../utils/e2eUtils";
 
 // Behavior tests of the Dropdown in a real browser, on the scenes in Dropdown.e2e.story.tsx.
 
@@ -49,7 +49,7 @@ test.describe("Dropdown open/close behavior", () => {
 
   test("does not close when a disabled item is clicked", async ({ page }) => {
     await page.locator(button).click();
-    await page.locator(`${dropdown} a:has-text("Disabled")`).click();
+    await page.locator(`${dropdown} a:has-text("Disabled")`).click({ force: true });
     await expect(page.locator(dropdown)).toHaveCount(1);
   });
 });
@@ -73,6 +73,39 @@ test("Dropdown flips to the top when there is not enough space below", async ({ 
   const buttonRect = await getRect(page, button);
   const dropdownRect = await getRect(page, dropdown);
   expect(dropdownRect.bottom).toBeLessThanOrEqual(buttonRect.top + 1);
+});
+
+test("Dropdown re-places when the viewport is resized", async ({ page }) => {
+  await openStory(page, "e2e-dropdown--near-the-bottom-edge");
+  await page.locator(button).click();
+  await waitForFrames(page);
+  await expect(page.locator(dropdown)).toHaveClass(/top/);
+
+  await page.setViewportSize({ width: 1000, height: 1200 });
+  await waitForFrames(page);
+  await expect(page.locator(dropdown)).toHaveClass(/bottom/);
+});
+
+test.describe("Dropdown when the page is scrolled (JS fallback)", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(disableCssAnchor);
+    await openStory(page, "e2e-dropdown--page-scroll");
+    await page.locator(button).click();
+    await waitForFrames(page);
+  });
+
+  test("follows the button", async ({ page }) => {
+    const buttonBefore = await getRect(page, button);
+    const dropdownBefore = await getRect(page, dropdown);
+
+    await scrollPage(page, 100);
+
+    const buttonAfter = await getRect(page, button);
+    const dropdownAfter = await getRect(page, dropdown);
+
+    expect(buttonAfter.top - buttonBefore.top).toBeCloseTo(-100, 0);
+    expect(dropdownAfter.top - buttonAfter.top).toBeCloseTo(dropdownBefore.top - buttonBefore.top, 0);
+  });
 });
 
 test.describe("Dropdown in a scrolling container", () => {

@@ -7,7 +7,7 @@ import styles from "@/components/Dropdown/Dropdown.module.scss";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { useContext, useMemo, useRef } from "react";
 import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
-import useAnchoredOverlay from "src/lib/hooks/useAnchoredOverlay";
+import useAnchoredOverlay from "../../../hooks/useAnchoredOverlay";
 import { createPortal } from "react-dom";
 import { mergeRefs } from "../../../../utils/reactUtils";
 

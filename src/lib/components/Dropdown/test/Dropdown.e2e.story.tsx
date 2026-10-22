@@ -45,6 +45,14 @@ export const NearTheBottomEdge: Story = {
   ),
 };
 
+export const PageScroll: Story = {
+  render: () => (
+    <div style={{ height: 2000, paddingLeft: 300, paddingTop: 200 }}>
+      <Dropdown label="Dropdown" items={[{ label: "Item 1" }, { label: "Item 2" }]} />
+    </div>
+  ),
+};
+
 export const ScrollingContainer: Story = {
   render: () => {
     const StoryComponent = () => (

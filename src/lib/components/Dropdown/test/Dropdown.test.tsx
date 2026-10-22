@@ -158,6 +158,22 @@ describe("Dropdown", () => {
     });
   });
 
+  it("should not close when the window is resized", async () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    await waitFor(() => expect(screen.queryByTestId("Dropdown")).toBeInTheDocument());
+    fireEvent(window, new Event("resize"));
+    expect(screen.queryByTestId("Dropdown")).toBeInTheDocument();
+  });
+
+  it("should not close when the page is scrolled", async () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    await waitFor(() => expect(screen.queryByTestId("Dropdown")).toBeInTheDocument());
+    fireEvent.scroll(window);
+    expect(screen.queryByTestId("Dropdown")).toBeInTheDocument();
+  });
+
   it("should be rendered in different spacing options given in the spacing prop", () => {
     (["withGap", "callout", "noSpace"] as Spacing[]).forEach(spacing => {
       const { unmount, getByText } = render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} spacing={spacing} />);
