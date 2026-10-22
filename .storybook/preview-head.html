@@ -149,7 +149,7 @@
     }
     h3:not(.sb-unstyled h3) {
       margin: 0;
-      padding-top: 16px;
+      padding-top: 24px;
     }
     h4:not(.sb-unstyled h4) {
       font-weight: 700;
@@ -580,7 +580,14 @@
     box-shadow: 0 12px 34px var(--mtfdocs-preview-shadow);
 
     .docs-story {
-      border-radius: var(--mtfdocs-radius-md);
+      &:first-child {
+        border-top-left-radius: var(--mtfdocs-radius-md);
+        border-top-right-radius: var(--mtfdocs-radius-md);
+      }
+      &:last-child {
+        border-bottom-left-radius: var(--mtfdocs-radius-md);
+        border-bottom-right-radius: var(--mtfdocs-radius-md);
+      }
     }
     [role="toolbar"] {
       border-top-left-radius: var(--mtfdocs-radius-md);
