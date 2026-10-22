@@ -7,7 +7,7 @@ const meta: Meta<typeof About2> = {
   component: About2,
   tags: ["!autodocs", "!dev"],
   parameters: {
-    layout: "centered",
+    layout: "fullscreen",
   },
 };
 
