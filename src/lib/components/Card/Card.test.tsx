@@ -4,10 +4,12 @@ import Button from "@/components/Button";
 import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
-import { CardActionButtonPosition } from "./types";
+import { StandardPropsWithRef, Variant } from "../../../lib/types";
+import { CardActionButtonPosition, CardVariant } from "./types";
 
 describe("Card", () => {
+  const variants: Variant[] = ["primary", "secondary", "info", "success", "warning", "danger"];
+
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) =>
       render(<Card image="/imagePath" contentActionButton={{ text: "action", onClick: jest.fn() }} {...props} />),
@@ -85,7 +87,6 @@ describe("Card", () => {
   });
 
   it("should render icon in the variant given in the iconVariant prop", () => {
-    const variants = ["primary", "secondary", "info", "success", "warning", "danger"] as const;
     variants.forEach(iconVariant => {
       const { unmount } = render(<Card icon="folder" iconVariant={iconVariant} />);
       expect(screen.getByText("folder")).toHaveClass(iconVariant);
@@ -98,7 +99,7 @@ describe("Card", () => {
     const headerIcon = screen.getByText("folder");
     expect(headerIcon).toHaveClass("headerIcon");
     expect(headerIcon).not.toHaveClass("lg");
-    ["primary", "secondary", "info", "success", "warning", "danger"].forEach(variant => expect(headerIcon).not.toHaveClass(variant));
+    variants.forEach(variant => expect(headerIcon).not.toHaveClass(variant));
   });
 
   it("should not apply iconVariant when icon is given as a ReactElement", () => {
@@ -270,8 +271,8 @@ describe("Card", () => {
   );
 
   it("should render in the variant given in the variant  prop", () => {
-    const variants = ["neutral", "primary", "secondary", "info", "success", "warning", "danger"] as const;
-    variants.forEach(variant => {
+    const cardVariants: CardVariant[] = ["neutral", ...variants];
+    cardVariants.forEach(variant => {
       const { container } = render(<Card variant={variant} />);
       expect(container.firstElementChild).toHaveClass(variant);
     });
