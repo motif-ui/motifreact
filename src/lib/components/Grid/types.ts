@@ -28,7 +28,7 @@ export type GridProps = {
 } & GridDefaultableProps;
 
 export type GridDefaultableProps = {
-  // TODO: In the next major version, make Grid fluid by default and remove this prop, together with the containerExpand annotationCheck warning on line R31
+  // TODO: In the next major version, make Grid fluid by default and remove this prop, together with the container
   //  max-widths in Grid.module.scss, since Container covers them. It cannot be deprecated before that, as it is the only
   //  way to fill the width until Grid becomes fluid by default
   /**
@@ -36,7 +36,7 @@ export type GridDefaultableProps = {
    * default in the next major version
    */
   fluid?: boolean;
-  // TODO: Remove in the next major version, together with gutter, and make "none" the default padding. Then render noExpand annotationCheck warning on line R39
+  // TODO: Remove in the next major version, together with gutter, and make "none" the default padding. Then render no
   //  padding class when padding is not given, and keep "none" only for turning it off in responsive values and for gap
   //  consistency, e.g. padding={{ base: "xl", lgUp: "none" }}
   /** @deprecated Use padding="none" instead. The default padding will be "none" in the next major version. */
@@ -46,8 +46,6 @@ export type GridDefaultableProps = {
    * and padding take precedence over gutter
    */
   gutter?: Size7;
-  gutterX?: Size7;
-  gutterY?: Size7;
   /** Padding of the Grid, on all sides */
   padding?: GridSpacing;
 } & GapProps;
