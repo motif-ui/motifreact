@@ -13,7 +13,7 @@ import { mergeRefs } from "../../../../utils/reactUtils";
 
 type Props = Omit<DropdownProps, "size" | "disabled">;
 
-const DropdownComponent = (props: PropsWithRef<Props, HTMLDivElement>) => {
+const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
   const {
     label,
     icon,
@@ -39,22 +39,31 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLDivElement>) => {
     anchorRef,
     placement: "bottomRight",
     tabBridge: true,
-    open,
+    open: open && !disabled,
     onClose: hideMenu,
     closeOnOutsideClick: true,
     closeOnEscape: true,
   });
-  const mergedRef = useMemo(() => mergeRefs(overlayRef, ref), [overlayRef, ref]);
+  const mergedRef = useMemo(() => mergeRefs(anchorRef, ref), [ref]);
 
   const side = placement.startsWith("top") ? "top" : "bottom";
-  const classNames = sanitizeModuleRootClasses(styles, className, [size, spacing, side, disabled && "disabled"]);
+  const overlayClassNames = sanitizeModuleRootClasses(styles, undefined, [size, spacing, side, disabled && "disabled"]);
 
   return (
     <>
-      <DropdownButton label={label} icon={icon} anchorRef={anchorRef} variant={variant} shape={shape} pill={pill} />
+      <DropdownButton
+        className={className}
+        style={style}
+        label={label}
+        icon={icon}
+        ref={mergedRef}
+        variant={variant}
+        shape={shape}
+        pill={pill}
+      />
       {attached &&
         createPortal(
-          <div className={classNames} ref={mergedRef} style={{ ...style, ...overlayStyle }} {...insideProps} data-testid="Dropdown">
+          <div className={overlayClassNames} ref={overlayRef} style={overlayStyle} {...insideProps} data-testid="Dropdown">
             {open && !disabled && <DropdownMenu items={items} />}
           </div>,
           document.body,

@@ -1,19 +1,16 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef, Variant } from "../../../lib/types";
-import Dropdown from "./Dropdown";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef, Variant } from "../../../../lib/types";
+import Dropdown from "../Dropdown";
 import { userEvent } from "@testing-library/user-event";
-import { Size4SM } from "../../types";
-import { Spacing } from "./types";
+import { Size4SM } from "../../../types";
+import { Spacing } from "../types";
 
 describe("Dropdown", () => {
   runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardPropsWithRef<HTMLDivElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
+    (props: StandardPropsWithRef<HTMLButtonElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
     {
-      getRoot: ({ getByText, getByTestId }) => {
-        fireEvent.click(getByText("Dropdown"));
-        return getByTestId("Dropdown");
-      },
+      getRoot: ({ getByTestId }) => getByTestId("dropdown-button"),
       assertDefaults: ({ container, getByText }) => {
         expect(container.firstElementChild).toHaveClass("primary");
         expect(container.firstElementChild).toHaveClass("solid");
