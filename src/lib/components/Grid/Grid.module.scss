@@ -35,10 +35,11 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
   @return "-#{$size}";
 }
 
-// Mobile-first and axis first, e.g. md column: md, sm, xs, base column-gap => md, sm, xs, base gap => $fallback
-@function gap-chain($axis, $size, $fallback) {
+// Resolves the public variables of $kinds at a screen size, mobile-first and the last kind first,
+// e.g. (gap, column-gap) at md: md, sm, xs, base column-gap => md, sm, xs, base gap => $fallback
+@function spacing-chain($kinds, $size, $fallback) {
   $result: $fallback;
-  @each $kind in ("gap", "#{$axis}-gap") {
+  @each $kind in $kinds {
     @for $i from 1 through list.index($grid-sizes, $size) {
       $result: "var(--mtf-grid-#{breakpoint-name(list.nth($grid-sizes, $i))}-#{$kind}, #{$result})";
     }
@@ -55,8 +56,8 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
     }
   }
   @include screen-width-breakpoints($grid-sizes) using ($size) {
-    #{$column-variable}: #{gap-chain("column", $size, $fallback-column)};
-    #{$row-variable}: #{gap-chain("row", $size, $fallback-row)};
+    #{$column-variable}: #{spacing-chain(("gap", "column-gap"), $size, $fallback-column)};
+    #{$row-variable}: #{spacing-chain(("gap", "row-gap"), $size, $fallback-row)};
   }
 }
 
@@ -81,28 +82,22 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
   flex-direction: column;
   box-sizing: border-box;
   row-gap: var(--grid-resolved-row-gap);
+  padding: var(--grid-resolved-padding);
 
   @include resolve-gaps("--grid-resolved-column-gap", "--grid-resolved-row-gap", var(--theme-grid-gutter-gutter-sm), var(--theme-grid-gutter-gutter-sm));
 
-  > .row {
-    @for $i from 1 through $grids {
-      > .col-size-#{$i} {
-        flex: 0 0 calculate-grid-flex-width($i, var(--row-resolved-column-gap));
-      }
-    }
-    @include screen-width-breakpoints($grid-sizes) using ($size) {
-      @for $i from 1 through $grids {
-        > .col-#{$size}-#{$i} {
-          flex: 0 0 calculate-grid-flex-width($i, var(--row-resolved-column-gap));
-        }
-      }
-    }
+  // Padding works like the gaps, with the public --mtf-grid-{breakpoint}-padding variables
+  @each $size in $grid-sizes {
+    --mtf-grid-#{breakpoint-name($size)}-padding: initial;
+  }
+  @include screen-width-breakpoints($grid-sizes) using ($size) {
+    --grid-resolved-padding: #{spacing-chain("padding", $size, var(--theme-grid-gutter-gutter-sm))};
   }
 
-  @include screen-width-breakpoints($grid-sizes) using ($size) {
+  @each $size in $grid-sizes {
     @each $value in $spacing-sizes {
       &.padding#{class-infix($size)}-#{$value} {
-        padding: spacing-value($value);
+        --mtf-grid-#{breakpoint-name($size)}-padding: #{spacing-value($value)};
       }
     }
   }
@@ -112,6 +107,7 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
     padding: 0;
   }
 
+  // TODO: Move to a Container component in the next major version, when Grid becomes fluid by default
   &:not(.fluid) {
     @include screen-width-breakpoints($grid-sizes) using ($size) {
       max-width: var(--theme-grid-container-#{$size});
@@ -130,6 +126,9 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
   display: flex;
   .col {
     width: 100%;
+
+    // The row gap of the Col's Row, for the Rows nested in the Col. They resolve their own row gaps
+    --parent-row-gap: var(--row-resolved-row-gap);
   }
 }
 
@@ -144,6 +143,24 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
 
   // A Row without gap values uses the gaps of its Grid
   @include resolve-gaps("--row-resolved-column-gap", "--row-resolved-row-gap", var(--grid-resolved-column-gap), var(--grid-resolved-row-gap));
+
+  // Each Row sizes only its own cols with its own gap, so the Rows nested in a Col or in a nested Grid are independent
+  @for $i from 1 through $grids {
+    > .colBase.col-size-#{$i} {
+      flex: 0 0 calculate-grid-flex-width($i, var(--row-resolved-column-gap));
+    }
+  }
+  @include screen-width-breakpoints($grid-sizes) using ($size) {
+    @for $i from 1 through $grids {
+      > .colBase.col-#{$size}-#{$i} {
+        flex: 0 0 calculate-grid-flex-width($i, var(--row-resolved-column-gap));
+      }
+    }
+  }
+
+  .col > & + & {
+    margin-top: var(--parent-row-gap);
+  }
 
   &.start {
     justify-content: flex-start;

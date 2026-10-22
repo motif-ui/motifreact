@@ -28,6 +28,13 @@ export type GridProps = {
 } & GridDefaultableProps;
 
 export type GridDefaultableProps = {
+  // TODO: In the next major version, make Grid fluid by default and remove this prop, together with the container
+  //  max-widths in Grid.module.scss, since Container covers them. It cannot be deprecated before that, as it is the only
+  //  way to fill the width until Grid becomes fluid by default
+  /**
+   * Fills the width of its container, instead of the container max-width of the screen size. Grid will be fluid by
+   * default in the next major version
+   */
   fluid?: boolean;
   // TODO: Remove in the next major version, together with gutter, and make "none" the default padding. Then render no
   //  padding class when padding is not given, and keep "none" only for turning it off in responsive values and for gap

@@ -86,6 +86,27 @@ test.describe("Nested grids", () => {
   }
 });
 
+test.describe("Rows nested in a Col", () => {
+  for (const viewport of ["base", "lg"] as const) {
+    test(`size their own cols with their own gaps, separated by the row gap of the parent Row on ${viewport}`, async ({ page }) => {
+      await openAt(page, "nested-rows", viewports[viewport]);
+      // the gaps of the parent Row are not inherited, the nested Row uses the gaps of the Grid
+      expect(await gapsOf(page, ".nested-row")).toEqual({ column: await token(page, "sm"), row: await token(page, "sm") });
+      expect(await gapsOf(page, ".second-nested-row")).toEqual({ column: await token(page, "xs"), row: await token(page, "xs") });
+      expect(await styleOf(page, ".second-nested-row", "margin-top")).toBe(await token(page, "md"));
+      expect(await styleOf(page, ".nested-row", "margin-top")).toBe("0px");
+
+      const widths = await page.locator(".nested-row > *").evaluateAll(cols => cols.map(col => col.getBoundingClientRect().width));
+      const gap = parseFloat(await token(page, "sm"));
+      const rowWidth = await page.locator(".nested-row").evaluate(el => el.getBoundingClientRect().width);
+      // the same formula as calculate-grid-flex-width in Grid.module.scss
+      const colWidth = (size: number) => (rowWidth * size) / 12 - (1 - size / 12) * gap;
+      expect(widths[0]).toBeCloseTo(colWidth(4), 0);
+      expect(widths[1]).toBeCloseTo(colWidth(8), 0);
+    });
+  }
+});
+
 test.describe("Col widths", () => {
   // The cols of a row fill it exactly, without wrapping, when the col sizes add up to 12
   const expectFilledRow = async (page: Page, row: string) => {
@@ -130,6 +151,14 @@ test.describe("Paddings", () => {
       expect(await styleOf(page, ".lean", "padding")).toBe("0px");
     });
   }
+
+  test("use the custom values given with the public CSS variables, over the smaller breakpoints of the prop", async ({ page }) => {
+    await openAt(page, "paddings", viewports.base);
+    expect(await styleOf(page, ".custom-padding", "padding")).toBe(await token(page, "lg"));
+
+    await openAt(page, "paddings", viewports.md);
+    expect(await styleOf(page, ".custom-padding", "padding")).toBe("120px");
+  });
 });
 
 test("stretchItems makes the contents of the cols in the same row equal in height", async ({ page }) => {

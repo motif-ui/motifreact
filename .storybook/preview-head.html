@@ -579,8 +579,17 @@
     border-color: #dde3ee;
     box-shadow: 0 12px 34px var(--mtfdocs-preview-shadow);
 
+    /* Only the corners of the story on the corners of the preview are rounded, since the preview doesn't clip them.
+       The ones next to the toolbar or the code stay square */
     .docs-story {
-      border-radius: var(--mtfdocs-radius-md);
+      &:first-child {
+        border-top-left-radius: var(--mtfdocs-radius-md);
+        border-top-right-radius: var(--mtfdocs-radius-md);
+      }
+      &:last-child {
+        border-bottom-left-radius: var(--mtfdocs-radius-md);
+        border-bottom-right-radius: var(--mtfdocs-radius-md);
+      }
     }
     [role="toolbar"] {
       border-top-left-radius: var(--mtfdocs-radius-md);

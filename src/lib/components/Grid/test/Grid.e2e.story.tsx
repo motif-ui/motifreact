@@ -60,6 +60,24 @@ export const NestedGrids: Story = {
   ),
 };
 
+export const NestedRows: Story = {
+  render: () => (
+    <Grid gap="sm">
+      <Grid.Row className="parent-row" rowGap="md" columnGap="xl">
+        <Grid.Col size={12}>
+          <Grid.Row className="nested-row">
+            <Grid.Col size={4}>col</Grid.Col>
+            <Grid.Col size={8}>col</Grid.Col>
+          </Grid.Row>
+          <Grid.Row className="second-nested-row" gap="xs">
+            {cols(3, 4)}
+          </Grid.Row>
+        </Grid.Col>
+      </Grid.Row>
+    </Grid>
+  ),
+};
+
 export const ColWidths: Story = {
   render: () => (
     <>
@@ -81,10 +99,14 @@ export const ColWidths: Story = {
 export const Paddings: Story = {
   render: () => (
     <>
+      <style>{".custom-padding { --mtf-grid-md-padding: 120px; }"}</style>
       <Grid className="default-padding" gap="xl">
         <Grid.Row>{cols(1, 12)}</Grid.Row>
       </Grid>
       <Grid className="responsive-padding" padding={{ base: "xs", lgUp: "xxl" }}>
+        <Grid.Row>{cols(1, 12)}</Grid.Row>
+      </Grid>
+      <Grid className="custom-padding" padding="lg">
         <Grid.Row>{cols(1, 12)}</Grid.Row>
       </Grid>
       <Grid className="lean" padding="lg" leanToEdge>

@@ -1,5 +1,5 @@
 import { Grid, ImageView, Panel, Text } from "@motif-ui/react";
-import "./about2.css";
+import Container from "@/components/Container";
 
 const features = [
   {
@@ -23,52 +23,38 @@ const features = [
 ];
 
 const About2 = () => (
-  <Panel className="panel">
-    <Grid gutter="xxl" leanToEdge>
-      <Grid.Row justifyCols="center">
-        <Grid.Col size={12} lg={8}>
-          <Grid gutter="lg" leanToEdge>
-            <Grid.Row justifyCols="center">
-              <Text text="About Us" type="display" size="lg" marginless center tone="strong" />
-            </Grid.Row>
-            <Grid.Row justifyCols="center">
-              <Text
-                text="Motif UI makes it easy to build customer portals, CRMs, internal tools, and other business applications for your team. In minutes, not months."
-                type="heading"
-                size="md"
-                marginless
-                center
-                tone="soft"
-              />
-            </Grid.Row>
-          </Grid>
+  <Container>
+    <Grid className="about2" rowGap={{ base: "lg", lgUp: "xxl" }} padding={{ base: "lg", lgUp: "xxl" }}>
+      <Grid.Row rowGap="lg">
+        <Grid.Col size={12}>
+          <Text text="About Us" type="display" size="lg" center tone="strong" marginless />
         </Grid.Col>
-      </Grid.Row>
-      <Grid.Row>
-        <Grid.Col size={12} md={6}>
-          <ImageView
-            src="https://picsum.photos/seed/about2-laptop/571/443"
-            width="100%"
-            aspectRatio={571 / 443}
-            scaleType="fillKeepAspectRatio"
-          />
-        </Grid.Col>
-        <Grid.Col size={12} md={6}>
-          <ImageView
-            src="https://picsum.photos/seed/about2-city/571/443"
-            width="100%"
-            aspectRatio={571 / 443}
-            scaleType="fillKeepAspectRatio"
+        <Grid.Col size={12}>
+          <Text
+            text="Motif UI makes it easy to build customer portals, CRMs, internal tools, and other business applications for your team. In minutes, not months."
+            type="heading"
+            size="md"
+            marginless
+            center
+            tone="soft"
           />
         </Grid.Col>
       </Grid.Row>
-      <Grid.Row justifyCols="center">
-        <Grid.Col size={12} lg={8}>
-          <Grid gutter="lg" leanToEdge>
-            <Grid.Row justifyCols="center">
-              <Text text="We make creating software easy." type="display" size="lg" marginless center tone="strong" />
-            </Grid.Row>
-            <Grid.Row justifyCols="center">
+      <Grid.Row columnGap="xl" rowGap="md">
+        <Grid.Col size={12} lg={6}>
+          <ImageView src="https://picsum.photos/seed/about2-laptop/571/443" width="100%" />
+        </Grid.Col>
+        <Grid.Col size={12} lg={6}>
+          <ImageView src="https://picsum.photos/seed/about2-city/571/443" width="100%" />
+        </Grid.Col>
+      </Grid.Row>
+      <Grid.Row rowGap="md">
+        <Grid.Col size={12}>
+          <Grid.Row justifyCols="center" rowGap="sm">
+            <Grid.Col size={12} lg={6}>
+              <Text text="We make creating software easy." type="display" size="md" marginless center tone="strong" />
+            </Grid.Col>
+            <Grid.Col size={12}>
               <Text
                 text="We aim to help empower 1,000,000 teams to create their own software. Here is how we plan on doing it."
                 type="heading"
@@ -77,13 +63,9 @@ const About2 = () => (
                 center
                 tone="soft"
               />
-            </Grid.Row>
-          </Grid>
-        </Grid.Col>
-      </Grid.Row>
-      <Grid.Row>
-        <Grid gutterX="md" leanToEdge>
-          <Grid.Row>
+            </Grid.Col>
+          </Grid.Row>
+          <Grid.Row gap={{ base: "sm", mdUp: "md" }} stretchItems>
             {features.map(feature => (
               <Grid.Col size={12} md={4} key={feature.title}>
                 <Panel bordered title={feature.title} titleIcon={feature.icon} titleSize="lg">
@@ -92,10 +74,10 @@ const About2 = () => (
               </Grid.Col>
             ))}
           </Grid.Row>
-        </Grid>
+        </Grid.Col>
       </Grid.Row>
     </Grid>
-  </Panel>
+  </Container>
 );
 
 export default About2;

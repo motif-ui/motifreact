@@ -160,6 +160,25 @@ All size props are optional. `<Grid.Col>` fills the remaining space if no size p
   </Row>
 </GridComponent>
 
+### Nesting
+
+A `<Grid.Col>` may contain `<Grid.Row>`s, to split it into columns again. The nested Rows size their own Cols, and their
+gaps are taken from the Grid unless they are given. Nested Rows are separated by the vertical gap of the Row containing
+the Col.
+
+```tsx
+<Grid>
+  <Grid.Row rowGap="md">
+    <Grid.Col size={12} md={8}>
+      <Grid.Row>...</Grid.Row>
+      <Grid.Row gap="xs">...</Grid.Row>
+    </Grid.Col>
+  </Grid.Row>
+</Grid>
+```
+
+Use a nested `<Grid>` instead, when the nested part needs its own padding, default gaps or **colProps**.
+
 ### Gap
 
 The space between Cols is set using 3 props, on both `<Grid>` and `<Grid.Row>`:
@@ -278,7 +297,18 @@ and the responsive object, and it is independent of the gaps. Default is `"sm"`.
 <Grid gap="xs" padding={{ base: "none", lgUp: "xxl" }}>...</Grid>
 ```
 
-Custom values can be given directly with CSS `padding`, since nothing else depends on it.
+Custom values are given with the `--mtf-grid-{pageSize}-padding` CSS variables, exactly like the [custom gap values](#custom-values),
+so no media queries are needed. Below, the padding is `"lg"` up to **md**, and `120px` on **md** and above:
+
+```css
+.hero {
+  --mtf-grid-md-padding: 120px;
+}
+```
+
+```tsx
+<Grid className="hero" padding="lg">...</Grid>
+```
 
 **The default padding will be `"none"` in the next major version.** To keep the current padding after that, or to switch
 to the new default now, set it globally with `componentDefaults` of `MotifProvider`:
@@ -287,6 +317,21 @@ to the new default now, set it globally with `componentDefaults` of `MotifProvid
 <MotifProvider componentDefaults={{ Grid: { padding: "sm" } }}>...</MotifProvider>   // keeps the current padding
 <MotifProvider componentDefaults={{ Grid: { padding: "none" } }}>...</MotifProvider> // switches to the new default
 ```
+
+### Upcoming: fluid by default
+
+`<Grid>` currently limits its width to the container max-width of the screen size, unless **fluid** is set. **Grid will
+be fluid by default in the next major version**, and the **fluid** prop will be removed. The container max-widths are
+already provided by `<Container>`, so for the main layout of a page, use a fluid `<Grid>` in a `<Container>`. It will
+keep working the same after the change:
+
+```tsx
+<Container>
+  <Grid fluid>...</Grid>
+</Container>
+```
+
+A Grid nested in a Col or a Panel will not need **fluid** anymore after the change.
 
 ### Deprecated `leanToEdge`
 
