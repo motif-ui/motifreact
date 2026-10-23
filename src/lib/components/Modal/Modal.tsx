@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Modal.module.scss";
-import useControlledVisibility from "../../hooks/useControlledVisibility";
+import useVisibilityTransition from "../../hooks/useVisibilityTransition";
 import ModalHeader from "./components/ModalHeader";
 import { PropsWithRef } from "../../types";
 import ModalActions from "./components/ModalActions";
@@ -34,10 +34,10 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Modal", props);
 
   const domReady = useDomReady();
-  const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
+  const { visible, attached } = useVisibilityTransition(!!open, 300);
   useScrollLock(!!open);
 
-  const modalRef = useOutsideClick<HTMLDivElement>(() => closable && hide());
+  const modalRef = useOutsideClick<HTMLDivElement>(() => closable && onClose?.());
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
@@ -51,7 +51,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
     createPortal(
       <div data-testid="modalBackdrop" className={classNames} style={style} ref={ref}>
         <div className={styles.modal} ref={modalRef}>
-          {closable && <MotifIconButton name="close" onClick={hide} size="xxl" className={styles.closeButton} />}
+          {closable && <MotifIconButton name="close" onClick={onClose} size="xxl" className={styles.closeButton} />}
           <ModalHeader title={title} subtitle={subtitle} />
           <div className={styles.content}> {children}</div>
           <ModalActions actionButton={actionButton} alternateButton={alternateButton} buttons={buttons} />

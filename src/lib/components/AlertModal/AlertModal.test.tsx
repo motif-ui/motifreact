@@ -60,6 +60,23 @@ describe("AlertModal", () => {
     expect(getBackdrop()).toBeInTheDocument();
   });
 
+  it("should stay mounted until the exit transition ends when open changes from true to false", () => {
+    jest.useFakeTimers();
+    const { rerender, queryByTestId, getBackdrop } = renderExt(<AlertModal title={TITLE} open />);
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(getBackdrop()).toHaveClass("show");
+
+    rerender(<AlertModal title={TITLE} open={false} />);
+    expect(getBackdrop()).not.toHaveClass("show");
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(queryByTestId("alertModalBackdrop")).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
   it("should render the title given in the title prop", () => {
     const { getModalContent } = renderExt(<AlertModal title="Alert Title" open />);
     expect(getModalContent()).toHaveTextContent("Alert Title");
