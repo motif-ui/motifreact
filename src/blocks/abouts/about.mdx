@@ -1,9 +1,14 @@
 import { Meta, Canvas, Source } from "@storybook/addon-docs/blocks";
+import * as About1Stories from "./About1/About1.stories";
 import * as About2Stories from "./About2/About2.stories";
 
 <Meta title="Blocks/About" />
 
 # About Screens
+
+## About Us 1
+
+<Canvas of={About1Stories.Primary} sourceState="shown" />
 
 ## About Us 2
 
