@@ -34,6 +34,8 @@ import {
   groupItems,
   getAllInputItems,
   formItems,
+  timeValue,
+  dateTimeValue,
 } from "./testHelper";
 import PinCode from "@/components/PinCode";
 import Select from "@/components/Select";
@@ -43,6 +45,8 @@ import InputDate from "@/components/InputDate";
 import InputTime from "@/components/InputTime";
 import InputDateTime from "@/components/InputDateTime";
 import { formatDate } from "@/components/InputDate/helper";
+import { formatTime } from "@/components/InputTime/helper";
+import { formatDateTime } from "@/components/InputDateTime/helper";
 import { DateUtils } from "src/utils/dateUtils.ts";
 import Slider from "@/components/Slider";
 import SliderRange from "@/components/SliderRange";
@@ -379,12 +383,28 @@ describe("Form", () => {
       formatDate(newDateValue, defaultDateFormat, getDateLocale(t)),
     );
 
+    // Input Time
+    const newTimeValue = { hours: 12, minutes: 30 };
+    await user.type(
+      screen.getByDisplayValue(formatTime(timeValue, false, false, "24h", getDateLocale(t))),
+      formatTime(newTimeValue, false, false, "24h", getDateLocale(t)),
+    );
+    expect(screen.queryByTestId("Picker")).not.toBeInTheDocument();
+
+    // Input DateTime
+    const newDateTimeValue = new Date(2024, 1, 21, 12, 30);
+    await user.type(
+      screen.getByDisplayValue(formatDateTime(dateTimeValue, defaultDateFormat, false, "24h", getDateLocale(t))),
+      formatDateTime(newDateTimeValue, defaultDateFormat, false, "24h", getDateLocale(t)),
+    );
+    expect(screen.queryByTestId("Picker")).not.toBeInTheDocument();
+
     // Switch
-    await user.click(inputItems[9].firstElementChild!);
+    await user.click(inputItems[11].firstElementChild!);
 
     // Pin Code
-    expect(inputItems[10].getElementsByTagName("input")[0]).toHaveAttribute("disabled");
-    await user.type(inputItems[10].getElementsByTagName("input")[0], value);
+    expect(inputItems[12].getElementsByTagName("input")[0]).toHaveAttribute("disabled");
+    await user.type(inputItems[12].getElementsByTagName("input")[0], value);
     await user.click(screen.getByText(t("g.submit")));
   });
 
@@ -402,7 +422,7 @@ describe("Form", () => {
     // Switch Item is sliced because switch component does not have success prop
     inputItems.slice(0, inputItems.length - 2).forEach(element => expect(element).toHaveClass("success"));
     // PinCode is added below
-    expect(inputItems[10].firstElementChild).toHaveClass("success");
+    expect(inputItems[12].firstElementChild).toHaveClass("success");
   });
 
   it("should render form in preview mode with all fields disabled and no submit button", () => {
@@ -480,9 +500,24 @@ describe("Form", () => {
     expect(inputItems[8].querySelector("input")).toHaveAttribute("readOnly");
     await user.type(inputItems[8].querySelector("input")!, formatDate(newDateValue, defaultDateFormat, getDateLocale(t)));
 
+    // Input Time
+    const newTimeValue = { hours: 12, minutes: 30 };
+    expect(inputItems[9].querySelector("input")).toHaveAttribute("readOnly");
+    await user.type(inputItems[9].querySelector("input")!, formatTime(newTimeValue, false, false, "24h", getDateLocale(t)));
+    expect(screen.queryByTestId("Picker")).not.toBeInTheDocument();
+
+    // Input DateTime
+    const newDateTimeValue = new Date(2024, 1, 21, 12, 30);
+    expect(inputItems[10].querySelector("input")).toHaveAttribute("readOnly");
+    await user.type(
+      inputItems[10].querySelector("input")!,
+      formatDateTime(newDateTimeValue, defaultDateFormat, false, "24h", getDateLocale(t)),
+    );
+    expect(screen.queryByTestId("Picker")).not.toBeInTheDocument();
+
     // Pin Code
-    expect(inputItems[10].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
-    await user.type(inputItems[10].getElementsByTagName("input")[0], value);
+    expect(inputItems[12].getElementsByTagName("input")[0]).toHaveAttribute("readonly");
+    await user.type(inputItems[12].getElementsByTagName("input")[0], value);
 
     // Upload List
     await act(() =>
@@ -691,7 +726,7 @@ describe("Form", () => {
         expect(getFormField(index)).toHaveClass("error");
         expect(getFormField(index)).toHaveTextContent(fileValidationMessage);
       } else if (element.key != "inputCheckboxGroup") {
-        // InputText, InputPassword, RadioGroup, Select, Switch, InputDate, PinCode
+        // InputText, InputPassword, RadioGroup, Select, Switch, InputDate, PinCode, InputTime, InputDateTime
         expect(getFormField(index)).toHaveClass("error");
         expect(getFormField(index)).toHaveTextContent(validationMessage);
       }
@@ -743,6 +778,8 @@ describe("Form", () => {
     await user.type(screen.getAllByTestId("inputItem")[1].querySelector("input")!, value);
     await user.type(screen.getAllByTestId("inputItem")[2].querySelector("input")!, "42");
     await user.type(screen.getByTestId("inputDate").querySelector("input")!, "12/12/2024");
+    await user.type(screen.getAllByTestId("inputItem")[4].querySelector("input")!, "12:30");
+    await user.type(screen.getAllByTestId("inputItem")[5].querySelector("input")!, "12/12/2024 12:30");
     await user.type(screen.getByTestId("pinCode").querySelectorAll("input")[0], value);
     await user.click(screen.getByText("Black"));
     await user.click(screen.queryByRole("combobox")!);

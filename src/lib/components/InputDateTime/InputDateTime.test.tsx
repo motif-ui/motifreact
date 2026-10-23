@@ -32,7 +32,7 @@ describe(InputDateTime, () => {
 
     const getInputText = () => result.container.querySelector("input") as HTMLInputElement;
     const getInput = () => result.getByTestId("inputItem");
-    const getDateButton = (date: Date) => result.container.querySelector(`[data-date="${date.getTime()}"]`) as HTMLButtonElement;
+    const getDateButton = (date: Date) => document.body.querySelector(`[data-date="${date.getTime()}"]`) as HTMLButtonElement;
     const getPickerContainer = () => screen.queryByTestId("Picker") as HTMLDivElement;
     const getClearButton = () => screen.queryByText("cancel_outline") as HTMLButtonElement;
     const getTimePeriodButton = () => screen.queryByTestId("timePeriodSelector") as HTMLDivElement;
@@ -81,9 +81,9 @@ describe(InputDateTime, () => {
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
-    const { container, getInputText } = renderExt(<InputDateTime firstDayOfWeek={3} value={new Date(2025, 3, 10)} />);
+    const { getInputText } = renderExt(<InputDateTime firstDayOfWeek={3} value={new Date(2025, 3, 10)} />);
     await userEvent.click(getInputText());
-    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+    expect(screen.getByTestId("Picker").getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
 
   it("should display the date as given dateFormat in format prop", () => {
