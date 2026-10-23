@@ -39,6 +39,11 @@ const useTimeout = (callback: () => void, delay: number | undefined) => {
     startTime.current = Date.now();
   }, [clear]);
 
+  useEffect(() => {
+    clear();
+    return stop;
+  }, [clear, stop]);
+
   return useMemo(() => ({ start, pause, clear }), [start, pause, clear]);
 };
 
