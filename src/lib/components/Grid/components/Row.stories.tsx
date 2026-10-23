@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Grid from "@/components/Grid/Grid";
+import { gridSpacingType } from "../Grid.stories";
 
 const meta: Meta<typeof Grid.Row> = {
   title: "Components/Grid/Grid.Row",
@@ -10,6 +11,9 @@ const meta: Meta<typeof Grid.Row> = {
   },
   argTypes: {
     justifyCols: { table: { defaultValue: { summary: "start" } } },
+    gap: { table: { type: gridSpacingType } },
+    rowGap: { table: { type: gridSpacingType } },
+    columnGap: { table: { type: gridSpacingType } },
   },
   args: {},
 };

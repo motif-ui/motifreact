@@ -12,6 +12,7 @@ export { default as Card } from "./components/Card";
 export { default as Carousel } from "./components/Carousel";
 export { default as Checkbox } from "./components/Checkbox";
 export { default as Chip } from "./components/Chip";
+export { default as Container } from "./components/Container";
 export { default as DatePicker } from "./components/DatePicker";
 export { default as DateRangePicker } from "./components/DateRangePicker";
 export { default as DateTimePicker } from "./components/DateTimePicker";

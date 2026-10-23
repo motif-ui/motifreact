@@ -2,9 +2,34 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import Grid from "@/components/Grid/Grid";
 
+export const gridSpacingType = {
+  summary: "GridSpacing",
+  detail: `type Size = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | "none";
+
+type GridSpacing =
+  | Size
+  | {
+      base?: Size;
+      xsUp?: Size;
+      smUp?: Size;
+      mdUp?: Size;
+      lgUp?: Size;
+      xlUp?: Size;
+      xxlUp?: Size;
+    };`,
+};
+
 const meta: Meta<typeof Grid> = {
   title: "Components/Grid",
   component: Grid,
+  excludeStories: ["gridSpacingType"],
+  argTypes: {
+    gap: { table: { type: gridSpacingType, defaultValue: { summary: "sm" } } },
+    rowGap: { table: { type: gridSpacingType } },
+    columnGap: { table: { type: gridSpacingType } },
+    padding: { table: { type: gridSpacingType, defaultValue: { summary: "sm" } } },
+    gutter: { table: { defaultValue: { summary: "sm" } } },
+  },
   parameters: {
     layout: "fullscreen",
   },
