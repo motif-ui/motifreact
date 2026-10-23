@@ -1,0 +1,6 @@
+.about3-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 32px;
+}
