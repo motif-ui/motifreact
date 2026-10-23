@@ -16,10 +16,14 @@ export type CardProps = {
   contentText?: string;
   contentImage?: string;
   contentLink?: { text: string; href: string; targetBlank?: boolean };
-  contentActionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
+  contentActionButton?: {
+    text: string;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  };
   contentAlternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   contentActionLink?: { text: string; href: string; icon?: IconGlobalType; targetBlank?: boolean };
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
+  buttonPosition?: "left" | "center" | "right" | "spaceBetween";
 } & CardDefaultableProps;
 
 export type CardDefaultableProps = {

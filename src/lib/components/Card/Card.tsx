@@ -25,6 +25,7 @@ const Card = (props: PropsWithRefAndChildren<CardProps, HTMLDivElement>) => {
     contentLink,
     image,
     imagePosition = "left",
+    buttonPosition = "right",
     icon,
     buttons,
     variant = "secondary",
@@ -52,6 +53,7 @@ const Card = (props: PropsWithRefAndChildren<CardProps, HTMLDivElement>) => {
         {children}
       </CardContent>
       <CardActions
+        buttonPosition={buttonPosition}
         actionButton={contentActionButton}
         alternateButton={contentAlternateButton}
         buttons={buttons}

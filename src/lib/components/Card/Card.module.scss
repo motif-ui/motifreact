@@ -165,6 +165,21 @@ $variants: (
     border-top: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
   }
 }
+.actionButton-right {
+  justify-content: flex-end;
+}
+.actionButton-left {
+  justify-content: flex-start;
+}
+.actionButton-center {
+  justify-content: center;
+}
+.actionButton-spaceBetween {
+  justify-content: space-between;
+}
+.actionButton-fluid {
+  flex: 1 1 0;
+}
 
 @each $variant, $bgColor, $titleColor, $subtitleColor, $avatarBgColor, $avatarTextColor in $variants {
   .#{$variant} {

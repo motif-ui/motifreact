@@ -7,7 +7,7 @@ const meta: Meta = {
   title: "Blocks/Dashboards",
   tags: ["!autodocs", "!dev"],
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
   },
 };
 

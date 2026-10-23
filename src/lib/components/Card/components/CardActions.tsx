@@ -14,16 +14,18 @@ type Props = {
   alternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   actionLink?: { text: string; href: string; icon?: IconGlobalType; targetBlank?: boolean };
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
+  buttonPosition?: string;
 };
 
 const CardActions = (props: Props) => {
-  const { alternateButton, buttons, actionButton, actionLink } = props;
+  const { alternateButton, buttons, actionButton, actionLink, buttonPosition } = props;
 
   const isVisible = actionButton || alternateButton || buttons?.length || actionLink;
+  const className = `${styles.actionsContainer} ${styles[`actionButton-${buttonPosition}`]}`;
 
   return (
     isVisible && (
-      <div className={styles.actionsContainer} data-testid="cardActions">
+      <div className={className} data-testid="cardActions">
         {actionButton && <Button pill onClick={actionButton.onClick} variant="primary" label={actionButton.text} />}
         {alternateButton && (
           <Button pill onClick={alternateButton.onClick} shape="outline" variant="secondary" label={alternateButton.text} />

@@ -38,3 +38,7 @@
   align-items: center;
   gap: 8px;
 }
+.houseTabText {
+  margin-right: 15px;
+  text-align: justify;
+}
