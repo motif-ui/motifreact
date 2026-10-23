@@ -1,9 +1,9 @@
-import { Card, Grid, ImageView, Panel, Text } from "src/lib";
+import { Container, Grid, ImageView, Link, Panel, Text } from "src/lib";
 import "./about3.css";
 
 const About3 = () => (
-  <Panel className="about3-panel">
-    <Grid gutterX="md" gutterY="xl" leanToEdge>
+  <Container>
+    <Grid rowGap={{ base: "md", mdUp: "xl" }} columnGap="md" padding={{ base: "none", smUp: "md", mdUp: "lg", lgUp: "xxl" }} fluid>
       <Grid.Row justifyCols="center">
         <Grid.Col size={12} lg={8}>
           <Text text="Our Background" type="display" size="lg" marginless center />
@@ -87,14 +87,13 @@ const About3 = () => (
       </Grid.Row>
       <Grid.Row>
         <Grid.Col size={12}>
-          <Card
-            className="about3-card"
-            title="Part of Our Global Team"
-            contentLink={{ text: "Get to know the team", href: "www.motif-ui.com/", targetBlank: true }}
-          />
+          <Panel>
+            <Text text="Part of Our Global Team" type="caption" weight="bold" />
+            <Link label="Get to know the team" url="www.motif-ui.com/" targetBlank />
+          </Panel>
         </Grid.Col>
       </Grid.Row>
     </Grid>
-  </Panel>
+  </Container>
 );
 export default About3;
