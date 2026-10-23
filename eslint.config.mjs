@@ -121,6 +121,24 @@ export default [
     },
   },
   {
+    // Blocks must consume the library exactly like an external consumer would, so internal library paths are not allowed here.
+    // TODO: With the monorepo introduction, this rule should be deleted to not increase complexity of the codebase.
+    files: ["src/blocks/**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              regex: "^(@/|@styles(/|$)|src/lib(/|$)|(\\.\\./)+(src/)?lib(/|$))",
+              message: 'Blocks should import library code only via "@motif-ui/react" (or "@motif-ui/react/types").',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // Configuration specific to TypeScript files
     files: ["**/*.{ts,tsx}"],
     rules: {
