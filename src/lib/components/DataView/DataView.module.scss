@@ -1,6 +1,9 @@
 @use "@styles" as *;
 
 $data-view-sizes: ("xs", "sm", "md", "lg", "xl");
+$color-variants:
+  ("primary", "inverse", "caption"), ("info", "inverse", "caption"), ("success", "inverse", "caption"), ("warning", "inverse", "caption"), ("danger", "inverse", "caption"),
+  ("secondary", "negative", "text-light");
 
 .Root {
   display: grid;
@@ -51,36 +54,31 @@ $data-view-sizes: ("xs", "sm", "md", "lg", "xl");
 .item {
   display: flex;
 
-  $color-variants: "primary", "info", "success", "warning", "danger";
-  @each $variant in $color-variants {
+  @each $variant, $variantType, $color in $color-variants {
     &.#{$variant} {
-      background-color: var(--theme-color-surface-#{$variant}-inverse);
+      background-color: var(--theme-color-surface-#{$variant}-#{$variantType});
+      .icon {
+        color: var(--theme-color-text-base-#{$color});
+        --mtf-icon-size: var(--base-sizing-22x);
+      }
+      .title,
+      .value {
+        color: var(--theme-color-text-base-#{$color});
+        overflow-wrap: break-word;
+        padding: var(--base-sizing-10x) var(--base-sizing-20x);
+        @include font("body", "md");
+      }
     }
-  }
-
-  .title,
-  .value {
-    @include font("body", "md");
   }
 
   .title {
     width: 30%;
-    color: var(--theme-color-text-base-caption);
     display: inline-flex;
     gap: var(--base-sizing-10x);
-    padding: var(--base-sizing-10x) var(--base-sizing-20x);
-    overflow-wrap: break-word;
   }
   .value {
     flex: 1;
-    color: var(--theme-color-text-base-title);
-    padding: var(--base-sizing-10x) var(--base-sizing-20x);
     overflow: hidden;
-    overflow-wrap: break-word;
-  }
-  .icon {
-    color: var(--theme-color-text-base-caption);
-    --mtf-icon-size: var(--base-sizing-22x);
   }
 }
 

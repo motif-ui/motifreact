@@ -72,7 +72,14 @@ describe("DataView", () => {
   });
 
   it("should render DataView.Item s with the color variant given in variant prop", () => {
-    const variants: ("primary" | "info" | "success" | "warning" | "danger")[] = ["primary", "info", "success", "warning", "danger"];
+    const variants: ("primary" | "info" | "success" | "warning" | "danger" | "secondary")[] = [
+      "primary",
+      "info",
+      "success",
+      "warning",
+      "danger",
+      "secondary",
+    ];
     variants.forEach(variant => {
       const { getByText, unmount } = render(
         <DataView>
