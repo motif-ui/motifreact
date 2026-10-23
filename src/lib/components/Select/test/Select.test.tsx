@@ -1,14 +1,14 @@
 import { cleanup, fireEvent, render, screen, act } from "@testing-library/react";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
-import { SelectGroupItem, SelectItem } from "@/components/Select/types";
-import { Select, Validations } from "../../index";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils.tsx";
+import { StandardPropsWithRef } from "../../../types.ts";
+import { SelectGroupItem, SelectItem } from "@/components/Select/types.ts";
+import { Select, Validations } from "../../../index.ts";
 import { userEvent } from "@testing-library/user-event";
-import { InputSize } from "../Form/types";
+import { InputSize } from "../../Form/types.ts";
 import Form from "@/components/Form";
 import { useEffect, useState } from "react";
-import { t } from "./../../../utils/testUtils";
-import MotifProvider from "../../motif/context/MotifProvider";
+import { t } from "../../../../utils/testUtils.tsx";
+import MotifProvider from "../../../motif/context/MotifProvider.tsx";
 
 describe("Select", () => {
   const data: (SelectGroupItem | SelectItem)[] = [
