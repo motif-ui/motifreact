@@ -14,7 +14,7 @@ const meta: Meta<typeof Card> = {
   args: {
     title: "Card Header Title",
     subtitle: "Motif Card Subtitle",
-    avatarIcon: "folder",
+    icon: "folder",
     action: { icon: "download", onClick: () => console.log("Action clicked!") },
   },
 };
@@ -39,7 +39,8 @@ export const Header: Story = {
       title="Card Header Title"
       subtitle="Motif Card Subtitle"
       imagePosition="right"
-      avatarIcon="folder"
+      icon="folder"
+      avatarIcon={undefined}
       image="https://picsum.photos/seed/motifui/100"
       action={{ icon: "download", onClick: () => console.log("asd") }}
     />

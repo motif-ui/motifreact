@@ -4,10 +4,12 @@ import Button from "@/components/Button";
 import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
-import { CardActionButtonPosition } from "./types";
+import { StandardPropsWithRef, Variant } from "../../../lib/types";
+import { CardActionButtonPosition, CardVariant } from "./types";
 
 describe("Card", () => {
+  const variants: Variant[] = ["primary", "secondary", "info", "success", "warning", "danger"];
+
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) =>
       render(<Card image="/imagePath" contentActionButton={{ text: "action", onClick: jest.fn() }} {...props} />),
@@ -82,6 +84,29 @@ describe("Card", () => {
     render(<Card icon="folder" />);
     expect(screen.getByText("folder")).toHaveClass("headerIcon");
     expect(screen.queryByTestId("avatarItem")).not.toBeInTheDocument();
+  });
+
+  it("should render icon in the variant given in the iconVariant prop", () => {
+    variants.forEach(iconVariant => {
+      const { unmount } = render(<Card icon="folder" iconVariant={iconVariant} />);
+      expect(screen.getByText("folder")).toHaveClass(iconVariant);
+      unmount();
+    });
+  });
+
+  it("should render icon without any icon variant or size class when iconVariant is not set", () => {
+    render(<Card icon="folder" />);
+    const headerIcon = screen.getByText("folder");
+    expect(headerIcon).toHaveClass("headerIcon");
+    expect(headerIcon).not.toHaveClass("lg");
+    variants.forEach(variant => expect(headerIcon).not.toHaveClass(variant));
+  });
+
+  it("should not apply iconVariant when icon is given as a ReactElement", () => {
+    render(<Card icon={<span>custom</span>} iconVariant="danger" />);
+    const headerIcon = screen.getByText("custom").parentElement;
+    expect(headerIcon).toHaveClass("headerIcon");
+    expect(headerIcon).not.toHaveClass("danger");
   });
 
   it("should render avatar text when avatarText is set", () => {
@@ -246,8 +271,8 @@ describe("Card", () => {
   );
 
   it("should render in the variant given in the variant  prop", () => {
-    const variants = ["neutral", "primary", "secondary", "info", "success", "warning", "danger"] as const;
-    variants.forEach(variant => {
+    const cardVariants: CardVariant[] = ["neutral", ...variants];
+    cardVariants.forEach(variant => {
       const { container } = render(<Card variant={variant} />);
       expect(container.firstElementChild).toHaveClass(variant);
     });
