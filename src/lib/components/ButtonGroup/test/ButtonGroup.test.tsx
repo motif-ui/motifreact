@@ -1,10 +1,10 @@
 import { fireEvent, render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
+import ButtonGroup from "../ButtonGroup";
+import { Size4SM } from "../../../types";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 
-import ButtonGroup from "./ButtonGroup";
-import { Size4SM } from "../../types";
-import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
 describe("ButtonGroup", () => {
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<ButtonGroup {...props} />), {
     // size: md
