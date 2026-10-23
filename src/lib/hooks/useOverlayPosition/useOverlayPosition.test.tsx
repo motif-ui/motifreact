@@ -157,6 +157,27 @@ describe("useOverlayPosition", () => {
     expect(overlay.style.getPropertyValue("--overlay-anchor-bottom")).toBe("0px");
   });
 
+  it("should write the anchor's layout width before measuring, so an overlay sized by it is placed with that size", () => {
+    // The layout width differs from the bounding width when the anchor is transformed, e.g. scaled in a modal popping in
+    Object.defineProperty(anchor, "offsetWidth", { configurable: true, value: 300 });
+    setAnchorRect({ top: 300, left: 800, width: 150, height: 40 });
+    // The overlay is as wide as the variable, it would fit at the anchor's left with its own width of 200
+    Object.defineProperty(overlay, "offsetWidth", {
+      configurable: true,
+      get: () => parseFloat(overlay.style.getPropertyValue("--overlay-anchor-width")) || 200,
+    });
+
+    renderPosition("bottomLeft");
+    expect(overlay.style.getPropertyValue("--overlay-anchor-width")).toBe("300px");
+    // 300 wide, it does not fit at the anchor's left edge, so it is aligned to its right edge
+    expect(domPosition().left).toBe(950 - 300);
+
+    Object.defineProperty(anchor, "offsetWidth", { configurable: true, value: 260 });
+    resize();
+    expect(overlay.style.getPropertyValue("--overlay-anchor-width")).toBe("260px");
+    delete (anchor as { offsetWidth?: number }).offsetWidth;
+  });
+
   it("should fit it again when the class of the chosen placement, rendered after it is chosen, changes its margins", () => {
     setAnchorRect({ top: 700, left: 400, width: 100, height: 40 });
     renderHook(() => {

@@ -9,33 +9,39 @@ $sizes: (
 );
 
 .Root {
-  position: relative;
-  display: block;
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  background-color: var(--theme-color-surface-base-bg-light);
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  @include transition(border-color);
 
-  &.expanded .input {
+  &.expanded {
     border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+
+    &.dropUp {
+      border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
+    }
+
     .arrowDown {
       transform: rotate(180deg);
     }
   }
 
-  @include transition(border-color);
-
-  &.error .input {
+  &.error {
     border-color: var(--theme-color-border-danger-default);
   }
 
-  &.success .input {
+  &.success {
     border-color: var(--theme-color-border-success-default);
   }
 
-  &.active,
-  &:focus .input {
+  &.expanded {
     border-color: var(--theme-color-border-primary-default);
-    outline: none;
   }
 
-  &.disabled .input {
+  &.disabled {
     border-color: var(--theme-color-border-light-disabled);
     background-color: var(--theme-color-surface-base-base1);
     pointer-events: none;
@@ -48,16 +54,6 @@ $sizes: (
       color: var(--theme-color-text-light-disabled);
     }
   }
-}
-
-.input {
-  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-  border-radius: var(--theme-sizing-radius-default);
-  background-color: var(--theme-color-surface-base-bg-light);
-  display: inline-flex;
-  width: 100%;
-  align-items: center;
-  box-sizing: border-box;
 
   .inputTextAndItemsContainer {
     display: flex;
@@ -94,7 +90,7 @@ $sizes: (
 
 .dropdown {
   position: absolute;
-  z-index: 1;
+  z-index: z-layer("anchored");
   list-style: none;
   margin: 0;
   padding: 0;
@@ -102,10 +98,17 @@ $sizes: (
   border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
   border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
   border-top: none;
-  width: 100%;
   background-color: var(--theme-color-surface-base-global-light);
   overflow-y: auto;
   @include shadow(3);
+
+  @include anchor-width;
+
+  &.dropUp {
+    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+    border-top: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    border-bottom: none;
+  }
 
   &::-webkit-scrollbar {
     width: var(--base-sizing-8x);
@@ -175,7 +178,7 @@ $sizes: (
 
 @each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $selectedSize, $selectedIconSize in $sizes {
   .#{$size} {
-    .input {
+    &.Root {
       padding: var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingH});
 
       gap: var(--base-sizing-#{$gap});
@@ -197,7 +200,7 @@ $sizes: (
       --mtf-icon-size: var(--base-sizing-#{$selectedIconSize});
     }
 
-    .dropdown {
+    &.dropdown {
       max-height: var(--base-sizing-#{$maxDropdownHeight});
 
       li {

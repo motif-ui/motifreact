@@ -89,9 +89,19 @@ const getMaxWidth = (placement: OverlayPlaceOn, anchor: DOMRect, viewport: Box, 
  * Measures the overlay, after limiting its width when a max width is given.
  * Content that cannot shrink, e.g. a fixed width form, may overflow the limited box, so its scroll size is taken into account.
  */
+const getSize = (overlay: HTMLElement): Size => {
+  const { overflowX, overflowY } = getComputedStyle(overlay);
+  const clips = (overflow: string) => /auto|scroll|hidden|clip/.test(overflow);
+  return {
+    width: clips(overflowX) ? overlay.offsetWidth : Math.max(overlay.offsetWidth, overlay.scrollWidth),
+    height: clips(overflowY) ? overlay.offsetHeight : Math.max(overlay.offsetHeight, overlay.scrollHeight),
+  };
+};
+
+/** Measures the overlay, after limiting its width when a max width is given */
 const measure = (overlay: HTMLElement, maxWidth?: number): Size => {
   if (maxWidth !== undefined) overlay.style.maxWidth = `${maxWidth}px`;
-  return { width: Math.max(overlay.offsetWidth, overlay.scrollWidth), height: Math.max(overlay.offsetHeight, overlay.scrollHeight) };
+  return getSize(overlay);
 };
 
 /**
@@ -228,9 +238,10 @@ export const needsRefit = (overlay: HTMLElement, position?: Position) => {
   if (!position) return true;
   const differs = (a: number, b: number) => Math.abs(a - b) >= 0.5;
   const margins = getMargins(overlay);
+  const size = getSize(overlay);
   return (
-    differs(Math.max(overlay.offsetWidth, overlay.scrollWidth), position.size.width) ||
-    differs(Math.max(overlay.offsetHeight, overlay.scrollHeight), position.size.height) ||
+    differs(size.width, position.size.width) ||
+    differs(size.height, position.size.height) ||
     (["top", "right", "bottom", "left"] as const).some(side => differs(margins[side], position.margins[side]))
   );
 };

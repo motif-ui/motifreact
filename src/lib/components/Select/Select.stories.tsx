@@ -8,13 +8,6 @@ import Select from "@/components/Select/Select";
 const meta: Meta<typeof Select> = {
   title: "Components/Select",
   component: Select,
-  decorators: [
-    Story => (
-      <div style={{ padding: "0 0 120px" }}>
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     placeholder: { table: { defaultValue: { summary: "Lütfen seçiniz" } } },
     size: { table: { defaultValue: { summary: "md" } } },
