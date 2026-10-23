@@ -6,22 +6,21 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
 .Root {
   display: inline-flex;
 
-  > .button:first-child,
-  > .buttonDropdownContainer:first-child > .button:first-child {
+  > .button:first-child {
     border-left-width: var(--base-sizing-1x);
     border-top-left-radius: var(--theme-sizing-radius-default);
     border-bottom-left-radius: var(--theme-sizing-radius-default);
   }
 
-  > .button:last-child,
-  > .buttonDropdownContainer:last-child > button:last-of-type {
+  > .button:last-child {
     border-right-width: var(--base-sizing-1x);
     border-top-right-radius: var(--theme-sizing-radius-default);
     border-bottom-right-radius: var(--theme-sizing-radius-default);
   }
+}
 
-  .disabled,
-  .disabled .button,
+.Root,
+.button__dropdownItem {
   .button:disabled {
     pointer-events: none;
     background-color: var(--theme-color-surface-light-disabled);
@@ -58,64 +57,29 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
   @include focus-ring;
 }
 
-.button__single {
-  border-width: var(--base-sizing-1x) 0;
-  background-color: var(--theme-color-surface-light-default);
-
-  &:hover,
-  &:active {
-    &,
-    .icon {
-      color: var(--theme-color-text-base-text-light);
-    }
-  }
-
-  &:hover {
-    background-color: var(--theme-color-surface-primary-default);
-    border-color: var(--theme-color-border-primary-default);
-  }
-
-  &:active {
-    background-color: var(--theme-color-surface-primary-hover);
-    border-color: var(--theme-color-border-primary-hover);
-  }
-}
-
+.button__single,
 .button__dropdown {
   border-width: var(--base-sizing-1x) 0;
   background-color: var(--theme-color-surface-light-default);
 
   &:hover,
-  &:active {
+  &:active,
+  &.open {
     &,
     .icon {
       color: var(--theme-color-text-base-text-light);
     }
   }
 
-  &:hover {
-    background-color: var(--theme-color-surface-primary-hover);
-    border-color: var(--theme-color-border-primary-hover);
-  }
-
-  &:active {
-    background-color: var(--theme-color-surface-primary-active);
-    border-color: var(--theme-color-border-primary-active);
-  }
-}
-
-.buttonDropdownContainer {
-  display: flex;
-  position: relative;
-
-  &:hover > .button {
+  &:hover,
+  &.open {
     background-color: var(--theme-color-surface-primary-default);
     border-color: var(--theme-color-border-primary-default);
+  }
 
-    &,
-    .icon {
-      color: var(--theme-color-text-base-text-light);
-    }
+  &:active {
+    background-color: var(--theme-color-surface-primary-hover);
+    border-color: var(--theme-color-border-primary-hover);
   }
 }
 
@@ -129,12 +93,11 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
 
 .button__dropdownItem {
   position: absolute;
+  z-index: z-layer("anchored");
   display: flex;
   flex-direction: column;
-  right: 0;
-  top: calc(100% + var(--base-sizing-1x));
+  margin: var(--base-sizing-1x) var(--base-sizing-8x);
   border-radius: var(--theme-sizing-radius-default);
-  z-index: 1;
   @include shadow(6);
 }
 
@@ -196,7 +159,7 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
       --mtf-icon-size: var(--base-sizing-#{$iconSize});
     }
 
-    .button__dropdownItem .button {
+    &.button__dropdownItem .button {
       @include font("body", $size);
     }
   }

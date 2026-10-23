@@ -1,34 +1,52 @@
+"use client";
+
 import Button from "./Button";
 import ButtonGroupItemProvider from "../ButtonGroupItem/ButtonGroupItemProvider";
 import styles from "../../ButtonGroup.module.scss";
-import { PropsWithChildren, useState } from "react";
-import useOutsideClick from "../../../../hooks/useOutsideClick";
+import { PropsWithChildren, useContext, useRef } from "react";
+import { createPortal } from "react-dom";
+import useAnchoredOverlay from "../../../../hooks/useAnchoredOverlay";
+import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
 import { ButtonGroupItemProps } from "../ButtonGroupItem/ButtonGroupItem";
+import { ButtonGroupContext } from "../../ButtonGroupContext.tsx";
 
 const ButtonWithDropdown = (props: PropsWithChildren<ButtonGroupItemProps>) => {
   const { label, icon, disabled, action, children } = props;
-  const [open, setOpen] = useState(false);
-  const ref = useOutsideClick<HTMLDivElement>(() => setOpen(false));
+  const { size } = useContext(ButtonGroupContext);
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const {
+    open,
+    attached,
+    style: dropdownStyle,
+    overlayRef: dropdownRef,
+    insideProps,
+  } = useAnchoredOverlay({
+    anchorRef,
+    placement: "bottomRight",
+    toggleOnAnchorClick: true,
+    tabBridge: true,
+    closeOnOutsideClick: true,
+    closeOnEscape: true,
+  });
 
   return (
-    <div className={`${styles.buttonDropdownContainer} ${disabled ? styles.disabled : ""}`} ref={ref}>
-      <Button
-        label={label}
-        icon={icon}
-        disabled={disabled}
-        open={open}
-        action={e => {
-          action?.(e);
-          setOpen(!open);
-        }}
-        type="dropdown"
-      />
-      {open && (
-        <ButtonGroupItemProvider>
-          <div className={styles.button__dropdownItem}>{children}</div>
-        </ButtonGroupItemProvider>
-      )}
-    </div>
+    <>
+      <Button ref={anchorRef} label={label} icon={icon} disabled={disabled} open={open} action={action} type="dropdown" />
+      {attached &&
+        createPortal(
+          <ButtonGroupItemProvider>
+            <div
+              className={sanitizeModuleClasses(styles, "button__dropdownItem", size)}
+              style={dropdownStyle}
+              ref={dropdownRef}
+              {...insideProps}
+            >
+              {children}
+            </div>
+          </ButtonGroupItemProvider>,
+          document.body,
+        )}
+    </>
   );
 };
 
