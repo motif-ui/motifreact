@@ -36,6 +36,10 @@
     "test:ci": "jest --ci",
     "test:update": "npm run test:ci -- -u"
   },
+  "dependencies": {
+    "chart.js": "^4.6.1",
+    "react-chartjs-2": "^5.3.1"
+  },
   "devDependencies": {
     "@chromatic-com/playwright": "^0.14.11",
     "@chromatic-com/storybook": "^5.3.1",
