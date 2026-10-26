@@ -228,7 +228,7 @@ export const FormWithGrid: Story = {
   render: () => (
     <div style={{ padding: "20px 20px 40px" }}>
       <Form onSubmit={() => {}} size="sm">
-        <Grid>
+        <Grid fluid>
           <Grid.Row>
             <Grid.Col size={4}>
               <Form.Field name="name" label="Name">
@@ -268,7 +268,7 @@ export const FormWithGrid: Story = {
         type: "code",
         code: `
 <Form onSubmit={() => {}}>
-  <Grid>
+  <Grid fluid>
   
     <Grid.Row>
       <Grid.Col size={4}>
