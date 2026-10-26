@@ -37,10 +37,6 @@ $sizes: (
     border-color: var(--theme-color-border-success-default);
   }
 
-  &.expanded {
-    border-color: var(--theme-color-border-primary-default);
-  }
-
   &.disabled {
     border-color: var(--theme-color-border-light-disabled);
     background-color: var(--theme-color-surface-base-base1);

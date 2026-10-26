@@ -36,6 +36,7 @@ const setAnchorOffsets = (anchor: HTMLElement, overlay: HTMLElement) => {
   overlay.style.setProperty("--overlay-anchor-bottom", `${anchorRect.bottom - overlayRect.top}px`);
 };
 
+const getAnchorWidth = (anchor: HTMLElement) => `${anchor.offsetWidth}px`;
 type Mode = "place" | "refit" | "follow";
 
 const POSITIONED: CSSProperties = {};
@@ -76,7 +77,7 @@ const useOverlayPosition = (
       const measure = (keep?: Position) => {
         const fixed = keep ? keep.fixed : isFixed(anchor);
         resetPosition(overlay, fixed);
-        overlay.style.setProperty("--overlay-anchor-width", `${anchor.offsetWidth}px`);
+        overlay.style.setProperty("--overlay-anchor-width", getAnchorWidth(anchor));
         return calculatePosition(anchor, overlay, placement, limitWidth, fixed, keep);
       };
       const position = mode === "follow" && previous ? followAnchor(anchor, previous) : measure(mode === "refit" ? previous : undefined);
@@ -143,8 +144,8 @@ const useOverlayPosition = (
     const resizeObserver = new ResizeObserver(entries => {
       if (entries.some(({ target }) => target === overlay) && needsRefit(overlay, positionRef.current)) {
         update("refit");
-      } else if (entries.some(({ target }) => target !== overlay)) {
-        update("follow");
+      } else if (anchor && entries.some(({ target }) => target !== overlay)) {
+        update(overlay.style.getPropertyValue("--overlay-anchor-width") === getAnchorWidth(anchor) ? "follow" : "refit");
       }
     });
     resizeObserver.observe(overlay);

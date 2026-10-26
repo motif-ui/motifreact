@@ -236,6 +236,28 @@ describe("useOverlayPosition", () => {
       resizeObserved(anchor);
       expect(domPosition()).toEqual({ top: 380, left: 400 });
     });
+
+    it("should measure it again when the anchor's width changes, so an overlay sized by it gets the new width", () => {
+      const resizeObserved = observeResizes();
+      // The overlay is as wide as the variable, e.g. a list as wide as its select
+      Object.defineProperty(overlay, "offsetWidth", {
+        configurable: true,
+        get: () => parseFloat(overlay.style.getPropertyValue("--overlay-anchor-width")) || 0,
+      });
+      Object.defineProperty(anchor, "offsetWidth", { configurable: true, value: 100 });
+      setAnchorRect({ top: 300, left: 800, width: 100, height: 40 });
+      const { result } = renderPosition("bottomLeft");
+      expect(domPosition()).toEqual({ top: 340, left: 800 });
+
+      // e.g. a layout change widens the select while its list is open, so the list is shifted into the viewport again
+      Object.defineProperty(anchor, "offsetWidth", { configurable: true, value: 300 });
+      setAnchorRect({ top: 300, left: 800, width: 300, height: 40 });
+      resizeObserved(anchor);
+      expect(overlay.style.getPropertyValue("--overlay-anchor-width")).toBe("300px");
+      expect(domPosition()).toEqual({ top: 340, left: 1024 - 300 });
+      expect(result.current.placement).toBe("bottomLeft");
+      delete (anchor as { offsetWidth?: number }).offsetWidth;
+    });
   });
 
   it("should shift it into the viewport again when its content resizes it, keeping its placement", () => {
