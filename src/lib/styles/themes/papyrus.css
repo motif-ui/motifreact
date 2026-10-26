@@ -11,8 +11,8 @@
   --theme-grid-gutter-gutter-sm: 1rem;
   --theme-grid-gutter-gutter-md: 1.5rem;
   --theme-grid-gutter-gutter-lg: 2rem;
-  --theme-grid-gutter-gutter-xl: 3rem;
-  --theme-grid-gutter-gutter-xxl: 4rem;
+  --theme-grid-gutter-gutter-xl: 4rem;
+  --theme-grid-gutter-gutter-xxl: 8rem;
 
   --theme-grid-breakpoint-xs: 24rem;
   --theme-grid-breakpoint-sm: 36rem;
@@ -26,6 +26,7 @@
   --theme-grid-container-xxl: 82.5rem;
   --theme-grid-container-sm: 33.75rem;
   --theme-grid-container-xs: 22.5rem;
+  --theme-grid-container-xxs: 100%;
 
   /* Elevation - subtle shadows for matte look */
   --theme-elevation-elevation1-x: 0;
