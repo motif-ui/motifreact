@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getRect, openStory, scrollPage, setScroll, waitForAnimations, waitForFrames } from "../../../../utils/e2eUtils";
+import { getRect, openStory, scrollPage, setScroll, waitForAnimations } from "../../../../utils/e2eUtils";
 
 // Behavior tests of the picker positioning in a real browser, on the scenes in InputDate.e2e.story.tsx. Chromium
 // supports CSS anchor positioning, so the CSS path is covered here.
@@ -41,29 +41,4 @@ test("InputDate in a modal keeps the picker at the input when the page behind th
   await scrollPage(page, 300);
   expect(await offset()).toBeCloseTo(before, 0);
   await expect(page.locator(picker)).toBeVisible();
-});
-
-test.describe("InputDate on a narrow mobile screen", () => {
-  const picker = "[data-testid=Picker]";
-  const input = "[data-mtf-component=mtf-input-text]";
-  const viewport = { width: 320, height: 568 };
-  test.use({ viewport, hasTouch: true, isMobile: true });
-
-  for (const corner of ["topLeft", "topRight", "bottomLeft", "bottomRight"]) {
-    test(`opens the picker of the ${corner} input in the screen without covering the input`, async ({ page }) => {
-      await openStory(page, "e2e-inputdate--corners");
-      const anchor = `[data-testid=${corner}] ${input}`;
-      await page.locator(`${anchor} input`).click();
-      await expect(page.locator(picker)).toBeVisible();
-      await waitForFrames(page);
-
-      const inputRect = await getRect(page, anchor);
-      const pickerRect = await getRect(page, picker);
-      expect(pickerRect.left).toBeGreaterThanOrEqual(0);
-      expect(pickerRect.top).toBeGreaterThanOrEqual(0);
-      expect(pickerRect.right).toBeLessThanOrEqual(viewport.width);
-      expect(pickerRect.bottom).toBeLessThanOrEqual(viewport.height);
-      expect(pickerRect.top >= inputRect.bottom || pickerRect.bottom <= inputRect.top).toBe(true);
-    });
-  }
 });

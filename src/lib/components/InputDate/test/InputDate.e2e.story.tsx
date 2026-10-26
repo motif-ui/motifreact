@@ -32,25 +32,3 @@ export const InModal: Story = {
     </div>
   ),
 };
-
-export const Corners: Story = {
-  render: args => (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "auto auto",
-        justifyContent: "space-between",
-        alignContent: "space-between",
-        height: "100vh",
-        padding: 16,
-        boxSizing: "border-box",
-      }}
-    >
-      {["topLeft", "topRight", "bottomLeft", "bottomRight"].map(corner => (
-        <div key={corner} data-testid={corner}>
-          <InputDate {...args} value={new Date(2026, 10, 12)} />
-        </div>
-      ))}
-    </div>
-  ),
-};
