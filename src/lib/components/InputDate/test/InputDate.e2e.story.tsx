@@ -13,11 +13,28 @@ const meta: Meta<typeof InputDate> = {
 export default meta;
 type Story = StoryObj<typeof InputDate>;
 
-const value = new Date(2026, 10, 12);
+export const ScrollingContainer: Story = {
+  render: args => (
+    <div data-testid="scroller" style={{ overflow: "auto", height: 150, width: 400, margin: 16, border: "1px solid" }}>
+      <div style={{ height: 600, paddingTop: 20 }}>
+        <InputDate {...args} value={new Date(2026, 10, 12)} />
+      </div>
+    </div>
+  ),
+};
+
+export const InModal: Story = {
+  render: args => (
+    <div style={{ height: 3000 }}>
+      <Modal open title="Modal">
+        <InputDate {...args} value={new Date(2026, 10, 12)} />
+      </Modal>
+    </div>
+  ),
+};
 
 export const Corners: Story = {
   render: args => (
-    // an input in each corner of the screen, so the picker has no room below the bottom ones and at the right of the right ones
     <div
       style={{
         display: "grid",
@@ -31,30 +48,9 @@ export const Corners: Story = {
     >
       {["topLeft", "topRight", "bottomLeft", "bottomRight"].map(corner => (
         <div key={corner} data-testid={corner}>
-          <InputDate {...args} value={value} />
+          <InputDate {...args} value={new Date(2026, 10, 12)} />
         </div>
       ))}
-    </div>
-  ),
-};
-
-export const ScrollingContainer: Story = {
-  render: args => (
-    <div data-testid="scroller" style={{ overflow: "auto", height: 150, width: 400, margin: 16, border: "1px solid" }}>
-      <div style={{ height: 600, paddingTop: 20 }}>
-        <InputDate {...args} value={value} />
-      </div>
-    </div>
-  ),
-};
-
-export const InModal: Story = {
-  render: args => (
-    // the page behind the modal can be scrolled, the modal and the input in it stay fixed on the screen
-    <div style={{ height: 3000 }}>
-      <Modal open title="Modal">
-        <InputDate {...args} value={value} />
-      </Modal>
     </div>
   ),
 };

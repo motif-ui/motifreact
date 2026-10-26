@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import InputDate from "@/components/InputDate";
 import { userEvent } from "@testing-library/user-event";
 import { formatDate } from "@/components/InputDate/helper";
@@ -22,21 +22,11 @@ describe("InputDate", () => {
 
     const getClearButton = () => screen.queryByText("cancel_outline") as HTMLButtonElement;
 
-    const getOkButton = () => screen.getByText("OK");
-
-    const hasValueBothInPickerAndInput = (expectedValue: string) => {
-      expect(getInput()).toHaveValue(expectedValue);
-      const pickerInput = screen.queryByDisplayValue(expectedValue);
-      pickerInput && expect(pickerInput).toBeInTheDocument();
-    };
-
     return {
       ...result,
       getPickerContainer,
       getInput,
       getClearButton,
-      getOkButton,
-      hasValueBothInPickerAndInput,
     };
   };
 
@@ -48,7 +38,6 @@ describe("InputDate", () => {
       expect(container.firstElementChild).toHaveClass("md");
       // icon = calendar_month (default)
       expect(screen.queryByText("calendar_month")).toBeInTheDocument();
-      // placement = bottomLeft (default), the picker opens below the input aligned with its left edge
       jest
         .spyOn(container.firstElementChild!, "getBoundingClientRect")
         .mockReturnValue({ top: 100, bottom: 140, left: 50, right: 250, width: 200, height: 40, x: 50, y: 100, toJSON: () => {} });
@@ -300,6 +289,34 @@ describe("InputDate", () => {
 
     fireEvent.change(getInput(), { target: { value: formatDateWithDefaultFormatAndTR(mockToday) } });
     expect(getByText(mockToday.getDate())).toHaveClass("selected");
+  });
+
+  it("should keep the datepicker open when the window is resized", async () => {
+    const { getInput, getPickerContainer } = renderExt(<InputDate />);
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await act(() => window.dispatchEvent(new Event("resize")));
+    expect(getPickerContainer()).toBeInTheDocument();
+  });
+
+  it("should focus inside the picker when picker is opened and then tab key is pressed", async () => {
+    jest.spyOn(HTMLElement.prototype, "offsetParent", "get").mockReturnValue(document.body);
+    const { getInput, getPickerContainer } = renderExt(
+      <>
+        <InputDate />
+        <button />
+      </>,
+    );
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await userEvent.tab();
+    expect(getPickerContainer()?.contains(document.activeElement)).toBe(true);
+    expect(document.activeElement?.closest("[inert]")).toBeNull();
+    jest.restoreAllMocks();
   });
 
   it("should render the main icon given in the icon prop", () => {
