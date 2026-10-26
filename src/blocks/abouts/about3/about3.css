@@ -1,6 +1,11 @@
-.about3-card {
+.about3-footer {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  flex-direction: row;
   padding: 32px;
+  background-color: #edeff1 !important;
+}
+
+.about3-footer-link {
+  text-align: right;
 }
