@@ -15,7 +15,7 @@ export default meta;
 type Story = StoryObj;
 
 export const Dashboard1Block: Story = {
-  name: "Login",
+  name: "Dashboard1",
   render: () => <Dashboard1 />,
   parameters: { docs: { source: { code: dashboard1Source, language: "tsx" } } },
 };
