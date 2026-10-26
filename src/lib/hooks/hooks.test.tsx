@@ -1,4 +1,5 @@
 import { act, fireEvent, render, renderHook, screen } from "@testing-library/react";
+import { useEffect, useLayoutEffect } from "react";
 import type { RefObject } from "react";
 import useDomReady from "./useDomReady";
 import useOutsideClick from "./useOutsideClick";
@@ -6,25 +7,26 @@ import useTimeout from "./useTimeout";
 import useToggle from "./useToggle";
 
 describe("useTimeout", () => {
-  jest.useFakeTimers();
-  jest.spyOn(global, "setTimeout");
-  jest.spyOn(global, "clearTimeout");
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
 
   it("should fire the callback after given delay time when started", () => {
-    let startTime = 0;
+    const callback = jest.fn();
+    const { result } = renderHook(() => useTimeout(callback, 1000));
 
-    const { result } = renderHook(() =>
-      useTimeout(() => {
-        const totalTime = new Date().getTime() - startTime;
-        expect(totalTime).toBe(1000);
-      }, 1000),
-    );
+    act(() => result.current.start());
 
-    act(() => {
-      result.current.start();
-      startTime = new Date().getTime();
-      jest.runAllTimers();
-    });
+    act(() => jest.advanceTimersByTime(999));
+    expect(callback).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(1));
+    expect(callback).toHaveBeenCalledTimes(1);
   });
 
   it("should not fire the callback when pause() is called after started", () => {
@@ -32,41 +34,42 @@ describe("useTimeout", () => {
     const { result } = renderHook(() => useTimeout(callback, 1000));
 
     act(() => result.current.start());
+    act(() => jest.advanceTimersByTime(300));
+    act(() => result.current.pause());
 
-    setTimeout(() => act(() => result.current.pause()), 300);
-    jest.runAllTimers();
+    act(() => jest.runAllTimers());
     expect(callback).not.toHaveBeenCalled();
+
+    // Resuming should fire after the remaining 700ms, proving the timer was actually running before the pause.
+    act(() => result.current.start());
+    act(() => jest.advanceTimersByTime(700));
+    expect(callback).toHaveBeenCalledTimes(1);
   });
 
   it("should handle multiple pauses and fire the callback on time", () => {
-    let startTime = 0;
+    const callback = jest.fn();
+    const { result } = renderHook(() => useTimeout(callback, 1000));
 
-    const { result } = renderHook(() =>
-      useTimeout(() => {
-        const totalTime = new Date().getTime() - startTime;
-        expect(totalTime).toBe(11000);
-      }, 1000),
-    );
+    act(() => result.current.start());
+    act(() => jest.advanceTimersByTime(300));
+    act(() => result.current.pause());
+    act(() => jest.advanceTimersByTime(5000));
+    expect(callback).not.toHaveBeenCalled();
 
     // Start timer
-    act(() => {
-      result.current.start();
-      startTime = new Date().getTime();
-    });
-
-    // Pause timer after 300ms
-    setTimeout(() => act(() => result.current.pause()), 300);
+    act(() => result.current.start());
+    act(() => jest.advanceTimersByTime(300));
+    act(() => result.current.pause());
+    act(() => jest.advanceTimersByTime(5000));
+    expect(callback).not.toHaveBeenCalled();
 
     // Resume timer after 5000ms
-    setTimeout(() => act(() => result.current.start()), 5300);
+    act(() => result.current.start());
+    act(() => jest.advanceTimersByTime(399));
+    expect(callback).not.toHaveBeenCalled();
 
-    // Pause timer after 300ms
-    setTimeout(() => act(() => result.current.pause()), 5600);
-
-    // Resume timer after 5000ms
-    setTimeout(() => act(() => result.current.start()), 10600);
-
-    jest.runAllTimers();
+    act(() => jest.advanceTimersByTime(1));
+    expect(callback).toHaveBeenCalledTimes(1);
   });
 
   it("should not fire early when pause() is called twice in a row without an intervening start()", () => {
@@ -226,6 +229,33 @@ describe("useTimeout", () => {
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
+  it("should keep a timer started in a layout effect on mount", () => {
+    const callback = jest.fn();
+    renderHook(() => {
+      const timer = useTimeout(callback, 1000);
+      useLayoutEffect(() => timer.start(), [timer]);
+    });
+
+    act(() => jest.advanceTimersByTime(1000));
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  it("should keep a timer started in a child effect on mount", () => {
+    const callback = jest.fn();
+    const Child = ({ start }: { start: () => void }) => {
+      useEffect(() => start(), [start]);
+      return null;
+    };
+    const Parent = () => {
+      const timer = useTimeout(callback, 1000);
+      return <Child start={timer.start} />;
+    };
+    render(<Parent />);
+
+    act(() => jest.advanceTimersByTime(1000));
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
   it("should not fire the callback after unmount", () => {
     const callback = jest.fn();
     const { result, unmount } = renderHook(() => useTimeout(callback, 1000));
@@ -239,6 +269,15 @@ describe("useTimeout", () => {
 });
 
 describe("useToggle", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
   it("should toggle visibility when called without arguments", () => {
     const { result } = renderHook(() => useToggle());
 
@@ -268,7 +307,6 @@ describe("useToggle", () => {
   });
 
   it("should keep the hiding state for the given duration", () => {
-    jest.useFakeTimers();
     const { result } = renderHook(() => useToggle({ initialVisible: true, duration: 300 }));
 
     act(() => result.current.hide());
