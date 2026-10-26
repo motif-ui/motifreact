@@ -198,7 +198,7 @@ $variants: (
     background-color: $bgColor;
 
     .headerTitle,
-    .headerContainer {
+    .headerIcon:not(.iconVariant) {
       color: $titleColor;
     }
     .headerSubtitle {

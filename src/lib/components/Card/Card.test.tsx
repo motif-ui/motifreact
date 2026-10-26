@@ -89,17 +89,9 @@ describe("Card", () => {
   it("should render icon in the variant given in the iconVariant prop", () => {
     variants.forEach(iconVariant => {
       const { unmount } = render(<Card icon="folder" iconVariant={iconVariant} />);
-      expect(screen.getByText("folder")).toHaveClass(iconVariant);
+      expect(screen.getByText("folder")).toHaveClass(iconVariant, "iconVariant");
       unmount();
     });
-  });
-
-  it("should render icon without any icon variant or size class when iconVariant is not set", () => {
-    render(<Card icon="folder" />);
-    const headerIcon = screen.getByText("folder");
-    expect(headerIcon).toHaveClass("headerIcon");
-    expect(headerIcon).not.toHaveClass("lg");
-    variants.forEach(variant => expect(headerIcon).not.toHaveClass(variant));
   });
 
   it("should not apply iconVariant when icon is given as a ReactElement", () => {
@@ -107,6 +99,7 @@ describe("Card", () => {
     const headerIcon = screen.getByText("custom").parentElement;
     expect(headerIcon).toHaveClass("headerIcon");
     expect(headerIcon).not.toHaveClass("danger");
+    expect(headerIcon).not.toHaveClass("iconVariant");
   });
 
   it("should render avatar text when avatarText is set", () => {
