@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, Fragment } from "react";
+import { Children, Fragment, useMemo } from "react";
 import styles from "./ButtonGroup.module.scss";
 import { PropsWithRefAndChildren } from "../../types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
@@ -14,9 +14,10 @@ const ButtonGroupComponent = (props: PropsWithRefAndChildren<ButtonGroupProps, H
 
   const childrenArray = Children.toArray(children);
   const classNames = sanitizeModuleRootClasses(styles, className, [size]);
+  const contextValue = useMemo(() => ({ size }), [size]);
 
   return (
-    <ButtonGroupContext value={{ size }}>
+    <ButtonGroupContext value={contextValue}>
       <div className={classNames} ref={ref} style={style}>
         {childrenArray.map((child, idx) =>
           idx === childrenArray.length - 1 ? (

@@ -23,7 +23,7 @@ const ButtonWithDropdown = (props: PropsWithChildren<ButtonGroupItemProps>) => {
   } = useAnchoredOverlay({
     anchorRef,
     placement: "bottomRight",
-    toggleOnAnchorClick: true,
+    toggleOnAnchorClick: !disabled,
     tabBridge: true,
     closeOnOutsideClick: true,
     closeOnEscape: true,

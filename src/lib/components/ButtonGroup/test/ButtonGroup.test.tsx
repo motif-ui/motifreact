@@ -122,6 +122,23 @@ describe("ButtonGroup", () => {
     await userEvent.keyboard("{Escape}");
     expect(queryByText("Item 1.1")).not.toBeInTheDocument();
   });
+
+  it("should not open the submenu when a disabled ButtonGroup.Item that has children is clicked, including its dropdown icon", () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" disabled>
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    // The submenu is opened by a document listener, which also receives the clicks on the button's children, e.g. the icon.
+    // Each click is checked on its own, since a second click would close a submenu opened by the first one.
+    fireEvent.click(getByText("Item 1").closest("button")!);
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+    fireEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+  });
 });
 
 describe("ButtonGroup.Item", () => {

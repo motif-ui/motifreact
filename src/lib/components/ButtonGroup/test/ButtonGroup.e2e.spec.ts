@@ -101,6 +101,30 @@ test("ButtonGroup submenu re-places when the viewport is resized", async ({ page
   expect((await getRect(page, submenu)).top).toBeGreaterThanOrEqual((await getRect(page, button)).bottom);
 });
 
+test.describe("ButtonGroup submenu wider than its button at the left edge of a narrow screen", () => {
+  test.use({ viewport: { width: 375, height: 667 } });
+
+  // CSS anchor positioning and the JS fallback keep the submenu in the screen in different ways, so both are tested
+  for (const mode of ["CSS anchor positioning", "JS fallback"]) {
+    test(`is fully visible with ${mode}`, async ({ page }) => {
+      if (mode === "JS fallback") await page.addInitScript(disableCssAnchor);
+      await openStory(page, "e2e-buttongroup--near-the-left-edge");
+      await page.locator(button).click();
+      await waitForFrames(page);
+
+      const buttonRect = await getRect(page, button);
+      const submenuRect = await getRect(page, submenu);
+      // the case itself: aligned with the button's right edge, the submenu would start left of the screen
+      expect(submenuRect.right - submenuRect.left).toBeGreaterThan(buttonRect.right);
+
+      expect(submenuRect.left).toBeGreaterThanOrEqual(0);
+      expect(submenuRect.right).toBeLessThanOrEqual(375);
+      expect(submenuRect.top).toBeGreaterThanOrEqual(buttonRect.bottom);
+      await expect.poll(() => isPainted(page, submenu)).toBe(true);
+    });
+  }
+});
+
 test.describe("ButtonGroup submenu when the page is scrolled (JS fallback)", () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(disableCssAnchor);

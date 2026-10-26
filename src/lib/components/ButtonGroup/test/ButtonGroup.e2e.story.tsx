@@ -49,6 +49,21 @@ export const NearTheBottomEdge: Story = {
   ),
 };
 
+// The submenu is wider than the "Menu" button, so aligning it with the button's right edge would overflow the left of the screen
+export const NearTheLeftEdge: Story = {
+  render: () => (
+    <div style={{ paddingTop: 40 }}>
+      <ButtonGroup>
+        <ButtonGroup.Item label="Menu">
+          <ButtonGroup.Item label="Sub 1 with a long label" />
+          <ButtonGroup.Item label="Sub 2 with an even longer label" />
+        </ButtonGroup.Item>
+        <ButtonGroup.Item label="Item" />
+      </ButtonGroup>
+    </div>
+  ),
+};
+
 export const PageScroll: Story = {
   render: () => (
     <div style={{ height: 2000, paddingLeft: 300, paddingTop: 200 }}>
