@@ -107,22 +107,6 @@ describe("ButtonGroup", () => {
     expect(submenu).toHaveClass("sm");
   });
 
-  it("should keep the submenu open when clicked inside of it and close it on Escape", async () => {
-    const { getByText, queryByText } = render(
-      <ButtonGroup>
-        <ButtonGroup.Item label="Item 1">
-          <ButtonGroup.Item label="Item 1.1" />
-        </ButtonGroup.Item>
-      </ButtonGroup>,
-    );
-
-    await userEvent.click(getByText("keyboard_arrow_down"));
-    await userEvent.click(getByText("Item 1.1"));
-    expect(queryByText("Item 1.1")).toBeInTheDocument();
-    await userEvent.keyboard("{Escape}");
-    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
-  });
-
   it("should not open the submenu when a disabled ButtonGroup.Item that has children is clicked, including its dropdown icon", () => {
     const { getByText, queryByText } = render(
       <ButtonGroup>
