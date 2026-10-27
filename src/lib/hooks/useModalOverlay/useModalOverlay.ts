@@ -17,7 +17,7 @@ const openTraps: { list: symbol[] } = { list: [] };
  * moves the focus into the dialog on open and back on close, and keeps the Tab focus in the dialog while it is open.
  */
 const useModalOverlay = (props: ModalOverlayProps): UseModalOverlayReturn => {
-  const { open, onClose, duration, closeOnOutsideClick, closeOnEscape } = props;
+  const { open, onClose, onAfterClose, duration, closeOnOutsideClick, closeOnEscape } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const insideRefs = useMemo(() => [dialogRef], []);
@@ -32,6 +32,7 @@ const useModalOverlay = (props: ModalOverlayProps): UseModalOverlayReturn => {
   } = useOverlayState({
     open,
     onClose,
+    onAfterClose,
     duration,
     insideRefs,
     layerRefs,

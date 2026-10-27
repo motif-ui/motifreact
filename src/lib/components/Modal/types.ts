@@ -16,6 +16,7 @@ export type ModalProps = {
   subtitle?: string;
   open?: boolean;
   onClose?: (reason: OverlayCloseReason) => void;
+  onAfterClose?: () => void;
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
   actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   alternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };

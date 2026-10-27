@@ -20,6 +20,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     size = "md",
     open,
     onClose,
+    onAfterClose,
     actionButton,
     alternateButton,
     buttonsPosition = "center",
@@ -38,6 +39,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
   const { attached, visible, rootRef, dialogRef, insideProps } = useModalOverlay({
     open: !!open,
     onClose,
+    onAfterClose,
     duration: 300,
     closeOnOutsideClick: closable,
     closeOnEscape: closable,

@@ -5,6 +5,7 @@ import { UseOverlayStateReturn } from "../useOverlayState/types";
 export type ModalOverlayProps = {
   open: boolean;
   onClose?: (reason: OverlayCloseReason) => void;
+  onAfterClose?: () => void;
   duration?: number;
   closeOnOutsideClick?: boolean;
   closeOnEscape?: boolean;

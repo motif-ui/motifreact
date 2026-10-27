@@ -15,6 +15,11 @@ export type OverlayStateProps = {
    */
   onClose?: (reason: OverlayCloseReason) => void;
   /**
+   * Called after the overlay is closed, once its exit transition has ended and it is removed from the DOM, however it was
+   * closed. Use it for the work that should not be seen while closing, e.g. resetting the overlay's content.
+   */
+  onAfterClose?: () => void;
+  /**
    * Elements that are part of the overlay. Clicks and scrolls inside them do not close it.
    * Pass a stable array (e.g. with useMemo), otherwise the listeners are added again on each render.
    */

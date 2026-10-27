@@ -77,6 +77,19 @@ describe("AlertModal", () => {
     jest.useRealTimers();
   });
 
+  it("should call onAfterClose once the exit transition has ended", () => {
+    jest.useFakeTimers();
+    const handleAfterClose = jest.fn();
+    const { rerender } = renderExt(<AlertModal title={TITLE} open onAfterClose={handleAfterClose} />);
+
+    rerender(<AlertModal title={TITLE} open={false} onAfterClose={handleAfterClose} />);
+    expect(handleAfterClose).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(handleAfterClose).toHaveBeenCalledTimes(1);
+    jest.useRealTimers();
+  });
+
   it("should render the title given in the title prop", () => {
     const { getModalContent } = renderExt(<AlertModal title="Alert Title" open />);
     expect(getModalContent()).toHaveTextContent("Alert Title");

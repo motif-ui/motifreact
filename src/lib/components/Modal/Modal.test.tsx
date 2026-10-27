@@ -44,6 +44,28 @@ describe("Modal", () => {
     jest.useRealTimers();
   });
 
+  it("should call onAfterClose once the exit transition has ended", () => {
+    jest.useFakeTimers();
+    const handleAfterClose = jest.fn();
+    const { rerender } = render(
+      <Modal open onAfterClose={handleAfterClose}>
+        Test content
+      </Modal>,
+    );
+
+    rerender(
+      <Modal open={false} onAfterClose={handleAfterClose}>
+        Test content
+      </Modal>,
+    );
+    expect(handleAfterClose).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(handleAfterClose).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText("Test content")).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
   it("should render title given in the title prop", () => {
     render(
       <Modal open title="Modal Title">

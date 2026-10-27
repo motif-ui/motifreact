@@ -18,6 +18,7 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
     defaultOpen,
     duration,
     onClose,
+    onAfterClose,
     insideRefs,
     layerRefs,
     blocksLayersBelow,
@@ -33,6 +34,9 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   const attached = transition.attached && domReady;
   const { visible } = transition;
   const onCloseRef = useRef(onClose);
+  const onAfterCloseRef = useRef(onAfterClose);
+  // Whether it was attached in the previous commit, so the end of the exit transition is told from the initial closed state
+  const wasAttachedRef = useRef(transition.attached);
   // The last event marked by insideProps. React handles an event before it reaches the document, so the last one is enough.
   // It is per instance, so an event inside one overlay is not counted as inside another one.
   const insideEventRef = useRef<Event>(undefined);
@@ -42,6 +46,7 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   const layerRef = useRef(layer);
 
   onCloseRef.current = onClose;
+  onAfterCloseRef.current = onAfterClose;
   layerRef.current = layer;
 
   const hide = useCallback(
@@ -62,6 +67,12 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   const toggle = useCallback(() => {
     isOpen ? hide() : show();
   }, [isOpen, hide, show]);
+
+  useEffect(() => {
+    const closed = wasAttachedRef.current && !transition.attached;
+    wasAttachedRef.current = transition.attached;
+    closed && onAfterCloseRef.current?.();
+  }, [transition.attached]);
 
   useEffect(() => {
     if (!isOpen) return;

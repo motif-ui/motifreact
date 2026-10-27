@@ -66,6 +66,40 @@ describe("useOverlayState", () => {
       jest.useRealTimers();
     });
 
+    it("should call onAfterClose once the exit transition has ended, however it was closed", () => {
+      jest.useFakeTimers();
+      const onAfterClose = jest.fn();
+      const { result, rerender } = renderHook(({ open }) => useOverlayState({ open, duration: 300, onAfterClose }), {
+        initialProps: { open: false },
+      });
+      expect(onAfterClose).not.toHaveBeenCalled();
+
+      rerender({ open: true });
+      rerender({ open: false });
+      act(() => jest.advanceTimersByTime(299));
+      expect(result.current.attached).toBe(true);
+      expect(onAfterClose).not.toHaveBeenCalled();
+
+      act(() => jest.advanceTimersByTime(1));
+      expect(onAfterClose).toHaveBeenCalledTimes(1);
+      jest.useRealTimers();
+    });
+
+    it("should not call onAfterClose when it is opened again during the exit transition", () => {
+      jest.useFakeTimers();
+      const onAfterClose = jest.fn();
+      const { rerender } = renderHook(({ open }) => useOverlayState({ open, duration: 300, onAfterClose }), {
+        initialProps: { open: true },
+      });
+
+      rerender({ open: false });
+      act(() => jest.advanceTimersByTime(100));
+      rerender({ open: true });
+      act(() => jest.advanceTimersByTime(300));
+      expect(onAfterClose).not.toHaveBeenCalled();
+      jest.useRealTimers();
+    });
+
     it("should commit the close and the exit transition start together", () => {
       jest.useFakeTimers();
       const onRender = jest.fn();

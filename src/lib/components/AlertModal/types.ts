@@ -17,6 +17,7 @@ export type AlertModalProps = {
   text?: string;
   open?: boolean;
   onClose?: (reason: OverlayCloseReason) => void;
+  onAfterClose?: () => void;
   actionButton?: AlertModalButtonProps;
   alternateButton?: AlertModalButtonProps;
 } & AlertModalDefaultableProps;

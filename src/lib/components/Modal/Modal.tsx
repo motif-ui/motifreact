@@ -19,6 +19,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
     subtitle,
     open,
     onClose,
+    onAfterClose,
     children,
     maximizable,
     closable,
@@ -35,6 +36,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   const { attached, visible, hide, rootRef, dialogRef, insideProps } = useModalOverlay({
     open: !!open,
     onClose,
+    onAfterClose,
     duration: 300,
     closeOnOutsideClick: closable,
     closeOnEscape: closable,
