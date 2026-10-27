@@ -5,6 +5,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import react from "eslint-plugin-react";
 import compat from "eslint-plugin-compat";
 import globals from "globals";
+import noRedundantDefaultProps from "./eslint-rules/noRedundantDefaultProps/noRedundantDefaultProps.js";
 
 export default [
   js.configs.recommended,
@@ -118,6 +119,14 @@ export default [
           ],
         },
       ],
+    },
+  },
+  {
+    // Rule for redundant default props usage limitation.
+    files: ["src/blocks/**/*.{js,jsx,ts,tsx}", "src/app/**/*.{js,jsx,ts,tsx}"],
+    plugins: { motif: { rules: { "no-redundant-default-props": noRedundantDefaultProps } } },
+    rules: {
+      "motif/no-redundant-default-props": "error",
     },
   },
   {
