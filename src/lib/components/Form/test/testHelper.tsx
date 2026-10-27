@@ -17,6 +17,8 @@ import PinCode from "@/components/PinCode";
 import { ReactElement } from "react";
 import { InputCommonProps } from "../../Form/types";
 import InputDate from "@/components/InputDate";
+import InputTime from "@/components/InputTime";
+import InputDateTime from "@/components/InputDateTime";
 import { DateUtils } from "../../../../utils/dateUtils";
 import { STATUS } from "@/components/Upload/constants";
 
@@ -32,6 +34,9 @@ export const uploadExpectedSubmitResponse = {
   status: STATUS.SUCCESS,
   uploaded: true,
 };
+
+export const timeValue = { hours: 18, minutes: 15 };
+export const dateTimeValue = new Date(2025, 10, 11, 12, 30);
 
 export const data: (SelectGroupItem | SelectItem)[] = [
   { label: "Item 1", value: "i1" },
@@ -50,6 +55,8 @@ export const expectedSubmitResponse = {
       radioGroupBW: "radioBlack",
       select: { label: "Item 1", value: "i1" },
       inputDate: DateUtils.getTodayTimeless(),
+      inputTime: timeValue,
+      inputDateTime: dateTimeValue,
       switch: false,
       pinCode: ["a", "b"],
       uploadInput: [uploadExpectedSubmitResponse],
@@ -91,6 +98,10 @@ export const getAllInputItems = () => {
   screen.getAllByTestId("radioItem").forEach(element => inputs.push(element));
   inputs.push(screen.getByTestId("selectItem"));
   inputs.push(screen.getByTestId("inputDate").firstElementChild as HTMLElement);
+  expect(screen.getAllByTestId("inputItem")[4].querySelector("input")).toHaveAttribute("placeholder", "__:__");
+  inputs.push(screen.getAllByTestId("inputItem")[4]);
+  expect(screen.getAllByTestId("inputItem")[5].querySelector("input")).toHaveAttribute("placeholder", "DD/MM/YYYY __:__");
+  inputs.push(screen.getAllByTestId("inputItem")[5]);
   inputs.push(screen.getByTestId("switchItem").parentElement!);
   inputs.push(screen.getByTestId("pinCode"));
 
@@ -109,6 +120,8 @@ export const groupItems = [
   </RadioGroup>,
   <Select key="select" name="select" data={data} value={["i1"]} />,
   <InputDate key="inputDate" name="inputDate" value={DateUtils.getTodayTimeless()} editable />,
+  <InputTime key="inputTime" name="inputTime" value={timeValue} editable />,
+  <InputDateTime key="inputDateTime" name="inputDateTime" value={dateTimeValue} editable />,
   <Switch key="switch" name="switch" />,
   <PinCode name="pinCode" key="pinCode" value={["a", "b"]}>
     <PinCode.Item />
@@ -134,6 +147,8 @@ export const formItems: ReactElement<InputCommonProps>[] = [
   <UploadDragger {...requiredProps} name="draggerFiles" key="uploadDraggerDF" />,
   <Textarea key="textarea" name="textarea" />,
   <InputDate key="inputDate" name="inputDate" editable />,
+  <InputTime key="inputTime" name="inputTime" editable />,
+  <InputDateTime key="inputDateTime" name="inputDateTime" editable />,
   <PinCode name="pinCode" key="pinCode">
     <PinCode.Item />
     <PinCode.Item />
