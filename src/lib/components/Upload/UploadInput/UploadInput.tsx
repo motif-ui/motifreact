@@ -14,7 +14,7 @@ import { UploadInputProps, UploadInputWrapperProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIcon } from "@/components/Motif/Icon";
-import { mapExternalValue, toFormValue } from "@/components/Upload/helper";
+import { isFileFailed, mapExternalValue, toFormValue } from "@/components/Upload/helper";
 
 const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("UploadInput", p);
@@ -28,7 +28,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     deleteRequest,
     customValidation,
     value: externalValue,
-    actionIcon,
+    fileAction,
     ref,
     style,
     className,
@@ -52,6 +52,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     uploadRequest,
     deleteRequest,
     customValidation,
+    fileAction,
   };
   const inputCommonPropsAfterRegister = {
     size,
@@ -67,20 +68,13 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
 
   return (
     <UploadProvider props={uploadProps} isUploadInput name={name} disabled={disabled} readOnly={readOnly} value={mappedValue}>
-      <UploadInputWrapper
-        {...uploadProps}
-        {...inputCommonPropsAfterRegister}
-        ref={ref}
-        style={style}
-        className={className}
-        actionIcon={actionIcon}
-      />
+      <UploadInputWrapper {...uploadProps} {...inputCommonPropsAfterRegister} ref={ref} style={style} className={className} />
     </UploadProvider>
   );
 };
 
 const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDivElement>) => {
-  const { ref, onChange, disabled, size, success, error, onError, onFormFieldValueUpdate, readOnly, style, className, actionIcon } = props;
+  const { ref, onChange, disabled, size, success, error, onError, onFormFieldValueUpdate, readOnly, style, className } = props;
   const {
     selectedFiles,
     browse,
@@ -97,8 +91,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
     () =>
       selectedFiles.reduce(
         (acc, file) =>
-          (file.status === STATUS.CHECK_FAIL || file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.DELETE_FAIL) &&
-          file.messages?.length
+          isFileFailed(file) && file.messages?.length
             ? [...acc, ...file.messages.reduce((messages, err) => (!acc.includes(err) ? [...messages, err] : messages), [] as string[])]
             : acc,
         [] as string[],
@@ -153,7 +146,6 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
         inputState={inputState}
         success={success}
         error={error}
-        actionIcon={actionIcon}
       />
       {!autoUpload && !!selectedFiles.length && (
         <button className={styles.uploadButton} disabled={isUploadButtonDisabled} onClick={uploadHandler} type="button">

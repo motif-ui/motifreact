@@ -6,16 +6,14 @@ import { FileType } from "@/components/Upload/types";
 import { memo, useContext } from "react";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import { sanitizeModuleClasses } from "../../../../../../utils/cssUtils";
-import { IconGlobalType } from "../../../../../types";
 
 type Props = {
   file: FileType;
   disabled?: boolean;
   readOnly?: boolean;
-  actionIcon?: IconGlobalType;
 };
 
-export const FileListRow = memo(({ file, disabled, readOnly, actionIcon }: Props) => {
+export const FileListRow = memo(({ file, disabled, readOnly }: Props) => {
   const { size } = useContext(UploadContext);
   const iconSize = size === "xs" ? "sm" : size === "sm" ? "md" : size === "lg" ? "xl" : "lg";
 
@@ -25,7 +23,7 @@ export const FileListRow = memo(({ file, disabled, readOnly, actionIcon }: Props
     <div className={classes}>
       <MotifIcon size={iconSize} name="attach_file" variant="secondary" className={styles.icon} />
       <FileLabel file={file} />
-      <FileButton file={file} readOnly={readOnly} disabled={disabled} actionIcon={actionIcon} />
+      <FileButton file={file} readOnly={readOnly} disabled={disabled} />
     </div>
   );
 });

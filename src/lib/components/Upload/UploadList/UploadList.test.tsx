@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
 import UploadList from "@/components/Upload/UploadList/UploadList";
-import { FileType } from "@/components/Upload/types";
+import { FileType, FileValue } from "@/components/Upload/types";
 import { Size4SM } from "../../../types";
 import { InputValue } from "@/components/Form/types";
 import { simulateDrop, simulateChooseFiles, renderExtUploadFileList, waitForSuccessfulUpload } from "@/components/Upload/testHelper";
@@ -527,9 +527,10 @@ describe("UploadList", () => {
   it("should show the download and action buttons but hide the delete button when readOnly or disabled", async () => {
     const onClick = jest.fn();
     const onDownloadClick = jest.fn();
-    const value = [{ ...serverFile, onDownloadClick, action: { onClick } }];
+    const fileAction = { icon: "visibility", onClick } as const;
+    const value = [{ ...serverFile, onDownloadClick }];
     const { getDownloadButton, getDeleteButton, rerender } = renderExt(
-      <UploadList {...requiredProps} value={value} actionIcon="visibility" readOnly />,
+      <UploadList {...requiredProps} value={value} fileAction={fileAction} readOnly />,
     );
     expect(getDownloadButton()).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
@@ -540,7 +541,7 @@ describe("UploadList", () => {
     onClick.mockClear();
     onDownloadClick.mockClear();
 
-    rerender(<UploadList {...requiredProps} value={value} actionIcon="visibility" disabled />);
+    rerender(<UploadList {...requiredProps} value={value} fileAction={fileAction} disabled />);
     expect(getDownloadButton()).toBeInTheDocument();
     expect(getDeleteButton()).not.toBeInTheDocument();
     await userEvent.click(screen.getByText("visibility"));
@@ -554,7 +555,7 @@ describe("UploadList", () => {
     const onClick = jest.fn();
     const onDownloadClick = jest.fn();
     const { getDeleteButton } = renderExt(
-      <UploadList {...requiredProps} actionIcon="visibility" value={[{ ...serverFile, onDownloadClick, action: { onClick } }]} />,
+      <UploadList {...requiredProps} fileAction={{ icon: "visibility", onClick }} value={[{ ...serverFile, onDownloadClick }]} />,
     );
     fireEvent.click(getDeleteButton());
     expect(screen.getByText("visibility").parentElement).toBeDisabled();
@@ -569,16 +570,16 @@ describe("UploadList", () => {
 
   it("should not disable another row's action and download buttons while a different file is being deleted", async () => {
     const xhrSpy = mockXHRs(200);
-    const onClick2 = jest.fn();
+    const onClick = jest.fn();
     const onDownloadClick2 = jest.fn();
     const { getDeleteButton } = renderExt(
       <UploadList
         {...requiredProps}
         maxFile={2}
-        actionIcon="visibility"
+        fileAction={{ icon: "visibility", onClick }}
         value={[
-          { ...serverFile, onDownloadClick: jest.fn(), action: { onClick: jest.fn() } },
-          { ...serverFile2, onDownloadClick: onDownloadClick2, action: { onClick: onClick2 } },
+          { ...serverFile, onDownloadClick: jest.fn() },
+          { ...serverFile2, onDownloadClick: onDownloadClick2 },
         ]}
       />,
     );
@@ -589,82 +590,65 @@ describe("UploadList", () => {
     expect(screen.getAllByText("download")[1].parentElement).not.toBeDisabled();
     fireEvent.click(screen.getAllByText("visibility")[1]);
     fireEvent.click(screen.getAllByText("download")[1]);
-    expect(onClick2).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledWith(expect.objectContaining({ id: serverFile2.id }));
     expect(onDownloadClick2).toHaveBeenCalledTimes(1);
     await waitFor(() => expect(screen.queryAllByText("delete")).toHaveLength(1));
     xhrSpy.mockRestore();
   });
 
-  it("should render the action button with the actionIcon only for files that have an action", () => {
-    renderExt(
-      <UploadList
-        {...requiredProps}
-        maxFile={2}
-        actionIcon="visibility"
-        value={[{ ...serverFile, action: { onClick: jest.fn() } }, serverFile2]}
-      />,
-    );
-    expect(screen.getAllByText("visibility")).toHaveLength(1);
-  });
-
-  it("should not render the action button when no icon is given", () => {
-    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, action: { onClick: jest.fn() } }]} />);
+  it("should render the action button for every file only when fileAction is given", () => {
+    const { unmount } = renderExt(<UploadList {...requiredProps} maxFile={2} value={[serverFile, serverFile2]} />);
     expect(screen.queryByText("visibility")).not.toBeInTheDocument();
-  });
+    unmount();
 
-  it("should not render the action button for a file whose action has an icon but no onClick", () => {
-    renderExt(<UploadList {...requiredProps} value={[{ ...serverFile, action: { icon: "visibility" } }]} />);
-    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
-  });
-
-  it("should render each file's own action.icon when the common actionIcon is not given", () => {
     renderExt(
       <UploadList
         {...requiredProps}
         maxFile={2}
-        value={[
-          { ...serverFile, action: { icon: "visibility", onClick: jest.fn() } },
-          { ...serverFile2, action: { icon: "person", onClick: jest.fn() } },
-        ]}
-      />,
-    );
-    expect(screen.getAllByText("visibility")).toHaveLength(1);
-    expect(screen.getAllByText("person")).toHaveLength(1);
-  });
-
-  it("should apply the component-level actionIcon to all files when actionIcon is given at both component and file level", () => {
-    renderExt(
-      <UploadList
-        {...requiredProps}
-        maxFile={2}
-        actionIcon="visibility"
-        value={[
-          { ...serverFile, action: { icon: "person", onClick: jest.fn() } },
-          { ...serverFile2, action: { onClick: jest.fn() } },
-        ]}
+        fileAction={{ icon: "visibility", onClick: jest.fn() }}
+        value={[serverFile, serverFile2]}
       />,
     );
     expect(screen.getAllByText("visibility")).toHaveLength(2);
-    expect(screen.queryByText("person")).not.toBeInTheDocument();
   });
 
-  it("should call only the clicked row's action.onClick", async () => {
-    const onClick1 = jest.fn();
-    const onClick2 = jest.fn();
+  it("should call fileAction.onClick with the clicked file without internal props", async () => {
+    const onClick = jest.fn<void, [FileValue]>();
     renderExt(
       <UploadList
         {...requiredProps}
         maxFile={2}
-        actionIcon="visibility"
-        value={[
-          { ...serverFile, action: { onClick: onClick1 } },
-          { ...serverFile2, action: { onClick: onClick2 } },
-        ]}
+        fileAction={{ icon: "visibility", onClick }}
+        value={[serverFile, { ...serverFile2, onDownloadClick: jest.fn() }]}
       />,
     );
     await userEvent.click(screen.getAllByText("visibility")[1]);
-    expect(onClick1).not.toHaveBeenCalled();
-    expect(onClick2).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledTimes(1);
+    const file = onClick.mock.calls[0][0];
+    expect(file).toEqual(
+      expect.objectContaining({
+        id: serverFile2.id,
+        file: { name: serverFile2.name, type: serverFile2.type, size: serverFile2.size },
+      }),
+    );
+    expect(file).not.toHaveProperty("download");
+    expect(file).not.toHaveProperty("addedByValue");
+  });
+
+  it("should render the action button for a newly added file only after it is uploaded", async () => {
+    const onClick = jest.fn<void, [FileValue]>();
+    const { getInput, getFileItemFirst } = renderExt(
+      <UploadList {...requiredProps} autoUpload={false} fileAction={{ icon: "visibility", onClick }} />,
+    );
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByText(t("g.upload")));
+    await waitForSuccessfulUpload(getFileItemFirst());
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onClick.mock.calls[0][0].file.name).toBe(MOCK.filePdf1kb.name);
   });
 
   it("should disable the browse button when the maxFile limit is already reached by value files", () => {

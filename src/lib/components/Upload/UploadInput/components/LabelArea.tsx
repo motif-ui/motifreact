@@ -8,7 +8,7 @@ import { InputSize } from "../../../Form/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import ProgressBar from "@/components/ProgressBar";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
-import { IconGlobalType } from "../../../../types";
+import { isFileOnServer } from "@/components/Upload/helper";
 
 type Props = {
   disabled?: boolean;
@@ -18,14 +18,13 @@ type Props = {
   error?: boolean;
   success?: boolean;
   readOnly?: boolean;
-  actionIcon?: IconGlobalType;
 };
 
 export const LabelArea = (props: Props) => {
-  const { disabled, success, error, errors, size, inputState, readOnly, actionIcon } = props;
+  const { disabled, success, error, errors, size, inputState, readOnly } = props;
   const {
     selectedFiles,
-    uploadProps: { autoUpload },
+    uploadProps: { autoUpload, fileAction },
     browse,
   } = useContext(UploadContext);
   const { t } = useMotifContext();
@@ -45,9 +44,8 @@ export const LabelArea = (props: Props) => {
 
   const suffixType: LabelSuffix = errors?.length ? "errorTooltip" : error ? "error" : success ? "success" : null;
   const enableDelete = !disabled && !readOnly && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
-  const enableDownload = selectedFiles.some(f => !!f.download && (f.status === STATUS.SUCCESS || f.status === STATUS.DELETE_FAIL));
-  const enableAction =
-    !!actionIcon && selectedFiles.some(f => !!f.action?.onClick && (f.status === STATUS.SUCCESS || f.status === STATUS.DELETE_FAIL));
+  const enableDownload = selectedFiles.some(f => !!f.download && isFileOnServer(f));
+  const enableAction = !!fileAction && selectedFiles.some(isFileOnServer);
   const showLabelSuffix = !!(suffixType || enableDelete || enableDownload || enableAction);
   const buttonDisabled = disabled || (inputState !== "noFile" && inputState !== "uploading");
 
@@ -74,7 +72,7 @@ export const LabelArea = (props: Props) => {
               labelSuffix={suffixType}
               enableDelete={enableDelete}
               enableDownload={enableDownload}
-              actionIcon={enableAction ? actionIcon : undefined}
+              enableAction={enableAction}
             />
           )}
         </>

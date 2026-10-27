@@ -5,15 +5,13 @@ import { UploadButtonArea } from "@/components/Upload/UploadFileList/components/
 import { useContext } from "react";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
-import { IconGlobalType } from "../../../types";
 
 type Props = {
   disabled?: boolean;
   readOnly?: boolean;
-  actionIcon?: IconGlobalType;
 };
 
-const FileList = ({ disabled, readOnly, actionIcon }: Props) => {
+const FileList = ({ disabled, readOnly }: Props) => {
   const { selectedFiles, size } = useContext(UploadContext);
 
   const classes = sanitizeModuleRootClasses(styles, undefined, [size]);
@@ -23,7 +21,7 @@ const FileList = ({ disabled, readOnly, actionIcon }: Props) => {
       <div className={classes}>
         <div className={styles.files} data-testid="uploadFileList">
           {selectedFiles.map(file => (
-            <FileListRow file={file} disabled={disabled} readOnly={readOnly} actionIcon={actionIcon} key={file.id} />
+            <FileListRow file={file} disabled={disabled} readOnly={readOnly} key={file.id} />
           ))}
         </div>
         {!disabled && !readOnly && <UploadButtonArea />}

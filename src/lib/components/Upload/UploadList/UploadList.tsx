@@ -32,7 +32,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     value: externalValue,
     className,
     style,
-    actionIcon,
+    fileAction,
   } = props;
   const mappedValue = mapExternalValue(externalValue);
 
@@ -55,7 +55,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
 
   return (
     <UploadProvider
-      props={{ autoUpload, accept, maxSize, maxFile, messages, uploadRequest, deleteRequest, customValidation }}
+      props={{ autoUpload, accept, maxSize, maxFile, messages, uploadRequest, deleteRequest, customValidation, fileAction }}
       value={mappedValue}
       size={size}
       name={name}
@@ -64,7 +64,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     >
       <div className={classes} style={style} ref={ref} data-mtf-component="upload-list">
         <DragArea disabled={disabled || readOnly} error={error} success={success} onChange={changeHandler} onError={onError} />
-        <FileList disabled={disabled} readOnly={readOnly} actionIcon={actionIcon} />
+        <FileList disabled={disabled} readOnly={readOnly} />
       </div>
     </UploadProvider>
   );
