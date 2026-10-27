@@ -1,8 +1,8 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import InputText from "@/components/Motif/InputText/InputText";
 import styles from "../NavBar.module.scss";
 import { useMotifContext } from "../../../motif/context/MotifProvider";
-import { useOutsideClick } from "src/lib/hooks";
+import useOverlayState from "src/lib/hooks/useOverlayState";
 import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
 import NavBarSearchResults from "@/components/NavBar/components/NavBarSearchResults.tsx";
 import { NavBarSearchProps } from "@/components/NavBar/types.ts";
@@ -23,8 +23,15 @@ const NavBarSearch = (props: NavBarSearchProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const ref = useRef<HTMLDivElement>(null);
-  const refSearchResult = useOutsideClick<HTMLUListElement>(() => setMaybeShowResults(false), [ref]);
+  const refSearchResult = useRef<HTMLUListElement>(null);
   const [maybeShowResults, setMaybeShowResults] = useState(true);
+  const insideRefs = useMemo(() => [ref, refSearchResult], []);
+  useOverlayState({
+    open: !!results.length && maybeShowResults,
+    onClose: () => setMaybeShowResults(false),
+    insideRefs,
+    closeOnOutsideClick: true,
+  });
 
   const onEnterPressed = useCallback(
     (evt: KeyboardEvent) => {
