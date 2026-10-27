@@ -89,7 +89,7 @@ describe("Card", () => {
   it("should render icon in the variant given in the iconVariant prop", () => {
     variants.forEach(iconVariant => {
       const { unmount } = render(<Card icon="folder" iconVariant={iconVariant} />);
-      expect(screen.getByText("folder")).toHaveClass(iconVariant, "iconVariant");
+      expect(screen.getByText("folder")).toHaveClass(`headerIcon-${iconVariant}`);
       unmount();
     });
   });

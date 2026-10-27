@@ -198,7 +198,7 @@ $variants: (
     background-color: $bgColor;
 
     .headerTitle,
-    .headerIcon:not(.iconVariant) {
+    .headerIcon {
       color: $titleColor;
     }
     .headerSubtitle {
@@ -208,5 +208,8 @@ $variants: (
       background-color: $avatarBgColor;
       color: $avatarTextColor;
     }
+  }
+  .header .headerIcon.headerIcon-#{$variant} {
+    color: $bgColor;
   }
 }

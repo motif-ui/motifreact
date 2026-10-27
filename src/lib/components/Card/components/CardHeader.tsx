@@ -27,8 +27,7 @@ const CardHeader = (props: Props) => {
   const isVisible = title || subtitle || avatarText || avatarIcon || icon || image || action;
   const iconButtonVariant = variant === "neutral" || variant === "secondary" ? "secondary" : variant === "warning" ? "strong" : "negative";
   const headerClassName = sanitizeModuleClasses(styles, "header", image && imagePosition === "right" && "headerImageAlignRight");
-  const headerIconVariant = typeof icon === "string" ? iconVariant : undefined;
-  const headerIconClassName = sanitizeModuleClasses(styles, "headerIcon", headerIconVariant && "iconVariant");
+  const headerIconClassName = sanitizeModuleClasses(styles, "headerIcon", iconVariant && `headerIcon-${iconVariant}`);
 
   const maybeContent = title || subtitle || avatarText || avatarIcon || icon || action;
 
@@ -38,7 +37,7 @@ const CardHeader = (props: Props) => {
         {image && <ImageView solid src={image} aspectRatio={1} alt={title ?? subtitle ?? ""} />}
         {maybeContent && (
           <div className={styles.headerContainer}>
-            {icon && <GlobalIconWrapper icon={icon} variant={headerIconVariant} className={headerIconClassName} />}
+            {icon && <GlobalIconWrapper icon={icon} className={headerIconClassName} />}
             {avatarIcon && <Avatar icon={avatarIcon} size="lg" className={styles.avatar} />}
             {avatarText && <Avatar letters={avatarText} size="lg" className={styles.avatar} />}
             {(title || subtitle) && (
