@@ -1,12 +1,12 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import InputDate from "@/components/InputDate";
 import { userEvent } from "@testing-library/user-event";
 import { formatDate } from "@/components/InputDate/helper";
 import { defaultDateFormat } from "@/components/Motif/Pickers/types";
-import { InputSize } from "../Form/types";
+import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
-import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
@@ -22,39 +22,34 @@ describe("InputDate", () => {
 
     const getClearButton = () => screen.queryByText("cancel_outline") as HTMLButtonElement;
 
-    const getOkButton = () => screen.getByText("OK");
-
-    const hasValueBothInPickerAndInput = (expectedValue: string) => {
-      expect(getInput()).toHaveValue(expectedValue);
-      const pickerInput = screen.queryByDisplayValue(expectedValue);
-      pickerInput && expect(pickerInput).toBeInTheDocument();
-    };
-
     return {
       ...result,
       getPickerContainer,
       getInput,
       getClearButton,
-      getOkButton,
-      hasValueBothInPickerAndInput,
     };
   };
 
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputDate {...props} />), {
-    assertDefaults: ({ container, getInput }) => {
+    assertDefaults: async ({ container, getInput, getPickerContainer }) => {
       // placeholder = DD/MM/YYYY (default)
       expect(getInput()).toHaveAttribute("placeholder", "DD/MM/YYYY");
       // size = md (default)
-      expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+      expect(container.firstElementChild).toHaveClass("md");
       // icon = calendar_month (default)
       expect(screen.queryByText("calendar_month")).toBeInTheDocument();
+      jest
+        .spyOn(container.firstElementChild!, "getBoundingClientRect")
+        .mockReturnValue({ top: 100, bottom: 140, left: 50, right: 250, width: 200, height: 40, x: 50, y: 100, toJSON: () => {} });
+      await userEvent.click(getInput());
+      expect(getPickerContainer()).toHaveStyle({ top: "140px", left: "50px" });
     },
   });
 
   it("should reflect the day arrangement given in the firstDayOfWeek prop", async () => {
-    const { container, getInput } = renderExt(<InputDate firstDayOfWeek={3} value={new Date(2025, 3, 10)} />);
+    const { getInput } = renderExt(<InputDate firstDayOfWeek={3} value={new Date(2025, 3, 10)} />);
     await userEvent.click(getInput());
-    expect(container.firstElementChild?.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
+    expect(document.body.getElementsByClassName("weekDays")[0].firstElementChild?.textContent).toBe("We");
   });
 
   it("should display the date as given format in format prop", () => {
@@ -151,6 +146,17 @@ describe("InputDate", () => {
     await userEvent.click(getInput());
     expect(getByText(testDate.getDate())).toHaveClass("selected");
     expect(getInput()).toHaveValue(formatDateWithDefaultFormatAndTR(testDate));
+  });
+
+  it("should clear the invalid typed text when the datepicker is closed by clicking outside", async () => {
+    const { getInput, getPickerContainer } = renderExt(<InputDate editable />);
+
+    await userEvent.type(getInput(), "12/");
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await userEvent.click(document.body);
+    expect(getPickerContainer()).not.toBeInTheDocument();
+    expect(getInput()).toHaveValue("");
   });
 
   it("should display the same date in the picker as given in the value prop", async () => {
@@ -283,6 +289,34 @@ describe("InputDate", () => {
 
     fireEvent.change(getInput(), { target: { value: formatDateWithDefaultFormatAndTR(mockToday) } });
     expect(getByText(mockToday.getDate())).toHaveClass("selected");
+  });
+
+  it("should keep the datepicker open when the window is resized", async () => {
+    const { getInput, getPickerContainer } = renderExt(<InputDate />);
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await act(() => window.dispatchEvent(new Event("resize")));
+    expect(getPickerContainer()).toBeInTheDocument();
+  });
+
+  it("should focus inside the picker when picker is opened and then tab key is pressed", async () => {
+    jest.spyOn(HTMLElement.prototype, "offsetParent", "get").mockReturnValue(document.body);
+    const { getInput, getPickerContainer } = renderExt(
+      <>
+        <InputDate />
+        <button />
+      </>,
+    );
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await userEvent.tab();
+    expect(getPickerContainer()?.contains(document.activeElement)).toBe(true);
+    expect(document.activeElement?.closest("[inert]")).toBeNull();
+    jest.restoreAllMocks();
   });
 
   it("should render the main icon given in the icon prop", () => {
