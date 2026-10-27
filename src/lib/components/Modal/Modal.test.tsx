@@ -78,6 +78,7 @@ describe("Modal", () => {
       jest.advanceTimersByTime(300);
     });
     expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(handleClose).toHaveBeenCalledWith("closeButton");
     rerender(
       <Modal open closable={false} onClose={handleClose}>
         Test content
@@ -103,7 +104,7 @@ describe("Modal", () => {
       await user.click(screen.getByTestId("modalBackdrop"));
       jest.advanceTimersByTime(300);
     });
-    expect(handleClose).toHaveBeenCalled();
+    expect(handleClose).toHaveBeenCalledWith("outsideClick");
 
     jest.useRealTimers();
   });
@@ -117,6 +118,52 @@ describe("Modal", () => {
     );
     fireEvent.click(screen.getByTestId("modalBackdrop"));
     expect(handleClose).not.toHaveBeenCalled();
+  });
+
+  it("should close the modal on Escape only when closable prop is true", () => {
+    const handleClose = jest.fn();
+    const { rerender } = render(
+      <Modal open closable={false} onClose={handleClose}>
+        Test content
+      </Modal>,
+    );
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).not.toHaveBeenCalled();
+
+    rerender(
+      <Modal open closable onClose={handleClose}>
+        Test content
+      </Modal>,
+    );
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).toHaveBeenCalledWith("escape");
+  });
+
+  it("should get the focus once shown and give it back on close", () => {
+    jest.useFakeTimers();
+    const opener = document.createElement("button");
+    document.body.append(opener);
+    opener.focus();
+    const { rerender } = render(
+      <Modal open title="Modal Title">
+        Test content
+      </Modal>,
+    );
+    const dialog = screen.getByTestId("modalBackdrop").firstElementChild;
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(dialog).toHaveFocus();
+
+    rerender(
+      <Modal open={false} title="Modal Title">
+        Test content
+      </Modal>,
+    );
+    expect(opener).toHaveFocus();
+    opener.remove();
+    jest.useRealTimers();
   });
 
   it("should render action button and call action handler when clicked", () => {

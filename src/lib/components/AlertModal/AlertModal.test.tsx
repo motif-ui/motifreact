@@ -102,7 +102,7 @@ describe("AlertModal", () => {
       await user.click(getBackdrop());
       jest.advanceTimersByTime(300);
     });
-    expect(handleClose).toHaveBeenCalled();
+    expect(handleClose).toHaveBeenCalledWith("outsideClick");
 
     jest.useRealTimers();
   });
@@ -112,6 +112,29 @@ describe("AlertModal", () => {
     const { getBackdrop } = renderExt(<AlertModal title={TITLE} open closable={false} onClose={handleClose} />);
     fireEvent.click(getBackdrop());
     expect(handleClose).not.toHaveBeenCalled();
+  });
+
+  it("should close the modal on Escape only when closable prop is true", () => {
+    const handleClose = jest.fn();
+    const { rerender } = renderExt(<AlertModal title={TITLE} open closable={false} onClose={handleClose} />);
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).not.toHaveBeenCalled();
+
+    rerender(<AlertModal title={TITLE} open closable onClose={handleClose} />);
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).toHaveBeenCalledWith("escape");
+  });
+
+  it("should get the focus once shown", () => {
+    jest.useFakeTimers();
+    const { getModalContent } = renderExt(<AlertModal title={TITLE} open />);
+    const dialog = getModalContent().parentElement;
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(dialog).toHaveFocus();
+    jest.useRealTimers();
   });
 
   it("should render action button and call action handler when clicked", () => {

@@ -19,6 +19,16 @@ export type OverlayStateProps = {
    * Pass a stable array (e.g. with useMemo), otherwise the listeners are added again on each render.
    */
   insideRefs?: RefObject<HTMLElement | null>[];
+  /**
+   * The elements that cover the page while the overlay is open, e.g. a modal's backdrop. Clicks on them do not close
+   * the overlays opened before it. Defaults to insideRefs, e.g. a popover opened in a modal. Pass a stable array, like insideRefs.
+   */
+  layerRefs?: RefObject<HTMLElement | null>[];
+  /**
+   * Blocks the overlays opened before it while it is open, e.g. a modal: Escape does not reach them, even when this one
+   * does not close on Escape.
+   */
+  blocksLayersBelow?: boolean;
   closeOnOutsideClick?: boolean;
   closeOnEscape?: boolean;
   /** Closes the overlay when a scroll moves the inside elements, e.g. a page or a container scroll */
@@ -44,3 +54,5 @@ export type UseOverlayStateReturn = {
    */
   insideProps: { onPointerDown: (e: SyntheticEvent) => void; onClick: (e: SyntheticEvent) => void };
 };
+
+export type Layer = { refs: RefObject<HTMLElement | null>[]; closeOnEscape: boolean; blocksLayersBelow: boolean };

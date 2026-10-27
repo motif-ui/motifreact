@@ -18,7 +18,7 @@ export type Size8LG = Size7 | "xxxl";
 
 export type Variant = "primary" | "secondary" | "info" | "success" | "warning" | "danger";
 export type OverlayPlaceOn = "top" | "bottom" | "right" | "left" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
-export type OverlayCloseReason = "outsideClick" | "escape" | "scroll" | "focusLeave" | "anchorClick";
+export type OverlayCloseReason = "outsideClick" | "escape" | "scroll" | "focusLeave" | "anchorClick" | "closeButton";
 export type StandardProps = {
   className?: string;
   style?: CSSProperties;
