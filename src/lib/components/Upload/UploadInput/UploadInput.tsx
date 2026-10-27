@@ -14,7 +14,7 @@ import { UploadInputProps, UploadInputWrapperProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIcon } from "@/components/Motif/Icon";
-import { mapExternalValue, toFormValue } from "@/components/Upload/helper";
+import { isFileFailed, mapExternalValue, toFormValue } from "@/components/Upload/helper";
 
 const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("UploadInput", p);
@@ -29,6 +29,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     customValidation,
     onUpload,
     value: externalValue,
+    fileAction,
     ref,
     style,
     className,
@@ -52,6 +53,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     uploadRequest,
     deleteRequest,
     customValidation,
+    fileAction,
     onUpload,
   };
   const inputCommonPropsAfterRegister = {
@@ -91,8 +93,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
     () =>
       selectedFiles.reduce(
         (acc, file) =>
-          (file.status === STATUS.CHECK_FAIL || file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.DELETE_FAIL) &&
-          file.messages?.length
+          isFileFailed(file) && file.messages?.length
             ? [...acc, ...file.messages.reduce((messages, err) => (!acc.includes(err) ? [...messages, err] : messages), [] as string[])]
             : acc,
         [] as string[],

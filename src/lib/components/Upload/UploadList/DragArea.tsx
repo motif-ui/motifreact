@@ -4,6 +4,7 @@ import { useContext, useEffect, useMemo, useRef } from "react";
 import { useMotifContext } from "../../../motif/context/MotifProvider";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
+import { isFileFailed } from "@/components/Upload/helper";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import { InputValue } from "../../Form/types";
@@ -65,8 +66,7 @@ const DragArea = ({ disabled, error, success, onChange, onError }: Props) => {
     () =>
       selectedFiles.reduce(
         (acc, file) =>
-          (file.status === STATUS.CHECK_FAIL || file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.DELETE_FAIL) &&
-          file.messages?.length
+          isFileFailed(file) && file.messages?.length
             ? [...acc, ...file.messages.reduce((messages, err) => (!acc.includes(err) ? [...messages, err] : messages), [] as string[])]
             : acc,
         [] as string[],

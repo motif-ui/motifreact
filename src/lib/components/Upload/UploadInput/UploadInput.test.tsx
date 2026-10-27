@@ -4,6 +4,7 @@ import UploadInput from "@/components/Upload/UploadInput/UploadInput";
 import { simulateChooseFiles } from "@/components/Upload/testHelper";
 import { MESSAGE } from "@/components/Upload/constants";
 import { MOCK } from "../mock";
+import { FileValue } from "@/components/Upload/types";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { ReactNode } from "react";
@@ -554,15 +555,48 @@ describe("UploadInput", () => {
     expect(onDownloadClick2).toHaveBeenCalledTimes(1);
   });
 
-  it("should not hide the download button when disabled or readOnly", () => {
-    const { unmount, getDownloadButton } = renderExt(
-      <UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} disabled />,
+  it("should show the download and action buttons but hide the delete button when disabled or readOnly", async () => {
+    const onClick = jest.fn();
+    const onDownloadClick = jest.fn();
+    const fileAction = { icon: "visibility", onClick } as const;
+    const value = [{ ...serverFile, onDownloadClick }];
+    const { getDownloadButton, getDeleteButton, rerender } = renderExt(
+      <UploadInput {...requiredProps} value={value} fileAction={fileAction} disabled />,
     );
     expect(getDownloadButton()).toBeInTheDocument();
-    unmount();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText("visibility"));
+    await userEvent.click(getDownloadButton());
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
+    onClick.mockClear();
+    onDownloadClick.mockClear();
 
-    renderExt(<UploadInput {...requiredProps} value={[{ ...serverFile, onDownloadClick: jest.fn() }]} readOnly />);
+    rerender(<UploadInput {...requiredProps} value={value} fileAction={fileAction} readOnly />);
     expect(getDownloadButton()).toBeInTheDocument();
+    expect(getDeleteButton()).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText("visibility"));
+    await userEvent.click(getDownloadButton());
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should disable but not hide the action and download buttons while the delete request is in flight", async () => {
+    const xhrSpy = mockXHRs(200);
+    const onClick = jest.fn();
+    const onDownloadClick = jest.fn();
+    const { getDeleteButton, getDownloadButton } = renderExt(
+      <UploadInput {...requiredProps} fileAction={{ icon: "visibility", onClick }} value={[{ ...serverFile, onDownloadClick }]} />,
+    );
+    fireEvent.click(getDeleteButton());
+    expect(screen.getByText("visibility").parentElement).toBeDisabled();
+    expect(getDownloadButton().parentElement).toBeDisabled();
+    fireEvent.click(screen.getByText("visibility"));
+    fireEvent.click(getDownloadButton());
+    expect(onClick).not.toHaveBeenCalled();
+    expect(onDownloadClick).not.toHaveBeenCalled();
+    await waitFor(() => expect(getDeleteButton()).not.toBeInTheDocument());
+    xhrSpy.mockRestore();
   });
 
   it("should not show download button after value file is deleted", async () => {
@@ -572,6 +606,83 @@ describe("UploadInput", () => {
     );
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getDownloadButton()).not.toBeInTheDocument());
+    xhrSpy.mockRestore();
+  });
+
+  it("should render the action button only when fileAction is given", () => {
+    const { unmount } = renderExt(<UploadInput {...requiredProps} value={[serverFile]} />);
+    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+    unmount();
+
+    renderExt(<UploadInput {...requiredProps} value={[serverFile]} fileAction={{ icon: "visibility", onClick: jest.fn() }} />);
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
+  });
+
+  it("should call fileAction.onClick once for every file when the action button is clicked with multiple value files", async () => {
+    const onClick = jest.fn();
+    renderExt(
+      <UploadInput {...requiredProps} maxFile={2} fileAction={{ icon: "visibility", onClick }} value={[serverFile, serverFile2]} />,
+    );
+    expect(screen.getAllByText("visibility")).toHaveLength(1);
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(2);
+    expect(onClick).toHaveBeenNthCalledWith(1, expect.objectContaining({ id: serverFile.id }));
+    expect(onClick).toHaveBeenNthCalledWith(2, expect.objectContaining({ id: serverFile2.id }));
+  });
+
+  it("should call fileAction.onClick with the file without internal props", async () => {
+    const onClick = jest.fn<void, [FileValue]>();
+    renderExt(
+      <UploadInput
+        {...requiredProps}
+        fileAction={{ icon: "visibility", onClick }}
+        value={[{ ...serverFile, onDownloadClick: jest.fn() }]}
+      />,
+    );
+    await userEvent.click(screen.getByText("visibility"));
+    const file = onClick.mock.calls[0][0];
+    expect(file).toEqual(
+      expect.objectContaining({ id: serverFile.id, file: { name: serverFile.name, type: serverFile.type, size: serverFile.size } }),
+    );
+    expect(file).not.toHaveProperty("download");
+    expect(file).not.toHaveProperty("addedByValue");
+  });
+
+  it("should render the action button for a newly added file only after it is uploaded", async () => {
+    const xhrSpy = mockXHRs();
+    const onClick = jest.fn<void, [FileValue]>();
+    const { getInput, getUploadButton, waitForSuccessfulUpload } = renderExt(
+      <UploadInput {...requiredProps} autoUpload={false} fileAction={{ icon: "visibility", onClick }} />,
+    );
+    await simulateChooseFiles(getInput(), [MOCK.filePdf1kb]);
+    expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+
+    await userEvent.click(getUploadButton());
+    await waitForSuccessfulUpload();
+    await userEvent.click(screen.getByText("visibility"));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onClick.mock.calls[0][0].file.name).toBe(MOCK.filePdf1kb.name);
+    xhrSpy.mockRestore();
+  });
+
+  it("should keep the action button visible when delete fails", async () => {
+    const xhrSpy = mockXHRs(500);
+    const { getDeleteButton, getErrorIcon } = renderExt(
+      <UploadInput {...requiredProps} value={[serverFile]} fileAction={{ icon: "visibility", onClick: jest.fn() }} />,
+    );
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(getErrorIcon()).toBeInTheDocument());
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
+    xhrSpy.mockRestore();
+  });
+
+  it("should not show the action button after value file is deleted", async () => {
+    const xhrSpy = mockXHRs(200);
+    const { getDeleteButton } = renderExt(
+      <UploadInput {...requiredProps} value={[serverFile]} fileAction={{ icon: "visibility", onClick: jest.fn() }} />,
+    );
+    await userEvent.click(getDeleteButton());
+    await waitFor(() => expect(screen.queryByText("visibility")).not.toBeInTheDocument());
     xhrSpy.mockRestore();
   });
 
