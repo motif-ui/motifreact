@@ -139,6 +139,28 @@ describe("ButtonGroup", () => {
     fireEvent.click(getByText("keyboard_arrow_down"));
     expect(queryByText("Item 1.1")).not.toBeInTheDocument();
   });
+
+  it("should close the open submenu and reset the dropdown icon when the ButtonGroup.Item becomes disabled, and not open it again when it is enabled", async () => {
+    const renderGroup = (disabled: boolean) => (
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" disabled={disabled}>
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>
+    );
+    const { getByText, queryByText, rerender } = render(renderGroup(false));
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 1.1")).toBeInTheDocument();
+    expect(getByText("keyboard_arrow_down")).toHaveClass("open");
+
+    rerender(renderGroup(true));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+    expect(getByText("keyboard_arrow_down")).not.toHaveClass("open");
+
+    rerender(renderGroup(false));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+  });
 });
 
 describe("ButtonGroup.Item", () => {

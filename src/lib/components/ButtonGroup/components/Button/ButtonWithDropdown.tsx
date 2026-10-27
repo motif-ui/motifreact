@@ -8,7 +8,7 @@ import { createPortal } from "react-dom";
 import useAnchoredOverlay from "../../../../hooks/useAnchoredOverlay";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
 import { ButtonGroupItemProps } from "../ButtonGroupItem/ButtonGroupItem";
-import { ButtonGroupContext } from "../../ButtonGroupContext.tsx";
+import { ButtonGroupContext } from "../../ButtonGroupContext";
 
 const ButtonWithDropdown = (props: PropsWithChildren<ButtonGroupItemProps>) => {
   const { label, icon, disabled, action, children } = props;
@@ -17,16 +17,16 @@ const ButtonWithDropdown = (props: PropsWithChildren<ButtonGroupItemProps>) => {
   const {
     open,
     attached,
-    style: dropdownStyle,
+    style,
     overlayRef: dropdownRef,
     insideProps,
   } = useAnchoredOverlay({
     anchorRef,
     placement: "bottomRight",
-    toggleOnAnchorClick: !disabled,
+    toggleOnAnchorClick: true,
     tabBridge: true,
     closeOnOutsideClick: true,
-    closeOnEscape: true,
+    inactive: disabled,
   });
 
   return (
@@ -35,12 +35,7 @@ const ButtonWithDropdown = (props: PropsWithChildren<ButtonGroupItemProps>) => {
       {attached &&
         createPortal(
           <ButtonGroupItemProvider>
-            <div
-              className={sanitizeModuleClasses(styles, "button__dropdownItem", size)}
-              style={dropdownStyle}
-              ref={dropdownRef}
-              {...insideProps}
-            >
+            <div className={sanitizeModuleClasses(styles, "button__dropdownItem", size)} style={style} ref={dropdownRef} {...insideProps}>
               {children}
             </div>
           </ButtonGroupItemProvider>,
