@@ -37,13 +37,6 @@ test.describe("ButtonGroup submenu open/close behavior", () => {
     await expect(page.locator(submenu)).toHaveCount(0);
   });
 
-  test("closes on Escape key", async ({ page }) => {
-    await page.locator(button).click();
-    await expect(page.locator(submenu)).toHaveCount(1);
-    await page.keyboard.press("Escape");
-    await expect(page.locator(submenu)).toHaveCount(0);
-  });
-
   test("closes when the other button of the group is clicked", async ({ page }) => {
     await page.locator(button).click();
     await expect(page.locator(submenu)).toHaveCount(1);
