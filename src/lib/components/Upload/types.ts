@@ -69,6 +69,7 @@ export type UploadProps = {
    */
   onError?: (errors: string[]) => void;
   customValidation?: (file: File) => CustomValidation;
+  onUpload?: (files: FileType[], response?: unknown) => void;
   fileAction?: FileAction;
 } & UploadDefaultableProps;
 

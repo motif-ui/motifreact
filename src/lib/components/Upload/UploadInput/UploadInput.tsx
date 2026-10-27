@@ -27,6 +27,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     uploadRequest,
     deleteRequest,
     customValidation,
+    onUpload,
     value: externalValue,
     fileAction,
     ref,
@@ -53,6 +54,7 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     deleteRequest,
     customValidation,
     fileAction,
+    onUpload,
   };
   const inputCommonPropsAfterRegister = {
     size,
