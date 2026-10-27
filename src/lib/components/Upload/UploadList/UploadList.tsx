@@ -33,6 +33,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
     value: externalValue,
     className,
     style,
+    fileAction,
   } = props;
   const mappedValue = mapExternalValue(externalValue);
 
@@ -55,7 +56,7 @@ const UploadList = (p: PropsWithRef<UploadListProps, HTMLDivElement>) => {
 
   return (
     <UploadProvider
-      props={{ autoUpload, accept, maxSize, maxFile, messages, uploadRequest, deleteRequest, customValidation, onUpload }}
+      props={{ autoUpload, accept, maxSize, maxFile, messages, uploadRequest, deleteRequest, customValidation, onUpload, fileAction }}
       value={mappedValue}
       size={size}
       name={name}
