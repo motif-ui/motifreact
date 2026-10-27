@@ -21,6 +21,7 @@ export type OverlayStateProps = {
   insideRefs?: RefObject<HTMLElement | null>[];
   closeOnOutsideClick?: boolean;
   closeOnEscape?: boolean;
+  inactive?: boolean;
   /** Closes the overlay when a scroll moves the inside elements, e.g. a page or a container scroll */
   closeOnScroll?: boolean;
 };

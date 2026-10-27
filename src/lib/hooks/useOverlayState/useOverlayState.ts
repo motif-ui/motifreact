@@ -8,14 +8,19 @@ import { OverlayCloseReason } from "src/lib/types";
 import { OverlayStateProps, UseOverlayStateReturn } from "./types";
 
 const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
-  const { open, defaultOpen, duration, onClose, insideRefs, closeOnOutsideClick, closeOnEscape, closeOnScroll } = props;
+  const { open, defaultOpen, duration, onClose, insideRefs, closeOnOutsideClick, closeOnEscape, closeOnScroll, inactive } = props;
   const controlled = open !== undefined;
-  const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
-  const isOpen = controlled ? open : internalOpen;
+  const [internalOpen, setInternalOpen] = useState(!!defaultOpen && !inactive);
+  const [prevInactive, setPrevInactive] = useState(inactive);
+  if (inactive !== prevInactive) {
+    setPrevInactive(inactive);
+    inactive && setInternalOpen(false);
+  }
+  const isOpen = !inactive && (controlled ? open : internalOpen);
   const transition = useVisibilityTransition(isOpen, duration);
   const domReady = useDomReady();
-  const attached = transition.attached && domReady;
-  const { visible } = transition;
+  const attached = !inactive && transition.attached && domReady;
+  const visible = !inactive && transition.visible;
   const onCloseRef = useRef(onClose);
   // The last event marked by insideProps. React handles an event before it reaches the document, so the last one is enough.
   // It is per instance, so an event inside one overlay is not counted as inside another one.
@@ -35,8 +40,8 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   );
 
   const show = useCallback(() => {
-    !controlled && setInternalOpen(true);
-  }, [controlled]);
+    !controlled && !inactive && setInternalOpen(true);
+  }, [controlled, inactive]);
 
   const toggle = useCallback(() => {
     isOpen ? hide() : show();

@@ -1,10 +1,10 @@
 import { fireEvent, render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
+import ButtonGroup from "../ButtonGroup";
+import { Size4SM } from "../../../types";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
 
-import ButtonGroup from "./ButtonGroup";
-import { Size4SM } from "../../types";
-import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
 describe("ButtonGroup", () => {
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<ButtonGroup {...props} />), {
     // size: md
@@ -89,6 +89,61 @@ describe("ButtonGroup", () => {
     expect(queryByText("Item 2.1")).toBeInTheDocument();
     await userEvent.click(document.body);
     expect(queryByText("Item 2.1")).not.toBeInTheDocument();
+  });
+
+  it("should render the submenu in document.body with the size of the group", async () => {
+    const { container, getByText } = render(
+      <ButtonGroup size="sm">
+        <ButtonGroup.Item label="Item 1">
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    const submenu = getByText("Item 1.1").parentElement!;
+    expect(container).not.toContainElement(submenu);
+    expect(submenu.parentElement).toBe(document.body);
+    expect(submenu).toHaveClass("sm");
+  });
+
+  it("should not open the submenu when a disabled ButtonGroup.Item that has children is clicked, including its dropdown icon", () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" disabled>
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    // The submenu is opened by a document listener, which also receives the clicks on the button's children, e.g. the icon.
+    // Each click is checked on its own, since a second click would close a submenu opened by the first one.
+    fireEvent.click(getByText("Item 1").closest("button")!);
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+    fireEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+  });
+
+  it("should close the open submenu and reset the dropdown icon when the ButtonGroup.Item becomes disabled, and not open it again when it is enabled", async () => {
+    const renderGroup = (disabled: boolean) => (
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" disabled={disabled}>
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>
+    );
+    const { getByText, queryByText, rerender } = render(renderGroup(false));
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 1.1")).toBeInTheDocument();
+    expect(getByText("keyboard_arrow_down")).toHaveClass("open");
+
+    rerender(renderGroup(true));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+    expect(getByText("keyboard_arrow_down")).not.toHaveClass("open");
+
+    rerender(renderGroup(false));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
   });
 });
 
