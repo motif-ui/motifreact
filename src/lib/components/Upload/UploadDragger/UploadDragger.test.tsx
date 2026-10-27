@@ -474,11 +474,14 @@ describe("UploadDragger", () => {
     await waitFor(() => expect(getFileList()).not.toBeInTheDocument());
   });
 
-  it("should show a delete error when deleting a value file from the server fails", async () => {
+  it("should show a delete error and keep the action button visible when deleting a value file from the server fails", async () => {
     const xhrSpy = mockXHRs(500);
-    const { getDeleteButton } = renderExt(<UploadDragger {...requiredProps} value={[serverFile]} />);
+    const { getDeleteButton } = renderExt(
+      <UploadDragger {...requiredProps} value={[serverFile]} fileAction={{ icon: "visibility", onClick: jest.fn() }} />,
+    );
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument());
+    expect(screen.queryByText("visibility")).toBeInTheDocument();
     xhrSpy.mockRestore();
   });
 
