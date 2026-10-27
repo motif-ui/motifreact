@@ -5,6 +5,7 @@ import { memo, useContext } from "react";
 import { FileType } from "@/components/Upload/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import IconButton from "@/components/IconButton";
+import { isFileOnServer, isFileReady, toFileValue } from "@/components/Upload/helper";
 
 type Props = {
   file: FileType;
@@ -13,27 +14,35 @@ type Props = {
 };
 
 export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
-  const { removeFiles, reUpload, abort, size } = useContext(UploadContext);
+  const {
+    removeFiles,
+    reUpload,
+    abort,
+    size,
+    uploadProps: { fileAction },
+  } = useContext(UploadContext);
   const iconSize = size === "xs" ? "xxs" : size === "sm" ? "xs" : size === "lg" ? "md" : "sm";
 
   return (
     <>
-      {file.action && (
+      {fileAction && isFileOnServer(file) && (
         <IconButton
-          name={file.action.icon}
+          name={fileAction.icon}
           variant="secondary"
           size={iconSize}
           className={`${styles.icon} ${styles.iconPositiveAction}`}
-          onClick={file.action.onClick}
+          onClick={() => fileAction.onClick(toFileValue(file))}
+          disabled={!isFileReady(file)}
         />
       )}
-      {file.download && (
+      {file.download && isFileOnServer(file) && (
         <MotifIconButton
           name="download"
           variant="secondary"
           size={iconSize}
           className={`${styles.icon} ${styles.iconPositiveAction}`}
           onClick={file.download}
+          disabled={!isFileReady(file)}
         />
       )}
       {!disabled && !readOnly && (

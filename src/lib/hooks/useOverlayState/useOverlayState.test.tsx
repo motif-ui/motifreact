@@ -66,6 +66,40 @@ describe("useOverlayState", () => {
       jest.useRealTimers();
     });
 
+    it("should call onAfterClose once the exit transition has ended, however it was closed", () => {
+      jest.useFakeTimers();
+      const onAfterClose = jest.fn();
+      const { result, rerender } = renderHook(({ open }) => useOverlayState({ open, duration: 300, onAfterClose }), {
+        initialProps: { open: false },
+      });
+      expect(onAfterClose).not.toHaveBeenCalled();
+
+      rerender({ open: true });
+      rerender({ open: false });
+      act(() => jest.advanceTimersByTime(299));
+      expect(result.current.attached).toBe(true);
+      expect(onAfterClose).not.toHaveBeenCalled();
+
+      act(() => jest.advanceTimersByTime(1));
+      expect(onAfterClose).toHaveBeenCalledTimes(1);
+      jest.useRealTimers();
+    });
+
+    it("should not call onAfterClose when it is opened again during the exit transition", () => {
+      jest.useFakeTimers();
+      const onAfterClose = jest.fn();
+      const { rerender } = renderHook(({ open }) => useOverlayState({ open, duration: 300, onAfterClose }), {
+        initialProps: { open: true },
+      });
+
+      rerender({ open: false });
+      act(() => jest.advanceTimersByTime(100));
+      rerender({ open: true });
+      act(() => jest.advanceTimersByTime(300));
+      expect(onAfterClose).not.toHaveBeenCalled();
+      jest.useRealTimers();
+    });
+
     it("should commit the close and the exit transition start together", () => {
       jest.useFakeTimers();
       const onRender = jest.fn();
@@ -241,6 +275,48 @@ describe("useOverlayState", () => {
       fireEvent.scroll(overlay);
       fireEvent.scroll(outside);
       expect(result.current.open).toBe(true);
+    });
+
+    it("should close only the topmost overlay on Escape, e.g. a popover opened in a modal", () => {
+      const below = renderHook(() => useOverlayState({ defaultOpen: true, closeOnEscape: true }));
+      const above = renderHook(() => useOverlayState({ defaultOpen: true, closeOnEscape: true }));
+
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(above.result.current.open).toBe(false);
+      expect(below.result.current.open).toBe(true);
+
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(below.result.current.open).toBe(false);
+    });
+
+    it("should not close on Escape while an overlay that blocks the layers below is above it, e.g. a confirmation over a modal", () => {
+      const below = renderHook(() => useOverlayState({ defaultOpen: true, closeOnEscape: true }));
+      renderHook(() => useOverlayState({ defaultOpen: true, blocksLayersBelow: true }));
+
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(below.result.current.open).toBe(true);
+    });
+
+    it("should not close when clicked on an overlay opened above it, e.g. a confirmation over a modal", () => {
+      const backdrop = document.createElement("div");
+      const dialog = document.createElement("div");
+      backdrop.append(dialog);
+      document.body.append(backdrop);
+      const below = renderHook(() => useOverlayState({ defaultOpen: true, insideRefs, closeOnOutsideClick: true }));
+      const above = renderHook(() =>
+        useOverlayState({
+          defaultOpen: true,
+          insideRefs: [{ current: dialog }],
+          layerRefs: [{ current: backdrop }],
+          closeOnOutsideClick: true,
+        }),
+      );
+
+      // the backdrop of the one above is outside of it, but on its layer
+      browserClick(backdrop);
+      expect(above.result.current.open).toBe(false);
+      expect(below.result.current.open).toBe(true);
+      backdrop.remove();
     });
 
     it("should not listen while it is closed", () => {

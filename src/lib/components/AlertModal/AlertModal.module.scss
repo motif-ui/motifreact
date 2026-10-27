@@ -79,6 +79,10 @@ $content-positions: (
   border-radius: var(--theme-sizing-radius-default);
   @include pop-default;
 
+  &:focus {
+    outline: none;
+  }
+
   .elevated & {
     @include shadow(6);
   }

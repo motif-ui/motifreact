@@ -29,9 +29,11 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
     onChange,
     ref,
     customValidation,
+    onUpload,
     value: externalValue,
     className,
     style,
+    fileAction,
   } = props;
   const mappedValue = mapExternalValue(externalValue);
 
@@ -55,7 +57,7 @@ const UploadDragger = (p: PropsWithRef<UploadDraggerProps, HTMLDivElement>) => {
 
   return (
     <UploadProvider
-      props={{ autoUpload, accept, maxSize, maxFile, messages, uploadRequest, deleteRequest, customValidation }}
+      props={{ autoUpload, accept, maxSize, maxFile, messages, uploadRequest, deleteRequest, customValidation, onUpload, fileAction }}
       value={mappedValue}
       size={size}
       name={name}

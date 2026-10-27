@@ -1,9 +1,11 @@
 import { HttpMethods, IconGlobalType, KeyValue, Size4SM } from "../../types";
 import { ReactNode } from "react";
 
+export type FileValue = Omit<FileType, "download" | "addedByValue" | "request">;
+
 export type FileAction = {
   icon: IconGlobalType;
-  onClick: () => void;
+  onClick: (file: FileValue) => void;
 };
 
 export type FileType = {
@@ -16,7 +18,6 @@ export type FileType = {
   serverMessage?: string;
   request?: XMLHttpRequest;
   download?: () => void;
-  action?: FileAction;
   addedByValue?: boolean;
   src?: string;
   /** True while a server-side delete request for this file is in flight. */
@@ -29,7 +30,6 @@ export type FileType = {
 export type FileObject = {
   id: string;
   onDownloadClick?: () => void;
-  action?: FileAction;
   src?: string;
 } & Pick<File, "name" | "size" | "type">;
 
@@ -69,6 +69,8 @@ export type UploadProps = {
    */
   onError?: (errors: string[]) => void;
   customValidation?: (file: File) => CustomValidation;
+  onUpload?: (files: FileType[], response?: unknown) => void;
+  fileAction?: FileAction;
 } & UploadDefaultableProps;
 
 export type UploadDefaultableProps = {
@@ -85,6 +87,7 @@ export type UploadPropsDefault = {
   maxSize?: number;
   autoUpload: boolean;
   messages?: UploadMessages;
+  fileAction?: FileAction;
 };
 
 export type UploadContextType = {

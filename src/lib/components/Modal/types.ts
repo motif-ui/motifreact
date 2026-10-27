@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode, MouseEvent } from "react";
-import { Size4LG } from "../../types";
+import { OverlayCloseReason, Size4LG } from "../../types";
 import { LinkProps } from "../Link/types";
 import { ButtonProps } from "../Button/types";
 import { IconButtonProps } from "../IconButton/types";
@@ -15,7 +15,8 @@ export type ModalProps = {
   title?: string;
   subtitle?: string;
   open?: boolean;
-  onClose?: () => void;
+  onClose?: (reason: OverlayCloseReason) => void;
+  onAfterClose?: () => void;
   buttons?: ReactElement<ButtonProps | LinkProps | IconButtonProps>[];
   actionButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
   alternateButton?: { text: string; onClick: (event: MouseEvent<HTMLButtonElement>) => void };

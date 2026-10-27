@@ -25,6 +25,47 @@ describe("Modal", () => {
     expect(screen.getByText("Test content")).toBeInTheDocument();
   });
 
+  it("should stay mounted until the exit transition ends when open changes from true to false", () => {
+    jest.useFakeTimers();
+    const { rerender } = render(<Modal open>Test content</Modal>);
+    const backdrop = screen.getByTestId("modalBackdrop");
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(backdrop).toHaveClass("show");
+
+    rerender(<Modal open={false}>Test content</Modal>);
+    expect(backdrop).not.toHaveClass("show");
+    expect(screen.getByText("Test content")).toBeInTheDocument();
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(screen.queryByText("Test content")).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it("should call onAfterClose once the exit transition has ended", () => {
+    jest.useFakeTimers();
+    const handleAfterClose = jest.fn();
+    const { rerender } = render(
+      <Modal open onAfterClose={handleAfterClose}>
+        Test content
+      </Modal>,
+    );
+
+    rerender(
+      <Modal open={false} onAfterClose={handleAfterClose}>
+        Test content
+      </Modal>,
+    );
+    expect(handleAfterClose).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(handleAfterClose).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText("Test content")).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
   it("should render title given in the title prop", () => {
     render(
       <Modal open title="Modal Title">
@@ -59,6 +100,7 @@ describe("Modal", () => {
       jest.advanceTimersByTime(300);
     });
     expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(handleClose).toHaveBeenCalledWith("closeButton");
     rerender(
       <Modal open closable={false} onClose={handleClose}>
         Test content
@@ -84,7 +126,7 @@ describe("Modal", () => {
       await user.click(screen.getByTestId("modalBackdrop"));
       jest.advanceTimersByTime(300);
     });
-    expect(handleClose).toHaveBeenCalled();
+    expect(handleClose).toHaveBeenCalledWith("outsideClick");
 
     jest.useRealTimers();
   });
@@ -98,6 +140,52 @@ describe("Modal", () => {
     );
     fireEvent.click(screen.getByTestId("modalBackdrop"));
     expect(handleClose).not.toHaveBeenCalled();
+  });
+
+  it("should close the modal on Escape only when closable prop is true", () => {
+    const handleClose = jest.fn();
+    const { rerender } = render(
+      <Modal open closable={false} onClose={handleClose}>
+        Test content
+      </Modal>,
+    );
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).not.toHaveBeenCalled();
+
+    rerender(
+      <Modal open closable onClose={handleClose}>
+        Test content
+      </Modal>,
+    );
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).toHaveBeenCalledWith("escape");
+  });
+
+  it("should get the focus once shown and give it back on close", () => {
+    jest.useFakeTimers();
+    const opener = document.createElement("button");
+    document.body.append(opener);
+    opener.focus();
+    const { rerender } = render(
+      <Modal open title="Modal Title">
+        Test content
+      </Modal>,
+    );
+    const dialog = screen.getByTestId("modalBackdrop").firstElementChild;
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(dialog).toHaveFocus();
+
+    rerender(
+      <Modal open={false} title="Modal Title">
+        Test content
+      </Modal>,
+    );
+    expect(opener).toHaveFocus();
+    opener.remove();
+    jest.useRealTimers();
   });
 
   it("should render action button and call action handler when clicked", () => {

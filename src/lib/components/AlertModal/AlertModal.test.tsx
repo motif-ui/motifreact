@@ -60,6 +60,36 @@ describe("AlertModal", () => {
     expect(getBackdrop()).toBeInTheDocument();
   });
 
+  it("should stay mounted until the exit transition ends when open changes from true to false", () => {
+    jest.useFakeTimers();
+    const { rerender, queryByTestId, getBackdrop } = renderExt(<AlertModal title={TITLE} open />);
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(getBackdrop()).toHaveClass("show");
+
+    rerender(<AlertModal title={TITLE} open={false} />);
+    expect(getBackdrop()).not.toHaveClass("show");
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(queryByTestId("alertModalBackdrop")).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it("should call onAfterClose once the exit transition has ended", () => {
+    jest.useFakeTimers();
+    const handleAfterClose = jest.fn();
+    const { rerender } = renderExt(<AlertModal title={TITLE} open onAfterClose={handleAfterClose} />);
+
+    rerender(<AlertModal title={TITLE} open={false} onAfterClose={handleAfterClose} />);
+    expect(handleAfterClose).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(handleAfterClose).toHaveBeenCalledTimes(1);
+    jest.useRealTimers();
+  });
+
   it("should render the title given in the title prop", () => {
     const { getModalContent } = renderExt(<AlertModal title="Alert Title" open />);
     expect(getModalContent()).toHaveTextContent("Alert Title");
@@ -85,7 +115,7 @@ describe("AlertModal", () => {
       await user.click(getBackdrop());
       jest.advanceTimersByTime(300);
     });
-    expect(handleClose).toHaveBeenCalled();
+    expect(handleClose).toHaveBeenCalledWith("outsideClick");
 
     jest.useRealTimers();
   });
@@ -95,6 +125,29 @@ describe("AlertModal", () => {
     const { getBackdrop } = renderExt(<AlertModal title={TITLE} open closable={false} onClose={handleClose} />);
     fireEvent.click(getBackdrop());
     expect(handleClose).not.toHaveBeenCalled();
+  });
+
+  it("should close the modal on Escape only when closable prop is true", () => {
+    const handleClose = jest.fn();
+    const { rerender } = renderExt(<AlertModal title={TITLE} open closable={false} onClose={handleClose} />);
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).not.toHaveBeenCalled();
+
+    rerender(<AlertModal title={TITLE} open closable onClose={handleClose} />);
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).toHaveBeenCalledWith("escape");
+  });
+
+  it("should get the focus once shown", () => {
+    jest.useFakeTimers();
+    const { getModalContent } = renderExt(<AlertModal title={TITLE} open />);
+    const dialog = getModalContent().parentElement;
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(dialog).toHaveFocus();
+    jest.useRealTimers();
   });
 
   it("should render action button and call action handler when clicked", () => {
