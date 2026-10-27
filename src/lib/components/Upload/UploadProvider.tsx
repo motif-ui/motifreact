@@ -15,7 +15,18 @@ import { toFormValue } from "@/components/Upload/helper";
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
 export const UploadProvider = ({ children, props, isUploadInput, size = "md", name, disabled, readOnly, value }: UploadProviderProps) => {
-  const { maxFile = 1, autoUpload = true, messages, uploadRequest, deleteRequest, maxSize, accept, customValidation, onUpload } = props;
+  const {
+    maxFile = 1,
+    autoUpload = true,
+    messages,
+    uploadRequest,
+    deleteRequest,
+    maxSize,
+    accept,
+    customValidation,
+    onUpload,
+    fileAction,
+  } = props;
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const activeRequestsRef = useRef<Set<XMLHttpRequest>>(new Set());
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(value ?? []);
@@ -460,6 +471,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
     messages,
     deleteRequest,
     uploadRequest,
+    fileAction,
   };
 
   return (
