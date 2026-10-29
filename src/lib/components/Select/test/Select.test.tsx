@@ -1,14 +1,14 @@
 import { cleanup, fireEvent, render, screen, act } from "@testing-library/react";
-import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
-import { SelectGroupItem, SelectItem } from "@/components/Select/types";
-import { Select, Validations } from "../../index";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils.tsx";
+import { StandardPropsWithRef } from "../../../types.ts";
+import { SelectGroupItem, SelectItem } from "@/components/Select/types.ts";
+import { Select, Validations } from "../../../index.ts";
 import { userEvent } from "@testing-library/user-event";
-import { InputSize } from "../Form/types";
+import { InputSize } from "../../Form/types.ts";
 import Form from "@/components/Form";
 import { useEffect, useState } from "react";
-import { t } from "./../../../utils/testUtils";
-import MotifProvider from "../../motif/context/MotifProvider";
+import { t } from "../../../../utils/testUtils.tsx";
+import MotifProvider from "../../../motif/context/MotifProvider.tsx";
 
 describe("Select", () => {
   const data: (SelectGroupItem | SelectItem)[] = [
@@ -127,7 +127,7 @@ describe("Select", () => {
     const user = userEvent.setup();
     render(<Select data={data} disabled onChange={handleChange} />);
     const combobox = screen.queryByRole("combobox");
-    expect(combobox?.parentElement).toHaveClass("disabled");
+    expect(combobox).toHaveClass("disabled");
     await user.click(combobox!);
     await user.click(screen.queryByText("Item 1")!);
     expect(handleChange).not.toHaveBeenCalled();
@@ -140,7 +140,7 @@ describe("Select", () => {
     const user = userEvent.setup();
     render(<Select data={data} readOnly onChange={handleChange} />);
     const combobox = screen.queryByRole("combobox");
-    expect(combobox?.parentElement).toHaveClass("disabled");
+    expect(combobox).toHaveClass("disabled");
     await user.click(combobox!);
     await user.click(screen.queryByText("Item 1")!);
     expect(handleChange).not.toHaveBeenCalled();
@@ -457,5 +457,36 @@ describe("Select", () => {
 
       unmount();
     }
+  });
+
+  it("should render the dropdown in document.body with the size of the select", async () => {
+    const { container } = render(<Select data={data} size="sm" />);
+
+    await userEvent.click(screen.queryByRole("combobox")!);
+    const listbox = screen.getByRole("listbox");
+    expect(container).not.toContainElement(listbox);
+    expect(listbox.parentElement).toBe(document.body);
+    expect(listbox).toHaveClass("dropdown", "sm");
+  });
+
+  it("should keep the dropdown open when clicked inside of it and close it on Escape", async () => {
+    render(<Select data={data} multiple />);
+
+    await userEvent.click(screen.queryByRole("combobox")!);
+    await userEvent.click(screen.queryByText("Item 1")!);
+    expect(screen.queryByRole("listbox")).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    expect(screen.queryByRole("combobox")).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("should close the dropdown when the select becomes disabled while it is open", async () => {
+    const { rerender } = render(<Select data={data} />);
+
+    await userEvent.click(screen.queryByRole("combobox")!);
+    expect(screen.queryByRole("listbox")).toBeInTheDocument();
+    rerender(<Select data={data} disabled />);
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    expect(screen.queryByRole("combobox")).toHaveAttribute("aria-expanded", "false");
   });
 });
