@@ -1,0 +1,8 @@
+.dashboard3-centered {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard3-filter > * {
+  flex: 1;
+}
