@@ -1,8 +1,9 @@
 import { Card, Grid, ImageView, Text, Container } from "@motif-ui/react";
+import "./about1.css";
 
 const About1 = () => (
   <Container>
-    <Grid padding={{ smUp: "md", mdUp: "lg", lgUp: "xxl" }} gap={{ base: "md", mdUp: "lg" }}>
+    <Grid className="about-1" padding={{ smUp: "md", mdUp: "lg", lgUp: "xxl" }} gap={{ base: "md", mdUp: "lg" }}>
       <Grid.Row>
         <Grid.Col size={12}>
           <Text marginless weight="bold" type="display" size="lg" tone="strong" text="About Us" />
@@ -10,7 +11,7 @@ const About1 = () => (
       </Grid.Row>
       <Grid.Row>
         <Grid.Col size={12}>
-          <ImageView src="https://picsum.photos/seed/motifui-about/1200/589" alt="Our team at work" width="100%" solid />
+          <ImageView src="https://picsum.photos/seed/motifui-about/1200/589" alt="Our team at work" width="100%" />
         </Grid.Col>
       </Grid.Row>
       <Grid.Row gap={{ base: "lg", lgUp: "xl" }}>
@@ -30,6 +31,7 @@ const About1 = () => (
             </Grid.Col>
             <Grid.Col>
               <Card
+                className="ceo-card"
                 variant="neutral"
                 title="Metin Tekin"
                 subtitle="Chief Executive Officer"
