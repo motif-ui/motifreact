@@ -80,11 +80,6 @@ $variants: ("neutral", "primary", "secondary", "info", "danger", "warning", "suc
       &:not(:first-child) button {
         border-top: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
       }
-      &.noData {
-        padding: var(--base-sizing-8x) var(--base-sizing-16x);
-        color: var(--theme-color-text-base-disabled-light);
-        @include font("body", "md");
-      }
     }
   }
 

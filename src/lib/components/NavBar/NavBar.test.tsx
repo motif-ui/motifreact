@@ -152,23 +152,6 @@ describe("NavBar", () => {
     expect(queryByText("Result 1")).toBeInTheDocument();
   });
 
-  it("should render a no data message in the search results dropdown only after a search returns no results, until the clear button is clicked", async () => {
-    const onPressEnter = jest.fn();
-    const { queryByText, queryByRole, getByRole, getByText, rerender } = render(<NavBar search={{ results: [], onPressEnter }} />);
-    expect(queryByRole("listbox")).not.toBeInTheDocument();
-
-    await userEvent.type(getByRole("textbox"), "query");
-    fireEvent.keyUp(getByRole("textbox"), { key: "Enter", code: "Enter" });
-    rerender(<NavBar search={{ results: [], onPressEnter, searching: true }} />);
-    expect(queryByRole("listbox")).not.toBeInTheDocument();
-
-    rerender(<NavBar search={{ results: [], onPressEnter, searching: false }} />);
-    expect(queryByText("No data found...")).toBeInTheDocument();
-
-    fireEvent.click(getByText("cancel_outline"));
-    expect(queryByRole("listbox")).not.toBeInTheDocument();
-  });
-
   it("should render a clear button in the search input only after text has been typed", async () => {
     const { getByRole, queryByText } = render(<NavBar search={{}} />);
     const searchInput = getByRole("textbox") as HTMLInputElement;

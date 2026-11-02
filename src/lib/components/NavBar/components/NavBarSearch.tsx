@@ -25,11 +25,9 @@ const NavBarSearch = (props: NavBarSearchProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const refSearchResult = useRef<HTMLUListElement>(null);
   const [maybeShowResults, setMaybeShowResults] = useState(true);
-  const [searched, setSearched] = useState(false);
-  const showResults = maybeShowResults && (!!results.length || (searched && !searching));
   const insideRefs = useMemo(() => [ref, refSearchResult], []);
   useOverlayState({
-    open: showResults,
+    open: maybeShowResults,
     onClose: () => setMaybeShowResults(false),
     insideRefs,
     closeOnOutsideClick: true,
@@ -38,9 +36,7 @@ const NavBarSearch = (props: NavBarSearchProps) => {
   const onEnterPressed = useCallback(
     (evt: KeyboardEvent) => {
       evt.preventDefault();
-      if (evt.key !== "Enter") return;
-      setSearched(true);
-      onPressEnter!(searchQuery);
+      evt.key === "Enter" && onPressEnter!(searchQuery);
     },
     [onPressEnter, searchQuery],
   );
@@ -66,7 +62,6 @@ const NavBarSearch = (props: NavBarSearchProps) => {
         onChange={val => setSearchQuery(val as string)}
         onClearClick={() => {
           setSearchQuery("");
-          setSearched(false);
           onClear?.();
         }}
         onClick={results.length && !maybeShowResults ? () => setMaybeShowResults(true) : undefined}
@@ -75,14 +70,13 @@ const NavBarSearch = (props: NavBarSearchProps) => {
           name: "search",
           onClick: () => {
             setMaybeShowResults(true);
-            setSearched(true);
             onButtonClick?.(searchQuery);
           },
         }}
         {...(searching && { loader: true, disabled: true })}
         className={styles.searchInput}
       />
-      {showResults && (
+      {!!results.length && maybeShowResults && (
         <NavBarSearchResults
           onResultClick={value => {
             onResultClick?.(value);
