@@ -85,6 +85,10 @@ $variants: (
     min-width: 0;
   }
 
+  .headerIcon {
+    --mtf-icon-size: var(--base-sizing-40x);
+  }
+
   .headerContent {
     display: flex;
     flex-direction: column;
@@ -204,5 +208,8 @@ $variants: (
       background-color: $avatarBgColor;
       color: $avatarTextColor;
     }
+  }
+  .header .headerIcon.headerIcon-#{$variant} {
+    color: $bgColor;
   }
 }
