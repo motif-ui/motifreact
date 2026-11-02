@@ -47,7 +47,7 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
   const mergedRef = useMemo(() => mergeRefs(anchorRef, ref), [ref]);
 
   const side = placement.startsWith("top") ? "top" : "bottom";
-  const overlayClassNames = sanitizeModuleRootClasses(styles, undefined, [size, spacing, side, disabled && "disabled"]);
+  const overlayClassNames = sanitizeModuleRootClasses(styles, undefined, [size, spacing, side]);
 
   return (
     <>
@@ -64,7 +64,7 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
       {attached &&
         createPortal(
           <div className={overlayClassNames} ref={overlayRef} style={overlayStyle} {...insideProps} data-testid="Dropdown">
-            {open && !disabled && <DropdownMenu items={items} />}
+            <DropdownMenu items={items} />
           </div>,
           document.body,
         )}

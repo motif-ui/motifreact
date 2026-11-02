@@ -105,8 +105,21 @@ describe("Dropdown", () => {
 
   it("should be rendered as disabled when dropdown menu disabled prop is given", async () => {
     render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} disabled />);
+    expect(screen.getByTestId("dropdown-button")).toBeDisabled();
     fireEvent.click(screen.getByText("Dropdown Menu"));
     await waitFor(() => expect(screen.queryByText("Item 1")).not.toBeInTheDocument());
+  });
+
+  it("should keep the menu closed when it is enabled again after being disabled while open", () => {
+    const { rerender } = render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    expect(screen.getByText("Item 1")).toBeInTheDocument();
+
+    rerender(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} disabled />);
+    expect(screen.queryByText("Item 1")).not.toBeInTheDocument();
+
+    rerender(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    expect(screen.queryByText("Item 1")).not.toBeInTheDocument();
   });
 
   it("should be rendered as disabled when dropdown menu item disabled prop is given", async () => {

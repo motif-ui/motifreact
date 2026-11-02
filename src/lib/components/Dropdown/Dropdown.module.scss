@@ -12,6 +12,9 @@ $states: "hover", "active", "disabled";
 $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 $caret-margin: var(--base-sizing-12x);
 
+// The caret points near the anchor's right edge. It is kept in the menu, e.g. when the menu is shifted into the screen.
+$caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-margin), calc(100% - $caret-margin));
+
 @mixin caret-tip($pos) {
   &::after,
   &::before {
@@ -26,21 +29,21 @@ $caret-margin: var(--base-sizing-12x);
     }
   }
   &::before {
-    left: calc(var(--overlay-anchor-right) - $caret-margin - var(--base-sizing-6x));
+    left: calc($caret-center - var(--base-sizing-6x));
     border-#{$pos}-color: var(--theme-color-surface-base-base7);
     @if $pos == bottom {
-      border-width: 0 var(--base-sizing-6x) $caret-margin var(--base-sizing-6x);
+      border-width: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
     } @else {
       border-width: var(--base-sizing-10x) var(--base-sizing-6x) 0 var(--base-sizing-6x);
     }
   }
   &::after {
-    left: calc(var(--overlay-anchor-right) - $caret-margin - var(--base-sizing-4x));
+    left: calc($caret-center - var(--base-sizing-4x));
     border-#{$pos}-color: var(--theme-color-surface-base-bg-light);
     @if $pos == bottom {
       border-width: var(--base-sizing-2x) var(--base-sizing-4x) var(--base-sizing-10x) var(--base-sizing-4x);
     } @else {
-      border-width: var(--base-sizing-8x) var(--base-sizing-4x) var(--base-sizing-2x) var(--base-sizing-4x);
+      border-width: var(--base-sizing-10x) var(--base-sizing-4x) var(--base-sizing-2x) var(--base-sizing-4x);
     }
   }
 }
@@ -131,12 +134,19 @@ $caret-margin: var(--base-sizing-12x);
 .Menu {
   list-style: none;
   padding: 0;
-  margin-block: var(--base-sizing-10x);
+  margin-block: 0;
   position: relative;
   border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
   border-radius: var(--theme-sizing-radius-default);
   background-color: var(--theme-color-surface-base-global-light);
   @include shadow(6);
+
+  .bottom & {
+    margin-top: var(--base-sizing-10x);
+  }
+  .top & {
+    margin-bottom: var(--base-sizing-10x);
+  }
 
   .noSpace & {
     margin-block: 0;
