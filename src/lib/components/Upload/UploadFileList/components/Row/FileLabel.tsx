@@ -6,6 +6,7 @@ import { FileType } from "@/components/Upload/types";
 import { formatBytes, shortenText } from "../../../../../../utils/utils";
 import ProgressBar from "@/components/ProgressBar";
 import { sanitizeModuleClasses } from "../../../../../../utils/cssUtils";
+import { isFileFailed } from "@/components/Upload/helper";
 
 type Props = {
   file: FileType;
@@ -21,7 +22,7 @@ export const FileLabel = memo(
       file: { name, size },
     },
   }: Props) => {
-    const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL || status === STATUS.DELETE_FAIL;
+    const failed = isFileFailed({ status });
     const successByUpload = status === STATUS.SUCCESS && !addedByValue;
     const helperClassName = sanitizeModuleClasses(styles, "helperText", failed ? "helperError" : successByUpload && "helperSuccess");
     const { t } = useMotifContext();

@@ -1,14 +1,14 @@
 "use client";
 
 import styles from "./AlertModal.module.scss";
+import { useMemo } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRef } from "../../types";
 import { AlertModalProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import useOutsideClick from "../../hooks/useOutsideClick";
-import useDomReady from "../../hooks/useDomReady";
-import useControlledVisibility from "../../hooks/useControlledVisibility";
+import { mergeRefs } from "../../../utils/reactUtils";
+import useModalOverlay from "../../hooks/useModalOverlay";
 import AlertModalActions from "./components/AlertModalActions";
 import AlertModalContent from "./components/AlertModalContent";
 
@@ -20,6 +20,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     size = "md",
     open,
     onClose,
+    onAfterClose,
     actionButton,
     alternateButton,
     buttonsPosition = "center",
@@ -35,12 +36,15 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     className,
   } = usePropsWithThemeDefaults("AlertModal", props);
 
-  const domReady = useDomReady();
-  const { visible, attached, hide } = useControlledVisibility({ open, onClose, duration: 300 });
-
-  const modalRef = useOutsideClick<HTMLDivElement>(() => {
-    closable && hide();
+  const { attached, visible, rootRef, dialogRef, insideProps } = useModalOverlay({
+    open: !!open,
+    onClose,
+    onAfterClose,
+    duration: 300,
+    closeOnOutsideClick: closable,
+    closeOnEscape: closable,
   });
+  const mergedRef = useMemo(() => mergeRefs(rootRef, ref), [rootRef, ref]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
@@ -55,10 +59,9 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
 
   return (
     attached &&
-    domReady &&
     createPortal(
-      <div data-testid="alertModalBackdrop" className={classNames} style={style} ref={ref}>
-        <div className={styles.alertModalContainer} ref={modalRef}>
+      <div data-testid="alertModalBackdrop" className={classNames} style={style} ref={mergedRef}>
+        <div className={styles.alertModalContainer} ref={dialogRef} tabIndex={-1} {...insideProps}>
           <AlertModalContent title={title} text={text} icon={icon} variant={variant} />
           {(actionButton || alternateButton) && (
             <AlertModalActions actionButton={actionButton} alternateButton={alternateButton} variant={variant} />

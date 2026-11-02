@@ -8,6 +8,7 @@ import { InputSize } from "../../../Form/types";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import ProgressBar from "@/components/ProgressBar";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
+import { isFileOnServer } from "@/components/Upload/helper";
 
 type Props = {
   disabled?: boolean;
@@ -23,7 +24,7 @@ export const LabelArea = (props: Props) => {
   const { disabled, success, error, errors, size, inputState, readOnly } = props;
   const {
     selectedFiles,
-    uploadProps: { autoUpload },
+    uploadProps: { autoUpload, fileAction },
     browse,
   } = useContext(UploadContext);
   const { t } = useMotifContext();
@@ -43,8 +44,9 @@ export const LabelArea = (props: Props) => {
 
   const suffixType: LabelSuffix = errors?.length ? "errorTooltip" : error ? "error" : success ? "success" : null;
   const enableDelete = !disabled && !readOnly && (!!errors?.length || (inputState !== "noFile" && inputState !== "uploading"));
-  const enableDownload = selectedFiles.some(f => !!f.download && (f.status === STATUS.SUCCESS || f.status === STATUS.DELETE_FAIL));
-  const showLabelSuffix = !!(suffixType || enableDelete || enableDownload);
+  const enableDownload = selectedFiles.some(f => !!f.download && isFileOnServer(f));
+  const enableAction = !!fileAction && selectedFiles.some(isFileOnServer);
+  const showLabelSuffix = !!(suffixType || enableDelete || enableDownload || enableAction);
   const buttonDisabled = disabled || (inputState !== "noFile" && inputState !== "uploading");
 
   const wrapperClassNames = sanitizeModuleClasses(
@@ -64,7 +66,14 @@ export const LabelArea = (props: Props) => {
             {text}
           </button>
           {showLabelSuffix && (
-            <LabelSuffix size={size} errors={errors} labelSuffix={suffixType} enableDelete={enableDelete} enableDownload={enableDownload} />
+            <LabelSuffix
+              size={size}
+              errors={errors}
+              labelSuffix={suffixType}
+              enableDelete={enableDelete}
+              enableDownload={enableDownload}
+              enableAction={enableAction}
+            />
           )}
         </>
       )}
