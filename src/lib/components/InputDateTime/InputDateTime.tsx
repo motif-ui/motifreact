@@ -183,7 +183,6 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
             removeActionButtons
             onDateChange={onDateChange}
             onTimeChange={onTimeChange}
-            onOkClick={() => hide()}
             className={styles.dateTimePicker}
             style={pickerStyle}
           />,
