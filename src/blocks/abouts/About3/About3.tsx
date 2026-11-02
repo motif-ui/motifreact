@@ -16,7 +16,7 @@ const creatorsParagraphs = [
 
 const About3 = () => (
   <Container>
-    <Grid rowGap={{ base: "md", mdUp: "lg" }} columnGap="md" padding={{ base: "none", smUp: "md", mdUp: "lg", lgUp: "xxl" }} fluid>
+    <Grid className="about-3" rowGap={{ base: "md", mdUp: "lg" }} columnGap="md" padding={{ smUp: "md", mdUp: "lg", lgUp: "xxl" }}>
       <Grid.Row justifyCols="center">
         <Grid.Col size={12} lg={8}>
           <Text text="Our Background" type="display" size="lg" marginless center />
@@ -39,33 +39,25 @@ const About3 = () => (
           <ImageView src="https://picsum.photos/seed/about3/384/320" width="100%" />
         </Grid.Col>
       </Grid.Row>
-      <Grid.Row>
+      <Grid.Row className="paragraph-row">
         <Grid.Col size={12} lg={6}>
-          <Grid.Row rowGap="lg">
-            <Text text="About Us" type="display" size="sm" marginless />
-          </Grid.Row>
-          <Grid.Row rowGap="md">
-            {aboutUsParagraphs.map(text => (
-              <Text key={text} text={text} type="paragraph" size="lg" tone="soft" weight="medium" marginless />
-            ))}
-          </Grid.Row>
+          <Text text="About Us" type="display" size="sm" marginless />
+          {aboutUsParagraphs.map(text => (
+            <Text key={text} text={text} type="paragraph" size="lg" tone="soft" weight="medium" />
+          ))}
         </Grid.Col>
         <Grid.Col size={12} lg={6}>
-          <Grid.Row rowGap="lg">
-            <Text text="Our Creators" type="display" size="sm" marginless />
-          </Grid.Row>
-          <Grid.Row rowGap="md">
-            {creatorsParagraphs.map(text => (
-              <Text key={text} text={text} type="paragraph" size="lg" tone="soft" weight="medium" marginless />
-            ))}
-          </Grid.Row>
+          <Text text="Our Creators" type="display" size="sm" marginless />
+          {creatorsParagraphs.map(text => (
+            <Text key={text} text={text} type="paragraph" size="lg" tone="soft" weight="medium" />
+          ))}
         </Grid.Col>
       </Grid.Row>
       <Grid.Row>
         <Grid.Col size={12}>
-          <Panel className="about3-footer">
+          <Panel className="footer">
             <Text text="Part of Our Global Team" type="body" size="xl" weight="bold" />
-            <Link className="about3-footer-link" size="sm" label="Get to know the team" url="https://www.motif-ui.com/" targetBlank />
+            <Link size="sm" label="Get to know the team" url="https://www.motif-ui.com/" targetBlank />
           </Panel>
         </Grid.Col>
       </Grid.Row>
