@@ -13,11 +13,13 @@ const meta: Meta<typeof InputDate> = {
 export default meta;
 type Story = StoryObj<typeof InputDate>;
 
+const value = new Date(2026, 10, 12);
+
 export const ScrollingContainer: Story = {
   render: args => (
     <div data-testid="scroller" style={{ overflow: "auto", height: 150, width: 400, margin: 16, border: "1px solid" }}>
       <div style={{ height: 600, paddingTop: 20 }}>
-        <InputDate {...args} value={new Date(2026, 10, 12)} />
+        <InputDate {...args} value={value} />
       </div>
     </div>
   ),
@@ -27,7 +29,7 @@ export const InModal: Story = {
   render: args => (
     <div style={{ height: 3000 }}>
       <Modal open title="Modal">
-        <InputDate {...args} value={new Date(2026, 10, 12)} />
+        <InputDate {...args} value={value} />
       </Modal>
     </div>
   ),
