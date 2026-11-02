@@ -35,10 +35,11 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
     inactive && setInternalOpen(false);
   }
   const isOpen = !inactive && (controlled ? open : internalOpen);
-  const transition = useVisibilityTransition(isOpen, duration);
+  // Without a duration while inactive, it is detached at once and onAfterClose is called with it
+  const transition = useVisibilityTransition(isOpen, inactive ? undefined : duration);
   const domReady = useDomReady();
-  const attached = !inactive && transition.attached && domReady;
-  const visible = !inactive && transition.visible;
+  const attached = transition.attached && domReady;
+  const { visible } = transition;
   const onCloseRef = useRef(onClose);
   const onAfterCloseRef = useRef(onAfterClose);
   // Whether it was attached in the previous commit, so the end of the exit transition is told from the initial closed state
