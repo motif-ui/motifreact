@@ -14,7 +14,7 @@ const MenuList = (p: PropsWithRef<MenuListProps, HTMLDivElement>) => {
     items,
     darkMode,
     logo,
-    footerText,
+    footer,
     enableCollapseButton,
     defaultCollapsed,
     onCollapsedChange,
@@ -54,7 +54,7 @@ const MenuList = (p: PropsWithRef<MenuListProps, HTMLDivElement>) => {
         className={className}
         ref={ref}
         logo={logo}
-        footerText={footerText}
+        footer={footer}
         enableCollapseButton={enableCollapseButton}
         size={size}
       />
