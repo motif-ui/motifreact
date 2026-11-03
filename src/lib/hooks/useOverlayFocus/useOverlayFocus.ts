@@ -2,15 +2,13 @@
 
 import { useEffect } from "react";
 import type { RefObject } from "react";
+import { focusableSelector, getFocusables } from "./focusable";
 
 type Props = {
   enabled: boolean;
   /** Called when the focus leaves the overlay by tabbing forward from its last element */
   onLeave?: () => void;
 };
-
-const focusableSelector = "button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex='-1'])";
-const isVisible = (el: HTMLElement) => el.offsetParent !== null && !el.closest("[inert]");
 
 /**
  * Bridges the keyboard focus between an anchor and its overlay rendered elsewhere in the DOM (e.g. a portal):
@@ -31,8 +29,8 @@ const useOverlayFocus = (anchorRef: RefObject<HTMLElement | null>, overlayRef: R
       const inOverlay = overlay.contains(e.target);
       if (!inOverlay && !anchor.contains(e.target)) return;
 
-      const anchorEls = Array.from(anchor.querySelectorAll<HTMLElement>(focusableSelector)).filter(isVisible);
-      const overlayEls = Array.from(overlay.querySelectorAll<HTMLElement>(focusableSelector)).filter(isVisible);
+      const anchorEls = getFocusables(anchor);
+      const overlayEls = getFocusables(overlay);
       const lastInAnchor = anchorEls.at(-1);
       const firstInOverlay = overlayEls.at(0);
       const lastInOverlay = overlayEls.at(-1);
