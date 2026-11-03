@@ -13,8 +13,15 @@ const meta: Meta<typeof UploadInput> = {
     accept: { table: { defaultValue: { summary: MIME_TYPES.ALL } } },
     size: { table: { defaultValue: { summary: "md" } } },
     maxFile: { table: { defaultValue: { summary: "1" } } },
+    fileAction: { table: { type: { summary: "{ icon: IconGlobalType; onClick: (file: FileValue) => void }" } } },
     autoUpload: { table: { defaultValue: { summary: "true" } } },
-    value: { table: { type: { summary: "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; }[]" } } },
+    value: {
+      table: {
+        type: {
+          summary: "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; }[]",
+        },
+      },
+    },
   },
   args: {
     uploadRequest: { url, method, headers: [{ key: "mtf", value: "ui" }] },

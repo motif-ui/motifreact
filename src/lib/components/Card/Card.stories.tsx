@@ -33,17 +33,7 @@ export const Primary: Story = {
 };
 
 export const Header: Story = {
-  render: args => (
-    <Card
-      {...args}
-      title="Card Header Title"
-      subtitle="Motif Card Subtitle"
-      imagePosition="right"
-      avatarIcon="folder"
-      image="https://picsum.photos/seed/motifui/100"
-      action={{ icon: "download", onClick: () => console.log("asd") }}
-    />
-  ),
+  render: args => <Card {...args} imagePosition="right" image="https://picsum.photos/seed/motifui/100" />,
 };
 
 export const Content: Story = {
@@ -65,9 +55,6 @@ export const HeaderAndContent: Story = {
   render: args => (
     <Card
       {...args}
-      title="Card Header Title"
-      subtitle="Motif Card Subtitle"
-      action={{ icon: "download", onClick: () => console.log("Action clicked!") }}
       contentText="Motif Card Supporting Text"
       contentTitle="Card Content Title"
       contentSubtitle="Card Content Subtitle"
