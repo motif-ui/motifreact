@@ -18,7 +18,7 @@ $positions: (
 );
 
 // Distance from the screen edges when the tooltip is shifted to stay in the screen
-$screen-edge-space: var(--base-sizing-4x);
+$screen-edge-space: var(--base-sizing-8x);
 $radius: var(--theme-sizing-radius-default);
 
 .Root {
@@ -28,6 +28,7 @@ $radius: var(--theme-sizing-radius-default);
   display: flex;
   width: max-content;
   text-wrap: auto;
+  pointer-events: none;
   box-sizing: border-box;
 
   // The triangle points to the anchor's center on the left and right placements.
@@ -86,20 +87,19 @@ $radius: var(--theme-sizing-radius-default);
       .triangle {
         order: $triangleOrder;
         transform: rotate($rotate);
-        @if $flexDir == row {
-          margin-top: var(--triangle-top);
-        } @else {
-          // kept inside the tooltip, clear of its rounded corners
-          margin-left: clamp(#{$radius}, var(--triangle-left), calc(100% - var(--pointer-size) - #{$radius}));
-        }
       }
 
       @if $flexDir == row {
-        margin-top: $screen-edge-space;
-        margin-bottom: $screen-edge-space;
+        margin-block: $screen-edge-space;
+        .triangle {
+          margin-top: var(--triangle-top);
+        }
       } @else {
-        margin-left: $screen-edge-space;
-        margin-right: $screen-edge-space;
+        margin-inline: $screen-edge-space;
+        .triangle {
+          // kept inside the tooltip, clear of its rounded corners
+          margin-left: clamp(#{$radius}, var(--triangle-left), calc(100% - var(--pointer-size) - #{$radius}));
+        }
       }
     }
   }

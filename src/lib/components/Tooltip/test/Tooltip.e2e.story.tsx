@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
+import { useState } from "react";
+import type { CSSProperties } from "react";
 import Tooltip from "@/components/Tooltip/Tooltip";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -18,41 +20,52 @@ type Story = StoryObj<typeof Tooltip>;
 const longText =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
-// tall: taller than the space the button and the screen edge leave, so a left or right tooltip is shifted along the button
-const Corners = ({ position, tall }: { position: OverlayPlaceOn; tall?: boolean }) => (
-  // a button in each corner of the screen, so the tooltip has no room on the sides facing the screen edges
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "auto auto",
-      justifyContent: "space-between",
-      alignContent: "space-between",
-      height: "100vh",
-      padding: 16,
-      boxSizing: "border-box",
-    }}
-  >
-    {["topLeft", "topRight", "bottomLeft", "bottomRight"].map(corner => (
-      <div key={corner} data-testid={corner}>
-        <Tooltip
-          text={tall ? "Tooltip text\nSecond line\nThird line" : "Tooltip text"}
-          title={tall ? "Title" : undefined}
-          size={tall ? "lg" : "md"}
-          position={position}
-        >
-          <Button label="Hover" />
-        </Tooltip>
-      </div>
-    ))}
-  </div>
-);
+const edgeText = "A tooltip text long enough to be shifted at the screen edge";
+const tallText = "Tooltip text\nSecond line\nThird line";
 
-export const CornersTop: Story = { render: () => <Corners position="top" /> };
-export const CornersBottom: Story = { render: () => <Corners position="bottom" /> };
-export const CornersLeft: Story = { render: () => <Corners position="left" /> };
-export const CornersRight: Story = { render: () => <Corners position="right" /> };
-export const CornersLeftTall: Story = { render: () => <Corners position="left" tall /> };
-export const CornersRightTall: Story = { render: () => <Corners position="right" tall /> };
+export const ShiftedIntoTheScreen: Story = {
+  render: () => (
+    <div style={{ display: "flex", justifyContent: "space-between", padding: "200px 16px" }}>
+      <Tooltip text={edgeText} position="top">
+        <Button label="Left" />
+      </Tooltip>
+      <Tooltip text={edgeText} position="bottom">
+        <Button label="Right" />
+      </Tooltip>
+    </div>
+  ),
+};
+
+export const OppositeSide: Story = {
+  render: () => (
+    <div style={{ display: "flex", justifyContent: "flex-end", padding: 16 }}>
+      <Tooltip text={edgeText} position="right">
+        <Button label="Right" />
+      </Tooltip>
+    </div>
+  ),
+};
+
+const tallEdges: { label: string; style: CSSProperties; position: OverlayPlaceOn }[] = [
+  { label: "Top left", style: { top: 16, left: 16 }, position: "right" },
+  { label: "Top right", style: { top: 16, right: 16 }, position: "left" },
+  { label: "Bottom left", style: { bottom: 16, left: 16 }, position: "right" },
+  { label: "Bottom right", style: { bottom: 16, right: 16 }, position: "left" },
+];
+
+export const TallAtTheEdges: Story = {
+  render: () => (
+    <>
+      {tallEdges.map(({ label, style, position }) => (
+        <div key={label} style={{ position: "absolute", ...style }}>
+          <Tooltip text={tallText} title="Title" size="lg" position={position}>
+            <Button label={label} />
+          </Tooltip>
+        </div>
+      ))}
+    </>
+  ),
+};
 
 export const LongText: Story = {
   render: () => (
@@ -78,7 +91,6 @@ export const ScrollingContainer: Story = {
 
 export const InModal: Story = {
   render: () => (
-    // the page behind the modal can be scrolled, the modal and the button in it stay fixed on the screen
     <div style={{ height: 3000 }}>
       <Modal open title="Modal">
         <div style={{ paddingTop: 60 }}>
@@ -87,6 +99,34 @@ export const InModal: Story = {
           </Tooltip>
         </div>
       </Modal>
+    </div>
+  ),
+};
+
+export const GrowingContent: Story = {
+  render: () => {
+    const StoryComponent = () => {
+      const [copied, setCopied] = useState(false);
+
+      return (
+        <div style={{ display: "flex", justifyContent: "flex-end", padding: "200px 8px" }}>
+          <Tooltip text={copied ? longText : "Copy"}>
+            <Button label="Hover" onClick={() => setCopied(true)} />
+          </Tooltip>
+        </div>
+      );
+    };
+
+    return <StoryComponent />;
+  },
+};
+
+export const TallContent: Story = {
+  render: () => (
+    <div style={{ padding: "300px 300px 0" }}>
+      <Tooltip text={Array.from({ length: 40 }, (_, i) => `Line ${i + 1}`).join("\n")} position="bottom" size="lg">
+        <Button label="Hover" />
+      </Tooltip>
     </div>
   ),
 };

@@ -1,11 +1,11 @@
-import { screen, render, waitFor, act, fireEvent } from "@testing-library/react";
+import { screen, render, act, fireEvent } from "@testing-library/react";
 
 import Tooltip from "@/components/Tooltip/Tooltip";
-import Button from "../Button/Button";
+import Button from "../../Button/Button";
 import { userEvent } from "@testing-library/user-event";
-import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { OverlayPlaceOn, StandardPropsWithRef } from "../../../lib/types";
-import { PropsWithRef, Size4SM } from "../../types";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { OverlayPlaceOn, StandardPropsWithRef } from "../../../../lib/types";
+import { PropsWithRef, Size4SM } from "../../../types";
 
 describe("Tooltip", () => {
   beforeEach(() => {
@@ -58,27 +58,51 @@ describe("Tooltip", () => {
     expect(screen.queryByTestId("tooltipItem")).not.toBeInTheDocument();
   });
 
-  it("should appear when the mouse is over the child component and disappear when the mouse is out", async () => {
+  it("should start fading out when the mouse is out and be removed only when the transition ends", async () => {
     render(
       <Tooltip text="Description">
         <Button label="Test Button" />
       </Tooltip>,
     );
 
-    await act(async () => {
-      await user.hover(screen.getByText("Test Button"));
+    await act(() => user.hover(screen.getByText("Test Button")));
+    act(() => {
+      jest.advanceTimersByTime(50);
     });
-    expect(screen.queryByTestId("tooltipItem")).toBeInTheDocument();
+    expect(screen.getByTestId("tooltipItem")).toHaveClass("visible");
 
-    await act(async () => {
-      await user.unhover(screen.getByText("Test Button"));
-      jest.advanceTimersByTime(250); // Advance timers by exactly 250ms
+    await act(() => user.unhover(screen.getByText("Test Button")));
+    expect(screen.getByTestId("tooltipItem")).not.toHaveClass("visible");
+
+    act(() => {
+      jest.advanceTimersByTime(249);
+    });
+    expect(screen.getByTestId("tooltipItem")).toBeInTheDocument();
+
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+    expect(screen.queryByTestId("tooltipItem")).not.toBeInTheDocument();
+  });
+
+  it("should stay when the mouse is over the child component again before the tooltip is removed", async () => {
+    render(
+      <Tooltip text="Description">
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+
+    await act(() => user.hover(screen.getByText("Test Button")));
+    await act(() => user.unhover(screen.getByText("Test Button")));
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    await act(() => user.hover(screen.getByText("Test Button")));
+    act(() => {
+      jest.advanceTimersByTime(500);
     });
 
-    // Wait for the tooltip to be removed from the document
-    await waitFor(() => {
-      expect(screen.queryByTestId("tooltipItem")).not.toBeInTheDocument();
-    });
+    expect(screen.getByTestId("tooltipItem")).toHaveClass("visible");
   });
 
   it("should render the title if title prop is given", async () => {
@@ -149,7 +173,6 @@ describe("Tooltip", () => {
   describe("when it does not fit into the screen at the given position", () => {
     const anchorRect = (rect: Partial<DOMRect>) => ({ x: 0, y: 0, width: 0, height: 0, toJSON: () => {}, ...rect }) as DOMRect;
 
-    // jsdom does not lay out, so the tooltip is given a size
     beforeEach(() => {
       jest.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(function (this: HTMLElement) {
         return this.dataset.testid === "tooltipItem" ? 200 : 0;
@@ -166,7 +189,6 @@ describe("Tooltip", () => {
           <Button label="Test Button" />
         </Tooltip>,
       );
-      // at the top edge of the screen, so there is no room above it
       jest
         .spyOn(screen.getByRole("button"), "getBoundingClientRect")
         .mockReturnValue(anchorRect({ top: 0, bottom: 30, left: 400, right: 500, width: 100, height: 30 }));
@@ -183,7 +205,6 @@ describe("Tooltip", () => {
           <Button label="Test Button" />
         </Tooltip>,
       );
-      // near the left edge of the screen, so the tooltip aligned to the anchor's right edge overflows it from the left
       jest
         .spyOn(screen.getByRole("button"), "getBoundingClientRect")
         .mockReturnValue(anchorRect({ top: 300, bottom: 330, left: 10, right: 50, width: 40, height: 30 }));
