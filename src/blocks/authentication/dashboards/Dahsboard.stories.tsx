@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import dashboard1Source from "./dashboard1/Dashboard1.tsx?raw";
-import Dashboard1 from "./dashboard1/Dashboard1";
+import Dashboard1 from "./Dashboard1/Dashboard1";
 
 const meta: Meta = {
   title: "Blocks/Dashboards",
