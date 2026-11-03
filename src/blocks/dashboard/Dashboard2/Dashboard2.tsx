@@ -1,9 +1,7 @@
-"use client";
-
 import { Button, Card, Divider, Grid, Icon, IconButton, InputText, ListView, MenuList, Panel, Tab, Table, Text } from "@motif-ui/react";
-import Chart from "../components/Chart";
+import AreaChart from "../../chartJS/AreaChart/AreaChart";
+import BarChart from "../../chartJS/BarChart/BarChart";
 import "./Dashboard2.css";
-import ListViewItem from "src/lib/components/ListView/Item/ListViewItem";
 
 const revenueData = [
   { month: "January", dataset1: -35, dataset2: 80 },
@@ -151,17 +149,17 @@ const Dashboard2 = () => {
           items={navItems}
           logo="https://cdn.jsdelivr.net/gh/motif-ui/assets/images/motifui-logo.svg"
           size="sm"
-          // footer={
-          //   <ListView enableMultiLine size="sm">
-          //     <ListViewItem
-          //       title="Metin Tekin"
-          //       description="metintekin@motifui.com"
-          //       image="https://i.pravatar.cc/150"
-          //       iconRight="more_vert"
-          //       id="1"
-          //     />
-          //   </ListView>
-          // }
+          footer={
+            <ListView enableMultiLine size="sm">
+              <ListView.Item
+                title="Metin Tekin"
+                description="metintekin@motifui.com"
+                image="https://i.pravatar.cc/150"
+                iconRight="more_vert"
+                id="1"
+              />
+            </ListView>
+          }
         />
       </div>
 
@@ -177,7 +175,7 @@ const Dashboard2 = () => {
                 <InputText iconLeft="search" placeholder="Search users, workspaces" />
                 <IconButton name="notifications" variant="secondary" size="sm" />
                 <ListView enableMultiLine size="sm">
-                  <ListViewItem
+                  <ListView.Item
                     title="Metin Tekin"
                     description="metintekin@motifui.com"
                     image="https://i.pravatar.cc/150"
@@ -217,14 +215,14 @@ const Dashboard2 = () => {
                 <Card contentTitle="Revenue Overview" className="statCard" outlined>
                   <Text text="$4,702,000" type="heading" weight="bold" tone="soft" size="xl" marginless />
 
-                  <Chart type="area" data={revenueData} xKey="month" series={revenueSeries} />
+                  <AreaChart data={revenueData} xKey="month" series={revenueSeries} />
                 </Card>
               </Grid.Col>
               <Grid.Col size={12} lg={6}>
                 <Card contentTitle="Costs Breakdown" className="statCard" outlined>
                   <Text text="$2,405,600" type="heading" weight="bold" tone="soft" size="xl" marginless />
 
-                  <Chart type="bar" data={costsData} xKey="month" series={costsSeries} />
+                  <BarChart data={costsData} xKey="month" series={costsSeries} />
                 </Card>
               </Grid.Col>
             </Grid.Row>
