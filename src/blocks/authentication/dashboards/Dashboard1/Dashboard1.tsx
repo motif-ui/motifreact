@@ -184,10 +184,10 @@ const Dashboard1 = () => (
                       >
                         <ProgressBar size="xl" progress={35} />
                         <Grid.Row stretchItems>
-                          <Grid.Col size={12} lg={6}>
+                          <Grid.Col size={12}>
                             <Card contentTitle="Offline Revenue" contentSubtitle="$612.150" outlined variant="neutral" />
                           </Grid.Col>
-                          <Grid.Col size={12} lg={6}>
+                          <Grid.Col size={12}>
                             <Card contentTitle="Platform Revenue" contentSubtitle="$300.000" outlined variant="neutral" />
                           </Grid.Col>
                         </Grid.Row>
