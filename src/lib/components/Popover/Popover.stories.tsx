@@ -43,6 +43,27 @@ const PopoverExample = (args: PopoverProps) => {
 };
 
 export const Primary: Story = {
+  parameters: {
+    docs: {
+      source: {
+        type: "code",
+        code: `
+        const item = <div style={{ padding: 12 }}>Popover item...</div>;
+        const containerStyle = { paddingTop: 40, paddingBottom: 40 };
+        const ref = useRef(null);
+
+        return (
+          <div style={containerStyle}>
+            <Avatar letters="AA" ref={ref} />
+            <Popover {...args} anchorRef={ref}>
+              {item}
+            </Popover>
+          </div>
+        );
+        `,
+      },
+    },
+  },
   render: args => <PopoverExample {...args} />,
 };
 
