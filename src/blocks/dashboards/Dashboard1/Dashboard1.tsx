@@ -20,8 +20,8 @@ import {
 } from "src/lib";
 import TabPanel from "src/lib/components/Tab/components/TabPanel";
 import ListViewItem from "src/lib/components/ListView/Item/ListViewItem";
-import OccupancyChart from "../../../chartJS/OccupancyCharts/OccupancyChart";
-import CustomerSegmentsChart from "../../../chartJS/CustomerSegments/CustomerSegmentsChart";
+import OccupancyChart from "../../chartJS/OccupancyCharts/OccupancyChart";
+import CustomerSegmentsChart from "../../chartJS/CustomerSegments/CustomerSegmentsChart";
 import "./dashboard1.css";
 
 const menuList = [
