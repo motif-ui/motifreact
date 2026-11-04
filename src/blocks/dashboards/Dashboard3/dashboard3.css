@@ -1,8 +1,39 @@
-.dashboard3-centered {
+.layout {
+  display: flex;
+}
+
+.sidebar {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+}
+
+.topbarLeft {
   display: flex;
   align-items: center;
 }
 
-.dashboard3-filter > * {
+.topbarRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+
+  .ceo-card .mtf-ImageView {
+    border-radius: 999px;
+    background-clip: content-box;
+    padding: 16px;
+  }
+}
+
+.topbarIconButton {
+  padding: 6px;
+}
+
+.filter > * {
   flex: 1;
 }

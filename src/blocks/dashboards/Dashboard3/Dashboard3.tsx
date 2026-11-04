@@ -1,7 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { BusinessCard, Card, Divider, Form, Grid, IconButton, Link, ListView, MenuList, Panel, Select, Skeleton } from "@motif-ui/react";
+import {
+  BusinessCard,
+  Card,
+  Container,
+  Divider,
+  Form,
+  Grid,
+  IconButton,
+  ImageView,
+  InputText,
+  Link,
+  ListView,
+  MenuList,
+  Panel,
+  Select,
+} from "@motif-ui/react";
 import "./dashboard3.css";
 
 const LOGO_URL = "https://cdn.jsdelivr.net/gh/motif-ui/assets@HEAD/images/motifui-logo.svg";
@@ -57,139 +71,130 @@ const ANNOUNCEMENTS = Array.from({ length: 3 }, () => ({
 }));
 
 const PRINTABLES = [
-  { title: "Work Permissions", icon: "work", variant: "secondary" },
-  { title: "Banned List", icon: "warning", variant: "secondary" },
-  { title: "Residence Permits", icon: "how_to_reg", variant: "secondary" },
-  { title: "Student List", icon: "local_library", variant: "secondary" },
+  { title: "Work Permissions", icon: "work", iconVariant: "primary" },
+  { title: "Banned List", icon: "warning", iconVariant: "danger" },
+  { title: "Residence Permits", icon: "how_to_reg", iconVariant: "success" },
+  { title: "Student List", icon: "local_library", iconVariant: "warning" },
 ] as const;
 
-const Dashboard3 = () => {
-  const [menuCollapsed, setMenuCollapsed] = useState(false);
+const STATISTICS_CHART = {
+  type: "line",
+  data: {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: [
+      { label: "Unfilled", data: [40, 61, 150, -60, 205, 120, -80, -50, 255, 120, 200, -95], fill: false },
+      { label: "Dashed", data: [270, -42, -10, 120, 90, 255, 160, -45, 30, 165, 75, 240], borderDash: [5, 5], fill: false },
+      { label: "Filled", data: [260, 195, 230, 170, 50, 130, 40, 150, 20, -20, 265, 160], fill: true },
+    ],
+  },
+};
 
-  return (
-    <Grid fluid gutter="lg">
-      <Grid.Row>
-        <Grid.Col size={12} lg={menuCollapsed ? 1 : 3} xl={menuCollapsed ? 1 : 2}>
-          <Grid fluid leanToEdge gutter="lg">
+const STATISTICS_CHART_URL = `https://quickchart.io/chart?w=800&h=360&c=${encodeURIComponent(JSON.stringify(STATISTICS_CHART))}`;
+
+const Dashboard3 = () => (
+  <div className="layout">
+    <div className="sidebar">
+      <MenuList items={MENU_ITEMS} logo={LOGO_URL} enableCollapseButton />
+    </div>
+    <div className="content">
+      <Panel bordered lean>
+        <Container>
+          <Grid gap="sm" padding="sm">
+            <Grid.Row rowGap="sm">
+              <Grid.Col className="topbarLeft" size={12} lg={4}>
+                <Card variant="neutral" icon="dashboard" title="Dashboard" />
+              </Grid.Col>
+              <Grid.Col className="topbarRight" size={12} lg={8}>
+                <InputText iconLeft="search" placeholder="Ara..." />
+                <IconButton size="sm" name="notifications" variant="secondary" className="topbarIconButton" />
+                <Card
+                  className="ceo-card"
+                  variant="neutral"
+                  title="Metin Tekin"
+                  subtitle="Chief Executive Officer"
+                  image="https://picsum.photos/seed/motifui-about-avatar/100"
+                />
+                <IconButton size="sm" name="more_vert" variant="secondary" className="topbarIconButton" />
+              </Grid.Col>
+            </Grid.Row>
             <Grid.Row>
-              <Grid.Col>
-                <MenuList items={MENU_ITEMS} logo={LOGO_URL} enableCollapseButton onCollapsedChange={setMenuCollapsed} />
+              <Divider orientation="horizontal" size="sm" />
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Col size={12} xl={8}>
+                <Grid.Row>
+                  <Grid.Col size={12}>
+                    <Panel type="elevated">
+                      <Form className="filter" submitButtonLabel="List" formOrientation="horizontal" onSubmit={console.log}>
+                        <Form.Field name="feedbackType" label="Feedback Type">
+                          <Select data={FEEDBACK_TYPES} placeholder="All" />
+                        </Form.Field>
+                        <Form.Field name="category" label="Category">
+                          <Select data={CATEGORIES} placeholder="All" />
+                        </Form.Field>
+                        <Form.Field name="date" label="Date">
+                          <Select data={DATES} placeholder="Last Month" />
+                        </Form.Field>
+                      </Form>
+                    </Panel>
+                  </Grid.Col>
+                </Grid.Row>
+                <Grid.Row columnGap="xs" stretchItems>
+                  {SHORTCUTS.map(({ title, icon }) => (
+                    <Grid.Col key={title} size={12} md={4}>
+                      <Card elevated variant="neutral" iconVariant="primary" icon={icon} title={title} />
+                    </Grid.Col>
+                  ))}
+                </Grid.Row>
+                <Grid.Row columnGap="xs" stretchItems>
+                  {STATS.map(({ count, label, icon, variant }) => (
+                    <Grid.Col key={label} size={12} sm={6} md={4}>
+                      <BusinessCard solid variant={variant} icon={icon} title={count} description={label} />
+                    </Grid.Col>
+                  ))}
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Col size={12}>
+                    <Panel bordered title="Statistics">
+                      <ImageView src={STATISTICS_CHART_URL} alt="Statistics chart" width="100%" />
+                    </Panel>
+                  </Grid.Col>
+                </Grid.Row>
+              </Grid.Col>
+              <Grid.Col size={12} xl={4}>
+                <Grid.Row>
+                  <Grid.Col size={12}>
+                    <Panel type="elevated">
+                      <ListView enableDividers enableMultiLine disableAvatars>
+                        {ANNOUNCEMENTS.map(({ title, description, date }, index) => (
+                          <ListView.Item
+                            key={index}
+                            id={`announcement-${index}`}
+                            title={title}
+                            description={description}
+                            alternateText={date}
+                          />
+                        ))}
+                      </ListView>
+                      <Link label="All Announcements" url="#" icon="arrow_forward" iconPosition="right" />
+                    </Panel>
+                  </Grid.Col>
+                </Grid.Row>
+                <Grid.Row stretchItems>
+                  {PRINTABLES.map(({ title, icon, iconVariant }) => (
+                    <Grid.Col key={title} size={12}>
+                      <Card elevated variant="neutral" icon={icon} iconVariant={iconVariant} title={title} subtitle="Print" />
+                    </Grid.Col>
+                  ))}
+                </Grid.Row>
               </Grid.Col>
             </Grid.Row>
           </Grid>
-        </Grid.Col>
-
-        <Grid.Col size={12} lg={menuCollapsed ? 11 : 9} xl={menuCollapsed ? 11 : 10}>
-          <Panel bordered lean>
-            <Grid fluid gutter="lg">
-              <Grid.Row justifyCols="apart" colsAuto>
-                <Grid.Col className="dashboard3-centered">
-                  <Card style={{ background: "none" }} title="Dashboard" icon="dashboard" />
-                </Grid.Col>
-                <Grid.Col>
-                  <Grid fluid leanToEdge gutter="lg">
-                    <Grid.Row colsAuto>
-                      <Grid.Col className="dashboard3-centered">
-                        <IconButton name="search" onClick={console.log} />
-                      </Grid.Col>
-                      <Grid.Col className="dashboard3-centered">
-                        <IconButton name="notifications" onClick={console.log} />
-                      </Grid.Col>
-                      <Grid.Col>
-                        <Card
-                          style={{ background: "none" }}
-                          avatarText="MT"
-                          title="Metin Tekin"
-                          subtitle="Chief Executive Officer"
-                          action={{ icon: "more_vert", onClick: console.log }}
-                        />
-                      </Grid.Col>
-                    </Grid.Row>
-                  </Grid>
-                </Grid.Col>
-              </Grid.Row>
-            </Grid>
-            <Divider />
-            <Grid fluid gutter="lg">
-              <Grid.Row>
-                <Grid.Col size={12} xl={8}>
-                  <Grid fluid leanToEdge gutter="lg">
-                    <Grid.Row>
-                      <Grid.Col>
-                        <Panel type="elevated">
-                          <Form className="dashboard3-filter" submitButtonLabel="List" formOrientation="horizontal" onSubmit={console.log}>
-                            <Form.Field name="feedbackType" label="Feedback Type">
-                              <Select data={FEEDBACK_TYPES} placeholder="All" />
-                            </Form.Field>
-                            <Form.Field name="category" label="Category">
-                              <Select data={CATEGORIES} placeholder="All" />
-                            </Form.Field>
-                            <Form.Field name="date" label="Date">
-                              <Select data={DATES} placeholder="Last Month" />
-                            </Form.Field>
-                          </Form>
-                        </Panel>
-                      </Grid.Col>
-                    </Grid.Row>
-
-                    <Grid.Row>
-                      {SHORTCUTS.map(({ title, icon }) => (
-                        <Grid.Col key={title} size={12} md={4}>
-                          <Card style={{ background: "none" }} elevated variant="secondary" icon={icon} title={title} />
-                        </Grid.Col>
-                      ))}
-                    </Grid.Row>
-
-                    <Grid.Row>
-                      {STATS.map(({ count, label, icon, variant }) => (
-                        <Grid.Col key={label} size={12} sm={6} md={4}>
-                          <BusinessCard solid variant={variant} icon={icon} title={count} description={label} />
-                        </Grid.Col>
-                      ))}
-                    </Grid.Row>
-
-                    <Grid.Row>
-                      <Grid.Col>
-                        <Panel bordered title="Statistics">
-                          <Skeleton />
-                        </Panel>
-                      </Grid.Col>
-                    </Grid.Row>
-                  </Grid>
-                </Grid.Col>
-
-                <Grid.Col size={12} xl={4}>
-                  <Grid fluid leanToEdge gutter="lg">
-                    <Grid.Row>
-                      <Grid.Col>
-                        <Panel type="elevated">
-                          <ListView enableDividers enableMultiLine disableAvatars>
-                            {ANNOUNCEMENTS.map(({ title, description, date }, index) => (
-                              <ListView.Item key={index} title={title} description={description} alternateText={date} />
-                            ))}
-                          </ListView>
-                          <Link label="All Announcements" url="#" icon="arrow_forward" iconPosition="right" />
-                        </Panel>
-                      </Grid.Col>
-                    </Grid.Row>
-
-                    <Grid.Row>
-                      {PRINTABLES.map(({ title, icon, variant }) => (
-                        <Grid.Col key={title} size={12}>
-                          <Card style={{ background: "none" }} elevated variant={variant} icon={icon} title={title} subtitle="Print" />
-                        </Grid.Col>
-                      ))}
-                    </Grid.Row>
-                  </Grid>
-                </Grid.Col>
-              </Grid.Row>
-            </Grid>
-          </Panel>
-        </Grid.Col>
-      </Grid.Row>
-    </Grid>
-  );
-};
+        </Container>
+      </Panel>
+    </div>
+  </div>
+);
 
 Dashboard3.displayName = "Dashboard3";
 export default Dashboard3;
