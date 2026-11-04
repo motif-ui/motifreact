@@ -1,43 +1,31 @@
-import { useMemo } from "react";
 import styles from "./BarChart.module.scss";
 import useChartJs from "../useChartJs";
-import { ChartProps, ChartSeries } from "../types";
 
-export type BarChartSeries = ChartSeries & {
-  stack?: string;
+const config = {
+  type: "bar",
+  data: {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+      { label: "Dataset 1", data: [18, -70, 81, 52, -30, 2, -27], backgroundColor: "#ff6384", stack: "stack0" },
+      { label: "Dataset 2", data: [-80, -12, 47, 46, -95, -58, 14], backgroundColor: "#36a2eb", stack: "stack0" },
+      { label: "Dataset 3", data: [22, -77, 92, 2, 59, -55, -86], backgroundColor: "#4bc0c0", stack: "stack1" },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { stacked: true },
+      y: { stacked: true },
+    },
+  },
 };
 
-const BarChart = (props: ChartProps<BarChartSeries>) => {
-  const { data, xKey, series, height = 260 } = props;
-
-  const config = useMemo(
-    () => ({
-      type: "bar",
-      data: {
-        labels: data.map(datum => String(datum[xKey])),
-        datasets: series.map(s => ({
-          label: s.label,
-          data: data.map(datum => Number(datum[s.key])),
-          backgroundColor: s.color,
-          stack: s.stack,
-        })),
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: { stacked: true },
-          y: { stacked: true },
-        },
-      },
-    }),
-    [data, xKey, series],
-  );
-
+const BarChart = () => {
   const canvasRef = useChartJs(config);
 
   return (
-    <div className={styles.chart} style={{ height }}>
+    <div className={styles.chart}>
       <canvas ref={canvasRef} />
     </div>
   );

@@ -1,45 +1,48 @@
-import { useMemo } from "react";
 import styles from "./AreaChart.module.scss";
 import useChartJs from "../useChartJs";
-import { ChartProps, ChartSeries } from "../types";
 
-export type AreaChartSeries = ChartSeries & {
-  fillColor?: string;
+const config = {
+  type: "line",
+  data: {
+    labels: ["January", "February", "March", "April", "May", "June", "July", "August"],
+    datasets: [
+      {
+        label: "Dataset 1",
+        data: [-35, 87, 32, 92, -25, 90, -28, 38],
+        borderColor: "#ff6384",
+        backgroundColor: "#ff6384",
+        fill: "origin",
+        borderWidth: 2,
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        pointBorderWidth: 1.5,
+        pointBackgroundColor: "#ffffff",
+      },
+      {
+        label: "Dataset 2",
+        data: [80, 72, -53, 68, 60, -37, -80, 1],
+        borderColor: "#36a2eb",
+        backgroundColor: "#36a2eb80",
+        fill: "origin",
+        borderWidth: 2,
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        pointBorderWidth: 1.5,
+        pointBackgroundColor: "#ffffff",
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+  },
 };
 
-const AreaChart = (props: ChartProps<AreaChartSeries>) => {
-  const { data, xKey, series, height = 260 } = props;
-
-  const config = useMemo(
-    () => ({
-      type: "line",
-      data: {
-        labels: data.map(datum => String(datum[xKey])),
-        datasets: series.map(s => ({
-          label: s.label,
-          data: data.map(datum => Number(datum[s.key])),
-          borderColor: s.color,
-          backgroundColor: s.fillColor ?? s.color,
-          fill: "origin",
-          borderWidth: 2,
-          pointRadius: 6,
-          pointHoverRadius: 8,
-          pointBorderWidth: 1.5,
-          pointBackgroundColor: "#ffffff",
-        })),
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-      },
-    }),
-    [data, xKey, series],
-  );
-
+const AreaChart = () => {
   const canvasRef = useChartJs(config);
 
   return (
-    <div className={styles.chart} style={{ height }}>
+    <div className={styles.chart}>
       <canvas ref={canvasRef} />
     </div>
   );
