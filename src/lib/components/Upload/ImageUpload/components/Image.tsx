@@ -15,7 +15,7 @@ type Props = {
   file: FileType;
 };
 
-export const Image = ({ file: { status, progress, file, src, deleting, addedByValue } }: Props) => {
+export const Image = ({ file: { status, progress, file, src, deleting, addedByValue, download } }: Props) => {
   const { selectedFiles, removeFiles } = useContext(UploadContext);
   const [image, setImage] = useState<string>();
   const [maybeBrokenSrc, setMaybeBrokenSrc] = useState(false);
@@ -73,7 +73,7 @@ export const Image = ({ file: { status, progress, file, src, deleting, addedByVa
           <div className={styles.iconContainer}>{deleteIcon}</div>
         </div>
       )}
-      {visible && image && <Preview image={image} onClose={hide} />}
+      {visible && image && <Preview image={image} onClose={hide} onDownload={download} />}
     </>
   );
 };
