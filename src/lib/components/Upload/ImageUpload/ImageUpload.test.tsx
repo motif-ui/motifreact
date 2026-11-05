@@ -761,6 +761,36 @@ describe("ImageUpload", () => {
     });
   });
 
+  it("should not render the download button on preview of a newly uploaded image", async () => {
+    await simulateImageUploadAndPreviewClick();
+    expect(screen.queryByText("download")).not.toBeInTheDocument();
+  });
+
+  it("should call onDownloadClick when the download button on preview of the value-given image is clicked", async () => {
+    const onDownloadClick = jest.fn();
+    renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{ id: "db-1", name: "existing.jpg", size: 102400, type: "image/jpeg", src: "https://example.com/pic.jpg", onDownloadClick }}
+      />,
+    );
+    await userEvent.click(screen.getByText("visibility"));
+    await userEvent.click(screen.getByText("download"));
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should not render the download button on preview of the value-given image when onDownloadClick is not provided", async () => {
+    renderExt(
+      <ImageUpload
+        {...requiredProps}
+        value={{ id: "db-1", name: "existing.jpg", size: 102400, type: "image/jpeg", src: "https://example.com/pic.jpg" }}
+      />,
+    );
+    await userEvent.click(screen.getByText("visibility"));
+    expect(screen.getByAltText("Image Preview")).toBeInTheDocument();
+    expect(screen.queryByText("download")).not.toBeInTheDocument();
+  });
+
   it("should delete the value-given image when delete button is clicked", async () => {
     xhrSpy = mockXHRs(200, 200);
     const { getDeleteButton, getThumbnail } = renderExt(
