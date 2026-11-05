@@ -150,23 +150,31 @@ const Dashboard2 = () => {
         <Panel bordered lean>
           <Container>
             <Grid gap="sm" padding="sm">
-              <Grid.Row rowGap="sm">
+              <Grid.Row rowGap="sm" colsAuto justifyCols="apart">
                 <Grid.Col className="headerTitle">
                   <Icon size="xxl" name="dashboard" />
-                  <Text text="Dashboard" type="heading" weight="bold" marginless />
+                  <Text text="Dashboard" type="caption" weight="bold" size="md" marginless />
                 </Grid.Col>
-                <Grid.Col className="headerActions">
-                  <InputText iconLeft="search" placeholder="Search users, workspaces" />
-                  <IconButton name="notifications" variant="secondary" size="sm" />
-                  <ListView enableMultiLine size="sm">
-                    <ListView.Item
-                      title="Metin Tekin"
-                      description="metintekin@motifui.com"
-                      image="https://i.pravatar.cc/150"
-                      iconRight="more_vert"
-                      id="1"
-                    />
-                  </ListView>
+                <Grid.Col>
+                  <Grid.Row colsAuto justifyCols="end" gap="xs">
+                    <Grid.Col className="headerActions">
+                      <InputText iconLeft="search" placeholder="Search users, workspaces" />
+                    </Grid.Col>
+                    <Grid.Col className="headerActions">
+                      <IconButton name="notifications" variant="secondary" size="sm" />
+                    </Grid.Col>
+                    <Grid.Col>
+                      <ListView enableMultiLine size="sm">
+                        <ListView.Item
+                          title="Metin Tekin"
+                          description="metintekin@motifui.com"
+                          image="https://i.pravatar.cc/150"
+                          iconRight="more_vert"
+                          id="1"
+                        />
+                      </ListView>
+                    </Grid.Col>
+                  </Grid.Row>
                 </Grid.Col>
               </Grid.Row>
 
@@ -234,8 +242,9 @@ const Dashboard2 = () => {
                       { title: "Talep Tarihi", dataKey: "requestDate", sorting: {}, filter: true },
                       {
                         title: "İşlemler",
+                        width: "220px",
                         render: () => (
-                          <Grid gap="sm" padding="sm" className="rowActions">
+                          <Grid gap="sm" padding="sm">
                             <Grid.Row colsAuto>
                               <Grid.Col>
                                 <Button label="İptal" variant="danger" size="xs" icon="close" iconPosition="left" />
