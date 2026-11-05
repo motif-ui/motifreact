@@ -9,19 +9,21 @@
 .content {
   flex: 1;
   min-width: 0;
-  padding: 16px;
 }
 
-.topbarLeft {
-  display: flex;
-  align-items: center;
-}
-
-.topbarRight {
+.topbar {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
+  flex-wrap: wrap;
+
+  > * {
+    flex: 0 0 auto;
+  }
+
+  > .topbarTitle {
+    margin-right: auto;
+  }
 
   .ceo-card .mtf-ImageView {
     border-radius: 999px;
@@ -32,8 +34,4 @@
 
 .topbarIconButton {
   padding: 6px;
-}
-
-.filter > * {
-  flex: 1;
 }

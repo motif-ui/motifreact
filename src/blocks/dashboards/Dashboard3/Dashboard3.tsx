@@ -26,9 +26,9 @@ const MENU_ITEMS = [
   { label: "Activity", icon: "speed" },
   { label: "Directory", icon: "groups", items: [{ label: "All Users" }, { label: "Workspaces" }] },
   { label: "Subscriptions", icon: "receipt_long" },
-  { label: "Usage", icon: "flash_on" },
+  { label: "Usage", icon: "flash_on", divider: true },
   { label: "Saved Reports", icon: "description" },
-  { label: "Exports", icon: "upload" },
+  { label: "Exports", icon: "upload", divider: true },
 ];
 
 const FEEDBACK_TYPES = [
@@ -66,7 +66,7 @@ const STATS = [
 
 const ANNOUNCEMENTS = Array.from({ length: 3 }, () => ({
   title: "Announcements Header",
-  description: "e-Government and Information...",
+  description: "Motif-UI Announcements...",
   date: "29.01.2024",
 }));
 
@@ -101,11 +101,9 @@ const Dashboard3 = () => (
         <Container>
           <Grid gap="sm" padding="sm">
             <Grid.Row rowGap="sm">
-              <Grid.Col className="topbarLeft" size={12} lg={4}>
-                <Card variant="neutral" icon="dashboard" title="Dashboard" />
-              </Grid.Col>
-              <Grid.Col className="topbarRight" size={12} lg={8}>
-                <InputText iconLeft="search" placeholder="Ara..." />
+              <Grid.Col className="topbar" size={12}>
+                <Card className="topbarTitle" variant="neutral" icon="dashboard" title="Dashboard" />
+                <InputText iconLeft="search" placeholder="Search..." />
                 <IconButton size="sm" name="notifications" variant="secondary" className="topbarIconButton" />
                 <Card
                   className="ceo-card"
@@ -125,7 +123,7 @@ const Dashboard3 = () => (
                 <Grid.Row>
                   <Grid.Col size={12}>
                     <Panel type="elevated">
-                      <Form className="filter" submitButtonLabel="List" formOrientation="horizontal" onSubmit={console.log}>
+                      <Form submitButtonLabel="List" formOrientation="horizontal" onSubmit={console.log}>
                         <Form.Field name="feedbackType" label="Feedback Type">
                           <Select data={FEEDBACK_TYPES} placeholder="All" />
                         </Form.Field>
@@ -196,5 +194,4 @@ const Dashboard3 = () => (
   </div>
 );
 
-Dashboard3.displayName = "Dashboard3";
 export default Dashboard3;
