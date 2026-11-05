@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { memo, type CSSProperties } from "react";
 import Icon from "../../Icon";
 import { IconGlobalType, Size8LG, Variant } from "../../../types";
 
@@ -11,7 +11,7 @@ type GlobalIconWrapperProps = {
   iconClass?: string;
 };
 
-const GlobalIconWrapper = ({ icon, className, style, size, variant, iconClass }: GlobalIconWrapperProps) => (
+const GlobalIconWrapper = memo(({ icon, className, style, size, variant, iconClass }: GlobalIconWrapperProps) => (
   <Icon
     size={size}
     variant={variant}
@@ -20,6 +20,8 @@ const GlobalIconWrapper = ({ icon, className, style, size, variant, iconClass }:
     iconClass={iconClass}
     {...(!icon || typeof icon === "string" ? { name: icon } : { children: icon })}
   />
-);
+));
+
+GlobalIconWrapper.displayName = "GlobalIconWrapper";
 
 export default GlobalIconWrapper;
