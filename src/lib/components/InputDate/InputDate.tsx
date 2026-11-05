@@ -112,17 +112,12 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     !readOnly && !disabled && setPickerVisible(true);
   }, [disabled, readOnly]);
 
-  const iconLeft = useMemo(
-    () => (isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" size={size} />)),
-    [icon, size],
-  );
-
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
     <div ref={innerRef} className={classNames} style={style} data-testid="inputDate">
       <InputText
-        iconLeft={iconLeft}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" size={size} />)}
         clearable
         name={name}
         size={size}

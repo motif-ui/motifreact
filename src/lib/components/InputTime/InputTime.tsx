@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./InputTime.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useState } from "react";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import TimePicker from "@/components/TimePicker";
@@ -127,18 +127,13 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     !readOnly && !disabled && setPickerVisible(true);
   }, [disabled, readOnly]);
 
-  const iconLeft = useMemo(
-    () => (isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="schedule" size={size} />)),
-    [icon, size],
-  );
-
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
     <div ref={innerRef} className={classNames} style={style}>
       <InputText
         name={name}
-        iconLeft={iconLeft}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="schedule" size={size} />)}
         clearable
         onClearClick={() => clearClickHandler(true)}
         size={size}
