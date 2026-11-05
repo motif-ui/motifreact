@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styles from "./IconButton.module.scss";
 import { PropsWithRef } from "../../types";
 import { useMotifContext } from "../../motif/context/MotifProvider";
@@ -37,4 +38,4 @@ const IconButton = (props: PropsWithRef<IconButtonProps, HTMLButtonElement>) => 
 };
 
 IconButton.displayName = "IconButton";
-export default IconButton;
+export default memo(IconButton);
