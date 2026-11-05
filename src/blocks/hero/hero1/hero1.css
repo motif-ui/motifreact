@@ -1,0 +1,43 @@
+.hero-1 {
+  padding-top: 120px;
+
+  .mtf-Text {
+    margin-bottom: 16px;
+  }
+
+  .hero-1-buttons {
+    margin-top: 72px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+
+    .mtf-Button {
+      background-color: #37424b;
+      color: #fff;
+    }
+
+    .mtf-Link,
+    .mtf-Link .mtf-Icon {
+      color: #37424b;
+    }
+  }
+
+  .hero-1-images {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    height: 100%;
+
+    .mtf-ImageView {
+      flex: 1 1 0;
+      min-width: 0;
+      border-radius: 16px;
+    }
+
+    .mtf-ImageView:nth-child(2) {
+      flex-grow: 1.35;
+    }
+  }
+}
