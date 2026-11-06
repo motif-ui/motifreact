@@ -1,3 +1,4 @@
+import { FileType } from "@/components/Upload/types";
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { simulateDrop, simulateChooseFiles, renderExtUploadFileList } from "@/components/Upload/testHelper";
 import { formatBytes, shortenText } from "../../../../utils/utils";
@@ -5,7 +6,7 @@ import { MESSAGE } from "@/components/Upload/constants";
 import ImageUpload from "@/components/Upload/ImageUpload/ImageUpload";
 import { ImageUploadProps } from "@/components/Upload/ImageUpload/types";
 import { MOCK } from "../mock";
-import { mockXHRs, t, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { mockXHRs, mockXHRWithResponse, t, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../../lib/types";
 import userEvent from "@testing-library/user-event";
 import { ReactElement } from "react";
@@ -880,5 +881,31 @@ describe("ImageUpload", () => {
       expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
       expect(screen.queryByText("visibility")).not.toBeInTheDocument();
     });
+  });
+
+  it("should fire onUpload with the uploaded files and parsed server response when upload succeeds", async () => {
+    xhrSpy.mockRestore();
+    xhrSpy = mockXHRWithResponse(200, JSON.stringify({ status: "success", message: "ok" }));
+    const handleUpload = jest.fn<void, [FileType[], unknown]>();
+    const { getInput } = renderExt(<ImageUpload {...requiredProps} onUpload={handleUpload} />);
+    await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
+
+    await waitFor(() => expect(handleUpload).toHaveBeenCalledTimes(1));
+    const [files, response] = handleUpload.mock.calls[0];
+    expect(files).toHaveLength(1);
+    expect(files[0]).toMatchObject({ file: { name: MOCK.fileJpeg1kb.name }, uploaded: true });
+    expect(files[0].request).toBeUndefined();
+    expect(response).toEqual({ status: "success", message: "ok" });
+  });
+
+  it("should not fire onUpload when upload fails", async () => {
+    xhrSpy.mockRestore();
+    xhrSpy = mockXHRs(500);
+    const handleUpload = jest.fn<void, [FileType[], unknown]>();
+    const { getInput } = renderExt(<ImageUpload {...requiredProps} onUpload={handleUpload} />);
+    await simulateChooseFiles(getInput(), [MOCK.fileJpeg1kb]);
+
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument());
+    expect(handleUpload).not.toHaveBeenCalled();
   });
 });
