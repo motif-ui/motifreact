@@ -8,6 +8,7 @@ export type DatePickerProps = {
   onClearClick?: () => void;
   onDateChange?: (date?: Date) => void;
   onPickerChange?: (picker: DatePickerPickerType) => void;
+  pickerFormat?: Exclude<DatePickerPickerType, "year">;
 } & DatePickerDefaultableProps;
 
 export type DatePickerDefaultableProps = {
@@ -40,12 +41,14 @@ export type DatePickerProviderProps = {
   onPickerChange?: (picker: DatePickerPickerType) => void;
   onClearClick?: () => void;
   firstDayOfWeek: DaysOfWeek;
+  pickerFormat?: Exclude<DatePickerPickerType, "year">;
 };
 
 export type DatePickerPickerType = "day" | "month" | "year";
 
 export type DatePickerContextProps = {
   size: Size4SM;
+  isMonthOnly: boolean;
   firstDayOfWeek: DaysOfWeek;
   locale: DatePickerLocale;
   pickerDate: Date; // The date that is used to hold the values when choosing temporary values like months or years.
@@ -71,6 +74,7 @@ export type DatePickerLocale = {
 
 export const datePickerContextDefaultValues: DatePickerContextProps = {
   size: "md",
+  isMonthOnly: false,
   pickerDate: DateUtils.getTodayTimeless(),
   picker: "day",
   previousTab: "day",
