@@ -151,6 +151,15 @@ describe("InputDate", () => {
     expect(getInput()).toHaveValue(formatDateWithDefaultFormatAndTR(testDate));
   });
 
+  it("should close the datepicker when Escape is pressed", async () => {
+    const { getInput, getPickerContainer } = renderExt(<InputDate value={testDate} />);
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(getPickerContainer()).not.toBeInTheDocument();
+  });
+
   it("should clear the invalid typed text when the datepicker is closed by clicking outside", async () => {
     const { getInput, getPickerContainer } = renderExt(<InputDate editable />);
 
@@ -181,6 +190,20 @@ describe("InputDate", () => {
     await userEvent.type(getInput(), "12/12/2024");
     expect(onChange).not.toHaveBeenCalled();
     expect(screen.queryByDisplayValue("12/12/2024")).not.toBeInTheDocument();
+  });
+
+  it("should close the open datepicker when it becomes disabled or read-only", () => {
+    const props = ["disabled", "readOnly"] as const;
+
+    props.forEach(prop => {
+      const { getInput, getPickerContainer, rerender, unmount } = renderExt(<InputDate />);
+
+      fireEvent.click(getInput());
+      expect(getPickerContainer()).toBeInTheDocument();
+      rerender(<InputDate {...{ [prop]: true }} />);
+      expect(getPickerContainer()).not.toBeInTheDocument();
+      unmount();
+    });
   });
 
   it("should trigger the onChange event when a date is selected from datepicker", async () => {

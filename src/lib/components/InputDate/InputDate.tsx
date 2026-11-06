@@ -72,6 +72,8 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     onClose: pickerCloseHandler,
     closeOnOutsideClick: true,
     tabBridge: true,
+    closeOnEscape: true,
+    inactive: disabled || readOnly,
   });
 
   useEffect(() => {
