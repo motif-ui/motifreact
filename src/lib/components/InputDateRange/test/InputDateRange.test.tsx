@@ -228,6 +228,18 @@ describe("InputDateRange", () => {
     expect(getPickerContainer()).toBeInTheDocument();
   });
 
+  it("should not close the picker when an item from the dropdown is clicked", async () => {
+    const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange />);
+
+    await user.click(getDateRangeInput());
+    await user.click(screen.getByTestId("dropdown-button"));
+    await user.click(screen.getByTestId("Dropdown").querySelector("a")!);
+
+    expect(screen.queryByTestId("Dropdown")).not.toBeInTheDocument();
+    expect(getPickerContainer()).toBeInTheDocument();
+    expect(getDateRangeInput()).not.toHaveValue("");
+  });
+
   it("should clear the input, close the picker when clicked outside with only one date selected", async () => {
     const { getDateRangeInput, getDateButton, getPickerContainer } = renderExt(<InputDateRange />);
 

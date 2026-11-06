@@ -6,7 +6,7 @@ import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaul
 import { DropdownProvider } from "@/components/Dropdown/context/DropdownProvider";
 import DropdownComponent from "@/components/Dropdown/components/DropdownComponent";
 
-const Dropdown = (p: PropsWithRef<DropdownProps, HTMLDivElement>) => {
+const Dropdown = (p: PropsWithRef<DropdownProps, HTMLButtonElement>) => {
   const { size = "md", disabled, ...props } = usePropsWithThemeDefaults("Dropdown", p);
 
   return (

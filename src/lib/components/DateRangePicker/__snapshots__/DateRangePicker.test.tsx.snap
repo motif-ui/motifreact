@@ -12,26 +12,22 @@ exports[`DateRangePicker should render with only required props, have default pr
       <div
         class="selectionBar"
       >
-        <div
-          class="Root md secondary solid rangeSelectDropdown"
-          data-testid="Dropdown"
+        <button
+          class="Button md solid secondary rangeSelectDropdown"
+          data-testid="dropdown-button"
+          type="button"
         >
-          <button
-            class="Button"
-            type="button"
+          <span>
+            Please choose
+          </span>
+          <span
+            class="Root md motifIconsDefault Button-DropdownIcon"
+            lang="en"
+            translate="no"
           >
-            <span>
-              Please choose
-            </span>
-            <span
-              class="Root md motifIconsDefault Button-DropdownIcon"
-              lang="en"
-              translate="no"
-            >
-              arrow_drop_down
-            </span>
-          </button>
-        </div>
+            arrow_drop_down
+          </span>
+        </button>
         <div
           class="Root md"
           data-mtf-component="mtf-input-text"
@@ -49,7 +45,7 @@ exports[`DateRangePicker should render with only required props, have default pr
           >
             <input
               maxlength="10"
-              name="_r_0_"
+              name="_r_1_"
               placeholder="__ / __ / ____"
               value="15/02/2000"
             />
@@ -72,7 +68,7 @@ exports[`DateRangePicker should render with only required props, have default pr
           >
             <input
               maxlength="10"
-              name="_r_1_"
+              name="_r_2_"
               placeholder="__ / __ / ____"
               value="18/02/2000"
             />

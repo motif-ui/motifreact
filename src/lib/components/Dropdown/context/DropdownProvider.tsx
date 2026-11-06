@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useState } from "react";
+import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { dropdownContextDefaultValues, DropdownContextProps } from "@/components/Dropdown/types";
 import { Size4SM } from "../../../types";
 
@@ -14,6 +14,10 @@ export const DropdownProvider = (props: PropsWithChildren<Props>) => {
   const [open, setOpen] = useState<boolean>(false);
   const toggleMenu = () => setOpen(prev => !prev);
   const hideMenu = () => setOpen(false);
+
+  useEffect(() => {
+    if (disabled) setOpen(false);
+  }, [disabled]);
 
   const value: DropdownContextProps = {
     open,
