@@ -471,7 +471,7 @@ describe("Form", () => {
     expect(inputItems[6].firstElementChild).toHaveAttribute("readonly");
 
     // Select
-    expect((inputItems[7].firstElementChild as HTMLDivElement).getAttribute("aria-readonly")).toBe("true");
+    expect(inputItems[7].getAttribute("aria-readonly")).toBe("true");
     await user.click(screen.queryByRole("combobox")!);
     await user.click(screen.queryByText("Item 2")!);
 

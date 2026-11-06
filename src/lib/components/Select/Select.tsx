@@ -3,8 +3,8 @@
 import styles from "./Select.module.scss";
 import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import type { MouseEvent } from "react";
-import { Fragment, useCallback, useEffect, useImperativeHandle, useState } from "react";
-import { useSelectExpand } from "@/components/Select/useSelectExpand";
+import { Fragment, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { SelectGroupItem, SelectItem, SelectProps } from "./types";
 import SelectLi from "@/components/Select/SelectLi";
 import SelectedItem from "@/components/Select/components/SelectedItem";
@@ -14,10 +14,11 @@ import useDeepCompareEffect from "use-deep-compare-effect";
 import { PropsWithRef } from "../../types";
 import { MotifIcon } from "@/components/Motif/Icon";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import ProgressCircle from "@/components/ProgressCircle";
 import { hasOwn, isNotAvailable } from "../../../utils/utils";
 import { useMotifContext } from "src/lib/motif/context/MotifProvider";
+import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 
 const loaderSizeMap = {
   xs: "xs",
@@ -49,8 +50,31 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     valueStateSetter: setSelectedItems,
   });
 
-  const { ref, expanded, toggle } = useSelectExpand();
-  useImperativeHandle(outerRef, () => ref.current!, [ref]);
+  const anchorRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(outerRef, () => anchorRef.current!, []);
+  const expandable = !disabled && !readOnly && !loading;
+
+  const {
+    open: expanded,
+    attached,
+    style: dropdownStyle,
+    placement,
+    overlayRef: dropdownRef,
+    insideProps,
+    toggle,
+    hide,
+  } = useAnchoredOverlay<HTMLUListElement>({
+    anchorRef,
+    placement: "bottomLeft",
+    tabBridge: true,
+    closeOnOutsideClick: true,
+    closeOnEscape: true,
+  });
+  const dropUp = placement.startsWith("top");
+
+  useEffect(() => {
+    if (!expandable) hide();
+  }, [expandable, hide]);
 
   const [query, setQuery] = useState<string>("");
   const [dataFiltered, setDataFiltered] = useState<(SelectItem | SelectGroupItem)[]>([]);
@@ -72,9 +96,9 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
       onFormFieldValueUpdate?.(val);
 
       filterable && setQuery(multiple || !updatedSelectedItems?.length ? "" : getFilterableValue(item));
-      !multiple && toggle();
+      !multiple && hide();
     },
-    [filterable, multiple, onChange, onFormFieldValueUpdate, selectedItems, toggle],
+    [filterable, multiple, onChange, onFormFieldValueUpdate, selectedItems, hide],
   );
 
   useDeepCompareEffect(() => {
@@ -108,21 +132,25 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
   }, [data, expanded, multiple, selectedItems]);
 
   const inputOnClickHandler = useCallback(
-    (e: MouseEvent<HTMLInputElement>) => {
-      if (readOnly) return;
+    (e: MouseEvent<HTMLDivElement>) => {
+      if (!expandable) return;
       if (filterable) {
         const input = e.currentTarget.getElementsByTagName("input")[0];
         expanded ? requestAnimationFrame(() => input.blur()) : input.select();
       }
       toggle();
     },
-    [expanded, filterable, toggle, readOnly],
+    [expanded, expandable, filterable, toggle],
   );
 
   const renderInputButton = () => {
     return (
       <div
-        className={styles.input}
+        ref={anchorRef}
+        className={classNames}
+        style={style}
+        data-testid="selectItem"
+        data-mtf-component="select"
         role="combobox"
         aria-haspopup="listbox"
         aria-expanded={expanded}
@@ -175,38 +203,48 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     size,
-    !readOnly && expanded && "expanded",
+    expanded && "expanded",
+    expanded && dropUp && "dropUp",
     loading && "loading",
-    expanded && "active",
     disabled || readOnly || loading ? "disabled" : error ? "error" : success && "success",
   ]);
   return (
-    <div ref={ref} className={classNames} data-testid="selectItem" data-mtf-component="select" style={style}>
+    <>
       {renderInputButton()}
-      {expanded && !disabled && !readOnly && !loading && (
-        <ul className={styles.dropdown} role="listbox" id={name}>
-          {dataFiltered.length ? (
-            dataFiltered.map(item =>
-              "groupLabel" in item ? (
-                renderGroupLabel(item)
-              ) : (
-                <SelectLi
-                  size={size}
-                  key={item.value}
-                  item={item}
-                  isSelected={!!selectedItems?.some(s => s.value === item.value)}
-                  onChange={changeHandler}
-                />
-              ),
-            )
-          ) : (
-            <li className={styles.noData}>
-              <label>{t("g.noData")}</label>
-            </li>
-          )}
-        </ul>
-      )}
-    </div>
+      {attached &&
+        expandable &&
+        createPortal(
+          <ul
+            ref={dropdownRef}
+            className={sanitizeModuleClasses(styles, "dropdown", size, dropUp && "dropUp")}
+            style={dropdownStyle}
+            role="listbox"
+            id={name}
+            {...insideProps}
+          >
+            {dataFiltered.length ? (
+              dataFiltered.map(item =>
+                "groupLabel" in item ? (
+                  renderGroupLabel(item)
+                ) : (
+                  <SelectLi
+                    size={size}
+                    key={item.value}
+                    item={item}
+                    isSelected={!!selectedItems?.some(s => s.value === item.value)}
+                    onChange={changeHandler}
+                  />
+                ),
+              )
+            ) : (
+              <li className={styles.noData}>
+                <label>{t("g.noData")}</label>
+              </li>
+            )}
+          </ul>,
+          document.body,
+        )}
+    </>
   );
 };
 
