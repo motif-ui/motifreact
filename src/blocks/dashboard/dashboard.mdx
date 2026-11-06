@@ -1,11 +1,6 @@
 import { Meta, Canvas, Source } from "@storybook/addon-docs/blocks";
 import * as DashboardStories from "./Dashboard.stories";
 import dashboard2Css from "./Dashboard2/Dashboard2.css?raw";
-import areaChartSource from "../chartJS/AreaChart/AreaChart.tsx?raw";
-import areaChartScss from "../chartJS/AreaChart/AreaChart.module.scss?raw";
-import barChartSource from "../chartJS/BarChart/BarChart.tsx?raw";
-import barChartScss from "../chartJS/BarChart/BarChart.module.scss?raw";
-import useChartJsSource from "../chartJS/useChartJs.ts?raw";
 
 <Meta title="Blocks/Dashboard" />
 
@@ -17,24 +12,4 @@ import useChartJsSource from "../chartJS/useChartJs.ts?raw";
 <details>
   <summary>CSS File: Dashboard2.css</summary>
   <Source code={dashboard2Css} language="css" />
-</details>
-<details>
-  <summary>Chart File: chartJS/AreaChart/AreaChart.tsx</summary>
-  <Source code={areaChartSource} language="tsx" />
-</details>
-<details>
-  <summary>SCSS File: chartJS/AreaChart/AreaChart.module.scss</summary>
-  <Source code={areaChartScss} language="scss" />
-</details>
-<details>
-  <summary>Chart File: chartJS/BarChart/BarChart.tsx</summary>
-  <Source code={barChartSource} language="tsx" />
-</details>
-<details>
-  <summary>SCSS File: chartJS/BarChart/BarChart.module.scss</summary>
-  <Source code={barChartScss} language="scss" />
-</details>
-<details>
-  <summary>Hook File: chartJS/useChartJs.ts</summary>
-  <Source code={useChartJsSource} language="ts" />
 </details>
