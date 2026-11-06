@@ -102,6 +102,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     onClose: pickerCloseHandler,
     closeOnOutsideClick: true,
     tabBridge: true,
+    inactive: disabled || readOnly,
   });
 
   const onClearClickInInput = useCallback(() => {
