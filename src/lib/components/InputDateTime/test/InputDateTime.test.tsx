@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import InputDateTime from "../InputDateTime";
 import { ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
@@ -201,6 +201,20 @@ describe(InputDateTime, () => {
     expect(getPickerContainer()).not.toBeInTheDocument();
   });
 
+  it("should close the open picker when it becomes disabled or read-only", () => {
+    const props = ["disabled", "readOnly"] as const;
+
+    props.forEach(prop => {
+      const { getInputText, getPickerContainer, rerender, unmount } = renderExt(<InputDateTime />);
+
+      fireEvent.click(getInputText());
+      expect(getPickerContainer()).toBeInTheDocument();
+      rerender(<InputDateTime {...{ [prop]: true }} />);
+      expect(getPickerContainer()).not.toBeInTheDocument();
+      unmount();
+    });
+  });
+
   it("should be rendered in a pill shape when pill prop is true", () => {
     const { getInput } = renderExt(<InputDateTime pill />);
     expect(getInput()).toHaveClass("pill");
@@ -253,6 +267,15 @@ describe(InputDateTime, () => {
 
     await userEvent.click(getInputText());
     await userEvent.click(document.body);
+    expect(getPickerContainer()).not.toBeInTheDocument();
+  });
+
+  it("should close the picker when Escape is pressed", async () => {
+    const { getInputText, getPickerContainer } = renderExt(<InputDateTime />);
+
+    await userEvent.click(getInputText());
+    expect(getPickerContainer()).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(getPickerContainer()).not.toBeInTheDocument();
   });
 

@@ -105,7 +105,9 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
     placement: "bottomLeft",
     onClose: pickerCloseHandler,
     closeOnOutsideClick: true,
+    closeOnEscape: true,
     tabBridge: true,
+    inactive: disabled || readOnly,
   });
 
   const onDateChange = useCallback(

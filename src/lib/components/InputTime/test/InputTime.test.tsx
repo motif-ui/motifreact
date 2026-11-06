@@ -125,6 +125,15 @@ describe("InputTime", () => {
     expect(getPickerContainer()).not.toBeInTheDocument();
   });
 
+  it("should close the time picker when Escape is pressed", async () => {
+    const { getInput, getPickerContainer } = renderExt(<InputTime />);
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(getPickerContainer()).not.toBeInTheDocument();
+  });
+
   it("should be rendered as disabled when disabled prop is true", async () => {
     const onChange = jest.fn();
     const { getByTestId, getInput, getPickerContainer } = renderExt(<InputTime disabled onChange={onChange} />);
@@ -135,6 +144,20 @@ describe("InputTime", () => {
     await userEvent.type(input, testTimeStr);
     expect(onChange).not.toHaveBeenCalled();
     expect(input).not.toHaveValue(testTimeStr);
+  });
+
+  it("should close the open time picker when it becomes disabled or read-only", () => {
+    const props = ["disabled", "readOnly"] as const;
+
+    props.forEach(prop => {
+      const { getInput, getPickerContainer, rerender, unmount } = renderExt(<InputTime />);
+
+      fireEvent.click(getInput());
+      expect(getPickerContainer()).toBeInTheDocument();
+      rerender(<InputTime {...{ [prop]: true }} />);
+      expect(getPickerContainer()).not.toBeInTheDocument();
+      unmount();
+    });
   });
 
   it("should trigger the onChange event when selected time is changed in the input", () => {

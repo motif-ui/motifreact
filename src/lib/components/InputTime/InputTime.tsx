@@ -82,7 +82,9 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     placement: "bottomLeft",
     onClose: pickerCloseHandler,
     closeOnOutsideClick: true,
+    closeOnEscape: true,
     tabBridge: true,
+    inactive: disabled || readOnly,
   });
 
   const okClickHandler = useCallback(() => {
