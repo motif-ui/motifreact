@@ -34,7 +34,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   } = usePropsWithThemeDefaults("Stepper", props);
 
   const [internalStep, setInternalStep] = useState(() => Math.max(0, Math.min(defaultActiveStep, Children.toArray(children).length - 1)));
-  const [visitedSteps, setVisitedSteps] = useState(() => [externalState ? externalState.activeStep : internalStep]);
+  const [visitedSteps, setVisitedSteps] = useState<number[]>([]);
   const [internalStepData, setInternalStepDataState] = useState<Partial<Record<number, Record<string, unknown>>>>({});
   const internalSetStepData = useCallback(
     (index: number, data: Record<string, unknown>) => setInternalStepDataState(prev => ({ ...prev, [index]: { ...prev[index], ...data } })),
@@ -48,8 +48,8 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   const disabledSteps = stepItems.map(item => !!item.props.disabled);
 
   const rawActiveStep = externalState ? externalState.activeStep : internalStep;
-  const resolvedStep = disabledSteps.findIndex((d, i) => i > rawActiveStep && !d);
-  const activeStep = externalState && disabledSteps[rawActiveStep] && resolvedStep !== -1 ? resolvedStep : rawActiveStep;
+  const resolvedStep = disabledSteps.findIndex((d, i) => i >= rawActiveStep && !d);
+  const activeStep = resolvedStep !== -1 ? resolvedStep : disabledSteps.findLastIndex(disabled => !disabled);
 
   const goToStep = useCallback(
     (index: number) => {
@@ -73,15 +73,12 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   }, [activeStep, disabledSteps, goToStep]);
 
   useEffect(() => {
-    setVisitedSteps(prev => (prev.includes(activeStep) ? prev : [...prev, activeStep]));
-  }, [activeStep]);
+    setVisitedSteps(prev => (prev.includes(activeStep) ? prev : [...prev, activeStep]).filter(step => step >= 0 && step < count));
+  }, [activeStep, count]);
 
   useEffect(() => {
-    if (externalState && disabledSteps[externalState.activeStep]) {
-      const resolved = disabledSteps.findIndex((disabled, i) => i > externalState.activeStep && !disabled);
-      resolved !== -1 && externalState.goToStep(resolved);
-    }
-  }, [externalState?.activeStep]); // eslint-disable-line react-hooks/exhaustive-deps
+    activeStep !== -1 && activeStep !== rawActiveStep && goToStep(activeStep);
+  }, [activeStep, rawActiveStep]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const activeContent = stepItems[activeStep]?.props.children;
   const classNames = sanitizeModuleRootClasses(styles, className, [orientation, stepType, `${itemOrientation}-items`]);
