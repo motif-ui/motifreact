@@ -90,7 +90,8 @@ export const getAllInputItems = () => {
   screen.getAllByTestId("checkbox").forEach(element => inputs.push(element));
   screen.getAllByTestId("radioItem").forEach(element => inputs.push(element));
   inputs.push(screen.getByTestId("selectItem"));
-  inputs.push(screen.getByTestId("inputDate").firstElementChild as HTMLElement);
+  expect(screen.getAllByTestId("inputItem")[3].querySelector("input")).toHaveAttribute("placeholder", "DD/MM/YYYY");
+  inputs.push(screen.getAllByTestId("inputItem")[3]);
   inputs.push(screen.getByTestId("switchItem").parentElement!);
   inputs.push(screen.getByTestId("pinCode"));
 
