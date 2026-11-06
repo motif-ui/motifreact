@@ -742,7 +742,7 @@ describe("Form", () => {
     await user.type(screen.getAllByTestId("inputItem")[0].querySelector("input")!, value);
     await user.type(screen.getAllByTestId("inputItem")[1].querySelector("input")!, value);
     await user.type(screen.getAllByTestId("inputItem")[2].querySelector("input")!, "42");
-    await user.type(screen.getByTestId("inputDate").querySelector("input")!, "12/12/2024");
+    await user.type(screen.getAllByTestId("inputItem")[3].querySelector("input")!, "12/12/2024");
     await user.type(screen.getByTestId("pinCode").querySelectorAll("input")[0], value);
     await user.click(screen.getByText("Black"));
     await user.click(screen.queryByRole("combobox")!);
