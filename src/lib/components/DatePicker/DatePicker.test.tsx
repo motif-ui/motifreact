@@ -432,4 +432,16 @@ describe("DatePicker", () => {
     expect(getByText(getDateLocale(t).months[dateToSelect.getMonth()])).toBeInTheDocument();
     expect(getByText(dateToSelect.getFullYear())).toBeInTheDocument();
   });
+
+  it("should switch the view when the pickerFormat prop is changed", () => {
+    const { rerender, getByTestId, queryByTestId } = render(<DatePicker />);
+    expect(getByTestId("DatePickerDayContainer")).toBeInTheDocument();
+
+    rerender(<DatePicker pickerFormat="month" />);
+    expect(getByTestId("DatePickerMonthsContainer")).toBeInTheDocument();
+    expect(queryByTestId("DatePickerDayContainer")).not.toBeInTheDocument();
+
+    rerender(<DatePicker pickerFormat="day" />);
+    expect(getByTestId("DatePickerDayContainer")).toBeInTheDocument();
+  });
 });

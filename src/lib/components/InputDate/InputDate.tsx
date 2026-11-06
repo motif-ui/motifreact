@@ -26,8 +26,20 @@ const pickerSizeMap = {
 
 const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDate", p);
-  const { editable, pill, value, onChange, ref, style, className, locale: propsLocale, firstDayOfWeek, icon } = props;
-  const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
+  const { editable, pill, value, onChange, ref, style, className, locale: propsLocale, firstDayOfWeek, icon, pickerFormat } = props;
+  const format = useMemo(() => {
+    const mergedFormat = { ...defaultDateFormat, ...props.format };
+    if (pickerFormat !== "month") return mergedFormat;
+
+    const dayIndex = mergedFormat.order.indexOf("day");
+    if (dayIndex === -1) return mergedFormat;
+
+    return {
+      ...mergedFormat,
+      order: mergedFormat.order.filter((_, index) => index !== dayIndex),
+      prefix: mergedFormat.prefix?.filter((_, index) => index !== dayIndex),
+    };
+  }, [pickerFormat, props.format]);
   const locale = useDateLocale(propsLocale);
 
   const placeholder = useMemo(
@@ -144,6 +156,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
           onDateChange={dateChangeHandler}
           className={styles.datePicker}
           locale={locale}
+          pickerFormat={pickerFormat}
         />
       )}
     </div>

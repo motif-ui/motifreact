@@ -128,7 +128,7 @@ export const parseDate = (dateString: string, format: DateFormat, locale: DatePi
   const year = parseInt(dateValues.year ?? "", 10);
   const fullYear = yearFormat === "YY" ? 2000 + year : year;
   const month = parseMonth(dateValues.month ?? "");
-  const day = parseInt(dateValues.day ?? "", 10);
+  const day = order.includes("day") ? parseInt(dateValues.day ?? "", 10) : 1;
 
   // Create and validate date
   const date = new Date(fullYear, month - 1, day);

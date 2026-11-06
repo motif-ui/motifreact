@@ -7,15 +7,16 @@ import { DateUtils } from "../../../../utils/dateUtils";
 export const DatePickerContext = createContext<DatePickerContextProps>(datePickerContextDefaultValues);
 
 export const DatePickerProvider = (props: PropsWithChildren<DatePickerProviderProps>) => {
-  const { children, value, size, locale, fluid, onDateChange, onPickerChange, onClearClick, firstDayOfWeek } = props;
+  const { children, value, size, locale, fluid, onDateChange, onPickerChange, onClearClick, firstDayOfWeek, pickerFormat = "day" } = props;
 
-  const [picker, setPicker] = useState<DatePickerPickerType>("day");
+  const [picker, setPicker] = useState<DatePickerPickerType>(pickerFormat);
   const [previousTab, setPreviousTab] = useState<"day" | "month">("day");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(DateUtils.getDateTimeless(value));
   const [pickerDate, setPickerDate] = useState<Date>(DateUtils.getDateTimeless(value) ?? DateUtils.getTodayTimeless());
   const today = useMemo(() => DateUtils.getTodayTimeless(), []);
 
   useEffect(() => setSelectedDate(value), [value]);
+  useEffect(() => setPicker(pickerFormat), [pickerFormat]);
 
   const onYearMonthTabSelected = useCallback(
     (nextTab: "year" | "month", previousTab: "month" | "day") => {
@@ -38,6 +39,7 @@ export const DatePickerProvider = (props: PropsWithChildren<DatePickerProviderPr
   const contextValue: DatePickerContextProps = useMemo(
     () => ({
       size,
+      isMonthOnly: pickerFormat === "month",
       pickerDate,
       selectedDate,
       previousTab,
@@ -68,6 +70,7 @@ export const DatePickerProvider = (props: PropsWithChildren<DatePickerProviderPr
       selectedDate,
       size,
       firstDayOfWeek,
+      pickerFormat,
     ],
   );
 
