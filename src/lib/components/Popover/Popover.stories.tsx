@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import Avatar from "@/components/Avatar";
 import { usePopover } from "../../hooks";
 import { PopoverProps } from "@/components/Popover/types";
-import { formatStoryTransform } from "src/utils/docUtils";
+import { formatStoryTransform } from "../../../utils/docUtils";
 
 const meta: Meta<typeof Popover> = {
   title: "Components/Popover",
@@ -57,13 +57,12 @@ return (
     <Avatar letters="AA" ref={ref} />
     <Popover
       anchorRef={ref}
-       ${argsString.split("\n  ").join("\n      ")}
-       >
+      ${argsString.split("\n  ").join("\n      ")}
+    >
       <div>Popover item...</div>
     </Popover>
   </>
-);
-  `,
+);`,
         ),
       },
     },
