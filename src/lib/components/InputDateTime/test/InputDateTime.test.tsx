@@ -13,6 +13,8 @@ import { getDateLocale } from "src/i18n/helper.ts";
 import { t, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../types";
 describe(InputDateTime, () => {
+  afterEach(() => jest.restoreAllMocks());
+
   const today = new Date();
   const dateValue = new Date(today.getFullYear(), today.getMonth(), 12);
   const sizes: InputSize[] = ["xs", "sm", "md", "lg"];
@@ -61,6 +63,7 @@ describe(InputDateTime, () => {
       //icon
       expect(getByText("event")).toBeInTheDocument();
 
+      // placement = bottomLeft (default), the picker opens below the input aligned with its left edge
       jest
         .spyOn(container.firstElementChild!, "getBoundingClientRect")
         .mockReturnValue({ top: 100, bottom: 140, left: 50, right: 250, width: 200, height: 40, x: 50, y: 100, toJSON: () => {} });
@@ -438,6 +441,5 @@ describe(InputDateTime, () => {
     await userEvent.tab();
     expect(getPickerContainer().contains(document.activeElement)).toBe(true);
     expect(document.activeElement?.closest("[inert]")).toBeNull();
-    jest.restoreAllMocks();
   });
 });

@@ -8,6 +8,8 @@ import { getDateLocale } from "src/i18n/helper.ts";
 import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../types";
 describe("InputTime", () => {
+  afterEach(() => jest.restoreAllMocks());
+
   const testTime: Time = { hours: 9, minutes: 15 };
   const testTimeWithSecond: Time = { hours: 14, minutes: 30, seconds: 45 };
   const testTimeStr = testTime.hours!.toString().padStart(2, "0") + ":" + testTime.minutes!.toString().padStart(2, "0");
@@ -46,6 +48,7 @@ describe("InputTime", () => {
       expect(container.firstElementChild).toHaveClass("md");
       //icon = schedule (default)
       expect(screen.queryByText("schedule")).toBeInTheDocument();
+      // placement = bottomLeft (default), the picker opens below the input aligned with its left edge
       jest
         .spyOn(container.firstElementChild!, "getBoundingClientRect")
         .mockReturnValue({ top: 100, bottom: 140, left: 50, right: 250, width: 200, height: 40, x: 50, y: 100, toJSON: () => {} });
@@ -387,7 +390,6 @@ describe("InputTime", () => {
     await userEvent.tab();
     expect(getPickerContainer()?.contains(document.activeElement)).toBe(true);
     expect(document.activeElement?.closest("[inert]")).toBeNull();
-    jest.restoreAllMocks();
   });
 
   it("should render the main icon given in the icon prop", () => {

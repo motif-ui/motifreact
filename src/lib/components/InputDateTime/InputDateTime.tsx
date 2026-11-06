@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./InputDateTime.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
 import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
@@ -14,6 +14,7 @@ import { InputDateTimeProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputValue } from "../Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import { mergeRefs } from "../../../utils/reactUtils";
 import InputText from "@/components/Motif/InputText/InputText";
 import { MotifIcon } from "../Motif/Icon";
 import { DateUtils } from "src/utils/dateUtils.ts";
@@ -86,7 +87,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
   }, [format, secondsEnabled, value, timeFormat, locale]);
 
   const innerRef = useRef<HTMLDivElement>(null);
-  useImperativeHandle(ref, () => innerRef.current!, []);
+  const mergedRef = useMemo(() => mergeRefs(innerRef, ref), [ref]);
 
   const pickerCloseHandler = useCallback(() => {
     const parsedDate = parseDateTime(typedValue, format, !!secondsEnabled, locale);
@@ -149,7 +150,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
   return (
     <>
       <InputText
-        ref={innerRef}
+        ref={mergedRef}
         className={classNames}
         style={style}
         iconLeft={<MotifIcon name="event" size={size} />}
