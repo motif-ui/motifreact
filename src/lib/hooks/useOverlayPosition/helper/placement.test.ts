@@ -118,6 +118,12 @@ describe("placement", () => {
       expect(place("bottomLeft")).toMatchObject({ placement: "topLeft", y: 600 });
     });
 
+    it("should shift a left or right placement vertically into the viewport, along the anchor", () => {
+      // the anchor is in the viewport near its bottom edge, the overlay centered on it overflows the viewport's bottom
+      setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
+      expect(place("right")).toMatchObject({ placement: "right", x: 500, y: 668 });
+    });
+
     it("should keep the given alignment when it is wider than the viewport, since it is placed at the left edge anyway", () => {
       setOverlaySize(1100, 100);
       expect(place("bottomRight")).toMatchObject({ placement: "bottomRight", x: 0 });

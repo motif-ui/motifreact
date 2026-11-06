@@ -1,11 +1,11 @@
-import { screen, render, waitFor, act, fireEvent } from "@testing-library/react";
+import { screen, render, act, fireEvent } from "@testing-library/react";
 
 import Tooltip from "@/components/Tooltip/Tooltip";
-import Button from "../Button/Button";
+import Button from "../../Button/Button";
 import { userEvent } from "@testing-library/user-event";
-import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { OverlayPlaceOn, StandardPropsWithRef } from "../../../lib/types";
-import { PropsWithRef, Size4SM } from "../../types";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { OverlayPlaceOn, StandardPropsWithRef } from "../../../../lib/types";
+import { PropsWithRef, Size4SM } from "../../../types";
 
 describe("Tooltip", () => {
   beforeEach(() => {
@@ -58,27 +58,51 @@ describe("Tooltip", () => {
     expect(screen.queryByTestId("tooltipItem")).not.toBeInTheDocument();
   });
 
-  it("should appear when the mouse is over the child component and disappear when the mouse is out", async () => {
+  it("should start fading out when the mouse is out and be removed only when the transition ends", async () => {
     render(
       <Tooltip text="Description">
         <Button label="Test Button" />
       </Tooltip>,
     );
 
-    await act(async () => {
-      await user.hover(screen.getByText("Test Button"));
+    await act(() => user.hover(screen.getByText("Test Button")));
+    act(() => {
+      jest.advanceTimersByTime(50);
     });
-    expect(screen.queryByTestId("tooltipItem")).toBeInTheDocument();
+    expect(screen.getByTestId("tooltipItem")).toHaveClass("visible");
 
-    await act(async () => {
-      await user.unhover(screen.getByText("Test Button"));
-      jest.advanceTimersByTime(250); // Advance timers by exactly 250ms
+    await act(() => user.unhover(screen.getByText("Test Button")));
+    expect(screen.getByTestId("tooltipItem")).not.toHaveClass("visible");
+
+    act(() => {
+      jest.advanceTimersByTime(249);
+    });
+    expect(screen.getByTestId("tooltipItem")).toBeInTheDocument();
+
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+    expect(screen.queryByTestId("tooltipItem")).not.toBeInTheDocument();
+  });
+
+  it("should stay when the mouse is over the child component again before the tooltip is removed", async () => {
+    render(
+      <Tooltip text="Description">
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+
+    await act(() => user.hover(screen.getByText("Test Button")));
+    await act(() => user.unhover(screen.getByText("Test Button")));
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    await act(() => user.hover(screen.getByText("Test Button")));
+    act(() => {
+      jest.advanceTimersByTime(500);
     });
 
-    // Wait for the tooltip to be removed from the document
-    await waitFor(() => {
-      expect(screen.queryByTestId("tooltipItem")).not.toBeInTheDocument();
-    });
+    expect(screen.getByTestId("tooltipItem")).toHaveClass("visible");
   });
 
   it("should render the title if title prop is given", async () => {
@@ -146,80 +170,50 @@ describe("Tooltip", () => {
     }
   });
 
-  it("should be rendered in another position clockwise when it overflows the screen", async () => {
-    /*
-    What this test aims to show when the tooltip overflows the screen, it should try to render in another position
-    clockwise. Especially in this test, the tooltip is tried to render in "topRight" position, but it is mocked to
-    overflow the screen from the left. And then automatically, it is tried to render in "top" position but this time it
-    is mocked to overflow from the top. And finally, when it is tried to render in "topLeft" position, it fits into the
-    screen and the final expected position becomes "topLeft".
-    */
+  describe("when it does not fit into the screen at the given position", () => {
+    const anchorRect = (rect: Partial<DOMRect>) => ({ x: 0, y: 0, width: 0, height: 0, toJSON: () => {}, ...rect }) as DOMRect;
 
-    const { container } = render(
-      <Tooltip text="test" position="topRight">
-        <Button label="Test Button" />
-      </Tooltip>,
-    );
+    beforeEach(() => {
+      jest.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(function (this: HTMLElement) {
+        return this.dataset.testid === "tooltipItem" ? 200 : 0;
+      });
+      jest.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockImplementation(function (this: HTMLElement) {
+        return this.dataset.testid === "tooltipItem" ? 40 : 0;
+      });
+    });
+    afterEach(() => jest.restoreAllMocks());
 
-    // This section is to render the tooltip once to be able to mock. This has nothing to do with the test states
-    await act(() => user.hover(screen.getByText("Test Button")));
-    const tooltip = screen.queryByTestId("tooltipItem") as HTMLElement;
-    await act(() => user.hover(container)); // Hovering the container to remove the tooltip
-
-    //
-    // Actual test starts here
-    //
-
-    // Setting the screen width to 800px
-    jest.spyOn(document.documentElement, "clientWidth", "get").mockReturnValue(800);
-    // Setting the screen width to 600px
-    jest.spyOn(document.documentElement, "clientHeight", "get").mockReturnValue(600);
-    jest
-      .spyOn(tooltip, "getBoundingClientRect")
-      // 1. Trying position: "topRight". Mocking the tooltip to overflow the screen from LEFT
-      .mockImplementationOnce(
-        () =>
-          ({
-            left: -100,
-            right: 300,
-            width: 400,
-            top: 0,
-            bottom: 200,
-            height: 200,
-          }) as DOMRect,
-      )
-      // 2. Trying position: "top". Mocking the tooltip to overflow the screen from TOP
-      .mockImplementationOnce(
-        () =>
-          ({
-            top: -100,
-            bottom: 100,
-            height: 200,
-            left: 100,
-            right: 500,
-            width: 400,
-          }) as DOMRect,
-      )
-      // 3. Trying position: "topLeft". Mocking the tooltip to stay within the screen
-      .mockImplementationOnce(
-        () =>
-          ({
-            top: 0,
-            bottom: 200,
-            height: 200,
-            left: 100,
-            right: 500,
-            width: 400,
-          }) as DOMRect,
+    it("should be rendered on the opposite side when there is no room on the given side", async () => {
+      render(
+        <Tooltip text="test" position="top">
+          <Button label="Test Button" />
+        </Tooltip>,
       );
+      jest
+        .spyOn(screen.getByRole("button"), "getBoundingClientRect")
+        .mockReturnValue(anchorRect({ top: 0, bottom: 30, left: 400, right: 500, width: 100, height: 30 }));
 
-    await act(() => user.hover(screen.getByText("Test Button")));
-    // 1. tries "topRight" position but overflows from the left. Next try: "top"
-    // 2. tries "top" position but overflows from the top. Next try: "topLeft"
-    // 3. tries "topLeft" position and fits into the screen
-    expect(screen.queryByTestId("tooltipItem")).toHaveClass("topLeft");
+      await act(() => user.hover(screen.getByText("Test Button")));
+      const tooltip = screen.getByTestId("tooltipItem");
+      expect(tooltip).toHaveClass("bottom");
+      expect(tooltip).toHaveStyle({ top: "30px", left: "350px" });
+    });
 
-    jest.clearAllMocks();
+    it("should be rendered with the other alignment when it overflows the screen at the given alignment", async () => {
+      render(
+        <Tooltip text="test" position="topRight">
+          <Button label="Test Button" />
+        </Tooltip>,
+      );
+      jest
+        .spyOn(screen.getByRole("button"), "getBoundingClientRect")
+        .mockReturnValue(anchorRect({ top: 300, bottom: 330, left: 10, right: 50, width: 40, height: 30 }));
+
+      await act(() => user.hover(screen.getByText("Test Button")));
+      const tooltip = screen.getByTestId("tooltipItem");
+      expect(tooltip).toHaveClass("topLeft");
+      expect(tooltip).toHaveStyle({ top: "260px", left: "10px" });
+    });
   });
 
   it("should not re-render the anchor child on window resize while the tooltip is closed", () => {
