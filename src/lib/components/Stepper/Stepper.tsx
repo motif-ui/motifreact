@@ -48,7 +48,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   const disabledSteps = stepItems.map(item => !!item.props.disabled);
 
   const rawActiveStep = externalState ? externalState.activeStep : internalStep;
-  const resolvedStep = disabledSteps.findIndex((disabled, i) => i >= rawActiveStep && !disabled);
+  const resolvedStep = disabledSteps.findIndex((d, i) => i >= rawActiveStep && !d);
   const activeStep = resolvedStep !== -1 ? resolvedStep : disabledSteps.findLastIndex(disabled => !disabled);
 
   const goToStep = useCallback(
@@ -73,10 +73,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   }, [activeStep, disabledSteps, goToStep]);
 
   useEffect(() => {
-    setVisitedSteps(prev => {
-      const inRange = prev.filter(step => step < count);
-      return activeStep === -1 || inRange.includes(activeStep) ? inRange : [...inRange, activeStep];
-    });
+    setVisitedSteps(prev => (prev.includes(activeStep) ? prev : [...prev, activeStep]).filter(step => step >= 0 && step < count));
   }, [activeStep, count]);
 
   useEffect(() => {
