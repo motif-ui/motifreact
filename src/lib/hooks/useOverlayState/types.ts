@@ -36,6 +36,9 @@ export type OverlayStateProps = {
   blocksLayersBelow?: boolean;
   closeOnOutsideClick?: boolean;
   closeOnEscape?: boolean;
+  /**
+   * Turns the overlay off, e.g. while its owner component is disabled or read-only.
+   */
   inactive?: boolean;
   /** Closes the overlay when a scroll moves the inside elements, e.g. a page or a container scroll */
   closeOnScroll?: boolean;

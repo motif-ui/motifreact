@@ -26,6 +26,7 @@ const ButtonWithDropdown = (props: PropsWithChildren<ButtonGroupItemProps>) => {
     toggleOnAnchorClick: true,
     tabBridge: true,
     closeOnOutsideClick: true,
+    closeOnEscape: true,
     inactive: disabled,
   });
 

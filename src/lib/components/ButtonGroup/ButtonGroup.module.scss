@@ -63,16 +63,14 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
   background-color: var(--theme-color-surface-light-default);
 
   &:hover,
-  &:active,
-  &.open {
+  &:active {
     &,
     .icon {
       color: var(--theme-color-text-base-text-light);
     }
   }
 
-  &:hover,
-  &.open {
+  &:hover {
     background-color: var(--theme-color-surface-primary-default);
     border-color: var(--theme-color-border-primary-default);
   }
@@ -80,6 +78,16 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
   &:active {
     background-color: var(--theme-color-surface-primary-hover);
     border-color: var(--theme-color-border-primary-hover);
+  }
+}
+
+.button__dropdown.open {
+  background-color: var(--theme-color-surface-primary-default);
+  border-color: var(--theme-color-border-primary-default);
+
+  &,
+  .icon {
+    color: var(--theme-color-text-base-text-light);
   }
 }
 

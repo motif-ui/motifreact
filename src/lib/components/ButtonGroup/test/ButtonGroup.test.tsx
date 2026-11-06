@@ -91,6 +91,22 @@ describe("ButtonGroup", () => {
     expect(queryByText("Item 2.1")).not.toBeInTheDocument();
   });
 
+  it("should close the submenu when Escape is pressed", async () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" />
+        <ButtonGroup.Item label="Item 2">
+          <ButtonGroup.Item label="Item 2.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 2.1")).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(queryByText("Item 2.1")).not.toBeInTheDocument();
+  });
+
   it("should render the submenu in document.body with the size of the group", async () => {
     const { container, getByText } = render(
       <ButtonGroup size="sm">
