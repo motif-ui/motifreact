@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import Avatar from "@/components/Avatar";
 import { usePopover } from "../../hooks";
 import { PopoverProps } from "@/components/Popover/types";
+import { formatStoryTransform } from "src/utils/docUtils";
 
 const meta: Meta<typeof Popover> = {
   title: "Components/Popover",
@@ -27,18 +28,17 @@ export default meta;
 type Story = StoryObj<typeof Popover>;
 
 const item = <div style={{ padding: 12 }}>Popover item...</div>;
-const containerStyle = { paddingTop: 40, paddingBottom: 40 };
 
 const PopoverExample = (args: PopoverProps) => {
   const ref = useRef(null);
 
   return (
-    <div style={containerStyle}>
+    <>
       <Avatar letters="AA" ref={ref} />
       <Popover {...args} anchorRef={ref}>
         {item}
       </Popover>
-    </div>
+    </>
   );
 };
 
@@ -46,21 +46,25 @@ export const Primary: Story = {
   parameters: {
     docs: {
       source: {
-        type: "code",
-        code: `
-        const item = <div style={{ padding: 12 }}>Popover item...</div>;
-        const containerStyle = { paddingTop: 40, paddingBottom: 40 };
-        const ref = useRef(null);
+        transform: formatStoryTransform(
+          "Popover",
+          ["anchorRef", "children"],
+          argsString => `
+const ref = useRef(null);
 
-        return (
-          <div style={containerStyle}>
-            <Avatar letters="AA" ref={ref} />
-            <Popover {...args} anchorRef={ref}>
-              {item}
-            </Popover>
-          </div>
-        );
-        `,
+return (
+  <>
+    <Avatar letters="AA" ref={ref} />
+    <Popover
+      anchorRef={ref}
+       ${argsString.split("\n  ").join("\n      ")}
+       >
+      <div>Popover item...</div>
+    </Popover>
+  </>
+);
+  `,
+        ),
       },
     },
   },
@@ -88,12 +92,12 @@ const anchorRef = useRef(null);
       const anchorRef = useRef<HTMLButtonElement | null>(null);
 
       return (
-        <div style={containerStyle}>
+        <>
           <Button label="Click" ref={anchorRef} />
           <Popover {...args} anchorRef={anchorRef}>
             {item}
           </Popover>
-        </div>
+        </>
       );
     };
 
@@ -124,12 +128,12 @@ const [open, setOpen] = useState(false);
       const [open, setOpen] = useState(false);
 
       return (
-        <div style={containerStyle}>
+        <>
           <Button label="Click" ref={anchorRef} onClick={() => setOpen(!open)} />
           <Popover {...args} anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} closeOnOutsideClick closeOnEscape>
             {item}
           </Popover>
-        </div>
+        </>
       );
     };
 
@@ -161,12 +165,12 @@ const { ref, open, toggle } = usePopover(anchorRef);
       const { ref, open, toggle } = usePopover(anchorRef);
 
       return (
-        <div style={containerStyle}>
+        <>
           <Button label="Click" ref={anchorRef} onClick={toggle} />
           <Popover {...args} ref={ref} anchorRef={anchorRef} open={open}>
             {item}
           </Popover>
-        </div>
+        </>
       );
     };
 
