@@ -10,6 +10,8 @@ import { StandardPropsWithRef } from "../../../../lib/types";
 import { getDateLocale } from "src/i18n/helper.ts";
 
 describe("InputDate", () => {
+  afterEach(() => jest.restoreAllMocks());
+
   const testDate = new Date(2025, 1, 15);
   const formatDateWithDefaultFormatAndTR = (mockStartDate: Date) => formatDate(mockStartDate, defaultDateFormat, getDateLocale(t));
 
@@ -38,6 +40,7 @@ describe("InputDate", () => {
       expect(container.firstElementChild).toHaveClass("md");
       // icon = calendar_month (default)
       expect(screen.queryByText("calendar_month")).toBeInTheDocument();
+      // placement = bottomLeft (default), the picker opens below the input aligned with its left edge
       jest
         .spyOn(container.firstElementChild!, "getBoundingClientRect")
         .mockReturnValue({ top: 100, bottom: 140, left: 50, right: 250, width: 200, height: 40, x: 50, y: 100, toJSON: () => {} });
@@ -316,7 +319,6 @@ describe("InputDate", () => {
     await userEvent.tab();
     expect(getPickerContainer()?.contains(document.activeElement)).toBe(true);
     expect(document.activeElement?.closest("[inert]")).toBeNull();
-    jest.restoreAllMocks();
   });
 
   it("should render the main icon given in the icon prop", () => {

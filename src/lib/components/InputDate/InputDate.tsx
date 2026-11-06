@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./InputDate.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { defaultDateFormat } from "../Motif/Pickers/types";
 import { InputDateProps } from "./types";
@@ -13,6 +13,7 @@ import { PropsWithRef } from "../../types";
 import { InputValue } from "../Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import { isNullOrEmptyString } from "../../../utils/utils";
+import { mergeRefs } from "../../../utils/reactUtils";
 import InputText from "@/components/Motif/InputText/InputText";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
@@ -55,7 +56,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   });
 
   const innerRef = useRef<HTMLDivElement>(null);
-  useImperativeHandle(ref, () => innerRef.current!, []);
+  const mergedRef = useMemo(() => mergeRefs(innerRef, ref), [ref]);
 
   const pickerCloseHandler = useCallback(() => !isValueValid && setTypedValue(""), [isValueValid]);
 
@@ -125,7 +126,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   return (
     <>
       <InputText
-        ref={innerRef}
+        ref={mergedRef}
         className={classNames}
         style={style}
         iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" size={size} />)}
