@@ -9,6 +9,7 @@ import { PropsWithRef, StandardPropsWithRef } from "src/lib/types.ts";
 const NEXT = t("g.next");
 const PREV = t("g.previous");
 const FINISH = t("g.finish");
+const stepContent = (step: number) => `Content ${step}`;
 
 const renderExt = (props: PropsWithRef<StepperProps, HTMLDivElement> = {}, itemProps?: StepperItemProps[]) => {
   const items = itemProps?.length ? itemProps : [{ title: "Step 1" }, { title: "Step 2" }, { title: "Step 3" }];
@@ -33,7 +34,9 @@ const renderExt = (props: PropsWithRef<StepperProps, HTMLDivElement> = {}, itemP
 
 const renderItems = (count: number, disabled: number[] = []) =>
   Array.from({ length: count }, (_, i) => (
-    <Stepper.Item key={i} title={`Step ${i + 1}`} disabled={disabled.includes(i)}>{`Content ${i + 1}`}</Stepper.Item>
+    <Stepper.Item key={i} title={`Step ${i + 1}`} disabled={disabled.includes(i)}>
+      {stepContent(i + 1)}
+    </Stepper.Item>
   ));
 
 const ControlledStepper = ({ initial, count = 3, disabled }: { initial: number; count?: number; disabled?: number[] }) => {
@@ -357,21 +360,21 @@ describe("Stepper", () => {
   it("should move a controlled Stepper to the next enabled step when the active step becomes disabled", () => {
     const { rerender } = render(<ControlledStepper initial={1} />);
     rerender(<ControlledStepper initial={1} disabled={[1]} />);
-    expect(screen.getByText("Content 3")).toBeInTheDocument();
-    expect(screen.getByTestId("hook-step")).toHaveTextContent("2");
+    expect(screen.getByText(stepContent(3))).toBeInTheDocument();
+    expect(screen.getByTestId("hook-step").textContent).toBe("2");
   });
 
   it("should move a controlled Stepper to the last step when the step count shrinks", () => {
     const { rerender } = render(<ControlledStepper initial={3} count={4} />);
     rerender(<ControlledStepper initial={3} count={2} />);
-    expect(screen.getByText("Content 2")).toBeInTheDocument();
-    expect(screen.getByTestId("hook-step")).toHaveTextContent("1");
+    expect(screen.getByText(stepContent(2))).toBeInTheDocument();
+    expect(screen.getByTestId("hook-step").textContent).toBe("1");
   });
 
   it("should move an uncontrolled Stepper to the last step and drop out of range visited steps when the step count shrinks", () => {
     const { container, rerender } = render(<Stepper defaultActiveStep={3}>{renderItems(4)}</Stepper>);
     rerender(<Stepper defaultActiveStep={3}>{renderItems(2)}</Stepper>);
-    expect(screen.getByText("Content 2")).toBeInTheDocument();
+    expect(screen.getByText(stepContent(2))).toBeInTheDocument();
 
     rerender(<Stepper defaultActiveStep={3}>{renderItems(4)}</Stepper>);
     const stepItems = container.querySelectorAll(".stepItem");
@@ -381,7 +384,7 @@ describe("Stepper", () => {
 
   it("should start on the next enabled step without visiting a disabled defaultActiveStep", () => {
     const { container, rerender } = render(<Stepper defaultActiveStep={1}>{renderItems(3, [1])}</Stepper>);
-    expect(screen.getByText("Content 3")).toBeInTheDocument();
+    expect(screen.getByText(stepContent(3))).toBeInTheDocument();
 
     fireEvent.click(screen.getByText(PREV));
     rerender(<Stepper defaultActiveStep={1}>{renderItems(3)}</Stepper>);
@@ -396,11 +399,22 @@ describe("Stepper", () => {
     rerender(<Stepper showCount>{renderItems(3, [0, 1, 2])}</Stepper>);
     expect(container.querySelector(".active")).not.toBeInTheDocument();
     expect(container.querySelector(".stepContent")).not.toBeInTheDocument();
-    expect(container.querySelector(".stepCountActive")).toHaveTextContent("0");
+    expect(container.querySelector(".stepCount")?.textContent).toBe("0 / 3");
 
     rerender(<Stepper showCount>{renderItems(3)}</Stepper>);
-    expect(screen.getByText("Content 1")).toBeInTheDocument();
-    expect(container.querySelector(".stepCountActive")).toHaveTextContent("1");
+    expect(screen.getByText(stepContent(1))).toBeInTheDocument();
+    expect(container.querySelector(".stepCount")?.textContent).toBe("1 / 3");
+  });
+
+  it("should not call onStepChange when the active step is corrected automatically", () => {
+    const onStepChange = jest.fn();
+    const { getStepItems } = renderExt({ defaultActiveStep: 1, onStepChange }, [
+      { title: "Step 1" },
+      { title: "Step 2", disabled: true },
+      { title: "Step 3" },
+    ]);
+    expect(getStepItems()[2]).toHaveClass("active");
+    expect(onStepChange).not.toHaveBeenCalled();
   });
 
   it("should not render navigation buttons when hideNavigation is true", () => {

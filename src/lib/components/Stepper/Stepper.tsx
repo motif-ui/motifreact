@@ -34,7 +34,6 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   } = usePropsWithThemeDefaults("Stepper", props);
 
   const [internalStep, setInternalStep] = useState(() => Math.max(0, Math.min(defaultActiveStep, Children.toArray(children).length - 1)));
-  const [visitedSteps, setVisitedSteps] = useState<number[]>([]);
   const [internalStepData, setInternalStepDataState] = useState<Partial<Record<number, Record<string, unknown>>>>({});
   const internalSetStepData = useCallback(
     (index: number, data: Record<string, unknown>) => setInternalStepDataState(prev => ({ ...prev, [index]: { ...prev[index], ...data } })),
@@ -50,6 +49,7 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   const rawActiveStep = externalState ? externalState.activeStep : internalStep;
   const resolvedStep = disabledSteps.findIndex((d, i) => i >= rawActiveStep && !d);
   const activeStep = resolvedStep !== -1 ? resolvedStep : disabledSteps.findLastIndex(disabled => !disabled);
+  const [visitedSteps, setVisitedSteps] = useState(() => (activeStep === -1 ? [] : [activeStep]));
 
   const goToStep = useCallback(
     (index: number) => {
@@ -73,12 +73,16 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   }, [activeStep, disabledSteps, goToStep]);
 
   useEffect(() => {
-    setVisitedSteps(prev => (prev.includes(activeStep) ? prev : [...prev, activeStep]).filter(step => step >= 0 && step < count));
-  }, [activeStep, count]);
+    activeStep !== -1 && setVisitedSteps(prev => (prev.includes(activeStep) ? prev : [...prev, activeStep]));
+  }, [activeStep]);
 
   useEffect(() => {
-    activeStep !== -1 && activeStep !== rawActiveStep && goToStep(activeStep);
-  }, [activeStep, rawActiveStep]); // eslint-disable-line react-hooks/exhaustive-deps
+    setVisitedSteps(prev => (prev.some(step => step >= count) ? prev.filter(step => step < count) : prev));
+  }, [count]);
+
+  useEffect(() => {
+    activeStep !== -1 && activeStep !== rawActiveStep && (externalState ? externalState.goToStep(activeStep) : setInternalStep(activeStep));
+  }, [activeStep, rawActiveStep, externalState]);
 
   const activeContent = stepItems[activeStep]?.props.children;
   const classNames = sanitizeModuleRootClasses(styles, className, [orientation, stepType, `${itemOrientation}-items`]);
