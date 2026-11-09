@@ -1,9 +1,10 @@
 "use client";
 
 import styles from "./InputDateTime.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
-import useOutsideClick from "../../hooks/useOutsideClick";
+import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import { formatDateTime, parseDateTime } from "./helper";
 import DateTimePicker from "@/components/DateTimePicker";
 import { defaultDateFormat } from "../Motif/Pickers/types";
@@ -13,6 +14,7 @@ import { InputDateTimeProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { InputValue } from "../Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import { mergeRefs } from "../../../utils/reactUtils";
 import InputText from "@/components/Motif/InputText/InputText";
 import { MotifIcon } from "../Motif/Icon";
 import { DateUtils } from "src/utils/dateUtils.ts";
@@ -51,7 +53,6 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
     [format, props.placeholder, secondsEnabled],
   );
 
-  const [pickerVisible, setPickerVisible] = useState(false);
   const [itemValue, setItemValue] = useState<Date | undefined>(value as Date);
   const [typedValue, setTypedValue] = useState<string>(formatDateTime(itemValue, format, !!secondsEnabled, timeFormat, locale));
 
@@ -85,15 +86,29 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
     setItemValue(value);
   }, [format, secondsEnabled, value, timeFormat, locale]);
 
-  const outsideClickHandler = useCallback(() => {
-    setPickerVisible(false);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const mergedRef = useMemo(() => mergeRefs(innerRef, ref), [ref]);
+
+  const pickerCloseHandler = useCallback(() => {
     const parsedDate = parseDateTime(typedValue, format, !!secondsEnabled, locale);
     !parsedDate && setTypedValue(formatDateTime(itemValue, format, !!secondsEnabled, timeFormat, locale));
   }, [format, itemValue, secondsEnabled, typedValue, timeFormat, locale]);
 
-  const innerRef = useOutsideClick<HTMLDivElement>(outsideClickHandler);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useImperativeHandle(ref, () => innerRef.current!, []);
+  const {
+    attached,
+    style: pickerStyle,
+    overlayRef: pickerRef,
+    show,
+    hide,
+  } = useAnchoredOverlay({
+    anchorRef: innerRef,
+    placement: "bottomLeft",
+    onClose: pickerCloseHandler,
+    closeOnOutsideClick: true,
+    closeOnEscape: true,
+    tabBridge: true,
+    inactive: disabled || readOnly,
+  });
 
   const onDateChange = useCallback(
     (date?: Date) => {
@@ -115,12 +130,12 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
   const clearClickHandler = useCallback(() => {
     applyChanges(undefined);
     setTypedValue("");
-    setPickerVisible(false);
-  }, [applyChanges]);
+    hide();
+  }, [applyChanges, hide]);
 
   const pickerShowHandler = useCallback(() => {
-    !readOnly && !disabled && setPickerVisible(true);
-  }, [disabled, readOnly]);
+    !readOnly && !disabled && show();
+  }, [disabled, readOnly, show]);
 
   const onInputTimeChange = useCallback(
     (e: InputValue) => {
@@ -135,8 +150,11 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
-    <div ref={innerRef} className={classNames} style={style}>
+    <>
       <InputText
+        ref={mergedRef}
+        className={classNames}
+        style={style}
         iconLeft={<MotifIcon name="event" size={size} />}
         name={name}
         onClearClick={clearClickHandler}
@@ -154,9 +172,10 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
       />
-      {pickerVisible && (
-        <div className={styles.pickerContainer}>
+      {attached &&
+        createPortal(
           <DateTimePicker
+            ref={pickerRef}
             firstDayOfWeek={firstDayOfWeek}
             variant="bordered"
             secondsEnabled={secondsEnabled}
@@ -167,11 +186,12 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
             removeActionButtons
             onDateChange={onDateChange}
             onTimeChange={onTimeChange}
-            onOkClick={() => setPickerVisible(false)}
-          />
-        </div>
-      )}
-    </div>
+            className={styles.dateTimePicker}
+            style={pickerStyle}
+          />,
+          document.body,
+        )}
+    </>
   );
 };
 
