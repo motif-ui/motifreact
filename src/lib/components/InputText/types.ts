@@ -9,7 +9,11 @@ export type InputTextDefaultableProps = {
   textTransform?: "uppercase" | "lowercase" | "capitalize";
 };
 
-export type InputTextProps = InputTextCommonProps & InputCommonProps & InputTextDefaultableProps;
+export type InputTextProps = InputTextCommonProps &
+  InputCommonProps &
+  InputTextDefaultableProps & {
+    type?: "text" | "tel";
+  };
 
 export type InputTextCommonProps = {
   placeholder?: string;
