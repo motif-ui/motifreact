@@ -1,3 +1,3 @@
-export type ContainerProps = {
+export type ContainerDefaultableProps = {
   fluid?: boolean;
 };
