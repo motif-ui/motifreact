@@ -9,10 +9,11 @@ type PreviewProps = {
   image: string;
   onClose: () => void;
   onDownload?: () => void;
+  downloadDisabled?: boolean;
 };
 
 const Preview = (props: PropsWithRefAndChildren<PreviewProps, HTMLDivElement>) => {
-  const { image, onClose, onDownload } = props;
+  const { image, onClose, onDownload, downloadDisabled } = props;
   const {
     zoomOutDisabled,
     zoomInDisabled,
@@ -54,7 +55,7 @@ const Preview = (props: PropsWithRefAndChildren<PreviewProps, HTMLDivElement>) =
         <MotifIconButton variant="negative" name="redo" onClick={rotateRight} />
         <MotifIconButton variant="negative" name="zoom_out" disabled={zoomOutDisabled} onClick={zoomOut} />
         <MotifIconButton variant="negative" name="zoom_in" disabled={zoomInDisabled} onClick={zoomIn} />
-        {onDownload && <MotifIconButton variant="negative" name="download" onClick={onDownload} />}
+        {onDownload && <MotifIconButton variant="negative" name="download" disabled={downloadDisabled} onClick={onDownload} />}
       </div>
     </div>
   );
