@@ -153,6 +153,5 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
 };
 
 const Slider = (props: PropsWithRef<SliderProps, HTMLDivElement>) => <SliderComponent {...props} />;
-// Docgen reads "X.displayName = ..." as SliderComponent's name too, and then doesn't generate Slider's prop table.
 Object.assign(Slider, { displayName: "Slider" });
 export default Slider;
