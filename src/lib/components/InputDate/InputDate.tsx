@@ -1,17 +1,19 @@
 "use client";
 
 import styles from "./InputDate.module.scss";
-import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { defaultDateFormat } from "../Motif/Pickers/types";
 import { InputDateProps } from "./types";
 import { useRegisterFormField } from "@/components/Form/context/useRegisterFormField";
 import DatePicker from "@/components/DatePicker";
-import useOutsideClick from "../../hooks/useOutsideClick";
+import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import { formatDate, parseDate } from "@/components/InputDate/helper";
 import { PropsWithRef } from "../../types";
 import { InputValue } from "../Form/types";
 import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
 import { isNullOrEmptyString } from "../../../utils/utils";
+import { mergeRefs } from "../../../utils/reactUtils";
 import InputText from "@/components/Motif/InputText/InputText";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useDateLocale } from "src/i18n/useDateLocale.ts";
@@ -35,7 +37,6 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     [format, props.placeholder],
   );
 
-  const [pickerVisible, setPickerVisible] = useState(false);
   const [itemValue, setItemValue] = useState<Date | undefined>(value as Date);
   const [typedValue, setTypedValue] = useState<string>(formatDate(itemValue, format, locale));
   const [isValueValid, setIsValueValid] = useState(!!value);
@@ -54,14 +55,26 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     valueStateSetter,
   });
 
-  const outsideClickHandler = useCallback(() => {
-    setPickerVisible(false);
-    !isValueValid && setTypedValue("");
-  }, [isValueValid]);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const mergedRef = useMemo(() => mergeRefs(innerRef, ref), [ref]);
 
-  const innerRef = useOutsideClick<HTMLDivElement>(outsideClickHandler);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useImperativeHandle(ref, () => innerRef.current!, []);
+  const pickerCloseHandler = useCallback(() => !isValueValid && setTypedValue(""), [isValueValid]);
+
+  const {
+    attached,
+    style: pickerStyle,
+    overlayRef: pickerRef,
+    show,
+    hide,
+  } = useAnchoredOverlay({
+    anchorRef: innerRef,
+    placement: "bottomLeft",
+    onClose: pickerCloseHandler,
+    closeOnOutsideClick: true,
+    tabBridge: true,
+    closeOnEscape: true,
+    inactive: disabled || readOnly,
+  });
 
   useEffect(() => {
     setItemValue(value as Date);
@@ -99,18 +112,16 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
       applyChanges(date);
       setTypedValue(formatDate(date, format, locale));
       setIsValueValid(true);
-      setPickerVisible(false);
+      hide();
     },
-    [applyChanges, format, locale],
+    [applyChanges, format, hide, locale],
   );
 
-  const clearClickHandler = useCallback(() => {
-    setPickerVisible(false);
-  }, []);
+  const clearClickHandler = useCallback(() => hide(), [hide]);
 
   const pickerShowHandler = useCallback(() => {
-    !readOnly && !disabled && setPickerVisible(true);
-  }, [disabled, readOnly]);
+    !readOnly && !disabled && show();
+  }, [disabled, readOnly, show]);
 
   const iconLeft = useMemo(
     () => (isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" size={size} />)),
@@ -120,8 +131,11 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
-    <div ref={innerRef} className={classNames} style={style} data-testid="inputDate">
+    <>
       <InputText
+        ref={mergedRef}
+        className={classNames}
+        style={style}
         iconLeft={iconLeft}
         clearable
         name={name}
@@ -139,19 +153,23 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
         onFocus={pickerShowHandler}
         onClearClick={clearClickHandler}
       />
-      {pickerVisible && (
-        <DatePicker
-          firstDayOfWeek={firstDayOfWeek}
-          removeActionButtons
-          variant="bordered"
-          size={pickerSizeMap[size]}
-          value={itemValue}
-          onDateChange={dateChangeHandler}
-          className={styles.datePicker}
-          locale={locale}
-        />
-      )}
-    </div>
+      {attached &&
+        createPortal(
+          <DatePicker
+            ref={pickerRef}
+            firstDayOfWeek={firstDayOfWeek}
+            removeActionButtons
+            variant="bordered"
+            size={pickerSizeMap[size]}
+            value={itemValue}
+            onDateChange={dateChangeHandler}
+            className={styles.datePicker}
+            style={pickerStyle}
+            locale={locale}
+          />,
+          document.body,
+        )}
+    </>
   );
 };
 
