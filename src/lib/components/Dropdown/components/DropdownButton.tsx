@@ -16,10 +16,11 @@ type Props = {
   pill?: boolean;
   className?: string;
   style?: CSSProperties;
+  open: boolean;
 };
 
-const DropdownButton = ({ label, icon, ref, variant, shape, pill, className, style }: Props) => {
-  const { toggleMenu, size, disabled, open } = useContext(DropdownContext);
+const DropdownButton = ({ label, icon, ref, variant, shape, pill, className, style, open }: Props) => {
+  const { size, disabled } = useContext(DropdownContext);
   const classNames = sanitizeModuleClassesWithOptions(styles, { externalClasses: [className] }, [
     "Button",
     size,
@@ -30,15 +31,7 @@ const DropdownButton = ({ label, icon, ref, variant, shape, pill, className, sty
   ]);
 
   return (
-    <button
-      className={classNames}
-      style={style}
-      {...(disabled && { disabled })}
-      onClick={toggleMenu}
-      type="button"
-      ref={ref}
-      data-testid="dropdown-button"
-    >
+    <button className={classNames} style={style} {...(disabled && { disabled })} type="button" ref={ref} data-testid="dropdown-button">
       {icon && <GlobalIconWrapper icon={icon} className={styles.icon} size={size} />}
       {label && <span>{label}</span>}
       <MotifIcon name="arrow_drop_down" className={styles["Button-DropdownIcon"]} size={size} />

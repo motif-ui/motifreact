@@ -26,10 +26,12 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
     style,
     className,
   } = usePropsWithThemeDefaults("Dropdown", props);
-  const { size, open, hideMenu, disabled } = useContext(DropdownContext);
+  const { size, disabled } = useContext(DropdownContext);
 
   const anchorRef = useRef<HTMLButtonElement>(null);
   const {
+    open,
+    hide,
     attached,
     overlayRef,
     insideProps,
@@ -38,11 +40,11 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
   } = useAnchoredOverlay({
     anchorRef,
     placement: "bottomRight",
+    toggleOnAnchorClick: true,
     tabBridge: true,
-    open: open && !disabled,
-    onClose: hideMenu,
     closeOnOutsideClick: true,
     closeOnEscape: true,
+    inactive: disabled,
   });
   const mergedRef = useMemo(() => mergeRefs(anchorRef, ref), [ref]);
 
@@ -60,11 +62,12 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
         variant={variant}
         shape={shape}
         pill={pill}
+        open={open}
       />
       {attached &&
         createPortal(
           <div className={overlayClassNames} ref={overlayRef} style={overlayStyle} {...insideProps} data-testid="Dropdown">
-            <DropdownMenu items={items} />
+            <DropdownMenu items={items} hideMenu={hide} />
           </div>,
           document.body,
         )}

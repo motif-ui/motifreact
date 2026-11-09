@@ -5,9 +5,13 @@ import { MouseEvent, useContext } from "react";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
 
-const DropdownMenuItem = (props: DropdownMenuItemProps) => {
-  const { label, header, icon, iconColor, disabled, action } = props;
-  const { hideMenu, size } = useContext(DropdownContext);
+type Props = DropdownMenuItemProps & {
+  hideMenu: () => void;
+};
+
+const DropdownMenuItem = (props: Props) => {
+  const { label, header, icon, iconColor, disabled, action, hideMenu } = props;
+  const { size } = useContext(DropdownContext);
   const classNames = sanitizeModuleClasses(
     styles,
     "MenuItem",

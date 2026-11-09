@@ -41,17 +41,11 @@ export type DropdownMenuItemProps = {
 };
 
 export type DropdownContextProps = {
-  open: boolean;
-  toggleMenu?: () => void;
   size: Size4SM;
   disabled: boolean;
-  hideMenu: () => void;
 };
 
 export const dropdownContextDefaultValues: DropdownContextProps = {
-  open: false,
-  toggleMenu: () => {},
   size: "md",
   disabled: false,
-  hideMenu: () => {},
 };
