@@ -57,6 +57,10 @@ $sizes: (
   overflow: hidden;
   transform-origin: left top;
   @include pop-default;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .show .modal {

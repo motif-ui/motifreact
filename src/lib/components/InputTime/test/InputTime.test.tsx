@@ -1,13 +1,15 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import InputTime from "@/components/InputTime";
 import { userEvent } from "@testing-library/user-event";
-import { InputSize } from "../Form/types";
+import { InputSize } from "../../Form/types";
 import { Time } from "@/components/TimePicker/types";
 import { ReactNode } from "react";
 import { getDateLocale } from "src/i18n/helper.ts";
-import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../types";
 describe("InputTime", () => {
+  afterEach(() => jest.restoreAllMocks());
+
   const testTime: Time = { hours: 9, minutes: 15 };
   const testTimeWithSecond: Time = { hours: 14, minutes: 30, seconds: 45 };
   const testTimeStr = testTime.hours!.toString().padStart(2, "0") + ":" + testTime.minutes!.toString().padStart(2, "0");
@@ -41,11 +43,17 @@ describe("InputTime", () => {
   };
 
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => renderExt(<InputTime {...props} />), {
-    assertDefaults: ({ container, getInput }) => {
+    assertDefaults: async ({ container, getInput, getPickerContainer }) => {
       expect(getInput()).toHaveAttribute("placeholder", "__:__");
-      expect(container.firstElementChild?.firstElementChild).toHaveClass("md");
+      expect(container.firstElementChild).toHaveClass("md");
       //icon = schedule (default)
       expect(screen.queryByText("schedule")).toBeInTheDocument();
+      // placement = bottomLeft (default), the picker opens below the input aligned with its left edge
+      jest
+        .spyOn(container.firstElementChild!, "getBoundingClientRect")
+        .mockReturnValue({ top: 100, bottom: 140, left: 50, right: 250, width: 200, height: 40, x: 50, y: 100, toJSON: () => {} });
+      await userEvent.click(getInput());
+      expect(getPickerContainer()).toHaveStyle({ top: "140px", left: "50px" });
     },
   });
 
@@ -117,6 +125,15 @@ describe("InputTime", () => {
     expect(getPickerContainer()).not.toBeInTheDocument();
   });
 
+  it("should close the time picker when Escape is pressed", async () => {
+    const { getInput, getPickerContainer } = renderExt(<InputTime />);
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(getPickerContainer()).not.toBeInTheDocument();
+  });
+
   it("should be rendered as disabled when disabled prop is true", async () => {
     const onChange = jest.fn();
     const { getByTestId, getInput, getPickerContainer } = renderExt(<InputTime disabled onChange={onChange} />);
@@ -127,6 +144,20 @@ describe("InputTime", () => {
     await userEvent.type(input, testTimeStr);
     expect(onChange).not.toHaveBeenCalled();
     expect(input).not.toHaveValue(testTimeStr);
+  });
+
+  it("should close the open time picker when it becomes disabled or read-only", () => {
+    const props = ["disabled", "readOnly"] as const;
+
+    props.forEach(prop => {
+      const { getInput, getPickerContainer, rerender, unmount } = renderExt(<InputTime />);
+
+      fireEvent.click(getInput());
+      expect(getPickerContainer()).toBeInTheDocument();
+      rerender(<InputTime {...{ [prop]: true }} />);
+      expect(getPickerContainer()).not.toBeInTheDocument();
+      unmount();
+    });
   });
 
   it("should trigger the onChange event when selected time is changed in the input", () => {
@@ -307,12 +338,15 @@ describe("InputTime", () => {
   });
 
   it("should restore previous valid value when input has a valid value, then invalid/incomplete value is entered and outside is clicked", async () => {
-    const { getInput } = renderExt(<InputTime value={testTime} />);
+    Element.prototype.scrollTo = jest.fn();
+    const { getInput, getPickerContainer } = renderExt(<InputTime value={testTime} editable />);
     const input = getInput();
 
     expect(input).toHaveValue(testTimeStr);
 
     // Invalid
+    await userEvent.click(input);
+    expect(getPickerContainer()).toBeInTheDocument();
     await waitFor(() => {
       fireEvent.change(input, { target: { value: "25:70" } });
     });
@@ -322,6 +356,8 @@ describe("InputTime", () => {
     });
 
     // Incomplete
+    await userEvent.click(input);
+    expect(getPickerContainer()).toBeInTheDocument();
     await waitFor(() => {
       fireEvent.change(input, { target: { value: "12:" } });
     });
@@ -340,6 +376,43 @@ describe("InputTime", () => {
 
     rerender(<InputTime value={{ hours: 14, minutes: 15 }} format="24h" />);
     expect(getInput()).toHaveValue("14:15");
+  });
+
+  it("should keep the picker open when the page is scrolled", async () => {
+    const { getInput, getPickerContainer } = renderExt(<InputTime />);
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await act(() => document.dispatchEvent(new Event("scroll")));
+    expect(getPickerContainer()).toBeInTheDocument();
+  });
+
+  it("should keep the picker open when the window is resized", async () => {
+    const { getInput, getPickerContainer } = renderExt(<InputTime />);
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await act(() => window.dispatchEvent(new Event("resize")));
+    expect(getPickerContainer()).toBeInTheDocument();
+  });
+
+  it("should focus inside the picker when picker is opened and then tab key is pressed", async () => {
+    jest.spyOn(HTMLElement.prototype, "offsetParent", "get").mockReturnValue(document.body);
+    const { getInput, getPickerContainer } = renderExt(
+      <>
+        <InputTime />
+        <button />
+      </>,
+    );
+
+    await userEvent.click(getInput());
+    expect(getPickerContainer()).toBeInTheDocument();
+
+    await userEvent.tab();
+    expect(getPickerContainer()?.contains(document.activeElement)).toBe(true);
+    expect(document.activeElement?.closest("[inert]")).toBeNull();
   });
 
   it("should render the main icon given in the icon prop", () => {
