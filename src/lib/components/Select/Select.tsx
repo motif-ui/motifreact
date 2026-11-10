@@ -128,14 +128,23 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
         aria-expanded={expanded}
         aria-controls={name}
         aria-readonly={readOnly}
+        aria-disabled={disabled}
         onClick={inputOnClickHandler}
-        tabIndex={0}
+        {...(!disabled && { tabIndex: 0 })}
       >
         {icon && <GlobalIconWrapper icon={icon} className={styles.iconLeft} size={size} />}
         <div className={styles.inputTextAndItemsContainer}>
           {multiple &&
             filterable &&
-            selectedItems?.map(item => <SelectedItem key={item.value} item={item} size={size} removeHandler={changeHandler} />)}
+            selectedItems?.map(item => (
+              <SelectedItem
+                key={item.value}
+                item={item}
+                size={size}
+                removeHandler={changeHandler}
+                disabled={disabled || readOnly || loading}
+              />
+            ))}
           <input
             disabled={disabled}
             className={styles.inputText}

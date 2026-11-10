@@ -1,95 +1,109 @@
 @use "@styles" as *;
 
 $sizes: (
-  //sizeName, paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, loaderTop, selectedSize, selectedIconSize
-  ("xs", "4x", "8x", "4x", "160x", "18x", 1, "xs", "12x"),
-  ("sm", "6x", "12x", "6x", "190x", "20x", -2, "xs", "16x"),
-  ("md", "8x", "16x", "8x", "190x", "22x", -1, "sm", "18x"),
-  ("lg", "10x", "20x", "10x", "256x", "24x", 0, "md", "20x")
+  //sizeName, paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, loaderTop, chipLabelSize, groupLabelSize, selectedIconSize
+  ("xs", 4, 8, 4, 160, 18, 1, "sm", "sm", 12),
+  ("sm", 6, 12, 6, 190, 20, -2, "sm", "md", 16),
+  ("md", 8, 16, 8, 190, 22, -1, "md", "lg", 18),
+  ("lg", 10, 20, 10, 256, 24, 0, "lg", "xl", 20)
 );
 
 .Root {
   position: relative;
   display: block;
 
-  &.expanded .input {
-    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+  @include transition(border-color);
+
+  &.expanded {
+    .input {
+      border-radius: var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md) 0 0;
+    }
+
     .arrowDown {
       transform: rotate(180deg);
     }
   }
 
-  @include transition(border-color);
-
   &.error .input {
-    border-color: var(--theme-color-border-danger-default);
+    border-color: var(--mtf-color-danger-border);
   }
 
   &.success .input {
-    border-color: var(--theme-color-border-success-default);
+    border-color: var(--mtf-color-success-border);
   }
 
   &.active,
   &:focus .input {
-    border-color: var(--theme-color-border-primary-default);
+    border-color: var(--mtf-color-border-field-focus);
     outline: none;
   }
 
-  &.disabled .input {
-    border-color: var(--theme-color-border-light-disabled);
-    background-color: var(--theme-color-surface-base-base1);
-    pointer-events: none;
-
-    .inputText {
-      color: var(--theme-color-text-base-disabled);
+  &.disabled {
+    .input {
+      border-color: var(--mtf-color-border-disabled);
+      background-color: var(--mtf-color-surface-disabled);
+      pointer-events: none;
     }
 
+    .inputText,
     .iconRight {
-      color: var(--theme-color-text-light-disabled);
+      color: var(--mtf-color-text-disabled);
     }
   }
 }
 
 .input {
-  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-  border-radius: var(--theme-sizing-radius-default);
-  background-color: var(--theme-color-surface-base-bg-light);
+  border: solid var(--mtf-sizing-1) var(--mtf-color-border-field);
+  border-radius: var(--mtf-sizing-radius-md);
+  background-color: var(--mtf-color-surface-field);
   display: inline-flex;
   width: 100%;
   align-items: center;
   box-sizing: border-box;
 
-  .inputTextAndItemsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .inputText {
-    all: unset;
-    width: 0;
-    min-width: var(--base-sizing-64x);
-    flex-grow: 1;
-    text-align: left;
-    white-space: nowrap;
-    overflow: auto;
-    text-overflow: ellipsis;
-    color: var(--theme-color-text-base-title);
-
-    &::placeholder {
-      color: var(--theme-color-text-base-caption);
-    }
-  }
-
   .iconLeft {
-    color: var(--theme-color-text-base-caption-light);
+    color: var(--mtf-color-text-softer);
   }
 
   .iconRight {
-    color: var(--theme-color-text-base-subtitle);
+    color: var(--mtf-color-text-soft);
     @include transition(transform);
   }
+}
+
+.inputTextAndItemsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.inputText {
+  all: unset;
+  width: 0;
+  min-width: var(--mtf-sizing-64);
+  flex-grow: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: auto;
+  text-overflow: ellipsis;
+  color: var(--mtf-color-text-field);
+
+  &::placeholder {
+    color: var(--mtf-color-text-field-placeholder);
+  }
+}
+
+.rightContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  position: absolute;
+  right: 0;
 }
 
 .dropdown {
@@ -99,137 +113,130 @@ $sizes: (
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
-  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: 0 0 var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md);
+  border: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
   border-top: none;
   width: 100%;
-  background-color: var(--theme-color-surface-base-global-light);
+  background-color: var(--mtf-color-surface-raised);
   overflow-y: auto;
-  @include shadow(3);
+  box-shadow: var(--mtf-elevation-2);
 
   &::-webkit-scrollbar {
-    width: var(--base-sizing-8x);
+    width: var(--mtf-sizing-8);
   }
 
   &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    margin: var(--base-sizing-1x) 0;
-    border-radius: var(--theme-sizing-radius-default);
+    background: var(--mtf-color-surface-sunken);
+    margin: var(--mtf-sizing-1) 0;
+    border-radius: var(--mtf-sizing-radius-md);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #cccccc;
-    border-radius: var(--theme-sizing-radius-default);
+    background: var(--mtf-color-border-default);
+    border-radius: var(--mtf-sizing-radius-md);
+  }
+}
+
+// =============================================================================
+// Sub Component: Dropdown items
+// =============================================================================
+
+.option,
+.optionGroup,
+.noData {
+  @include transition(background-color);
+  display: flex;
+
+  &:not(:first-child) {
+    border-top: solid var(--mtf-sizing-1) var(--mtf-color-border-soft);
+  }
+}
+
+.option {
+  &:hover {
+    background-color: var(--mtf-color-neutral-soft);
   }
 
-  li {
-    @include transition(background-color);
+  input {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+  }
+
+  label {
+    width: 100%;
     display: flex;
+    align-items: center;
+    color: var(--mtf-color-text-stronger);
+  }
 
-    &:not(:first-child) {
-      border-top: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
-    }
-
-    &.noData label {
-      color: var(--theme-color-text-base-disabled-light);
-    }
-
-    &.optionGroup label {
-      width: 100%;
-      color: var(--theme-color-text-base-caption-light);
-    }
-
-    &.option {
-      &:hover {
-        background-color: var(--theme-color-surface-light-default);
-      }
-
-      &.selected {
-        label,
-        .iconSelected {
-          color: var(--theme-color-text-primary-default);
-        }
-      }
-
-      input[type="checkbox"],
-      input[type="radio"] {
-        position: absolute;
-        left: 0;
-        opacity: 0;
-      }
-
-      label {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        gap: var(--base-sizing-10x);
-        color: var(--theme-color-text-base-text-dark);
-
-        .labelText {
-          flex-grow: 1;
-        }
-      }
+  &.selected {
+    label,
+    .iconSelected {
+      color: var(--mtf-color-primary-text);
     }
   }
 }
 
-@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $selectedSize, $selectedIconSize in $sizes {
+.labelText {
+  flex-grow: 1;
+}
+
+.optionGroup label {
+  width: 100%;
+  color: var(--mtf-color-text-softer);
+}
+
+.noData label {
+  color: var(--mtf-color-text-disabled);
+}
+
+@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $chipLabelSize, $groupLabelSize, $selectedIconSize in $sizes {
   .#{$size} {
     .input {
-      padding: var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingV}) + var(--base-sizing-#{$paddingH});
+      padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
+      gap: var(--mtf-sizing-space-#{$gap});
+    }
 
-      gap: var(--base-sizing-#{$gap});
+    .inputText {
+      @include typography("body-#{$size}");
+    }
 
-      .inputText {
-        @include font("body", $size);
-      }
-
-      .inputTextAndItemsContainer {
-        gap: var(--base-sizing-#{$gap});
-      }
+    .inputTextAndItemsContainer {
+      gap: var(--mtf-sizing-space-#{$gap});
     }
 
     .label {
-      @include font("base", $selectedSize, "500");
+      @include typography("label-#{$chipLabelSize}", "strong");
     }
 
-    .closeIcon {
-      --mtf-icon-size: var(--base-sizing-#{$selectedIconSize});
+    .closeIcon > * {
+      --mtf-icon-size: var(--mtf-sizing-#{$selectedIconSize});
     }
 
     .dropdown {
-      max-height: var(--base-sizing-#{$maxDropdownHeight});
+      max-height: var(--mtf-sizing-#{$maxDropdownHeight});
+    }
 
-      li {
-        &.optionGroup label {
-          padding: var(--base-sizing-#{$paddingV});
-          @include font("base", $size, "500");
-        }
+    .optionGroup label {
+      padding: var(--mtf-sizing-space-#{$paddingV});
+      @include typography("label-#{$groupLabelSize}", "strong");
+    }
 
-        &.noData,
-        &.option {
-          label {
-            gap: var(--base-sizing-#{$gap});
-            padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
-            @include font("body", $size);
-          }
-        }
-      }
+    .option label,
+    .noData label {
+      gap: var(--mtf-sizing-space-#{$gap});
+      padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
+      @include typography("body-#{$size}");
     }
 
     .rightContainer {
-      width: var(--base-sizing-#{$rightContainerSize});
-      height: var(--base-sizing-#{$rightContainerSize});
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: var(--mtf-sizing-#{$rightContainerSize});
+      height: var(--mtf-sizing-#{$rightContainerSize});
+    }
 
-      .loader {
-        position: absolute;
-        top: add-unit($loaderTop);
-        right: 0;
-      }
+    .loader {
+      top: number-to-px($loaderTop);
     }
   }
 }
@@ -239,13 +246,18 @@ $sizes: (
 // =============================================================================
 
 .selectionChip {
-  background-color: var(--theme-color-surface-base-base4);
-  border-radius: var(--theme-sizing-radius-default);
-  padding: var(--base-sizing-1x) var(--base-sizing-8x);
+  background-color: var(--mtf-color-neutral-soft);
+  border-radius: var(--mtf-sizing-radius-md);
+  padding: 0 var(--mtf-sizing-space-8);
   display: flex;
-  gap: var(--base-sizing-1x) var(--base-sizing-8x);
+  align-items: center;
+  gap: var(--mtf-sizing-space-8);
 }
 
 .label {
-  color: var(--theme-color-text-base-subtitle);
+  color: var(--mtf-color-text-soft);
+}
+
+.closeIcon {
+  display: flex;
 }

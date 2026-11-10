@@ -1,91 +1,91 @@
 @use "sass:math";
-@use "sass:map";
 @use "@styles" as *;
 
-$colors: "primary", "success", "danger", "warning", "info";
+$variants: "neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger";
 
-// size, strokeWidth, radius, fontPerc
-$sizes: (("xs", "2x", "8x", "xs"), ("sm", "3x", "12x", "xs"), ("md", "4x", "18x", "xs"), ("lg", "4x", "24x", "xs"), ("xl", "6x", "32x", "md"));
+// size, strokeWidth, radius, textLabelSize
+$sizes: (("xs", 2, 8, "sm"), ("sm", 3, 12, "sm"), ("md", 4, 18, "sm"), ("lg", 4, 24, "sm"), ("xl", 6, 32, "lg"));
 
-.Root {
-  @each $size, $strokeWidth, $radius, $fontPerc in $sizes {
-    &.#{$size} {
-      height: calc(var(--base-sizing-#{$radius}) * 2);
-      width: calc(var(--base-sizing-#{$radius}) * 2);
-      $normalized-radius: calc(var(--base-sizing-#{$radius}) - (var(--base-sizing-#{$strokeWidth}) / 2));
-      $circumference-with-unit: calc(#{$normalized-radius} * 2 * #{math.$pi});
-      $circumference: #{$circumference-with-unit};
-      $calculated-offset: calc(#{$circumference} - ((#{$circumference} * var(--percentage, 0)) / 100));
+.Root.indeterminate {
+  animation: 1.5s linear infinite svg-animation;
+}
 
-      circle {
-        cx: var(--base-sizing-#{$radius});
-        cy: var(--base-sizing-#{$radius});
-        r: $normalized-radius;
-        stroke-width: var(--base-sizing-#{$strokeWidth});
-      }
+.track {
+  stroke: var(--mtf-color-neutral-soft);
+}
 
-      .circle {
-        stroke-dashoffset: $calculated-offset;
-        stroke-dasharray: $circumference $circumference;
-      }
+.circle {
+  @include transition(stroke-dashoffset, "slow", ease-in-out);
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke-linecap: round;
 
-      &.countdown {
-        .circle {
-          animation: countdown-#{$size} var(--countdown-duration) linear forwards;
-        }
-
-        &.paused .circle {
-          animation-play-state: paused;
-        }
-
-        @keyframes countdown-#{$size} {
-          0% {
-            stroke-dashoffset: 0;
-          }
-          100% {
-            stroke-dashoffset: #{$circumference};
-          }
-        }
-      }
-
-      .text {
-        fill: var(--theme-color-text-base-subtitle-light);
-        font-weight: var(--typography-base-#{$fontPerc}-500-fontWeight);
-        font-size: var(--typography-base-#{$fontPerc}-500-fontSize);
-      }
+  @each $variant in $variants {
+    .#{$variant} & {
+      stroke: var(--mtf-color-#{$variant}-solid);
     }
   }
 
-  @each $color in $colors {
-    &.#{$color} .circle {
-      stroke: var(--theme-color-surface-#{$color}-default);
+  .countdown & {
+    animation-duration: var(--countdown-duration);
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  .paused & {
+    animation-play-state: paused;
+  }
+}
+
+.text {
+  fill: var(--mtf-color-text-soft);
+}
+
+@each $size, $strokeWidth, $radius, $textLabelSize in $sizes {
+  $normalized-radius: calc(var(--mtf-sizing-#{$radius}) - (var(--mtf-sizing-#{$strokeWidth}) / 2));
+  $circumference: calc(#{$normalized-radius} * 2 * #{math.$pi});
+
+  .#{$size} {
+    height: calc(var(--mtf-sizing-#{$radius}) * 2);
+    width: calc(var(--mtf-sizing-#{$radius}) * 2);
+
+    .track,
+    .circle {
+      cx: var(--mtf-sizing-#{$radius});
+      cy: var(--mtf-sizing-#{$radius});
+      r: $normalized-radius;
+      stroke-width: var(--mtf-sizing-#{$strokeWidth});
+    }
+
+    .circle {
+      stroke-dashoffset: calc(#{$circumference} - ((#{$circumference} * var(--percentage, 0)) / 100));
+      stroke-dasharray: $circumference $circumference;
+    }
+
+    &.countdown .circle {
+      animation-name: countdown-#{$size};
+    }
+
+    .text {
+      @include typography("label-#{$textLabelSize}", "strong");
     }
   }
 
-  &.secondary .circle {
-    stroke: var(--theme-color-surface-base-base7);
-  }
-
-  .circle {
-    @include transition(stroke-dashoffset, "slow", ease-in-out);
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    stroke-linecap: round;
-  }
-
-  .track {
-    stroke: var(--theme-color-surface-base-base5);
-  }
-
-  &.indeterminate {
-    animation: 1.5s linear infinite svg-animation;
-    @keyframes svg-animation {
-      0% {
-        transform: rotateZ(0deg);
-      }
-      100% {
-        transform: rotateZ(360deg);
-      }
+  @keyframes countdown-#{$size} {
+    0% {
+      stroke-dashoffset: 0;
     }
+    100% {
+      stroke-dashoffset: #{$circumference};
+    }
+  }
+}
+
+@keyframes svg-animation {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
   }
 }
