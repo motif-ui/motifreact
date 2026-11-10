@@ -4,11 +4,4 @@ import * as UploadInput from "./UploadInput.stories";
 
 <Meta of={UploadInput} />
 
-<UploadDocs />
-
-## Upload Input
-
-UploadList and UploadDragger show the download and action buttons on each file row. UploadInput shows a single download
-and a single action button on the input instead, and clicking them runs **onDownloadClick** / **fileAction.onClick** for
-**every** file that is ready. For a single-file action like a preview, use UploadInput with one file (**maxFile** is 1 by
-default).
+<UploadDocs component="UploadInput" />

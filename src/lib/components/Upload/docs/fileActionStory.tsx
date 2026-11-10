@@ -35,8 +35,7 @@ export const FilePreviewStory = ({ children }: FilePreviewStoryProps) => {
   const fileAction: FileAction = {
     icon: "visibility",
     onClick: file => {
-      // value file → src, newly uploaded file → temporary URL from its File
-      setSrc(file.src ?? URL.createObjectURL(file.file as File));
+      setSrc(file.src);
       show();
     },
   };
@@ -83,11 +82,10 @@ export const fileActionStoryParameters = (componentName: string) => ({
 const { visible, show, hide } = useToggle();
 const [src, setSrc] = useState<string>();
 
-const fileAction: FileAction = {
+const fileAction = {
   icon: "visibility",
   onClick: file => {
-    // value file → src, newly uploaded file → temporary URL from its File
-    setSrc(file.src ?? URL.createObjectURL(file.file as File));
+    setSrc(file.src);
     show();
   },
 };
@@ -97,14 +95,13 @@ return (
     <${componentName}
       uploadRequest={{ url: "/api/upload", method: "POST" }}
       deleteRequest={{ url: "/api/delete", method: "POST" }}
-      accept={MIME_TYPES.IMAGE}
       value={[
         ${fileSource(sampleFiles[0])},
       ]}
       fileAction={fileAction}
     />
     <Modal open={visible} onClose={hide} closable>
-      {src && <ImageView src={src} alt="File preview" width="100%" />}
+      <ImageView src={src} alt="File preview" width="100%" />
     </Modal>
   </>
 );`,

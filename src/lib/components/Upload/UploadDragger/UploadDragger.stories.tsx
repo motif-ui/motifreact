@@ -60,7 +60,6 @@ export const WithDownload: Story = {
 export const WithFileAction: Story = {
   parameters: fileActionStoryParameters("UploadDragger"),
   args: {
-    accept: MIME_TYPES.IMAGE,
     value: sampleFiles,
   },
   render: args => <FilePreviewStory>{fileAction => <UploadDragger {...args} fileAction={fileAction} />}</FilePreviewStory>,

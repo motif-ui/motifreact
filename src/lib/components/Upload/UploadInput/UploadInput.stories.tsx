@@ -61,7 +61,6 @@ export const WithDownload: Story = {
 export const WithFileAction: Story = {
   parameters: fileActionStoryParameters("UploadInput"),
   args: {
-    accept: MIME_TYPES.IMAGE,
     value: sampleFiles,
   },
   render: args => <FilePreviewStory>{fileAction => <UploadInput {...args} fileAction={fileAction} />}</FilePreviewStory>,

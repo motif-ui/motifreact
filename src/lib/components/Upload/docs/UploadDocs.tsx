@@ -1,6 +1,5 @@
 import { Markdown } from "@storybook/addon-docs/blocks";
-import CustomMessagesDoc from "./customMessage.md?raw";
-import FileActionsDoc from "./fileActions.md?raw";
+import UploadDoc from "./UploadDoc.md?raw";
 
 const TOC_HEADING = /^(#{2,3}) (.+)$/gm;
 
@@ -15,28 +14,21 @@ const slugify = (text: string) =>
  * The Markdown block gives headings with the same text the same id, so "On this page" links of repeated headings
  * (e.g. "Type Definition") all go to the first one. This gives each repeated heading a unique id instead.
  */
-const withUniqueHeadingIds = (docs: string[]) => {
+const withUniqueHeadingIds = (doc: string) => {
   const seen = new Map<string, number>();
-  return docs.map(doc =>
-    doc.replace(TOC_HEADING, (line, hashes: string, text: string) => {
-      const slug = slugify(text);
-      const count = seen.get(slug) ?? 0;
-      seen.set(slug, count + 1);
-      if (!count) return line;
-      const tag = `h${hashes.length}`;
-      return `<${tag} id="${slug}-${count}">${text}</${tag}>`;
-    }),
-  );
+  return doc.replace(TOC_HEADING, (line, hashes: string, text: string) => {
+    const slug = slugify(text);
+    const count = seen.get(slug) ?? 0;
+    seen.set(slug, count + 1);
+    if (!count) return line;
+    const tag = `h${hashes.length}`;
+    return `<${tag} id="${slug}-${count}">${text}</${tag}>`;
+  });
 };
 
-const [customMessages, fileActions] = withUniqueHeadingIds([CustomMessagesDoc, FileActionsDoc]);
+const uploadDoc = withUniqueHeadingIds(UploadDoc);
 
 /**
- * Shared docs of the Upload components.
+ * Shared docs of the Upload components. Examples are written with UploadList, so they are shown with the given component.
  */
-export const UploadDocs = () => (
-  <>
-    <Markdown>{customMessages}</Markdown>
-    <Markdown>{fileActions}</Markdown>
-  </>
-);
+export const UploadDocs = ({ component }: { component: string }) => <Markdown>{uploadDoc.replaceAll("UploadList", component)}</Markdown>;
