@@ -86,8 +86,8 @@ const getMaxWidth = (placement: OverlayPlaceOn, anchor: DOMRect, viewport: Box, 
 };
 
 /**
- * Measures the overlay, after limiting its width when a max width is given.
- * Content that cannot shrink, e.g. a fixed width form, may overflow the limited box, so its scroll size is taken into account.
+ * The overlay's current size. Content that cannot shrink, e.g. a fixed width form, may overflow a width limited overlay,
+ * so its scroll size is taken into account on each axis where the overflow is not clipped.
  */
 const getSize = (overlay: HTMLElement): Size => {
   const { overflowX, overflowY } = getComputedStyle(overlay);
