@@ -1,0 +1,15 @@
+import { Meta, Canvas, Source } from "@storybook/addon-docs/blocks";
+import * as HeroStories from "./Hero.stories";
+import hero3Css from "./Hero3/hero3.css?raw";
+
+<Meta title="Blocks/Hero" />
+
+# Heroes
+
+## Hero 3
+
+<Canvas of={HeroStories.Hero3Block} sourceState="shown" />
+<details>
+  <summary>CSS File: hero3.css</summary>
+  <Source code={hero3Css} language="css" />
+</details>
