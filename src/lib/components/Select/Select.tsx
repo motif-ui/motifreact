@@ -69,12 +69,9 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     tabBridge: true,
     closeOnOutsideClick: true,
     closeOnEscape: true,
+    inactive: !expandable,
   });
   const dropUp = placement.startsWith("top");
-
-  useEffect(() => {
-    if (!expandable) hide();
-  }, [expandable, hide]);
 
   const [query, setQuery] = useState<string>("");
   const [dataFiltered, setDataFiltered] = useState<(SelectItem | SelectGroupItem)[]>([]);
@@ -212,7 +209,6 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     <>
       {renderInputButton()}
       {attached &&
-        expandable &&
         createPortal(
           <ul
             ref={dropdownRef}
