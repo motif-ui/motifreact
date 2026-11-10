@@ -9,14 +9,19 @@ $sizes: (
 );
 
 .Root {
-  position: relative;
-  display: block;
-
+  border: solid var(--mtf-sizing-1) var(--mtf-color-border-field);
+  border-radius: var(--mtf-sizing-radius-md);
+  background-color: var(--mtf-color-surface-field);
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
   @include transition(border-color);
 
   &.expanded {
-    .input {
-      border-radius: var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md) 0 0;
+    border-radius: var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md) 0 0;
+
+    &.dropUp {
+      border-radius: 0 0 var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md);
     }
 
     .arrowDown {
@@ -24,26 +29,23 @@ $sizes: (
     }
   }
 
-  &.error .input {
+  &.error {
     border-color: var(--mtf-color-danger-border);
   }
 
-  &.success .input {
+  &.success {
     border-color: var(--mtf-color-success-border);
   }
 
-  &.active,
-  &:focus .input {
+  &:focus {
     border-color: var(--mtf-color-border-field-focus);
     outline: none;
   }
 
   &.disabled {
-    .input {
-      border-color: var(--mtf-color-border-disabled);
-      background-color: var(--mtf-color-surface-disabled);
-      pointer-events: none;
-    }
+    border-color: var(--mtf-color-border-disabled);
+    background-color: var(--mtf-color-surface-disabled);
+    pointer-events: none;
 
     .inputText,
     .iconRight {
@@ -52,23 +54,13 @@ $sizes: (
   }
 }
 
-.input {
-  border: solid var(--mtf-sizing-1) var(--mtf-color-border-field);
-  border-radius: var(--mtf-sizing-radius-md);
-  background-color: var(--mtf-color-surface-field);
-  display: inline-flex;
-  width: 100%;
-  align-items: center;
-  box-sizing: border-box;
+.iconLeft {
+  color: var(--mtf-color-text-softer);
+}
 
-  .iconLeft {
-    color: var(--mtf-color-text-softer);
-  }
-
-  .iconRight {
-    color: var(--mtf-color-text-soft);
-    @include transition(transform);
-  }
+.iconRight {
+  color: var(--mtf-color-text-soft);
+  @include transition(transform);
 }
 
 .inputTextAndItemsContainer {
@@ -106,9 +98,10 @@ $sizes: (
   right: 0;
 }
 
+// Rendered in a portal and positioned by useAnchoredOverlay; it carries the size class itself
 .dropdown {
   position: absolute;
-  z-index: 1;
+  z-index: z-layer("anchored");
   list-style: none;
   margin: 0;
   padding: 0;
@@ -116,10 +109,16 @@ $sizes: (
   border-radius: 0 0 var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md);
   border: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
   border-top: none;
-  width: 100%;
   background-color: var(--mtf-color-surface-raised);
   overflow-y: auto;
   box-shadow: var(--mtf-elevation-2);
+  @include anchor-width;
+
+  &.dropUp {
+    border-radius: var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md) 0 0;
+    border-top: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
+    border-bottom: none;
+  }
 
   &::-webkit-scrollbar {
     width: var(--mtf-sizing-8);
@@ -192,8 +191,9 @@ $sizes: (
 }
 
 @each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $chipLabelSize, $groupLabelSize, $selectedIconSize in $sizes {
+  // Both the field (Root) and the dropdown carry the size class
   .#{$size} {
-    .input {
+    &.Root {
       padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
       gap: var(--mtf-sizing-space-#{$gap});
     }
@@ -214,7 +214,7 @@ $sizes: (
       --mtf-icon-size: var(--mtf-sizing-#{$selectedIconSize});
     }
 
-    .dropdown {
+    &.dropdown {
       max-height: var(--mtf-sizing-#{$maxDropdownHeight});
     }
 
