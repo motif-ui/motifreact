@@ -48,8 +48,6 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
     };
   }, [show, hide, text]);
 
-  // The spot of the anchor that the triangle points to: the edge or the center that the position asks for.
-  // It is kept when the tooltip is flipped to the other alignment or shifted to stay in the screen.
   const triangleSpot = position.endsWith("Left") ? "triangleLeft" : position.endsWith("Right") ? "triangleRight" : "triangleCenter";
   const classNames = sanitizeModuleRootClasses(styles, className, [size, placement, triangleSpot, visible && "visible", variant]);
 

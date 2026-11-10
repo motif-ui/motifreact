@@ -17,6 +17,12 @@ $positions: (
   ("bottomLeft", column, 0, 0deg)
 );
 
+// variant, background, title color, text color
+$variants: (
+  ("light", var(--theme-color-surface-base-base3), var(--theme-color-text-base-title), var(--theme-color-text-base-subtitle)),
+  ("dark", var(--theme-color-text-secondary-active), var(--theme-color-semantic-base-white), var(--theme-color-text-base-text-light))
+);
+
 // Distance from the screen edges when the tooltip is shifted to stay in the screen
 $screen-edge-space: var(--base-sizing-8x);
 $radius: var(--theme-sizing-radius-default);
@@ -31,10 +37,6 @@ $radius: var(--theme-sizing-radius-default);
   pointer-events: none;
   box-sizing: border-box;
 
-  // The triangle points to the anchor's center on the left and right placements.
-  // The anchor's offsets from the tooltip are written by the positioning.
-  --triangle-top: calc((var(--overlay-anchor-top) + var(--overlay-anchor-bottom)) / 2 - var(--pointer-size) / 2);
-
   &.visible {
     @include pop-in;
   }
@@ -46,7 +48,7 @@ $radius: var(--theme-sizing-radius-default);
     height: var(--pointer-size);
     border-left: calc(var(--pointer-size) / 2) solid transparent;
     border-right: calc(var(--pointer-size) / 2) solid transparent;
-    border-bottom: var(--pointer-size) solid var(--theme-color-surface-base-base3);
+    border-bottom: var(--pointer-size) solid;
     box-sizing: border-box;
   }
 
@@ -92,7 +94,8 @@ $radius: var(--theme-sizing-radius-default);
       @if $flexDir == row {
         margin-block: $screen-edge-space;
         .triangle {
-          margin-top: var(--triangle-top);
+          // points to the anchor's center, whose offsets from the tooltip are written by the positioning
+          margin-top: calc((var(--overlay-anchor-top) + var(--overlay-anchor-bottom)) / 2 - var(--pointer-size) / 2);
         }
       } @else {
         margin-inline: $screen-edge-space;
@@ -104,33 +107,20 @@ $radius: var(--theme-sizing-radius-default);
     }
   }
 
-  &.light {
-    .textWrapper {
-      background-color: var(--theme-color-surface-base-base3);
-      .title {
-        color: var(--theme-color-text-base-title);
+  @each $variant, $background, $titleColor, $textColor in $variants {
+    &.#{$variant} {
+      .textWrapper {
+        background-color: $background;
+        .title {
+          color: $titleColor;
+        }
+        .text {
+          color: $textColor;
+        }
       }
-      .text {
-        color: var(--theme-color-text-base-subtitle);
+      .triangle {
+        border-bottom-color: $background;
       }
-    }
-    .triangle {
-      border-bottom-color: var(--theme-color-surface-base-base3);
-    }
-  }
-
-  &.dark {
-    .textWrapper {
-      background-color: var(--theme-color-text-secondary-active);
-      .title {
-        color: var(--theme-color-semantic-base-white);
-      }
-      .text {
-        color: var(--theme-color-text-base-text-light);
-      }
-    }
-    .triangle {
-      border-bottom-color: var(--theme-color-text-secondary-active);
     }
   }
 }
