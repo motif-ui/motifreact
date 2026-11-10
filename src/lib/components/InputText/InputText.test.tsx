@@ -39,6 +39,29 @@ describe("InputText", () => {
     }
   });
 
+  it("should render the native input with the type given in type prop", () => {
+    const { rerender } = render(<InputText />);
+    const input = screen.getByRole("textbox");
+    expect(input).not.toHaveAttribute("type");
+
+    rerender(<InputText type="text" />);
+    expect(input).toHaveAttribute("type", "text");
+
+    rerender(<InputText type="tel" />);
+    expect(input).toHaveAttribute("type", "tel");
+  });
+
+  it("should keep phone number formatting and trigger onChange when typing in tel type", async () => {
+    const handleChange = jest.fn();
+    const value = "+90 (532) 123-45-67";
+    render(<InputText type="tel" onChange={handleChange} />);
+    const input = screen.getByRole("textbox");
+    await userEvent.type(input, value);
+
+    expect(input).toHaveValue(value);
+    expect(handleChange).toHaveBeenLastCalledWith(value);
+  });
+
   it("should only allow number of characters defined in the maxLength prop", () => {
     const maxLength = 5;
     const { getByTestId } = render(<InputText maxLength={maxLength} />);
