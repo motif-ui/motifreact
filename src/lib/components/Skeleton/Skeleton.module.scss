@@ -1,36 +1,29 @@
+// The class names stay as they are: users may target them, and Skeleton has no .Root (it does not use sanitizeModuleRootClasses)
 .skeleton {
   &.table {
     display: flex;
-    padding: var(--base-sizing-16x);
-    gap: var(--base-sizing-22x);
     flex-direction: column;
+    gap: var(--mtf-sizing-space-22);
+    padding: var(--mtf-sizing-space-16);
 
     div {
-      height: var(--base-sizing-10x);
       width: 100%;
-      border-radius: var(--base-sizing-4x);
-      &:nth-child(1) {
-        width: 100%;
-      }
-      &:nth-child(2) {
-        width: 100%;
-      }
-      &:nth-child(3) {
-        width: 100%;
-      }
-    }
-
-    &.pulse div {
-      animation: pulse 1s linear infinite alternate;
+      height: var(--mtf-sizing-10);
+      border-radius: var(--mtf-sizing-radius-md);
     }
   }
+}
 
-  @keyframes pulse {
-    0% {
-      background-color: #dddddd;
-    }
-    100% {
-      background-color: #efefef;
-    }
+.pulse div {
+  animation: pulse 1s linear infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: var(--mtf-color-neutral-soft-hover);
+  }
+
+  100% {
+    background-color: var(--mtf-color-neutral-soft);
   }
 }
