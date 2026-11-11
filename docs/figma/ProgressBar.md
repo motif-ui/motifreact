@@ -23,6 +23,9 @@ approval). Sibling of the ProgressCircle page: same variant rules and Color spec
 ## Decisions (user, 2026-11-11)
 
 - Fill `color/{variant}/solid`, track `color/neutral/soft`, text `color/text/soft` (like ProgressCircle).
+- neutral fill (user, 2026-11-11: neutral-700 read too dark, keep it near the old gray): the generator's
+  `neutral-solid` is `neutral-500` in Light too (3.54:1 on white), so ProgressCircle's arc and AlertModal's neutral
+  icon got lighter as well. Its tints, text and border keep the 700 anchor (Button is unchanged).
 - `secondary` is the secondary brand color (breaking change logged); gray is `neutral`.
 - indeterminate animates like the code (user asked, 2026-11-11): the `fill` layer has `TRANSLATION_X` and `SCALE_X`
   keyframes at 0 · 0.6 · 1.2s, easing `cubic-bezier(0.5, 0.1, 0.9, 1)` per step; left 0 → 50% → 100%, width

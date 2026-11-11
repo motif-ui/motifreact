@@ -1191,17 +1191,12 @@
     "neutral": {
       "solid": {
         "$type": "color",
-        "$value": "{color.palette.neutral.700}",
-        "$description": "filled button, selected · dark 700 → 500",
-        "$extensions": {
-          "com.motif.modes": {
-            "dark": "{color.palette.neutral.500}"
-          }
-        }
+        "$value": "{color.palette.neutral.500}",
+        "$description": "filled button, selected · dark 700 → 500"
       },
       "solid-hover": {
         "$type": "color",
-        "$value": "{color.palette.neutral.800}",
+        "$value": "{color.palette.neutral.600}",
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.neutral.400}"
@@ -1210,7 +1205,7 @@
       },
       "solid-active": {
         "$type": "color",
-        "$value": "{color.palette.neutral.900}",
+        "$value": "{color.palette.neutral.700}",
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.neutral.300}"
@@ -1290,7 +1285,7 @@
     "on-neutral": {
       "$type": "color",
       "$value": "{color.palette.white}",
-      "$description": "on solid 6.79:1 · dark 5.01:1",
+      "$description": "on solid 3.54:1 · dark 5.01:1",
       "$extensions": {
         "com.motif.modes": {
           "dark": "{color.palette.neutral.950}"

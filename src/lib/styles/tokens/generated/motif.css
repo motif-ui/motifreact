@@ -199,9 +199,9 @@
   --mtf-color-accent-border: light-dark(var(--mtf-color-palette-accent-700), var(--mtf-color-palette-accent-500));
   --mtf-color-accent-border-soft: light-dark(var(--mtf-color-palette-accent-300), var(--mtf-color-palette-accent-700));
   --mtf-color-on-accent: light-dark(var(--mtf-color-palette-white), var(--mtf-color-palette-neutral-950));
-  --mtf-color-neutral-solid: light-dark(var(--mtf-color-palette-neutral-700), var(--mtf-color-palette-neutral-500));
-  --mtf-color-neutral-solid-hover: light-dark(var(--mtf-color-palette-neutral-800), var(--mtf-color-palette-neutral-400));
-  --mtf-color-neutral-solid-active: light-dark(var(--mtf-color-palette-neutral-900), var(--mtf-color-palette-neutral-300));
+  --mtf-color-neutral-solid: var(--mtf-color-palette-neutral-500);
+  --mtf-color-neutral-solid-hover: light-dark(var(--mtf-color-palette-neutral-600), var(--mtf-color-palette-neutral-400));
+  --mtf-color-neutral-solid-active: light-dark(var(--mtf-color-palette-neutral-700), var(--mtf-color-palette-neutral-300));
   --mtf-color-neutral-soft: light-dark(var(--mtf-color-palette-neutral-700-a08), var(--mtf-color-palette-neutral-500-a16));
   --mtf-color-neutral-soft-hover: light-dark(var(--mtf-color-palette-neutral-700-a16), var(--mtf-color-palette-neutral-500-a32));
   --mtf-color-neutral-soft-active: light-dark(var(--mtf-color-palette-neutral-700-a32), var(--mtf-color-palette-neutral-500-a64));

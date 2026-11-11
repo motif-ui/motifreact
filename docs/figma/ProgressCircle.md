@@ -28,7 +28,7 @@
 - Arc ends are flat in Figma and round in code (stroke-linecap); kept as a documented limitation.
 - Spec tables (2026-11-10): Size spec (sizes × progress=65, showPercentage, indeterminate; ⌀, stroke and text style in
   the column header from `$sizes`), Color spec (transposed 2026-11-10: the 8 variants are columns, Light · Dark the rows, at lg; the mode is the axis that changes the
-  color, since dark moves neutral, accent and danger to a lighter step).
+  color, since dark moves accent and danger to a lighter step; neutral is neutral-500 in both modes since 2026-11-11).
 - No Scenarios (user, 2026-11-10): ProgressCircle has no real prop interaction. The progress and countdown tables only
   restated obvious behavior; the progress formula and the countdown behavior are in the doc's Properties rows and the
   "Not shown in Figma" note.
