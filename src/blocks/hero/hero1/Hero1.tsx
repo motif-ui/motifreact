@@ -10,9 +10,9 @@ const Hero1 = () => (
       columnGap={{ base: "lg", lgUp: "xl" }}
     >
       <Grid.Row stretchItems>
-        <Grid.Col size={12} lg={4}>
-          <Text text="A modern foundation for your next product" marginless weight="semibold" type="caption" tone="soft" size="sm" />
-          <Text text="Build Better Interfaces. Faster." marginless size="lg" type="display" tone="strong" />
+        <Grid.Col size={12} xl={4}>
+          <Text text="A modern foundation for your next product" weight="semibold" type="caption" tone="soft" size="sm" />
+          <Text text="Build Better Interfaces. Faster." size="lg" type="display" tone="strong" />
           <Text
             type="paragraph"
             marginless
@@ -33,20 +33,11 @@ const Hero1 = () => (
             />
           </div>
         </Grid.Col>
-        <Grid.Col size={12} lg={8}>
+        <Grid.Col size={12} xl={8}>
           <div className="hero-1-images">
-            <ImageView
-              src="https://images.unsplash.com/photo-1731839329389-906c44fa1328?auto=format&fit=crop&w=528&h=704&q=80"
-              alt="Code editor"
-            />
-            <ImageView
-              src="https://images.unsplash.com/photo-1628258334105-2a0b3d6efee1?auto=format&fit=crop&w=594&h=912&q=80"
-              alt="Laptop on a desk"
-            />
-            <ImageView
-              src="https://images.unsplash.com/photo-1618389041494-8fab89c3f22b?auto=format&fit=crop&w=528&h=704&q=80"
-              alt="Monitor with code"
-            />
+            <ImageView src="https://picsum.photos/seed/motifui-hero5/594/922" alt="Code editor" />
+            <ImageView src="https://picsum.photos/seed/motifui-hero7/594/912" alt="Laptop on a desk" />
+            <ImageView src="https://picsum.photos/seed/motifui-hero9/594/912" alt="Monitor with code" />
           </div>
         </Grid.Col>
       </Grid.Row>
