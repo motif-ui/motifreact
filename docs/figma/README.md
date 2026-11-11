@@ -41,6 +41,8 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
   own timeline, 2s by default. Set each one to the animation length, or the loop waits. For a full turn, make the
   timeline one frame (1/60s) shorter than the animation: its last frame would equal the first and show as a stop
   (ProgressCircle: 1.4833s).
+- Motion: fill and stroke color keyframes take fixed colors, not variables, so they ignore the mode. Prefer an opacity
+  track when the two tokens differ only in alpha (Skeleton's pulse).
 - `setFileThumbnailNodeAsync` is not supported; the user sets the thumbnail in Design mode.
 - The MCP connection drops on large calls: keep calls small and re-read state after a failure. Building ~100
   variants per call works (Button: one call per shape).
