@@ -253,6 +253,8 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
           pal(key, STEPS[textDark]),
           `${contrast(hexOf(key, STEPS[textLight]), WHITE)}:1 · ${contrast(hexOf(key, STEPS[textDark]), neutral(900))}:1`,
         ),
+        // One step further from the surface: a link's hover in both modes (darker in light, lighter in dark)
+        color([key, "text-hover"], pal(key, stepAt(textLight + 1)), pal(key, stepAt(textDark - 1)), "link hover"),
         color(
           [key, "border"],
           pal(key, STEPS[borderLight]),

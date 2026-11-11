@@ -173,6 +173,7 @@
   --mtf-color-primary-soft-hover: light-dark(var(--mtf-color-palette-primary-500-a16), var(--mtf-color-palette-primary-500-a32));
   --mtf-color-primary-soft-active: light-dark(var(--mtf-color-palette-primary-500-a32), var(--mtf-color-palette-primary-500-a64));
   --mtf-color-primary-text: light-dark(var(--mtf-color-palette-primary-600), var(--mtf-color-palette-primary-400));
+  --mtf-color-primary-text-hover: light-dark(var(--mtf-color-palette-primary-700), var(--mtf-color-palette-primary-300));
   --mtf-color-primary-border: var(--mtf-color-palette-primary-500);
   --mtf-color-primary-border-soft: light-dark(var(--mtf-color-palette-primary-300), var(--mtf-color-palette-primary-700));
   --mtf-color-on-primary: var(--mtf-color-palette-white);
@@ -183,6 +184,7 @@
   --mtf-color-secondary-soft-hover: light-dark(var(--mtf-color-palette-secondary-500-a16), var(--mtf-color-palette-secondary-500-a32));
   --mtf-color-secondary-soft-active: light-dark(var(--mtf-color-palette-secondary-500-a32), var(--mtf-color-palette-secondary-500-a64));
   --mtf-color-secondary-text: light-dark(var(--mtf-color-palette-secondary-700), var(--mtf-color-palette-secondary-400));
+  --mtf-color-secondary-text-hover: light-dark(var(--mtf-color-palette-secondary-800), var(--mtf-color-palette-secondary-300));
   --mtf-color-secondary-border: var(--mtf-color-palette-secondary-500);
   --mtf-color-secondary-border-soft: light-dark(var(--mtf-color-palette-secondary-300), var(--mtf-color-palette-secondary-700));
   --mtf-color-on-secondary: var(--mtf-color-palette-white);
@@ -193,6 +195,7 @@
   --mtf-color-accent-soft-hover: light-dark(var(--mtf-color-palette-accent-700-a16), var(--mtf-color-palette-accent-500-a32));
   --mtf-color-accent-soft-active: light-dark(var(--mtf-color-palette-accent-700-a32), var(--mtf-color-palette-accent-500-a64));
   --mtf-color-accent-text: light-dark(var(--mtf-color-palette-accent-700), var(--mtf-color-palette-accent-400));
+  --mtf-color-accent-text-hover: light-dark(var(--mtf-color-palette-accent-800), var(--mtf-color-palette-accent-300));
   --mtf-color-accent-border: light-dark(var(--mtf-color-palette-accent-700), var(--mtf-color-palette-accent-500));
   --mtf-color-accent-border-soft: light-dark(var(--mtf-color-palette-accent-300), var(--mtf-color-palette-accent-700));
   --mtf-color-on-accent: light-dark(var(--mtf-color-palette-white), var(--mtf-color-palette-neutral-950));
@@ -203,6 +206,7 @@
   --mtf-color-neutral-soft-hover: light-dark(var(--mtf-color-palette-neutral-700-a16), var(--mtf-color-palette-neutral-500-a32));
   --mtf-color-neutral-soft-active: light-dark(var(--mtf-color-palette-neutral-700-a32), var(--mtf-color-palette-neutral-500-a64));
   --mtf-color-neutral-text: light-dark(var(--mtf-color-palette-neutral-700), var(--mtf-color-palette-neutral-200));
+  --mtf-color-neutral-text-hover: light-dark(var(--mtf-color-palette-neutral-800), var(--mtf-color-palette-neutral-100));
   --mtf-color-neutral-border: light-dark(var(--mtf-color-palette-neutral-700), var(--mtf-color-palette-neutral-500));
   --mtf-color-neutral-border-soft: light-dark(var(--mtf-color-palette-neutral-300), var(--mtf-color-palette-neutral-700));
   --mtf-color-on-neutral: light-dark(var(--mtf-color-palette-white), var(--mtf-color-palette-neutral-950));
@@ -213,6 +217,7 @@
   --mtf-color-info-soft-hover: light-dark(var(--mtf-color-palette-info-500-a16), var(--mtf-color-palette-info-500-a32));
   --mtf-color-info-soft-active: light-dark(var(--mtf-color-palette-info-500-a32), var(--mtf-color-palette-info-500-a64));
   --mtf-color-info-text: light-dark(var(--mtf-color-palette-info-600), var(--mtf-color-palette-info-400));
+  --mtf-color-info-text-hover: light-dark(var(--mtf-color-palette-info-700), var(--mtf-color-palette-info-300));
   --mtf-color-info-border: var(--mtf-color-palette-info-500);
   --mtf-color-info-border-soft: light-dark(var(--mtf-color-palette-info-300), var(--mtf-color-palette-info-700));
   --mtf-color-on-info: var(--mtf-color-palette-white);
@@ -223,6 +228,7 @@
   --mtf-color-success-soft-hover: light-dark(var(--mtf-color-palette-success-500-a16), var(--mtf-color-palette-success-500-a32));
   --mtf-color-success-soft-active: light-dark(var(--mtf-color-palette-success-500-a32), var(--mtf-color-palette-success-500-a64));
   --mtf-color-success-text: light-dark(var(--mtf-color-palette-success-700), var(--mtf-color-palette-success-400));
+  --mtf-color-success-text-hover: light-dark(var(--mtf-color-palette-success-800), var(--mtf-color-palette-success-300));
   --mtf-color-success-border: light-dark(var(--mtf-color-palette-success-600), var(--mtf-color-palette-success-500));
   --mtf-color-success-border-soft: light-dark(var(--mtf-color-palette-success-300), var(--mtf-color-palette-success-700));
   --mtf-color-on-success: var(--mtf-color-palette-white);
@@ -233,6 +239,7 @@
   --mtf-color-warning-soft-hover: light-dark(var(--mtf-color-palette-warning-200-a16), var(--mtf-color-palette-warning-200-a32));
   --mtf-color-warning-soft-active: light-dark(var(--mtf-color-palette-warning-200-a32), var(--mtf-color-palette-warning-200-a64));
   --mtf-color-warning-text: light-dark(var(--mtf-color-palette-warning-600), var(--mtf-color-palette-warning-200));
+  --mtf-color-warning-text-hover: light-dark(var(--mtf-color-palette-warning-700), var(--mtf-color-palette-warning-100));
   --mtf-color-warning-border: light-dark(var(--mtf-color-palette-warning-500), var(--mtf-color-palette-warning-200));
   --mtf-color-warning-border-soft: light-dark(var(--mtf-color-palette-warning-300), var(--mtf-color-palette-warning-700));
   --mtf-color-on-warning: var(--mtf-color-palette-neutral-950);
@@ -243,6 +250,7 @@
   --mtf-color-danger-soft-hover: light-dark(var(--mtf-color-palette-danger-600-a16), var(--mtf-color-palette-danger-500-a32));
   --mtf-color-danger-soft-active: light-dark(var(--mtf-color-palette-danger-600-a32), var(--mtf-color-palette-danger-500-a64));
   --mtf-color-danger-text: light-dark(var(--mtf-color-palette-danger-600), var(--mtf-color-palette-danger-400));
+  --mtf-color-danger-text-hover: light-dark(var(--mtf-color-palette-danger-700), var(--mtf-color-palette-danger-300));
   --mtf-color-danger-border: light-dark(var(--mtf-color-palette-danger-600), var(--mtf-color-palette-danger-500));
   --mtf-color-danger-border-soft: light-dark(var(--mtf-color-palette-danger-300), var(--mtf-color-palette-danger-700));
   --mtf-color-on-danger: light-dark(var(--mtf-color-palette-white), var(--mtf-color-palette-neutral-950));

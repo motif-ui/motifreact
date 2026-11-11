@@ -954,6 +954,16 @@
           }
         }
       },
+      "text-hover": {
+        "$type": "color",
+        "$value": "{color.palette.primary.700}",
+        "$description": "link hover",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.primary.300}"
+          }
+        }
+      },
       "border": {
         "$type": "color",
         "$value": "{color.palette.primary.500}",
@@ -1035,6 +1045,16 @@
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.secondary.400}"
+          }
+        }
+      },
+      "text-hover": {
+        "$type": "color",
+        "$value": "{color.palette.secondary.800}",
+        "$description": "link hover",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.secondary.300}"
           }
         }
       },
@@ -1124,6 +1144,16 @@
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.accent.400}"
+          }
+        }
+      },
+      "text-hover": {
+        "$type": "color",
+        "$value": "{color.palette.accent.800}",
+        "$description": "link hover",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.accent.300}"
           }
         }
       },
@@ -1226,6 +1256,16 @@
           }
         }
       },
+      "text-hover": {
+        "$type": "color",
+        "$value": "{color.palette.neutral.800}",
+        "$description": "link hover",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.neutral.100}"
+          }
+        }
+      },
       "border": {
         "$type": "color",
         "$value": "{color.palette.neutral.700}",
@@ -1320,6 +1360,16 @@
           }
         }
       },
+      "text-hover": {
+        "$type": "color",
+        "$value": "{color.palette.info.700}",
+        "$description": "link hover",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.info.300}"
+          }
+        }
+      },
       "border": {
         "$type": "color",
         "$value": "{color.palette.info.500}",
@@ -1401,6 +1451,16 @@
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.success.400}"
+          }
+        }
+      },
+      "text-hover": {
+        "$type": "color",
+        "$value": "{color.palette.success.800}",
+        "$description": "link hover",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.success.300}"
           }
         }
       },
@@ -1490,6 +1550,16 @@
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.warning.200}"
+          }
+        }
+      },
+      "text-hover": {
+        "$type": "color",
+        "$value": "{color.palette.warning.700}",
+        "$description": "link hover",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.warning.100}"
           }
         }
       },
@@ -1584,6 +1654,16 @@
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.danger.400}"
+          }
+        }
+      },
+      "text-hover": {
+        "$type": "color",
+        "$value": "{color.palette.danger.700}",
+        "$description": "link hover",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.danger.300}"
           }
         }
       },
