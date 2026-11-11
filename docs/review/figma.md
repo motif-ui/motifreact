@@ -87,6 +87,10 @@ visual specification of migrated components. These rules keep the two from drift
   (tall enough for open states) for trying the properties.
 - **Examples** only where a component needs it: unusual scenarios a developer must see that Variants and Scenarios
   do not cover. Simple components have none.
+- Pages: inside each group of the page list (the pages after a `————` divider: Foundations, Components, Internal, and
+  the ones before the first divider) the pages are in alphabetical order (user, 2026-11-11). A new or renamed page
+  goes to its alphabetical place; [sort-pages.js](../../.claude/skills/figma-sync/scripts/sort-pages.js) re-sorts the
+  whole list. Flag a page out of order.
 - Component pages, from left to right: the **Documentation** section (the doc frame), the **Playground** section (the
   Playground frame, with the Examples frame under it when the component has examples), the **Component** section (the
   set's table, then the Scenarios tables), then **Internal parts** (private `_Name/*` components, not repeated in the
