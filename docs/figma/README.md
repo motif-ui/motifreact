@@ -15,7 +15,8 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
 - Doc blocks on `_Doc`: Header `11:2`, SectionTitle `11:14`, PropRow `11:29`, Note `11:30`, Label `11:33`,
   Footer `11:35`, Logo `24:24`, Swatch `25:42`.
 - Hidden "Docs" variable collection `VariableCollectionId:23:2`: template colors only (`docs/*`), never product tokens.
-- Product tokens come only from the generator: `npm run figma:mtf-tokens`, then run the bundled scripts.
+- Product tokens come only from the generator: `npm run figma:mtf-tokens`, then run the bundled scripts. Figma uses the
+  basic theme (`generated/basic.figma.json`); legacy and the later themes are code only.
 
 ## Plugin API pitfalls
 

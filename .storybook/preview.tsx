@@ -1,5 +1,4 @@
 import type { Preview } from "@storybook/nextjs";
-import "../src/lib/styles/tokens/generated/motif.css";
 import type { ArgTypesEnhancer } from "storybook/internal/types";
 import { mswLoader } from "msw-storybook-addon/csf3";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
@@ -17,7 +16,8 @@ const preview: Preview = {
       toolbar: {
         icon: "paintbrush",
         items: [
-          { value: RESET_THEME_BUTTON_VAL, title: "Default Theme", right: "🔵" },
+          { value: RESET_THEME_BUTTON_VAL, title: "Legacy Theme", right: "🔵" },
+          { value: "basic", title: "Basic Theme", right: "🟦" },
           { value: "papyrus", title: "Papyrus", right: "📜" },
         ],
         dynamicTitle: true,

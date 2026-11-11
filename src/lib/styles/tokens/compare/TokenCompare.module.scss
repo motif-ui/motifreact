@@ -2,11 +2,11 @@
 
 .root {
   display: grid;
-  grid-template-columns: 160px repeat(3, minmax(260px, 1fr));
+  grid-template-columns: 160px repeat(4, minmax(240px, 1fr));
   gap: 8px;
   align-items: stretch;
   font-family: Inter, system-ui, sans-serif;
-  min-width: 960px;
+  min-width: 1180px;
 }
 
 .header {
@@ -48,9 +48,10 @@
   background: #ffffff;
 }
 
-// The new columns use the surface the old column sits on (white in Light), so the two compare side by side
+// The new columns use the surface the old column sits on (white in Light), so the columns compare side by side
 .light,
-.dark {
+.dark,
+.basic {
   background: var(--mtf-color-surface-default);
 }
 
