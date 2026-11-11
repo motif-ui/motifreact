@@ -34,6 +34,9 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
 - Component descriptions store `&` and quotes HTML-escaped; avoid them.
 - Motion: `setTimelineDuration` must be called on a child node, not on a component set. There is no loop setting,
   so the timeline length must equal the animation (ProgressCircle spin: 1.5s).
+- Motion: a `WIDTH` keyframe track is accepted but does not render in `export_video`; animate `SCALE_X` and compensate
+  with `TRANSLATION_X` (scale is around the center). No ffmpeg here: measure exported frames by seeking the MP4 in
+  Chrome via Playwright (`channel: "chrome"`, H.264).
 - `setFileThumbnailNodeAsync` is not supported; the user sets the thumbnail in Design mode.
 - The MCP connection drops on large calls: keep calls small and re-read state after a failure. Building ~100
   variants per call works (Button: one call per shape).

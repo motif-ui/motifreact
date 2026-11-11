@@ -24,5 +24,10 @@ approval). Sibling of the ProgressCircle page: same variant rules and Color spec
 
 - Fill `color/{variant}/solid`, track `color/neutral/soft`, text `color/text/soft` (like ProgressCircle).
 - `secondary` is the secondary brand color (breaking change logged); gray is `neutral`.
-- indeterminate is shown at the middle of its animation (fill at left 50%, width 50%).
+- indeterminate animates like the code (user asked, 2026-11-11): the `fill` layer has `TRANSLATION_X` and `SCALE_X`
+  keyframes at 0 · 0.6 · 1.2s, easing `cubic-bezier(0.5, 0.1, 0.9, 1)` per step; left 0 → 50% → 100%, width
+  0 → 50% → 0. Scale works around the fill's center, so the translation compensates
+  (`left = restX + tx + restW/2 × (1 − s)`). The set's timeline is 1.2s so the preview loops. At rest the fill shows
+  the middle of the animation (left 50%, width 50%). A `WIDTH` keyframe track did not render in the export, so scale is
+  used instead. Checked by measuring an exported video frame by frame.
 - Color spec is transposed (variants as columns, Light · Dark rows) at size md with the percentage.
