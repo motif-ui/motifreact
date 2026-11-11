@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import { IconGlobalType, OverlayCloseReason, Size4LG, VariantV2 } from "../../types";
+import { IconGlobalType, OverlayCloseReason, Size4LG, Variant } from "../../../../../types";
 
 export type AlertModalContentPosition = "left" | "center" | "right";
 export type AlertModalButtonPosition = "left" | "center" | "right" | "spaceBetween" | "stretch" | "fullWidth";
@@ -27,7 +27,7 @@ export type AlertModalDefaultableProps = {
   size?: Size4LG;
   contentPosition?: AlertModalContentPosition;
   buttonsPosition?: AlertModalButtonPosition;
-  variant?: VariantV2;
+  variant?: Variant;
   enableDivider?: boolean;
   removeBackdrop?: boolean;
   bordered?: boolean;

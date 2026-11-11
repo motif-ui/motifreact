@@ -1,21 +1,21 @@
 @use "@styles" as *;
 @use "sass:list";
 
-$sizes: (("sm", "320x"), ("md", "480x"), ("lg", "720x"), ("xl", "960x"));
+$variants: "neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger";
+$sizes: (("sm", 320), ("md", 480), ("lg", 720), ("xl", 960));
+
+// flex-direction, text-align; the icon and the text block are centered on the cross axis in every position
 $content-positions: (
   "left": (
     row,
-    flex-start,
     left
   ),
   "center": (
     column,
-    center,
     center
   ),
   "right": (
     row-reverse,
-    flex-start,
     right
   )
 );
@@ -24,105 +24,118 @@ $content-positions: (
   position: fixed;
   inset: 0;
   @include flex-center;
-  z-index: 999;
-  padding: var(--base-sizing-8x);
+  z-index: z-layer("modal");
+  padding: var(--mtf-sizing-space-8);
   @include fade-default;
 }
 
 @each $size, $width in $sizes {
   .#{$size} .alertModalContainer {
-    width: var(--base-sizing-#{$width});
+    width: var(--mtf-sizing-#{$width});
   }
 }
 
 @each $pos, $values in $content-positions {
   .content_#{$pos} .alertModalContent {
     flex-direction: list.nth($values, 1);
-    align-items: list.nth($values, 2);
-    text-align: list.nth($values, 3);
+    text-align: list.nth($values, 2);
+  }
+}
+
+@each $variant in $variants {
+  .#{$variant} .icon {
+    color: var(--mtf-color-#{$variant}-solid);
   }
 }
 
 .show {
   @include fade-in;
+
   .alertModalContainer {
     @include pop-in;
   }
 }
 
 .backdrop {
-  background-color: var(--base-colors-black-black-overlay50);
+  background-color: var(--mtf-color-backdrop);
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: var(--base-sizing-8x);
+  gap: var(--mtf-sizing-space-8);
+}
 
-  .title {
-    color: var(--theme-color-text-base-title);
-    @include font("heading", "heading5");
-  }
+.title {
+  color: var(--mtf-color-text-strong);
+  @include typography("heading-h5");
+}
 
-  .text {
-    @include font("body", "md");
-    color: var(--theme-color-text-base-title);
-  }
+.text {
+  color: var(--mtf-color-text-default);
+  @include typography("body-md");
 }
 
 .alertModalContainer {
   display: flex;
   flex-direction: column;
-  background: var(--theme-color-surface-base-bg-light);
-  color: var(--theme-color-text-base-title);
-  padding: var(--base-sizing-8x);
-  border-radius: var(--theme-sizing-radius-default);
+  background-color: var(--mtf-color-surface-raised);
+  color: var(--mtf-color-text-default);
+  padding: var(--mtf-sizing-space-8);
+  border-radius: var(--mtf-sizing-radius-lg);
   @include pop-default;
 
   &:focus {
     outline: none;
   }
+}
 
-  .elevated & {
-    @include shadow(6);
-  }
+.elevated .alertModalContainer {
+  box-shadow: var(--mtf-elevation-4);
+}
 
-  .bordered & {
-    border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
-  }
+.bordered .alertModalContainer {
+  border: var(--mtf-sizing-1) solid var(--mtf-color-border-soft);
 }
 
 .alertModalContent {
   display: flex;
-  gap: var(--base-sizing-8x);
-  padding: var(--base-sizing-16x);
+  align-items: center;
+  gap: var(--mtf-sizing-space-8);
+  padding: var(--mtf-sizing-space-16);
 }
 
 .alertModalActions {
   display: flex;
   flex-wrap: wrap;
-  padding: var(--base-sizing-16x);
-  gap: var(--base-sizing-16x);
+  padding: var(--mtf-sizing-space-16);
+  gap: var(--mtf-sizing-space-16);
+}
 
-  .actions_center & {
-    justify-content: center;
-  }
-  .actions_right & {
-    justify-content: flex-end;
-  }
-  .actions_left & {
-    justify-content: flex-start;
-  }
-  .actions_fullWidth & {
-    flex-direction: column;
-  }
-  .actions_spaceBetween & {
-    justify-content: space-between;
-  }
-  .actions_stretch & > * {
-    flex: 1;
-  }
-  .withDivider & {
-    border-top: var(--base-sizing-1x) solid var(--theme-color-surface-base-base6);
-  }
+.actions_center .alertModalActions {
+  justify-content: center;
+}
+
+.actions_right .alertModalActions {
+  justify-content: flex-end;
+}
+
+.actions_left .alertModalActions {
+  justify-content: flex-start;
+}
+
+.actions_fullWidth .alertModalActions {
+  flex-direction: column;
+}
+
+.actions_spaceBetween .alertModalActions {
+  justify-content: space-between;
+}
+
+.actions_stretch .alertModalActions > * {
+  flex: 1;
+}
+
+.withDivider .alertModalActions {
+  border-top: var(--mtf-sizing-1) solid var(--mtf-color-border-soft);
 }

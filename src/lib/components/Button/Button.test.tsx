@@ -5,7 +5,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "./Button";
 import { ButtonProps } from "./types";
 import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { StandardPropsWithRef, VariantV2 } from "../../../lib/types";
 describe("Button", () => {
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLButtonElement>) => render(<Button label="test" {...props} />));
 
@@ -29,10 +29,10 @@ describe("Button", () => {
   });
 
   it("should be rendered with the given type in type prop", () => {
-    const variants = ["success", "primary", "secondary", "info", "warning", "danger"];
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
 
     for (const variant of variants) {
-      const { container } = render(<Button label="test" variant={variant as ButtonProps["variant"]} />);
+      const { container } = render(<Button label="test" variant={variant} />);
       expect(container.firstChild).toHaveClass(variant);
     }
   });

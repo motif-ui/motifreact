@@ -1,7 +1,7 @@
 # Button: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-10 from `src/lib/components/ButtonV2` (the token migration clone; the original Button still uses the old
-tokens until promotion).
+Built 2026-11-10 from the token migration clone `ButtonV2`, promoted to `src/lib/components/Button` on 2026-11-11 (the
+user approved the Figma page). Figma and code match; the pre-migration Button is in `compare/baseline/Button`.
 
 ## Nodes
 

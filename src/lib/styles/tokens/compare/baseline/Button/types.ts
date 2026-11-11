@@ -1,4 +1,4 @@
-import type { IconGlobalType, VariantV2 } from "../../types";
+import type { IconGlobalType, Variant } from "../../../../../types";
 import type { MouseEvent } from "react";
 
 export type ButtonProps = {
@@ -12,7 +12,7 @@ export type ButtonProps = {
 
 export type ButtonDefaultableProps = {
   shape?: "solid" | "outline" | "textonly";
-  variant?: VariantV2;
+  variant?: Variant;
   size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl";
   pill?: boolean;
   fluid?: boolean;

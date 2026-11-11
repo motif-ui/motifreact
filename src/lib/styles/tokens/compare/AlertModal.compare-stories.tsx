@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ComponentType } from "react";
-import currentStyles from "@/components/AlertModal/AlertModal.module.scss";
-import CurrentContent from "@/components/AlertModal/components/AlertModalContent";
-import CurrentActions from "@/components/AlertModal/components/AlertModalActions";
-import nextStyles from "@/components/AlertModalV2/AlertModalV2.module.scss";
-import NextContent from "@/components/AlertModalV2/components/AlertModalContent";
-import NextActions from "@/components/AlertModalV2/components/AlertModalActions";
-import { AlertModalProps } from "@/components/AlertModalV2/types";
+import nextStyles from "@/components/AlertModal/AlertModal.module.scss";
+import NextContent from "@/components/AlertModal/components/AlertModalContent";
+import NextActions from "@/components/AlertModal/components/AlertModalActions";
+import { AlertModalProps } from "@/components/AlertModal/types";
+import currentStyles from "./baseline/AlertModal/AlertModalBaseline.module.scss";
+import CurrentContent from "./baseline/AlertModal/components/AlertModalContent";
+import CurrentActions from "./baseline/AlertModal/components/AlertModalActions";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
@@ -41,7 +41,7 @@ const preview =
     );
   };
 
-// Until promotion the current parts take the old Variant, which has no neutral/accent
+// The baseline parts take the old Variant, which has no neutral/accent
 const Current = preview(currentStyles, CurrentContent as ComponentType<PartProps>, CurrentActions as ComponentType<PartProps>);
 const Next = preview(nextStyles, NextContent as ComponentType<PartProps>, NextActions as ComponentType<PartProps>);
 

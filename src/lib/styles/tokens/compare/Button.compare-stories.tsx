@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ComponentType } from "react";
 import Button from "@/components/Button/Button";
-import ButtonV2 from "@/components/ButtonV2/Button";
-import { ButtonProps } from "@/components/ButtonV2/types";
+import { ButtonProps } from "@/components/Button/types";
+import ButtonBaseline from "./baseline/Button/Button";
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
 const SIZES = ["xxs", "xs", "sm", "md", "lg", "xl"] as const;
 const VARIANTS = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"] as const;
 const SHAPES = ["solid", "outline", "textonly"] as const;
 
-// Until promotion the current Button is the original; it has no neutral/accent and its secondary is gray
-const Current = Button as ComponentType<ButtonProps>;
+// The baseline has no neutral/accent and its secondary is gray
+const Baseline = ButtonBaseline as ComponentType<ButtonProps>;
 
 const sections: CompareSection<ButtonProps>[] = [
   {
@@ -44,5 +44,5 @@ export default meta;
 
 export const Button_: StoryObj<typeof TokenCompare> = {
   name: "Button",
-  render: () => <TokenCompare sections={sections} current={Current} next={ButtonV2} />,
+  render: () => <TokenCompare sections={sections} current={Baseline} next={Button} />,
 };

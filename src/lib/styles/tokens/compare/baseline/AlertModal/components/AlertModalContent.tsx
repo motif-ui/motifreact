@@ -1,18 +1,19 @@
 import { memo } from "react";
-import styles from "../AlertModalV2.module.scss";
-import { IconGlobalType } from "../../../types";
-import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
+import styles from "../AlertModalBaseline.module.scss";
+import { IconGlobalType, Variant } from "../../../../../../types";
+import GlobalIconWrapper from "../../../../../../components/Motif/GlobalIconWrapper/GlobalIconWrapper";
 
 type Props = {
   title: string;
   text?: string;
   icon?: IconGlobalType;
+  variant?: Variant;
 };
 
-const AlertModalContent = memo(({ title, text, icon }: Props) => {
+const AlertModalContent = memo(({ title, text, icon, variant }: Props) => {
   return (
     <div data-testid="alertModalContent" className={styles.alertModalContent}>
-      {icon && <GlobalIconWrapper icon={icon} className={styles.icon} size="xxxl" />}
+      {icon && <GlobalIconWrapper icon={icon} variant={variant} size="xxxl" />}
       <div className={styles.content}>
         <span className={styles.title}>{title}</span>
         {text && <span className={styles.text}>{text}</span>}

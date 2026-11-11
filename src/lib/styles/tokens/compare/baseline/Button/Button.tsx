@@ -1,10 +1,10 @@
 "use client";
 
-import styles from "./ButtonV2.module.scss";
-import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
-import { PropsWithRef } from "../../types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import styles from "./ButtonBaseline.module.scss";
+import GlobalIconWrapper from "../../../../../components/Motif/GlobalIconWrapper/GlobalIconWrapper";
+import { PropsWithRef } from "../../../../../types";
+import { sanitizeModuleRootClasses } from "../../../../../../utils/cssUtils";
+import usePropsWithThemeDefaults from "../../../../../motif/hooks/usePropsWithThemeDefaults";
 import type { ButtonProps } from "./types";
 
 const Button = (props: PropsWithRef<ButtonProps, HTMLButtonElement>) => {
