@@ -6,16 +6,9 @@ const Hero3 = () => (
     <Grid className="hero-3" rowGap="xl" padding={{ smUp: "md", mdUp: "lg", lgUp: "xxl" }}>
       <Grid.Row justifyCols="center" rowGap="sm">
         <Grid.Col size={12} lg={8}>
-          <Text type="display" size="lg" weight="bold" tone="strong" center marginless>
-            Turn{" "}
-            <Text tone="strong" weight="bold" italic style={{ fontSize: "inherit", lineHeight: "inherit" }}>
-              ideas
-            </Text>{" "}
-            into shipped{" "}
-            <Text tone="strong" weight="bold" italic style={{ fontSize: "inherit", lineHeight: "inherit" }}>
-              products
-            </Text>
-            .
+          <Text type="display" size="lg" weight="bold" tone="strong" center marginless className="title">
+            Turn <Text text="ideas" tone="strong" weight="bold" italic className="emphasis" /> into shipped{" "}
+            <Text text="products" tone="strong" weight="bold" italic className="emphasis" />.
           </Text>
         </Grid.Col>
         <Grid.Col size={12} md={10} lg={8}>

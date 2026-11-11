@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/nextjs";
 
-import Hero3 from "./Hero3/Hero3";
-import hero3Source from "./Hero3/Hero3.tsx?raw";
+import Hero3 from "./hero3/Hero3";
+import hero3Source from "./hero3/Hero3.tsx?raw";
 
 const meta: Meta = {
   title: "Blocks/Hero",

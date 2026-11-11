@@ -1,4 +1,8 @@
 .hero-3 {
+  .title .emphasis {
+    font-size: inherit;
+    line-height: inherit;
+  }
   .gallery {
     display: flex;
     justify-content: center;
