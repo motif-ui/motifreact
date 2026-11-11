@@ -153,5 +153,5 @@ export const SliderComponent = (p: PropsWithRef<SliderBaseProps, HTMLDivElement>
 };
 
 const Slider = (props: PropsWithRef<SliderProps, HTMLDivElement>) => <SliderComponent {...props} />;
-Slider.displayName = "Slider";
+Object.assign(Slider, { displayName: "Slider" });
 export default Slider;
