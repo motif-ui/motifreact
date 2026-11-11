@@ -4,7 +4,7 @@ import styles from "./TokenCompare.module.scss";
 export type CompareRow<P> = {
   label: string;
   props: P;
-  // Clicks the first collapsed trigger after mount, so dropdowns are visible without interaction
+  // Clicks the first collapsed trigger once the cell is on screen, so dropdowns are visible without interaction
   open?: boolean;
   // Paints the second list option (group labels skipped) with the component's own hover color; there is no way to force :hover
   hover?: boolean;
@@ -12,12 +12,37 @@ export type CompareRow<P> = {
 
 export type CompareSection<P> = { title: string; rows: CompareRow<P>[]; note?: string };
 
-const HOVERED_OPTION = '[data-compare-hover] [role="listbox"] li:nth-child(2 of [role="option"])';
+// The list is inside the cell, or a portal on document.body that carries the cell's attributes (see openInCell)
+const listIn = (attributes: string) => `:is(${attributes} [role="listbox"], [role="listbox"]${attributes})`;
+const HOVERED_OPTION = 'li:nth-child(2 of [role="option"])';
 
 const PREVIEW_CSS = [
-  `${HOVERED_OPTION} { background-color: var(--theme-color-surface-light-default); }`,
-  `[data-compare-next]${HOVERED_OPTION} { background-color: var(--mtf-color-neutral-soft); }`,
+  `${listIn("[data-compare-hover]")} ${HOVERED_OPTION} { background-color: var(--theme-color-surface-light-default); }`,
+  `${listIn("[data-compare-next][data-compare-hover]")} ${HOVERED_OPTION} { background-color: var(--mtf-color-neutral-soft); }`,
 ].join("\n");
+
+// An overlay rendered in a portal on document.body leaves its cell, so it gets the cell's mode and preview attributes
+const PORTAL_ATTRIBUTES = ["data-mtf-mode", "data-compare-next", "data-compare-hover"];
+const opening = { queue: Promise.resolve() };
+const nextFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
+
+// Opens one cell at a time, so the portal its overlay adds to document.body can be told apart from the others
+const openInCell = (cell: HTMLElement) => {
+  opening.queue = opening.queue.then(async () => {
+    const trigger = cell.querySelector<HTMLElement>('[aria-expanded="false"]');
+    const before = new Set(document.body.children);
+    trigger?.click();
+    await nextFrame();
+    await nextFrame();
+    const portals = [...document.body.children].filter(element => !before.has(element));
+    portals.forEach(portal =>
+      PORTAL_ATTRIBUTES.forEach(name => {
+        const value = cell.getAttribute(name);
+        value !== null && portal.setAttribute(name, value);
+      }),
+    );
+  });
+};
 
 // current: the component before migration (baseline/, frozen from git) · light/dark: the live component
 const COLUMNS = [
@@ -35,7 +60,19 @@ const Cell = <P extends object>({ column, row: { props, open, hover }, current: 
   const isNext = column !== "current";
 
   useEffect(() => {
-    open && ref.current?.querySelector<HTMLElement>('[aria-expanded="false"]')?.click();
+    const cell = ref.current;
+    if (!open || !cell) return;
+    // An overlay chooses its placement from where its anchor is on screen when it opens, so the cell opens once it is visible
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        openInCell(cell);
+      },
+      { threshold: 1 },
+    );
+    observer.observe(cell);
+    return () => observer.disconnect();
   }, [open]);
 
   return (
