@@ -1,3 +1,5 @@
+@use "@styles" as *;
+
 .root {
   display: grid;
   grid-template-columns: 160px repeat(3, minmax(260px, 1fr));
@@ -10,7 +12,9 @@
 .header {
   position: sticky;
   top: 0;
-  z-index: 2;
+
+  // Above the portaled dropdowns (z-layer "anchored"), which scroll under it
+  z-index: z-layer("anchored") + 1;
   background: #ffffff;
   padding: 8px 0;
   font-weight: 600;
