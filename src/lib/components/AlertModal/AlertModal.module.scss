@@ -29,25 +29,6 @@ $content-positions: (
   @include fade-default;
 }
 
-@each $size, $width in $sizes {
-  .#{$size} .alertModalContainer {
-    width: var(--mtf-sizing-#{$width});
-  }
-}
-
-@each $pos, $values in $content-positions {
-  .content_#{$pos} .alertModalContent {
-    flex-direction: list.nth($values, 1);
-    text-align: list.nth($values, 2);
-  }
-}
-
-@each $variant in $variants {
-  .#{$variant} .icon {
-    color: var(--mtf-color-#{$variant}-solid);
-  }
-}
-
 .show {
   @include fade-in;
 
@@ -76,6 +57,14 @@ $content-positions: (
   @include typography("body-md");
 }
 
+.icon {
+  @each $variant in $variants {
+    .#{$variant} & {
+      color: var(--mtf-color-#{$variant}-solid);
+    }
+  }
+}
+
 .alertModalContainer {
   display: flex;
   flex-direction: column;
@@ -88,14 +77,20 @@ $content-positions: (
   &:focus {
     outline: none;
   }
-}
 
-.elevated .alertModalContainer {
-  box-shadow: var(--mtf-elevation-4);
-}
+  @each $size, $width in $sizes {
+    .#{$size} & {
+      width: var(--mtf-sizing-#{$width});
+    }
+  }
 
-.bordered .alertModalContainer {
-  border: var(--mtf-sizing-1) solid var(--mtf-color-border-soft);
+  .elevated & {
+    box-shadow: var(--mtf-elevation-4);
+  }
+
+  .bordered & {
+    border: var(--mtf-sizing-1) solid var(--mtf-color-border-soft);
+  }
 }
 
 .alertModalContent {
@@ -103,6 +98,13 @@ $content-positions: (
   align-items: center;
   gap: var(--mtf-sizing-space-8);
   padding: var(--mtf-sizing-space-16);
+
+  @each $pos, $values in $content-positions {
+    .content_#{$pos} & {
+      flex-direction: list.nth($values, 1);
+      text-align: list.nth($values, 2);
+    }
+  }
 }
 
 .alertModalActions {
@@ -110,32 +112,32 @@ $content-positions: (
   flex-wrap: wrap;
   padding: var(--mtf-sizing-space-16);
   gap: var(--mtf-sizing-space-16);
-}
 
-.actions_center .alertModalActions {
-  justify-content: center;
-}
+  .actions_center & {
+    justify-content: center;
+  }
 
-.actions_right .alertModalActions {
-  justify-content: flex-end;
-}
+  .actions_right & {
+    justify-content: flex-end;
+  }
 
-.actions_left .alertModalActions {
-  justify-content: flex-start;
-}
+  .actions_left & {
+    justify-content: flex-start;
+  }
 
-.actions_fullWidth .alertModalActions {
-  flex-direction: column;
-}
+  .actions_fullWidth & {
+    flex-direction: column;
+  }
 
-.actions_spaceBetween .alertModalActions {
-  justify-content: space-between;
-}
+  .actions_spaceBetween & {
+    justify-content: space-between;
+  }
 
-.actions_stretch .alertModalActions > * {
-  flex: 1;
-}
+  .actions_stretch & > * {
+    flex: 1;
+  }
 
-.withDivider .alertModalActions {
-  border-top: var(--mtf-sizing-1) solid var(--mtf-color-border-soft);
+  .withDivider & {
+    border-top: var(--mtf-sizing-1) solid var(--mtf-color-border-soft);
+  }
 }
