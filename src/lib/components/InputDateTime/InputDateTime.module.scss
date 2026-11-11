@@ -1,12 +1,12 @@
-.Root {
-  position: relative;
-  display: inline-grid;
+@use "@styles" as *;
 
-  .pickerContainer {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    z-index: 1;
-    margin-top: var(--base-sizing-2x);
-  }
+.Root {
+  @include retain-scoped-class;
+}
+
+.dateTimePicker {
+  position: absolute;
+  z-index: z-layer("anchored");
+
+  margin: var(--base-sizing-2x);
 }

@@ -19,5 +19,17 @@ export default {
     "scss/dollar-variable-empty-line-before": null,
     "color-hex-length": "long",
     "custom-property-empty-line-before": null,
+    // Fixed sizing ignores the space seed, so spacing properties must use the spacing scale. The 1px hairline (sizing-0/1) has no spacing step
+    "declaration-property-value-disallowed-list": [
+      {
+        "/^(padding|margin|gap|row-gap|column-gap|inset|top|right|bottom|left|scroll-padding|scroll-margin)/": [
+          "/--mtf-sizing-(?!(0|1)\\b)\\d/",
+        ],
+      },
+      {
+        message: "Use --mtf-sizing-space-N for spacing (N = px in the default theme): fixed --mtf-sizing-N does not follow the space seed",
+      },
+    ],
+    "selector-max-id": 0,
   },
 };
