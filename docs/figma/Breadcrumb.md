@@ -22,6 +22,8 @@ Built 2026-11-11 with /figma-new-component from the migrated code (batch 2).
 
 ## Decisions (user, 2026-11-11)
 
+- The structure (one component, home icon, five item slots with `kind`, collapsing in Scenarios) was approved.
+
 - Links `color/primary/text`, hover `color/primary/text-hover` (new token); items without a path `color/text/softer`
   (they are text, not disabled); the current page `color/text/strong`.
 - Text `typography/label-lg` with a Semi Bold override (code: `typography("label-lg", "stronger")`).
