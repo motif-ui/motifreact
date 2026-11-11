@@ -10,7 +10,8 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
   old active library is strictly read-only and is never opened. The clone "MotifUI2" (`SEMxbktRVMRSO6OtTqmYC6`) is
   read-only reference.
 - Pages: Cover `0:1`, Getting Started `7:2`, Colors `7:4`, Typography `7:5`, Spacing & Sizing `7:6`, Radius `7:7`,
-  Elevation `7:8`, ProgressCircle `7:10`, Select `7:11`, Button `129:22`, AlertModal `137:22`, `_Doc` `7:13`, `_Icons` `7:14`
+  Elevation `7:8`, ProgressCircle `7:10`, Select `7:11`, Button `129:22`, AlertModal `137:22`, Divider `169:22`, Skeleton `171:22`, Link `171:958`, Breadcrumb `174:22`,
+  ProgressBar `176:810`, `_Doc` `7:13`, `_Icons` `7:14`
   (40 `Icon/<name>` components).
 - Doc blocks on `_Doc`: Header `11:2`, SectionTitle `11:14`, PropRow `11:29`, Note `11:30`, Label `11:33`,
   Footer `11:35`, Logo `24:24`, Swatch `25:42`.
@@ -38,5 +39,9 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
   variants per call works (Button: one call per shape).
 - A hugging auto-layout wrapper reports its old size right after its child's width is bound to a variable: measure
   the child (plus padding) when laying out table columns, or the columns come out too wide.
+- `instance.resize(w, h)` fixes the instance's height too: an instance whose content grows later (a text turned on
+  with a boolean) then overflows. Set `layoutSizingVertical = "HUG"` after resizing an auto-layout instance's width.
+- An empty auto-layout frame does not hug to its strokes, and a line's stroke does not count in auto-layout: a stroke
+  weight and a frame size are always two bindings (why Divider's size is a variant).
 - An inside stroke still counts in auto-layout size unless `strokesIncludedInLayout = false`.
 - `_Doc/PropRow` is a component set (`kind`: header/body): instance it from its default variant.
