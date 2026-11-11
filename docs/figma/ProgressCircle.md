@@ -22,8 +22,9 @@
 
 ## Decisions
 
-- indeterminate variants spin: `circle` ROTATION 0 → −360° over 1.5s, linear. The set and doc timelines are 1.5s so
-  the spin loops without a pause.
+- indeterminate variants spin: `circle` ROTATION 0 → −360° over 1.5s, linear. The set and the spec tables group
+  timelines are 1.4833s (one frame shorter than 1.5s, user saw a stop at the loop on 2026-11-11), so the spin loops
+  without repeating its first frame.
 - Arc ends are flat in Figma and round in code (stroke-linecap); kept as a documented limitation.
 - Spec tables (2026-11-10): Size spec (sizes × progress=65, showPercentage, indeterminate; ⌀, stroke and text style in
   the column header from `$sizes`), Color spec (transposed 2026-11-10: the 8 variants are columns, Light · Dark the rows, at lg; the mode is the axis that changes the
