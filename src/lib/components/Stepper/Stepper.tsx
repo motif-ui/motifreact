@@ -73,12 +73,15 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   }, [activeStep, disabledSteps, goToStep]);
 
   useEffect(() => {
-    activeStep !== -1 && setVisitedSteps(prev => (prev.includes(activeStep) ? prev : [...prev, activeStep]));
-  }, [activeStep]);
-
-  useEffect(() => {
-    setVisitedSteps(prev => (prev.some(step => step >= count) ? prev.filter(step => step < count) : prev));
-  }, [count]);
+    setVisitedSteps(prev => {
+      const filtered = prev.filter(step => step < count);
+      return activeStep !== -1 && !filtered.includes(activeStep)
+        ? [...filtered, activeStep]
+        : filtered.length === prev.length
+          ? prev
+          : filtered;
+    });
+  }, [activeStep, count]);
 
   useEffect(() => {
     activeStep !== -1 && activeStep !== rawActiveStep && (externalState ? externalState.goToStep(activeStep) : setInternalStep(activeStep));
