@@ -1,11 +1,11 @@
 @use "@styles" as *;
 
 $sizes: (
-  //sizeName, paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, loaderTop, chipLabelSize, groupLabelSize, selectedIconSize
-  ("xs", 4, 8, 4, 160, 18, 1, "sm", "sm", 12),
-  ("sm", 6, 12, 6, 190, 20, -2, "sm", "md", 16),
-  ("md", 8, 16, 8, 190, 22, -1, "md", "lg", 18),
-  ("lg", 10, 20, 10, 256, 24, 0, "lg", "xl", 20)
+  //sizeName, paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, chipLabelSize, groupLabelSize, selectedIconSize
+  ("xs", 4, 8, 4, 160, 18, "sm", "sm", 12),
+  ("sm", 6, 12, 6, 190, 20, "sm", "md", 16),
+  ("md", 8, 16, 8, 190, 22, "md", "lg", 18),
+  ("lg", 10, 20, 10, 256, 24, "lg", "xl", 20)
 );
 
 .Root {
@@ -29,17 +29,17 @@ $sizes: (
     }
   }
 
+  &:focus {
+    border-color: var(--mtf-color-border-field-focus);
+    outline: none;
+  }
+
   &.error {
     border-color: var(--mtf-color-danger-border);
   }
 
   &.success {
     border-color: var(--mtf-color-success-border);
-  }
-
-  &:focus {
-    border-color: var(--mtf-color-border-field-focus);
-    outline: none;
   }
 
   &.disabled {
@@ -95,7 +95,9 @@ $sizes: (
 
 .loader {
   position: absolute;
+  top: 50%;
   right: 0;
+  translate: 0 -50%;
 }
 
 // Rendered in a portal and positioned by useAnchoredOverlay; it carries the size class itself
@@ -190,7 +192,7 @@ $sizes: (
   color: var(--mtf-color-text-disabled);
 }
 
-@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $loaderTop, $chipLabelSize, $groupLabelSize, $selectedIconSize in $sizes {
+@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $chipLabelSize, $groupLabelSize, $selectedIconSize in $sizes {
   // Both the field (Root) and the dropdown carry the size class
   .#{$size} {
     &.Root {
@@ -233,10 +235,6 @@ $sizes: (
     .rightContainer {
       width: var(--mtf-sizing-#{$rightContainerSize});
       height: var(--mtf-sizing-#{$rightContainerSize});
-    }
-
-    .loader {
-      top: number-to-px($loaderTop);
     }
   }
 }

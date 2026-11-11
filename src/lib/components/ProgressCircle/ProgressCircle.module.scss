@@ -1,8 +1,6 @@
 @use "sass:math";
 @use "@styles" as *;
 
-$variants: "neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger";
-
 // size, strokeWidth, radius, textLabelSize
 $sizes: (("xs", 2, 8, "sm"), ("sm", 3, 12, "sm"), ("md", 4, 18, "sm"), ("lg", 4, 24, "sm"), ("xl", 6, 32, "lg"));
 
@@ -20,7 +18,7 @@ $sizes: (("xs", 2, 8, "sm"), ("sm", 3, 12, "sm"), ("md", 4, 18, "sm"), ("lg", 4,
   transform-origin: 50% 50%;
   stroke-linecap: round;
 
-  @each $variant in $variants {
+  @each $variant in $variants-v2 {
     .#{$variant} & {
       stroke: var(--mtf-color-#{$variant}-solid);
     }
