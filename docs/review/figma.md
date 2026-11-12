@@ -5,8 +5,9 @@ visual specification of migrated components. These rules keep the two from drift
 
 ## 1. Tokens
 
-- Tokens reach Figma only through the generator. When `src/lib/styles/tokens/themes/*.json` or `src/scripts/tokens` changes the
-  generated files, run `npm run figma:mtf-tokens` and import the bundled scripts into the library
+- Figma uses the **basic** theme (`src/lib/styles/tokens/themes/basic.json`); the other themes exist only in code for now.
+- Tokens reach Figma only through the generator. When `src/lib/styles/tokens/themes/basic.json` or `src/scripts/tokens` changes
+  the generated files, run `npm run figma:mtf-tokens` and import the bundled scripts into the library
   (`src/scripts/tokens/figma/importTokens.figma.js` explains how). The import is idempotent: it updates by name.
 - Never edit variables or text/effect styles by hand in Figma; the next import overwrites them. A change starts in the seeds.
 - Flag a PR that changes generated token files without mentioning the Figma import.
