@@ -16,14 +16,14 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Hero4Block: Story = {
-  name: "Hero4",
-  render: () => <Hero4 />,
-  parameters: { docs: { source: { code: hero4Source, language: "tsx" } } },
-};
-
 export const Hero2Block: Story = {
   name: "Hero2",
   render: () => <Hero2 />,
   parameters: { docs: { source: { code: hero2Source, language: "tsx" } } },
+};
+
+export const Hero4Block: Story = {
+  name: "Hero4",
+  render: () => <Hero4 />,
+  parameters: { docs: { source: { code: hero4Source, language: "tsx" } } },
 };
