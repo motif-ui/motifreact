@@ -28,7 +28,6 @@ const config: StorybookConfig = {
   staticDirs: [
     { from: "../src/lib/styles/themes", to: "/themes" },
     { from: "../src/lib/styles/tokens/generated/themes", to: "/tokens" },
-    { from: "../src/lib/styles/tokens/themes", to: "/token-themes" },
     "./public",
   ],
   core: { disableTelemetry: true },

@@ -1,7 +1,6 @@
 import { ComponentType, CSSProperties, Fragment, useEffect, useRef } from "react";
 import styles from "./TokenCompare.module.scss";
 import basicTokens from "../generated/themes/basic.css?raw";
-import legacyCompat from "../themes/legacy-compat.css?raw";
 
 export type CompareRow<P> = {
   label: string;
@@ -19,9 +18,7 @@ const listIn = (attributes: string) => `:is(${attributes} [role="listbox"], [rol
 const HOVERED_OPTION = 'li:nth-child(2 of [role="option"])';
 
 // Storybook loads the theme picked in the toolbar (legacy by default) on :root; the basic column scopes the basic tokens to itself
-// and unsets the legacy-only additions, so its components fall back to the shared tokens
-const LEGACY_ONLY = [...legacyCompat.matchAll(/(--mtf-legacy-[\w-]+):/g)].map(([, name]) => `${name}: initial;`);
-const BASIC_TOKENS = `${basicTokens.replace(":root {", '[data-mtf-theme="basic"] {')}\n[data-mtf-theme="basic"] { ${LEGACY_ONLY.join(" ")} }`;
+const BASIC_TOKENS = basicTokens.replace(":root {", '[data-mtf-theme="basic"] {');
 
 const PREVIEW_CSS = [
   `${listIn("[data-compare-hover]")} ${HOVERED_OPTION} { background-color: var(--theme-color-surface-light-default); }`,

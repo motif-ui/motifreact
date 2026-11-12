@@ -50,12 +50,7 @@ const themesWithTokens = () => ({
       this.emitFile({
         type: "asset",
         fileName: `themes/${file}`,
-        source: [
-          read(`src/lib/styles/themes/${base}`),
-          read(`src/lib/styles/tokens/generated/themes/${tokens}.css`),
-          // The legacy tokens come with their hand-written additions
-          ...(tokens === "legacy" ? [read("src/lib/styles/tokens/themes/legacy-compat.css")] : []),
-        ].join("\n"),
+        source: `${read(`src/lib/styles/themes/${base}`)}\n${read(`src/lib/styles/tokens/generated/themes/${tokens}.css`)}`,
       }),
     );
   },

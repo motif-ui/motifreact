@@ -60,8 +60,7 @@ $sizes: (("xxs", 2, 4, "sm", 12), ("xs", 4, 8, "md", 14), ("sm", 6, 12, "md", 18
 
 @each $variant in $variants {
   .#{$variant} {
-    // neutral and secondary solid have their own rules below
-    @if $variant != "neutral" and $variant != "secondary" {
+    @if $variant != "neutral" {
       &.solid {
         background-color: var(--mtf-color-#{$variant}-solid);
         color: var(--mtf-color-on-#{$variant});
@@ -118,21 +117,6 @@ $sizes: (("xxs", 2, 4, "sm", 12), ("xs", 4, 8, "md", 14), ("sm", 6, 12, "md", 18
 
   &:active {
     background-color: var(--mtf-color-neutral-soft-active);
-  }
-}
-
-// The legacy theme sets --mtf-legacy-button-* to keep the old light gray secondary button (tokens/themes/legacy-compat.css);
-// other themes leave them unset and get the secondary tokens
-.secondary.solid {
-  background-color: var(--mtf-legacy-button-secondary-solid, var(--mtf-color-secondary-solid));
-  color: var(--mtf-legacy-button-on-secondary, var(--mtf-color-on-secondary));
-
-  &:hover {
-    background-color: var(--mtf-legacy-button-secondary-solid-hover, var(--mtf-color-secondary-solid-hover));
-  }
-
-  &:active {
-    background-color: var(--mtf-legacy-button-secondary-solid-active, var(--mtf-color-secondary-solid-active));
   }
 }
 

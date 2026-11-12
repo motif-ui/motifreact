@@ -4,8 +4,7 @@ import { RESET_THEME_BUTTON_VAL } from "./constants";
 
 export const DEFAULT_THEME = "legacy";
 
-// Each toolbar theme: the old theme variables (/themes) and the design tokens (/tokens), like the shipped theme files.
-// The legacy tokens come with their hand-written additions (/token-themes/legacy-compat.css).
+// Each toolbar theme: the old theme variables (/themes) and the design tokens (/tokens), like the shipped theme files
 const THEMES: Record<string, { base: string; tokens: string }> = {
   legacy: { base: "default-theme", tokens: "legacy" },
   basic: { base: "default-theme", tokens: "basic" },
@@ -17,8 +16,7 @@ const ThemeWrapper: FC<{ story: FC; theme: string }> = ({ story: Story, theme })
     document.querySelectorAll("link[data-theme-css]").forEach(link => link.remove());
 
     const { base, tokens } = THEMES[theme] ?? THEMES[DEFAULT_THEME];
-    const compat = tokens === "legacy" ? ["/token-themes/legacy-compat.css"] : [];
-    const links = [`/themes/${base}.css`, `/tokens/${tokens}.css`, ...compat].map(href => {
+    const links = [`/themes/${base}.css`, `/tokens/${tokens}.css`].map(href => {
       const link = document.createElement("link");
       link.rel = "stylesheet";
       link.setAttribute("data-theme-css", "true");
