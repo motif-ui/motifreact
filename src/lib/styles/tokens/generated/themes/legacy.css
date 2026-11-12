@@ -209,7 +209,7 @@
   --mtf-color-neutral-text-hover: light-dark(var(--mtf-color-palette-neutral-800), var(--mtf-color-palette-neutral-100));
   --mtf-color-neutral-border: light-dark(var(--mtf-color-palette-neutral-700), var(--mtf-color-palette-neutral-500));
   --mtf-color-neutral-border-soft: light-dark(var(--mtf-color-palette-neutral-300), var(--mtf-color-palette-neutral-700));
-  --mtf-color-on-neutral: light-dark(var(--mtf-color-palette-white), var(--mtf-color-palette-neutral-950));
+  --mtf-color-on-neutral: var(--mtf-color-palette-neutral-950);
   --mtf-color-info-solid: var(--mtf-color-palette-info-500);
   --mtf-color-info-solid-hover: light-dark(var(--mtf-color-palette-info-600), var(--mtf-color-palette-info-400));
   --mtf-color-info-solid-active: light-dark(var(--mtf-color-palette-info-700), var(--mtf-color-palette-info-300));

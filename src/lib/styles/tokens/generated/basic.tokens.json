@@ -1284,13 +1284,8 @@
     },
     "on-neutral": {
       "$type": "color",
-      "$value": "{color.palette.white}",
-      "$description": "on solid 3.54:1 · dark 5.01:1",
-      "$extensions": {
-        "com.motif.modes": {
-          "dark": "{color.palette.neutral.950}"
-        }
-      }
+      "$value": "{color.palette.neutral.950}",
+      "$description": "on solid 5.01:1 · dark 5.01:1"
     },
     "info": {
       "solid": {

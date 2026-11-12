@@ -207,10 +207,11 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
     const solidLight = key === "neutral" ? STEPS.indexOf(500) : anchor;
     const solidLightHex = hexOf(key, STEPS[solidLight]);
     const solidDarkHex = hexOf(key, STEPS[darkStep]);
-    const onLight = lightnessOf(solidLightHex) < 0.7 ? WHITE : neutral(950);
-    // A moved dark solid is lighter, so its text takes whichever of white / neutral-950 reads better on it
-    const onDark =
-      darkStep === anchor ? onLight : contrast(WHITE, solidDarkHex) >= contrast(neutral(950), solidDarkHex) ? WHITE : neutral(950);
+    // A moved solid (neutral's light 500, a lighter dark step) takes whichever of white / neutral-950 reads better on it
+    const betterOn = (hex: string) => (contrast(WHITE, hex) >= contrast(neutral(950), hex) ? WHITE : neutral(950));
+    const onAnchor = lightnessOf(hexOf(key, STEPS[anchor])) < 0.7 ? WHITE : neutral(950);
+    const onLight = solidLight === anchor ? onAnchor : betterOn(solidLightHex);
+    const onDark = darkStep === anchor ? onAnchor : betterOn(solidDarkHex);
     return {
       key,
       anchor,

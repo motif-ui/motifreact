@@ -2520,10 +2520,10 @@
             "STROKE_COLOR"
           ],
           "hiddenFromPublishing": false,
-          "description": "on solid 3.54:1 · dark 5.01:1",
+          "description": "on solid 5.01:1 · dark 5.01:1",
           "values": {
             "Light": {
-              "alias": "color/palette/white"
+              "alias": "color/palette/neutral/950"
             },
             "Dark": {
               "alias": "color/palette/neutral/950"
