@@ -18,6 +18,12 @@ $sizes: (("sm", 4, "md", 16), ("md", 6, "lg", 20), ("lg", 8, "xl", 24));
     outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
     outline-offset: var(--mtf-sizing-2);
   }
+
+  // After :hover, with the same specificity, so the disabled color wins
+  &.disabled {
+    pointer-events: none;
+    color: var(--mtf-color-text-disabled);
+  }
 }
 
 .rightIcon {
@@ -30,11 +36,6 @@ $sizes: (("sm", 4, "md", 16), ("md", 6, "lg", 20), ("lg", 8, "xl", 24));
 
 .underline .label {
   text-decoration: underline;
-}
-
-.disabled {
-  pointer-events: none;
-  color: var(--mtf-color-text-disabled);
 }
 
 @each $size, $gap, $labelSize, $iconSize in $sizes {
