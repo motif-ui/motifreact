@@ -19,7 +19,7 @@ const SelectLi = memo((props: Props) => {
   return (
     <li role="option" className={classNames} aria-selected={isSelected} key={item.value}>
       <input type="checkbox" id={item.value} checked={isSelected} onChange={() => onChange(item)} />
-      <label htmlFor={item.value} className={styles.labelWrapper}>
+      <label htmlFor={item.value}>
         <span className={styles.labelText}>{getFilterableValue(item)}</span>
         {isSelected && <MotifIcon name="check" className={styles.iconSelected} size={size} />}
       </label>
