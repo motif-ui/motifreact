@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
-import { mergeRefs, validateChildren, validateElement } from "./reactUtils";
-import { rotateArray } from "./utils";
+import type { ReactElement } from "react";
+import { createElementPropsComparator, isSameElement, mergeRefs, validateChildren, validateElement } from "./reactUtils";
+import { rotateArray, shallowEqual } from "./utils";
 import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "./cssUtils";
 
 describe("validateChildren()", () => {
@@ -157,5 +158,67 @@ describe("sanitizeModuleClasses()", () => {
     const propsWithUnavailableProp = { size: "small", shape: "rounded" };
     const result2 = sanitizeModuleClasses(fakeCssModuleStyles, propsWithUnavailableProp.size, propsWithUnavailableProp.shape);
     expect(result2).toBe("shape-r");
+  });
+});
+
+describe("shallowEqual()", () => {
+  it("should be true for objects with the same keys and identical values", () => {
+    const shared = {};
+    expect(shallowEqual({ a: 1, b: shared, c: NaN }, { a: 1, b: shared, c: NaN })).toBe(true);
+  });
+
+  it("should be false when a value differs by reference", () => {
+    expect(shallowEqual({ a: {} }, { a: {} })).toBe(false);
+  });
+
+  it("should be false when the keys differ", () => {
+    expect(shallowEqual({ a: 1 }, { a: 1, b: 2 })).toBe(false);
+    expect(shallowEqual({ a: undefined }, { b: undefined })).toBe(false);
+  });
+});
+
+describe("isSameElement()", () => {
+  const Comp = ({ name }: { name: string }) => <span>{name}</span>;
+
+  it("should be true for identical values", () => {
+    expect(isSameElement("home", "home")).toBe(true);
+    expect(isSameElement(undefined, undefined)).toBe(true);
+  });
+
+  it("should be true for elements with the same type, key and shallowly equal props", () => {
+    expect(isSameElement(<Comp name="home" />, <Comp name="home" />)).toBe(true);
+  });
+
+  it("should be false when the type, key or a prop differs", () => {
+    expect(isSameElement(<Comp name="home" />, <Comp name="info" />)).toBe(false);
+    expect(isSameElement(<Comp key="a" name="home" />, <Comp key="b" name="home" />)).toBe(false);
+    expect(isSameElement(<span>home</span>, <i>home</i>)).toBe(false);
+  });
+
+  it("should be false for elements with nested element children", () => {
+    const nested = () => (
+      <span>
+        <i />
+      </span>
+    );
+    expect(isSameElement(nested(), nested())).toBe(false);
+  });
+});
+
+describe("createElementPropsComparator()", () => {
+  type Props = { icon?: ReactElement | string; size?: string };
+  const Comp = ({ name }: { name: string }) => <span>{name}</span>;
+  const arePropsEqual = createElementPropsComparator<Props>("icon");
+
+  it("should be true when the element prop is an equal inline element and the other props are the same", () => {
+    expect(arePropsEqual({ icon: <Comp name="home" />, size: "md" }, { icon: <Comp name="home" />, size: "md" })).toBe(true);
+  });
+
+  it("should be false when the element prop differs", () => {
+    expect(arePropsEqual({ icon: <Comp name="home" /> }, { icon: <Comp name="info" /> })).toBe(false);
+  });
+
+  it("should be false when another prop differs", () => {
+    expect(arePropsEqual({ icon: "home", size: "md" }, { icon: "home", size: "lg" })).toBe(false);
   });
 });

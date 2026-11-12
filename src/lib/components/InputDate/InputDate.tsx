@@ -123,11 +123,6 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     !readOnly && !disabled && show();
   }, [disabled, readOnly, show]);
 
-  const iconLeft = useMemo(
-    () => (isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" size={size} />)),
-    [icon, size],
-  );
-
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
@@ -136,7 +131,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
         ref={mergedRef}
         className={classNames}
         style={style}
-        iconLeft={iconLeft}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" size={size} />)}
         clearable
         name={name}
         size={size}

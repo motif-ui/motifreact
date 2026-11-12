@@ -8,6 +8,13 @@ import Icon from "@/components/Icon";
 import MotifProvider from "../../motif/context/MotifProvider";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
+import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+
+jest.mock("../../motif/hooks/usePropsWithThemeDefaults", () => {
+  const actual = jest.requireActual<{ default: typeof usePropsWithThemeDefaults }>("../../motif/hooks/usePropsWithThemeDefaults");
+  return { __esModule: true, default: jest.fn(actual.default) };
+});
+
 describe("IconButton", () => {
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLButtonElement>) =>
     render(<IconButton name="account_circle" {...props} />),
@@ -71,5 +78,27 @@ describe("IconButton", () => {
     const { getByTestId } = render(<IconButton name="account_circle" onClick={onClickSpy} />);
     fireEvent.click(getByTestId("iconButtonTestId"));
     expect(onClickSpy).toHaveBeenCalled();
+  });
+
+  describe("memoization", () => {
+    // usePropsWithThemeDefaults runs once per render of IconButton, so its calls count the renders
+    const renderCount = () => jest.mocked(usePropsWithThemeDefaults).mock.calls.filter(([name]) => name === "IconButton").length;
+    const CustomIcon = ({ name }: { name: string }) => <span>{name}</span>;
+    const onClick = () => {};
+
+    beforeEach(() => jest.mocked(usePropsWithThemeDefaults).mockClear());
+
+    it("should not re-render when an inline icon element has the same type and props", () => {
+      const { rerender } = render(<IconButton name={<CustomIcon name="home" />} size="md" onClick={onClick} />);
+      rerender(<IconButton name={<CustomIcon name="home" />} size="md" onClick={onClick} />);
+      expect(renderCount()).toBe(1);
+    });
+
+    it("should re-render when the icon element or another prop changes", () => {
+      const { rerender } = render(<IconButton name={<CustomIcon name="home" />} size="md" onClick={onClick} />);
+      rerender(<IconButton name={<CustomIcon name="info" />} size="md" onClick={onClick} />);
+      rerender(<IconButton name={<CustomIcon name="info" />} size="lg" onClick={onClick} />);
+      expect(renderCount()).toBe(3);
+    });
   });
 });

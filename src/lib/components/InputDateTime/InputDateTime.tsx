@@ -147,8 +147,6 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
     },
     [applyChanges, format, secondsEnabled, locale],
   );
-  const iconLeft = useMemo(() => <MotifIcon name="event" size={size} />, [size]);
-
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
@@ -157,7 +155,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
         ref={mergedRef}
         className={classNames}
         style={style}
-        iconLeft={iconLeft}
+        iconLeft={<MotifIcon name="event" size={size} />}
         name={name}
         onClearClick={clearClickHandler}
         clearable

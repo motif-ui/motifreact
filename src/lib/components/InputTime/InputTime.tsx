@@ -147,11 +147,6 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     !readOnly && !disabled && show();
   }, [disabled, readOnly, show]);
 
-  const iconLeft = useMemo(
-    () => (isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="schedule" size={size} />)),
-    [icon, size],
-  );
-
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
@@ -161,7 +156,7 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
         className={classNames}
         style={style}
         name={name}
-        iconLeft={iconLeft}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="schedule" size={size} />)}
         clearable
         onClearClick={() => clearClickHandler(true)}
         size={size}

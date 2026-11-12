@@ -130,11 +130,6 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTypedValueWithFormat, value]);
 
-  const iconLeft = useMemo(
-    () => (isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_expand_horizontal" size={size} />)),
-    [icon, size],
-  );
-
   const classNames = sanitizeModuleRootClasses(styles, className);
 
   return (
@@ -155,7 +150,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         value={typedValue}
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
-        iconLeft={iconLeft}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_expand_horizontal" size={size} />)}
         clearable
         onClearClick={onClearClickInInput}
       />

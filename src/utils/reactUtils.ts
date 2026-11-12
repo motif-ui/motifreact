@@ -1,5 +1,6 @@
 import { isValidElement, Children, ReactElement, ReactNode } from "react";
 import type { Ref } from "react";
+import { shallowEqual } from "./utils";
 
 /**
  * Validates children with allowed element types.
@@ -64,3 +65,33 @@ export const mergeRefs =
       if (typeof ref === "function") ref(node);
       else if (ref) ref.current = node;
     });
+
+/**
+ * Checks whether two React nodes would render the same: identical by reference, or elements of the same type and key
+ * whose props are shallowly equal. Lets memoized components skip re-rendering when they get an inline element like
+ * `<Icon name="x" />`, which is a new object on each render.
+ */
+export const isSameElement = (prev: unknown, next: unknown) =>
+  Object.is(prev, next) ||
+  (isValidElement(prev) &&
+    isValidElement(next) &&
+    prev.type === next.type &&
+    prev.key === next.key &&
+    shallowEqual(prev.props as Record<string, unknown>, next.props as Record<string, unknown>));
+
+/**
+ * Creates an `arePropsEqual` function for `memo()`: the given element props (e.g. an `icon` that may be an inline
+ * element) are compared with `isSameElement`, all the other props shallowly.
+ */
+export const createElementPropsComparator =
+  <P extends object>(...elementProps: (keyof P)[]) =>
+  (prev: P, next: P) => {
+    const prevRest = { ...prev } as Record<string, unknown>;
+    const nextRest = { ...next } as Record<string, unknown>;
+    for (const key of elementProps) {
+      if (!isSameElement(prev[key], next[key])) return false;
+      delete prevRest[key as string];
+      delete nextRest[key as string];
+    }
+    return shallowEqual(prevRest, nextRest);
+  };
