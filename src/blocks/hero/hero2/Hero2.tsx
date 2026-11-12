@@ -21,8 +21,8 @@ const Hero2 = () => (
       </Grid.Row>
       <Grid.Row justifyCols="center" colsAuto>
         <Grid.Col className="buttons">
-          <Button label="Get Started" variant="secondary" />
-          <Button label="Explore Components" variant="secondary" shape="outline" />
+          <Button label="Get Started" variant="neutral" />
+          <Button label="Explore Components" variant="neutral" shape="outline" />
         </Grid.Col>
       </Grid.Row>
       <Grid.Row>
