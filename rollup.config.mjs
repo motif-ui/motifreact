@@ -36,6 +36,7 @@ const generateScopedCssClassName = (localClassName, moduleFilePath) => {
 // tokens. The themes users already import (default-theme, papyrus) carry the legacy tokens, which keep the old colors;
 // basic-theme is the old theme variables with the basic tokens. Once every component has migrated, the generator writes
 // the theme files itself and this step goes away.
+// Only the files listed here ship: a new theme file in src/lib/styles/themes must be added to this list too.
 const SHIPPED_THEMES = [
   { file: "default-theme.css", base: "default-theme.css", tokens: "legacy" },
   { file: "papyrus.css", base: "papyrus.css", tokens: "legacy" },
