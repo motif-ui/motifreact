@@ -1,7 +1,8 @@
 # ProgressBar: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-11 with /figma-new-component from `ProgressBarV2` (batch 2; the clone replaces ProgressBar after
-approval). Sibling of the ProgressCircle page: same variant rules and Color spec layout.
+Built 2026-11-11 with /figma-new-component from the `ProgressBarV2` clone (batch 2), which replaced ProgressBar on
+2026-11-12; Figma and code match, and the pre-migration ProgressBar is in `compare/baseline/ProgressBar`. Sibling of the
+ProgressCircle page: same variant rules and Color spec layout.
 
 ## Nodes
 
