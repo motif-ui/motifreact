@@ -1,7 +1,5 @@
 @use "@styles" as *;
 
-$variants: "neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger";
-
 // size, height, labelSize
 $sizes: (("xs", 2, "sm"), ("sm", 4, "md"), ("md", 6, "lg"), ("lg", 8, "xl"), ("xl", 12, "xl"));
 
@@ -14,6 +12,12 @@ $sizes: (("xs", 2, "sm"), ("sm", 4, "md"), ("md", 6, "lg"), ("lg", 8, "xl"), ("x
   background-color: var(--mtf-color-neutral-soft);
   border-radius: var(--mtf-sizing-radius-round);
 
+  @each $size, $height, $labelSize in $sizes {
+    .#{$size} & {
+      height: var(--mtf-sizing-#{$height});
+    }
+  }
+
   &::before {
     content: "";
     position: absolute;
@@ -23,6 +27,24 @@ $sizes: (("xs", 2, "sm"), ("sm", 4, "md"), ("md", 6, "lg"), ("lg", 8, "xl"), ("x
     height: 100%;
     @include transition(width, "slow", ease-in-out);
     width: calc(var(--percentage, 0) * 1%);
+
+    @each $variant in $variants-v2 {
+      .#{$variant} & {
+        background-color: var(--mtf-color-#{$variant}-solid);
+      }
+    }
+
+    .indeterminate & {
+      animation: progress-animation 1.2s cubic-bezier(0.5, 0.1, 0.9, 1) forwards infinite;
+    }
+
+    .countdown & {
+      animation: countdown var(--countdown-duration) linear forwards;
+    }
+
+    .paused & {
+      animation-play-state: paused;
+    }
   }
 }
 
@@ -30,36 +52,12 @@ $sizes: (("xs", 2, "sm"), ("sm", 4, "md"), ("md", 6, "lg"), ("lg", 8, "xl"), ("x
   display: inline-block;
   color: var(--mtf-color-text-soft);
   margin-top: var(--mtf-sizing-space-4);
-}
 
-@each $size, $height, $labelSize in $sizes {
-  .#{$size} {
-    .bar {
-      height: var(--mtf-sizing-#{$height});
-    }
-
-    .text {
+  @each $size, $height, $labelSize in $sizes {
+    .#{$size} & {
       @include typography("label-#{$labelSize}", "strong");
     }
   }
-}
-
-@each $variant in $variants {
-  .#{$variant} .bar::before {
-    background-color: var(--mtf-color-#{$variant}-solid);
-  }
-}
-
-.indeterminate .bar::before {
-  animation: progress-animation 1.2s cubic-bezier(0.5, 0.1, 0.9, 1) forwards infinite;
-}
-
-.countdown .bar::before {
-  animation: countdown var(--countdown-duration) linear forwards;
-}
-
-.paused .bar::before {
-  animation-play-state: paused;
 }
 
 @keyframes progress-animation {
