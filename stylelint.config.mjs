@@ -32,4 +32,17 @@ export default {
     ],
     "selector-max-id": 0,
   },
+  // CSS rules (docs/review/css.md) for components migrated to the design tokens; add each component here as it migrates.
+  // Once every component has migrated, these rules move to the top-level rules and the list goes away.
+  overrides: [
+    {
+      files: ["src/lib/components/Select/**/*.scss", "src/lib/components/ProgressCircle/**/*.scss"],
+      rules: {
+        "declaration-no-important": true,
+        "selector-no-qualifying-type": true,
+        "selector-max-specificity": "0,3,0",
+        "selector-max-compound-selectors": 3,
+      },
+    },
+  ],
 };
