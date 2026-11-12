@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Select should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
+<div>
+  <div
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    class="Root md"
+    data-mtf-component="select"
+    data-testid="selectItem"
+    role="combobox"
+    tabindex="0"
+  >
+    <div
+      class="inputTextAndItemsContainer"
+    >
+      <input
+        class="inputText"
+        placeholder="Please select"
+        readonly=""
+        value=""
+      />
+    </div>
+    <div
+      class="rightContainer"
+    >
+      <span
+        class="Root md motifIconsDefault iconRight arrowDown"
+        lang="en"
+        translate="no"
+      >
+        arrow_drop_down
+      </span>
+    </div>
+  </div>
+</div>
+`;

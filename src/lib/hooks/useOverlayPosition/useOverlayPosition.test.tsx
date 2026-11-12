@@ -157,6 +157,27 @@ describe("useOverlayPosition", () => {
     expect(overlay.style.getPropertyValue("--overlay-anchor-bottom")).toBe("0px");
   });
 
+  it("should write the anchor's layout width before measuring, so an overlay sized by it is placed with that size", () => {
+    // The layout width differs from the bounding width when the anchor is transformed, e.g. scaled in a modal popping in
+    Object.defineProperty(anchor, "offsetWidth", { configurable: true, value: 300 });
+    setAnchorRect({ top: 300, left: 800, width: 150, height: 40 });
+    // The overlay is as wide as the variable, it would fit at the anchor's left with its own width of 200
+    Object.defineProperty(overlay, "offsetWidth", {
+      configurable: true,
+      get: () => parseFloat(overlay.style.getPropertyValue("--overlay-anchor-width")) || 200,
+    });
+
+    renderPosition("bottomLeft");
+    expect(overlay.style.getPropertyValue("--overlay-anchor-width")).toBe("300px");
+    // 300 wide, it does not fit at the anchor's left edge, so it is aligned to its right edge
+    expect(domPosition().left).toBe(950 - 300);
+
+    Object.defineProperty(anchor, "offsetWidth", { configurable: true, value: 260 });
+    resize();
+    expect(overlay.style.getPropertyValue("--overlay-anchor-width")).toBe("260px");
+    delete (anchor as { offsetWidth?: number }).offsetWidth;
+  });
+
   it("should fit it again when the class of the chosen placement, rendered after it is chosen, changes its margins", () => {
     setAnchorRect({ top: 700, left: 400, width: 100, height: 40 });
     renderHook(() => {
@@ -214,6 +235,28 @@ describe("useOverlayPosition", () => {
       setAnchorRect({ top: 300, left: 400, width: 100, height: 80 });
       resizeObserved(anchor);
       expect(domPosition()).toEqual({ top: 380, left: 400 });
+    });
+
+    it("should measure it again when the anchor's width changes, so an overlay sized by it gets the new width", () => {
+      const resizeObserved = observeResizes();
+      // The overlay is as wide as the variable, e.g. a list as wide as its select
+      Object.defineProperty(overlay, "offsetWidth", {
+        configurable: true,
+        get: () => parseFloat(overlay.style.getPropertyValue("--overlay-anchor-width")) || 0,
+      });
+      Object.defineProperty(anchor, "offsetWidth", { configurable: true, value: 100 });
+      setAnchorRect({ top: 300, left: 800, width: 100, height: 40 });
+      const { result } = renderPosition("bottomLeft");
+      expect(domPosition()).toEqual({ top: 340, left: 800 });
+
+      // e.g. a layout change widens the select while its list is open, so the list is shifted into the viewport again
+      Object.defineProperty(anchor, "offsetWidth", { configurable: true, value: 300 });
+      setAnchorRect({ top: 300, left: 800, width: 300, height: 40 });
+      resizeObserved(anchor);
+      expect(overlay.style.getPropertyValue("--overlay-anchor-width")).toBe("300px");
+      expect(domPosition()).toEqual({ top: 340, left: 1024 - 300 });
+      expect(result.current.placement).toBe("bottomLeft");
+      delete (anchor as { offsetWidth?: number }).offsetWidth;
     });
   });
 
