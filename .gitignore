@@ -52,5 +52,6 @@ next-env.d.ts
 # eslint
 .eslintcache
 
-# ai
-.claude/
+# ai (shared project skills are committed; personal settings are not)
+.claude/*
+!.claude/skills/

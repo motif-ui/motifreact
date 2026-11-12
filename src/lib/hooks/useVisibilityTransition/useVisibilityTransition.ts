@@ -20,6 +20,8 @@ const useVisibilityTransition = (open: boolean, duration?: number) => {
     setEntered(false);
     setExiting(!open && !!duration);
   }
+  // When the duration is removed during the exit transition, e.g. an overlay becomes inactive, it ends at once
+  if (exiting && !duration) setExiting(false);
 
   useEffect(() => {
     if (!duration) return;

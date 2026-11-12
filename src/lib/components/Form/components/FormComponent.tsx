@@ -63,7 +63,7 @@ const FormComponent = <T extends NameInputValue>(props: PropsWithRefAndChildren<
         {maybeButtonContainer && (
           <div className={buttonContainerClassNames}>
             {alternateButtons?.map(button => cloneElement(button, { size }))}
-            {enableClearButton && <Button label={clearButtonLabel} size={size} variant="secondary" onClick={resetValues} />}
+            {enableClearButton && <Button label={clearButtonLabel} size={size} variant="neutral" onClick={resetValues} />}
             {onSubmit && <Button label={submitButtonLabel} size={size} htmlType="submit" />}
           </div>
         )}

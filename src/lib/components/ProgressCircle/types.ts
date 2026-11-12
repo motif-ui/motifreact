@@ -1,4 +1,4 @@
-import { Size5, Variant } from "../../types";
+import { VariantV2, Size5 } from "../../types";
 
 export type ProgressCircleProps = {
   progress?: number;
@@ -7,7 +7,7 @@ export type ProgressCircleProps = {
 } & ProgressCircleDefaultableProps;
 
 export type ProgressCircleDefaultableProps = {
-  variant?: Variant;
+  variant?: VariantV2;
   size?: Size5;
   indeterminate?: boolean;
   showPercentage?: boolean;
