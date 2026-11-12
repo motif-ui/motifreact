@@ -1,13 +1,13 @@
 import { memo } from "react";
 import Button from "../../Button";
-import { Variant } from "../../../types";
+import { VariantV2 } from "../../../types";
 import { AlertModalButtonProps } from "../types";
 import styles from "../AlertModal.module.scss";
 
 type Props = {
   actionButton?: AlertModalButtonProps;
   alternateButton?: AlertModalButtonProps;
-  variant?: Variant;
+  variant?: VariantV2;
 };
 
 const AlertModalActions = memo((props: Props) => {
@@ -20,7 +20,7 @@ const AlertModalActions = memo((props: Props) => {
           pill
           onClick={alternateButton.onClick}
           shape="outline"
-          variant="secondary"
+          variant="neutral"
           label={alternateButton.text}
           icon={alternateButton.icon}
           iconPosition={alternateButton.iconPosition}
