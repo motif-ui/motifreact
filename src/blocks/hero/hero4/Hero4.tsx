@@ -3,15 +3,15 @@ import { Button, Container, Grid, ImageView, Text } from "@motif-ui/react";
 const Hero4 = () => (
   <Container>
     <Grid padding={{ base: "lg", lgUp: "xl" }}>
-      <Grid.Row columnGap="xl" rowGap="xl">
+      <Grid.Row gap={{ base: "lg", xsUp: "xl" }}>
         <Grid.Col size={12} lg={5}>
-          <Grid rowGap="lg">
+          <Grid gap={{ base: "lg", xsUp: "xl" }} padding="none">
             <Grid.Row>
               <Grid.Col size={12}>
                 <Text text="Your website builder" type="caption" size="md" tone="soft" weight="semibold" uppercase marginless />
               </Grid.Col>
             </Grid.Row>
-            <Grid.Row rowGap="xl">
+            <Grid.Row rowGap="sm">
               <Grid.Col size={12}>
                 <Text text="Components built for production." type="display" size="lg" tone="strong" weight="bold" marginless />
               </Grid.Col>
@@ -25,7 +25,7 @@ const Hero4 = () => (
                 />
               </Grid.Col>
             </Grid.Row>
-            <Grid.Row columnGap="sm" colsAuto>
+            <Grid.Row gap="sm" colsAuto>
               <Grid.Col>
                 <Button label="Discover All Components" variant="secondary" />
               </Grid.Col>
