@@ -37,6 +37,10 @@ user approved the Figma page). Figma and code match; the pre-migration Button is
   weight wins over a weight variable binding.
 - outline: 1px inside stroke with `strokesIncludedInLayout = false`, so it has the same height as solid (code: inset
   box-shadow).
+- outline has a `color/surface/default` fill (2026-11-12, user, after the Chromatic review: a transparent outline button
+  disappeared on gray surfaces such as Card). Its hover / active fills are the translucent `soft` tones layered over
+  that fill (code: `background-image` over `background-color`); the Color spec cells carry both fills. textonly stays
+  transparent.
 - A neutral solid button uses `neutral/soft` → `soft-hover` → `soft-active` with `neutral/text`, not `neutral/solid`
   (user: neutral must stay close to the page tones).
 - disabled: one look for every variant (`surface/disabled`, `border/disabled`, `text/disabled`).
