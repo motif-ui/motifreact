@@ -17,7 +17,7 @@ export type CompareSection<P> = { title: string; rows: CompareRow<P>[]; note?: s
 const listIn = (attributes: string) => `:is(${attributes} [role="listbox"], [role="listbox"]${attributes})`;
 const HOVERED_OPTION = 'li:nth-child(2 of [role="option"])';
 
-// Storybook loads the theme picked in the toolbar (legacy by default) on :root; the basic column scopes the basic tokens to itself
+// Storybook loads the legacy tokens on :root (preview.tsx); the basic column scopes the basic tokens to itself
 const BASIC_TOKENS = basicTokens.replace(":root {", '[data-mtf-theme="basic"] {');
 
 const PREVIEW_CSS = [

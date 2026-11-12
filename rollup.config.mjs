@@ -32,27 +32,23 @@ const generateScopedCssClassName = (localClassName, moduleFilePath) => {
     : `${DEFAULT_CLASSNAME_PREFIX}${moduleName}--${localClassName}`;
 };
 
-// Ships each theme file with the new design tokens (--mtf-*) appended, so the theme file users import also brings the
-// tokens. The themes users already import (default-theme, papyrus) carry the legacy tokens, which keep the old colors;
-// basic-theme is the old theme variables with the basic tokens. Once every component has migrated, the generator writes
-// the theme files itself and this step goes away.
-// Only the files listed here ship: a new theme file in src/lib/styles/themes must be added to this list too.
-const SHIPPED_THEMES = [
-  { file: "default-theme.css", base: "default-theme.css", tokens: "legacy" },
-  { file: "papyrus.css", base: "papyrus.css", tokens: "legacy" },
-  { file: "basic-theme.css", base: "default-theme.css", tokens: "basic" },
-];
+// Ships each theme with the legacy design tokens (--mtf-*) appended, so the theme file users already import also brings
+// the tokens, with the old colors (secondary stays gray). Once every component has migrated, the generator writes the
+// theme files itself and this step goes away.
 const themesWithTokens = () => ({
   name: "themes-with-tokens",
   generateBundle() {
-    const read = file => fs.readFileSync(path.resolve(__dirname, file), "utf8");
-    SHIPPED_THEMES.forEach(({ file, base, tokens }) =>
-      this.emitFile({
-        type: "asset",
-        fileName: `themes/${file}`,
-        source: `${read(`src/lib/styles/themes/${base}`)}\n${read(`src/lib/styles/tokens/generated/themes/${tokens}.css`)}`,
-      }),
-    );
+    const tokens = fs.readFileSync(path.resolve(__dirname, "src/lib/styles/tokens/generated/themes/legacy.css"), "utf8");
+    const themesDir = path.resolve(__dirname, "src/lib/styles/themes");
+    fs.readdirSync(themesDir)
+      .filter(file => file.endsWith(".css"))
+      .forEach(file =>
+        this.emitFile({
+          type: "asset",
+          fileName: `themes/${file}`,
+          source: `${fs.readFileSync(path.join(themesDir, file), "utf8")}\n${tokens}`,
+        }),
+      );
   },
 });
 

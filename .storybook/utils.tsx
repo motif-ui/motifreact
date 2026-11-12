@@ -2,30 +2,19 @@ import { JSX, FC, useInsertionEffect } from "react";
 import MotifProvider from "../src/lib/motif/context/MotifProvider";
 import { RESET_THEME_BUTTON_VAL } from "./constants";
 
-export const DEFAULT_THEME = "legacy";
-
-// Each toolbar theme: the old theme variables (/themes) and the design tokens (/tokens), like the shipped theme files
-const THEMES: Record<string, { base: string; tokens: string }> = {
-  legacy: { base: "default-theme", tokens: "legacy" },
-  basic: { base: "default-theme", tokens: "basic" },
-  papyrus: { base: "papyrus", tokens: "legacy" },
-};
+export const DEFAULT_THEME = "default-theme";
 
 const ThemeWrapper: FC<{ story: FC; theme: string }> = ({ story: Story, theme }) => {
   useInsertionEffect(() => {
     document.querySelectorAll("link[data-theme-css]").forEach(link => link.remove());
 
-    const { base, tokens } = THEMES[theme] ?? THEMES[DEFAULT_THEME];
-    const links = [`/themes/${base}.css`, `/tokens/${tokens}.css`].map(href => {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.setAttribute("data-theme-css", "true");
-      link.href = href;
-      document.head.appendChild(link);
-      return link;
-    });
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.setAttribute("data-theme-css", "true");
+    link.href = `/themes/${theme}.css`;
+    document.head.appendChild(link);
 
-    return () => links.forEach(link => link.remove());
+    return () => link.remove();
   }, [theme]);
 
   return (

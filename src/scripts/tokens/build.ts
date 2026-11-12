@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import process from "node:process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { colorPrint, isMainModule } from "../utils.js";
 import { buildTokens } from "./buildTokens.ts";
@@ -12,9 +12,13 @@ import type { Theme } from "./types.ts";
 export const OUTPUT_DIR = resolve("src/lib/styles/tokens/generated");
 const THEMES_DIR = resolve("src/lib/styles/tokens/themes");
 
-// Every theme gets its own CSS (themes/<name>.css). legacy keeps the old colors for existing users (secondary is the old
-// gray); basic is the standard theme. Figma and the JSON exports follow FIGMA_THEME.
-export const THEMES = ["basic", "legacy"] as const;
+// Every seed file in tokens/themes is a theme and gets its own CSS (themes/<name>.css). legacy is what the shipped theme
+// files carry; basic is the first theme of the new system, shown only in the token compare screens until the release.
+// Figma and the JSON exports follow FIGMA_THEME.
+export const THEMES = readdirSync(THEMES_DIR)
+  .filter(file => file.endsWith(".json"))
+  .map(file => file.replace(/\.json$/, ""))
+  .sort();
 export const FIGMA_THEME = "basic";
 
 export const loadTheme = (name: string = FIGMA_THEME) => JSON.parse(readFileSync(join(THEMES_DIR, `${name}.json`), "utf8")) as Theme;

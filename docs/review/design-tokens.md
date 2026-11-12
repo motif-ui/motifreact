@@ -11,10 +11,11 @@ this scope note is removed and the rules apply everywhere.
 The generator (`src/scripts/tokens/buildTokens.ts`) and the generated CSS (`src/lib/styles/tokens/generated/themes/*.css`) are
 the source of truth for token names. If a rule here and the generator disagree, flag the mismatch.
 
-Themes: every theme has a seed file in `src/lib/styles/tokens/themes/` and its own generated CSS with the same token names.
-`legacy` keeps the old colors for existing users (`secondary` is the old gray) and ships in `default-theme.css` and
-`papyrus.css`; `basic` is the standard theme (`basic-theme.css`) and the one Figma uses. Components never depend on a
-theme: they only read token names, so a rule that holds for one theme holds for all.
+Themes: every theme has a seed file in `src/lib/styles/tokens/themes/` and its own generated CSS with the same token names
+(the palette is named after each theme's anchor steps). `legacy` keeps the old colors for existing users (`secondary` is the
+old gray) and ships in every theme file (`default-theme.css`, `papyrus.css`); `basic` is the first theme of the new system,
+does not ship until the stable release, shows in the token compare screens and is the one Figma uses. Components never depend
+on a theme: they only read token names, so a rule that holds for one theme holds for all.
 
 ## 1. Scope and mixing
 

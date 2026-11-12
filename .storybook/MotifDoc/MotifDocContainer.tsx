@@ -1,6 +1,5 @@
 import { DocsContainer } from "@storybook/addon-docs/blocks";
 import "../../src/lib/styles/themes/default-theme.css";
-import "../../src/lib/styles/tokens/generated/themes/legacy.css";
 import { PropsWithChildren } from "react";
 import "./styles.scss";
 import { MotifDoc } from "./MotifDoc";

@@ -25,11 +25,7 @@ const config: StorybookConfig = {
     outline: false,
     sidebarOnboardingChecklist: false,
   },
-  staticDirs: [
-    { from: "../src/lib/styles/themes", to: "/themes" },
-    { from: "../src/lib/styles/tokens/generated/themes", to: "/tokens" },
-    "./public",
-  ],
+  staticDirs: [{ from: "../src/lib/styles/themes", to: "/themes" }, "./public"],
   core: { disableTelemetry: true },
 
   addons:
