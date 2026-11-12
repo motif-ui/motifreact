@@ -1,10 +1,19 @@
 import { Meta, Canvas, Source } from "@storybook/addon-docs/blocks";
 import * as HeroStories from "./Hero.stories";
+import hero1Css from "./hero1/hero1.css?raw";
 import hero2Css from "./hero2/hero2.css?raw";
 
 <Meta title="Blocks/Hero" />
 
 # Hero Screens
+
+## Hero 1
+
+<Canvas of={HeroStories.Hero1Block} sourceState="shown" />
+<details>
+  <summary>CSS File: hero1.css</summary>
+  <Source code={hero1Css} language="css" />
+</details>
 
 ## Hero 2
 
