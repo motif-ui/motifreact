@@ -132,6 +132,11 @@ danger`). Flag a component that redefines this union, uses `string`, or uses the
 - No component-named tokens (`--mtf-color-select-*`). A shared role token is allowed only when at least three component
   families use the role and it has its own states (the field group is the example). Flag new role groups that do not meet
   this.
+- Exception: the legacy theme's hand-written additions in `src/lib/styles/tokens/themes/legacy-compat.css`
+  (`--mtf-legacy-<component>-*`). They bring back an old look the shared tokens cannot give, exist only in the legacy
+  theme, and a component reads them with the shared token as fallback
+  (`var(--mtf-legacy-button-secondary-solid, var(--mtf-color-secondary-solid))`). Flag one outside that file, or one
+  read without a fallback.
 
 ## 9. Visible changes
 

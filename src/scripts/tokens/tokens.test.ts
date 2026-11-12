@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, test } from "@jest/globals";
 import { FIGMA_THEME, generate, loadTheme, staleFiles, THEMES } from "./build.ts";
 import { buildTokens, radiusScale, typeSize } from "./buildTokens.ts";
@@ -169,6 +170,15 @@ describe("themes", () => {
 
   test("legacy keeps the old gray secondary", () => {
     expect(resolve(files["themes/legacy.css"], "--mtf-color-secondary-solid")).toBe("#aeb4ba");
+  });
+
+  test("the hand-written legacy additions use existing legacy tokens and stay in their own namespace", () => {
+    const compat = readFileSync("src/lib/styles/tokens/themes/legacy-compat.css", "utf8");
+    const defined = [...compat.matchAll(/(--mtf-[\w-]+):/g)].map(([, name]) => name);
+    const used = [...compat.matchAll(/var\((--[\w-]+)\)/g)].map(([, name]) => name);
+    expect(defined.length).toBeGreaterThan(0);
+    expect(defined.filter(name => !name.startsWith("--mtf-legacy-"))).toEqual([]);
+    expect(used.filter(name => !files["themes/legacy.css"].includes(`${name}:`))).toEqual([]);
   });
 
   test("only the Figma theme writes the JSON exports", () => {

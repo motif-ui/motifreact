@@ -1,0 +1,12 @@
+/*
+ * Legacy theme only, written by hand (not generated). Ships after the legacy tokens in default-theme.css and papyrus.css.
+ * Brings back looks of the old components that the shared tokens cannot give; other themes leave these unset, so the
+ * components fall back to the shared tokens.
+ */
+:root {
+  /* The old secondary Button was a light gray button, not the gray secondary color: the neutral solid look */
+  --mtf-legacy-button-secondary-solid: var(--mtf-color-neutral-soft);
+  --mtf-legacy-button-secondary-solid-hover: var(--mtf-color-neutral-soft-hover);
+  --mtf-legacy-button-secondary-solid-active: var(--mtf-color-neutral-soft-active);
+  --mtf-legacy-button-on-secondary: var(--mtf-color-neutral-text);
+}
