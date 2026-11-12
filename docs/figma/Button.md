@@ -1,7 +1,7 @@
 # Button: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-10 from `src/lib/components/ButtonV2` (the token migration clone; the original Button still uses the old
-tokens until promotion).
+Built 2026-11-10 from the token migration clone `ButtonV2`, promoted to `src/lib/components/Button` on 2026-11-11 (the
+user approved the Figma page). Figma and code match; the pre-migration Button is in `compare/baseline/Button`.
 
 ## Nodes
 
@@ -37,6 +37,10 @@ tokens until promotion).
   weight wins over a weight variable binding.
 - outline: 1px inside stroke with `strokesIncludedInLayout = false`, so it has the same height as solid (code: inset
   box-shadow).
+- outline has a `color/surface/default` fill (2026-11-12, user, after the Chromatic review: a transparent outline button
+  disappeared on gray surfaces such as Card). Its hover / active fills are the translucent `soft` tones layered over
+  that fill (code: `background-image` over `background-color`); the Color spec cells carry both fills. textonly stays
+  transparent.
 - A neutral solid button uses `neutral/soft` → `soft-hover` → `soft-active` with `neutral/text`, not `neutral/solid`
   (user: neutral must stay close to the page tones).
 - disabled: one look for every variant (`surface/disabled`, `border/disabled`, `text/disabled`).
