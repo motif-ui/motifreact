@@ -7,22 +7,22 @@ import { CompareSection, TokenCompare } from "./TokenCompare";
 const SIZES = ["sm", "md", "lg"] as const;
 
 const sections: CompareSection<LinkProps>[] = [
-  { title: "Boyutlar", rows: SIZES.map(size => ({ label: size, props: { size, label: "Bağlantı", icon: "arrow_forward", url: "#" } })) },
+  { title: "Sizes", rows: SIZES.map(size => ({ label: size, props: { size, label: "Link", icon: "arrow_forward", url: "#" } })) },
   {
-    title: "Durumlar",
-    note: "Hover ve klavye odağı sabit gösterilemez; Storybook'ta üzerine gelerek ve Tab ile bakın.",
+    title: "States",
+    note: "Hover and keyboard focus cannot be shown statically; hover over it and press Tab in Storybook.",
     rows: [
-      { label: "Varsayılan", props: { label: "Bağlantı", url: "#" } },
-      { label: "underline", props: { label: "Bağlantı", url: "#", underline: true } },
-      { label: "external", props: { label: "Bağlantı", url: "#", external: true } },
-      { label: "ikon sağda", props: { label: "Bağlantı", url: "#", icon: "arrow_forward", iconPosition: "right" } },
-      { label: "disabled", props: { label: "Bağlantı", url: "#", disabled: true } },
+      { label: "Default", props: { label: "Link", url: "#" } },
+      { label: "underline", props: { label: "Link", url: "#", underline: true } },
+      { label: "external", props: { label: "Link", url: "#", external: true } },
+      { label: "icon right", props: { label: "Link", url: "#", icon: "arrow_forward", iconPosition: "right" } },
+      { label: "disabled", props: { label: "Link", url: "#", disabled: true } },
     ],
   },
 ];
 
 const meta: Meta<typeof TokenCompare> = {
-  title: "Token Karşılaştırma/Link",
+  title: "Token Compare/Link",
   component: TokenCompare,
   parameters: { layout: "padded" },
 };

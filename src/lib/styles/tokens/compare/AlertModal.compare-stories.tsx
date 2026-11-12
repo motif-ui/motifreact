@@ -60,33 +60,33 @@ const base: AlertModalProps = {
 
 const sections: CompareSection<AlertModalProps>[] = [
   {
-    title: "Varyantlar",
-    note: "Bugün sütununda neutral ve accent yok. Yeni sistemde ikon, aksiyon butonuyla aynı {variant}-solid renginde; alternatif buton neutral.",
+    title: "Variants",
+    note: "The Today column has no neutral or accent. The icon takes the action button's {variant}-solid color; the alternate button is neutral.",
     rows: VARIANTS.map(variant => ({ label: variant, props: { ...base, variant } })),
   },
   {
-    title: "Boyutlar",
-    note: "size yalnızca genişliği değiştirir (sizing-320 · 480 · 720 · 960); lg ve xl sütuna sığmadığı için gösterilmiyor.",
+    title: "Sizes",
+    note: "size only changes the width (sizing-320 · 480 · 720 · 960); lg and xl do not fit the column and are not shown.",
     rows: (["sm", "md"] as const).map(size => ({ label: size, props: { ...base, size } })),
   },
   {
-    title: "İçerik hizası",
+    title: "Content position",
     rows: (["center", "left", "right"] as const).flatMap(contentPosition => [
       { label: contentPosition, props: { ...base, contentPosition } },
-      { label: `${contentPosition} · yalnızca başlık`, props: { ...base, contentPosition, text: undefined } },
+      { label: `${contentPosition} · title only`, props: { ...base, contentPosition, text: undefined } },
     ]),
   },
   {
-    title: "Buton düzeni",
+    title: "Button layout",
     rows: (["center", "left", "right", "spaceBetween", "stretch", "fullWidth"] as const).map(buttonsPosition => ({
       label: buttonsPosition,
       props: { ...base, buttonsPosition },
     })),
   },
   {
-    title: "Yüzey",
+    title: "Surface",
     rows: [
-      { label: "varsayılan", props: { ...base, bordered: false } },
+      { label: "default", props: { ...base, bordered: false } },
       { label: "bordered", props: base },
       { label: "elevated", props: { ...base, bordered: false, elevated: true } },
       { label: "enableDivider", props: { ...base, enableDivider: true } },
@@ -96,7 +96,7 @@ const sections: CompareSection<AlertModalProps>[] = [
 ];
 
 const meta: Meta<typeof TokenCompare> = {
-  title: "Token Karşılaştırma/AlertModal",
+  title: "Token Compare/AlertModal",
   component: TokenCompare,
   parameters: { layout: "padded" },
 };

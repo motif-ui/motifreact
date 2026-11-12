@@ -13,30 +13,30 @@ const Baseline = ProgressCircleBaseline as ComponentType<ProgressCircleProps>;
 
 const sections: CompareSection<ProgressCircleProps>[] = [
   {
-    title: "Boyutlar",
+    title: "Sizes",
     rows: SIZES.map(size => ({ label: size, props: { size, progress: 65, showPercentage: true } })),
   },
   {
-    title: "Varyantlar",
+    title: "Variants",
     rows: [
-      { label: "(yok)", props: { size: "lg", progress: 65, showPercentage: true } },
+      { label: "(none)", props: { size: "lg", progress: 65, showPercentage: true } },
       ...VARIANTS.map(variant => ({ label: variant, props: { variant, size: "lg" as const, progress: 65, showPercentage: true } })),
     ],
   },
   {
-    title: "Durumlar",
+    title: "States",
     rows: [
       { label: "0%", props: { size: "lg", progress: 0, showPercentage: true } },
       { label: "100%", props: { size: "lg", progress: 100, showPercentage: true } },
-      { label: "Yüzdesiz", props: { size: "lg", progress: 40 } },
+      { label: "No percentage", props: { size: "lg", progress: 40 } },
       { label: "Indeterminate", props: { size: "lg", indeterminate: true } },
-      { label: "Countdown, duraklatılmış", props: { size: "lg", countdown: { duration: 10, paused: true } } },
+      { label: "Countdown, paused", props: { size: "lg", countdown: { duration: 10, paused: true } } },
     ],
   },
 ];
 
 const meta: Meta<typeof TokenCompare> = {
-  title: "Token Karşılaştırma/ProgressCircle",
+  title: "Token Compare/ProgressCircle",
   component: TokenCompare,
   parameters: { layout: "padded" },
 };
