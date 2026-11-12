@@ -34,7 +34,6 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   } = usePropsWithThemeDefaults("Stepper", props);
 
   const [internalStep, setInternalStep] = useState(() => Math.max(0, Math.min(defaultActiveStep, Children.toArray(children).length - 1)));
-  const [visitedSteps, setVisitedSteps] = useState(() => [externalState ? externalState.activeStep : internalStep]);
   const [internalStepData, setInternalStepDataState] = useState<Partial<Record<number, Record<string, unknown>>>>({});
   const internalSetStepData = useCallback(
     (index: number, data: Record<string, unknown>) => setInternalStepDataState(prev => ({ ...prev, [index]: { ...prev[index], ...data } })),
@@ -48,8 +47,9 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   const disabledSteps = stepItems.map(item => !!item.props.disabled);
 
   const rawActiveStep = externalState ? externalState.activeStep : internalStep;
-  const resolvedStep = disabledSteps.findIndex((d, i) => i > rawActiveStep && !d);
-  const activeStep = externalState && disabledSteps[rawActiveStep] && resolvedStep !== -1 ? resolvedStep : rawActiveStep;
+  const resolvedStep = disabledSteps.findIndex((d, i) => i >= rawActiveStep && !d);
+  const activeStep = resolvedStep !== -1 ? resolvedStep : disabledSteps.findLastIndex(disabled => !disabled);
+  const [visitedSteps, setVisitedSteps] = useState(() => (activeStep === -1 ? [] : [activeStep]));
 
   const goToStep = useCallback(
     (index: number) => {
@@ -73,15 +73,19 @@ const Stepper = (props: PropsWithRefAndChildren<StepperProps, HTMLDivElement>) =
   }, [activeStep, disabledSteps, goToStep]);
 
   useEffect(() => {
-    setVisitedSteps(prev => (prev.includes(activeStep) ? prev : [...prev, activeStep]));
-  }, [activeStep]);
+    setVisitedSteps(prev => {
+      const filtered = prev.filter(step => step < count);
+      return activeStep !== -1 && !filtered.includes(activeStep)
+        ? [...filtered, activeStep]
+        : filtered.length === prev.length
+          ? prev
+          : filtered;
+    });
+  }, [activeStep, count]);
 
   useEffect(() => {
-    if (externalState && disabledSteps[externalState.activeStep]) {
-      const resolved = disabledSteps.findIndex((disabled, i) => i > externalState.activeStep && !disabled);
-      resolved !== -1 && externalState.goToStep(resolved);
-    }
-  }, [externalState?.activeStep]); // eslint-disable-line react-hooks/exhaustive-deps
+    activeStep !== -1 && activeStep !== rawActiveStep && (externalState ? externalState.goToStep(activeStep) : setInternalStep(activeStep));
+  }, [activeStep, rawActiveStep, externalState]);
 
   const activeContent = stepItems[activeStep]?.props.children;
   const classNames = sanitizeModuleRootClasses(styles, className, [orientation, stepType, `${itemOrientation}-items`]);
