@@ -26,7 +26,10 @@ $sizes: (("xxs", 2, 4, "sm", 12), ("xs", 4, 8, "md", 14), ("sm", 6, 12, "md", 18
   }
 }
 
-.outline,
+.outline {
+  background-color: var(--mtf-color-surface-default);
+}
+
 .textonly {
   background-color: transparent;
 }
@@ -75,7 +78,9 @@ $sizes: (("xxs", 2, 4, "sm", 12), ("xs", 4, 8, "md", 14), ("sm", 6, 12, "md", 18
     &.outline,
     &.textonly {
       color: var(--mtf-color-#{$variant}-text);
+    }
 
+    &.textonly {
       &:hover {
         background-color: var(--mtf-color-#{$variant}-soft);
       }
@@ -88,6 +93,15 @@ $sizes: (("xxs", 2, 4, "sm", 12), ("xs", 4, 8, "md", 14), ("sm", 6, 12, "md", 18
     // Drawn inside the box, so outline buttons keep the height of the other shapes
     &.outline {
       box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-#{$variant}-border);
+
+      // The soft tones are translucent: layered over the surface fill, so the fill stays opaque
+      &:hover {
+        background-image: linear-gradient(var(--mtf-color-#{$variant}-soft), var(--mtf-color-#{$variant}-soft));
+      }
+
+      &:active {
+        background-image: linear-gradient(var(--mtf-color-#{$variant}-soft-hover), var(--mtf-color-#{$variant}-soft-hover));
+      }
     }
   }
 }
