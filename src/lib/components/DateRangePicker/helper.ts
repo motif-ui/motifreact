@@ -1,3 +1,5 @@
+import { DateUtils } from "../../../utils/dateUtils";
+
 export const MIDDLE_OF_THE_MONTH = 15;
 
 export const orderDatesAndPutTimes = (dateCouple: (Date | undefined)[]) => {
@@ -12,3 +14,14 @@ export const orderDatesAndPutTimes = (dateCouple: (Date | undefined)[]) => {
 
   return [start, end];
 };
+
+/**
+ * Returns the 4 months rendered by the range picker (1 hidden buffer on each side),
+ * placing the month of the given date in the first visible picker.
+ */
+export const getMonthsAroundDate = (date: Date, getDaysOfMonth: (month: Date) => Date[]) => [
+  getDaysOfMonth(DateUtils.getDateOfPrevMonth(date)),
+  getDaysOfMonth(date),
+  getDaysOfMonth(DateUtils.getDateOfNextMonth(date)),
+  getDaysOfMonth(DateUtils.getDateOfNextMonth(DateUtils.getDateOfNextMonth(date))),
+];
