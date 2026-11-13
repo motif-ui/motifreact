@@ -76,12 +76,7 @@ export const Image = ({ file: fileItem }: Props) => {
         </div>
       )}
       {visible && image && (
-        <Preview
-          image={image}
-          onClose={hide}
-          onDownload={download && isFileOnServer(fileItem) ? download : undefined}
-          downloadDisabled={!isFileReady(fileItem)}
-        />
+        <Preview image={image} onClose={hide} {...(isFileOnServer(fileItem) && { download })} downloadDisabled={!isFileReady(fileItem)} />
       )}
     </>
   );

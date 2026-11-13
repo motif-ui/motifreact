@@ -75,7 +75,6 @@ describe("ImageUpload", () => {
     deleteRequest: MOCK.deleteRequest,
   };
 
-  const DOWNLOAD_ICON = "download";
   const VISIBILITY_ICON = "visibility";
   const valueFile = {
     id: "db-1",
@@ -748,8 +747,10 @@ describe("ImageUpload", () => {
   });
 
   it("should not render the download button on preview of a newly uploaded image", async () => {
-    await simulateImageUploadAndPreviewClick();
-    expect(screen.queryByText(DOWNLOAD_ICON)).not.toBeInTheDocument();
+    const { getDownloadButton } = await simulateImageUpload();
+    await userEvent.click(screen.getByText(VISIBILITY_ICON));
+    expect(screen.getByAltText("Image Preview")).toBeInTheDocument();
+    expect(getDownloadButton()).not.toBeInTheDocument();
   });
 
   it("should call onDownloadClick when the download button on preview of the value-given image is clicked", async () => {
@@ -765,6 +766,23 @@ describe("ImageUpload", () => {
     await userEvent.click(screen.getByText(VISIBILITY_ICON));
     expect(screen.getByAltText("Image Preview")).toBeInTheDocument();
     expect(getDownloadButton()).not.toBeInTheDocument();
+  });
+
+  it("should disable the download button on preview while the delete request of the value-given image is in flight", async () => {
+    xhrSpy = mockXHRs(500);
+    const onDownloadClick = jest.fn();
+    const { getDeleteButton, getDownloadButton } = renderExt(<ImageUpload {...requiredProps} value={{ ...valueFile, onDownloadClick }} />);
+
+    fireEvent.click(getDeleteButton());
+    fireEvent.click(screen.getByText(VISIBILITY_ICON));
+    expect(getDownloadButton().parentElement).toBeDisabled();
+    fireEvent.click(getDownloadButton());
+    expect(onDownloadClick).not.toHaveBeenCalled();
+
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument());
+    expect(getDownloadButton().parentElement).not.toBeDisabled();
+    await userEvent.click(getDownloadButton());
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
   });
 
   it("should delete the value-given image when delete button is clicked", async () => {

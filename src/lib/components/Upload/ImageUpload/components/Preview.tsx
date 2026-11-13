@@ -8,12 +8,12 @@ import { useImageControls } from "./useImageControls";
 type PreviewProps = {
   image: string;
   onClose: () => void;
-  onDownload?: () => void;
+  download?: () => void;
   downloadDisabled?: boolean;
 };
 
 const Preview = (props: PropsWithRefAndChildren<PreviewProps, HTMLDivElement>) => {
-  const { image, onClose, onDownload, downloadDisabled } = props;
+  const { image, onClose, download, downloadDisabled } = props;
   const {
     zoomOutDisabled,
     zoomInDisabled,
@@ -55,7 +55,7 @@ const Preview = (props: PropsWithRefAndChildren<PreviewProps, HTMLDivElement>) =
         <MotifIconButton variant="negative" name="redo" onClick={rotateRight} />
         <MotifIconButton variant="negative" name="zoom_out" disabled={zoomOutDisabled} onClick={zoomOut} />
         <MotifIconButton variant="negative" name="zoom_in" disabled={zoomInDisabled} onClick={zoomIn} />
-        {onDownload && <MotifIconButton variant="negative" name="download" disabled={downloadDisabled} onClick={onDownload} />}
+        {download && <MotifIconButton variant="negative" name="download" disabled={downloadDisabled} onClick={download} />}
       </div>
     </div>
   );
