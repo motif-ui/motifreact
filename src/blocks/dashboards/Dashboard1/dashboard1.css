@@ -1,0 +1,29 @@
+.layout {
+  display: flex;
+}
+
+.sidebar {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 32px;
+}
+
+.topbarLeft {
+  display: flex;
+  align-items: center;
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.topbarIconButton {
+  padding: 6px;
+}
