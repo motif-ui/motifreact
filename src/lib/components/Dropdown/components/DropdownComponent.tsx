@@ -5,13 +5,15 @@ import DropdownMenu from "@/components/Dropdown/components/DropdownMenu";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import styles from "@/components/Dropdown/Dropdown.module.scss";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
-import { useContext, useImperativeHandle } from "react";
+import { useContext, useMemo, useRef } from "react";
 import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
-import useOutsideClick from "../../../hooks/useOutsideClick";
+import useAnchoredOverlay from "../../../hooks/useAnchoredOverlay";
+import { createPortal } from "react-dom";
+import { mergeRefs } from "../../../../utils/reactUtils";
 
 type Props = Omit<DropdownProps, "size" | "disabled">;
 
-const DropdownComponent = (props: PropsWithRef<Props, HTMLDivElement>) => {
+const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
   const {
     label,
     icon,
@@ -24,25 +26,52 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLDivElement>) => {
     style,
     className,
   } = usePropsWithThemeDefaults("Dropdown", props);
-  const { size, open, hideMenu, disabled } = useContext(DropdownContext);
+  const { size, disabled } = useContext(DropdownContext);
 
-  const dropdownRef = useOutsideClick<HTMLDivElement>(hideMenu);
-  useImperativeHandle(ref, () => dropdownRef.current!, [dropdownRef]);
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const {
+    open,
+    hide,
+    attached,
+    overlayRef,
+    insideProps,
+    style: overlayStyle,
+    placement,
+  } = useAnchoredOverlay({
+    anchorRef,
+    placement: "bottomRight",
+    toggleOnAnchorClick: true,
+    tabBridge: true,
+    closeOnOutsideClick: true,
+    closeOnEscape: true,
+    inactive: disabled,
+  });
+  const mergedRef = useMemo(() => mergeRefs(anchorRef, ref), [ref]);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [
-    size,
-    variant,
-    shape,
-    open && "open",
-    pill && "pill",
-    disabled && "disabled",
-  ]);
+  const side = placement.startsWith("top") ? "top" : "bottom";
+  const overlayClassNames = sanitizeModuleRootClasses(styles, undefined, [size, spacing, side]);
 
   return (
-    <div className={classNames} ref={dropdownRef} style={style} data-testid="Dropdown">
-      <DropdownButton label={label} icon={icon} />
-      {open && !disabled && <DropdownMenu items={items} spacing={spacing} />}
-    </div>
+    <>
+      <DropdownButton
+        className={className}
+        style={style}
+        label={label}
+        icon={icon}
+        ref={mergedRef}
+        variant={variant}
+        shape={shape}
+        pill={pill}
+        open={open}
+      />
+      {attached &&
+        createPortal(
+          <div className={overlayClassNames} ref={overlayRef} style={overlayStyle} {...insideProps} data-testid="Dropdown">
+            <DropdownMenu items={items} hideMenu={hide} />
+          </div>,
+          document.body,
+        )}
+    </>
   );
 };
 

@@ -16,7 +16,7 @@ $sizes: (
 
     .selectionBar {
       padding-bottom: map.get(pickerValues.$size, $size, "gapV");
-      > div:first-child {
+      > :first-child {
         min-width: var(--base-sizing-#{$minWidthDropdown});
       }
       > div:not(:first-child) {
@@ -128,7 +128,7 @@ $sizes: (
   border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-disabled);
   text-align: right;
 
-  > div:first-child {
+  > :first-child {
     float: left;
   }
   > div:last-child {

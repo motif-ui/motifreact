@@ -4,6 +4,10 @@
   @include retain-scoped-class;
 }
 
+.pickerWrapper {
+  display: contents;
+}
+
 .dateRangePicker {
   position: absolute;
   z-index: z-layer("anchored");
