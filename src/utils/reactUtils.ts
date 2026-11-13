@@ -85,13 +85,5 @@ export const isSameElement = (prev: unknown, next: unknown) =>
  */
 export const createElementPropsComparator =
   <P extends object>(...elementProps: (keyof P)[]) =>
-  (prev: P, next: P) => {
-    const prevRest = { ...prev } as Record<string, unknown>;
-    const nextRest = { ...next } as Record<string, unknown>;
-    for (const key of elementProps) {
-      if (!isSameElement(prev[key], next[key])) return false;
-      delete prevRest[key as string];
-      delete nextRest[key as string];
-    }
-    return shallowEqual(prevRest, nextRest);
-  };
+  (prev: P, next: P) =>
+    shallowEqual(prev, next, key => (elementProps.includes(key) ? isSameElement : Object.is)(prev[key], next[key]));

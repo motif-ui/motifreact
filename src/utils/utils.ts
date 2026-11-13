@@ -82,8 +82,8 @@ export const foldNormalize = (s: string, locale: string) =>
 /** Clamps a number between a minimum and maximum value */
 export const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
 
-/** Shallowly compares two objects: same set of keys, and each value is identical by Object.is */
-export const shallowEqual = (a: Record<string, unknown>, b: Record<string, unknown>) => {
-  const keys = Object.keys(a);
-  return keys.length === Object.keys(b).length && keys.every(key => hasOwn(b, key) && Object.is(a[key], b[key]));
+/** Shallowly compares two objects: same set of keys, and each value is equal by isEqual, i.e. identical by Object.is by default */
+export const shallowEqual = <T extends object>(a: T, b: T, isEqual = (key: keyof T) => Object.is(a[key], b[key])) => {
+  const keys = Object.keys(a) as (keyof T)[];
+  return keys.length === Object.keys(b).length && keys.every(key => hasOwn(b, key as string) && isEqual(key));
 };
