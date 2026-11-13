@@ -1,116 +1,138 @@
 @use "@styles" as *;
 
-$sizes: (
-  ("xxs", "4x", "2x", "xs", "14x"),
-  ("xs", "8x", "4x", "sm", "16x"),
-  ("sm", "12x", "6x", "sm", "20x"),
-  ("md", "16x", "8x", "md", "20x"),
-  ("lg", "20x", "10x", "lg", "24x"),
-  ("xl", "24x", "12x", "lg", "24x")
-);
-$states: "hover", "active", "disabled";
-$variants: (
-  // variant, color, textColorOnSurface
-  ("primary", "primary", --theme-color-text-base-global-light),
-  ("secondary", "light", --theme-color-text-light-default),
-  ("info", "info", --theme-color-text-base-global-light),
-  ("success", "success", --theme-color-text-base-global-light),
-  ("warning", "warning", --theme-color-text-base-global-dark),
-  ("danger", "danger", --theme-color-text-base-global-light)
-);
-@mixin text-color-on-surface($variant, $textColor, $state: null) {
-  color: if(
-    sass($variant == "warning" and $state == "disabled"): var(--theme-color-text-base-dark-overlay50);
-      else: if(sass($variant == "secondary" and $state != null): var(--theme-color-text-light-#{$state}); else: var($textColor))
-  );
-}
-@mixin state-background-color($color, $state, $shape) {
-  @if $shape == "solid" {
-    background-color: var(--theme-color-surface-#{$color}-#{$state});
-  } @else {
-    @if $state == "hover" {
-      background-color: var(--theme-color-surface-#{$color}-negative);
-    } @else if $state == "active" {
-      background-color: var(--theme-color-surface-#{$color}-inverse);
-    }
-  }
-}
+$variants: "neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger";
+
+// size, paddingV, paddingH, labelSize, iconSize
+$sizes: (("xxs", 2, 4, "sm", 12), ("xs", 4, 8, "md", 14), ("sm", 6, 12, "md", 18), ("md", 8, 16, "lg", 18), ("lg", 10, 20, "xl", 22), ("xl", 12, 24, "xl", 22));
 
 .Root {
   border: none;
-  border-radius: var(--theme-sizing-radius-default);
+  border-radius: var(--mtf-sizing-radius-md);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   vertical-align: bottom;
-  white-space: nowrap;
+  white-space: normal;
   @include transition(background-color);
+
+  &:focus-visible {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: var(--mtf-sizing-2);
+  }
 
   &:disabled {
     pointer-events: none;
   }
 }
 
-.pill {
-  border-radius: var(--theme-sizing-radius-round);
+.outline {
+  background-color: var(--mtf-color-surface-default);
 }
+
+.textonly {
+  background-color: transparent;
+}
+
+.pill {
+  border-radius: var(--mtf-sizing-radius-round);
+}
+
 .fluid {
   width: 100%;
 }
-.icon-left {
-  flex-direction: row;
-}
+
 .icon-right {
   flex-direction: row-reverse;
 }
 
-@each $size, $ph, $pv, $fontSize, $iconSize in $sizes {
+@each $size, $paddingV, $paddingH, $labelSize, $iconSize in $sizes {
   .#{$size} {
-    padding: var(--base-sizing-#{$pv}) var(--base-sizing-#{$ph});
-    gap: var(--base-sizing-#{$pv});
-    @include font("base", $fontSize, "600");
+    padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
+    gap: var(--mtf-sizing-space-#{$paddingV});
+    @include typography("label-#{$labelSize}", "stronger");
+
     .icon {
-      --mtf-icon-size: var(--base-sizing-#{$iconSize});
+      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
     }
   }
 }
 
-@each $variant, $color, $textColorOnSurface in $variants {
+@each $variant in $variants {
   .#{$variant} {
-    &.solid {
-      background-color: var(--theme-color-surface-#{$color}-default);
-      @include text-color-on-surface($variant, $textColorOnSurface);
-      @each $state in $states {
-        &:#{$state} {
-          @include state-background-color($color, $state, "solid");
-          @include text-color-on-surface($variant, $textColorOnSurface, $state);
+    @if $variant != "neutral" {
+      &.solid {
+        background-color: var(--mtf-color-#{$variant}-solid);
+        color: var(--mtf-color-on-#{$variant});
+
+        &:hover {
+          background-color: var(--mtf-color-#{$variant}-solid-hover);
+        }
+
+        &:active {
+          background-color: var(--mtf-color-#{$variant}-solid-active);
         }
       }
     }
 
-    &.outline {
-      background-color: var(--theme-color-surface-base-bg-light);
-      border: solid var(--base-sizing-1x) var(--theme-color-border-#{$color}-default);
-      color: var(--theme-color-text-#{$color}-default);
-      @each $state in $states {
-        &:#{$state} {
-          @include state-background-color($color, $state, "outline");
-          border-color: var(--theme-color-border-#{$color}-#{$state});
-          color: var(--theme-color-text-#{$color}-#{$state});
-        }
-      }
+    &.outline,
+    &.textonly {
+      color: var(--mtf-color-#{$variant}-text);
     }
 
     &.textonly {
-      background-color: transparent;
-      color: var(--theme-color-text-#{$color}-default);
-      @each $state in $states {
-        &:#{$state} {
-          @include state-background-color($color, $state, "textonly");
-          color: var(--theme-color-text-#{$color}-#{$state});
-        }
+      &:hover {
+        background-color: var(--mtf-color-#{$variant}-soft);
+      }
+
+      &:active {
+        background-color: var(--mtf-color-#{$variant}-soft-hover);
+      }
+    }
+
+    // Drawn inside the box, so outline buttons keep the height of the other shapes
+    &.outline {
+      box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-#{$variant}-border);
+
+      // The soft tones are translucent: layered over the surface fill, so the fill stays opaque
+      &:hover {
+        background-image: linear-gradient(var(--mtf-color-#{$variant}-soft), var(--mtf-color-#{$variant}-soft));
+      }
+
+      &:active {
+        background-image: linear-gradient(var(--mtf-color-#{$variant}-soft-hover), var(--mtf-color-#{$variant}-soft-hover));
       }
     }
   }
+}
+
+// A neutral solid button stays close to the page tones: a soft fill instead of the strong neutral fill
+.neutral.solid {
+  background-color: var(--mtf-color-neutral-soft);
+  color: var(--mtf-color-neutral-text);
+
+  &:hover {
+    background-color: var(--mtf-color-neutral-soft-hover);
+  }
+
+  &:active {
+    background-color: var(--mtf-color-neutral-soft-active);
+  }
+}
+
+// After the variant rules: same specificity, so disabled wins by order
+.solid,
+.outline,
+.textonly {
+  &:disabled {
+    color: var(--mtf-color-text-disabled);
+  }
+}
+
+.solid:disabled {
+  background-color: var(--mtf-color-surface-disabled);
+}
+
+.outline:disabled {
+  box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-border-disabled);
 }

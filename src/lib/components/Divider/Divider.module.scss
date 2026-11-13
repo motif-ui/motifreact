@@ -1,79 +1,79 @@
 @use "@styles" as *;
 
-$sizes: (("sm", "1x", "6x"), ("md", "2x", "12x"), ("lg", "4x", "18x"));
+$shapes: "solid", "dashed", "dotted";
+
+// size, thickness, gap
+$sizes: (("sm", 1, 6), ("md", 2, 12), ("lg", 4, 18));
 
 .Root {
+  position: relative;
+
   &::before {
     box-sizing: border-box;
-    border-color: var(--theme-color-surface-base-base6);
     position: absolute;
+    border-color: var(--mtf-color-border-soft);
     content: "";
   }
+}
 
-  &.horizontal {
-    min-width: 100%;
-    position: relative;
-    &::before {
-      width: 100%;
+// The line is the border of ::before, centered on the divider by its own thickness
+.horizontal {
+  min-width: 100%;
+
+  &::before {
+    top: 50%;
+    width: 100%;
+    translate: 0 -50%;
+  }
+}
+
+.vertical {
+  min-height: 100%;
+  justify-content: center;
+
+  &::before {
+    left: 50%;
+    height: 100%;
+    translate: -50% 0;
+  }
+}
+
+@each $shape in $shapes {
+  .horizontal.#{$shape}::before {
+    border-top-style: #{$shape};
+  }
+
+  .vertical.#{$shape}::before {
+    border-left-style: #{$shape};
+  }
+}
+
+@each $size, $thickness, $gap in $sizes {
+  .#{$size} {
+    &.horizontal {
+      height: var(--mtf-sizing-#{$thickness});
+
+      &::before {
+        border-top-width: var(--mtf-sizing-#{$thickness});
+      }
     }
-    &.solid::before {
-      border-top-style: solid;
-    }
-    &.dashed::before {
-      border-top-style: dashed;
-    }
-    &.dotted::before {
-      border-top-style: dotted;
+
+    &.vertical {
+      width: var(--mtf-sizing-#{$thickness});
+
+      &::before {
+        border-left-width: var(--mtf-sizing-#{$thickness});
+      }
     }
   }
 
-  &.vertical {
-    min-height: 100%;
-    position: relative;
-    justify-content: center;
-    &::before {
-      height: 100%;
-    }
-    &.solid::before {
-      border-left-style: solid;
-    }
-    &.dashed::before {
-      border-left-style: dashed;
-    }
-    &.dotted::before {
-      border-left-style: dotted;
-    }
-  }
-
-  @each $size, $thickness, $gap in $sizes {
-    $align-position: calc(var(--base-sizing-#{$thickness}) / 2);
-    $border-width: var(--base-sizing-#{$thickness});
-
-    &.#{$size} {
-      &.horizontal {
-        height: $border-width;
-        &::before {
-          border-top-width: $border-width;
-          top: calc(50% - $align-position);
-        }
-      }
-      &.vertical {
-        width: $border-width;
-        &::before {
-          border-left-width: $border-width;
-          left: calc(50% - $align-position);
-        }
-      }
+  .gap-#{$size} {
+    &.horizontal {
+      margin-block: var(--mtf-sizing-space-#{$gap});
     }
 
-    &.gap-#{$size} {
-      &.horizontal {
-        margin-block: var(--base-sizing-#{$gap});
-      }
-
-      &.vertical {
-        margin-inline: var(--base-sizing-#{$gap});
-      }
+    &.vertical {
+      margin-inline: var(--mtf-sizing-space-#{$gap});
     }
   }
 }
