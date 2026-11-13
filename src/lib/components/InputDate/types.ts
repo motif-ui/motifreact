@@ -1,6 +1,6 @@
 import { InputCommonProps, InputSize } from "../Form/types";
 import { DateFormat, DaysOfWeek } from "../Motif/Pickers/types";
-import { DatePickerLocale } from "../DatePicker/types";
+import { DatePickerLocale, DatePickerPickerType } from "../DatePicker/types";
 import type { IconGlobalType } from "../../types";
 
 export type InputDateDefaultableProps = {
@@ -14,4 +14,6 @@ export type InputDateDefaultableProps = {
   icon?: IconGlobalType | null;
 };
 
-export type InputDateProps = InputCommonProps & InputDateDefaultableProps;
+export type InputDateProps = InputCommonProps & {
+  pickerFormat?: Exclude<DatePickerPickerType, "year">;
+} & InputDateDefaultableProps;
