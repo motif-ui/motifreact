@@ -1,19 +1,24 @@
 import { render } from "@testing-library/react";
 import ProgressCircle from "@/components/ProgressCircle/ProgressCircle";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { VariantV2, StandardPropsWithRef } from "../../../lib/types";
+
 describe("ProgressCircle", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<SVGSVGElement>) => render(<ProgressCircle {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<SVGSVGElement>) => render(<ProgressCircle {...props} />), {
+    assertDefaults: ({ container }) => {
+      // variant: primary
+      expect(container.firstElementChild).toHaveClass("primary");
+      // size: sm
+      expect(container.firstElementChild).toHaveClass("sm");
+      // progress: 0
+      expect(container.getElementsByClassName("circle")[0]).toHaveStyle("--percentage: 0");
+      // maxProgress: 100
+      expect(container.firstElementChild).toHaveAttribute("aria-valuemax", "100");
+    },
+  });
 
   it("should be rendered in different color scheme based on the variant prop", () => {
-    const variants: ("primary" | "success" | "danger" | "warning" | "info" | "secondary")[] = [
-      "primary",
-      "success",
-      "danger",
-      "warning",
-      "info",
-      "secondary",
-    ];
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
     variants.forEach(variant => {
       expect(render(<ProgressCircle variant={variant} />).container.firstChild).toHaveClass(variant);
     });
@@ -101,6 +106,6 @@ describe("ProgressCircle", () => {
     expect(container.getElementsByClassName("circle")[0]).toHaveStyle("--countdown-duration: " + duration + "ms");
 
     rerender(<ProgressCircle countdown={{ duration, paused: true }} />);
-    expect(container.firstChild).toHaveClass("paused");
+    expect(container.firstChild).toHaveClass("countdown", "paused");
   });
 });
