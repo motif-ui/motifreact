@@ -47,7 +47,7 @@ export type UploadProps = {
 #### Example
 
 ```tsx
-import UploadList from "./UploadList";
+import { UploadList } from "@motif-ui/react";
 
 <UploadList
   customValidation={(file: File) => {
@@ -97,7 +97,7 @@ export const POST = async () => {
 ```
 
 ```tsx
-import UploadList from "./UploadList";
+import { UploadList } from "@motif-ui/react";
 
 <UploadList
   uploadRequest={{ url: "/api/upload", method: "POST" }}
@@ -107,3 +107,109 @@ import UploadList from "./UploadList";
 
 See the **Server Validation** story under Upload List, Upload Dragger, and Upload Input in Storybook for a live,
 mocked example of this behavior.
+
+## Initial Value
+
+Files that already exist on the server are passed through the **value** prop. Each item is a `FileObject`, and the
+component shows it as a successfully uploaded file.
+
+### Type Definition
+
+```ts
+export type FileObject = {
+  id: string; // Unique id of the file; used to match the file between renders
+  name: string;
+  size: number; // in bytes
+  type: string; // MIME type, e.g. "image/jpeg"
+  src?: string; // URL of the file; can be used by fileAction (e.g. to preview the file)
+  onDownloadClick?: () => void; // Shows the download button when defined
+};
+```
+
+#### Example
+
+```tsx
+import { UploadList } from "@motif-ui/react";
+
+<UploadList
+  uploadRequest={{ url: "/api/upload", method: "POST" }}
+  deleteRequest={{ url: "/api/delete", method: "POST" }}
+  value={[{ id: "1", name: "photo.jpg", size: 245760, type: "image/jpeg", src: "/files/photo.jpg" }]}
+/>;
+```
+
+## File Download
+
+A download button is shown on a file row when its **value** item has an **onDownloadClick** function. The component
+doesn't download anything on its own; it only calls **onDownloadClick**, so the download logic (direct link,
+authenticated request, blob, etc.) is up to you.
+
+#### Example
+
+```tsx
+import { UploadList } from "@motif-ui/react";
+
+const downloadFile = () => {
+    // Your download logic, e.g. a direct link or an authenticated request
+};
+
+<UploadList
+  uploadRequest={{ url: "/api/upload", method: "POST" }}
+  deleteRequest={{ url: "/api/delete", method: "POST" }}
+  value={[
+    {
+      id: "1",
+      name: "photo.jpg",
+      size: 245760,
+      type: "image/jpeg",
+      onDownloadClick: () => downloadFile(),
+    },
+  ]}
+/>;
+```
+
+## File Action
+
+The **fileAction** prop adds a custom icon button to file rows.
+It can be used for anything related to a single file, such as opening a preview, showing details or sharing it.
+
+### Type Definition
+
+```ts
+export type FileAction = {
+  icon: IconGlobalType; // Icon name or a custom icon element
+  onClick: (file: FileValue) => void;
+};
+```
+
+#### Example
+
+```tsx
+// Opening an image in a modal
+import { ImageView, Modal, UploadList, useToggle} from "@motif-ui/react";
+
+const { visible, show, hide } = useToggle();
+const [src, setSrc] = useState<string>();
+
+const fileAction = {
+  icon: "visibility",
+  onClick: file => {
+    setSrc(file.src);
+    show();
+  },
+};
+
+return (
+  <>
+    <UploadList
+      uploadRequest={{ url: "/api/upload", method: "POST" }}
+      deleteRequest={{ url: "/api/delete", method: "POST" }}
+      value={[{ id: "1", name: "photo.jpg", size: 245760, type: "image/jpeg", src: "/files/photo.jpg" }]}
+      fileAction={fileAction}
+    />
+    <Modal open={visible} onClose={hide} closable>
+      <ImageView src={src} alt="File preview" width="100%" />
+    </Modal>
+  </>
+);
+```
