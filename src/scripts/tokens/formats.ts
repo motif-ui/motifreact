@@ -106,7 +106,7 @@ const SCOPE_RULES: [RegExp, string[]][] = [
   [/^color\/border\//, ["STROKE_COLOR"]],
   [/^color\/focus-ring$/, ["STROKE_COLOR", "EFFECT_COLOR"]],
   [/^color\/on-/, ["TEXT_FILL", "SHAPE_FILL", "STROKE_COLOR"]],
-  [/^color\/[a-z]+\/text$/, ["TEXT_FILL", "SHAPE_FILL"]],
+  [/^color\/[a-z]+\/text(-hover)?$/, ["TEXT_FILL", "SHAPE_FILL"]],
   [/^color\/[a-z]+\/border(-soft)?$/, ["STROKE_COLOR"]],
   [/^color\//, ["FRAME_FILL", "SHAPE_FILL"]],
   [/^sizing\/radius\//, ["CORNER_RADIUS"]],
