@@ -1,6 +1,6 @@
 /* global figma */
 // Runs inside Figma (the MCP use_figma tool or a development plugin), not in Node. bundle.ts appends
-// `return await importTokens(<payload>)`, where the payload is a part of motif.figma.json in the compact form below.
+// `return await importTokens(<payload>)`, where the payload is a part of <figma theme>.figma.json (basic) in the compact form below.
 // Idempotent: collections, modes, variables and styles are matched by name, so a second run updates instead of duplicating.
 
 const FONT_STYLES = { 100: "Thin", 200: "Extra Light", 300: "Light", 400: "Regular", 500: "Medium", 600: "Semi Bold", 700: "Bold" };
