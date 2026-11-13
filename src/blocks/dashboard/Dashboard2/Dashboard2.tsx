@@ -1,0 +1,271 @@
+import {
+  Button,
+  Card,
+  Container,
+  Divider,
+  Grid,
+  Icon,
+  IconButton,
+  InputText,
+  ListView,
+  MenuList,
+  Panel,
+  Tab,
+  Table,
+  Text,
+} from "@motif-ui/react";
+import AreaChart from "../../chartJS/AreaChart/AreaChart";
+import BarChart from "../../chartJS/BarChart/BarChart";
+import "./Dashboard2.css";
+
+const navItems = [
+  { label: "Dashboard", icon: "dashboard", active: true, href: "#" },
+  { label: "e-Commerce", icon: "account_balance_wallet", href: "#" },
+  { label: "Checkout", icon: "receipt_long", href: "#", divider: true },
+  {
+    label: "User Profile",
+    divider: true,
+    icon: "person",
+    items: [
+      { label: "All Users", href: "#" },
+      { label: "Loyalty Members", href: "#", divider: true },
+      { label: "Corporate Accounts", href: "#" },
+      { label: "User Settings", href: "#" },
+    ],
+  },
+  {
+    label: "Forms & Table",
+    divider: true,
+    icon: "feed",
+    items: [
+      { label: "Basic Form", href: "#" },
+      { label: "Basic Table", href: "#" },
+      { label: "Multi Step", href: "#" },
+    ],
+  },
+  {
+    label: "Micropages",
+    icon: "library_books",
+    items: [
+      { label: "Basic Form", href: "#" },
+      { label: "Basic Table", href: "#" },
+      { label: "Multi Step", href: "#" },
+    ],
+  },
+  { label: "Role Manager", icon: "local_library", href: "#" },
+  { label: "Billing", icon: "receipt", href: "#" },
+  { label: "Staff & Roles", icon: "supervisor_account", href: "#", divider: true },
+];
+
+const stats = [
+  {
+    icon: "payments",
+    title: "Gross Revenue",
+    value: "$426,800.00",
+    caption: "previous month",
+  },
+  {
+    icon: "account_balance_wallet",
+    title: "Net Profit",
+    value: "$168,200.00",
+    caption: "previous month",
+  },
+  {
+    icon: "receipt_long",
+    title: "Refund Rate",
+    value: "4.2%",
+    caption: "previous month",
+  },
+];
+
+type TableRow = {
+  referenceNo: string;
+  name: string;
+  surname: string;
+  nationality: string;
+  birthDate: string;
+  requestDate: string;
+};
+
+const tableData: TableRow[] = [
+  { referenceNo: "34567", name: "Jack", surname: "Taylor", nationality: "Çad", birthDate: "01.01.2005", requestDate: "30.10.2025" },
+  {
+    referenceNo: "34568",
+    name: "Mohammed",
+    surname: "Karamanlis",
+    nationality: "Nigeria",
+    birthDate: "12.12.2003",
+    requestDate: "31.10.2025",
+  },
+  { referenceNo: "34569", name: "Suzan", surname: "Smith", nationality: "Somali", birthDate: "04.12.2009", requestDate: "31.10.2025" },
+  { referenceNo: "34560", name: "John", surname: "Doe", nationality: "Nigeria", birthDate: "26.04.1989", requestDate: "31.10.2025" },
+  { referenceNo: "34567", name: "Jack", surname: "Taylor", nationality: "Çad", birthDate: "01.01.2005", requestDate: "30.10.2025" },
+  {
+    referenceNo: "34568",
+    name: "Mohammed",
+    surname: "Karamanlis",
+    nationality: "Nigeria",
+    birthDate: "12.12.2003",
+    requestDate: "31.10.2025",
+  },
+  { referenceNo: "34569", name: "Suzan", surname: "Smith", nationality: "Somali", birthDate: "04.12.2009", requestDate: "31.10.2025" },
+  { referenceNo: "34560", name: "John", surname: "Doe", nationality: "Nigeria", birthDate: "26.04.1989", requestDate: "31.10.2025" },
+  { referenceNo: "34567", name: "Jack", surname: "Taylor", nationality: "Çad", birthDate: "01.01.2005", requestDate: "30.10.2025" },
+  {
+    referenceNo: "34568",
+    name: "Mohammed",
+    surname: "Karamanlis",
+    nationality: "Nigeria",
+    birthDate: "12.12.2003",
+    requestDate: "31.10.2025",
+  },
+  { referenceNo: "34569", name: "Suzan", surname: "Smith", nationality: "Somali", birthDate: "04.12.2009", requestDate: "31.10.2025" },
+  { referenceNo: "34560", name: "John", surname: "Doe", nationality: "Nigeria", birthDate: "26.04.1989", requestDate: "31.10.2025" },
+];
+
+const Dashboard2 = () => {
+  return (
+    <div className="layout">
+      <div className="sidebar">
+        <MenuList
+          enableCollapseButton
+          items={navItems}
+          logo="https://cdn.jsdelivr.net/gh/motif-ui/assets/images/motifui-logo.svg"
+          size="sm"
+          footer={
+            <ListView enableMultiLine size="sm">
+              <ListView.Item
+                title="Metin Tekin"
+                description="metintekin@motifui.com"
+                image="https://i.pravatar.cc/150"
+                iconRight="more_vert"
+                id="1"
+              />
+            </ListView>
+          }
+        />
+      </div>
+
+      <div className="content">
+        <Panel bordered lean>
+          <Container>
+            <Grid gap="sm" padding="sm">
+              <Grid.Row rowGap="sm" colsAuto justifyCols="apart">
+                <Grid.Col className="headerTitle">
+                  <Icon size="xxl" name="dashboard" />
+                  <Text text="Dashboard" type="caption" weight="bold" size="md" marginless />
+                </Grid.Col>
+                <Grid.Col>
+                  <Grid.Row colsAuto justifyCols="end" gap="xs">
+                    <Grid.Col className="headerActions">
+                      <InputText iconLeft="search" placeholder="Search users, workspaces" />
+                    </Grid.Col>
+                    <Grid.Col className="headerActions">
+                      <IconButton name="notifications" variant="secondary" size="sm" />
+                    </Grid.Col>
+                    <Grid.Col>
+                      <ListView enableMultiLine size="sm">
+                        <ListView.Item
+                          title="Metin Tekin"
+                          description="metintekin@motifui.com"
+                          image="https://i.pravatar.cc/150"
+                          iconRight="more_vert"
+                          id="1"
+                        />
+                      </ListView>
+                    </Grid.Col>
+                  </Grid.Row>
+                </Grid.Col>
+              </Grid.Row>
+
+              <Grid.Row rowGap="sm">
+                <Divider size="sm" />
+              </Grid.Row>
+
+              <Grid.Row colsAuto justifyCols="apart">
+                <Grid.Col>
+                  <Tab
+                    tabs={[
+                      { id: "1y", title: "1 Year" },
+                      { id: "3m", title: "3 Months" },
+                      { id: "30d", title: "30 Days" },
+                    ]}
+                    type="solid"
+                    position="left"
+                  />
+                </Grid.Col>
+                <Grid.Col className="headerActions">
+                  <Button label="Export" shape="outline" icon="download" iconPosition="left" />
+                  <Button label="New Transaction" variant="primary" icon="add" iconPosition="left" />
+                </Grid.Col>
+              </Grid.Row>
+
+              <Grid.Row>
+                <Grid.Col size={12} lg={6}>
+                  <Card contentTitle="Revenue Overview" variant="neutral" outlined>
+                    <Text text="$4,702,000" type="heading" weight="bold" tone="soft" size="xl" marginless />
+
+                    <AreaChart />
+                  </Card>
+                </Grid.Col>
+                <Grid.Col size={12} lg={6}>
+                  <Card contentTitle="Costs Breakdown" variant="neutral" outlined>
+                    <Text text="$2,405,600" type="heading" weight="bold" tone="soft" size="xl" marginless />
+
+                    <BarChart />
+                  </Card>
+                </Grid.Col>
+              </Grid.Row>
+
+              <Grid.Row>
+                {stats.map(stat => (
+                  <Grid.Col size={12} md={4} key={stat.title}>
+                    <Card icon={stat.icon} title={stat.title} subtitle={stat.value} outlined variant="neutral" />
+                  </Grid.Col>
+                ))}
+              </Grid.Row>
+
+              <Grid.Row>
+                <Grid.Col size={12} className="tableScroll">
+                  <Table
+                    data={tableData}
+                    border="rowBorders"
+                    filterableTable
+                    fluid
+                    pagination={{ rowsPerPage: 4, position: "center" }}
+                    columns={[
+                      { title: "Referans No", dataKey: "referenceNo", sorting: {}, filter: true },
+                      { title: "Adı", dataKey: "name", filter: true },
+                      { title: "Soyadı", dataKey: "surname", filter: true },
+                      { title: "Uyruk", dataKey: "nationality", filter: true },
+                      { title: "Doğum Tarihi", dataKey: "birthDate", sorting: {}, filter: true },
+                      { title: "Talep Tarihi", dataKey: "requestDate", sorting: {}, filter: true },
+                      {
+                        title: "İşlemler",
+                        width: "220px",
+                        render: () => (
+                          <Grid gap="sm" padding="sm">
+                            <Grid.Row colsAuto>
+                              <Grid.Col>
+                                <Button label="İptal" variant="danger" size="xs" icon="close" iconPosition="left" />
+                              </Grid.Col>
+                              <Grid.Col>
+                                <Button label="İncele" variant="primary" size="xs" icon="visibility" iconPosition="left" />
+                              </Grid.Col>
+                            </Grid.Row>
+                          </Grid>
+                        ),
+                      },
+                    ]}
+                  />
+                </Grid.Col>
+              </Grid.Row>
+            </Grid>
+          </Container>
+        </Panel>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard2;
