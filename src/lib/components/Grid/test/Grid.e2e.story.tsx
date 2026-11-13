@@ -133,3 +133,111 @@ export const StretchItems: Story = {
     </Grid>
   ),
 };
+
+export const ResponsiveCols: Story = {
+  render: () => (
+    <Grid gap="md">
+      {/* size is overridden by any breakpoint, and each breakpoint applies to its width and above */}
+      <Grid.Row className="responsive-cols-row">
+        {Array.from({ length: 3 }, (_, i) => (
+          <Grid.Col key={i} size={12} md={6} lg={4}>
+            col
+          </Grid.Col>
+        ))}
+      </Grid.Row>
+      <Grid.Row className="xs-cols-row">
+        <Grid.Col xs={6}>col</Grid.Col>
+        <Grid.Col xs={6}>col</Grid.Col>
+      </Grid.Row>
+      {/* a Col without a size fills the rest of the row */}
+      <Grid.Row className="filling-row">
+        <Grid.Col size={4}>col</Grid.Col>
+        <Grid.Col>col</Grid.Col>
+      </Grid.Row>
+    </Grid>
+  ),
+};
+
+export const Wrapping: Story = {
+  render: () => (
+    <Grid>
+      <Grid.Row className="wrapping-row" columnGap="xs" rowGap="lg">
+        {cols(3, 6)}
+      </Grid.Row>
+    </Grid>
+  ),
+};
+
+export const JustifyCols: Story = {
+  render: () => (
+    <Grid gap="md">
+      {(["start", "center", "end", "evenly", "apart"] as const).map(justify => (
+        <Grid.Row key={justify} className={`justify-${justify}`} justifyCols={justify}>
+          {cols(2, 3)}
+        </Grid.Row>
+      ))}
+    </Grid>
+  ),
+};
+
+export const ColsAuto: Story = {
+  render: () => (
+    <Grid gap="md">
+      <Grid.Row className="equal-row">
+        <Grid.Col>short</Grid.Col>
+        <Grid.Col>a much longer content</Grid.Col>
+      </Grid.Row>
+      <Grid.Row className="auto-row" colsAuto>
+        <Grid.Col>short</Grid.Col>
+        <Grid.Col>a much longer content</Grid.Col>
+      </Grid.Row>
+    </Grid>
+  ),
+};
+
+export const Containers: Story = {
+  render: () => (
+    <>
+      <Grid className="container">
+        <Grid.Row>{cols(1, 12)}</Grid.Row>
+      </Grid>
+      <Grid className="fluid" fluid>
+        <Grid.Row>{cols(1, 12)}</Grid.Row>
+      </Grid>
+    </>
+  ),
+};
+
+export const Gutter: Story = {
+  render: () => (
+    <>
+      <Grid className="gutter" gutter="lg">
+        <Grid.Row className="gutter-row">{cols(2, 6)}</Grid.Row>
+      </Grid>
+      {/* gap and padding take precedence over gutter, which remains as their base value */}
+      <Grid className="gutter-overridden" gutter="lg" gap={{ mdUp: "xl" }} padding="xs">
+        <Grid.Row className="gutter-overridden-row">{cols(2, 6)}</Grid.Row>
+      </Grid>
+    </>
+  ),
+};
+
+// The gutter of an outer Grid, and its gap and padding on the breakpoints the nested Grids have no value for, stay out
+// of the Grids nested in it, with or without their own gutter
+export const NestedGutters: Story = {
+  render: () => (
+    <Grid className="outer-gutter" gutter="md" gap={{ lgUp: "xl" }} padding={{ lgUp: "xl" }}>
+      <Grid.Row className="outer-gutter-row">
+        <Grid.Col md={8}>
+          <Grid className="inner-gutter" gutter="xs">
+            <Grid.Row className="inner-gutter-row">{cols(2, 6)}</Grid.Row>
+          </Grid>
+          <Grid className="inner-default">
+            <Grid.Row className="inner-default-row">{cols(2, 6)}</Grid.Row>
+          </Grid>
+        </Grid.Col>
+        <Grid.Col md={4}>col</Grid.Col>
+      </Grid.Row>
+    </Grid>
+  ),
+};
