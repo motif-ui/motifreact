@@ -1,0 +1,22 @@
+.hero-3 {
+  .title .emphasis {
+    font-size: inherit;
+    line-height: inherit;
+  }
+  .gallery {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .main {
+    z-index: 1;
+    margin-inline: -12.5%;
+  }
+  .side {
+    margin-top: 5%;
+    transform: rotate(-45deg);
+  }
+  .side:last-child {
+    transform: rotate(45deg);
+  }
+}
