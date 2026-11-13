@@ -89,38 +89,17 @@ describe("DateRangePicker", () => {
     expect(endDateButton).toHaveClass("selected");
   });
 
-  it("should render the end date in one of the pickers visible when an item from the dropdown is clicked ", async () => {
-    const { getByText, getByTestId, rerender, getFirstPicker } = renderExt(<DateRangePicker />);
-    const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
-    await userEvent.click(dropdownTrigger);
+  it("should scroll the first picker to the start date when a range is chosen from the dropdown", async () => {
+    const pastDate = new Date(year - 5, month, today.getDate());
+    for (const lastXDays of dropdownDays) {
+      const { getByText, getByTestId, getFirstPicker, unmount } = renderExt(<DateRangePicker value={[pastDate, pastDate]} />);
+      await userEvent.click(getByTestId("Dropdown").firstElementChild as HTMLButtonElement);
+      await userEvent.click(getByText(`${getDateLocale(t).last} ${lastXDays} ${getDateLocale(t).days}`));
 
-    const chosenDay = getByText(`${getDateLocale(t).last} ${dropdownDays[2]} ${getDateLocale(t).days}`);
-    await userEvent.click(chosenDay);
-
-    const endDateButton = getFirstPicker().querySelector(`[data-date="${today.getTime()}"]`);
-    expect(endDateButton).toHaveClass("selected");
-
-    rerender(<DateRangePicker value={[new Date(year - 5, month, today.getDate()), new Date(year - 5, month, today.getDate())]} />);
-    await userEvent.click(dropdownTrigger);
-    await userEvent.click(chosenDay);
-    const endDateButtonSecond = getFirstPicker().querySelector(`[data-date="${today.getTime()}"]`);
-    expect(endDateButtonSecond).toHaveClass("selected");
-  });
-
-  it("should render the end date in one of the pickers visible when an item from the dropdown is clicked and picker is showing past date", async () => {
-    const { getAllByText, getByText, getByTestId, container } = renderExt(<DateRangePicker />);
-    for (let i = 0; i < 10; i++) {
-      await userEvent.click(getAllByText("arrow_back")[0]);
+      const startDateInMillis = new Date(year, month, today.getDate() - lastXDays + 1).getTime();
+      expect(getFirstPicker().querySelector(`[data-date="${startDateInMillis}"]`)).toHaveClass("selected");
+      unmount();
     }
-
-    const dropdownTrigger = getByTestId("Dropdown").firstElementChild as HTMLButtonElement;
-    await userEvent.click(dropdownTrigger);
-
-    const chosenDay = getByText(`${getDateLocale(t).last} ${dropdownDays[1]} ${getDateLocale(t).days}`);
-    await userEvent.click(chosenDay);
-
-    const endDateButton = container.querySelector(`[data-date="${today.getTime()}"]`);
-    expect(endDateButton).toHaveClass("selected");
   });
 
   it("should reflect the date range to the inputs when an item from the dropdown is clicked", async () => {

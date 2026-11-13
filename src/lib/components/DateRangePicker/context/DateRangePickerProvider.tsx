@@ -6,7 +6,7 @@ import {
   DateRangePickerContextProps,
   DateRangePickerProviderProps,
 } from "@/components/DateRangePicker/types";
-import { orderDatesAndPutTimes } from "@/components/DateRangePicker/helper";
+import { getMonthsAroundDate, orderDatesAndPutTimes } from "@/components/DateRangePicker/helper";
 import { DateUtils } from "../../../../utils/dateUtils";
 import { calculateWeeksFlat } from "@/components/DatePicker/components/helper";
 
@@ -17,26 +17,13 @@ export const DateRangePickerProvider = (props: PropsWithChildren<DateRangePicker
 
   const getDaysOfMonth = useCallback((month: Date) => calculateWeeksFlat(month, firstDayOfWeek), [firstDayOfWeek]);
   const today = useMemo(() => DateUtils.getTodayTimeless(), []);
-  const initialMonths = useMemo(
-    () => [
-      getDaysOfMonth(DateUtils.getDateOfPrevMonth()),
-      getDaysOfMonth(today),
-      getDaysOfMonth(DateUtils.getDateOfNextMonth()),
-      getDaysOfMonth(DateUtils.getDateOfNextMonth(DateUtils.getDateOfNextMonth())),
-    ],
-    [getDaysOfMonth, today],
-  );
+  const initialMonths = useMemo(() => getMonthsAroundDate(today, getDaysOfMonth), [getDaysOfMonth, today]);
   const [dateCouple, setDateCouple] = useState<(Date | undefined)[]>(value ? orderDatesAndPutTimes(value) : [undefined, undefined]);
   const _getMonthsOfTheValue = useCallback(() => {
     if (!value || value.length !== 2 || value.some(d => !d)) return initialMonths;
 
     const [start] = orderDatesAndPutTimes(value);
-    return [
-      getDaysOfMonth(DateUtils.getDateOfPrevMonth(start)),
-      getDaysOfMonth(start!),
-      getDaysOfMonth(DateUtils.getDateOfNextMonth(start)),
-      getDaysOfMonth(DateUtils.getDateOfNextMonth(DateUtils.getDateOfNextMonth(start))),
-    ];
+    return getMonthsAroundDate(start!, getDaysOfMonth);
   }, [getDaysOfMonth, initialMonths, value]);
   const [months, setMonths] = useState<Date[][]>(_getMonthsOfTheValue());
   const [sliding, setSliding] = useState<"slideLeft" | "slideRight">();
