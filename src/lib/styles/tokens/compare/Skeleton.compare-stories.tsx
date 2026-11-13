@@ -4,11 +4,11 @@ import SkeletonBaseline from "./baseline/Skeleton/Skeleton";
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
 const sections: CompareSection<object>[] = [
-  { title: "Table", note: "Renk 1 saniyede iki ton arasında gidip gelir.", rows: [{ label: "pulse", props: {} }] },
+  { title: "Table", note: "The color moves between two tones every second.", rows: [{ label: "pulse", props: {} }] },
 ];
 
 const meta: Meta<typeof TokenCompare> = {
-  title: "Token Karşılaştırma/Skeleton",
+  title: "Token Compare/Skeleton",
   component: TokenCompare,
   parameters: { layout: "padded" },
 };

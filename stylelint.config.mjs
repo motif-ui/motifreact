@@ -36,7 +36,17 @@ export default {
   // Once every component has migrated, these rules move to the top-level rules and the list goes away.
   overrides: [
     {
-      files: ["src/lib/components/Select/**/*.scss", "src/lib/components/ProgressCircle/**/*.scss"],
+      files: [
+        "src/lib/components/AlertModal/**/*.scss",
+        "src/lib/components/Breadcrumb/**/*.scss",
+        "src/lib/components/Button/**/*.scss",
+        "src/lib/components/Divider/**/*.scss",
+        "src/lib/components/Link/**/*.scss",
+        "src/lib/components/ProgressBar/**/*.scss",
+        "src/lib/components/ProgressCircle/**/*.scss",
+        "src/lib/components/Select/**/*.scss",
+        "src/lib/components/Skeleton/**/*.scss",
+      ],
       rules: {
         "declaration-no-important": true,
         "selector-no-qualifying-type": true,

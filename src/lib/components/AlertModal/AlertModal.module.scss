@@ -1,7 +1,6 @@
 @use "@styles" as *;
 @use "sass:list";
 
-$variants: "neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger";
 $sizes: (("sm", 320), ("md", 480), ("lg", 720), ("xl", 960));
 
 // flex-direction, text-align; the icon and the text block are centered on the cross axis in every position
@@ -58,7 +57,7 @@ $content-positions: (
 }
 
 .icon {
-  @each $variant in $variants {
+  @each $variant in $variants-v2 {
     .#{$variant} & {
       color: var(--mtf-color-#{$variant}-solid);
     }

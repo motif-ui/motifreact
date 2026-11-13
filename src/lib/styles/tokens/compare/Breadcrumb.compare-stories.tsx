@@ -5,26 +5,26 @@ import BreadcrumbBaseline from "./baseline/Breadcrumb/Breadcrumb";
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
 const items = [
-  { label: "Anasayfa", path: "#" },
-  { label: "Hizmetler", path: "#" },
-  { label: "Başvurular", path: "#" },
-  { label: "Yeni başvuru" },
+  { label: "Home", path: "#" },
+  { label: "Services", path: "#" },
+  { label: "Applications", path: "#" },
+  { label: "New application" },
 ];
 
 const sections: CompareSection<BreadcrumbProps>[] = [
   {
-    title: "Durumlar",
-    note: "Link hover rengi sabit gösterilemez; Storybook'ta üzerine gelerek bakın.",
+    title: "States",
+    note: "The link hover color cannot be shown statically; hover over it in Storybook.",
     rows: [
-      { label: "Varsayılan", props: { items } },
-      { label: "Daraltılmış", props: { items, maxVisibleItems: 2 } },
-      { label: "Daraltılmış, sağda", props: { items, maxVisibleItems: 2, collapsedPosition: "right" } },
+      { label: "Default", props: { items } },
+      { label: "Collapsed", props: { items, maxVisibleItems: 2 } },
+      { label: "Collapsed, right", props: { items, maxVisibleItems: 2, collapsedPosition: "right" } },
     ],
   },
 ];
 
 const meta: Meta<typeof TokenCompare> = {
-  title: "Token Karşılaştırma/Breadcrumb",
+  title: "Token Compare/Breadcrumb",
   component: TokenCompare,
   parameters: { layout: "padded" },
 };

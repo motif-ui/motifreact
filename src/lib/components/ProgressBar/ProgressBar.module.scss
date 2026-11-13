@@ -1,95 +1,89 @@
 @use "@styles" as *;
 
-$colors: "primary", "success", "danger", "warning", "info";
-
-// size, height, fontSize
-$sizes: (("xs", "2x", "xs"), ("sm", "4x", "sm"), ("md", "6x", "md"), ("lg", "8x", "lg"), ("xl", "12x", "lg"));
+// size, height, labelSize
+$sizes: (("xs", 2, "sm"), ("sm", 4, "md"), ("md", 6, "lg"), ("lg", 8, "xl"), ("xl", 12, "xl"));
 
 .Root {
   text-align: center;
+}
 
-  .bar {
-    position: relative;
-    background: var(--theme-color-surface-base-base5);
-    border-radius: var(--theme-sizing-radius-round);
+.bar {
+  position: relative;
+  background-color: var(--mtf-color-neutral-soft);
+  border-radius: var(--mtf-sizing-radius-round);
 
-    &::before {
-      content: "";
-      position: absolute;
-      border-radius: var(--theme-sizing-radius-round);
-      top: 0;
-      left: 0;
-      height: 100%;
-      @include transition(width, "slow", ease-in-out);
-      width: calc(var(--percentage, 0) * 1%);
-    }
-  }
+  &::before {
+    content: "";
+    position: absolute;
+    border-radius: var(--mtf-sizing-radius-round);
+    top: 0;
+    left: 0;
+    height: 100%;
+    @include transition(width, "slow", ease-in-out);
+    width: calc(var(--percentage, 0) * 1%);
 
-  .text {
-    display: inline-block;
-    color: var(--theme-color-text-base-subtitle-light);
-    margin-top: var(--base-sizing-4x);
-  }
-
-  @each $size, $height, $fontSize in $sizes {
-    &.#{$size} {
-      .bar {
-        height: var(--base-sizing-#{$height});
-      }
-
-      .text {
-        @include font("base", $fontSize, "500");
+    @each $variant in $variants-v2 {
+      .#{$variant} & {
+        background-color: var(--mtf-color-#{$variant}-solid);
       }
     }
-  }
 
-  @each $color in $colors {
-    &.#{$color} .bar::before {
-      background: var(--theme-color-surface-#{$color}-default);
-    }
-  }
-
-  &.secondary .bar::before {
-    background: var(--theme-color-surface-base-base7);
-  }
-
-  &.indeterminate {
-    .bar::before {
+    .indeterminate & {
       animation: progress-animation 1.2s cubic-bezier(0.5, 0.1, 0.9, 1) forwards infinite;
     }
 
-    @keyframes progress-animation {
-      0% {
-        left: 0;
-        width: 0;
-      }
-      50% {
-        left: 50%;
-        width: 50%;
-      }
-      100% {
-        left: 100%;
-        width: 0;
-      }
-    }
-  }
-
-  &.countdown {
-    .bar::before {
+    .countdown & {
       animation: countdown var(--countdown-duration) linear forwards;
     }
 
-    &.paused .bar::before {
+    .paused & {
       animation-play-state: paused;
     }
+  }
+}
 
-    @keyframes countdown {
-      0% {
-        width: 100%;
-      }
-      100% {
-        width: 0;
-      }
+.text {
+  display: inline-block;
+  color: var(--mtf-color-text-soft);
+  margin-top: var(--mtf-sizing-space-4);
+}
+
+// A size changes the bar and the text: grouped by size
+@each $size, $height, $labelSize in $sizes {
+  .#{$size} {
+    .bar {
+      height: var(--mtf-sizing-#{$height});
     }
+
+    .text {
+      @include typography("label-#{$labelSize}", "strong");
+    }
+  }
+}
+
+@keyframes progress-animation {
+  0% {
+    left: 0;
+    width: 0;
+  }
+
+  50% {
+    left: 50%;
+    width: 50%;
+  }
+
+  100% {
+    left: 100%;
+    width: 0;
+  }
+}
+
+@keyframes countdown {
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
   }
 }
