@@ -53,9 +53,10 @@ jobs:
         if: needs.detect-changes.outputs.storybook == 'true'
         run: npx playwright install --with-deps chromium
 
+      # Only the docs visual tests, which are archived for Chromatic. The behavioral tests of src/lib run in Code Validator.
       - name: Run Playwright E2E tests
         if: needs.detect-changes.outputs.storybook == 'true'
-        run: npx playwright test
+        run: npx playwright test src/docs
 
       # --- Chromatic: Storybook build + TurboSnap ---
       - name: Run Chromatic
