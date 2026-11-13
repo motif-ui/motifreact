@@ -10,12 +10,14 @@ import useToggle from "../../../../hooks/useToggle";
 import ProgressBar from "@/components/ProgressBar";
 import { FileType } from "@/components/Upload/types";
 import { BROKEN_IMG_SRC } from "src/lib/constants";
+import { isFileOnServer, isFileReady } from "@/components/Upload/helper";
 
 type Props = {
   file: FileType;
 };
 
-export const Image = ({ file: { status, progress, file, src, deleting, addedByValue } }: Props) => {
+export const Image = ({ file: fileItem }: Props) => {
+  const { status, progress, file, src, deleting, addedByValue, download } = fileItem;
   const { selectedFiles, removeFiles } = useContext(UploadContext);
   const [image, setImage] = useState<string>();
   const [maybeBrokenSrc, setMaybeBrokenSrc] = useState(false);
@@ -73,7 +75,9 @@ export const Image = ({ file: { status, progress, file, src, deleting, addedByVa
           <div className={styles.iconContainer}>{deleteIcon}</div>
         </div>
       )}
-      {visible && image && <Preview image={image} onClose={hide} />}
+      {visible && image && (
+        <Preview image={image} onClose={hide} {...(isFileOnServer(fileItem) && { download })} downloadDisabled={!isFileReady(fileItem)} />
+      )}
     </>
   );
 };
