@@ -11,3 +11,15 @@ $overlay-layers: (
 @function z-layer($name) {
   @return map.get($overlay-layers, $name);
 }
+
+// Sizes an overlay positioned by useOverlayPosition by its anchor's width, e.g. width or min-width.
+// With CSS anchor positioning it follows the anchor live, otherwise it takes the width written when it is placed.
+// In @supports, since a var() in the value would make an unsupported anchor-size() invalid only after parsing, i.e. auto.
+// It can be dropped when only the browsers with anchor-size() (Baseline 2026) are supported.
+@mixin anchor-width($property: width) {
+  #{$property}: var(--overlay-anchor-width);
+
+  @supports (width: anchor-size(width)) {
+    #{$property}: anchor-size(width, var(--overlay-anchor-width));
+  }
+}

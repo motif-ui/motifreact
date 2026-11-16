@@ -1,0 +1,10 @@
+.hero-2 {
+  padding-bottom: 0;
+
+  .buttons {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "colors": {
+    "primary": "#0083cb",
+    "secondary": "#aeb4ba",
+    "accent": "#6b479e",
+    "neutral": "#4e5d69",
+    "info": "#3684d1",
+    "success": "#04ae56",
+    "warning": "#ffc800",
+    "danger": "#dd0000"
+  },
+  "radius": 4,
+  "space": 4,
+  "fontSize": 16
+}

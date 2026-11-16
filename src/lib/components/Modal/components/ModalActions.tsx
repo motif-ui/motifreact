@@ -21,7 +21,7 @@ const ModalActions = (props: Props) => {
       <div className={styles.actions}>
         {actionButton && <Button pill onClick={actionButton.onClick} variant="primary" label={actionButton.text} />}
         {alternateButton && (
-          <Button pill onClick={alternateButton.onClick} shape="outline" variant="secondary" label={alternateButton.text} />
+          <Button pill onClick={alternateButton.onClick} shape="outline" variant="neutral" label={alternateButton.text} />
         )}
         {buttons}
       </div>
