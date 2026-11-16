@@ -35,9 +35,16 @@ Application Development Department.
 npm i @motif-ui/react @fontsource/inter
 ```
 
-> **📝 Note:** Motif UI React requires `React 19.2.7` or higher. Make sure you have the matching packages installed:
+> **📝 Note:** Motif UI React requires `React 19.3.0` or higher. Make sure you have the matching packages installed:
 
-### 2. Wrap with Provider
+Then follow the steps for your framework:
+
+- [React (Vite)](#react-vite)
+- [Next.js (App Router)](#nextjs-app-router)
+
+### React (Vite)
+
+#### 2. Wrap with Provider
 
 ```jsx
 import { MotifProvider } from "@motif-ui/react";
@@ -51,7 +58,7 @@ function App() {
 }
 ```
 
-### 3. Import A Theme
+#### 3. Import A Theme
 
 ```jsx
 // import { MotifProvider } from '@motif-ui/react';
@@ -64,6 +71,39 @@ import "@motif-ui/react/themes/default-theme.css";
     </MotifProvider>
   );
 } */
+```
+
+### Next.js (App Router)
+
+#### 2. Create a client-side provider
+
+```tsx
+// app/providers.tsx
+"use client";
+
+import { MotifProvider } from "@motif-ui/react";
+
+export default function Providers({ children }: { children: React.ReactNode }) {
+  return <MotifProvider>{children}</MotifProvider>;
+}
+```
+
+#### 3. Import A Theme and wrap the root layout
+
+```tsx
+// app/layout.tsx
+import "@motif-ui/react/themes/default-theme.css";
+import Providers from "./providers";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
 ```
 
 And that's it! 🥳
