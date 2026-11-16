@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithRef } from "src/lib/types";
+import { PropsWithRef } from "../../types";
 import { DropdownProps } from "@/components/Dropdown/types";
 import DropdownButton from "@/components/Dropdown/components/DropdownButton";
 import DropdownMenuItem from "@/components/Dropdown/components/DropdownMenuItem";
@@ -8,7 +8,7 @@ import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "../../../utils
 import styles from "@/components/Dropdown/Dropdown.module.scss";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useMemo, useRef } from "react";
-import { DropdownContext } from "src/lib/components/Dropdown/context/DropdownContext";
+import { DropdownContext } from "@/components/Dropdown/context/DropdownContext";
 import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import { createPortal } from "react-dom";
 import { mergeRefs } from "../../../utils/reactUtils";

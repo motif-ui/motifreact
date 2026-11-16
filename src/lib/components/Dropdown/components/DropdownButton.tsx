@@ -4,7 +4,7 @@ import { MotifIcon } from "@/components/Motif/Icon";
 import { useContext } from "react";
 import type { CSSProperties, Ref } from "react";
 import type { IconGlobalType } from "../../../types";
-import { DropdownContext } from "src/lib/components/Dropdown/context/DropdownContext";
+import { DropdownContext } from "@/components/Dropdown/context/DropdownContext";
 
 type Props = {
   label?: string;

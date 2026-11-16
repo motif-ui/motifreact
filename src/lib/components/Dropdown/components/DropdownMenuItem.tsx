@@ -3,7 +3,7 @@ import styles from "../Dropdown.module.scss";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MouseEvent, useContext } from "react";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
-import { DropdownContext } from "src/lib/components/Dropdown/context/DropdownContext";
+import { DropdownContext } from "@/components/Dropdown/context/DropdownContext";
 
 const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   const { label, header, icon, iconColor, disabled, action } = props;
