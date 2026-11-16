@@ -7,16 +7,17 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-  }
-  .main {
-    z-index: 1;
-    margin-inline: -12.5%;
-  }
-  .side {
-    margin-top: 5%;
-    transform: rotate(-45deg);
-  }
-  .side:last-child {
-    transform: rotate(45deg);
+    :first-child {
+      margin-top: 5%;
+      transform: rotate(-45deg);
+    }
+    :nth-child(2) {
+      z-index: 1;
+      margin-inline: -12.5%;
+    }
+    :last-child {
+      margin-top: 5%;
+      transform: rotate(45deg);
+    }
   }
 }

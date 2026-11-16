@@ -4,7 +4,7 @@ import "./hero3.css";
 const Hero3 = () => (
   <Container>
     <Grid className="hero-3" rowGap="xl" padding={{ smUp: "md", mdUp: "lg", lgUp: "xxl" }}>
-      <Grid.Row justifyCols="center" rowGap="sm">
+      <Grid.Row justifyCols="center" rowGap="none">
         <Grid.Col size={12} lg={8}>
           <Text type="display" size="lg" weight="bold" tone="strong" center marginless className="title">
             Turn <Text text="ideas" tone="strong" weight="bold" italic className="emphasis" /> into shipped{" "}
@@ -19,33 +19,14 @@ const Hero3 = () => (
             weight="medium"
             tone="soft"
             center
-            marginless
           />
         </Grid.Col>
       </Grid.Row>
       <Grid.Row>
         <Grid.Col size={12} className="gallery">
-          <ImageView
-            className="side"
-            src="https://picsum.photos/id/11/297/382"
-            alt="Analytics dashboard"
-            width="31%"
-            aspectRatio={297 / 382}
-          />
-          <ImageView
-            className="main"
-            src="https://picsum.photos/id/950/422/541"
-            alt="Code, review and workflow tools"
-            width="44%"
-            aspectRatio={422 / 541}
-          />
-          <ImageView
-            className="side"
-            src="https://picsum.photos/id/907/297/382"
-            alt="Cloud infrastructure"
-            width="31%"
-            aspectRatio={297 / 382}
-          />
+          <ImageView src="https://picsum.photos/id/11/297/382" alt="Analytics dashboard" width="31%" />
+          <ImageView src="https://picsum.photos/id/950/422/541" alt="Code, review and workflow tools" width="44%" />
+          <ImageView src="https://picsum.photos/id/907/297/382" alt="Cloud infrastructure" width="31%" />
         </Grid.Col>
       </Grid.Row>
     </Grid>
