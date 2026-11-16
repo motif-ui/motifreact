@@ -52,13 +52,13 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
 // Dropdown Button
 // =============================================================================
 .Root {
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
   border-radius: var(--theme-sizing-radius-default);
   align-items: center;
   border: none;
   overflow-wrap: break-word;
-  width: max-content;
+  min-width: max-content;
   @include transition(background color);
 
   &:not(:disabled) {
