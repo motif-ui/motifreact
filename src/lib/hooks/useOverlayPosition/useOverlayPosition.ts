@@ -36,6 +36,7 @@ const setAnchorOffsets = (anchor: HTMLElement, overlay: HTMLElement) => {
   overlay.style.setProperty("--overlay-anchor-bottom", `${anchorRect.bottom - overlayRect.top}px`);
 };
 
+const getAnchorWidth = (anchor: HTMLElement) => `${anchor.offsetWidth}px`;
 type Mode = "place" | "refit" | "follow";
 
 const POSITIONED: CSSProperties = {};
@@ -43,6 +44,7 @@ const HIDDEN: CSSProperties = { visibility: "hidden" };
 
 /**
  * Positions an overlay next to its anchor. The placement is chosen by JS on open, so it fits into the viewport.
+ * The anchor's width is written to the overlay as --overlay-anchor-width before it is measured, e.g. for its width or min-width.
  * While it is open, CSS anchor positioning keeps it at the anchor where it is supported, JS follows the anchor otherwise.
  *
  * The position is written to the overlay element, so neither the overlay nor its content renders on each update.
@@ -75,6 +77,7 @@ const useOverlayPosition = (
       const measure = (keep?: Position) => {
         const fixed = keep ? keep.fixed : isFixed(anchor);
         resetPosition(overlay, fixed);
+        overlay.style.setProperty("--overlay-anchor-width", getAnchorWidth(anchor));
         return calculatePosition(anchor, overlay, placement, limitWidth, fixed, keep);
       };
       const position = mode === "follow" && previous ? followAnchor(anchor, previous) : measure(mode === "refit" ? previous : undefined);
@@ -141,8 +144,8 @@ const useOverlayPosition = (
     const resizeObserver = new ResizeObserver(entries => {
       if (entries.some(({ target }) => target === overlay) && needsRefit(overlay, positionRef.current)) {
         update("refit");
-      } else if (entries.some(({ target }) => target !== overlay)) {
-        update("follow");
+      } else if (anchor && entries.some(({ target }) => target !== overlay)) {
+        update(overlay.style.getPropertyValue("--overlay-anchor-width") === getAnchorWidth(anchor) ? "follow" : "refit");
       }
     });
     resizeObserver.observe(overlay);

@@ -55,6 +55,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     `content_${contentPosition}`,
     `actions_${buttonsPosition}`,
     size,
+    variant,
   ]);
 
   return (
@@ -62,7 +63,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
     createPortal(
       <div data-testid="alertModalBackdrop" className={classNames} style={style} ref={mergedRef}>
         <div className={styles.alertModalContainer} ref={dialogRef} tabIndex={-1} {...insideProps}>
-          <AlertModalContent title={title} text={text} icon={icon} variant={variant} />
+          <AlertModalContent title={title} text={text} icon={icon} />
           {(actionButton || alternateButton) && (
             <AlertModalActions actionButton={actionButton} alternateButton={alternateButton} variant={variant} />
           )}
