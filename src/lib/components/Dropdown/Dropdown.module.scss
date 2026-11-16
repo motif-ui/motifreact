@@ -48,30 +48,6 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
   }
 }
 
-.Menu {
-  z-index: z-layer("anchored");
-  position: absolute;
-  width: max-content;
-  box-sizing: border-box;
-  margin-inline: var(--base-sizing-8x);
-
-  &.bottom {
-    padding-top: var(--base-sizing-10x);
-  }
-  &.top {
-    padding-bottom: var(--base-sizing-10x);
-  }
-  &.noSpace {
-    padding-block: 0;
-  }
-}
-
-@each $pos in bottom, top {
-  .#{$pos}.callout {
-    @include caret-tip($pos);
-  }
-}
-
 // =============================================================================
 // Dropdown Button
 // =============================================================================
@@ -142,6 +118,30 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
 // =============================================================================
 // Dropdown Menu
 // =============================================================================
+.Menu {
+  z-index: z-layer("anchored");
+  position: absolute;
+  width: max-content;
+  box-sizing: border-box;
+  margin-inline: var(--base-sizing-8x);
+
+  &.bottom {
+    padding-top: var(--base-sizing-10x);
+  }
+  &.top {
+    padding-bottom: var(--base-sizing-10x);
+  }
+  &.noSpace {
+    padding-block: 0;
+  }
+}
+
+@each $pos in bottom, top {
+  .#{$pos}.callout {
+    @include caret-tip($pos);
+  }
+}
+
 .MenuList {
   list-style: none;
   padding: 0;

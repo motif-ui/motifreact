@@ -11,10 +11,14 @@ describe("Dropdown", () => {
     (props: StandardPropsWithRef<HTMLButtonElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
     {
       assertDefaults: ({ container, getByText }) => {
+        // variant: primary
         expect(container.firstElementChild).toHaveClass("primary");
+        // shape: solid
         expect(container.firstElementChild).toHaveClass("solid");
+        // size: md
         expect(container.firstElementChild).toHaveClass("md");
 
+        // spacing: callout
         fireEvent.click(getByText("Dropdown"));
         expect(screen.getByTestId("dropdown-menu")).toHaveClass("callout");
       },
