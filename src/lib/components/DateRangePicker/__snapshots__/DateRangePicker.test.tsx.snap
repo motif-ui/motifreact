@@ -1263,7 +1263,7 @@ exports[`DateRangePicker should render with only required props, have default pr
       class="actions"
     >
       <button
-        class="Root secondary solid md"
+        class="Root neutral solid md"
         type="button"
       >
         <span>

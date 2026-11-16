@@ -36,7 +36,8 @@ const ProgressCircle = (props: PropsWithRef<ProgressCircleProps, SVGSVGElement>)
   const classNames = sanitizeModuleRootClasses(styles, className, [
     variant,
     size,
-    indeterminate ? "indeterminate" : countdown && "countdown" + (countdown.paused ? " " + "paused" : ""),
+    indeterminate ? "indeterminate" : countdown && "countdown",
+    !indeterminate && countdown?.paused && "paused",
   ]);
 
   return (

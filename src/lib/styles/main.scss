@@ -39,6 +39,16 @@
   }
 }
 
+@mixin typography($role, $weight: null) {
+  font-size: var(--mtf-typography-#{$role}-font-size);
+  line-height: var(--mtf-typography-#{$role}-line-height);
+  @if $weight {
+    font-weight: var(--mtf-typography-weight-#{$weight});
+  } @else {
+    font-weight: var(--mtf-typography-#{$role}-font-weight);
+  }
+}
+
 @mixin hidden-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -88,4 +98,12 @@
 
 @function add-unit($value) {
   @return calc($value * var(--base-sizing-1x));
+}
+
+// variant names of components on the new tokens (VariantV2)
+$variants-v2: "neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger";
+
+// add-unit for components on the new tokens: a multiple of the fixed 1px (--mtf-sizing-1)
+@function number-to-px($value) {
+  @return calc($value * var(--mtf-sizing-1));
 }
