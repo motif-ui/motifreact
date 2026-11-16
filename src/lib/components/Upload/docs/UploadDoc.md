@@ -149,9 +149,6 @@ authenticated request, blob, etc.) is up to you.
 ```tsx
 import { UploadList } from "@motif-ui/react";
 
-const downloadFile = () => {
-    // Your download logic, e.g. a direct link or an authenticated request
-};
 
 <UploadList
   uploadRequest={{ url: "/api/upload", method: "POST" }}
