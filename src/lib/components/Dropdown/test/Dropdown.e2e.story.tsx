@@ -45,6 +45,21 @@ export const NearTheBottomEdge: Story = {
   ),
 };
 
+// The menu is wider than half of the 1000px wide screen, so it fits on neither side of the centered button and is shifted into the screen
+export const WideMenu: Story = {
+  render: () => (
+    <div style={{ display: "flex", justifyContent: "center", paddingTop: 100 }}>
+      <Dropdown
+        label="Dropdown"
+        items={[
+          { label: "A long item label that makes the menu wider than half of the screen, so it has to be shifted" },
+          { label: "Item 2" },
+        ]}
+      />
+    </div>
+  ),
+};
+
 export const PageScroll: Story = {
   render: () => (
     <div style={{ height: 2000, paddingLeft: 300, paddingTop: 200 }}>

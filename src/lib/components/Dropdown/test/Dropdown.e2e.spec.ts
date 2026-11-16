@@ -75,6 +75,17 @@ test("Dropdown flips to the top when there is not enough space below", async ({ 
   expect(dropdownRect.bottom).toBeLessThanOrEqual(buttonRect.top + 1);
 });
 
+test("Dropdown wider than half of the screen is shifted into it and keeps 8px from its edges", async ({ page }) => {
+  await openStory(page, "e2e-dropdown--wide-menu");
+  await page.locator(button).click();
+  await waitForFrames(page);
+  const dropdownRect = await getRect(page, dropdown);
+  expect(dropdownRect.right - dropdownRect.left).toBeGreaterThan(500);
+  // the menu's 8px distance from the edges of the 1000px wide screen
+  expect(Math.round(dropdownRect.left)).toBeGreaterThanOrEqual(8);
+  expect(Math.round(dropdownRect.right)).toBeLessThanOrEqual(992);
+});
+
 test("Dropdown re-places when the viewport is resized", async ({ page }) => {
   await openStory(page, "e2e-dropdown--near-the-bottom-edge");
   await page.locator(button).click();
