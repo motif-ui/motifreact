@@ -2,23 +2,26 @@ import styles from "../Dropdown.module.scss";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { useContext } from "react";
+import type { CSSProperties, Ref } from "react";
 import type { IconGlobalType } from "../../../types";
-import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
+import { DropdownContext } from "@/components/Dropdown/context/DropdownContext";
 
 type Props = {
   label?: string;
   icon?: IconGlobalType;
+  ref?: Ref<HTMLButtonElement>;
+  className?: string;
+  style?: CSSProperties;
 };
 
-const DropdownButton = (props: Props) => {
-  const { label, icon } = props;
-  const { toggleMenu, size, disabled } = useContext(DropdownContext);
+const DropdownButton = ({ label, icon, ref, className, style }: Props) => {
+  const { size, disabled } = useContext(DropdownContext);
 
   return (
-    <button className={styles.Button} {...(disabled && { disabled })} onClick={toggleMenu} type="button">
+    <button className={className} style={style} {...(disabled && { disabled })} type="button" ref={ref} data-testid="dropdown-button">
       {icon && <GlobalIconWrapper icon={icon} className={styles.icon} size={size} />}
       {label && <span>{label}</span>}
-      <MotifIcon name="arrow_drop_down" className={styles["Button-DropdownIcon"]} size={size} />
+      <MotifIcon name="arrow_drop_down" className={styles.arrowIcon} size={size} />
     </button>
   );
 };
