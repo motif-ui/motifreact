@@ -3,7 +3,7 @@
 exports[`Dropdown should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <button
-    class="Button md solid primary"
+    class="Root md solid primary"
     data-testid="dropdown-button"
     type="button"
   >
@@ -11,7 +11,7 @@ exports[`Dropdown should render with only required props, have default prop valu
       Dropdown
     </span>
     <span
-      class="Root md motifIconsDefault Button-DropdownIcon"
+      class="Root md motifIconsDefault arrowIcon"
       lang="en"
       translate="no"
     >

@@ -13,7 +13,7 @@ exports[`DateRangePicker should render with only required props, have default pr
         class="selectionBar"
       >
         <button
-          class="Button md solid secondary rangeSelectDropdown"
+          class="Root md solid secondary rangeSelectDropdown"
           data-testid="dropdown-button"
           type="button"
         >
@@ -21,7 +21,7 @@ exports[`DateRangePicker should render with only required props, have default pr
             Please choose
           </span>
           <span
-            class="Root md motifIconsDefault Button-DropdownIcon"
+            class="Root md motifIconsDefault arrowIcon"
             lang="en"
             translate="no"
           >

@@ -233,9 +233,9 @@ describe("InputDateRange", () => {
 
     await user.click(getDateRangeInput());
     await user.click(screen.getByTestId("dropdown-button"));
-    await user.click(screen.getByTestId("Dropdown").querySelector("a")!);
+    await user.click(screen.getByTestId("dropdown-menu").querySelector("a")!);
 
-    expect(screen.queryByTestId("Dropdown")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("dropdown-menu")).not.toBeInTheDocument();
     expect(getPickerContainer()).toBeInTheDocument();
     expect(getDateRangeInput()).not.toHaveValue("");
   });

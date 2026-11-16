@@ -3,38 +3,25 @@ import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { useContext } from "react";
 import type { CSSProperties, Ref } from "react";
-import type { IconGlobalType, Variant } from "../../../types";
+import type { IconGlobalType } from "../../../types";
 import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
-import { sanitizeModuleClassesWithOptions } from "../../../../utils/cssUtils";
 
 type Props = {
   label?: string;
   icon?: IconGlobalType;
   ref?: Ref<HTMLButtonElement>;
-  variant: Variant;
-  shape: "solid" | "textOnly";
-  pill?: boolean;
   className?: string;
   style?: CSSProperties;
-  open: boolean;
 };
 
-const DropdownButton = ({ label, icon, ref, variant, shape, pill, className, style, open }: Props) => {
+const DropdownButton = ({ label, icon, ref, className, style }: Props) => {
   const { size, disabled } = useContext(DropdownContext);
-  const classNames = sanitizeModuleClassesWithOptions(styles, { externalClasses: [className] }, [
-    "Button",
-    size,
-    shape,
-    variant,
-    open && "open",
-    pill && "pill",
-  ]);
 
   return (
-    <button className={classNames} style={style} {...(disabled && { disabled })} type="button" ref={ref} data-testid="dropdown-button">
+    <button className={className} style={style} {...(disabled && { disabled })} type="button" ref={ref} data-testid="dropdown-button">
       {icon && <GlobalIconWrapper icon={icon} className={styles.icon} size={size} />}
       {label && <span>{label}</span>}
-      <MotifIcon name="arrow_drop_down" className={styles["Button-DropdownIcon"]} size={size} />
+      <MotifIcon name="arrow_drop_down" className={styles.arrowIcon} size={size} />
     </button>
   );
 };

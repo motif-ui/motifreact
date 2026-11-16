@@ -10,14 +10,13 @@ describe("Dropdown", () => {
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLButtonElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
     {
-      getRoot: ({ getByTestId }) => getByTestId("dropdown-button"),
       assertDefaults: ({ container, getByText }) => {
         expect(container.firstElementChild).toHaveClass("primary");
         expect(container.firstElementChild).toHaveClass("solid");
         expect(container.firstElementChild).toHaveClass("md");
 
         fireEvent.click(getByText("Dropdown"));
-        expect(screen.getByTestId("Dropdown")).toHaveClass("callout");
+        expect(screen.getByTestId("dropdown-menu")).toHaveClass("callout");
       },
     },
   );
@@ -174,24 +173,24 @@ describe("Dropdown", () => {
   it("should not close when the window is resized", async () => {
     render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
     fireEvent.click(screen.getByText("Dropdown Menu"));
-    await waitFor(() => expect(screen.queryByTestId("Dropdown")).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByTestId("dropdown-menu")).toBeInTheDocument());
     fireEvent(window, new Event("resize"));
-    expect(screen.queryByTestId("Dropdown")).toBeInTheDocument();
+    expect(screen.queryByTestId("dropdown-menu")).toBeInTheDocument();
   });
 
   it("should not close when the page is scrolled", async () => {
     render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
     fireEvent.click(screen.getByText("Dropdown Menu"));
-    await waitFor(() => expect(screen.queryByTestId("Dropdown")).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByTestId("dropdown-menu")).toBeInTheDocument());
     fireEvent.scroll(window);
-    expect(screen.queryByTestId("Dropdown")).toBeInTheDocument();
+    expect(screen.queryByTestId("dropdown-menu")).toBeInTheDocument();
   });
 
   it("should be rendered in different spacing options given in the spacing prop", () => {
     (["withGap", "callout", "noSpace"] as Spacing[]).forEach(spacing => {
       const { unmount, getByText } = render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} spacing={spacing} />);
       fireEvent.click(getByText("Dropdown Menu"));
-      expect(screen.getByTestId("Dropdown")).toHaveClass(spacing);
+      expect(screen.getByTestId("dropdown-menu")).toHaveClass(spacing);
       unmount();
     });
   });

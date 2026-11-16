@@ -5,7 +5,7 @@ import { disableCssAnchor, getRect, isPainted, openStory, scrollPage, setScroll,
 
 test.use({ viewport: { width: 1000, height: 700 } });
 
-const dropdown = '[data-testid="Dropdown"]';
+const dropdown = '[data-testid="dropdown-menu"]';
 const button = '[data-testid="dropdown-button"]';
 
 test.describe("Dropdown open/close behavior", () => {

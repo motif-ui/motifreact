@@ -48,11 +48,22 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
   }
 }
 
-.Root {
+.Menu {
   z-index: z-layer("anchored");
   position: absolute;
   width: max-content;
   box-sizing: border-box;
+  margin-inline: var(--base-sizing-8x);
+
+  &.bottom {
+    padding-top: var(--base-sizing-10x);
+  }
+  &.top {
+    padding-bottom: var(--base-sizing-10x);
+  }
+  &.noSpace {
+    padding-block: 0;
+  }
 }
 
 @each $pos in bottom, top {
@@ -64,7 +75,7 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
 // =============================================================================
 // Dropdown Button
 // =============================================================================
-.Button {
+.Root {
   display: flex;
   justify-content: space-between;
   border-radius: var(--theme-sizing-radius-default);
@@ -83,10 +94,10 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
     outline: solid var(--base-sizing-4x) var(--theme-color-border-primary-focus);
   }
 
-  .Button-DropdownIcon {
+  .arrowIcon {
     @include transition(rotate);
   }
-  &.open .Button-DropdownIcon {
+  &.open .arrowIcon {
     rotate: 180deg;
   }
 
@@ -131,7 +142,7 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
 // =============================================================================
 // Dropdown Menu
 // =============================================================================
-.Menu {
+.MenuList {
   list-style: none;
   padding: 0;
   margin-block: 0;
@@ -140,17 +151,6 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
   border-radius: var(--theme-sizing-radius-default);
   background-color: var(--theme-color-surface-base-global-light);
   @include shadow(6);
-
-  .bottom & {
-    margin-top: var(--base-sizing-10x);
-  }
-  .top & {
-    margin-bottom: var(--base-sizing-10x);
-  }
-
-  .noSpace & {
-    margin-block: 0;
-  }
 }
 
 // =============================================================================
@@ -201,7 +201,7 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
 // =============================================================================
 @each $size, $buttonPaddingAndGap, $itemPaddingAndGap in $sizes {
   .#{$size} {
-    &.Button {
+    &.Root {
       padding: var(--base-sizing-#{$buttonPaddingAndGap});
       gap: var(--base-sizing-#{$buttonPaddingAndGap});
       @include font("base", $size, "500");

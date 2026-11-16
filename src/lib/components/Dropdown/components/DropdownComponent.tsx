@@ -1,20 +1,20 @@
 import { PropsWithRef } from "../../../types";
 import { DropdownProps } from "@/components/Dropdown/types";
 import DropdownButton from "@/components/Dropdown/components/DropdownButton";
-import DropdownMenu from "@/components/Dropdown/components/DropdownMenu";
-import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
+import DropdownMenuItem from "@/components/Dropdown/components/DropdownMenuItem";
+import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import styles from "@/components/Dropdown/Dropdown.module.scss";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
-import { useContext, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
 import useAnchoredOverlay from "../../../hooks/useAnchoredOverlay";
 import { createPortal } from "react-dom";
 import { mergeRefs } from "../../../../utils/reactUtils";
 
-type Props = Omit<DropdownProps, "size" | "disabled">;
-
-const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
+const DropdownComponent = (props: PropsWithRef<DropdownProps, HTMLButtonElement>) => {
   const {
+    size = "md",
+    disabled,
     label,
     icon,
     pill,
@@ -26,7 +26,6 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
     style,
     className,
   } = usePropsWithThemeDefaults("Dropdown", props);
-  const { size, disabled } = useContext(DropdownContext);
 
   const anchorRef = useRef<HTMLButtonElement>(null);
   const {
@@ -49,29 +48,24 @@ const DropdownComponent = (props: PropsWithRef<Props, HTMLButtonElement>) => {
   const mergedRef = useMemo(() => mergeRefs(anchorRef, ref), [ref]);
 
   const side = placement.startsWith("top") ? "top" : "bottom";
-  const overlayClassNames = sanitizeModuleRootClasses(styles, undefined, [size, spacing, side]);
+  const buttonClassNames = sanitizeModuleRootClasses(styles, className, [size, shape, variant, open && "open", pill && "pill"]);
+  const overlayClassNames = sanitizeModuleClasses(styles, "Menu", size, spacing, side);
 
   return (
-    <>
-      <DropdownButton
-        className={className}
-        style={style}
-        label={label}
-        icon={icon}
-        ref={mergedRef}
-        variant={variant}
-        shape={shape}
-        pill={pill}
-        open={open}
-      />
+    <DropdownContext value={{ size, disabled, hideMenu: hide }}>
+      <DropdownButton className={buttonClassNames} style={style} label={label} icon={icon} ref={mergedRef} />
       {attached &&
         createPortal(
-          <div className={overlayClassNames} ref={overlayRef} style={overlayStyle} {...insideProps} data-testid="Dropdown">
-            <DropdownMenu items={items} hideMenu={hide} />
+          <div className={overlayClassNames} ref={overlayRef} style={overlayStyle} {...insideProps} data-testid="dropdown-menu">
+            <ul className={styles.MenuList}>
+              {items.map((item, index) => (
+                <DropdownMenuItem key={index} {...item} />
+              ))}
+            </ul>
           </div>,
           document.body,
         )}
-    </>
+    </DropdownContext>
   );
 };
 

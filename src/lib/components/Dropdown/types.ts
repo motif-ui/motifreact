@@ -42,10 +42,12 @@ export type DropdownMenuItemProps = {
 
 export type DropdownContextProps = {
   size: Size4SM;
-  disabled: boolean;
+  disabled?: boolean;
+  hideMenu: () => void;
 };
 
 export const dropdownContextDefaultValues: DropdownContextProps = {
   size: "md",
   disabled: false,
+  hideMenu: () => {},
 };

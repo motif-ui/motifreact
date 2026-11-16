@@ -96,7 +96,6 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     overlayRef: pickerRef,
     show,
     hide,
-    insideProps,
   } = useAnchoredOverlay({
     anchorRef: innerRef,
     placement: "bottomLeft",
@@ -156,21 +155,18 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
       />
       {attached &&
         createPortal(
-          // Clicks in the picker's own portals, e.g. the days dropdown's menu, reach this wrapper through React, so they do not close the picker
-          <div className={styles.pickerWrapper} {...insideProps}>
-            <DateRangePicker
-              ref={pickerRef}
-              firstDayOfWeek={firstDayOfWeek}
-              variant="bordered"
-              size={pickerSizeMap[size]}
-              value={itemValue}
-              onDateChange={dateChangeHandler}
-              onOkClick={() => hide()}
-              className={styles.dateRangePicker}
-              style={pickerStyle}
-              locale={locale}
-            />
-          </div>,
+          <DateRangePicker
+            ref={pickerRef}
+            firstDayOfWeek={firstDayOfWeek}
+            variant="bordered"
+            size={pickerSizeMap[size]}
+            value={itemValue}
+            onDateChange={dateChangeHandler}
+            onOkClick={() => hide()}
+            className={styles.dateRangePicker}
+            style={pickerStyle}
+            locale={locale}
+          />,
           document.body,
         )}
     </>
