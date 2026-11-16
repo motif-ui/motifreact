@@ -75,6 +75,15 @@ describe("ImageUpload", () => {
     deleteRequest: MOCK.deleteRequest,
   };
 
+  const VISIBILITY_ICON = "visibility";
+  const valueFile = {
+    id: "db-1",
+    name: "existing.jpg",
+    size: 102400,
+    type: "image/jpeg",
+    src: "https://example.com/pic.jpg",
+  };
+
   const simulateImageUpload = async () => {
     const renderResult = renderExt(<ImageUpload {...requiredProps} />);
 
@@ -89,7 +98,7 @@ describe("ImageUpload", () => {
   const simulateImageUploadAndPreviewClick = async () => {
     await simulateImageUpload();
 
-    await userEvent.click(screen.getByText("visibility"));
+    await userEvent.click(screen.getByText(VISIBILITY_ICON));
     const previewImage = screen.queryByAltText("Image Preview")!;
     await waitFor(() => expect(previewImage).toBeInTheDocument());
 
@@ -218,7 +227,7 @@ describe("ImageUpload", () => {
   it("should render preview and delete buttons when image is uploaded successfully", async () => {
     await simulateImageUpload();
 
-    expect(screen.getByText("visibility")).toBeInTheDocument();
+    expect(screen.getByText(VISIBILITY_ICON)).toBeInTheDocument();
     expect(screen.getByText("delete")).toBeInTheDocument();
   });
 
@@ -720,88 +729,80 @@ describe("ImageUpload", () => {
   });
 
   it("should display the value-given image", async () => {
-    const dbSrc = "https://example.com/pic.jpg";
-    const { getThumbnail } = renderExt(
-      <ImageUpload
-        {...requiredProps}
-        value={{
-          id: "db-1",
-          name: "existing.jpg",
-          size: 102400,
-          type: "image/jpeg",
-          src: dbSrc,
-        }}
-      />,
-    );
+    const { getThumbnail } = renderExt(<ImageUpload {...requiredProps} value={valueFile} />);
     await waitFor(() => {
       expect(getThumbnail()).toBeInTheDocument();
-      expect(getThumbnail()).toHaveAttribute("src", dbSrc);
+      expect(getThumbnail()).toHaveAttribute("src", valueFile.src);
     });
   });
 
   it("should show the preview of the value-given image", async () => {
-    const dbSrc = "https://example.com/pic.jpg";
-    renderExt(
-      <ImageUpload
-        {...requiredProps}
-        value={{
-          id: "db-1",
-          name: "existing.jpg",
-          size: 102400,
-          type: "image/jpeg",
-          src: dbSrc,
-        }}
-      />,
-    );
-    await userEvent.click(screen.getByText("visibility"));
+    renderExt(<ImageUpload {...requiredProps} value={valueFile} />);
+    await userEvent.click(screen.getByText(VISIBILITY_ICON));
     const previewImg = screen.queryByAltText("Image Preview")!;
     await waitFor(() => {
       expect(previewImg).toBeInTheDocument();
-      expect(previewImg).toHaveAttribute("src", dbSrc);
+      expect(previewImg).toHaveAttribute("src", valueFile.src);
     });
+  });
+
+  it("should not render the download button on preview of a newly uploaded image", async () => {
+    const { getDownloadButton } = await simulateImageUpload();
+    await userEvent.click(screen.getByText(VISIBILITY_ICON));
+    expect(screen.getByAltText("Image Preview")).toBeInTheDocument();
+    expect(getDownloadButton()).not.toBeInTheDocument();
+  });
+
+  it("should call onDownloadClick when the download button on preview of the value-given image is clicked", async () => {
+    const onDownloadClick = jest.fn();
+    const { getDownloadButton } = renderExt(<ImageUpload {...requiredProps} value={{ ...valueFile, onDownloadClick }} />);
+    await userEvent.click(screen.getByText(VISIBILITY_ICON));
+    await userEvent.click(getDownloadButton());
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should not render the download button on preview of the value-given image when onDownloadClick is not provided", async () => {
+    const { getDownloadButton } = renderExt(<ImageUpload {...requiredProps} value={valueFile} />);
+    await userEvent.click(screen.getByText(VISIBILITY_ICON));
+    expect(screen.getByAltText("Image Preview")).toBeInTheDocument();
+    expect(getDownloadButton()).not.toBeInTheDocument();
+  });
+
+  it("should disable the download button on preview while the delete request of the value-given image is in flight", async () => {
+    xhrSpy = mockXHRs(500);
+    const onDownloadClick = jest.fn();
+    const { getDeleteButton, getDownloadButton } = renderExt(<ImageUpload {...requiredProps} value={{ ...valueFile, onDownloadClick }} />);
+
+    fireEvent.click(getDeleteButton());
+    fireEvent.click(screen.getByText(VISIBILITY_ICON));
+    expect(getDownloadButton().parentElement).toBeDisabled();
+    fireEvent.click(getDownloadButton());
+    expect(onDownloadClick).not.toHaveBeenCalled();
+
+    await waitFor(() => expect(screen.queryByText(t(MESSAGE.DELETE_ERROR))).toBeInTheDocument());
+    expect(getDownloadButton().parentElement).not.toBeDisabled();
+    await userEvent.click(getDownloadButton());
+    expect(onDownloadClick).toHaveBeenCalledTimes(1);
   });
 
   it("should delete the value-given image when delete button is clicked", async () => {
     xhrSpy = mockXHRs(200, 200);
-    const { getDeleteButton, getThumbnail } = renderExt(
-      <ImageUpload
-        {...requiredProps}
-        value={{
-          id: "db-1",
-          name: "existing.jpg",
-          size: 102400,
-          type: "image/jpeg",
-          src: "https://example.com/pic.jpg",
-        }}
-      />,
-    );
+    const { getDeleteButton, getThumbnail } = renderExt(<ImageUpload {...requiredProps} value={valueFile} />);
     await waitFor(() => expect(getThumbnail()).toBeInTheDocument());
     await userEvent.click(getDeleteButton());
     await waitFor(() => expect(getThumbnail()).not.toBeInTheDocument());
   });
 
   it("should display value-given image when value prop changes after initial render", async () => {
-    const dbSrc = "https://example.com/pic.jpg";
     const { getThumbnail, rerender } = renderExt(<ImageUpload {...requiredProps} value={undefined} />);
 
     expect(getThumbnail()).not.toBeInTheDocument();
 
-    rerender(
-      <ImageUpload
-        {...requiredProps}
-        value={{
-          id: "db-1",
-          name: "existing.jpg",
-          size: 102400,
-          type: "image/jpeg",
-          src: dbSrc,
-        }}
-      />,
-    );
+    rerender(<ImageUpload {...requiredProps} value={valueFile} />);
 
     await waitFor(() => {
       expect(getThumbnail()).toBeInTheDocument();
-      expect(getThumbnail()).toHaveAttribute("src", dbSrc);
+      expect(getThumbnail()).toHaveAttribute("src", valueFile.src);
     });
   });
 
@@ -849,7 +850,7 @@ describe("ImageUpload", () => {
 
     await waitFor(() => {
       expect(imgElement.getAttribute("src")).toBe(BROKEN_IMG_SRC);
-      expect(queryByText("visibility")).not.toBeInTheDocument();
+      expect(queryByText(VISIBILITY_ICON)).not.toBeInTheDocument();
       expect(getDeleteButton()).toBeInTheDocument();
     });
   });
@@ -868,7 +869,7 @@ describe("ImageUpload", () => {
     );
 
     await waitFor(() => {
-      expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+      expect(screen.queryByText(VISIBILITY_ICON)).not.toBeInTheDocument();
     });
 
     expect(getDeleteButton()).toBeInTheDocument();
@@ -879,7 +880,7 @@ describe("ImageUpload", () => {
     await simulateChooseFiles(getInput(), [MOCK.fileGif1mb]);
     await waitFor(() => {
       expect(screen.queryByText(t(MESSAGE.UPLOAD_ERROR))).toBeInTheDocument();
-      expect(screen.queryByText("visibility")).not.toBeInTheDocument();
+      expect(screen.queryByText(VISIBILITY_ICON)).not.toBeInTheDocument();
     });
   });
 

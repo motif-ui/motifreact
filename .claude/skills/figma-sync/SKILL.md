@@ -37,7 +37,8 @@ it; this skill does the Figma side.
    - Scenarios or Examples that no longer match the behavior.
 4. **Apply after approval**, in this order:
    1. parts;
-   2. the set, then re-layout the Component table with [scripts/component-table.js](scripts/component-table.js);
+   2. the set, then re-layout the Component table with [scripts/component-table.js](scripts/component-table.js); if a
+      page was added or renamed, re-sort the page list with [scripts/sort-pages.js](scripts/sort-pages.js);
    3. the doc rows and notes, and the set description;
    4. the spec tables (Size spec metrics come from the SCSS size table, so update them with any size change) and the
       Scenarios cells;

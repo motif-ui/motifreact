@@ -1,7 +1,8 @@
 # AlertModal: Figma notes (maintained by AI, do not edit by hand)
 
 Built 2026-11-10 with /figma-new-component, before the code migration (`AlertModal` still uses the old tokens). The
-page is the target for `AlertModalV2`; run `/figma-sync AlertModal` once the code is migrated.
+code was migrated on the `AlertModalV2` clone and promoted to `src/lib/components/AlertModal` on 2026-11-11 (the user
+approved the Figma page); Figma and code match.
 
 ## Nodes
 
@@ -62,10 +63,10 @@ page is the target for `AlertModalV2`; run `/figma-sync AlertModal` once the cod
 - Still open, to confirm visually with the design team: the new radius and elevation (listed in the review page's
   changes table).
 
-## Code migration notes (for AlertModalV2)
+## Code migration notes
 
-Status 2026-11-10: `src/lib/components/AlertModalV2/` applies all of these; compare story
-`Token Karşılaştırma/AlertModal`. Pending: user approval, then promotion and `/figma-sync AlertModal`.
+Done 2026-11-11: all of these are in `src/lib/components/AlertModal` (promoted from the clone); compare story
+`Token Karşılaştırma/AlertModal` (baseline in `compare/baseline/AlertModal`).
 
 - The alternate button changes from `variant="secondary"` to `neutral`.
 - Radius: `radius-lg` by the user's choice, not the pixel mapping of the old 4px (which would be `radius-md`).

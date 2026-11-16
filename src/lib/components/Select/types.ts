@@ -15,6 +15,5 @@ export type SelectProps = {
 
 export type SelectDefaultableProps = {
   multiple?: boolean;
-  native?: boolean;
   filterable?: boolean;
 };

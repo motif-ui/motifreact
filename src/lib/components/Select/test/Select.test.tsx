@@ -135,6 +135,22 @@ describe("Select", () => {
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
+  it("should leave the tab order when disabled prop is true", async () => {
+    render(<Select data={data} disabled />);
+    const combobox = screen.queryByRole("combobox");
+    expect(combobox).toHaveAttribute("aria-disabled", "true");
+    expect(combobox).not.toHaveAttribute("tabindex");
+
+    await userEvent.setup().tab();
+    expect(document.body).toHaveFocus();
+  });
+
+  it.each([["readOnly"], ["loading"]])("should stay in the tab order when %s prop is true", async mode => {
+    render(<Select data={data} {...{ [mode]: true }} />);
+    await userEvent.setup().tab();
+    expect(screen.queryByRole("combobox")).toHaveFocus();
+  });
+
   it("should be rendered as readOnly when readOnly prop is true", async () => {
     const handleChange = jest.fn();
     const user = userEvent.setup();
@@ -301,6 +317,16 @@ describe("Select", () => {
     await user.click(document.body);
     expect(screen.queryByText("Item 1")).not.toBeInTheDocument();
   });
+
+  it.each([["disabled"], ["readOnly"], ["loading"]])(
+    "should not render the remove button of the selected items when multiple and filterable props are true and %s is true",
+    mode => {
+      render(<Select data={data} value={["i1"]} filterable multiple {...{ [mode]: true }} />);
+
+      expect(screen.queryByText("Item 1")).toBeInTheDocument();
+      expect(screen.queryByTestId("iconButtonTestId")).not.toBeInTheDocument();
+    },
+  );
 
   it("should bring the results under the group when the group label is searched", async () => {
     const data: (SelectGroupItem | SelectItem)[] = [

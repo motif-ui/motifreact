@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { generate, loadTheme, staleFiles } from "./build.ts";
+import { FIGMA_THEME, generate, loadTheme, staleFiles, THEMES } from "./build.ts";
 import { buildTokens, radiusScale, typeSize } from "./buildTokens.ts";
 import { toCss, toFigma } from "./formats.ts";
 import { LEGACY_MAP } from "./legacyMap.ts";
@@ -143,6 +143,47 @@ describe("validateTokens", () => {
     ],
   ])("%s", (_, input, message) => {
     expect(validateTokens(input).join("\n")).toContain(message);
+  });
+});
+
+describe("themes", () => {
+  const { files, errors } = generate();
+  // Follows var() references to the hex value; light-dark() resolves to its light side
+  const resolve = (css: string, name: string): string => {
+    const value = css.match(new RegExp(`${name}: ([^;]+);`))?.[1] ?? "";
+    const ref = value.match(/var\((--[\w-]+)\)/)?.[1];
+    return ref ? resolve(css, ref) : value;
+  };
+
+  test("every theme generates without errors", () => {
+    expect(errors).toEqual([]);
+  });
+
+  // Palette names follow each theme's anchor steps (e.g. the alpha ladder of secondary-400 vs -500); the rest is shared
+  test("every theme has the same token count and the same names outside the palette", () => {
+    const tokensOf = THEMES.map(name => buildTokens(loadTheme(name)).tokens);
+    const shared = tokensOf.map(tokens => tokens.filter(({ path }) => path[1] !== "palette").map(({ path }) => path.join("-")));
+    tokensOf.forEach(tokens => expect(tokens.length).toBe(tokensOf[0].length));
+    shared.forEach(names => expect(names).toEqual(shared[0]));
+  });
+
+  test("legacy keeps the old gray secondary", () => {
+    expect(resolve(files["themes/legacy.css"], "--mtf-color-secondary-solid")).toBe("#aeb4ba");
+  });
+
+  test("only the Figma theme writes the JSON exports", () => {
+    expect(Object.keys(files).sort()).toEqual(
+      [...THEMES.map(name => `themes/${name}.css`), `${FIGMA_THEME}.figma.json`, `${FIGMA_THEME}.tokens.json`].sort(),
+    );
+  });
+
+  test("errors and warnings name their theme", () => {
+    const broken = generate({ broken: { ...theme, radius: 16 } });
+    const overridden = generate({ overridden: { ...theme, text: "#aaaaaa" } });
+    expect(broken.errors.length).toBeGreaterThan(0);
+    expect(broken.errors.every(error => error.startsWith("broken: "))).toBe(true);
+    expect(overridden.warnings.length).toBeGreaterThan(0);
+    expect(overridden.warnings.every(warning => warning.startsWith("overridden: "))).toBe(true);
   });
 });
 

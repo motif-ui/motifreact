@@ -307,7 +307,7 @@ exports[`DatePicker should render with only required props, have default prop va
       class="actions"
     >
       <button
-        class="Root secondary solid md"
+        class="Root neutral solid md"
         type="button"
       >
         <span>
