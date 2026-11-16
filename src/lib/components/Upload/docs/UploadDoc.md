@@ -21,7 +21,7 @@ There are three types of messages with templates. Those messages and the paramet
 
 The `customValidation` prop is a function that runs **synchronously** for each file and determines whether the file should be accepted or rejected.
 
-### Type Definition
+#### Type Definition
 
 ```ts
 export type CustomValidation = {
@@ -36,7 +36,7 @@ export type UploadProps = {
 }
 ```
 
-### How It Works
+#### How It Works
 
 - Runs once **per file** when a user selects files to upload.
 - Must return an object with the structure: **{ isValid: boolean, errorMessage: string }**.
@@ -65,7 +65,7 @@ Some validation can only happen on the server (virus scanning, content inspectio
 client doesn't have). This component surfaces those server-driven rejections directly in the file row, using the same
 response the upload request already returns — no extra endpoint or polling is required.
 
-### Type Definition
+#### Type Definition
 
 ```ts
 export type UploadServerResponse = {
@@ -74,7 +74,7 @@ export type UploadServerResponse = {
 };
 ```
 
-### How It Works
+#### How It Works
 
 - Runs once the upload request settles, as soon as the server responds.
 - If the HTTP response status is **not 200**, the component tries to parse the response body as JSON matching
@@ -113,7 +113,7 @@ mocked example of this behavior.
 Files that already exist on the server are passed through the **value** prop. Each item is a `FileObject`, and the
 component shows it as a successfully uploaded file.
 
-### Type Definition
+#### Type Definition
 
 ```ts
 export type FileObject = {
@@ -173,7 +173,7 @@ const downloadFile = () => {
 The **fileAction** prop adds a custom icon button to file rows.
 It can be used for anything related to a single file, such as opening a preview, showing details or sharing it.
 
-### Type Definition
+#### Type Definition
 
 ```ts
 export type FileAction = {
@@ -186,7 +186,8 @@ export type FileAction = {
 
 ```tsx
 // Opening an image in a modal
-import { ImageView, Modal, UploadList, useToggle} from "@motif-ui/react";
+import { ImageView, Modal, UploadList } from "@motif-ui/react";
+import { useToggle } from "@motif-ui/react/hooks";
 
 const { visible, show, hide } = useToggle();
 const [src, setSrc] = useState<string>();

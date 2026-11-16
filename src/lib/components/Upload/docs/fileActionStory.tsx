@@ -4,7 +4,10 @@ import ImageView from "@/components/ImageView";
 import useToggle from "../../../hooks/useToggle";
 import { FileAction, FileObject } from "@/components/Upload/types.ts";
 
-const SAMPLE_PICSUM = {
+/**
+ * An already uploaded file, as it would come from the server.
+ */
+export const SAMPLE_FILE: FileObject = {
   id: "sample-picsum",
   name: "picsum-1015.jpg",
   size: 177113,
@@ -12,23 +15,15 @@ const SAMPLE_PICSUM = {
   src: "https://picsum.photos/id/1015/1200/800",
 };
 
-/**
- * Already uploaded files, as they would come from the server.
- */
-export const sampleFiles: FileObject[] = [SAMPLE_PICSUM];
-
-export const sampleFilesWithDownload: FileObject[] = [
-  { ...SAMPLE_PICSUM, onDownloadClick: () => alert(`onDownloadClick: ${SAMPLE_PICSUM.name}`) },
-];
-
-type FilePreviewStoryProps = {
-  children: (fileAction: FileAction) => ReactNode;
+export const SAMPLE_FILE_WITH_DOWNLOAD: FileObject = {
+  ...SAMPLE_FILE,
+  onDownloadClick: () => alert(`onDownloadClick: ${SAMPLE_FILE.name}`),
 };
 
 /**
  * Renders the upload component given in `children` with a `fileAction` that opens the image in a modal.
  */
-export const FilePreviewStory = ({ children }: FilePreviewStoryProps) => {
+export const FilePreviewStory = ({ children }: { children: (fileAction: FileAction) => ReactNode }) => {
   const { visible, show, hide } = useToggle();
   const [src, setSrc] = useState<string>();
 
@@ -50,14 +45,6 @@ export const FilePreviewStory = ({ children }: FilePreviewStoryProps) => {
   );
 };
 
-/**
- * Source of the given story file, so the shown code always matches the story.
- */
-const fileSource = (f: FileObject) =>
-  `{ id: "${f.id}", name: "${f.name}", size: ${f.size}, type: "${f.type}", src: "${f.src}"` +
-  (f.onDownloadClick ? `, onDownloadClick: () => alert("onDownloadClick: ${f.name}")` : "") +
-  " }";
-
 export const downloadStoryParameters = (componentName: string) => ({
   docs: {
     source: {
@@ -67,7 +54,14 @@ export const downloadStoryParameters = (componentName: string) => ({
   uploadRequest={{ url: "/api/upload", method: "POST" }}
   deleteRequest={{ url: "/api/delete", method: "POST" }}
   value={[
-    ${fileSource(sampleFilesWithDownload[0])},
+    {
+      id: "sample-picsum",
+      name: "picsum-1015.jpg",
+      size: 177113,
+      type: "image/jpeg",
+      src: "https://picsum.photos/id/1015/1200/800",
+      onDownloadClick: () => alert("onDownloadClick: picsum-1015.jpg"),
+    },
   ]}
 />`,
     },
@@ -96,7 +90,13 @@ return (
       uploadRequest={{ url: "/api/upload", method: "POST" }}
       deleteRequest={{ url: "/api/delete", method: "POST" }}
       value={[
-        ${fileSource(sampleFiles[0])},
+        {
+          id: "sample-picsum",
+          name: "picsum-1015.jpg",
+          size: 177113,
+          type: "image/jpeg",
+          src: "https://picsum.photos/id/1015/1200/800",
+        },
       ]}
       fileAction={fileAction}
     />

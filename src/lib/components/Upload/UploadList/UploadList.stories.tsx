@@ -6,8 +6,8 @@ import {
   downloadStoryParameters,
   fileActionStoryParameters,
   FilePreviewStory,
-  sampleFiles,
-  sampleFilesWithDownload,
+  SAMPLE_FILE,
+  SAMPLE_FILE_WITH_DOWNLOAD,
 } from "../docs/fileActionStory";
 
 const url = "https://httpbun.com/post";
@@ -51,17 +51,17 @@ export const ServerValidation: Story = {
   },
 };
 
-export const WithDownload: Story = {
+export const Downloading: Story = {
   parameters: downloadStoryParameters("UploadList"),
   args: {
-    value: sampleFilesWithDownload,
+    value: [SAMPLE_FILE_WITH_DOWNLOAD],
   },
 };
 
-export const WithFileAction: Story = {
+export const FileAction: Story = {
   parameters: fileActionStoryParameters("UploadList"),
   args: {
-    value: sampleFiles,
+    value: [SAMPLE_FILE],
   },
   render: args => <FilePreviewStory>{fileAction => <UploadList {...args} fileAction={fileAction} />}</FilePreviewStory>,
 };
