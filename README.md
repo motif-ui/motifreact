@@ -48,7 +48,7 @@ npm i @motif-ui/react @fontsource/inter
 "use client";
 import { MotifProvider } from "@motif-ui/react";
 
-export default Providers = ({ children }) => (
+const Providers = ({ children }) => (
   <MotifProvider>{children}</MotifProvider>
 );
 
@@ -57,7 +57,7 @@ export default Providers = ({ children }) => (
 ////////////////////
 import Providers from "./providers";
 
-export default RootLayout = ({ children }) => (
+const RootLayout = ({ children }) => (
   <html>
     <body>
       <Providers>{children}</Providers>
