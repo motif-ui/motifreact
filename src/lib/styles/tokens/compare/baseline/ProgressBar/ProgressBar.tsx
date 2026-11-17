@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import styles from "./ProgressBarV2.module.scss";
-import { PropsWithRef } from "../../types";
+import styles from "./ProgressBarBaseline.module.scss";
+import { PropsWithRef } from "../../../../../types";
 import { ProgressBarProps } from "./types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { sanitizeModuleRootClasses } from "../../../../../../utils/cssUtils";
+import usePropsWithThemeDefaults from "../../../../../motif/hooks/usePropsWithThemeDefaults";
 
 const ProgressBar = (props: PropsWithRef<ProgressBarProps, HTMLDivElement>) => {
   const {

@@ -3,11 +3,11 @@ import styles from "../Dropdown.module.scss";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MouseEvent, useContext } from "react";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
-import { DropdownContext } from "@/components/Dropdown/context/DropdownProvider";
+import { DropdownContext } from "@/components/Dropdown/context/DropdownContext";
 
 const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   const { label, header, icon, iconColor, disabled, action } = props;
-  const { hideMenu, size } = useContext(DropdownContext);
+  const { size, hideMenu } = useContext(DropdownContext);
   const classNames = sanitizeModuleClasses(
     styles,
     "MenuItem",
