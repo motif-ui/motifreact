@@ -8,16 +8,13 @@
     .mtf-Link,
     .mtf-Link .mtf-Icon {
       color: #37424b;
-      font-weight: 400;
     }
   }
 
   .hero-1-images {
-    position: relative;
     display: flex;
     align-items: center;
     gap: 18px;
-    height: 100%;
 
     .mtf-ImageView {
       flex: 1 1 0;

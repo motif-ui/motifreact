@@ -7,7 +7,9 @@ const Hero1 = () => (
       <Grid.Row rowGap="xl">
         <Grid.Col size={12} lg={4}>
           <Grid.Row>
-            <Text text="A modern foundation for your next product" weight="semibold" type="body" tone="soft" size="xs" marginless />
+            <Grid.Col size={12}>
+              <Text text="A modern foundation for your next product" weight="semibold" type="body" tone="soft" size="xs" marginless />
+            </Grid.Col>
           </Grid.Row>
           <Grid.Row rowGap="sm" columnGap="sm">
             <Grid.Col size={12}>
