@@ -60,12 +60,12 @@ export default Providers;
 import Providers from "./providers";
 
 const RootLayout = ({ children }) => (
-  <html>
+  <html lang="en">
     <body>
       <Providers>{children}</Providers>
     </body>
   </html>
-)
+);
 
 export default RootLayout;
 ```
