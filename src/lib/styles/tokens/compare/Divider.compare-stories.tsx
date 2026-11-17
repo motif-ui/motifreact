@@ -19,16 +19,16 @@ const InRow = (Component: ComponentType<DividerProps>) => (props: DividerProps) 
   );
 
 const sections: CompareSection<DividerProps>[] = [
-  { title: "Boyutlar", rows: SIZES.map(size => ({ label: size, props: { size } })) },
-  { title: "Şekiller", rows: SHAPES.map(shape => ({ label: shape, props: { shape, size: "md" } })) },
+  { title: "Sizes", rows: SIZES.map(size => ({ label: size, props: { size } })) },
+  { title: "Shapes", rows: SHAPES.map(shape => ({ label: shape, props: { shape, size: "md" } })) },
   {
-    title: "Dikey",
+    title: "Vertical",
     rows: SIZES.map(size => ({ label: `vertical · ${size}`, props: { size, orientation: "vertical" } })),
   },
 ];
 
 const meta: Meta<typeof TokenCompare> = {
-  title: "Token Karşılaştırma/Divider",
+  title: "Token Compare/Divider",
   component: TokenCompare,
   parameters: { layout: "padded" },
 };

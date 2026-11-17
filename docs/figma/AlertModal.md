@@ -66,7 +66,7 @@ approved the Figma page); Figma and code match.
 ## Code migration notes
 
 Done 2026-11-11: all of these are in `src/lib/components/AlertModal` (promoted from the clone); compare story
-`Token Karşılaştırma/AlertModal` (baseline in `compare/baseline/AlertModal`).
+`Token Compare/AlertModal` (baseline in `compare/baseline/AlertModal`).
 
 - The alternate button changes from `variant="secondary"` to `neutral`.
 - Radius: `radius-lg` by the user's choice, not the pixel mapping of the old 4px (which would be `radius-md`).

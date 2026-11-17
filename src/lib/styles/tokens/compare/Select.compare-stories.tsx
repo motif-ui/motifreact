@@ -5,65 +5,65 @@ import { SelectGroupItem, SelectItem, SelectProps } from "@/components/Select/ty
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
 const items: SelectItem[] = [
-  { label: "İstanbul", value: "34" },
+  { label: "Istanbul", value: "34" },
   { label: "Ankara", value: "06" },
-  { label: "İzmir", value: "35" },
+  { label: "Izmir", value: "35" },
   { label: "Bursa", value: "16" },
 ];
 
 const grouped: (SelectItem | SelectGroupItem)[] = [
-  { label: "Tümü", value: "all" },
-  { groupLabel: "Şehirler", groupKey: "cities", items },
+  { label: "All", value: "all" },
+  { groupLabel: "Cities", groupKey: "cities", items },
 ];
 
 const SIZES = ["xs", "sm", "md", "lg"] as const;
 
 const sections: CompareSection<SelectProps>[] = [
   {
-    title: "Boyutlar",
-    rows: SIZES.map(size => ({ label: size, props: { data: items, size, placeholder: "Seçiniz" } })),
+    title: "Sizes",
+    rows: SIZES.map(size => ({ label: size, props: { data: items, size, placeholder: "Select" } })),
   },
   {
-    title: "Durumlar",
+    title: "States",
     rows: [
-      { label: "Placeholder", props: { data: items, placeholder: "Seçiniz" } },
-      { label: "Değer seçili", props: { data: items, value: "06" } },
-      { label: "Çoklu seçim", props: { data: items, multiple: true, value: ["34", "06"] } },
-      { label: "İkonlu", props: { data: items, icon: "location_on", placeholder: "Seçiniz" } },
+      { label: "Placeholder", props: { data: items, placeholder: "Select" } },
+      { label: "Value selected", props: { data: items, value: "06" } },
+      { label: "Multiple", props: { data: items, multiple: true, value: ["34", "06"] } },
+      { label: "With icon", props: { data: items, icon: "location_on", placeholder: "Select" } },
       { label: "Error", props: { data: items, error: true, value: "06" } },
       { label: "Success", props: { data: items, success: true, value: "06" } },
-      { label: "Disabled", props: { data: items, disabled: true, placeholder: "Seçiniz" } },
-      { label: "Disabled, dolu", props: { data: items, disabled: true, value: "06" } },
+      { label: "Disabled", props: { data: items, disabled: true, placeholder: "Select" } },
+      { label: "Disabled, filled", props: { data: items, disabled: true, value: "06" } },
       { label: "Readonly", props: { data: items, readOnly: true, value: "06" } },
-      { label: "Loading", props: { data: items, loading: true, placeholder: "Seçiniz" } },
+      { label: "Loading", props: { data: items, loading: true, placeholder: "Select" } },
     ],
   },
   {
-    title: "Açık liste",
-    note: "Listeler sayfa açılınca otomatik açılır; sayfada bir yere tıklanırsa kapanır, yenileyince geri gelir. İkinci satır hover rengiyle boyanır.",
+    title: "Open list",
+    note: "The lists open when the page loads; a click elsewhere closes them and a reload brings them back. The second row is painted with the hover color.",
     rows: [
-      { label: "Seçili + hover", props: { data: items, value: "34" }, open: true, hover: true },
-      { label: "Grup + çoklu", props: { data: grouped, multiple: true, value: ["06"] }, open: true, hover: true },
-      { label: "Veri yok", props: { data: [] }, open: true },
+      { label: "Selected + hover", props: { data: items, value: "34" }, open: true, hover: true },
+      { label: "Group + multiple", props: { data: grouped, multiple: true, value: ["06"] }, open: true, hover: true },
+      { label: "No data", props: { data: [] }, open: true },
     ],
   },
   {
-    title: "Filtrelenebilir + chip",
-    note: "Chip'ler yalnızca multiple + filterable birlikteyken çıkar; chip yazısı chipLabelSize'dan gelir (label-*).",
+    title: "Filterable + chip",
+    note: "Chips appear only with multiple and filterable together; the chip text comes from chipLabelSize (label-*).",
     rows: [
       ...SIZES.map(size => ({ label: size, props: { data: items, size, multiple: true, filterable: true, value: ["34"] } })),
-      { label: "Filtrelenebilir, tekli", props: { data: items, filterable: true, value: "06" } },
+      { label: "Filterable, single", props: { data: items, filterable: true, value: "06" } },
     ],
   },
   {
-    title: "Grup başlığı",
-    note: "Grup başlığının yazısı groupLabelSize'dan gelir (label-*).",
+    title: "Group label",
+    note: "The group label text comes from groupLabelSize (label-*).",
     rows: SIZES.map(size => ({ label: size, props: { data: grouped, size, value: "06" }, open: true })),
   },
 ];
 
 const meta: Meta<typeof TokenCompare> = {
-  title: "Token Karşılaştırma/Select",
+  title: "Token Compare/Select",
   component: TokenCompare,
   parameters: { layout: "padded" },
 };

@@ -1,26 +1,30 @@
 import { render } from "@testing-library/react";
 import ProgressBar from "@/components/ProgressBar/ProgressBar";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { Size5, StandardPropsWithRef, VariantV2 } from "../../../lib/types";
 describe("ProgressBar", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<ProgressBar {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<ProgressBar {...props} />), {
+    assertDefaults: ({ container }) => {
+      // variant: primary
+      expect(container.firstElementChild).toHaveClass("primary");
+      // size: sm
+      expect(container.firstElementChild).toHaveClass("sm");
+      // progress: 0
+      expect(container.getElementsByClassName("bar")[0]).toHaveStyle("--percentage: 0");
+      // maxProgress: 100
+      expect(container.firstElementChild).toHaveAttribute("aria-valuemax", "100");
+    },
+  });
 
   it("should be rendered in different color scheme based on the variant prop", () => {
-    const variants: ("primary" | "success" | "danger" | "warning" | "info" | "secondary")[] = [
-      "primary",
-      "success",
-      "danger",
-      "warning",
-      "info",
-      "secondary",
-    ];
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
     variants.forEach(variant => {
       expect(render(<ProgressBar variant={variant} />).container.firstChild).toHaveClass(variant);
     });
   });
 
   it("should be rendered in a size given with the size prop", () => {
-    const sizes: ("sm" | "md" | "lg" | "xl")[] = ["sm", "md", "lg", "xl"];
+    const sizes: Size5[] = ["xs", "sm", "md", "lg", "xl"];
     sizes.forEach(size => {
       expect(render(<ProgressBar size={size} />).container.firstChild).toHaveClass(size);
     });

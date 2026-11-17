@@ -1,7 +1,5 @@
 @use "@styles" as *;
 
-$variants: "neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger";
-
 // size, paddingV, paddingH, labelSize, iconSize
 $sizes: (("xxs", 2, 4, "sm", 12), ("xs", 4, 8, "md", 14), ("sm", 6, 12, "md", 18), ("md", 8, 16, "lg", 18), ("lg", 10, 20, "xl", 22), ("xl", 12, 24, "xl", 22));
 
@@ -58,7 +56,7 @@ $sizes: (("xxs", 2, 4, "sm", 12), ("xs", 4, 8, "md", 14), ("sm", 6, 12, "md", 18
   }
 }
 
-@each $variant in $variants {
+@each $variant in $variants-v2 {
   .#{$variant} {
     @if $variant != "neutral" {
       &.solid {
