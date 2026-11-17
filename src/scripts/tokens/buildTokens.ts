@@ -43,10 +43,12 @@ const SIZES = [
 const DEFAULT_SPACE = 4;
 const SPACING = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 64];
 const CONTAINERS: [string, number][] = [
+  ["xs", 360],
   ["sm", 540],
   ["md", 720],
   ["lg", 960],
   ["xl", 1140],
+  ["xxl", 1320],
 ];
 // [level, [x, y, blur, spread] px, light alpha, dark alpha, usage]
 const ELEVATION: [number, [number, number, number, number], number, number, string][] = [
