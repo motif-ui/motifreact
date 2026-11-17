@@ -92,10 +92,18 @@ $radius: var(--theme-sizing-radius-default);
       }
 
       @if $flexDir == row {
+        $side: left;
+        @if $triangleOrder == 1 {
+          $side: right;
+        }
         margin-block: $screen-edge-space;
+        padding-#{$side}: var(--pointer-size);
         .triangle {
-          // points to the anchor's center, whose offsets from the tooltip are written by the positioning
-          margin-top: calc((var(--overlay-anchor-top) + var(--overlay-anchor-bottom)) / 2 - var(--pointer-size) / 2);
+          // points to the anchor's center, whose offsets from the tooltip are written by the positioning, kept inside
+          // the tooltip clear of its rounded corners
+          position: absolute;
+          #{$side}: 0;
+          top: clamp(#{$radius}, calc((var(--overlay-anchor-top) + var(--overlay-anchor-bottom)) / 2 - var(--pointer-size) / 2), calc(100% - var(--pointer-size) - #{$radius}));
         }
       } @else {
         margin-inline: $screen-edge-space;

@@ -75,7 +75,7 @@ describe("Tooltip", () => {
     expect(screen.getByTestId("tooltipItem")).not.toHaveClass("visible");
 
     act(() => {
-      jest.advanceTimersByTime(249);
+      jest.advanceTimersByTime(299);
     });
     expect(screen.getByTestId("tooltipItem")).toBeInTheDocument();
 
@@ -103,6 +103,34 @@ describe("Tooltip", () => {
     });
 
     expect(screen.getByTestId("tooltipItem")).toHaveClass("visible");
+  });
+
+  it("should not show again when the text is given back after it is emptied while open and the mouse has left", async () => {
+    const { rerender } = render(
+      <Tooltip text="Description">
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+
+    await act(() => user.hover(screen.getByText("Test Button")));
+    expect(screen.getByTestId("tooltipItem")).toBeInTheDocument();
+
+    rerender(
+      <Tooltip text="">
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+    await act(() => user.unhover(screen.getByText("Test Button")));
+    rerender(
+      <Tooltip text="Description">
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
+
+    expect(screen.queryByTestId("tooltipItem")).not.toBeInTheDocument();
   });
 
   it("should render the title if title prop is given", async () => {

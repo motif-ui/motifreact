@@ -32,7 +32,7 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
     overlayRef: tooltipRef,
     show,
     hide,
-  } = useAnchoredOverlay({ anchorRef, placement: position, limitWidth: true, duration: 250 });
+  } = useAnchoredOverlay({ anchorRef, placement: position, limitWidth: true, duration: 300, inactive: !text });
 
   const mergedRef = useMemo(() => mergeRefs(tooltipRef, ref), [tooltipRef, ref]);
 
