@@ -1,0 +1,70 @@
+@use "@styles" as *;
+
+// size, width, iconSize, textRole, textWeight (null: the role's own weight)
+$sizes: (
+  ("xs", 20, 14, "label-xs", "strong"),
+  ("sm", 24, 14, "label-sm", "stronger"),
+  ("md", 32, 20, "label-lg", "stronger"),
+  ("lg", 40, 24, "label-xl", "stronger"),
+  ("xl", 48, 36, "heading-h4", null),
+  ("xxl", 64, 48, "heading-h3", null)
+);
+
+.Root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--mtf-sizing-radius-round);
+}
+
+.image {
+  img {
+    z-index: 1;
+    aspect-ratio: 1;
+    width: 100%;
+    &::before {
+      content: "";
+      display: block;
+      padding-top: 100%;
+    }
+  }
+  .imagePlaceholder {
+    position: absolute;
+    z-index: 0;
+  }
+}
+
+@each $size, $width, $iconSize, $textRole, $textWeight in $sizes {
+  .#{$size} {
+    width: var(--mtf-sizing-#{$width});
+    min-width: var(--mtf-sizing-#{$width});
+    height: var(--mtf-sizing-#{$width});
+    min-height: var(--mtf-sizing-#{$width});
+
+    &.letters {
+      @include typography($textRole, $textWeight);
+    }
+
+    &.icon span {
+      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
+    }
+  }
+}
+
+@each $variant in $variants-v2 {
+  // neutral has its own rule below
+  @if $variant != "neutral" {
+    .#{$variant} {
+      background-color: var(--mtf-color-#{$variant}-solid);
+      color: var(--mtf-color-on-#{$variant});
+    }
+  }
+}
+
+// A neutral avatar stays close to the page tones, like the neutral button. The soft tone is translucent, so it is layered
+// over the surface fill to stay opaque on images and colored areas
+.neutral {
+  background: linear-gradient(var(--mtf-color-neutral-soft), var(--mtf-color-neutral-soft)), var(--mtf-color-surface-default);
+  color: var(--mtf-color-neutral-text);
+}

@@ -1,0 +1,92 @@
+@use "@styles" as *;
+
+// size, labelSize, paddingV, paddingH, iconSize, iconPaddingH, iconGap (the icons fit the label's line, so every chip of a
+// size has one height)
+$sizes: (("xs", "xxs", 2, 8, 14, 6, 4), ("sm", "xs", 4, 12, 16, 8, 6), ("md", "sm", 4, 16, 18, 10, 6), ("lg", "md", 6, 20, 20, 12, 8));
+
+.Root {
+  display: inline-flex;
+  vertical-align: bottom;
+  box-sizing: content-box;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: var(--mtf-sizing-radius-md);
+  @include transition(background-color);
+
+  // The icons follow the chip's icon color (outline sets it), else its text color; the close button's own variant
+  // color is overridden
+  .icon-left,
+  &.closable .icon-close {
+    color: var(--chip-icon-color, inherit);
+  }
+}
+
+.pill {
+  border-radius: var(--mtf-sizing-radius-round);
+}
+
+// The close button is as tall as its icon, so it centers on the label like the left icon
+.icon-close {
+  display: flex;
+}
+
+// A size changes the chip, its label and its icons: grouped by size
+@each $size, $labelSize, $paddingV, $paddingH, $iconSize, $iconPaddingH, $iconGap in $sizes {
+  .#{$size} {
+    min-width: var(--mtf-typography-body-#{$labelSize}-line-height);
+    padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
+
+    // With an icon on either side, both sides take the same padding, as wide as the label's visible space above and
+    // below, so the chip stays balanced whichever side the icon is on
+    &.withIcon,
+    &.closable {
+      padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$iconPaddingH});
+      gap: var(--mtf-sizing-space-#{$iconGap});
+    }
+
+    .label {
+      @include typography("body-#{$labelSize}");
+    }
+
+    // The close button gives its own size class to the icon inside it, so the size is set on that icon
+    .icon-left,
+    .icon-close > span {
+      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
+    }
+  }
+}
+
+@each $variant in $variants-v2 {
+  .#{$variant} {
+    // neutral solid has its own rule below
+    @if $variant != "neutral" {
+      &.solid {
+        --chip-hover-background: var(--mtf-color-#{$variant}-solid-hover);
+        background-color: var(--mtf-color-#{$variant}-solid);
+        color: var(--mtf-color-on-#{$variant});
+      }
+    }
+
+    // The border is decoration (the label names the chip), so it takes the solid tone; the icons take the border tone,
+    // one step lighter than the text
+    &.outline {
+      --chip-hover-background: var(--mtf-color-#{$variant}-soft);
+      --chip-icon-color: var(--mtf-color-#{$variant}-border);
+      border: solid var(--mtf-sizing-1) var(--mtf-color-#{$variant}-solid);
+      color: var(--mtf-color-#{$variant}-text);
+    }
+  }
+}
+
+// A neutral solid chip stays close to the page tones, like the neutral solid button: a soft fill
+.neutral.solid {
+  --chip-hover-background: var(--mtf-color-neutral-soft-hover);
+  background-color: var(--mtf-color-neutral-soft);
+  color: var(--mtf-color-neutral-text);
+}
+
+// Only a closable chip reacts to the pointer; each shape and variant sets its hover fill above
+.closable:hover {
+  background-color: var(--chip-hover-background);
+}
