@@ -27,7 +27,7 @@ const Hero4 = () => (
             </Grid.Row>
             <Grid.Row gap="sm" colsAuto>
               <Grid.Col>
-                <Button label="Discover All Components" variant="secondary" />
+                <Button label="Discover All Components" variant="neutral" />
               </Grid.Col>
               <Grid.Col>
                 <Button label="View on GitHub" iconPosition="left" icon="chevron_right" variant="secondary" shape="outline" />

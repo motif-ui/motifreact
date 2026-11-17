@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import ProgressCircle from "@/components/ProgressCircle/ProgressCircle";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { VariantV2, StandardPropsWithRef } from "../../../lib/types";
+import { Size5, VariantV2, StandardPropsWithRef } from "../../../lib/types";
 
 describe("ProgressCircle", () => {
   runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<SVGSVGElement>) => render(<ProgressCircle {...props} />), {
@@ -25,7 +25,7 @@ describe("ProgressCircle", () => {
   });
 
   it("should be rendered in a size given with the size prop", () => {
-    const sizes: ("sm" | "md" | "lg" | "xl")[] = ["sm", "md", "lg", "xl"];
+    const sizes: Size5[] = ["xs", "sm", "md", "lg", "xl"];
     sizes.forEach(size => {
       expect(render(<ProgressCircle size={size} />).container.firstChild).toHaveClass(size);
     });
