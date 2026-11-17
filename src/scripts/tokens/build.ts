@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import process from "node:process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
 import { colorPrint, isMainModule } from "../utils.js";
 import { buildTokens } from "./buildTokens.ts";
 import { toCss, toDtcg, toFigma } from "./formats.ts";
@@ -12,30 +12,57 @@ import type { Theme } from "./types.ts";
 export const OUTPUT_DIR = resolve("src/lib/styles/tokens/generated");
 const THEMES_DIR = resolve("src/lib/styles/tokens/themes");
 
-export const loadTheme = (name = "default") => JSON.parse(readFileSync(join(THEMES_DIR, `${name}.json`), "utf8")) as Theme;
+// Every seed file in tokens/themes is a theme and gets its own CSS (themes/<name>.css). legacy is what the shipped theme
+// files carry; basic is the first theme of the new system, shown only in the token compare screens until the release.
+// Figma and the JSON exports follow FIGMA_THEME.
+export const THEMES = readdirSync(THEMES_DIR)
+  .filter(file => file.endsWith(".json"))
+  .map(file => file.replace(/\.json$/, ""))
+  .sort();
+export const FIGMA_THEME = "basic";
+
+export const loadTheme = (name: string = FIGMA_THEME) => JSON.parse(readFileSync(join(THEMES_DIR, `${name}.json`), "utf8")) as Theme;
 
 type Generated = { files: Record<string, string>; errors: string[]; warnings: string[]; count: number };
 
-const buildFiles = (theme: Theme) => {
+const buildFiles = (name: string, theme: Theme): Generated => {
   const { tokens, warnings } = buildTokens(theme);
   const figma = toFigma(tokens);
+  const exports =
+    name === FIGMA_THEME
+      ? {
+          [`${name}.tokens.json`]: `${JSON.stringify(toDtcg(tokens), null, 2)}\n`,
+          [`${name}.figma.json`]: `${JSON.stringify(figma, null, 2)}\n`,
+        }
+      : {};
   return {
-    files: {
-      "motif.tokens.json": `${JSON.stringify(toDtcg(tokens), null, 2)}\n`,
-      "motif.css": toCss(tokens),
-      "motif.figma.json": `${JSON.stringify(figma, null, 2)}\n`,
-    },
-    errors: [...validateTokens(tokens), ...validateFigma(figma)],
-    warnings,
+    files: { [`themes/${name}.css`]: toCss(tokens), ...exports },
+    errors: [...validateTokens(tokens), ...(name === FIGMA_THEME ? validateFigma(figma) : [])].map(error => `${name}: ${error}`),
+    warnings: warnings.map(warning => `${name}: ${warning}`),
     count: tokens.length,
   };
 };
 
-/** Everything the generator produces, keyed by file name, plus validation results. A broken seed file stops before generation. */
-export const generate = (theme = loadTheme()) => {
+const generateTheme = (name: string, theme: Theme): Generated => {
   const themeErrors = validateTheme(theme);
-  return themeErrors.length ? { files: {}, errors: themeErrors, warnings: [], count: 0 } : buildFiles(theme);
+  return themeErrors.length
+    ? { files: {}, errors: themeErrors.map(error => `${name}: ${error}`), warnings: [], count: 0 }
+    : buildFiles(name, theme);
 };
+
+/** Everything the generator produces for every theme, keyed by file name, plus validation results. A broken seed file stops before generation. */
+export const generate = (themes: Record<string, Theme> = Object.fromEntries(THEMES.map(name => [name, loadTheme(name)]))) =>
+  Object.entries(themes)
+    .map(([name, theme]) => generateTheme(name, theme))
+    .reduce<Generated>(
+      (all, one) => ({
+        files: { ...all.files, ...one.files },
+        errors: [...all.errors, ...one.errors],
+        warnings: [...all.warnings, ...one.warnings],
+        count: Math.max(all.count, one.count),
+      }),
+      { files: {}, errors: [], warnings: [], count: 0 },
+    );
 
 /** Files whose committed content differs from a fresh generation. */
 export const staleFiles = (files: Record<string, string>, dir = OUTPUT_DIR) =>
@@ -47,13 +74,15 @@ const checkFiles = ({ files, count }: Generated) => {
   const stale = staleFiles(files);
   stale.forEach(name => console.error(colorPrint.red(` ❌ ${name} is out of date, run npm run build:mtf-tokens`)));
   stale.length && process.exit(1);
-  console.log(colorPrint.green(` ✅ ${count} tokens valid, generated files up to date`));
+  console.log(colorPrint.green(` ✅ ${count} tokens per theme (${THEMES.join(", ")}) valid, generated files up to date`));
 };
 
 const writeFiles = ({ files, count }: Generated) => {
-  mkdirSync(OUTPUT_DIR, { recursive: true });
-  Object.entries(files).forEach(([name, content]) => writeFileSync(join(OUTPUT_DIR, name), content, "utf8"));
-  console.log(colorPrint.green(` ✅ ${count} tokens valid, written to ${OUTPUT_DIR}`));
+  Object.entries(files).forEach(([name, content]) => {
+    mkdirSync(dirname(join(OUTPUT_DIR, name)), { recursive: true });
+    writeFileSync(join(OUTPUT_DIR, name), content, "utf8");
+  });
+  console.log(colorPrint.green(` ✅ ${count} tokens per theme (${THEMES.join(", ")}) valid, written to ${OUTPUT_DIR}`));
 };
 
 const runCLI = () => {

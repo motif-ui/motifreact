@@ -19,7 +19,7 @@ const PickerActions = (props: Props) => {
 
   return (
     <div className={classes}>
-      <Button variant="secondary" label={t("g.clear")} size={size} onClick={onClearClick} />
+      <Button variant="neutral" label={t("g.clear")} size={size} onClick={onClearClick} />
       <Button variant="primary" label={t("g.ok")} size={size} onClick={onOkClick} />
     </div>
   );

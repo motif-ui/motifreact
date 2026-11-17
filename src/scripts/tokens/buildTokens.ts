@@ -202,15 +202,20 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
     // every variant stays visible there (neutral, accent, danger). Light keeps the anchor: a light seed such as warning stays
     // bright instead of turning mustard; only its border darkens.
     const darkStep = DESCENDING.find(i => i <= anchor && passes(i, neutral(900), 3)) ?? 0;
-    const solidLightHex = hexOf(key, STEPS[anchor]);
+    // neutral's anchor (700) is near black, so a neutral fill (progress bar, alert icon) read as dark; its light solid is
+    // 500, still 3:1 against white. Its soft tints, text and border keep the anchor.
+    const solidLight = key === "neutral" ? STEPS.indexOf(500) : anchor;
+    const solidLightHex = hexOf(key, STEPS[solidLight]);
     const solidDarkHex = hexOf(key, STEPS[darkStep]);
-    const onLight = lightnessOf(solidLightHex) < 0.7 ? WHITE : neutral(950);
-    // A moved dark solid is lighter, so its text takes whichever of white / neutral-950 reads better on it
-    const onDark =
-      darkStep === anchor ? onLight : contrast(WHITE, solidDarkHex) >= contrast(neutral(950), solidDarkHex) ? WHITE : neutral(950);
+    // A moved solid (neutral's light 500, a lighter dark step) takes whichever of white / neutral-950 reads better on it
+    const betterOn = (hex: string) => (contrast(WHITE, hex) >= contrast(neutral(950), hex) ? WHITE : neutral(950));
+    const onAnchor = lightnessOf(hexOf(key, STEPS[anchor])) < 0.7 ? WHITE : neutral(950);
+    const onLight = solidLight === anchor ? onAnchor : betterOn(solidLightHex);
+    const onDark = darkStep === anchor ? onAnchor : betterOn(solidDarkHex);
     return {
       key,
       anchor,
+      solidLight,
       darkStep,
       textLight: ASCENDING.find(i => i >= Math.max(anchor, 6) && passes(i, WHITE, 4.5)) ?? STEPS.length - 1,
       // neutral carries no color, so in dark its text reads like body text (text-default's step) instead of the first passing
@@ -226,19 +231,19 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
   });
 
   const intents = scales.flatMap(
-    ({ key, anchor, darkStep, textLight, textDark, borderLight, onLight, onDark, onRatioLight, onRatioDark }) => {
+    ({ key, anchor, solidLight, darkStep, textLight, textDark, borderLight, onLight, onDark, onRatioLight, onRatioDark }) => {
       const onRef = (hex: string) => (hex === WHITE ? white : pal("neutral", 950));
       const borderNote = (index: number, background: string) =>
         `${index === anchor ? "= solid" : `solid ${STEPS[anchor]} → ${STEPS[index]}`} · ${contrast(hexOf(key, STEPS[index]), background)}:1`;
       return [
         color(
           [key, "solid"],
-          pal(key, STEPS[anchor]),
+          pal(key, STEPS[solidLight]),
           pal(key, STEPS[darkStep]),
           darkStep === anchor ? "filled button, selected" : `filled button, selected · dark ${STEPS[anchor]} → ${STEPS[darkStep]}`,
         ),
-        color([key, "solid-hover"], pal(key, stepAt(anchor + 1)), pal(key, stepAt(darkStep - 1))),
-        color([key, "solid-active"], pal(key, stepAt(anchor + 2)), pal(key, stepAt(darkStep - 2))),
+        color([key, "solid-hover"], pal(key, stepAt(solidLight + 1)), pal(key, stepAt(darkStep - 1))),
+        color([key, "solid-active"], pal(key, stepAt(solidLight + 2)), pal(key, stepAt(darkStep - 2))),
         color(
           [key, "soft"],
           palAlpha(key, STEPS[anchor], 0.08),
@@ -253,6 +258,8 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
           pal(key, STEPS[textDark]),
           `${contrast(hexOf(key, STEPS[textLight]), WHITE)}:1 · ${contrast(hexOf(key, STEPS[textDark]), neutral(900))}:1`,
         ),
+        // One step further from the surface: a link's hover in both modes (darker in light, lighter in dark)
+        color([key, "text-hover"], pal(key, stepAt(textLight + 1)), pal(key, stepAt(textDark - 1)), "link hover"),
         color(
           [key, "border"],
           pal(key, STEPS[borderLight]),

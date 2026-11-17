@@ -637,7 +637,7 @@ exports[`TimePicker should render with only required props, have default prop va
       class="actions actionsSpread"
     >
       <button
-        class="Root secondary solid md"
+        class="Root neutral solid md"
         type="button"
       >
         <span>

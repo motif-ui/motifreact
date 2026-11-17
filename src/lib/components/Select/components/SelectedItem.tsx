@@ -8,15 +8,16 @@ type Props = {
   item: SelectItem;
   removeHandler: (item: SelectItem) => void;
   size: InputSize;
+  disabled?: boolean;
 };
 
 const SelectedItem = (props: Props) => {
-  const { item, removeHandler, size } = props;
+  const { item, removeHandler, size, disabled } = props;
   const classNames = sanitizeModuleClasses(styles, "selectionChip", size);
   return (
     <div className={classNames}>
       <span className={styles.label}>{item.label}</span>
-      <MotifIconButton name="close" className={styles.closeIcon} onClick={() => removeHandler(item)} />
+      {!disabled && <MotifIconButton name="close" className={styles.closeIcon} onClick={() => removeHandler(item)} />}
     </div>
   );
 };

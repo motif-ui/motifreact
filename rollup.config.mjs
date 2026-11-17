@@ -32,12 +32,13 @@ const generateScopedCssClassName = (localClassName, moduleFilePath) => {
     : `${DEFAULT_CLASSNAME_PREFIX}${moduleName}--${localClassName}`;
 };
 
-// Ships each theme with the new design tokens (--mtf-*) appended, so the theme file users already import also brings the
-// tokens. Once every component has migrated, the generator writes the theme files itself and this step goes away.
+// Ships each theme with the legacy design tokens (--mtf-*) appended, so the theme file users already import also brings
+// the tokens, with the old colors (secondary stays gray). Once every component has migrated, the generator writes the
+// theme files itself and this step goes away.
 const themesWithTokens = () => ({
   name: "themes-with-tokens",
   generateBundle() {
-    const tokens = fs.readFileSync(path.resolve(__dirname, "src/lib/styles/tokens/generated/motif.css"), "utf8");
+    const tokens = fs.readFileSync(path.resolve(__dirname, "src/lib/styles/tokens/generated/themes/legacy.css"), "utf8");
     const themesDir = path.resolve(__dirname, "src/lib/styles/themes");
     fs.readdirSync(themesDir)
       .filter(file => file.endsWith(".css"))

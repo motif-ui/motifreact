@@ -2,13 +2,13 @@
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { OUTPUT_DIR } from "../build.ts";
+import { FIGMA_THEME, OUTPUT_DIR } from "../build.ts";
 import type { FigmaCollection, FigmaPayload, FigmaValue } from "../types.ts";
 
 // Ready-to-run Figma scripts, one per part: each collection needs the ones before it (aliases), styles need all of them
 const BUNDLE_DIR = resolve("node_modules/.cache/mtf-figma-tokens");
 
-const payload = JSON.parse(readFileSync(join(OUTPUT_DIR, "motif.figma.json"), "utf8")) as FigmaPayload;
+const payload = JSON.parse(readFileSync(join(OUTPUT_DIR, `${FIGMA_THEME}.figma.json`), "utf8")) as FigmaPayload;
 const importer = readFileSync(new URL("./importTokens.figma.js", import.meta.url), "utf8");
 
 // The compact form importTokens.figma.js expands: scopes listed once, one array per variable, aliases as "@name"
