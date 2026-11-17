@@ -1,5 +1,6 @@
 import { ComponentType, CSSProperties, Fragment, useEffect, useRef } from "react";
 import styles from "./TokenCompare.module.scss";
+import basicTokens from "../generated/themes/basic.css?raw";
 
 export type CompareRow<P> = {
   label: string;
@@ -16,13 +17,16 @@ export type CompareSection<P> = { title: string; rows: CompareRow<P>[]; note?: s
 const listIn = (attributes: string) => `:is(${attributes} [role="listbox"], [role="listbox"]${attributes})`;
 const HOVERED_OPTION = 'li:nth-child(2 of [role="option"])';
 
+// Storybook loads the legacy tokens on :root (preview.tsx); the basic column scopes the basic tokens to itself
+const BASIC_TOKENS = basicTokens.replace(":root {", '[data-mtf-theme="basic"] {');
+
 const PREVIEW_CSS = [
   `${listIn("[data-compare-hover]")} ${HOVERED_OPTION} { background-color: var(--theme-color-surface-light-default); }`,
   `${listIn("[data-compare-next][data-compare-hover]")} ${HOVERED_OPTION} { background-color: var(--mtf-color-neutral-soft); }`,
 ].join("\n");
 
-// An overlay rendered in a portal on document.body leaves its cell, so it gets the cell's mode and preview attributes
-const PORTAL_ATTRIBUTES = ["data-mtf-mode", "data-compare-next", "data-compare-hover"];
+// An overlay rendered in a portal on document.body leaves its cell, so it gets the cell's theme, mode and preview attributes
+const PORTAL_ATTRIBUTES = ["data-mtf-theme", "data-mtf-mode", "data-compare-next", "data-compare-hover"];
 const opening = { queue: Promise.resolve() };
 const nextFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
 
@@ -44,11 +48,13 @@ const openInCell = (cell: HTMLElement) => {
   });
 };
 
-// current: the component before migration (baseline/, frozen from git) · light/dark: the live component
+// current: the component before migration (baseline/, frozen from git) · light/dark: the live component on the legacy theme
+// (what existing users get) · basic: the live component on the basic theme
 const COLUMNS = [
-  { key: "current", title: "Bugün" },
-  { key: "light", title: "Yeni · Light" },
-  { key: "dark", title: "Yeni · Dark" },
+  { key: "current", title: "Today", theme: undefined, mode: undefined },
+  { key: "light", title: "Legacy · Light", theme: undefined, mode: undefined },
+  { key: "dark", title: "Legacy · Dark", theme: undefined, mode: "dark" },
+  { key: "basic", title: "Basic · Light", theme: "basic", mode: undefined },
 ] as const;
 
 type Column = (typeof COLUMNS)[number]["key"];
@@ -58,6 +64,7 @@ type CellProps<P> = { column: Column; row: CompareRow<P>; current: ComponentType
 const Cell = <P extends object>({ column, row: { props, open, hover }, current: Current, next: Next, style }: CellProps<P>) => {
   const ref = useRef<HTMLDivElement>(null);
   const isNext = column !== "current";
+  const { theme, mode } = COLUMNS.find(({ key }) => key === column) ?? COLUMNS[0];
 
   useEffect(() => {
     const cell = ref.current;
@@ -80,7 +87,8 @@ const Cell = <P extends object>({ column, row: { props, open, hover }, current: 
       ref={ref}
       style={style}
       className={`${styles.cell} ${open ? styles.tall : ""}`}
-      data-mtf-mode={column === "dark" ? "dark" : undefined}
+      data-mtf-theme={theme}
+      data-mtf-mode={mode}
       data-compare-next={isNext ? "" : undefined}
       data-compare-hover={hover ? "" : undefined}
     >
@@ -104,18 +112,19 @@ const toLines = <P,>(sections: CompareSection<P>[]): Line<P>[] =>
 // and the cells sit on top of it transparently
 const placeAt = (line: number, column = 1, span = 1): CSSProperties => ({ gridRow: line + 2, gridColumn: `${column} / span ${span}` });
 
-/** Renders every row three times: the pre-migration baseline, then the live component in light and dark mode. */
+/** Renders every row four times: the pre-migration baseline, then the live component on legacy (light, dark) and on basic. */
 export const TokenCompare = <P extends object>({ sections, current, next }: TokenCompareProps<P>) => {
   const lines = toLines(sections);
 
   return (
     <div className={styles.root}>
-      <style>{PREVIEW_CSS}</style>
-      {COLUMNS.map(({ key }, index) => (
+      <style>{`${BASIC_TOKENS}\n${PREVIEW_CSS}`}</style>
+      {COLUMNS.map(({ key, theme, mode }, index) => (
         <div
           key={key}
           className={`${styles.panel} ${styles[key]}`}
-          data-mtf-mode={key === "dark" ? "dark" : undefined}
+          data-mtf-theme={theme}
+          data-mtf-mode={mode}
           style={{ gridRow: `2 / span ${lines.length}`, gridColumn: index + 2 }}
         />
       ))}

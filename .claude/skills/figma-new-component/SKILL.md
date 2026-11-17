@@ -37,6 +37,8 @@ Same as [figma-sync](../figma-sync/SKILL.md#hard-rules): the only writable file 
    4. the Component section table ([../figma-sync/scripts/component-table.js](../figma-sync/scripts/component-table.js)),
       then the spec tables and the Scenarios tables;
    5. Internal parts.
+   6. Put the page in its alphabetical place in the Components group: run
+      [../figma-sync/scripts/sort-pages.js](../figma-sync/scripts/sort-pages.js).
 
    Use existing library components (Button, Icon, …) as nested instances.
 

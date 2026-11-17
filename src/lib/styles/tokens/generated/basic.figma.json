@@ -1878,6 +1878,24 @@
           }
         },
         {
+          "name": "color/primary/text-hover",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "link hover",
+          "values": {
+            "Light": {
+              "alias": "color/palette/primary/700"
+            },
+            "Dark": {
+              "alias": "color/palette/primary/300"
+            }
+          }
+        },
+        {
           "name": "color/primary/border",
           "type": "COLOR",
           "scopes": [
@@ -2050,6 +2068,24 @@
             },
             "Dark": {
               "alias": "color/palette/secondary/400"
+            }
+          }
+        },
+        {
+          "name": "color/secondary/text-hover",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "link hover",
+          "values": {
+            "Light": {
+              "alias": "color/palette/secondary/800"
+            },
+            "Dark": {
+              "alias": "color/palette/secondary/300"
             }
           }
         },
@@ -2230,6 +2266,24 @@
           }
         },
         {
+          "name": "color/accent/text-hover",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "link hover",
+          "values": {
+            "Light": {
+              "alias": "color/palette/accent/800"
+            },
+            "Dark": {
+              "alias": "color/palette/accent/300"
+            }
+          }
+        },
+        {
           "name": "color/accent/border",
           "type": "COLOR",
           "scopes": [
@@ -2293,7 +2347,7 @@
           "description": "filled button, selected · dark 700 → 500",
           "values": {
             "Light": {
-              "alias": "color/palette/neutral/700"
+              "alias": "color/palette/neutral/500"
             },
             "Dark": {
               "alias": "color/palette/neutral/500"
@@ -2310,7 +2364,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Light": {
-              "alias": "color/palette/neutral/800"
+              "alias": "color/palette/neutral/600"
             },
             "Dark": {
               "alias": "color/palette/neutral/400"
@@ -2327,7 +2381,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Light": {
-              "alias": "color/palette/neutral/900"
+              "alias": "color/palette/neutral/700"
             },
             "Dark": {
               "alias": "color/palette/neutral/300"
@@ -2406,6 +2460,24 @@
           }
         },
         {
+          "name": "color/neutral/text-hover",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "link hover",
+          "values": {
+            "Light": {
+              "alias": "color/palette/neutral/800"
+            },
+            "Dark": {
+              "alias": "color/palette/neutral/100"
+            }
+          }
+        },
+        {
           "name": "color/neutral/border",
           "type": "COLOR",
           "scopes": [
@@ -2448,10 +2520,10 @@
             "STROKE_COLOR"
           ],
           "hiddenFromPublishing": false,
-          "description": "on solid 6.79:1 · dark 5.01:1",
+          "description": "on solid 5.01:1 · dark 5.01:1",
           "values": {
             "Light": {
-              "alias": "color/palette/white"
+              "alias": "color/palette/neutral/950"
             },
             "Dark": {
               "alias": "color/palette/neutral/950"
@@ -2578,6 +2650,24 @@
             },
             "Dark": {
               "alias": "color/palette/info/400"
+            }
+          }
+        },
+        {
+          "name": "color/info/text-hover",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "link hover",
+          "values": {
+            "Light": {
+              "alias": "color/palette/info/700"
+            },
+            "Dark": {
+              "alias": "color/palette/info/300"
             }
           }
         },
@@ -2758,6 +2848,24 @@
           }
         },
         {
+          "name": "color/success/text-hover",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "link hover",
+          "values": {
+            "Light": {
+              "alias": "color/palette/success/800"
+            },
+            "Dark": {
+              "alias": "color/palette/success/300"
+            }
+          }
+        },
+        {
           "name": "color/success/border",
           "type": "COLOR",
           "scopes": [
@@ -2934,6 +3042,24 @@
           }
         },
         {
+          "name": "color/warning/text-hover",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "link hover",
+          "values": {
+            "Light": {
+              "alias": "color/palette/warning/700"
+            },
+            "Dark": {
+              "alias": "color/palette/warning/100"
+            }
+          }
+        },
+        {
           "name": "color/warning/border",
           "type": "COLOR",
           "scopes": [
@@ -3106,6 +3232,24 @@
             },
             "Dark": {
               "alias": "color/palette/danger/400"
+            }
+          }
+        },
+        {
+          "name": "color/danger/text-hover",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "link hover",
+          "values": {
+            "Light": {
+              "alias": "color/palette/danger/700"
+            },
+            "Dark": {
+              "alias": "color/palette/danger/300"
             }
           }
         },

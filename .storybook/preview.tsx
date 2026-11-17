@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/nextjs";
-import "../src/lib/styles/tokens/generated/motif.css";
+import "../src/lib/styles/tokens/generated/themes/legacy.css";
 import type { ArgTypesEnhancer } from "storybook/internal/types";
 import { mswLoader } from "msw-storybook-addon/csf3";
 import { MotifDocContainer } from "./MotifDoc/MotifDocContainer";
