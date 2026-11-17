@@ -4,6 +4,8 @@ import Hero4 from "./hero4/Hero4";
 import hero4Source from "./hero4/Hero4.tsx?raw";
 import Hero2 from "./hero2/Hero2";
 import hero2Source from "./hero2/Hero2.tsx?raw";
+import Hero3 from "./hero3/Hero3";
+import hero3Source from "./hero3/Hero3.tsx?raw";
 import Hero5 from "./hero5/Hero5";
 import hero5Source from "./hero5/Hero5.tsx?raw";
 
@@ -22,6 +24,12 @@ export const Hero2Block: Story = {
   name: "Hero2",
   render: () => <Hero2 />,
   parameters: { docs: { source: { code: hero2Source, language: "tsx" } } },
+};
+
+export const Hero3Block: Story = {
+  name: "Hero3",
+  render: () => <Hero3 />,
+  parameters: { docs: { source: { code: hero3Source, language: "tsx" } } },
 };
 
 export const Hero4Block: Story = {
