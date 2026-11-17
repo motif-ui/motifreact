@@ -73,37 +73,55 @@ import "@motif-ui/react/themes/default-theme.css";
 } */
 ```
 
+### 2. Wrap with Provider for your framework:
+
 ### Next.js (App Router)
 
-#### 2. Create a client-side provider
-
 ```tsx
-// app/providers.tsx
+///////////////////////
+// app/providers.tsx //
+///////////////////////
 "use client";
-
 import { MotifProvider } from "@motif-ui/react";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
-  return <MotifProvider>{children}</MotifProvider>;
+export default Providers = ({ children }) => (
+  <MotifProvider>{children}</MotifProvider>
+);
+
+////////////////////
+// app/layout.tsx //
+////////////////////
+import Providers from "./providers";
+
+export default RootLayout = ({ children }) => (
+  <html>
+    <body>
+      <Providers>{children}</Providers>
+    </body>
+  </html>
+)
+```
+
+### React (Vite)
+
+```jsx
+import { MotifProvider } from "@motif-ui/react";
+
+function App() {
+  return (
+    <MotifProvider>
+      {/* Your app content */}
+    </MotifProvider>
+  );
 }
 ```
 
-#### 3. Import A Theme and wrap the root layout
+## 3. Import A Theme
 
-```tsx
-// app/layout.tsx
+Import a theme where your main layout (html) file lives.
+
+```jsx
 import "@motif-ui/react/themes/default-theme.css";
-import Providers from "./providers";
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  );
-}
 ```
 
 And that's it! 🥳
