@@ -1,0 +1,68 @@
+@use "@styles" as *;
+
+.root {
+  display: grid;
+  grid-template-columns: 160px repeat(3, minmax(260px, 1fr));
+  gap: 8px;
+  align-items: stretch;
+  font-family: Inter, system-ui, sans-serif;
+  min-width: 960px;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+
+  // Above the portaled dropdowns (z-layer "anchored"), which scroll under it
+  z-index: z-layer("anchored") + 1;
+  background: #ffffff;
+  padding: 8px 0;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.title {
+  padding-top: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.note {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.label {
+  font-size: 13px;
+  color: #374151;
+  align-self: center;
+}
+
+.panel {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.current {
+  background: #ffffff;
+}
+
+// The new columns use the surface the old column sits on (white in Light), so the two compare side by side
+.light,
+.dark {
+  background: var(--mtf-color-surface-default);
+}
+
+.dark {
+  border-color: transparent;
+}
+
+// Cells sit on their column's panel, so they draw no box of their own
+.cell {
+  padding: 16px;
+}
+
+.tall {
+  min-height: 300px;
+}

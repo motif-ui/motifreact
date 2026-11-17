@@ -1,0 +1,7 @@
+.about-1 {
+  .ceo-card .mtf-ImageView {
+    border-radius: 999px;
+    background-clip: content-box;
+    padding: 16px;
+  }
+}

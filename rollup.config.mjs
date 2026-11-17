@@ -5,12 +5,12 @@ import terser from "@rollup/plugin-terser";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import styles from "rollup-plugin-styler";
 import dts from "rollup-plugin-dts";
-import copy from "@rollup-extras/plugin-copy";
 import url from "postcss-url";
 import del from "rollup-plugin-delete";
 import alias from "@rollup/plugin-alias";
 import removeJsxAttributes from "rollup-plugin-jsx-remove-attributes";
 import path from "path";
+import fs from "fs";
 import process from "node:process";
 import { fileURLToPath } from "url";
 import json from "@rollup/plugin-json";
@@ -31,6 +31,25 @@ const generateScopedCssClassName = (localClassName, moduleFilePath) => {
     ? `${DEFAULT_CLASSNAME_PREFIX}${moduleName}`
     : `${DEFAULT_CLASSNAME_PREFIX}${moduleName}--${localClassName}`;
 };
+
+// Ships each theme with the new design tokens (--mtf-*) appended, so the theme file users already import also brings the
+// tokens. Once every component has migrated, the generator writes the theme files itself and this step goes away.
+const themesWithTokens = () => ({
+  name: "themes-with-tokens",
+  generateBundle() {
+    const tokens = fs.readFileSync(path.resolve(__dirname, "src/lib/styles/tokens/generated/motif.css"), "utf8");
+    const themesDir = path.resolve(__dirname, "src/lib/styles/themes");
+    fs.readdirSync(themesDir)
+      .filter(file => file.endsWith(".css"))
+      .forEach(file =>
+        this.emitFile({
+          type: "asset",
+          fileName: `themes/${file}`,
+          source: `${fs.readFileSync(path.join(themesDir, file), "utf8")}\n${tokens}`,
+        }),
+      );
+  },
+});
 
 export default [
   {
@@ -112,14 +131,7 @@ export default [
           wrapLayerPlugin,
         ],
       }),
-      copy({
-        targets: [
-          {
-            src: "src/lib/styles/themes/*.css",
-            dest: "themes",
-          },
-        ],
-      }),
+      themesWithTokens(),
       terser({
         mangle: {
           keep_fnames: true,

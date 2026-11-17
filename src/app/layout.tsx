@@ -1,5 +1,6 @@
 import "./globals.css";
 import "../lib/styles/themes/default-theme.css";
+import "../lib/styles/tokens/generated/motif.css";
 import type { ReactNode } from "react";
 import { MotifProvider } from "../lib";
 import Script from "next/script";

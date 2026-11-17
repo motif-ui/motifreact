@@ -318,20 +318,22 @@ to the new default now, set it globally with `componentDefaults` of `MotifProvid
 <MotifProvider componentDefaults={{ Grid: { padding: "none" } }}>...</MotifProvider> // switches to the new default
 ```
 
-### Upcoming: fluid by default
+### Deprecated `fluid`
 
-`<Grid>` currently limits its width to the container max-width of the screen size, unless **fluid** is set. **Grid will
-be fluid by default in the next major version**, and the **fluid** prop will be removed. The container max-widths are
-already provided by `<Container>`, so for the main layout of a page, use a fluid `<Grid>` in a `<Container>`. It will
-keep working the same after the change:
+**fluid** prop is deprecated and will be removed in the next major version, where `<Grid>` becomes fluid by default.
+Until then, `<Grid>` limits its width to the container max-width of the screen size, unless **fluid** is set.
+
+The container max-widths are provided by `<Container>`. For the main layout of a page, use a `<Grid>` in a
+`<Container>`, which works the same before and after the change:
 
 ```tsx
 <Container>
-  <Grid fluid>...</Grid>
+  <Grid>...</Grid>
 </Container>
 ```
 
-A Grid nested in a Col or a Panel will not need **fluid** anymore after the change.
+In a `<Container>`, a Col or any other element narrower than the container max-width, **fluid** has no effect, so it can
+already be removed there.
 
 ### Deprecated `leanToEdge`
 

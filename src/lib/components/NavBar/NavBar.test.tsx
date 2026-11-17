@@ -288,6 +288,16 @@ describe("NavBar", () => {
     expect(getByText("< 10000 Emails")).toBeInTheDocument();
   });
 
+  it("should close the open sub menus when clicked outside the menu", async () => {
+    const { getByText, queryByText } = render(<NavBar mainMenu={{ items }} />);
+    await userEvent.click(getByText("Services"));
+    await userEvent.click(getByText("Premium"));
+    expect(getByText("Email Services")).toBeInTheDocument();
+    await userEvent.click(document.body);
+    expect(queryByText("Premium")).not.toBeInTheDocument();
+    expect(queryByText("Email Services")).not.toBeInTheDocument();
+  });
+
   it("should render first level menus as a bar", () => {
     const { container, getByText } = render(<NavBar mainMenu={{ items }} />);
     expect(container.firstElementChild?.children).toHaveLength(2);

@@ -32,8 +32,8 @@ export type GridDefaultableProps = {
   //  max-widths in Grid.module.scss, since Container covers them. It cannot be deprecated before that, as it is the only
   //  way to fill the width until Grid becomes fluid by default
   /**
-   * Fills the width of its container, instead of the container max-width of the screen size. Grid will be fluid by
-   * default in the next major version
+   * @deprecated Grid will be fluid by default in the next major version. Use Container for the container max-widths of
+   * a page. In a Container, a Col or a Panel, fluid has no effect and can be removed already
    */
   fluid?: boolean;
   // TODO: Remove in the next major version, together with gutter, and make "none" the default padding. Then render no
