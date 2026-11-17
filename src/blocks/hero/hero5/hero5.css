@@ -1,0 +1,8 @@
+.hero-5 {
+  .buttons {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
