@@ -52,6 +52,8 @@ const Providers = ({ children }) => (
   <MotifProvider>{children}</MotifProvider>
 );
 
+export default Providers;
+
 ////////////////////
 // app/layout.tsx //
 ////////////////////
@@ -64,6 +66,8 @@ const RootLayout = ({ children }) => (
     </body>
   </html>
 )
+
+export default RootLayout;
 ```
 
 ### React (Vite)
