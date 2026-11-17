@@ -1,9 +1,10 @@
 .hero-1 {
   .buttons {
     display: flex;
-    gap: 36px;
+    row-gap: 16px;
+    column-gap: 16px;
     align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
 
     .mtf-Link,
     .mtf-Link .mtf-Icon {
