@@ -84,7 +84,7 @@ function App() {
 }
 ```
 
-## 3. Import A Theme
+### 3. Import A Theme
 
 Import a theme where your main layout (html) file lives.
 
