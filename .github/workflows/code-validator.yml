@@ -39,7 +39,6 @@ jobs:
 
   e2e:
     name: Behavioral Tests
-    needs: validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -83,8 +82,11 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           persist-credentials: false
 
-      - name: Setup Dependencies
-        uses: ./.github/actions/setup-node-deps
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24.11.0
+          cache: "npm"
 
       - name: Package size report
         uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
