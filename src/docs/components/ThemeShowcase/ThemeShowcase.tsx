@@ -38,15 +38,14 @@ const ThemeShowcase = () => {
           <Grid.Col>
             <Text variant="h4" text="Color Palette" />
             <div className={styles.flexHorizontal1Rem}>
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-primary-primary-500)" }} size="lg" />
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-secondary-secondary-500)" }} size="lg" />
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-accent-accent-500)" }} size="lg" />
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-neutral-neutral-500)" }} size="lg" />
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-grayscale-grayscale-500)" }} size="lg" />
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-success-success-500)" }} size="lg" />
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-warning-warning-500)" }} size="lg" />
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-danger-danger-500)" }} size="lg" />
-              <Avatar style={{ backgroundColor: "var(--theme-color-semantic-info-info-500)" }} size="lg" />
+              <Avatar variant="primary" size="lg" />
+              <Avatar variant="secondary" size="lg" />
+              <Avatar variant="accent" size="lg" />
+              <Avatar variant="neutral" size="lg" />
+              <Avatar variant="success" size="lg" />
+              <Avatar variant="warning" size="lg" />
+              <Avatar variant="danger" size="lg" />
+              <Avatar variant="info" size="lg" />
             </div>
           </Grid.Col>
         </Grid.Row>
