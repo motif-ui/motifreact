@@ -18,6 +18,12 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
 - Hidden "Docs" variable collection `VariableCollectionId:23:2`: template colors only (`docs/*`), never product tokens.
 - Product tokens come only from the generator: `npm run figma:mtf-tokens`, then run the bundled scripts.
 
+## Page conventions
+
+- The doc page's props table is **Design properties**: only the props that change the look (2026-11-18, applied to
+  every page). Spec and scenario labels use the code's `prop=value` names.
+- `Icon/motif_ui` (`7:18`) had a hard-coded region fill; it was removed so instances recolor it like other icons.
+
 ## Plugin API pitfalls
 
 - A variable-bound paint needs the variable's resolved color as its base color (`variable.resolveForConsumer(node)`),
