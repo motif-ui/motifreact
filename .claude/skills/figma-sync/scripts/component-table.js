@@ -103,12 +103,13 @@ const leftPad = PAD + Math.max(0, CHIP_INSET + colChipW + CHIP_CLEAR - firstLabe
 const colX = column.values.map((_, i) => leftPad + colW.slice(0, i).reduce((a, b) => a + b, 0));
 
 // rows and blocks
-const chipTexts = await Promise.all(blocks.map(b => text(b.lines.join("\n"), "label-sm", "docs/brand-strong")));
+// a block with no lines gets no chip (a set with a single block, e.g. Badge)
+const chipTexts = await Promise.all(blocks.map(b => (b.lines.length ? text(b.lines.join("\n"), "label-sm", "docs/brand-strong") : null)));
 const rowTexts = await Promise.all(blocks.map(b => Promise.all(b.rows.map(r => text(r.label, "label-sm", "docs/text-strong")))));
 const layout = [];
 const bottom = blocks.reduce((y0, block, bi) => {
   const top = y0 + (bi === 0 ? 0 : BLOCK_GAP);
-  const chipH = chipTexts[bi].height + 2 * CHIP_PY;
+  const chipH = chipTexts[bi] ? chipTexts[bi].height + 2 * CHIP_PY : -HEAD_GAP;
   const rows = [];
   const end = block.rows.reduce(
     (y, row) => {
@@ -130,7 +131,7 @@ const bottom = blocks.reduce((y0, block, bi) => {
 set.resizeWithoutConstraints(colX.at(-1) + colW.at(-1) + PAD, bottom - ROW_GAP + PAD);
 
 // place the set, the rail and the band
-const RAIL_W = Math.max(...chipTexts.map(t => t.width + 2 * CHIP_PX), ...rowTexts.flat().map(t => t.width)) + 2 * RAIL_PAD;
+const RAIL_W = Math.max(...chipTexts.filter(Boolean).map(t => t.width + 2 * CHIP_PX), ...rowTexts.flat().map(t => t.width)) + 2 * RAIL_PAD;
 set.x = RAIL_W + GAP;
 set.y = TOP + HEADER_H + GAP;
 const shapes = [
@@ -162,6 +163,15 @@ colChipText.x = colChip.x + CHIP_PX;
 colChipText.y = colChip.y + CHIP_PY;
 labels.push(colChipText);
 layout.forEach((b, bi) => {
+  if (!chipTexts[bi]) {
+    b.rows.forEach((r, ri) => {
+      const t = rowTexts[bi][ri];
+      t.x = RAIL_W - RAIL_PAD - t.width;
+      t.y = set.y + r.y + (r.anchorH - t.height) / 2;
+      labels.push(t);
+    });
+    return;
+  }
   const chip = rect("block chip", 0, set.y + b.top, chipTexts[bi].width + 2 * CHIP_PX, b.chipH, "docs/brand-soft", null, 6);
   chip.x = (RAIL_W - chip.width) / 2;
   shapes.push(chip);

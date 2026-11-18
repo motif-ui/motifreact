@@ -2,11 +2,11 @@
 
 .root {
   display: grid;
-  grid-template-columns: 160px repeat(4, minmax(240px, 1fr));
+  grid-template-columns: 160px repeat(4, minmax(var(--compare-column, 240px), 1fr));
   gap: 8px;
   align-items: stretch;
   font-family: Inter, system-ui, sans-serif;
-  min-width: 1180px;
+  min-width: calc(220px + 4 * var(--compare-column, 240px));
 }
 
 .header {

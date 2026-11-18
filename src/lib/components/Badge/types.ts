@@ -1,7 +1,7 @@
-import type { IconGlobalType, Variant } from "../../types";
+import type { IconGlobalType, VariantV2 } from "../../types";
 
 export type BadgeProps = {
-  variant?: Variant;
+  variant?: VariantV2;
   content?: string;
   icon?: IconGlobalType;
   dot?: boolean;

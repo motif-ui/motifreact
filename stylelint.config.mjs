@@ -37,15 +37,24 @@ export default {
   overrides: [
     {
       files: [
+        "src/lib/components/Alert/**/*.scss",
         "src/lib/components/AlertModal/**/*.scss",
+        "src/lib/components/Avatar/**/*.scss",
+        "src/lib/components/Badge/**/*.scss",
         "src/lib/components/Breadcrumb/**/*.scss",
         "src/lib/components/Button/**/*.scss",
+        "src/lib/components/Chip/**/*.scss",
+        "src/lib/components/Container/**/*.scss",
+        "src/lib/components/DataViewV2/**/*.scss",
         "src/lib/components/Divider/**/*.scss",
         "src/lib/components/Link/**/*.scss",
+        "src/lib/components/ListView/**/*.scss",
+        "src/lib/components/Pagination/**/*.scss",
         "src/lib/components/ProgressBar/**/*.scss",
         "src/lib/components/ProgressCircle/**/*.scss",
         "src/lib/components/Select/**/*.scss",
         "src/lib/components/Skeleton/**/*.scss",
+        "src/lib/components/TimelineV2/**/*.scss",
       ],
       rules: {
         "declaration-no-important": true,

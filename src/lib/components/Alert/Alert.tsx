@@ -4,12 +4,12 @@ import { AlertProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { useToggle } from "../../hooks";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import styles from "@/components/Alert/Alert.module.scss";
+import styles from "./Alert.module.scss";
 import { MotifIcon, MotifIconButton } from "@/components/Motif/Icon";
 
 const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
   const {
-    variant = "secondary",
+    variant = "neutral",
     title,
     message,
     hideIcon,
@@ -33,7 +33,7 @@ const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
   return (
     (visible || !!toggleState) && (
       <div className={classes} style={style} ref={ref}>
-        {!hideIcon && <MotifIcon name={iconName} variant={variant} size="lg" />}
+        {!hideIcon && <MotifIcon name={iconName} className={styles.icon} size="lg" />}
         <div className={styles.contentBox}>
           {title && <span className={styles.title}>{title}</span>}
           {message && <span className={styles.message}>{message}</span>}

@@ -640,7 +640,7 @@
           "scopes": [],
           "hiddenFromPublishing": true,
           "values": {
-            "Value": "#e5b303"
+            "Value": "#e9b200"
           }
         },
         {
@@ -649,7 +649,7 @@
           "scopes": [],
           "hiddenFromPublishing": true,
           "values": {
-            "Value": "#c1970b"
+            "Value": "#c69500"
           }
         },
         {
@@ -658,7 +658,7 @@
           "scopes": [],
           "hiddenFromPublishing": true,
           "values": {
-            "Value": "#9c7c1f"
+            "Value": "#a37a00"
           }
         },
         {
@@ -667,7 +667,7 @@
           "scopes": [],
           "hiddenFromPublishing": true,
           "values": {
-            "Value": "#7e672a"
+            "Value": "#886400"
           }
         },
         {
@@ -676,7 +676,7 @@
           "scopes": [],
           "hiddenFromPublishing": true,
           "values": {
-            "Value": "#635329"
+            "Value": "#6e5000"
           }
         },
         {
@@ -685,7 +685,7 @@
           "scopes": [],
           "hiddenFromPublishing": true,
           "values": {
-            "Value": "#483c1f"
+            "Value": "#523a00"
           }
         },
         {
@@ -694,7 +694,7 @@
           "scopes": [],
           "hiddenFromPublishing": true,
           "values": {
-            "Value": "#2f2713"
+            "Value": "#372500"
           }
         },
         {
@@ -703,7 +703,7 @@
           "scopes": [],
           "hiddenFromPublishing": true,
           "values": {
-            "Value": "#1d180a"
+            "Value": "#241600"
           }
         },
         {
@@ -3031,7 +3031,7 @@
             "SHAPE_FILL"
           ],
           "hiddenFromPublishing": false,
-          "description": "5.44:1 · 9.29:1",
+          "description": "5.43:1 · 9.29:1",
           "values": {
             "Light": {
               "alias": "color/palette/warning/600"
@@ -3066,7 +3066,7 @@
             "STROKE_COLOR"
           ],
           "hiddenFromPublishing": false,
-          "description": "outline button, invalid input · light solid 200 → 500 · 3.95:1 · dark = solid · 9.29:1",
+          "description": "outline button, invalid input · light solid 200 → 500 · 3.93:1 · dark = solid · 9.29:1",
           "values": {
             "Light": {
               "alias": "color/palette/warning/500"
@@ -5103,6 +5103,18 @@
           }
         },
         {
+          "name": "sizing/container/xs",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "360px",
+          "values": {
+            "Value": 360
+          }
+        },
+        {
           "name": "sizing/container/sm",
           "type": "FLOAT",
           "scopes": [
@@ -5148,6 +5160,18 @@
           "description": "1140px",
           "values": {
             "Value": 1140
+          }
+        },
+        {
+          "name": "sizing/container/xxl",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "1320px",
+          "values": {
+            "Value": 1320
           }
         }
       ]

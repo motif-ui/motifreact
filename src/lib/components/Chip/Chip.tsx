@@ -16,7 +16,7 @@ const Chip = (props: PropsWithRef<ChipProps, HTMLDivElement>) => {
     size = "md",
     label,
     icon,
-    variant = "secondary",
+    variant = "neutral",
     onClose,
     closable,
     ref,
@@ -30,7 +30,14 @@ const Chip = (props: PropsWithRef<ChipProps, HTMLDivElement>) => {
     onClose && onClose();
   }, [onClose]);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [variant, shape, size, pill && "pill", closable && "closable"]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [
+    variant,
+    shape,
+    size,
+    pill && "pill",
+    icon && "withIcon",
+    closable && "closable",
+  ]);
 
   return (
     !deleted && (

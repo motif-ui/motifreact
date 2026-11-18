@@ -6,7 +6,7 @@ const meta: Meta<typeof Chip> = {
   title: "Components/Chip",
   component: Chip,
   argTypes: {
-    variant: { table: { defaultValue: { summary: "secondary" } } },
+    variant: { table: { defaultValue: { summary: "neutral" } } },
     shape: { table: { defaultValue: { summary: "solid" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     pill: { table: { defaultValue: { summary: "true" } } },
