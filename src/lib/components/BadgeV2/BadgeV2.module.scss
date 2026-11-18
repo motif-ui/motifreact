@@ -1,0 +1,68 @@
+@use "@styles" as *;
+@use "sass:string";
+@use "sass:list";
+
+$positions: ("top-left", "top-right", "bottom-left", "bottom-right");
+
+@mixin position($position) {
+  $positions: string.split($position, "-");
+  $vertical: list.nth($positions, 1);
+  $horizontal: list.nth($positions, 2);
+
+  #{$vertical}: 0;
+  #{$horizontal}: 0;
+  transform: translateX(if(sass($horizontal == "left"): -50%; else: 50%)) translateY(if(sass($vertical == "top"): -75%; else: 75%));
+}
+
+.Root {
+  width: fit-content;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+.badge {
+  @include typography("body-xs");
+  border-radius: var(--mtf-sizing-radius-round);
+  border: solid var(--mtf-sizing-2) var(--mtf-color-surface-default); // a ring that separates the badge from what it sits on
+  padding: var(--mtf-sizing-space-4);
+  min-width: var(--mtf-sizing-28);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+  text-wrap: nowrap;
+
+  .dot & {
+    padding: 0;
+    width: var(--mtf-sizing-12);
+    height: var(--mtf-sizing-12);
+    min-width: var(--mtf-sizing-12);
+    min-height: var(--mtf-sizing-12);
+  }
+
+  @each $variant in $variants-v2 {
+    // neutral has its own rule below
+    @if $variant != "neutral" {
+      .#{$variant} & {
+        background-color: var(--mtf-color-#{$variant}-solid);
+        color: var(--mtf-color-on-#{$variant});
+      }
+    }
+  }
+
+  // A neutral badge stays close to the page tones, like the neutral button. The soft tone is translucent, so it is
+  // layered over the surface fill to stay opaque on what the badge sits on
+  .neutral & {
+    background: linear-gradient(var(--mtf-color-neutral-soft), var(--mtf-color-neutral-soft)), var(--mtf-color-surface-default);
+    color: var(--mtf-color-neutral-text);
+  }
+
+  @each $position in $positions {
+    .#{$position} & {
+      @include position($position);
+    }
+  }
+}

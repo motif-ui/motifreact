@@ -479,35 +479,35 @@
         },
         "300": {
           "$type": "color",
-          "$value": "#e5b303"
+          "$value": "#e9b200"
         },
         "400": {
           "$type": "color",
-          "$value": "#c1970b"
+          "$value": "#c69500"
         },
         "500": {
           "$type": "color",
-          "$value": "#9c7c1f"
+          "$value": "#a37a00"
         },
         "600": {
           "$type": "color",
-          "$value": "#7e672a"
+          "$value": "#886400"
         },
         "700": {
           "$type": "color",
-          "$value": "#635329"
+          "$value": "#6e5000"
         },
         "800": {
           "$type": "color",
-          "$value": "#483c1f"
+          "$value": "#523a00"
         },
         "900": {
           "$type": "color",
-          "$value": "#2f2713"
+          "$value": "#372500"
         },
         "950": {
           "$type": "color",
-          "$value": "#1d180a"
+          "$value": "#241600"
         },
         "200-a08": {
           "$type": "color",
@@ -1536,7 +1536,7 @@
       "text": {
         "$type": "color",
         "$value": "{color.palette.warning.600}",
-        "$description": "5.44:1 · 9.29:1",
+        "$description": "5.43:1 · 9.29:1",
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.warning.200}"
@@ -1556,7 +1556,7 @@
       "border": {
         "$type": "color",
         "$value": "{color.palette.warning.500}",
-        "$description": "outline button, invalid input · light solid 200 → 500 · 3.95:1 · dark = solid · 9.29:1",
+        "$description": "outline button, invalid input · light solid 200 → 500 · 3.93:1 · dark = solid · 9.29:1",
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.warning.200}"
@@ -2686,6 +2686,14 @@
       }
     },
     "container": {
+      "xs": {
+        "$type": "dimension",
+        "$value": {
+          "value": 22.5,
+          "unit": "rem"
+        },
+        "$description": "360px"
+      },
       "sm": {
         "$type": "dimension",
         "$value": {
@@ -2717,6 +2725,14 @@
           "unit": "rem"
         },
         "$description": "1140px"
+      },
+      "xxl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 82.5,
+          "unit": "rem"
+        },
+        "$description": "1320px"
       }
     }
   },
