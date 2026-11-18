@@ -1,13 +1,13 @@
-import styles from "./AvatarV2.module.scss";
-import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
-import { PropsWithRef } from "../../types";
+import styles from "./AvatarBaseline.module.scss";
+import GlobalIconWrapper from "../../../../../components/Motif/GlobalIconWrapper/GlobalIconWrapper";
+import { PropsWithRef } from "../../../../../types";
 import { MotifIcon } from "@/components/Motif/Icon";
 import { AvatarProps } from "./types";
-import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import usePropsWithThemeDefaults from "../../../../../motif/hooks/usePropsWithThemeDefaults";
+import { sanitizeModuleRootClasses } from "../../../../../../utils/cssUtils";
 
 const Avatar = (props: PropsWithRef<AvatarProps, HTMLDivElement>) => {
-  const { icon, letters, image, size = "md", variant = "neutral", className, ref, style } = usePropsWithThemeDefaults("Avatar", props);
+  const { icon, letters, image, size = "md", variant = "secondary", className, ref, style } = usePropsWithThemeDefaults("Avatar", props);
 
   const mode = image ? "image" : letters ? "letters" : "icon";
   const classNameAvatar = sanitizeModuleRootClasses(styles, className, [size, variant, mode]);

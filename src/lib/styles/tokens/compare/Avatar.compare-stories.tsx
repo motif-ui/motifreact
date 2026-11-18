@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ComponentType } from "react";
 import Avatar from "@/components/Avatar/Avatar";
-import AvatarV2 from "@/components/AvatarV2/Avatar";
-import { AvatarProps } from "@/components/AvatarV2/types";
+import { AvatarProps } from "@/components/Avatar/types";
+import AvatarBaseline from "./baseline/Avatar/Avatar";
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
 const SIZES = ["xs", "sm", "md", "lg", "xl", "xxl"] as const;
 const VARIANTS = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"] as const;
 
 // The current Avatar has no neutral/accent; its default is secondary (gray), the new default is neutral
-const Current = Avatar as ComponentType<AvatarProps>;
+const Current = AvatarBaseline as ComponentType<AvatarProps>;
 
 const sections: CompareSection<AvatarProps>[] = [
   { title: "Sizes", rows: SIZES.map(size => ({ label: size, props: { size, letters: "Motif UI" } })) },
@@ -38,5 +38,5 @@ export default meta;
 
 export const Avatar_: StoryObj<typeof TokenCompare> = {
   name: "Avatar",
-  render: () => <TokenCompare sections={sections} current={Current} next={AvatarV2} />,
+  render: () => <TokenCompare sections={sections} current={Current} next={Avatar} />,
 };

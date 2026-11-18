@@ -1,12 +1,27 @@
 import { render, screen } from "@testing-library/react";
 import Avatar from "@/components/Avatar/Avatar";
 import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { StandardPropsWithRef, VariantV2 } from "../../../lib/types";
 describe("Avatar", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Avatar {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Avatar {...props} />), {
+    assertDefaults: ({ container }) => {
+      // variant: neutral
+      expect(container.firstElementChild).toHaveClass("neutral");
+      // size: md
+      expect(container.firstElementChild).toHaveClass("md");
+    },
+  });
 
   it("should display the first two letters of given letters prop in upper case.", () => {
     expect(render(<Avatar letters="test" />).getByText("TE")).toBeInTheDocument();
+  });
+
+  it("should display only the first letter in the xs and sm sizes", () => {
+    (["xs", "sm"] as const).forEach(size => {
+      const { getByText, unmount } = render(<Avatar letters="test" size={size} />);
+      expect(getByText("T")).toBeInTheDocument();
+      unmount();
+    });
   });
 
   it("should render the main icon given in the icon prop", () => {
@@ -53,7 +68,7 @@ describe("Avatar", () => {
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {
-    const variants = ["primary", "secondary", "info", "success", "warning", "danger"] as const;
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
 
     variants.forEach(variant => {
       const { container, unmount } = render(<Avatar variant={variant} />);

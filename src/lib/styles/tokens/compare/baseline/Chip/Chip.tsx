@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import styles from "./ChipV2.module.scss";
-import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
+import styles from "./ChipBaseline.module.scss";
+import GlobalIconWrapper from "../../../../../components/Motif/GlobalIconWrapper/GlobalIconWrapper";
 import { MotifIconButton } from "@/components/Motif/Icon";
-import { PropsWithRef } from "../../types";
+import { PropsWithRef } from "../../../../../types";
 import { ChipProps } from "./types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { sanitizeModuleRootClasses } from "../../../../../../utils/cssUtils";
+import usePropsWithThemeDefaults from "../../../../../motif/hooks/usePropsWithThemeDefaults";
 
 const Chip = (props: PropsWithRef<ChipProps, HTMLDivElement>) => {
   const {
@@ -16,7 +16,7 @@ const Chip = (props: PropsWithRef<ChipProps, HTMLDivElement>) => {
     size = "md",
     label,
     icon,
-    variant = "neutral",
+    variant = "secondary",
     onClose,
     closable,
     ref,
@@ -30,14 +30,7 @@ const Chip = (props: PropsWithRef<ChipProps, HTMLDivElement>) => {
     onClose && onClose();
   }, [onClose]);
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [
-    variant,
-    shape,
-    size,
-    pill && "pill",
-    icon && "withIcon",
-    closable && "closable",
-  ]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [variant, shape, size, pill && "pill", closable && "closable"]);
 
   return (
     !deleted && (
