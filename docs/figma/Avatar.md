@@ -19,7 +19,8 @@ Built 2026-11-16 with /figma-new-component from the `AvatarV2` clone (batch 3).
   column). The set is sparse: content=image exists only with variant=neutral, since the image covers the fill.
 - `letters` (text, default MO) on the `letters` layer of md and up, `initial` (text, default M) on the `initial` layer
   of xs and sm; `icon` (instance swap, default `Icon/person`) on the `icon`
-  layer. content=image shows the `imagesmode` placeholder; the photo goes in as the avatar's image fill.
+  layer. content=image shows a photo filling the avatar (image fill); the `imagesmode` placeholder under it is hidden, since
+  the code shows it only while the image loads.
 - Table: column `size`; blocks `content`; rows `variant` (neutral first, so the default sits top-left).
 
 ## Decisions
@@ -33,4 +34,6 @@ Built 2026-11-16 with /figma-new-component from the `AvatarV2` clone (batch 3).
   text property (default M), md and up use `letters` (default MO).
 - Spec tables: Size spec (sizes × letters · icon · image, metrics in the header from `$sizes`) and Color spec (variants
   as columns × Light · Dark rows, letters and icon per cell). No Scenarios: Avatar has no prop interaction.
+- content=image is a real photo, and its row in the set's table has no variant label: the photo covers the fill, so
+  the variant does not show (user, 2026-11-18).
 - No Examples.
