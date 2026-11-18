@@ -33,7 +33,7 @@ visual specification of migrated components. These rules keep the two from drift
     - a position of a part (`iconPosition`): two slots with booleans;
     - a radius or width option (`pill`, `fluid`): an instance override;
     - interaction states: Scenarios or Color spec cells with fills bound to the state tokens.
-  - Write each mapping in the set description and the Properties table (Button, AlertModal).
+  - Write each mapping in the set description and the Design properties table (Button, AlertModal).
 - Every fill, stroke, radius, spacing and text style is bound to a variable or style; no hard-coded values.
 - Figma takes the left-most variant of a set as its default. Put the column of the code's default value first in the set
   (Select: md, xs, sm, lg; ProgressCircle: sm, xs, md, lg, xl); doc page matrices keep the natural order. Figma picks
@@ -58,6 +58,19 @@ visual specification of migrated components. These rules keep the two from drift
     bands at the bottom of the group; the set sits 12px from both the column band and the row rail.
 - What Figma cannot show (behavior, animation timing, computed geometry) goes into the component description and the doc
   page, never into a hard-coded approximation.
+- Figma comes before the code: a developer builds the component from its page. Reading the page row by row, they must
+  find every visual case the component has, including its sub-components (`ListView.Item`, `DataView.Item`, items of
+  Timeline): content combinations (title only, no description, with or without an icon), disabled and outlined
+  together, an image filling the avatar. Read the whole component before building the page and map each prop and
+  each visual case to a variant, a spec table cell or a scenario.
+- Every Figma property, column band and row rail uses the code's prop names and values (`disableAvatars=true`,
+  `selectable=true`, `icon`, `image`, `abbr`). Never invented words.
+- Show the intersections that matter, not every combination: pair two axes only when one changes what the other
+  shows. Size × content (icon, image, letters change size with the size) is needed; size × color is not, since a size
+  does not change the colors.
+- The doc page's **Design properties** table lists only the props that change how the component looks. Callbacks,
+  data and other behavior-only props (`onChange`, `total`, `href`) are not listed; behavior that changes the look
+  (which pages Pagination shows for `current`) is shown in Scenarios.
 - Every prop and prop combination that changes how a component looks is visible: in **Variants** (the property matrix
   on the doc page and the set's own table) or in **Scenarios**. Examples never replace them.
 - **Scenarios** live in the Component section, under the set's table (a `docs/border` divider and a "Scenarios"
@@ -106,7 +119,7 @@ visual specification of migrated components. These rules keep the two from drift
 - Surface colors: every surface that holds a component instance or the component set (doc Variants card, Light &
   Dark panels, Anatomy preview, Playground stage, Examples cards, the set and its parts, Scenarios panels) is
   `color/surface/default`, the product's own surface token, so it follows the mode (white in Light) and matches the
-  white doc cards. Surfaces that hold only text and tables (Properties, Anatomy without a preview) are `docs/surface`;
+  white doc cards. Surfaces that hold only text and tables (Design properties, Anatomy without a preview) are `docs/surface`;
   the column bands and row rails of the Component and Scenarios tables are `docs/background`. Never
   `color/surface/canvas` or a raw color for these.
 - A variable-bound fill on a Section or an instance needs the variable's resolved color as its base color, or it renders
