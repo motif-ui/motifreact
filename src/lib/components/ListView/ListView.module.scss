@@ -84,15 +84,9 @@ $sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md"), ("md", "sm", 2, 16, 12, 32, 2
   text-transform: uppercase;
 }
 
-// Like Avatar's neutral: the soft tone over the surface, so it stays opaque on any row background
 .avatar {
   border-radius: var(--mtf-sizing-radius-round);
-
-  &.icon,
-  &.image,
-  &.abbr {
-    background: linear-gradient(var(--mtf-color-neutral-soft), var(--mtf-color-neutral-soft)), var(--mtf-color-surface-default);
-  }
+  background-color: var(--mtf-color-neutral-soft);
 
   &.icon {
     color: var(--mtf-color-neutral-text);
