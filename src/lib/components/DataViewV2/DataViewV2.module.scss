@@ -83,18 +83,20 @@ $data-view-sizes: ("xs", "sm", "md", "lg", "xl");
   --mtf-icon-size: var(--mtf-sizing-22);
 }
 
+// The column classes sit on the root only. The row position goes in :where(), so a rule stays at 0,3,0 and still wins
+// over an item's tint (0,2,0); the breakpoints override each other by media order.
 @mixin data-view-cols($breakpoint) {
   @for $i from 1 through 4 {
-    .Root.#{$breakpoint}-#{$i} {
+    .#{$breakpoint}-#{$i} {
       grid-template-columns: repeat(#{$i}, 1fr);
 
-      &.bordered .item:not(:nth-last-child(-n + #{$i})) {
+      &.bordered .item:where(:not(:nth-last-child(-n + #{$i}))) {
         border-bottom: solid var(--mtf-sizing-1) var(--mtf-color-border-soft);
       }
 
       &.stripe {
         @for $j from 1 through $i {
-          .item:nth-child(#{2 * $i}n + #{$j}) {
+          .item:where(:nth-child(#{2 * $i}n + #{$j})) {
             background-color: var(--mtf-color-neutral-soft);
           }
         }
