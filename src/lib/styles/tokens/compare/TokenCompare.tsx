@@ -97,7 +97,13 @@ const Cell = <P extends object>({ column, row: { props, open, hover }, current: 
   );
 };
 
-type TokenCompareProps<P> = { sections: CompareSection<P>[]; current: ComponentType<P>; next: ComponentType<P> };
+type TokenCompareProps<P> = {
+  sections: CompareSection<P>[];
+  current: ComponentType<P>;
+  next: ComponentType<P>;
+  // The narrowest a theme column gets, for components that need more room than the default 240px
+  columnWidth?: number;
+};
 
 type Line<P> = { kind: "title" | "note"; text: string } | { kind: "row"; row: CompareRow<P> };
 
@@ -113,11 +119,11 @@ const toLines = <P,>(sections: CompareSection<P>[]): Line<P>[] =>
 const placeAt = (line: number, column = 1, span = 1): CSSProperties => ({ gridRow: line + 2, gridColumn: `${column} / span ${span}` });
 
 /** Renders every row four times: the pre-migration baseline, then the live component on legacy (light, dark) and on basic. */
-export const TokenCompare = <P extends object>({ sections, current, next }: TokenCompareProps<P>) => {
+export const TokenCompare = <P extends object>({ sections, current, next, columnWidth }: TokenCompareProps<P>) => {
   const lines = toLines(sections);
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} style={columnWidth ? ({ "--compare-column": `${columnWidth}px` } as CSSProperties) : undefined}>
       <style>{`${BASIC_TOKENS}\n${PREVIEW_CSS}`}</style>
       {COLUMNS.map(({ key, theme, mode }, index) => (
         <div
