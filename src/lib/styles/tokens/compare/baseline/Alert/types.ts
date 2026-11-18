@@ -1,4 +1,4 @@
-import { VariantV2 } from "src/lib/types";
+import { Variant } from "src/lib/types";
 
 export type AlertProps = {
   message?: string;
@@ -9,5 +9,5 @@ export type AlertProps = {
 export type AlertDefaultableProps = {
   hideIcon?: boolean;
   closable?: boolean;
-  variant?: VariantV2;
+  variant?: Variant;
 };

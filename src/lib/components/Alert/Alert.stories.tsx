@@ -6,7 +6,7 @@ const meta: Meta<typeof Alert> = {
   title: "Components/Alert",
   component: Alert,
   argTypes: {
-    variant: { table: { defaultValue: { summary: "secondary" } } },
+    variant: { table: { defaultValue: { summary: "neutral" } } },
     children: {
       control: { type: "boolean" },
       mapping: {

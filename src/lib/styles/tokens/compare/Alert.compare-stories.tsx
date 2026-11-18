@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ComponentType } from "react";
 import Alert from "@/components/Alert/Alert";
-import AlertV2 from "@/components/AlertV2/Alert";
-import { AlertProps } from "@/components/AlertV2/types";
+import { AlertProps } from "@/components/Alert/types";
+import AlertBaseline from "./baseline/Alert/Alert";
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
 const VARIANTS = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"] as const;
 const TEXT = { title: "Changes saved", message: "Your profile is up to date." };
 
 // The current Alert has no neutral/accent; its default is secondary (light gray), the new default is neutral
-const Current = Alert as ComponentType<AlertProps>;
+const Current = AlertBaseline as ComponentType<AlertProps>;
 
 const sections: CompareSection<AlertProps>[] = [
   {
@@ -38,5 +38,5 @@ export default meta;
 
 export const Alert_: StoryObj<typeof TokenCompare> = {
   name: "Alert",
-  render: () => <TokenCompare sections={sections} current={Current} next={AlertV2} />,
+  render: () => <TokenCompare sections={sections} current={Current} next={Alert} />,
 };

@@ -2,13 +2,16 @@ import "@testing-library/jest-dom";
 import Alert from "@/components/Alert/Alert";
 import { fireEvent, render, screen, act } from "@testing-library/react";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef, Variant } from "../../../lib/types";
+import { StandardPropsWithRef, VariantV2 } from "../../../lib/types";
 describe("Alert", () => {
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) => render(<Alert message="This is a test message" {...props} />),
     {
-      // variant: secondary
-      assertDefaults: ({ getByText }) => expect(getByText("info")).toBeInTheDocument(),
+      assertDefaults: ({ container, getByText }) => {
+        // variant: neutral
+        expect(container.firstElementChild).toHaveClass("neutral");
+        expect(getByText("info")).toBeInTheDocument();
+      },
     },
   );
 
@@ -44,9 +47,11 @@ describe("Alert", () => {
   });
 
   it("should be rendered in the color set of the variant that is given in the variant prop", () => {
-    const variantIcons: [Variant, string][] = [
+    const variantIcons: [VariantV2, string][] = [
+      ["neutral", "info"],
       ["primary", "info"],
       ["secondary", "info"],
+      ["accent", "info"],
       ["info", "info"],
       ["success", "check_circle"],
       ["warning", "warning"],

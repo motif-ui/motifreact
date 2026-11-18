@@ -2,14 +2,26 @@ import { fireEvent, getByTestId, render, screen } from "@testing-library/react";
 import Chip from "@/components/Chip/Chip";
 import { Size4SM } from "../../types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { StandardPropsWithRef, VariantV2 } from "../../../lib/types";
 describe("Chip", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Chip label="test" {...props} />));
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<Chip label="test" {...props} />), {
+    assertDefaults: ({ container }) => {
+      // variant: neutral, shape: solid, size: md, pill: true
+      expect(container.firstElementChild).toHaveClass("neutral", "solid", "md", "pill");
+    },
+  });
 
   it("should render icon and label together when there are both set", () => {
     render(<Chip label="test" icon="info" />);
     expect(screen.getByText("info")).toBeDefined();
     expect(screen.getByText("test")).toBeDefined();
+  });
+
+  it("should be rendered with the icon spacing when an icon is given", () => {
+    const { getByTestId, unmount } = render(<Chip label="test" icon="info" />);
+    expect(getByTestId("chipItem")).toHaveClass("withIcon");
+    unmount();
+    expect(render(<Chip label="test" />).getByTestId("chipItem")).not.toHaveClass("withIcon");
   });
 
   it("should be removed when close icon is clicked", () => {
@@ -35,8 +47,12 @@ describe("Chip", () => {
   });
 
   it("should render with the colors of the given variant prop", () => {
-    const { container } = render(<Chip label="test" variant="secondary" />);
-    expect(getByTestId(container, "chipItem")).toHaveClass("secondary");
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
+    variants.forEach(variant => {
+      const { container, unmount } = render(<Chip label="test" variant={variant} />);
+      expect(getByTestId(container, "chipItem")).toHaveClass(variant);
+      unmount();
+    });
   });
 
   it("should be rendered with the size given in size prop", () => {

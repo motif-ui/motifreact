@@ -1,15 +1,15 @@
 import { useCallback } from "react";
-import { PropsWithRefAndChildren } from "../../types";
+import { PropsWithRefAndChildren } from "../../../../../types";
 import { AlertProps } from "./types";
-import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { useToggle } from "../../hooks";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import styles from "./AlertV2.module.scss";
+import usePropsWithThemeDefaults from "../../../../../motif/hooks/usePropsWithThemeDefaults";
+import { useToggle } from "../../../../../hooks";
+import { sanitizeModuleRootClasses } from "../../../../../../utils/cssUtils";
+import styles from "./AlertBaseline.module.scss";
 import { MotifIcon, MotifIconButton } from "@/components/Motif/Icon";
 
 const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
   const {
-    variant = "neutral",
+    variant = "secondary",
     title,
     message,
     hideIcon,
@@ -33,7 +33,7 @@ const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
   return (
     (visible || !!toggleState) && (
       <div className={classes} style={style} ref={ref}>
-        {!hideIcon && <MotifIcon name={iconName} className={styles.icon} size="lg" />}
+        {!hideIcon && <MotifIcon name={iconName} variant={variant} size="lg" />}
         <div className={styles.contentBox}>
           {title && <span className={styles.title}>{title}</span>}
           {message && <span className={styles.message}>{message}</span>}
