@@ -5,6 +5,7 @@ import { PropsWithRef } from "../../types";
 import { TimelineProps } from "./types";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { capitalizeFirstLetter } from "../../../utils/utils";
 import TimelineItem from "./TimelineItem";
 
 const Timeline = (props: PropsWithRef<TimelineProps, HTMLDivElement>) => {
@@ -21,15 +22,14 @@ const Timeline = (props: PropsWithRef<TimelineProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Timeline", props);
 
   // Orientation combined with the content position and the text alignment, so the layout rules need one class each
-  const capitalize = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
   const classNames = sanitizeModuleRootClasses(styles, className, [
     orientation,
     contentPosition,
     markerType,
     textAlign,
     variant,
-    orientation + capitalize(contentPosition),
-    orientation + capitalize(textAlign),
+    orientation + capitalizeFirstLetter(contentPosition),
+    orientation + capitalizeFirstLetter(textAlign),
   ]);
 
   return (
