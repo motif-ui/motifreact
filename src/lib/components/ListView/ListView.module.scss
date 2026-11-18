@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, alternateTextSize, gap, spaceH, paddingV, avatarSize, iconSize, iconRightSize, labelSize, bodySize
-$sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md", "sm"), ("md", "sm", 2, 16, 12, 32, 22, 24, "lg", "md"), ("lg", "md", 4, 20, 16, 40, 24, 28, "xl", "lg"));
+// size (also the description's body step), alternateTextSize, gap, spaceH, paddingV, avatarSize, iconSize, iconRightSize, labelSize
+$sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md"), ("md", "sm", 2, 16, 12, 32, 22, 24, "lg"), ("lg", "md", 4, 20, 16, 40, 24, 28, "xl"));
 
 .Root {
   padding: 0;
@@ -135,7 +135,7 @@ $sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md", "sm"), ("md", "sm", 2, 16, 12,
 }
 
 // A size changes every part of the row: grouped by size
-@each $size, $alternateTextSize, $gap, $spaceH, $paddingV, $avatarSize, $iconSize, $iconRightSize, $labelSize, $bodySize in $sizes {
+@each $size, $alternateTextSize, $gap, $spaceH, $paddingV, $avatarSize, $iconSize, $iconRightSize, $labelSize in $sizes {
   .#{$size} {
     .baseContent {
       gap: var(--mtf-sizing-space-#{$spaceH});
@@ -165,7 +165,7 @@ $sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md", "sm"), ("md", "sm", 2, 16, 12,
     }
 
     .description {
-      @include typography("body-#{$bodySize}");
+      @include typography("body-#{$size}");
     }
 
     .icon {

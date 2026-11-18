@@ -13,7 +13,7 @@ export type TimelineItemProps = {
 };
 
 export type TimelineDefaultableProps = {
-  markerType?: "dot" | "number" | "icon";
+  markerType?: TimelineMarkerType;
   textAlign?: "start" | "center" | "end";
   variant?: TimelineVariant;
 };
