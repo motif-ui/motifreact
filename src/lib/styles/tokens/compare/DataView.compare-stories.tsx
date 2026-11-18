@@ -11,7 +11,7 @@ type Props = DataViewDefaultableProps & { variant?: DataViewItemProps["variant"]
 
 const render = (View: typeof DataViewV2) => {
   const Rendered = ({ variant, ...props }: Props) => (
-    <View cols={2} {...props}>
+    <View cols={1} {...props}>
       <View.Item label="Name" value="Motif UI" icon="person" variant={variant} />
       <View.Item label="Version" value="2.0" icon="info" />
       <View.Item label="License" value="MIT" />
@@ -53,5 +53,5 @@ export default meta;
 
 export const DataView_: StoryObj<typeof TokenCompare> = {
   name: "DataView",
-  render: () => <TokenCompare sections={sections} current={Current} next={Next} columnWidth={760} />,
+  render: () => <TokenCompare sections={sections} current={Current} next={Next} columnWidth={440} />,
 };

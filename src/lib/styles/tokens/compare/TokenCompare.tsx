@@ -20,7 +20,11 @@ const HOVERED_OPTION = 'li:nth-child(2 of [role="option"])';
 // Storybook loads the legacy tokens on :root (preview.tsx); the basic column scopes the basic tokens to itself
 const BASIC_TOKENS = basicTokens.replace(":root {", '[data-mtf-theme="basic"] {');
 
+// On a docs page that holds a compare screen, Storybook's centered 1200px column gives way to the full width
+const WIDE_DOCS = `.sbdocs-wrapper:has(.${styles.root}) { justify-content: flex-start; } .sbdocs-wrapper:has(.${styles.root}) .sbdocs-content { max-width: none; }`;
+
 const PREVIEW_CSS = [
+  WIDE_DOCS,
   `${listIn("[data-compare-hover]")} ${HOVERED_OPTION} { background-color: var(--theme-color-surface-light-default); }`,
   `${listIn("[data-compare-next][data-compare-hover]")} ${HOVERED_OPTION} { background-color: var(--mtf-color-neutral-soft); }`,
 ].join("\n");
