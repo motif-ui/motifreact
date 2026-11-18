@@ -1,0 +1,308 @@
+@use "@styles" as *;
+
+// The variant is set on the root and can be overridden per item, so its colors travel as custom properties
+@each $variant in $variants-v2 {
+  .#{$variant} {
+    --timeline-solid: var(--mtf-color-#{$variant}-solid);
+    --timeline-on: var(--mtf-color-on-#{$variant});
+    --timeline-text: var(--mtf-color-#{$variant}-text);
+  }
+}
+
+// A filled neutral marker stays close to the page tones, like the neutral avatar: the translucent soft tone over the surface
+.neutral {
+  --timeline-fill: linear-gradient(var(--mtf-color-neutral-soft), var(--mtf-color-neutral-soft)), var(--mtf-color-surface-default);
+  --timeline-on: var(--mtf-color-neutral-text);
+}
+
+.Root {
+  display: flex;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.item {
+  display: flex;
+  gap: var(--mtf-sizing-space-8);
+
+  .vertical & {
+    padding: 0 var(--mtf-sizing-space-8);
+  }
+
+  .horizontal & {
+    padding: var(--mtf-sizing-space-8) 0;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mtf-sizing-space-4);
+  color: var(--mtf-color-text-soft);
+}
+
+.title {
+  @include typography("label-xl", "stronger");
+}
+
+.content {
+  @include typography("body-md");
+}
+
+// =============================================================================
+// Marker
+// =============================================================================
+
+.marker {
+  display: flex;
+  align-items: center;
+
+  .vertical & {
+    flex-direction: column;
+  }
+
+  .horizontal & {
+    flex-direction: row;
+  }
+
+  .start & {
+    justify-content: flex-start;
+  }
+
+  .center & {
+    justify-content: center;
+  }
+
+  .end & {
+    justify-content: flex-end;
+  }
+
+  > * {
+    display: block;
+    border-radius: var(--mtf-sizing-radius-round);
+  }
+
+  .filled & > * {
+    background: var(--timeline-fill, var(--timeline-solid));
+    color: var(--timeline-on);
+  }
+
+  .outlined & > * {
+    border: var(--mtf-sizing-2) solid var(--timeline-solid);
+    color: var(--timeline-text);
+  }
+
+  // One disabled look for every variant
+  .disabled.filled & > * {
+    background: var(--mtf-color-surface-disabled);
+    color: var(--mtf-color-text-disabled);
+  }
+
+  .disabled.outlined & > * {
+    border-color: var(--mtf-color-border-disabled);
+    color: var(--mtf-color-text-disabled);
+  }
+}
+
+.markerDot {
+  width: var(--mtf-sizing-12);
+  height: var(--mtf-sizing-12);
+}
+
+.markerNumber {
+  width: var(--mtf-sizing-24);
+  height: var(--mtf-sizing-24);
+  @include typography("label-xs", "strongest");
+  @include flex-center;
+}
+
+.markerIconWrapper {
+  width: var(--mtf-sizing-40);
+  height: var(--mtf-sizing-40);
+  @include flex-center;
+}
+
+.markerIcon {
+  --mtf-icon-size: var(--mtf-sizing-24);
+}
+
+// =============================================================================
+// Connection lines: each item says where its line goes (TimelineItem); the orientation sets its shape
+// =============================================================================
+
+@mixin connection-line($orientation, $half: false) {
+  content: "";
+  display: block;
+  flex: 1;
+  background-color: var(--mtf-color-border-default);
+
+  @if $orientation == "vertical" {
+    min-height: if(sass($half): var(--mtf-sizing-12); else: var(--mtf-sizing-24));
+    width: var(--mtf-sizing-1);
+  } @else {
+    min-width: if(sass($half): var(--mtf-sizing-12); else: var(--mtf-sizing-24));
+    height: var(--mtf-sizing-1);
+  }
+}
+
+@each $orientation in ("vertical", "horizontal") {
+  .#{$orientation} {
+    .lineAfter::after,
+    .lineBefore::before {
+      @include connection-line($orientation);
+    }
+
+    .halfLines::before,
+    .halfLines::after {
+      @include connection-line($orientation, true);
+    }
+  }
+}
+
+// The first and last items of a centered timeline keep the space of their outer half line, without the line
+.halfLines.fadeStart::before,
+.halfLines.fadeEnd::after {
+  background-color: transparent;
+}
+
+// =============================================================================
+// Content position
+// =============================================================================
+
+.verticalBefore .item {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.verticalAfter .item {
+  flex-direction: row;
+}
+
+.verticalAlternate {
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .marker {
+    grid-column: 2;
+  }
+
+  .section {
+    grid-column: 3;
+  }
+
+  .odd {
+    grid-auto-flow: dense;
+  }
+
+  .odd .section {
+    grid-column: 1;
+    text-align: right;
+  }
+}
+
+.horizontalBefore .item {
+  flex-direction: column-reverse;
+}
+
+.horizontalAfter .item {
+  flex-direction: column;
+}
+
+.horizontalAlternate {
+  display: grid;
+  grid-template-rows: auto auto auto;
+
+  .item {
+    display: grid;
+    grid-row: 1 / -1;
+    /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
+    grid-template-rows: subgrid;
+  }
+
+  .marker {
+    grid-row: 2;
+  }
+
+  .section {
+    grid-row: 3;
+    align-self: start;
+  }
+
+  .odd .section {
+    grid-row: 1;
+    align-self: end;
+  }
+}
+
+// =============================================================================
+// Text alignment: where the section sits along the line and its spacing
+// =============================================================================
+
+.verticalStart {
+  .spaceAfter {
+    justify-content: flex-start;
+    padding-bottom: var(--mtf-sizing-space-24);
+  }
+
+  // The section starts at the marker's center
+  &.dot .section {
+    margin-top: calc(-1 * var(--mtf-sizing-space-6));
+  }
+
+  &.icon .section {
+    margin-top: var(--mtf-sizing-space-8);
+  }
+}
+
+.verticalCenter .section {
+  justify-content: center;
+  padding: var(--mtf-sizing-space-12) 0;
+}
+
+.verticalEnd {
+  .spaceBefore {
+    justify-content: flex-end;
+    padding-top: var(--mtf-sizing-space-24);
+  }
+
+  &.dot .section {
+    margin-bottom: calc(-1 * var(--mtf-sizing-space-4));
+  }
+
+  &.icon .section {
+    margin-bottom: var(--mtf-sizing-space-8);
+  }
+}
+
+.horizontalStart {
+  .section {
+    text-align: left;
+  }
+
+  .spaceAfter {
+    padding-right: var(--mtf-sizing-space-24);
+  }
+}
+
+.horizontalCenter .section {
+  text-align: center;
+  padding: 0 var(--mtf-sizing-space-12);
+}
+
+.horizontalEnd {
+  .section {
+    text-align: right;
+  }
+
+  .spaceBefore {
+    padding-left: var(--mtf-sizing-space-24);
+  }
+}
