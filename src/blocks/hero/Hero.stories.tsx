@@ -8,6 +8,8 @@ import Hero3 from "./hero3/Hero3";
 import hero3Source from "./hero3/Hero3.tsx?raw";
 import Hero4 from "./hero4/Hero4";
 import hero4Source from "./hero4/Hero4.tsx?raw";
+import Hero5 from "./hero5/Hero5";
+import hero5Source from "./hero5/Hero5.tsx?raw";
 
 const meta: Meta = {
   title: "Blocks/Hero",
@@ -42,4 +44,10 @@ export const Hero4Block: Story = {
   name: "Hero4",
   render: () => <Hero4 />,
   parameters: { docs: { source: { code: hero4Source, language: "tsx" } } },
+};
+
+export const Hero5Block: Story = {
+  name: "Hero5",
+  render: () => <Hero5 />,
+  parameters: { docs: { source: { code: hero5Source, language: "tsx" } } },
 };
