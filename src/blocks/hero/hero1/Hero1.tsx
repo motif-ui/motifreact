@@ -11,7 +11,7 @@ const Hero1 = () => (
               <Text text="A modern foundation for your next product" weight="semibold" type="body" tone="soft" size="xs" marginless />
             </Grid.Col>
           </Grid.Row>
-          <Grid.Row rowGap="sm" columnGap="sm">
+          <Grid.Row rowGap="sm">
             <Grid.Col size={12}>
               <Text text="Build Better Interfaces. Faster." size="lg" type="display" tone="strong" marginless />
             </Grid.Col>
