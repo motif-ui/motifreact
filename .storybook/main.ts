@@ -4,6 +4,10 @@ import webpack from "webpack";
 import { applyCustomCSSModuleNaming } from "../src/lib/styles/scripts/build.ts";
 import { buildScssClassNamesManifest } from "../src/lib/styles/scripts/cssClassNamesManifest.ts";
 
+// The token compare screens are an internal debug tool for the token migration: only `storybook dev` shows them, never the
+// published Storybook or Chromatic. They are removed with the whole compare folder once every component has migrated.
+const compareStories = process.env.NODE_ENV === "production" ? [] : ["../src/lib/styles/tokens/compare/*.compare-stories.tsx"];
+
 const config: StorybookConfig = {
   stories: [
     "../src/**/*.mdx",
@@ -11,6 +15,7 @@ const config: StorybookConfig = {
     // Scenes of the Playwright tests, kept out of the published Storybook. Storybook is used for
     // those scenes just to run them in a real browser environment.
     ...(process.env.NODE_ENV === "production" ? [] : ["../src/**/*.e2e.story.tsx"]),
+    ...compareStories,
   ],
   typescript: { reactDocgen: "react-docgen-typescript" },
   features: {

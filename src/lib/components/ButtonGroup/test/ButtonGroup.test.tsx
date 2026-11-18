@@ -1,0 +1,210 @@
+import { fireEvent, render } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
+import ButtonGroup from "../ButtonGroup";
+import { Size4SM } from "../../../types";
+import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef } from "../../../../lib/types";
+
+describe("ButtonGroup", () => {
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) => render(<ButtonGroup {...props} />), {
+    // size: md
+    assertDefaults: ({ container }) => expect(container.firstElementChild).toHaveClass("md"),
+  });
+
+  it("should be rendered with the size given in size prop", () => {
+    const sizes: Size4SM[] = ["xs", "sm", "md", "lg"];
+    sizes.forEach(size => {
+      const { container } = render(<ButtonGroup size={size} />);
+      expect(container.firstElementChild).toHaveClass(size);
+    });
+  });
+
+  it("should render ButtonGrop.Item components given as children", () => {
+    const { getByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" />
+        <ButtonGroup.Item label="Item 2" />
+      </ButtonGroup>,
+    );
+
+    expect(getByText("Item 1")).toBeInTheDocument();
+    expect(getByText("Item 2")).toBeInTheDocument();
+  });
+
+  it("should render a dropdown icon near the ButtonGroup.Item component that has children", () => {
+    const { getByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" />
+        <ButtonGroup.Item label="Item 2">
+          <ButtonGroup.Item label="Item 2.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    expect(getByText("keyboard_arrow_down")).toBeInTheDocument();
+  });
+
+  it("should render a submenu when the dropdown icon near the ButtonGroup.Item component that has children is clicked", async () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" />
+        <ButtonGroup.Item label="Item 2">
+          <ButtonGroup.Item label="Item 2.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    expect(queryByText("Item 2.1")).not.toBeInTheDocument();
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 2.1")).toBeInTheDocument();
+  });
+
+  it("should close the submenu when the dropdown icon near the ButtonGroup.Item component that has children is clicked again", async () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" />
+        <ButtonGroup.Item label="Item 2">
+          <ButtonGroup.Item label="Item 2.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 2.1")).toBeInTheDocument();
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 2.1")).not.toBeInTheDocument();
+  });
+
+  it("should close the submenu when clicked outside of it", async () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" />
+        <ButtonGroup.Item label="Item 2">
+          <ButtonGroup.Item label="Item 2.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 2.1")).toBeInTheDocument();
+    await userEvent.click(document.body);
+    expect(queryByText("Item 2.1")).not.toBeInTheDocument();
+  });
+
+  it("should close the submenu when Escape is pressed", async () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" />
+        <ButtonGroup.Item label="Item 2">
+          <ButtonGroup.Item label="Item 2.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 2.1")).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(queryByText("Item 2.1")).not.toBeInTheDocument();
+  });
+
+  it("should render the submenu in document.body with the size of the group", async () => {
+    const { container, getByText } = render(
+      <ButtonGroup size="sm">
+        <ButtonGroup.Item label="Item 1">
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    const submenu = getByText("Item 1.1").parentElement!;
+    expect(container).not.toContainElement(submenu);
+    expect(submenu.parentElement).toBe(document.body);
+    expect(submenu).toHaveClass("sm");
+  });
+
+  it("should not open the submenu when a disabled ButtonGroup.Item that has children is clicked, including its dropdown icon", () => {
+    const { getByText, queryByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" disabled>
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+
+    // The submenu is opened by a document listener, which also receives the clicks on the button's children, e.g. the icon.
+    // Each click is checked on its own, since a second click would close a submenu opened by the first one.
+    fireEvent.click(getByText("Item 1").closest("button")!);
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+    fireEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+  });
+
+  it("should close the open submenu and reset the dropdown icon when the ButtonGroup.Item becomes disabled, and not open it again when it is enabled", async () => {
+    const renderGroup = (disabled: boolean) => (
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" disabled={disabled}>
+          <ButtonGroup.Item label="Item 1.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>
+    );
+    const { getByText, queryByText, rerender } = render(renderGroup(false));
+
+    await userEvent.click(getByText("keyboard_arrow_down"));
+    expect(queryByText("Item 1.1")).toBeInTheDocument();
+    expect(getByText("keyboard_arrow_down")).toHaveClass("open");
+
+    rerender(renderGroup(true));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+    expect(getByText("keyboard_arrow_down")).not.toHaveClass("open");
+
+    rerender(renderGroup(false));
+    expect(queryByText("Item 1.1")).not.toBeInTheDocument();
+  });
+});
+
+describe("ButtonGroup.Item", () => {
+  it("should fire an event when an item with the action prop is clicked", async () => {
+    const action = jest.fn();
+    const { getByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item" action={action} />
+      </ButtonGroup>,
+    );
+
+    await userEvent.click(getByText("Item"));
+    expect(action).toHaveBeenCalled();
+  });
+
+  it("should disable item when disabled prop is true", () => {
+    const action = jest.fn();
+    const { getByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item" action={action} disabled />
+      </ButtonGroup>,
+    );
+
+    fireEvent.click(getByText("Item"));
+    expect(action).not.toHaveBeenCalled();
+  });
+
+  it("should render the icon given in the icon prop", () => {
+    const { getByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item" icon="folder" />
+      </ButtonGroup>,
+    );
+
+    expect(getByText("folder")).toBeInTheDocument();
+  });
+
+  it("should render the label given in the label prop", () => {
+    const { getByText } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item" />
+      </ButtonGroup>,
+    );
+
+    expect(getByText("Item")).toBeInTheDocument();
+  });
+});
