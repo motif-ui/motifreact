@@ -4,12 +4,21 @@ import { getByTestId, render, screen } from "@testing-library/react";
 import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef, VariantV2 } from "../../../lib/types";
 describe("Badge", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
-    render(
-      <Badge {...props}>
-        <button />
-      </Badge>,
-    ),
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      render(
+        <Badge content="1000" {...props}>
+          <button />
+        </Badge>,
+      ),
+    {
+      assertDefaults: ({ container, getByText }) => {
+        // variant: primary, align: top-right
+        expect(container.firstElementChild).toHaveClass("primary", "top-right");
+        // max: 999
+        expect(getByText("999+")).toBeInTheDocument();
+      },
+    },
   );
 
   it("should not be rendered when no children is given", () => {

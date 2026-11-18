@@ -17,6 +17,13 @@ describe("Chip", () => {
     expect(screen.getByText("test")).toBeDefined();
   });
 
+  it("should be rendered with the icon spacing when an icon is given", () => {
+    const { getByTestId, unmount } = render(<Chip label="test" icon="info" />);
+    expect(getByTestId("chipItem")).toHaveClass("withIcon");
+    unmount();
+    expect(render(<Chip label="test" />).getByTestId("chipItem")).not.toHaveClass("withIcon");
+  });
+
   it("should be removed when close icon is clicked", () => {
     const { container } = render(<Chip label="test" closable />);
     expect(screen.getByTestId("iconButtonTestId")).toBeDefined();
