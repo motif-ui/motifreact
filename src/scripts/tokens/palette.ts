@@ -4,6 +4,8 @@ export const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 // OKLCH lightness per step, and how much of the seed chroma each step keeps by its distance from the anchor step
 const LIGHTNESS = [0.975, 0.945, 0.89, 0.82, 0.72, 0.62, 0.54, 0.46, 0.37, 0.28, 0.21];
 const CHROMA_DECAY = [1, 0.92, 0.8, 0.64, 0.48, 0.36, 0.27, 0.2, 0.15, 0.12, 0.1];
+// Index of step 500
+const MIDDLE = 5;
 
 // The only alpha values a token may use. Same percentages in light and dark.
 export const ALPHA_LADDER = [0.04, 0.08, 0.16, 0.32, 0.64, 0.8];
@@ -45,8 +47,11 @@ export const buildRamp = (seed: string) => {
         ? first + (l - first) * ((seedL - first) / (LIGHTNESS[anchor] - first || 1))
         : last + (l - last) * ((seedL - last) / (LIGHTNESS[anchor] - last || 1));
   const hue = Number.isNaN(seedH) ? 0 : seedH;
+  // A light seed (warning) keeps its chroma down to the middle step: counted from the anchor, its text and border steps
+  // (500, 600) would lose most of it and turn olive. Darker than the middle, chroma decays from there.
+  const decayFrom = (i: number) => (i > anchor && anchor < MIDDLE ? Math.max(0, i - MIDDLE) : Math.abs(i - anchor));
   const steps = LIGHTNESS.map((l, i) =>
-    i === anchor ? seed.toLowerCase() : toHex(new Color("oklch", [warp(l, i), seedC * CHROMA_DECAY[Math.abs(i - anchor)], hue])),
+    i === anchor ? seed.toLowerCase() : toHex(new Color("oklch", [warp(l, i), seedC * CHROMA_DECAY[decayFrom(i)], hue])),
   );
   return { anchor, steps };
 };

@@ -37,9 +37,14 @@ export default {
   overrides: [
     {
       files: [
+        "src/lib/components/AlertV2/**/*.scss",
         "src/lib/components/AlertModal/**/*.scss",
+        "src/lib/components/AvatarV2/**/*.scss",
+        "src/lib/components/BadgeV2/**/*.scss",
         "src/lib/components/Breadcrumb/**/*.scss",
         "src/lib/components/Button/**/*.scss",
+        "src/lib/components/ChipV2/**/*.scss",
+        "src/lib/components/Container/**/*.scss",
         "src/lib/components/Divider/**/*.scss",
         "src/lib/components/Link/**/*.scss",
         "src/lib/components/ProgressBar/**/*.scss",

@@ -1,0 +1,49 @@
+import { useCallback } from "react";
+import { PropsWithRefAndChildren } from "../../types";
+import { AlertProps } from "./types";
+import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import { useToggle } from "../../hooks";
+import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import styles from "./AlertV2.module.scss";
+import { MotifIcon, MotifIconButton } from "@/components/Motif/Icon";
+
+const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
+  const {
+    variant = "neutral",
+    title,
+    message,
+    hideIcon,
+    closable,
+    onClose,
+    children,
+    ref,
+    className,
+    style,
+  } = usePropsWithThemeDefaults("Alert", props);
+
+  const { visible, hide, toggleState } = useToggle({ initialVisible: true, duration: 300 });
+  const classes = sanitizeModuleRootClasses(styles, className, [variant, toggleState]);
+  const iconName = variant === "danger" ? "error" : variant === "warning" ? "warning" : variant === "success" ? "check_circle" : "info";
+
+  const closeHandler = useCallback(() => {
+    hide();
+    onClose && onClose();
+  }, [hide, onClose]);
+
+  return (
+    (visible || !!toggleState) && (
+      <div className={classes} style={style} ref={ref}>
+        {!hideIcon && <MotifIcon name={iconName} className={styles.icon} size="lg" />}
+        <div className={styles.contentBox}>
+          {title && <span className={styles.title}>{title}</span>}
+          {message && <span className={styles.message}>{message}</span>}
+          {children}
+        </div>
+        {closable && <MotifIconButton name="close" size="lg" onClick={closeHandler} />}
+      </div>
+    )
+  );
+};
+
+Alert.displayName = "Alert";
+export default Alert;
