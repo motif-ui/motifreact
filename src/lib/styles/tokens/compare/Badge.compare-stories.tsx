@@ -1,22 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ComponentType, CSSProperties, PropsWithChildren } from "react";
 import Badge from "@/components/Badge/Badge";
-import BadgeV2 from "@/components/BadgeV2/Badge";
-import { BadgeProps as BadgeV2Props } from "@/components/BadgeV2/types";
+import { BadgeProps as BadgeOwnProps } from "@/components/Badge/types";
+import BadgeBaseline from "./baseline/Badge/Badge";
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
 const VARIANTS = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"] as const;
 const ALIGNS = ["top-left", "top-right", "bottom-left", "bottom-right"] as const;
 
 // Badge wraps the element it marks
-type BadgeProps = PropsWithChildren<BadgeV2Props>;
+type BadgeProps = PropsWithChildren<BadgeOwnProps>;
 
 // What the badge sits on; the ring around the badge separates the two
 const TARGET: CSSProperties = { display: "block", width: 40, height: 40, borderRadius: 8, background: "#cfd6dc" };
 const target = <span style={TARGET} />;
 
 // The current Badge has no neutral/accent and its secondary is gray
-const Current = Badge as ComponentType<BadgeProps>;
+const Current = BadgeBaseline as ComponentType<BadgeProps>;
 
 const sections: CompareSection<BadgeProps>[] = [
   {
@@ -46,5 +46,5 @@ export default meta;
 
 export const Badge_: StoryObj<typeof TokenCompare> = {
   name: "Badge",
-  render: () => <TokenCompare sections={sections} current={Current} next={BadgeV2} />,
+  render: () => <TokenCompare sections={sections} current={Current} next={Badge} />,
 };

@@ -1,6 +1,6 @@
 # Avatar: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-16 with /figma-new-component from the `AvatarV2` clone (batch 3).
+Built 2026-11-16 with /figma-new-component from the `AvatarV2` clone (batch 3), which replaced Avatar on 2026-11-18.
 
 ## Nodes
 

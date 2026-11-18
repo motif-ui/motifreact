@@ -1,6 +1,6 @@
 # Alert: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-16 with /figma-new-component from the `AlertV2` clone (batch 3).
+Built 2026-11-16 with /figma-new-component from the `AlertV2` clone (batch 3), which replaced Alert on 2026-11-18.
 
 ## Nodes
 
