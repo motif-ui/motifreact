@@ -6,9 +6,16 @@
     align-items: center;
     flex-wrap: wrap;
 
-    .mtf-Link,
-    .mtf-Link .mtf-Icon {
+    .mtf-Link {
       color: #37424b;
+
+      &:hover {
+        color: #0077b9;
+      }
+
+      .mtf-Icon {
+        color: inherit;
+      }
     }
   }
 
