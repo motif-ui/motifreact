@@ -1,22 +1,26 @@
 @use "@styles" as *;
 
-// The variant is set on the root and can be overridden per item, so its colors travel as custom properties
-@each $variant in $variants-v2 {
-  .#{$variant} {
-    --timeline-solid: var(--mtf-color-#{$variant}-solid);
-    --timeline-on: var(--mtf-color-on-#{$variant});
-    --timeline-text: var(--mtf-color-#{$variant}-text);
-  }
-}
-
-// A filled neutral marker stays close to the page tones, like the neutral avatar: the translucent soft tone over the surface
-.neutral {
-  --timeline-fill: linear-gradient(var(--mtf-color-neutral-soft), var(--mtf-color-neutral-soft)), var(--mtf-color-surface-default);
-  --timeline-on: var(--mtf-color-neutral-text);
-}
-
 .Root {
   display: flex;
+}
+
+// The variant is set on the root and can be overridden per item, so its colors travel as custom properties. Every
+// variant sets all of them, so an item's own variant replaces the root's completely.
+@each $variant in $variants-v2 {
+  .#{$variant} {
+    --mtf-timeline-solid: var(--mtf-color-#{$variant}-solid);
+    --mtf-timeline-text: var(--mtf-color-#{$variant}-text);
+
+    // A filled neutral marker stays close to the page tones, like the neutral avatar: the translucent soft tone over
+    // the surface
+    @if $variant == "neutral" {
+      --mtf-timeline-fill: linear-gradient(var(--mtf-color-neutral-soft), var(--mtf-color-neutral-soft)), var(--mtf-color-surface-default);
+      --mtf-timeline-on: var(--mtf-color-neutral-text);
+    } @else {
+      --mtf-timeline-fill: var(--mtf-color-#{$variant}-solid);
+      --mtf-timeline-on: var(--mtf-color-on-#{$variant});
+    }
+  }
 }
 
 .vertical {
@@ -89,13 +93,13 @@
   }
 
   .filled & > * {
-    background: var(--timeline-fill, var(--timeline-solid));
-    color: var(--timeline-on);
+    background: var(--mtf-timeline-fill);
+    color: var(--mtf-timeline-on);
   }
 
   .outlined & > * {
-    border: var(--mtf-sizing-2) solid var(--timeline-solid);
-    color: var(--timeline-text);
+    border: var(--mtf-sizing-2) solid var(--mtf-timeline-solid);
+    color: var(--mtf-timeline-text);
   }
 
   // One disabled look for every variant

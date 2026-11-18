@@ -17,9 +17,20 @@ const items = (extra: TimelineItemProps = {}): TimelineItemProps[] => [
   { title: "Merged", content: "Released in 2.0", icon: "check", ...extra },
 ];
 
-// The current Timeline has light where the new one has neutral, and no info or accent
-const Legacy = Timeline as ComponentType<Omit<TimelineProps, "variant"> & { variant?: string }>;
-const Current = (props: TimelineProps) => <Legacy {...props} variant={props.variant === "neutral" ? "light" : props.variant} />;
+// The current Timeline has light where the new one has neutral (on the root and on items), and no info or accent
+type LegacyProps = Omit<TimelineProps, "variant" | "items"> & {
+  variant?: string;
+  items: (Omit<TimelineItemProps, "variant"> & { variant?: string })[];
+};
+const Legacy = Timeline as ComponentType<LegacyProps>;
+const legacyVariant = (variant?: string) => (variant === "neutral" ? "light" : variant);
+const Current = (props: TimelineProps) => (
+  <Legacy
+    {...props}
+    variant={legacyVariant(props.variant)}
+    items={props.items.map(item => ({ ...item, variant: legacyVariant(item.variant) }))}
+  />
+);
 
 const sections: CompareSection<TimelineProps>[] = [
   ...ORIENTATIONS.map(orientation => ({
@@ -46,6 +57,24 @@ const sections: CompareSection<TimelineProps>[] = [
         props: { variant, markerType: "number" as const, items: items({ appearance }) },
       })),
     ),
+  },
+  {
+    title: "Item variants",
+    note: "The middle item sets its own variant over the Timeline's.",
+    rows: (
+      [
+        ["neutral", "primary"],
+        ["primary", "neutral"],
+        ["neutral", "danger"],
+      ] as const
+    ).map(([variant, itemVariant]) => ({
+      label: `${variant} · item ${itemVariant}`,
+      props: {
+        variant,
+        markerType: "number" as const,
+        items: items().map((item, i) => (i === 1 ? { ...item, variant: itemVariant } : item)),
+      },
+    })),
   },
   {
     title: "Disabled",
