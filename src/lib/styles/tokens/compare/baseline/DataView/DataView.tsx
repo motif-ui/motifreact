@@ -1,11 +1,11 @@
 "use client";
-import styles from "./DataViewV2.module.scss";
+import styles from "./DataViewBaseline.module.scss";
 import DataViewItem from "./DataViewItem";
-import { PropsWithRefAndChildren } from "../../types";
+import { PropsWithRefAndChildren } from "../../../../../types";
 import { useMemo } from "react";
 import { DataViewProps } from "./types";
-import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import usePropsWithThemeDefaults from "../../../../../motif/hooks/usePropsWithThemeDefaults";
+import { sanitizeModuleRootClasses } from "../../../../../../utils/cssUtils";
 
 const DataViewComponent = (props: PropsWithRefAndChildren<DataViewProps, HTMLDivElement>) => {
   const {

@@ -1,6 +1,6 @@
 # Timeline: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-17 with /figma-new-component from the `TimelineV2` clone (batch 4).
+Built 2026-11-17 with /figma-new-component from the `TimelineV2` clone (batch 4), which replaced Timeline on 2026-11-18.
 
 ## Nodes
 
