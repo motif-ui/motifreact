@@ -113,15 +113,11 @@ $sizes: (("xs", 8, 4, 4, 18), ("sm", 12, 6, 6, 20), ("md", 16, 8, 8, 22), ("lg",
     }
 
     &:hover {
-      border-color: var(--mtf-color-border-default);
       background-color: var(--mtf-color-neutral-soft);
-      color: var(--mtf-color-text-strong);
     }
 
     &:active {
-      border-color: var(--mtf-color-border-default);
       background-color: var(--mtf-color-neutral-soft-active);
-      color: var(--mtf-color-text-strong);
     }
 
     &:disabled {
