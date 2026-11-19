@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, height, labelStep (text scale)
-$sizes: (("xs", 2, "xs"), ("sm", 4, "sm"), ("md", 6, "md"), ("lg", 8, "lg"), ("xl", 12, "lg"));
+// size, height
+$sizes: (("xs", 2), ("sm", 4), ("md", 6), ("lg", 8), ("xl", 12));
 
 .Root {
   text-align: center;
@@ -49,14 +49,14 @@ $sizes: (("xs", 2, "xs"), ("sm", 4, "sm"), ("md", 6, "md"), ("lg", 8, "lg"), ("x
 }
 
 // A size changes the bar and the text: grouped by size
-@each $size, $height, $labelStep in $sizes {
+@each $size, $height in $sizes {
   .#{$size} {
     .bar {
       height: var(--mtf-sizing-#{$height});
     }
 
     .text {
-      @include typography("text-#{$labelStep}", "strong");
+      @include typography("text-#{$size}", "strong");
     }
   }
 }
