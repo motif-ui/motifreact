@@ -186,20 +186,16 @@ $variants-old: (
       color: var(--mtf-color-text-#{$tone});
     }
   }
-}
 
-@each $type, $config in $types {
-  @each $size, $spec in map.get($config, sizes) {
-    $step: list.nth($spec, 1);
-    $margin: list.nth($spec, 2);
-
-    .#{$type}.#{$size} {
-      @include typography("text-#{$step}", map.get($config, weight));
-
-      @if $margin {
-        margin-block: #{$margin}em #{$margin * 0.5}em;
-      }
+  // The weight prop and marginless replace what the type sets: the type rules use one class, so these win by structure
+  @each $weight, $token in $weights {
+    &.#{$weight} {
+      font-weight: var(--mtf-typography-weight-#{$token});
     }
+  }
+
+  &.marginless {
+    margin-block: 0;
   }
 }
 
@@ -213,15 +209,18 @@ $variants-old: (
   }
 }
 
-// The weight prop and marginless replace what the type set, so they come after it
-.Root {
-  @each $weight, $token in $weights {
-    &.#{$weight} {
-      font-weight: var(--mtf-typography-weight-#{$token});
-    }
-  }
+// One class per type and size (the component sets it), so the weight prop and marginless on .Root win over it
+@each $type, $config in $types {
+  @each $size, $spec in map.get($config, sizes) {
+    $step: list.nth($spec, 1);
+    $margin: list.nth($spec, 2);
 
-  &.marginless {
-    margin-block: 0;
+    .#{$type}-#{$size} {
+      @include typography("text-#{$step}", map.get($config, weight));
+
+      @if $margin {
+        margin-block: #{$margin}em #{$margin * 0.5}em;
+      }
+    }
   }
 }
