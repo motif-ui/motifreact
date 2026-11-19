@@ -32,8 +32,8 @@ Built 2026-11-17 with /figma-new-component from the migrated ListView (batch 4).
 ## Decisions
 
 - Every label on the page uses the code's prop names (user, 2026-11-18).
-- The letter avatar is Avatar's neutral: `color/neutral/soft` over `color/surface/default` with
-  `color/neutral/text`, Semi Bold (user decision 3 of batch 4). One letter at sm (24px avatar), two above, like
+- The letter avatar is Avatar's neutral: a translucent `color/neutral/soft` fill (no surface layer, so on a hovered
+  row it darkens with the row and stays visible) with `color/neutral/text`, Semi Bold (user decision 3 of batch 4). One letter at sm (24px avatar), two above, like
   Avatar (user, 2026-11-18; the code was changed to match).
 - `leftContent=image` is a real photo filling the round avatar (an image fill on `leftContent`); with
   `disableAvatars=true` it is square; disabled, grayscale at 60%.

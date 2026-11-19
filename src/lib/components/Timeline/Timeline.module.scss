@@ -1,316 +1,312 @@
 @use "@styles" as *;
 
-// variant, fillTextColor
-$variants: (
-  ("primary", "base-global-light"),
-  ("secondary", "base-global-light"),
-  ("success", "base-global-light"),
-  ("warning", "base-text-dark"),
-  ("danger", "base-global-light"),
-  ("light", "light-default")
-);
-
-@mixin connection-line($orientation, $half: false) {
-  content: "";
-  display: block;
-  flex: 1;
-  background-color: var(--theme-color-border-light-default);
-
-  @if $orientation == "vertical" {
-    min-height: if(sass($half): var(--base-sizing-12x); else: var(--base-sizing-24x));
-    width: var(--base-sizing-1x);
-  } @else if $orientation == "horizontal" {
-    min-width: if(sass($half): var(--base-sizing-12x); else: var(--base-sizing-24x));
-    height: var(--base-sizing-1x);
-  }
-}
-
-@mixin marker-variant($variant, $fill-text-token, $self: false) {
-  $base: if(sass($self): "&"; else: "");
-  $outlined-disabled: if(sass($self): "&.disabled.outlined"; else: ".item.disabled.outlined");
-  $filled-disabled: if(sass($self): "&.disabled.filled"; else: ".item.disabled.filled");
-
-  #{$base}.outlined .marker span {
-    border-color: var(--theme-color-border-#{$variant}-default);
-    color: var(--theme-color-text-#{$variant}-default);
-  }
-
-  #{$base}.filled .marker span {
-    background-color: var(--theme-color-surface-#{$variant}-default);
-    color: var(--theme-color-text-#{$fill-text-token});
-  }
-
-  #{$outlined-disabled} .marker span {
-    border-color: if(
-      sass($variant == "light"): var(--theme-color-border-light-default);
-        else: if(sass($variant == "secondary"): var(--theme-color-surface-base-base7); else: var(--theme-color-border-#{$variant}-disabled))
-    );
-    color: if(sass($variant == "light"): var(--theme-color-text-secondary-disabled); else: var(--theme-color-text-#{$variant}-disabled));
-  }
-
-  #{$filled-disabled} .marker span {
-    background-color: if(sass($variant == "secondary"): var(--theme-color-surface-base-base7); else: var(--theme-color-surface-#{$variant}-disabled));
-    @if $variant == "warning" {
-      color: var(--theme-color-text-base-dark-overlay25);
-    } @else if $variant == "light" {
-      color: var(--theme-color-text-light-disabled);
-    }
-  }
-}
-
 .Root {
   display: flex;
 }
 
-.item {
-  display: flex;
-  gap: var(--base-sizing-8x);
-}
+// The variant is set on the root and can be overridden per item, so its colors travel as custom properties. Every
+// variant sets all of them, so an item's own variant replaces the root's completely.
+@each $variant in $variants-v2 {
+  .#{$variant} {
+    --mtf-timeline-solid: var(--mtf-color-#{$variant}-solid);
+    --mtf-timeline-text: var(--mtf-color-#{$variant}-text);
 
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--base-sizing-4x);
-  color: var(--theme-color-text-base-subtitle);
-}
-
-.title {
-  @include font("base", "lg", "600");
-}
-
-.content {
-  @include font("body", "md");
-}
-
-.marker {
-  display: flex;
-  align-items: center;
-
-  > * {
-    display: block;
-    border-radius: var(--theme-sizing-radius-round);
-  }
-
-  .outlined & > span {
-    border-width: var(--base-sizing-2x);
-    border-style: solid;
-  }
-
-  .markerDot {
-    width: var(--base-sizing-12x);
-    height: var(--base-sizing-12x);
-  }
-  .markerNumber {
-    width: var(--base-sizing-24x);
-    height: var(--base-sizing-24x);
-    @include font("base", "xxs", "700");
-    @include flex-center;
-  }
-  .markerIconWrapper {
-    width: var(--base-sizing-40x);
-    height: var(--base-sizing-40x);
-    @include flex-center;
-
-    .markerIcon {
-      --mtf-icon-size: var(--base-sizing-24x);
+    // A filled neutral marker stays close to the page tones, like the neutral avatar: the translucent soft tone over
+    // the surface
+    @if $variant == "neutral" {
+      --mtf-timeline-fill: linear-gradient(var(--mtf-color-neutral-soft), var(--mtf-color-neutral-soft)), var(--mtf-color-surface-default);
+      --mtf-timeline-on: var(--mtf-color-neutral-text);
+    } @else {
+      --mtf-timeline-fill: var(--mtf-color-#{$variant}-solid);
+      --mtf-timeline-on: var(--mtf-color-on-#{$variant});
     }
   }
 }
 
 .vertical {
-  &,
-  .marker {
-    flex-direction: column;
-  }
-
-  .item {
-    padding-left: var(--base-sizing-8x);
-    padding-right: var(--base-sizing-8x);
-  }
-
-  &.before .item {
-    flex-direction: row-reverse;
-    text-align: right;
-  }
-  &.after .item {
-    flex-direction: row;
-  }
-  &.alternate .item {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    .marker {
-      grid-column: 2;
-    }
-    .section {
-      grid-column: 3;
-    }
-    &:nth-child(odd) {
-      grid-auto-flow: dense;
-      .section {
-        grid-column: 1;
-        text-align: right;
-      }
-    }
-  }
-
-  &.start {
-    .marker {
-      justify-content: flex-start;
-      &:has(.markerDot) ~ .section {
-        margin-top: calc(-1 * var(--base-sizing-6x));
-      }
-      &:has(.markerIcon) ~ .section {
-        margin-top: var(--base-sizing-8x);
-      }
-    }
-
-    .item:not(:last-child) {
-      .section {
-        justify-content: flex-start;
-        padding-bottom: var(--base-sizing-24x);
-      }
-      .marker::after {
-        @include connection-line("vertical");
-      }
-    }
-  }
-  &.center .item {
-    .section {
-      justify-content: center;
-      padding-top: var(--base-sizing-12x);
-      padding-bottom: var(--base-sizing-12x);
-    }
-    &:last-child .marker::after,
-    &:first-child .marker::before {
-      background-color: transparent;
-    }
-    .marker {
-      justify-content: center;
-      &::after,
-      &::before {
-        @include connection-line("vertical", "half");
-      }
-    }
-  }
-  &.end {
-    .marker {
-      justify-content: flex-end;
-      &:has(.markerDot) ~ .section {
-        margin-bottom: calc(-1 * var(--base-sizing-4x));
-      }
-      &:has(.markerIcon) ~ .section {
-        margin-bottom: var(--base-sizing-8x);
-      }
-    }
-    .item:not(:first-child) {
-      .section {
-        justify-content: flex-end;
-        padding-top: var(--base-sizing-24x);
-      }
-      .marker::before {
-        @include connection-line("vertical");
-      }
-    }
-  }
+  flex-direction: column;
 }
 
 .horizontal {
-  &,
-  .marker {
-    flex-direction: row;
-  }
-  .item {
-    padding-top: var(--base-sizing-8x);
-    padding-bottom: var(--base-sizing-8x);
+  flex-direction: row;
+}
+
+.item {
+  display: flex;
+  gap: var(--mtf-sizing-space-8);
+
+  .vertical & {
+    padding: 0 var(--mtf-sizing-space-8);
   }
 
-  &.before .item {
-    flex-direction: column-reverse;
+  .horizontal & {
+    padding: var(--mtf-sizing-space-8) 0;
   }
-  &.after .item {
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mtf-sizing-space-4);
+  color: var(--mtf-color-text-soft);
+}
+
+.title {
+  @include typography("label-xl", "stronger");
+}
+
+.content {
+  @include typography("body-md");
+}
+
+// =============================================================================
+// Marker
+// =============================================================================
+
+.marker {
+  display: flex;
+  align-items: center;
+
+  .vertical & {
     flex-direction: column;
   }
-  &.alternate {
-    display: grid;
-    grid-template-rows: auto auto auto;
 
-    .item {
-      display: grid;
-      grid-row: 1 / -1;
-      /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
-      grid-template-rows: subgrid;
-
-      .marker {
-        grid-row: 2;
-      }
-      .section {
-        grid-row: 3;
-        align-self: start;
-      }
-      &:nth-child(odd) .section {
-        grid-row: 1;
-        align-self: end;
-      }
-    }
+  .horizontal & {
+    flex-direction: row;
   }
 
-  &.start .item {
-    .marker {
-      justify-content: flex-start;
-    }
-    .section {
-      text-align: left;
-    }
-    &:not(:last-child) {
-      .section {
-        padding-right: var(--base-sizing-24x);
-      }
-      .marker::after {
-        @include connection-line("horizontal");
-      }
-    }
+  .start & {
+    justify-content: flex-start;
   }
-  &.center .item {
-    .marker {
-      justify-content: center;
-    }
-    .section {
-      text-align: center;
-      padding-left: var(--base-sizing-12x);
-      padding-right: var(--base-sizing-12x);
-    }
-    &:last-child .marker::after,
-    &:first-child .marker::before {
-      background-color: transparent;
-    }
-    .marker::after,
-    .marker::before {
-      @include connection-line("horizontal", true);
-    }
+
+  .center & {
+    justify-content: center;
   }
-  &.end .item {
-    .marker {
-      justify-content: flex-end;
+
+  .end & {
+    justify-content: flex-end;
+  }
+
+  > * {
+    display: block;
+    border-radius: var(--mtf-sizing-radius-round);
+  }
+
+  .filled & > * {
+    background: var(--mtf-timeline-fill);
+    color: var(--mtf-timeline-on);
+  }
+
+  .outlined & > * {
+    border: var(--mtf-sizing-2) solid var(--mtf-timeline-solid);
+    color: var(--mtf-timeline-text);
+  }
+
+  // One disabled look for every variant
+  .disabled.filled & > * {
+    background: var(--mtf-color-surface-disabled);
+    color: var(--mtf-color-text-disabled);
+  }
+
+  .disabled.outlined & > * {
+    border-color: var(--mtf-color-border-disabled);
+    color: var(--mtf-color-text-disabled);
+  }
+}
+
+.markerDot {
+  width: var(--mtf-sizing-12);
+  height: var(--mtf-sizing-12);
+}
+
+.markerNumber {
+  width: var(--mtf-sizing-24);
+  height: var(--mtf-sizing-24);
+  @include typography("label-xs", "strongest");
+  @include flex-center;
+}
+
+.markerIconWrapper {
+  width: var(--mtf-sizing-40);
+  height: var(--mtf-sizing-40);
+  @include flex-center;
+}
+
+.markerIcon {
+  --mtf-icon-size: var(--mtf-sizing-24);
+}
+
+// =============================================================================
+// Connection lines: each item says where its line goes (TimelineItem); the orientation sets its shape
+// =============================================================================
+
+@mixin connection-line($orientation, $half: false) {
+  content: "";
+  display: block;
+  flex: 1;
+  background-color: var(--mtf-color-border-default);
+
+  @if $orientation == "vertical" {
+    min-height: if(sass($half): var(--mtf-sizing-12); else: var(--mtf-sizing-24));
+    width: var(--mtf-sizing-1);
+  } @else {
+    min-width: if(sass($half): var(--mtf-sizing-12); else: var(--mtf-sizing-24));
+    height: var(--mtf-sizing-1);
+  }
+}
+
+@each $orientation in ("vertical", "horizontal") {
+  .#{$orientation} {
+    .lineAfter::after,
+    .lineBefore::before {
+      @include connection-line($orientation);
     }
-    .section {
-      text-align: right;
-    }
-    &:not(:first-child) {
-      .section {
-        padding-left: var(--base-sizing-24x);
-      }
-      .marker::before {
-        @include connection-line("horizontal");
-      }
+
+    .halfLines::before,
+    .halfLines::after {
+      @include connection-line($orientation, true);
     }
   }
 }
 
-@each $variant, $fill-text-token in $variants {
-  .#{$variant} {
-    @include marker-variant($variant, $fill-text-token);
+// The first and last items of a centered timeline keep the space of their outer half line, without the line
+.halfLines.fadeStart::before,
+.halfLines.fadeEnd::after {
+  background-color: transparent;
+}
+
+// =============================================================================
+// Content position
+// =============================================================================
+
+.verticalBefore .item {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.verticalAfter .item {
+  flex-direction: row;
+}
+
+.verticalAlternate {
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
   }
-  .item.#{$variant} {
-    @include marker-variant($variant, $fill-text-token, $self: true);
+
+  .marker {
+    grid-column: 2;
+  }
+
+  .section {
+    grid-column: 3;
+  }
+
+  .odd {
+    grid-auto-flow: dense;
+  }
+
+  .odd .section {
+    grid-column: 1;
+    text-align: right;
+  }
+}
+
+.horizontalBefore .item {
+  flex-direction: column-reverse;
+}
+
+.horizontalAfter .item {
+  flex-direction: column;
+}
+
+.horizontalAlternate {
+  display: grid;
+  grid-template-rows: auto auto auto;
+
+  .item {
+    display: grid;
+    grid-row: 1 / -1;
+    /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
+    grid-template-rows: subgrid;
+  }
+
+  .marker {
+    grid-row: 2;
+  }
+
+  .section {
+    grid-row: 3;
+    align-self: start;
+  }
+
+  .odd .section {
+    grid-row: 1;
+    align-self: end;
+  }
+}
+
+// =============================================================================
+// Text alignment: where the section sits along the line and its spacing
+// =============================================================================
+
+.verticalStart {
+  .spaceAfter {
+    justify-content: flex-start;
+    padding-bottom: var(--mtf-sizing-space-24);
+  }
+
+  // The section starts at the marker's center
+  &.dot .section {
+    margin-top: calc(-1 * var(--mtf-sizing-space-6));
+  }
+
+  &.icon .section {
+    margin-top: var(--mtf-sizing-space-8);
+  }
+}
+
+.verticalCenter .section {
+  justify-content: center;
+  padding: var(--mtf-sizing-space-12) 0;
+}
+
+.verticalEnd {
+  .spaceBefore {
+    justify-content: flex-end;
+    padding-top: var(--mtf-sizing-space-24);
+  }
+
+  &.dot .section {
+    margin-bottom: calc(-1 * var(--mtf-sizing-space-4));
+  }
+
+  &.icon .section {
+    margin-bottom: var(--mtf-sizing-space-8);
+  }
+}
+
+.horizontalStart {
+  .section {
+    text-align: left;
+  }
+
+  .spaceAfter {
+    padding-right: var(--mtf-sizing-space-24);
+  }
+}
+
+.horizontalCenter .section {
+  text-align: center;
+  padding: 0 var(--mtf-sizing-space-12);
+}
+
+.horizontalEnd {
+  .section {
+    text-align: right;
+  }
+
+  .spaceBefore {
+    padding-left: var(--mtf-sizing-space-24);
   }
 }

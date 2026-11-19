@@ -45,7 +45,7 @@ export default {
         "src/lib/components/Button/**/*.scss",
         "src/lib/components/Chip/**/*.scss",
         "src/lib/components/Container/**/*.scss",
-        "src/lib/components/DataViewV2/**/*.scss",
+        "src/lib/components/DataView/**/*.scss",
         "src/lib/components/Divider/**/*.scss",
         "src/lib/components/Link/**/*.scss",
         "src/lib/components/ListView/**/*.scss",
@@ -54,7 +54,7 @@ export default {
         "src/lib/components/ProgressCircle/**/*.scss",
         "src/lib/components/Select/**/*.scss",
         "src/lib/components/Skeleton/**/*.scss",
-        "src/lib/components/TimelineV2/**/*.scss",
+        "src/lib/components/Timeline/**/*.scss",
       ],
       rules: {
         "declaration-no-important": true,
