@@ -201,3 +201,18 @@ Everything that is the same for every entry goes in the element's own rule outsi
 
 The same applies to role names in size tables (`"label-sm", "label-md"` → `"sm", "md"`, see design-tokens.md section 4).
 Flag lists and maps whose entries repeat a fixed part.
+
+A column that repeats the entry's key in every row holds nothing: drop it and use the key. Keep the column when at least
+one row differs, since then it is real data:
+
+```scss
+// Flag: the text step equals the size in every row
+$sizes: (("sm", 4, "sm"), ("md", 6, "md"), ("lg", 8, "lg"));
+
+// Prefer
+$sizes: (("sm", 4), ("md", 6), ("lg", 8));
+@each $size, $gap in $sizes { .#{$size} { @include typography("text-#{$size}", "strong"); } }
+
+// Keep: xl takes lg's step, so the column is not the size
+$sizes: (("xs", 2, "xs"), ("sm", 4, "sm"), ("md", 6, "md"), ("lg", 8, "lg"), ("xl", 12, "lg"));
+```

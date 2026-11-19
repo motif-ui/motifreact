@@ -17,6 +17,11 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
   Footer `11:35`, Logo `24:24`, Swatch `25:42`.
 - Hidden "Docs" variable collection `VariableCollectionId:23:2`: template colors only (`docs/*`), never product tokens.
 - Product tokens come only from the generator: `npm run figma:mtf-tokens`, then run the bundled scripts.
+- The Typography page (`7:5`) has a Text scale section (`336:7647`) above the text styles: the 14 `text-*` steps,
+  each sample bound to its font-size and line-height variables with the regular weight. Text styles exist for the roles
+  only; spec strings on component pages name the step and the weight (`text-sm strong`), like the size tables in code.
+- Before running the bundled token scripts, load every font the file's text nodes use (Inter, Noto Sans Symbols,
+  Noto Sans Symbols2): `setValueForMode` on a variable bound to text fails on an unloaded font.
 
 ## Page conventions
 
