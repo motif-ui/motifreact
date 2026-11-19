@@ -4,6 +4,8 @@ import Timeline from "@/components/Timeline/Timeline";
 import { TimelineItemProps, TimelineMarkerType, TimelineVariant } from "@/components/Timeline/types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
+import { capitalizeFirstLetter } from "../../../utils/utils";
+const orientations = ["vertical", "horizontal"] as const;
 const items: TimelineItemProps[] = [
   { title: "Step 1", content: "First step content" },
   { title: "Step 2", content: "Second step content" },
@@ -44,22 +46,27 @@ describe("Timeline", () => {
     expect(root).toHaveClass("horizontal");
   });
 
-  it("should position the content for each item as given in contentPosition prop", () => {
+  it("should position the content for each item as given in contentPosition prop, for both orientations", () => {
     const { container, rerender } = render(<Timeline items={items} />);
     const positions = ["after", "before", "alternate"] as const;
-    positions.forEach(position => {
-      rerender(<Timeline items={items} contentPosition={position} />);
-      expect(container.firstChild).toHaveClass(position);
-    });
+    orientations.forEach(orientation =>
+      positions.forEach(position => {
+        rerender(<Timeline items={items} orientation={orientation} contentPosition={position} />);
+        expect(container.firstChild).toHaveClass(orientation + capitalizeFirstLetter(position));
+      }),
+    );
   });
 
-  it("should render the content aligned as given in textAlign prop", () => {
+  it("should render the content aligned as given in textAlign prop, for both orientations", () => {
     const { container, rerender } = render(<Timeline items={items} />);
     const alignments = ["start", "center", "end"] as const;
-    alignments.forEach(alignment => {
-      rerender(<Timeline items={items} textAlign={alignment} />);
-      expect(container.firstChild).toHaveClass(alignment);
-    });
+    orientations.forEach(orientation =>
+      alignments.forEach(alignment => {
+        rerender(<Timeline items={items} orientation={orientation} textAlign={alignment} />);
+        expect(container.firstChild).toHaveClass(alignment);
+        expect(container.firstChild).toHaveClass(orientation + capitalizeFirstLetter(alignment));
+      }),
+    );
   });
 
   it("should draw the connection lines on the side given by textAlign, leaving the outer ends empty", () => {

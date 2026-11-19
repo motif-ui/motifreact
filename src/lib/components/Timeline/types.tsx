@@ -25,7 +25,7 @@ export type TimelineProps = {
    *   title?: string;
    *   content?: string;
    *   icon?: IconGlobalType;
-   *   variant?: string;
+   *   variant?: VariantV2;
    *   disabled?: boolean;
    *   appearance?: string;
    * }[]
