@@ -19,7 +19,8 @@ const rule = primary => (root, result) => {
   if (!primary) return;
   root.walkAtRules("include", atRule => {
     const match = atRule.params.match(ROLE_WITH_STEP);
-    match && report({ ruleName, result, node: atRule, message: messages.rejected(match[1]) });
+    // The lint config allows short-circuit calls only in js/ts files, not in .mjs
+    if (match) report({ ruleName, result, node: atRule, message: messages.rejected(match[1]) });
   });
 };
 
