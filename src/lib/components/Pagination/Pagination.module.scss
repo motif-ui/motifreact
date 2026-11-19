@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, itemSize, gap, labelSize
-$sizes: (("sm", 32, 6, "md"), ("md", 40, 8, "lg"), ("lg", 48, 10, "xl"));
+// size, itemSize, gap, labelStep
+$sizes: (("sm", 32, 6, "sm"), ("md", 40, 8, "md"), ("lg", 48, 10, "lg"));
 
 .Root {
   display: inline-flex;
@@ -55,7 +55,7 @@ $sizes: (("sm", 32, 6, "md"), ("md", 40, 8, "lg"), ("lg", 48, 10, "xl"));
 }
 
 // A size changes the bar, its items and the separator: grouped by size
-@each $size, $itemSize, $gap, $labelSize in $sizes {
+@each $size, $itemSize, $gap, $labelStep in $sizes {
   .#{$size} {
     padding: var(--mtf-sizing-space-#{$gap});
     gap: var(--mtf-sizing-space-#{$gap});
@@ -63,7 +63,7 @@ $sizes: (("sm", 32, 6, "md"), ("md", 40, 8, "lg"), ("lg", 48, 10, "xl"));
     .pageItem {
       height: var(--mtf-sizing-#{$itemSize});
       min-width: var(--mtf-sizing-#{$itemSize});
-      @include typography("label-#{$labelSize}", "strong");
+      @include typography("text-#{$labelStep}", "strong");
     }
 
     .separator {

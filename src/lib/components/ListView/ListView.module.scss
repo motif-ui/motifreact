@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size (also the description's body step), alternateTextSize, gap, spaceH, paddingV, avatarSize, iconSize, iconRightSize, labelSize
-$sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md"), ("md", "sm", 2, 16, 12, 32, 22, 24, "lg"), ("lg", "md", 4, 20, 16, 40, 24, 28, "xl"));
+// size (also the description's text step), alternateTextStep, gap, spaceH, paddingV, avatarSize, iconSize, iconRightSize, labelStep
+$sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "sm"), ("md", "sm", 2, 16, 12, 32, 22, 24, "md"), ("lg", "md", 4, 20, 16, 40, 24, 28, "lg"));
 
 .Root {
   padding: 0;
@@ -129,7 +129,7 @@ $sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md"), ("md", "sm", 2, 16, 12, 32, 2
 }
 
 // A size changes every part of the row: grouped by size
-@each $size, $alternateTextSize, $gap, $spaceH, $paddingV, $avatarSize, $iconSize, $iconRightSize, $labelSize in $sizes {
+@each $size, $alternateTextStep, $gap, $spaceH, $paddingV, $avatarSize, $iconSize, $iconRightSize, $labelStep in $sizes {
   .#{$size} {
     .baseContent {
       gap: var(--mtf-sizing-space-#{$spaceH});
@@ -143,7 +143,7 @@ $sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md"), ("md", "sm", 2, 16, 12, 32, 2
     }
 
     .abbr {
-      @include typography("label-#{$labelSize}", "stronger");
+      @include typography("text-#{$labelStep}", "stronger");
     }
 
     .centerContent {
@@ -151,15 +151,15 @@ $sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22, "md"), ("md", "sm", 2, 16, 12, 32, 2
     }
 
     .alternateText {
-      @include typography("body-#{$alternateTextSize}");
+      @include typography("text-#{$alternateTextStep}", "regular");
     }
 
     .title {
-      @include typography("label-#{$labelSize}", "strong");
+      @include typography("text-#{$labelStep}", "strong");
     }
 
     .description {
-      @include typography("body-#{$size}");
+      @include typography("text-#{$size}", "regular");
     }
 
     .icon {
