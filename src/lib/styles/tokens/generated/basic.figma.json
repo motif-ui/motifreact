@@ -3608,7 +3608,295 @@
           }
         },
         {
-          "name": "typography/display-lg/font-size",
+          "name": "typography/text-3xs/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "10px",
+          "values": {
+            "Value": 10
+          }
+        },
+        {
+          "name": "typography/text-3xs/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "14px",
+          "values": {
+            "Value": 14
+          }
+        },
+        {
+          "name": "typography/text-2xs/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "11px",
+          "values": {
+            "Value": 11
+          }
+        },
+        {
+          "name": "typography/text-2xs/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "16px",
+          "values": {
+            "Value": 16
+          }
+        },
+        {
+          "name": "typography/text-xs/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "12px",
+          "values": {
+            "Value": 12
+          }
+        },
+        {
+          "name": "typography/text-xs/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "16px",
+          "values": {
+            "Value": 16
+          }
+        },
+        {
+          "name": "typography/text-sm/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "14px",
+          "values": {
+            "Value": 14
+          }
+        },
+        {
+          "name": "typography/text-sm/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "20px",
+          "values": {
+            "Value": 20
+          }
+        },
+        {
+          "name": "typography/text-md/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "16px",
+          "values": {
+            "Value": 16
+          }
+        },
+        {
+          "name": "typography/text-md/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "24px",
+          "values": {
+            "Value": 24
+          }
+        },
+        {
+          "name": "typography/text-lg/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "18px",
+          "values": {
+            "Value": 18
+          }
+        },
+        {
+          "name": "typography/text-lg/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "24px",
+          "values": {
+            "Value": 24
+          }
+        },
+        {
+          "name": "typography/text-xl/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "20px",
+          "values": {
+            "Value": 20
+          }
+        },
+        {
+          "name": "typography/text-xl/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "28px",
+          "values": {
+            "Value": 28
+          }
+        },
+        {
+          "name": "typography/text-2xl/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "24px",
+          "values": {
+            "Value": 24
+          }
+        },
+        {
+          "name": "typography/text-2xl/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "32px",
+          "values": {
+            "Value": 32
+          }
+        },
+        {
+          "name": "typography/text-3xl/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "28px",
+          "values": {
+            "Value": 28
+          }
+        },
+        {
+          "name": "typography/text-3xl/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "36px",
+          "values": {
+            "Value": 36
+          }
+        },
+        {
+          "name": "typography/text-4xl/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "32px",
+          "values": {
+            "Value": 32
+          }
+        },
+        {
+          "name": "typography/text-4xl/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "40px",
+          "values": {
+            "Value": 40
+          }
+        },
+        {
+          "name": "typography/text-5xl/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "40px",
+          "values": {
+            "Value": 40
+          }
+        },
+        {
+          "name": "typography/text-5xl/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "48px",
+          "values": {
+            "Value": 48
+          }
+        },
+        {
+          "name": "typography/text-6xl/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "48px",
+          "values": {
+            "Value": 48
+          }
+        },
+        {
+          "name": "typography/text-6xl/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "56px",
+          "values": {
+            "Value": 56
+          }
+        },
+        {
+          "name": "typography/text-7xl/font-size",
           "type": "FLOAT",
           "scopes": [
             "FONT_SIZE"
@@ -3620,7 +3908,7 @@
           }
         },
         {
-          "name": "typography/display-lg/line-height",
+          "name": "typography/text-7xl/line-height",
           "type": "FLOAT",
           "scopes": [
             "LINE_HEIGHT"
@@ -3629,6 +3917,56 @@
           "description": "64px",
           "values": {
             "Value": 64
+          }
+        },
+        {
+          "name": "typography/text-8xl/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "72px",
+          "values": {
+            "Value": 72
+          }
+        },
+        {
+          "name": "typography/text-8xl/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "80px",
+          "values": {
+            "Value": 80
+          }
+        },
+        {
+          "name": "typography/display-lg/font-size",
+          "type": "FLOAT",
+          "scopes": [
+            "FONT_SIZE"
+          ],
+          "hiddenFromPublishing": false,
+          "values": {
+            "Value": {
+              "alias": "typography/text-7xl/font-size"
+            }
+          }
+        },
+        {
+          "name": "typography/display-lg/line-height",
+          "type": "FLOAT",
+          "scopes": [
+            "LINE_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "values": {
+            "Value": {
+              "alias": "typography/text-7xl/line-height"
+            }
           }
         },
         {
@@ -3651,9 +3989,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "48px",
           "values": {
-            "Value": 48
+            "Value": {
+              "alias": "typography/text-6xl/font-size"
+            }
           }
         },
         {
@@ -3663,9 +4002,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "56px",
           "values": {
-            "Value": 56
+            "Value": {
+              "alias": "typography/text-6xl/line-height"
+            }
           }
         },
         {
@@ -3688,9 +4028,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "40px",
           "values": {
-            "Value": 40
+            "Value": {
+              "alias": "typography/text-5xl/font-size"
+            }
           }
         },
         {
@@ -3700,9 +4041,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "48px",
           "values": {
-            "Value": 48
+            "Value": {
+              "alias": "typography/text-5xl/line-height"
+            }
           }
         },
         {
@@ -3725,9 +4067,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "40px",
           "values": {
-            "Value": 40
+            "Value": {
+              "alias": "typography/text-5xl/font-size"
+            }
           }
         },
         {
@@ -3737,9 +4080,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "56px",
           "values": {
-            "Value": 56
+            "Value": {
+              "alias": "typography/text-5xl/line-height"
+            }
           }
         },
         {
@@ -3762,9 +4106,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "32px",
           "values": {
-            "Value": 32
+            "Value": {
+              "alias": "typography/text-4xl/font-size"
+            }
           }
         },
         {
@@ -3774,9 +4119,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "40px",
           "values": {
-            "Value": 40
+            "Value": {
+              "alias": "typography/text-4xl/line-height"
+            }
           }
         },
         {
@@ -3799,9 +4145,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "28px",
           "values": {
-            "Value": 28
+            "Value": {
+              "alias": "typography/text-3xl/font-size"
+            }
           }
         },
         {
@@ -3811,9 +4158,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "36px",
           "values": {
-            "Value": 36
+            "Value": {
+              "alias": "typography/text-3xl/line-height"
+            }
           }
         },
         {
@@ -3836,9 +4184,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "24px",
           "values": {
-            "Value": 24
+            "Value": {
+              "alias": "typography/text-2xl/font-size"
+            }
           }
         },
         {
@@ -3848,9 +4197,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "32px",
           "values": {
-            "Value": 32
+            "Value": {
+              "alias": "typography/text-2xl/line-height"
+            }
           }
         },
         {
@@ -3873,9 +4223,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "20px",
           "values": {
-            "Value": 20
+            "Value": {
+              "alias": "typography/text-xl/font-size"
+            }
           }
         },
         {
@@ -3885,9 +4236,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "28px",
           "values": {
-            "Value": 28
+            "Value": {
+              "alias": "typography/text-xl/line-height"
+            }
           }
         },
         {
@@ -3910,9 +4262,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "16px",
           "values": {
-            "Value": 16
+            "Value": {
+              "alias": "typography/text-md/font-size"
+            }
           }
         },
         {
@@ -3922,9 +4275,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "24px",
           "values": {
-            "Value": 24
+            "Value": {
+              "alias": "typography/text-md/line-height"
+            }
           }
         },
         {
@@ -3947,9 +4301,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "18px",
           "values": {
-            "Value": 18
+            "Value": {
+              "alias": "typography/text-lg/font-size"
+            }
           }
         },
         {
@@ -3959,9 +4314,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "24px",
           "values": {
-            "Value": 24
+            "Value": {
+              "alias": "typography/text-lg/line-height"
+            }
           }
         },
         {
@@ -3984,9 +4340,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "16px",
           "values": {
-            "Value": 16
+            "Value": {
+              "alias": "typography/text-md/font-size"
+            }
           }
         },
         {
@@ -3996,9 +4353,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "24px",
           "values": {
-            "Value": 24
+            "Value": {
+              "alias": "typography/text-md/line-height"
+            }
           }
         },
         {
@@ -4021,9 +4379,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "14px",
           "values": {
-            "Value": 14
+            "Value": {
+              "alias": "typography/text-sm/font-size"
+            }
           }
         },
         {
@@ -4033,9 +4392,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "20px",
           "values": {
-            "Value": 20
+            "Value": {
+              "alias": "typography/text-sm/line-height"
+            }
           }
         },
         {
@@ -4058,9 +4418,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "12px",
           "values": {
-            "Value": 12
+            "Value": {
+              "alias": "typography/text-xs/font-size"
+            }
           }
         },
         {
@@ -4070,9 +4431,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "16px",
           "values": {
-            "Value": 16
+            "Value": {
+              "alias": "typography/text-xs/line-height"
+            }
           }
         },
         {
@@ -4095,9 +4457,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "11px",
           "values": {
-            "Value": 11
+            "Value": {
+              "alias": "typography/text-2xs/font-size"
+            }
           }
         },
         {
@@ -4107,9 +4470,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "16px",
           "values": {
-            "Value": 16
+            "Value": {
+              "alias": "typography/text-2xs/line-height"
+            }
           }
         },
         {
@@ -4132,9 +4496,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "18px",
           "values": {
-            "Value": 18
+            "Value": {
+              "alias": "typography/text-lg/font-size"
+            }
           }
         },
         {
@@ -4144,9 +4509,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "24px",
           "values": {
-            "Value": 24
+            "Value": {
+              "alias": "typography/text-lg/line-height"
+            }
           }
         },
         {
@@ -4169,9 +4535,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "16px",
           "values": {
-            "Value": 16
+            "Value": {
+              "alias": "typography/text-md/font-size"
+            }
           }
         },
         {
@@ -4181,9 +4548,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "24px",
           "values": {
-            "Value": 24
+            "Value": {
+              "alias": "typography/text-md/line-height"
+            }
           }
         },
         {
@@ -4206,9 +4574,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "14px",
           "values": {
-            "Value": 14
+            "Value": {
+              "alias": "typography/text-sm/font-size"
+            }
           }
         },
         {
@@ -4218,9 +4587,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "20px",
           "values": {
-            "Value": 20
+            "Value": {
+              "alias": "typography/text-sm/line-height"
+            }
           }
         },
         {
@@ -4243,9 +4613,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "12px",
           "values": {
-            "Value": 12
+            "Value": {
+              "alias": "typography/text-xs/font-size"
+            }
           }
         },
         {
@@ -4255,9 +4626,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "16px",
           "values": {
-            "Value": 16
+            "Value": {
+              "alias": "typography/text-xs/line-height"
+            }
           }
         },
         {
@@ -4280,9 +4652,10 @@
             "FONT_SIZE"
           ],
           "hiddenFromPublishing": false,
-          "description": "11px",
           "values": {
-            "Value": 11
+            "Value": {
+              "alias": "typography/text-2xs/font-size"
+            }
           }
         },
         {
@@ -4292,9 +4665,10 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "16px",
           "values": {
-            "Value": 16
+            "Value": {
+              "alias": "typography/text-2xs/line-height"
+            }
           }
         },
         {

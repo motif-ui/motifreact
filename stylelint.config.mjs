@@ -1,6 +1,6 @@
 /** @type {import('stylelint').Config} */
 export default {
-  plugins: ["stylelint-no-unsupported-browser-features"],
+  plugins: ["stylelint-no-unsupported-browser-features", "./src/scripts/stylelint/typographyScale.mjs"],
   extends: ["stylelint-config-standard-scss"],
   rules: {
     "plugin/no-unsupported-browser-features": [
@@ -51,12 +51,15 @@ export default {
         "src/lib/components/ProgressCircle/**/*.scss",
         "src/lib/components/Select/**/*.scss",
         "src/lib/components/Skeleton/**/*.scss",
+        "src/lib/components/Text/**/*.scss",
       ],
       rules: {
         "declaration-no-important": true,
         "selector-no-qualifying-type": true,
         "selector-max-specificity": "0,3,0",
         "selector-max-compound-selectors": 3,
+        // Size tables take their text from the text scale, not from a role with a size step (design-tokens.md §4)
+        "motif/typography-scale": true,
       },
     },
   ],

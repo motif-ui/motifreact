@@ -1,11 +1,12 @@
 @use "@styles" as *;
 
 $sizes: (
-  //sizeName, paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, chipLabelSize, groupLabelSize, selectedIconSize
-  ("xs", 4, 8, 4, 160, 18, "sm", "sm", 12),
-  ("sm", 6, 12, 6, 190, 20, "sm", "md", 16),
-  ("md", 8, 16, 8, 190, 22, "md", "lg", 18),
-  ("lg", 10, 20, 10, 256, 24, "lg", "xl", 20)
+  // sizeName (also the field's text step), paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, chipStep, groupStep
+  // (text scale), selectedIconSize
+  ("xs", 4, 8, 4, 160, 18, "xs", "xs", 12),
+  ("sm", 6, 12, 6, 190, 20, "xs", "sm", 16),
+  ("md", 8, 16, 8, 190, 22, "sm", "md", 18),
+  ("lg", 10, 20, 10, 256, 24, "md", "lg", 20)
 );
 
 .Root {
@@ -192,7 +193,7 @@ $sizes: (
   color: var(--mtf-color-text-disabled);
 }
 
-@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $chipLabelSize, $groupLabelSize, $selectedIconSize in $sizes {
+@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $chipStep, $groupStep, $selectedIconSize in $sizes {
   // Both the field (Root) and the dropdown carry the size class
   .#{$size} {
     &.Root {
@@ -201,7 +202,7 @@ $sizes: (
     }
 
     .inputText {
-      @include typography("body-#{$size}");
+      @include typography("text-#{$size}", "regular");
     }
 
     .inputTextAndItemsContainer {
@@ -209,7 +210,7 @@ $sizes: (
     }
 
     .label {
-      @include typography("label-#{$chipLabelSize}", "strong");
+      @include typography("text-#{$chipStep}", "strong");
     }
 
     .closeIcon > * {
@@ -222,14 +223,14 @@ $sizes: (
 
     .optionGroup label {
       padding: var(--mtf-sizing-space-#{$paddingV});
-      @include typography("label-#{$groupLabelSize}", "strong");
+      @include typography("text-#{$groupStep}", "strong");
     }
 
     .option label,
     .noData label {
       gap: var(--mtf-sizing-space-#{$gap});
       padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
-      @include typography("body-#{$size}");
+      @include typography("text-#{$size}", "regular");
     }
 
     .rightContainer {

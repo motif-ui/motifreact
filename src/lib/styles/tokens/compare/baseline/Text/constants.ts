@@ -1,0 +1,31 @@
+export const textVariantsMappings = {
+  title1: "h1",
+  title2: "h2",
+  title3: "h3",
+  body1: "span",
+  body2: "span",
+  body3: "span",
+  body4: "span",
+  body5: "span",
+  h1: "h1",
+  h2: "h2",
+  h3: "h3",
+  h4: "h4",
+  h5: "h5",
+  h6: "h6",
+  p1: "p",
+  p2: "p",
+  p3: "p",
+};
+
+export const typeMappings = {
+  body: "span",
+  heading_xs: "h5",
+  heading_sm: "h4",
+  heading_md: "h3",
+  heading_lg: "h2",
+  heading_xl: "h1",
+  paragraph: "p",
+  display: "h1",
+  caption: "span",
+};

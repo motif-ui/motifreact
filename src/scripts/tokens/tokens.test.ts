@@ -54,6 +54,17 @@ describe("token generator", () => {
     expect(typeSize(16, 16, 24)).toEqual({ size: 16, lineHeight: 24 });
     expect(typeSize(14, 16, 24)).toEqual({ size: 14, lineHeight: 20 });
     expect(typeSize(18, 40, 56)).toEqual({ size: 45, lineHeight: 64 });
+    // a step defined off the 4px grid keeps a 2px grid
+    expect(typeSize(16, 10, 14)).toEqual({ size: 10, lineHeight: 14 });
+  });
+
+  test("the roles alias a text step and a weight", () => {
+    const css = toCss(tokens);
+    expect(css).toContain("--mtf-typography-text-sm-font-size: 0.875rem;");
+    expect(css).toContain("--mtf-typography-text-sm-line-height: 1.25rem;");
+    expect(css).toContain("--mtf-typography-label-md-font-size: var(--mtf-typography-text-sm-font-size);");
+    expect(css).toContain("--mtf-typography-body-sm-line-height: var(--mtf-typography-text-sm-line-height);");
+    expect(css).toContain("--mtf-typography-heading-h1-line-height: var(--mtf-typography-text-5xl-line-height);");
   });
 
   test("background and text overrides are used as given", () => {
@@ -123,6 +134,8 @@ describe("token generator", () => {
       lineHeight: { alias: "typography/heading-h1/line-height" },
       fontWeight: { alias: "typography/heading-h1/font-weight" },
     });
+    // the text steps are variables only: they carry no weight, so no text style
+    expect(figma.textStyles.some(({ name }) => name.startsWith("typography/text-"))).toBe(false);
   });
 });
 

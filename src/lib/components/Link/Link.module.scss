@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, gap, labelSize, iconSize
-$sizes: (("sm", 4, "md", 16), ("md", 6, "lg", 20), ("lg", 8, "xl", 24));
+// size, gap, labelStep (text scale), iconSize
+$sizes: (("sm", 4, "sm", 16), ("md", 6, "md", 20), ("lg", 8, "lg", 24));
 
 .Root {
   display: inline-flex;
@@ -38,10 +38,10 @@ $sizes: (("sm", 4, "md", 16), ("md", 6, "lg", 20), ("lg", 8, "xl", 24));
   text-decoration: underline;
 }
 
-@each $size, $gap, $labelSize, $iconSize in $sizes {
+@each $size, $gap, $labelStep, $iconSize in $sizes {
   .#{$size} {
     gap: var(--mtf-sizing-space-#{$gap});
-    @include typography("label-#{$labelSize}", "strong");
+    @include typography("text-#{$labelStep}", "strong");
 
     .icon {
       --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
