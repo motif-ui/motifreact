@@ -1,22 +1,14 @@
 @use "@styles" as *;
 
+// size, track end padding (the thumb's travel), thumb, gap, paddingV (in a form field)
+$sizes: (("xs", 12, 16, 6, 4), ("sm", 16, 18, 8, 6), ("md", 20, 20, 10, 8), ("lg", 24, 24, 12, 10));
+
 .Root {
-  // The track and the thumb; checked and disabled replace them
-  --mtf-switch-track: var(--mtf-color-neutral-solid);
-  --mtf-switch-thumb: var(--mtf-color-surface-default);
   position: relative;
   display: flex;
   align-items: flex-start;
 
-  &.checked {
-    --mtf-switch-track: var(--mtf-color-primary-solid);
-    --mtf-switch-thumb: var(--mtf-color-on-primary);
-  }
-
-  // After checked: same specificity, so disabled wins by order
   &.disabled {
-    --mtf-switch-track: var(--mtf-color-surface-disabled);
-    --mtf-switch-thumb: var(--mtf-color-text-disabled);
     cursor: default;
     pointer-events: none;
   }
@@ -36,15 +28,32 @@
 .slider {
   display: flex;
   border-radius: var(--mtf-sizing-radius-round);
-  background-color: var(--mtf-switch-track);
+  background-color: var(--mtf-color-neutral-solid);
   cursor: pointer;
   @include transition(background-color);
 
   &::before {
     content: "";
     border-radius: var(--mtf-sizing-radius-round);
-    background-color: var(--mtf-switch-thumb);
+    background-color: var(--mtf-color-surface-default);
     @include transition(transform background-color);
+  }
+
+  .checked & {
+    background-color: var(--mtf-color-primary-solid);
+
+    &::before {
+      background-color: var(--mtf-color-on-primary);
+    }
+  }
+
+  // After checked: same specificity, so disabled wins by order
+  .disabled & {
+    background-color: var(--mtf-color-surface-disabled);
+
+    &::before {
+      background-color: var(--mtf-color-text-disabled);
+    }
   }
 
   .input:focus-visible + & {
@@ -60,9 +69,6 @@
     color: var(--mtf-color-text-disabled);
   }
 }
-
-// size, track end padding (the thumb's travel), thumb, gap, paddingV (in a form field)
-$sizes: (("xs", 12, 16, 6, 4), ("sm", 16, 18, 8, 6), ("md", 20, 20, 10, 8), ("lg", 24, 24, 12, 10));
 
 @each $size, $travel, $thumb, $gap, $paddingV in $sizes {
   .#{$size} {
