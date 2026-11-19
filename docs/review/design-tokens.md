@@ -29,8 +29,9 @@ on a theme: they only read token names, so a rule that holds for one theme holds
   and the theme CSS. Flag a change to the behavior of an existing mixin, function, type or variable; the migration adds
   a new one next to it (`typography` next to `font`, `number-to-px` next to `add-unit`, `VariantV2` next to `Variant`), and
   the old one is removed once every component has migrated.
-- A PR that promotes a `<Name>V2` clone must carry over every commit made to the original since the clone was taken
-  (`git log <clone commit>.. -- src/lib/components/<Name>`). Flag a promotion that would drop such a change.
+- A migration changes the component in place, in one PR: the pre-migration code moves to
+  `src/lib/styles/tokens/compare/baseline/<Name>` (styles renamed `<Name>Baseline.module.scss`) so the compare screen
+  keeps showing today's look. Flag a new `<Name>V2` clone in `src/lib/components`.
 
 ## 2. No raw values
 

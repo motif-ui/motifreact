@@ -39,7 +39,8 @@ const LeftContent = memo((props: Props) => {
       <img src={image} alt={id} />
     </div>
   ) : abbr ? (
-    <span className={baseClasses}>{abbr.substring(0, 2)}</span>
+    // Like Avatar: one letter on the 24px avatar of the sm size, two letters above
+    <span className={baseClasses}>{abbr.substring(0, size === "sm" ? 1 : 2)}</span>
   ) : null;
 });
 

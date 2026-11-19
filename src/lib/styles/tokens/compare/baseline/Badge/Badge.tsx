@@ -1,9 +1,9 @@
-import styles from "./BadgeV2.module.scss";
-import GlobalIconWrapper from "../Motif/GlobalIconWrapper/GlobalIconWrapper";
-import { PropsWithRefAndChildren } from "../../types";
-import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
+import styles from "./BadgeBaseline.module.scss";
+import GlobalIconWrapper from "../../../../../components/Motif/GlobalIconWrapper/GlobalIconWrapper";
+import { PropsWithRefAndChildren } from "../../../../../types";
+import usePropsWithThemeDefaults from "../../../../../motif/hooks/usePropsWithThemeDefaults";
 import { BadgeProps } from "./types";
-import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
+import { sanitizeModuleRootClasses } from "../../../../../../utils/cssUtils";
 
 const Badge = (props: PropsWithRefAndChildren<BadgeProps, HTMLDivElement>) => {
   const {

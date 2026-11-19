@@ -27,13 +27,13 @@ it; this skill does the Figma side.
 
 1. **Read the code:** `types.ts` and the component's destructuring (props, defaults), the `.module.scss` (classes,
    tokens per size and state), and behavior that Figma cannot show.
-2. **Read Figma (MCP):** component set properties and variants, default variant, parts, the doc page (Properties
+2. **Read Figma (MCP):** component set properties and variants, default variant, parts, the doc page (Design properties
    rows, Variants, Light & Dark, Anatomy, notes), the Playground, the Component section table and the Scenarios
    tables.
 3. **Diff and report** in a short list:
    - props missing or extra in Figma; changed defaults or values;
    - token or size changes per part;
-   - variants to add or remove; Properties rows, Anatomy lines or notes that are now wrong;
+   - variants to add or remove; Design properties rows, Anatomy lines or notes that are now wrong;
    - Scenarios or Examples that no longer match the behavior.
 4. **Apply after approval**, in this order:
    1. parts;
