@@ -1,76 +1,92 @@
 @use "@styles" as *;
 
-$sizes: (
-  //sizeName, paddingH, circleSize, gap, paddingV
-  ("xs", "12x", "16x", "6x", "4x"),
-  ("sm", "16x", "18x", "8x", "6x"),
-  ("md", "20x", "20x", "10x", "8x"),
-  ("lg", "24x", "24x", "12x", "10x")
-);
-
 .Root {
+  // The track and the thumb; checked and disabled replace them
+  --mtf-switch-track: var(--mtf-color-neutral-solid);
+  --mtf-switch-thumb: var(--mtf-color-surface-default);
+  position: relative;
   display: flex;
   align-items: flex-start;
-  input[type="checkbox"] {
-    display: none;
+
+  &.checked {
+    --mtf-switch-track: var(--mtf-color-primary-solid);
+    --mtf-switch-thumb: var(--mtf-color-on-primary);
   }
+
+  // After checked: same specificity, so disabled wins by order
+  &.disabled {
+    --mtf-switch-track: var(--mtf-color-surface-disabled);
+    --mtf-switch-thumb: var(--mtf-color-text-disabled);
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+// The real checkbox stays in the tab order and reads as a switch; the slider draws it
+.input {
+  position: absolute;
+  width: var(--mtf-sizing-1);
+  height: var(--mtf-sizing-1);
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .slider {
   display: flex;
-  border-radius: var(--theme-sizing-radius-round);
-  background: var(--theme-color-surface-base-base7);
+  border-radius: var(--mtf-sizing-radius-round);
+  background-color: var(--mtf-switch-track);
   cursor: pointer;
   @include transition(background-color);
 
   &::before {
     content: "";
-    background: var(--theme-color-surface-base-bg-light);
-    border-radius: 50%;
-    @include transition(transform);
+    border-radius: var(--mtf-sizing-radius-round);
+    background-color: var(--mtf-switch-thumb);
+    @include transition(transform background-color);
   }
-  .checked & {
-    background: var(--theme-color-surface-primary-default);
+
+  .input:focus-visible + & {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: var(--mtf-sizing-2);
   }
 }
 
 .label {
-  color: var(--theme-color-text-base-title-light);
+  color: var(--mtf-color-text-strong);
+
+  .disabled & {
+    color: var(--mtf-color-text-disabled);
+  }
 }
 
-.disabled {
-  cursor: default;
-  pointer-events: none;
+// size, track end padding (the thumb's travel), thumb, gap, paddingV (in a form field)
+$sizes: (("xs", 12, 16, 6, 4), ("sm", 16, 18, 8, 6), ("md", 20, 20, 10, 8), ("lg", 24, 24, 12, 10));
 
-  &.checked .slider {
-    background: var(--theme-color-surface-primary-disabled);
-  }
-  .slider {
-    background: var(--theme-color-surface-base-base5);
-  }
-  .label {
-    color: var(--theme-color-text-base-disabled);
-  }
-}
-@each $size, $paddingH, $circleSize, $gap, $paddingV in $sizes {
+@each $size, $travel, $thumb, $gap, $paddingV in $sizes {
   .#{$size} {
-    gap: var(--base-sizing-#{$gap});
+    gap: var(--mtf-sizing-space-#{$gap});
 
     .label {
-      @include font("base", $size, "500");
+      @include typography("text-#{$size}", "strong");
     }
+
     .slider {
-      padding: var(--base-sizing-2x) var(--base-sizing-#{$paddingH}) var(--base-sizing-2x) var(--base-sizing-2x);
+      padding: var(--mtf-sizing-space-2) var(--mtf-sizing-space-#{$travel}) var(--mtf-sizing-space-2) var(--mtf-sizing-space-2);
+
       &::before {
-        width: var(--base-sizing-#{$circleSize});
-        height: var(--base-sizing-#{$circleSize});
+        width: var(--mtf-sizing-#{$thumb});
+        height: var(--mtf-sizing-#{$thumb});
       }
     }
+
     &.checked .slider::before {
-      transform: translateX(calc(var(--base-sizing-#{$paddingH}) - var(--base-sizing-2x)));
+      transform: translateX(calc(var(--mtf-sizing-space-#{$travel}) - var(--mtf-sizing-space-2)));
     }
+
     &.inFormField {
-      padding: var(--base-sizing-#{$paddingV}) 0;
+      padding: var(--mtf-sizing-space-#{$paddingV}) 0;
     }
   }
 }

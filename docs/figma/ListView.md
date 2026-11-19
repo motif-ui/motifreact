@@ -9,7 +9,6 @@ Built 2026-11-17 with /figma-new-component from the migrated ListView (batch 4).
 | Page                                                     | `265:22`                                              |
 | Component set `ListView` (3 variants)                    | `283:1143`                                            |
 | Part `_ListView/Item` (96 variants)                      | `283:877`                                             |
-| Part `_ListView/Checkbox` (6 variants)                   | `265:39`                                              |
 | Doc frame                                                | `284:1239`                                            |
 | Playground frame                                         | `284:1753`                                            |
 | Sections: Documentation, Playground, Component, Internal | `265:23`, `265:24`, `265:25`, `265:26`                |
@@ -37,8 +36,8 @@ Built 2026-11-17 with /figma-new-component from the migrated ListView (batch 4).
   Avatar (user, 2026-11-18; the code was changed to match).
 - `leftContent=image` is a real photo filling the round avatar (an image fill on `leftContent`); with
   `disableAvatars=true` it is square; disabled, grayscale at 60%.
-- The checkbox is a private part that keeps the current Checkbox look (field surface and border, radius sm,
-  20 · 24 · 28) until the form-fields batch migrates Checkbox; then it becomes a Checkbox instance.
+- The checkbox is a `Checkbox` instance (size = the ListView size, `showLabel` off), since Checkbox migrated in batch 5;
+  the former private part `_ListView/Checkbox` was removed (2026-11-19).
 - Focus is an inner 2px `color/focus-ring` frame (code: outline with a -2px offset).
 - Spec tables: Size spec (sm · md · lg × each left content, disableAvatars, selectable, iconRight and the text
   combinations), State spec (default, hover, focus, disabled=true × left contents, Light and Dark). Scenarios:

@@ -37,16 +37,20 @@ export default {
   overrides: [
     {
       files: [
+        "src/lib/components/Accordion/**/*.scss",
         "src/lib/components/Alert/**/*.scss",
         "src/lib/components/AlertModal/**/*.scss",
         "src/lib/components/Avatar/**/*.scss",
         "src/lib/components/Badge/**/*.scss",
         "src/lib/components/Breadcrumb/**/*.scss",
         "src/lib/components/Button/**/*.scss",
+        "src/lib/components/ButtonGroup/**/*.scss",
+        "src/lib/components/Checkbox/**/*.scss",
         "src/lib/components/Chip/**/*.scss",
         "src/lib/components/Container/**/*.scss",
         "src/lib/components/DataView/**/*.scss",
         "src/lib/components/Divider/**/*.scss",
+        "src/lib/components/ImageView/**/*.scss",
         "src/lib/components/Link/**/*.scss",
         "src/lib/components/ListView/**/*.scss",
         "src/lib/components/Pagination/**/*.scss",
@@ -54,6 +58,7 @@ export default {
         "src/lib/components/ProgressCircle/**/*.scss",
         "src/lib/components/Select/**/*.scss",
         "src/lib/components/Skeleton/**/*.scss",
+        "src/lib/components/Switch/**/*.scss",
         "src/lib/components/Text/**/*.scss",
         "src/lib/components/Timeline/**/*.scss",
       ],
