@@ -6,7 +6,7 @@
 ![Top language](https://img.shields.io/github/languages/top/motif-ui/motifreact?color=blue)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-yellow.svg)](https://github.com/motif-ui/motifreact/pulls)
 
-# Motif UI React
+# MOTIF UI REACT
 
 A comprehensive React component library initially designed for the [Turkish e-Government Gateway](https://turkiye.gov.tr)
 internal projects. This library provides a collection of accessible, customizable, and production-ready UI components
