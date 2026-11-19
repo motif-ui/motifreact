@@ -1,8 +1,8 @@
 @use "sass:math";
 @use "@styles" as *;
 
-// size, strokeWidth, radius
-$sizes: (("xs", 2, 8), ("sm", 3, 12), ("md", 4, 18), ("lg", 4, 24), ("xl", 6, 32));
+// size, strokeWidth, radius, textStep (text scale)
+$sizes: (("xs", 2, 8, "xs"), ("sm", 3, 12, "xs"), ("md", 4, 18, "xs"), ("lg", 4, 24, "xs"), ("xl", 6, 32, "md"));
 
 .Root.indeterminate {
   animation: 1.5s linear infinite svg-animation;
@@ -39,7 +39,7 @@ $sizes: (("xs", 2, 8), ("sm", 3, 12), ("md", 4, 18), ("lg", 4, 24), ("xl", 6, 32
   fill: var(--mtf-color-text-soft);
 }
 
-@each $size, $strokeWidth, $radius in $sizes {
+@each $size, $strokeWidth, $radius, $textStep in $sizes {
   $normalized-radius: calc(var(--mtf-sizing-#{$radius}) - (var(--mtf-sizing-#{$strokeWidth}) / 2));
   $circumference: calc(#{$normalized-radius} * 2 * #{math.$pi});
 
@@ -65,7 +65,7 @@ $sizes: (("xs", 2, 8), ("sm", 3, 12), ("md", 4, 18), ("lg", 4, 24), ("xl", 6, 32
     }
 
     .text {
-      @include typography("text-#{$size}", "strong");
+      @include typography("text-#{$textStep}", "strong");
     }
   }
 
