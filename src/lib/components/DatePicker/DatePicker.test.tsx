@@ -273,7 +273,10 @@ describe("DatePicker", () => {
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) => render(<DatePicker value={new Date(2000, 1, 15)} {...props} />),
     {
-      assertDefaults: ({ getByText, getByTestId }) => {
+      assertDefaults: ({ getByText, getByTestId, queryByTestId }) => {
+        // pickerFormat: day
+        expect(getByTestId("DatePickerDayContainer")).toBeInTheDocument();
+        expect(queryByTestId("DatePickerMonthsContainer")).not.toBeInTheDocument();
         // variant: borderless
         expect(getByTestId("Picker")).toHaveClass("borderless");
         // locale: English
@@ -431,5 +434,95 @@ describe("DatePicker", () => {
     expect(getByText(dateToSelect.getDate())).toHaveClass("selected");
     expect(getByText(getDateLocale(t).months[dateToSelect.getMonth()])).toBeInTheDocument();
     expect(getByText(dateToSelect.getFullYear())).toBeInTheDocument();
+  });
+
+  it("should show the month and year of the new value as selected when the value prop changes", () => {
+    const { rerender, getByText, queryByText } = render(<DatePicker value={new Date(2018, 3, 10)} />);
+
+    const newValue = new Date(2021, 7, 20);
+    rerender(<DatePicker value={newValue} />);
+
+    expect(getByText(getDateLocale(t).months[newValue.getMonth()])).toBeInTheDocument();
+    expect(getByText(newValue.getFullYear())).toBeInTheDocument();
+    expect(queryByText(2018)).not.toBeInTheDocument();
+    expect(getByText(newValue.getDate())).toHaveClass("selected");
+  });
+
+  it("should show the new year as selected in the Month Picker when the value prop changes", () => {
+    const { rerender, getByText } = render(<DatePicker pickerFormat="month" value={new Date(2018, 3, 1)} />);
+
+    const newValue = new Date(2021, 7, 1);
+    rerender(<DatePicker pickerFormat="month" value={newValue} />);
+
+    expect(getByText(newValue.getFullYear())).toBeInTheDocument();
+    expect(getByText(getDateLocale(t).monthsShort[newValue.getMonth()])).toHaveClass("selected");
+  });
+
+  describe("pickerFormat month", () => {
+    const { monthsShort } = getDateLocale(t);
+
+    it("should select the first day of the clicked month and fire onDateChange", () => {
+      const onDateChange = jest.fn();
+      const { getByText } = render(<DatePicker pickerFormat="month" value={new Date(2018, 3, 1)} onDateChange={onDateChange} />);
+
+      act(() => getByText(monthsShort[7]).click());
+
+      expect(onDateChange).toHaveBeenCalledTimes(1);
+      expect(onDateChange).toHaveBeenCalledWith(new Date(2018, 7, 1));
+      expect(getByText(monthsShort[7])).toHaveClass("selected");
+      expect(getByText(monthsShort[3])).not.toHaveClass("selected");
+    });
+
+    it("should stay in the month view after a month is selected", () => {
+      const { getByText, getByTestId, queryByTestId } = render(<DatePicker pickerFormat="month" />);
+
+      act(() => getByText(monthsShort[5]).click());
+
+      expect(getByTestId("DatePickerMonthsContainer")).toBeInTheDocument();
+      expect(queryByTestId("DatePickerDayContainer")).not.toBeInTheDocument();
+    });
+
+    it("should highlight the selected month only in the year of the selected date", () => {
+      const { getByText } = render(<DatePicker pickerFormat="month" value={new Date(2018, 3, 1)} />);
+      expect(getByText(monthsShort[3])).toHaveClass("selected");
+
+      act(() => getByText("arrow_forward").click());
+      expect(getByText(2019)).toBeInTheDocument();
+      expect(getByText(monthsShort[3])).not.toHaveClass("selected");
+
+      act(() => getByText("arrow_back").click());
+      expect(getByText(monthsShort[3])).toHaveClass("selected");
+    });
+
+    it("should not fire onDateChange when the already selected month is clicked again", () => {
+      const onDateChange = jest.fn();
+      const { getByText } = render(<DatePicker pickerFormat="month" value={new Date(2018, 3, 1)} onDateChange={onDateChange} />);
+
+      act(() => getByText(monthsShort[3]).click());
+      expect(onDateChange).not.toHaveBeenCalled();
+      expect(getByText(monthsShort[3])).toHaveClass("selected");
+    });
+
+    it("should fire onDateChange when the same month is clicked in a different year", () => {
+      const onDateChange = jest.fn();
+      const { getByText } = render(<DatePicker pickerFormat="month" value={new Date(2018, 3, 1)} onDateChange={onDateChange} />);
+
+      act(() => getByText("arrow_forward").click());
+      act(() => getByText(monthsShort[3]).click());
+
+      expect(onDateChange).toHaveBeenCalledWith(new Date(2019, 3, 1));
+    });
+  });
+
+  it("should switch the view when the pickerFormat prop is changed", () => {
+    const { rerender, getByTestId, queryByTestId } = render(<DatePicker />);
+    expect(getByTestId("DatePickerDayContainer")).toBeInTheDocument();
+
+    rerender(<DatePicker pickerFormat="month" />);
+    expect(getByTestId("DatePickerMonthsContainer")).toBeInTheDocument();
+    expect(queryByTestId("DatePickerDayContainer")).not.toBeInTheDocument();
+
+    rerender(<DatePicker pickerFormat="day" />);
+    expect(getByTestId("DatePickerDayContainer")).toBeInTheDocument();
   });
 });

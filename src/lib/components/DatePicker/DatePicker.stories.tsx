@@ -11,6 +11,7 @@ const meta: Meta<typeof DatePicker> = {
     variant: { table: { defaultValue: { summary: "borderless" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     firstDayOfWeek: { table: { defaultValue: { summary: "1" } } },
+    pickerFormat: { control: { type: "radio" }, options: ["day", "month"], table: { defaultValue: { summary: "day" } } },
   },
   args: {
     variant: "shadow",

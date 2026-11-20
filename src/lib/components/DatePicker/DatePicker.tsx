@@ -19,6 +19,7 @@ export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>)
     onClearClick,
     removeActionButtons,
     firstDayOfWeek = 1,
+    pickerFormat = "day",
     className,
     style,
     ref,
@@ -31,6 +32,7 @@ export const DatePicker = (props: PropsWithRef<DatePickerProps, HTMLDivElement>)
         value={value}
         locale={locale}
         firstDayOfWeek={firstDayOfWeek}
+        pickerFormat={pickerFormat}
         fluid={!!fluid}
         onDateChange={onDateChange}
         onPickerChange={onPickerChange}
