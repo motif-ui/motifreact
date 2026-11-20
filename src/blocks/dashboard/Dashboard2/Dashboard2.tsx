@@ -16,7 +16,7 @@ import {
 } from "@motif-ui/react";
 import AreaChart from "../../chartJS/AreaChart/AreaChart";
 import BarChart from "../../chartJS/BarChart/BarChart";
-import "./Dashboard2.css";
+import "./dashboard2.css";
 
 const navItems = [
   { label: "Dashboard", icon: "dashboard", active: true, href: "#" },
