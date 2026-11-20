@@ -1,7 +1,8 @@
 @use "sass:map";
 
 $breakpoints: (
-  "xs": 0,
+  "xxs": 0,
+  "xs": 24rem,
   "sm": 36rem,
   "md": 48rem,
   "lg": 62rem,
@@ -26,7 +27,7 @@ $breakpoints: (
 
 @mixin screen-width-breakpoints($sizes) {
   @each $size in $sizes {
-    @if $size == "xs" {
+    @if $size == "xxs" {
       @content ($size);
     } @else {
       @media (min-width: #{map.get($breakpoints, $size)}) {

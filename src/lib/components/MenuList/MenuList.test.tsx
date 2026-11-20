@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import MenuList from "./MenuList";
+import Button from "@/components/Button";
 import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 import { userEvent } from "@testing-library/user-event";
@@ -34,11 +35,10 @@ describe("MenuList", () => {
     expect(img.src).toContain(logo);
   });
 
-  it("should display footer text given in footerText prop", () => {
-    const footerText = "Test Footer Text";
-    render(<MenuList items={items} footerText={footerText} />);
+  it("should display footer content given in footer prop", () => {
+    render(<MenuList items={items} footer={<Button label="Footer Action" />} />);
 
-    expect(screen.queryByText(footerText)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Footer Action" })).toBeInTheDocument();
   });
 
   it("should render a divider under the mainMenu item whose 'divider' property is true", () => {

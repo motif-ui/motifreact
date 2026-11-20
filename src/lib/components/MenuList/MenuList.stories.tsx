@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import MenuList from "@/components/MenuList/MenuList";
 import { useState } from "react";
 import Button from "@/components/Button";
+import Text from "@/components/Text";
 import { MenuListProps } from "@/components/MenuList/types";
 
 const meta: Meta<typeof MenuList> = {
@@ -46,7 +47,7 @@ const meta: Meta<typeof MenuList> = {
       },
     ],
     logo: "https://cdn.e-devlet.gov.tr/downloads/kurumsal-kimlik/logo/e-devlet-logo.png",
-    footerText: "© 2024 All rights reserved.",
+    footer: <Text center text="© 2024 All rights reserved." type="caption" size="sm" tone="soft" marginless />,
     size: "sm",
   },
 };

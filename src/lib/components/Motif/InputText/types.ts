@@ -36,7 +36,7 @@ export type InternalInputProps = {
   onClearClick?: () => void;
   valueTransformer?: (value: string) => string | undefined;
   onValueUpdated?: (value: InputValue) => void;
-  type?: "text" | "password";
+  type?: "text" | "password" | "tel";
   inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
   clearable?: boolean;
   imperativeRef?: RefObject<InternalInputHandle | null>;

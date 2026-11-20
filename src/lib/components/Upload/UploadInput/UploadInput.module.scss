@@ -12,8 +12,14 @@ $sizes: (("xs", "4x", "6x"), ("sm", "6x", "12x"), ("md", "8x", "16x"), ("lg", "1
   &.disabled {
     background: var(--theme-color-surface-base-base1);
     border-color: var(--theme-color-border-light-disabled);
-    .label {
-      color: var(--theme-color-text-base-disabled);
+  }
+
+  &.readOnly {
+    background: var(--theme-color-surface-base-base5);
+    border-color: var(--theme-color-border-light-default);
+    > button:disabled {
+      background: var(--theme-color-surface-light-hover);
+      border-color: var(--theme-color-border-light-default);
     }
   }
 
@@ -116,7 +122,12 @@ $sizes: (("xs", "4x", "6x"), ("sm", "6x", "12x"), ("md", "8x", "16x"), ("lg", "1
     &.placeholder {
       color: var(--theme-color-text-base-caption-light);
     }
-    &:disabled {
+    &.disabled {
+      color: var(--theme-color-text-base-disabled);
+      pointer-events: none;
+    }
+    &.readOnly {
+      color: var(--theme-color-text-base-caption);
       pointer-events: none;
     }
   }

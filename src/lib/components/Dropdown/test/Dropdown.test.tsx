@@ -1,0 +1,201 @@
+import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
+import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
+import { StandardPropsWithRef, Variant } from "../../../../lib/types";
+import Dropdown from "../Dropdown";
+import { userEvent } from "@testing-library/user-event";
+import { Size4SM } from "../../../types";
+import { Spacing } from "../types";
+
+describe("Dropdown", () => {
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLButtonElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
+    {
+      assertDefaults: ({ container, getByText }) => {
+        // variant: primary
+        expect(container.firstElementChild).toHaveClass("primary");
+        // shape: solid
+        expect(container.firstElementChild).toHaveClass("solid");
+        // size: md
+        expect(container.firstElementChild).toHaveClass("md");
+
+        // spacing: callout
+        fireEvent.click(getByText("Dropdown"));
+        expect(screen.getByTestId("dropdown-menu")).toHaveClass("callout");
+      },
+    },
+  );
+
+  it("should be rendered in different color schemas given in the variant prop", () => {
+    const variants: Variant[] = ["primary", "secondary", "success", "danger", "warning", "info"];
+    variants.forEach(variant => {
+      expect(render(<Dropdown items={[{ label: "Home" }]} variant={variant} />).container.firstElementChild).toHaveClass(variant);
+    });
+  });
+
+  it("should render items when dropdown menu is clicked and should remove items when clicked again", async () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+
+    const dropdownButton = screen.getByText("Dropdown Menu");
+    expect(screen.queryByText("Item 1")).not.toBeInTheDocument();
+    fireEvent.click(dropdownButton);
+    await waitFor(() => expect(screen.getByText("Item 1")).toBeInTheDocument());
+
+    fireEvent.click(dropdownButton);
+    await waitFor(() => expect(screen.queryByText("Item 1")).not.toBeInTheDocument());
+  });
+
+  it("should render the icon given in the icon prop of the dropdown menu ", () => {
+    runIconPropTest(icon => render(<Dropdown label="test" icon={icon} items={[{ label: "Item 1" }]} />), "icon");
+  });
+
+  it("should render the label given in the label prop of the dropdown menu ", () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    expect(screen.queryByText("Dropdown Menu")).toBeInTheDocument();
+  });
+
+  it("should render the icon given in the icon prop of the dropdown menu item", () => {
+    runIconPropTest(icon => {
+      cleanup();
+      const result = render(<Dropdown label="test" items={[{ label: "Item 1", icon }]} />);
+      fireEvent.click(result.getByText("test"));
+      return result;
+    }, "icon");
+  });
+
+  it("should render the label given in the label prop of the dropdown menu item ", () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    expect(screen.queryByText("Item 1")).toBeInTheDocument();
+  });
+
+  it("items should display the given header in the header prop of the item'", () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ header: "Header" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    expect(screen.queryByText("Header")).toBeInTheDocument();
+  });
+
+  it("should call the action given in the action prop of the item when dropdown menu item is clicked", () => {
+    const mockAction = jest.fn();
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1", action: mockAction }]} />);
+
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    fireEvent.click(screen.getByText("Item 1"));
+
+    expect(mockAction).toHaveBeenCalledTimes(1);
+  });
+
+  it("should close the dropdown when clicked outside", async () => {
+    const { getByText, queryByText, getByTestId } = render(
+      <div>
+        <Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />
+        <div data-testid="outsideArea" />
+      </div>,
+    );
+    const user = userEvent.setup();
+    await user.click(getByText("Dropdown Menu"));
+    await waitFor(() => expect(queryByText("Item 1")).toBeInTheDocument());
+    await user.click(getByTestId("outsideArea"));
+    await waitFor(() => expect(queryByText("Item 1")).not.toBeInTheDocument());
+  });
+
+  it("should close dropdown menu after an item is clicked", async () => {
+    const mockAction = jest.fn();
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1", action: mockAction }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    fireEvent.click(screen.getByText("Item 1"));
+    await waitFor(() => expect(screen.queryByText("Item 1")).not.toBeInTheDocument());
+  });
+
+  it("should be rendered as disabled when dropdown menu disabled prop is given", async () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} disabled />);
+    expect(screen.getByTestId("dropdown-button")).toBeDisabled();
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    await waitFor(() => expect(screen.queryByText("Item 1")).not.toBeInTheDocument());
+  });
+
+  it("should keep the menu closed when it is enabled again after being disabled while open", () => {
+    const { rerender } = render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    expect(screen.getByText("Item 1")).toBeInTheDocument();
+
+    rerender(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} disabled />);
+    expect(screen.queryByText("Item 1")).not.toBeInTheDocument();
+
+    rerender(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    expect(screen.queryByText("Item 1")).not.toBeInTheDocument();
+  });
+
+  it("should be rendered as disabled when dropdown menu item disabled prop is given", async () => {
+    const mockAction = jest.fn();
+    render(
+      <Dropdown
+        label="Dropdown Menu"
+        items={[
+          { label: "Item 1", disabled: true, action: mockAction },
+          { label: "Item 2", action: mockAction },
+        ]}
+      />,
+    );
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    await waitFor(() => expect(screen.queryByText("Item 1")).toBeInTheDocument());
+    fireEvent.click(screen.getByText("Item 1"));
+    expect(mockAction).toHaveBeenCalledTimes(0);
+    await waitFor(() => expect(screen.queryByText("Item 1")).toBeInTheDocument());
+  });
+
+  it("should be rendered with the given size in size prop", () => {
+    const sizes: Size4SM[] = ["xs", "sm", "md", "lg"];
+
+    sizes.forEach(size => {
+      expect(render(<Dropdown label="Dropdown Menu" size={size} items={[{ label: "Item 1" }]} />).container.firstElementChild).toHaveClass(
+        size,
+      );
+    });
+  });
+
+  it("should be rendered in a pill shape when pill prop is true", () => {
+    const { getByTestId } = render(<Dropdown label="Dropdown Menu" pill items={[{ label: "Item 1" }]} />);
+    expect(getByTestId("dropdown-button")).toHaveClass("pill");
+  });
+
+  it("should be rendered with the shape given in shape prop", () => {
+    const { container, rerender } = render(<Dropdown label="Dropdown Menu" shape="solid" items={[{ label: "Item 1" }]} />);
+    expect(container.firstElementChild).toHaveClass("solid");
+    rerender(<Dropdown label="Dropdown Menu" shape="textOnly" items={[{ label: "Item 1" }]} />);
+    expect(container.firstElementChild).toHaveClass("textOnly");
+  });
+
+  it("items should be rendered with the color given in items' iconColor prop", () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1", icon: "check_circle", iconColor: "red" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+
+    expect(screen.getByText("check_circle")).toHaveStyle({
+      color: "rgb(255, 0, 0)",
+    });
+  });
+
+  it("should not close when the window is resized", async () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    await waitFor(() => expect(screen.queryByTestId("dropdown-menu")).toBeInTheDocument());
+    fireEvent(window, new Event("resize"));
+    expect(screen.queryByTestId("dropdown-menu")).toBeInTheDocument();
+  });
+
+  it("should not close when the page is scrolled", async () => {
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} />);
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    await waitFor(() => expect(screen.queryByTestId("dropdown-menu")).toBeInTheDocument());
+    fireEvent.scroll(window);
+    expect(screen.queryByTestId("dropdown-menu")).toBeInTheDocument();
+  });
+
+  it("should be rendered in different spacing options given in the spacing prop", () => {
+    (["withGap", "callout", "noSpace"] as Spacing[]).forEach(spacing => {
+      const { unmount, getByText } = render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} spacing={spacing} />);
+      fireEvent.click(getByText("Dropdown Menu"));
+      expect(screen.getByTestId("dropdown-menu")).toHaveClass(spacing);
+      unmount();
+    });
+  });
+});

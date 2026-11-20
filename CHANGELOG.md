@@ -1,3 +1,44 @@
+# [v0.5.0](https://github.com/motif-ui/motifreact/releases/tag/v0.5.0) (2026-11-03)
+
+## 🚀 Features
+
+- feat: 🧩 new component | Container ([#199](https://github.com/motif-ui/motifreact/pull/199)) [@aktasmehmet](https://github.com/aktasmehmet)
+- feat(Grid): padding changes, nested usage, deprecations  ([#200](https://github.com/motif-ui/motifreact/pull/200)) [@aktasmehmet](https://github.com/aktasmehmet)
+
+## 🐛 Bug Fixes
+
+- fix: About1 block is introduced ([#174](https://github.com/motif-ui/motifreact/pull/174)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Blocks): about3 is created ([#175](https://github.com/motif-ui/motifreact/pull/175)) [@hatesalp](https://github.com/hatesalp)
+- fix(Card): fix header icon size to 40x and add iconVariant prop ([#197](https://github.com/motif-ui/motifreact/pull/197)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Upload): UploadInput file action add and action refactor in general ([#172](https://github.com/motif-ui/motifreact/pull/172)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: Upload components onUpload prop is introduced ([#178](https://github.com/motif-ui/motifreact/pull/178)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Blocks): 🆕 About 2 block is added ([#201](https://github.com/motif-ui/motifreact/pull/201)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(Grid): isolate gutter styles from nested grids ([#194](https://github.com/motif-ui/motifreact/pull/194)) [@hatesalp](https://github.com/hatesalp)
+- fix: UploadInput readOnly color mismatch correction ([#185](https://github.com/motif-ui/motifreact/pull/185)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(MenuList): add footer prop supporting children ([#183](https://github.com/motif-ui/motifreact/pull/183)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Grid): add gutterX and gutterY props ([#188](https://github.com/motif-ui/motifreact/pull/188)) [@hatesalp](https://github.com/hatesalp)
+- fix: Card neutral variant is introduced ([#186](https://github.com/motif-ui/motifreact/pull/186)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Table): server side use support is added ([#168](https://github.com/motif-ui/motifreact/pull/168)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(MenuList): add divider prop for menu items ([#187](https://github.com/motif-ui/motifreact/pull/187)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: plural i18n support for related components ([#179](https://github.com/motif-ui/motifreact/pull/179)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix(Card): add button positioning ([#184](https://github.com/motif-ui/motifreact/pull/184)) [@hatesalp](https://github.com/hatesalp)
+- fix(Slider, SliderRange): add info variant support ([#180](https://github.com/motif-ui/motifreact/pull/180)) [@ZehranurC](https://github.com/ZehranurC)
+- fix: general maintenance, Text update ([#182](https://github.com/motif-ui/motifreact/pull/182)) [@aktasmehmet](https://github.com/aktasmehmet)
+- fix(Stepper): handling proper render on narrower devices ([#164](https://github.com/motif-ui/motifreact/pull/164)) [@ZehranurC](https://github.com/ZehranurC)
+- fix(Alert): add primay variant ([#171](https://github.com/motif-ui/motifreact/pull/171)) [@hatesalp](https://github.com/hatesalp)
+- fix: Link icon alignment issue has been solved ([#173](https://github.com/motif-ui/motifreact/pull/173)) [@atakanbayrak](https://github.com/atakanbayrak)
+- fix: login block is created ([#170](https://github.com/motif-ui/motifreact/pull/170)) [@ZehranurC](https://github.com/ZehranurC)
+
+## Other Changes
+
+- refactor(NavBar): replace useOutsideClick with useOverlayState ([#202](https://github.com/motif-ui/motifreact/pull/202)) [@hatesalp](https://github.com/hatesalp)
+- refactor: useModalOverlay hook is added and applied to Modal and AlertModal ([#191](https://github.com/motif-ui/motifreact/pull/191)) [@atakanbayrak](https://github.com/atakanbayrak)
+- refactor: hooks tests are introduced ([#198](https://github.com/motif-ui/motifreact/pull/198)) [@atakanbayrak](https://github.com/atakanbayrak)
+- refactor: simplification for Form with FormProvider to FormContext replication  ([#176](https://github.com/motif-ui/motifreact/pull/176)) [@atakanbayrak](https://github.com/atakanbayrak)
+- refactor(usePickerPortal): update overlay positioning infrastructure ([#167](https://github.com/motif-ui/motifreact/pull/167)) [@hatesalp](https://github.com/hatesalp)
+
+[Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.8...v0.5.0)
+
 # [v0.4.8](https://github.com/motif-ui/motifreact/releases/tag/v0.4.8) (2026-09-21)
 
 ## 🐛 Bug Fixes

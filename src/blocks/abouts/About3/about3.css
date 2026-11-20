@@ -1,0 +1,15 @@
+.about-3 {
+  .paragraph-row h1 {
+    padding-bottom: 32px;
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 32px;
+    background-color: #edeff1;
+    .mtf-Link {
+      text-align: right;
+    }
+  }
+}

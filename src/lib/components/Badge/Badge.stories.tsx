@@ -21,7 +21,7 @@ const meta: Meta<typeof Badge> = {
   },
   args: {
     content: "badge",
-    children: <Button label="Button" variant="secondary" />,
+    children: <Button label="Button" variant="neutral" />,
   },
 };
 
@@ -33,7 +33,7 @@ export const Primary: Story = {};
 export const Dot: Story = {
   render: args => (
     <Badge {...args} dot>
-      <Button label="Button" variant="secondary" />
+      <Button label="Button" variant="neutral" />
     </Badge>
   ),
 };
@@ -41,7 +41,7 @@ export const Dot: Story = {
 export const Icon: Story = {
   render: args => (
     <Badge {...args} icon="mail">
-      <Button label="Button" variant="secondary" />
+      <Button label="Button" variant="neutral" />
     </Badge>
   ),
 };
@@ -49,7 +49,7 @@ export const Icon: Story = {
 export const MaxNumber: Story = {
   render: args => (
     <Badge {...args} max={10} content="11">
-      <Button label="Button" variant="secondary" />
+      <Button label="Button" variant="neutral" />
     </Badge>
   ),
 };

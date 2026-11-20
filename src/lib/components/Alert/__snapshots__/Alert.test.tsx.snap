@@ -3,10 +3,10 @@
 exports[`Alert should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
-    class="Root secondary"
+    class="Root neutral"
   >
     <span
-      class="Root lg secondary motifIconsDefault"
+      class="Root lg motifIconsDefault icon"
       lang="en"
       translate="no"
     >

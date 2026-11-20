@@ -10,6 +10,7 @@ import { capitalizeFirstLetter } from "../../../../../utils/utils";
 import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "../../../../../utils/cssUtils";
 import { PropsWithRef } from "../../../../types";
 import { FileType } from "@/components/Upload/types";
+import { isFileFailed } from "@/components/Upload/helper";
 
 const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
   const { ref, style, className } = props;
@@ -44,7 +45,7 @@ const ImageDragArea = (props: PropsWithRef<unknown, HTMLDivElement>) => {
           ? t(MESSAGE.DELETE_ERROR)
           : t(MESSAGE.UPLOAD_ERROR),
     );
-  const failed = status === STATUS.CHECK_FAIL || status === STATUS.UPLOAD_FAIL || status === STATUS.DELETE_FAIL;
+  const failed = !!selectedImage && isFileFailed(selectedImage);
   const maybeShowThumbnail = status !== undefined;
   const innerClasses = sanitizeModuleClasses(
     styles,

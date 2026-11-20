@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import { IconGlobalType, Size4LG, Variant } from "../../types";
+import { IconGlobalType, OverlayCloseReason, Size4LG, VariantV2 } from "../../types";
 
 export type AlertModalContentPosition = "left" | "center" | "right";
 export type AlertModalButtonPosition = "left" | "center" | "right" | "spaceBetween" | "stretch" | "fullWidth";
@@ -16,7 +16,8 @@ export type AlertModalProps = {
   title: string;
   text?: string;
   open?: boolean;
-  onClose?: () => void;
+  onClose?: (reason: OverlayCloseReason) => void;
+  onAfterClose?: () => void;
   actionButton?: AlertModalButtonProps;
   alternateButton?: AlertModalButtonProps;
 } & AlertModalDefaultableProps;
@@ -26,7 +27,7 @@ export type AlertModalDefaultableProps = {
   size?: Size4LG;
   contentPosition?: AlertModalContentPosition;
   buttonsPosition?: AlertModalButtonPosition;
-  variant?: Variant;
+  variant?: VariantV2;
   enableDivider?: boolean;
   removeBackdrop?: boolean;
   bordered?: boolean;

@@ -1,0 +1,40 @@
+import { memo } from "react";
+import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
+import styles from "./TimelineBaseline.module.scss";
+import { TimelineItemProps, TimelineMarkerType } from "./types";
+import { sanitizeModuleClasses } from "../../../../../../utils/cssUtils";
+
+type Props = TimelineItemProps & {
+  markerType: TimelineMarkerType;
+  order: number;
+};
+
+const TimelineItem = memo((props: Props) => {
+  const { title, content, icon = "motif_ui", variant, disabled, markerType, order, appearance = "filled" } = props;
+
+  const itemClasses = sanitizeModuleClasses(styles, "item", variant, appearance, disabled && "disabled");
+
+  return (
+    <div className={itemClasses}>
+      <div className={styles.marker}>
+        {markerType === "icon" ? (
+          <span className={styles.markerIconWrapper}>
+            <GlobalIconWrapper icon={icon} className={styles.markerIcon} />
+          </span>
+        ) : markerType === "number" ? (
+          <span className={styles.markerNumber}>{order}</span>
+        ) : (
+          <span className={styles.markerDot} />
+        )}
+      </div>
+      {(title || content) && (
+        <div className={styles.section}>
+          {title && <span className={styles.title}>{title}</span>}
+          {content && <span className={styles.content}>{content}</span>}
+        </div>
+      )}
+    </div>
+  );
+});
+
+export default TimelineItem;

@@ -22,5 +22,9 @@ const config = {
   testPathIgnorePatterns: ["/node_modules/", "\\.e2e\\.spec\\.ts$"],
 };
 
-// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-export default createJestConfig(config);
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async.
+// next/jest maps *.module.scss to its own mock under this exact key; overriding the value keeps the key's first position.
+export default async () => {
+  const { moduleNameMapper, ...rest } = await createJestConfig(config)();
+  return { ...rest, moduleNameMapper: { ...moduleNameMapper, ["^.+\\.module\\.(css|sass|scss)$"]: "<rootDir>/jest.cssModuleMock.cjs" } };
+};

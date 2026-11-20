@@ -14,7 +14,7 @@ import { UploadInputProps, UploadInputWrapperProps } from "./types";
 import usePropsWithThemeDefaults from "../../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIcon } from "@/components/Motif/Icon";
-import { mapExternalValue, toFormValue } from "@/components/Upload/helper";
+import { isFileFailed, mapExternalValue, toFormValue } from "@/components/Upload/helper";
 
 const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("UploadInput", p);
@@ -27,7 +27,9 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     uploadRequest,
     deleteRequest,
     customValidation,
+    onUpload,
     value: externalValue,
+    fileAction,
     ref,
     style,
     className,
@@ -51,6 +53,8 @@ const UploadInput = (p: PropsWithRef<UploadInputProps, HTMLDivElement>) => {
     uploadRequest,
     deleteRequest,
     customValidation,
+    fileAction,
+    onUpload,
   };
   const inputCommonPropsAfterRegister = {
     size,
@@ -81,8 +85,6 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
   } = useContext(UploadContext);
   const { t } = useMotifContext();
 
-  const isDisabled = disabled || readOnly;
-
   const selectedFilesEqualityString = selectedFiles
     .map(f => f.id + f.file.name + f.file.size + f.file.type + f.status + (f.messages?.join("") || ""))
     .join(",");
@@ -91,8 +93,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
     () =>
       selectedFiles.reduce(
         (acc, file) =>
-          (file.status === STATUS.CHECK_FAIL || file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.DELETE_FAIL) &&
-          file.messages?.length
+          isFileFailed(file) && file.messages?.length
             ? [...acc, ...file.messages.reduce((messages, err) => (!acc.includes(err) ? [...messages, err] : messages), [] as string[])]
             : acc,
         [] as string[],
@@ -111,7 +112,7 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
           ? "waitingToUpload"
           : "noFile";
 
-  const styleVariant = isDisabled ? "disabled" : error || inputState === "error" ? "error" : success && "success";
+  const styleVariant = disabled ? "disabled" : readOnly ? "readOnly" : error || inputState === "error" ? "error" : success && "success";
 
   useEffect(() => {
     const sanitizedValue = toFormValue(selectedFiles);
@@ -139,7 +140,15 @@ const UploadInputWrapper = (props: PropsWithRef<UploadInputWrapperProps, HTMLDiv
         <MotifIcon name="search" size={size} />
         {t("g.browse")}
       </button>
-      <LabelArea disabled={isDisabled} size={size} errors={errors} inputState={inputState} success={success} error={error} />
+      <LabelArea
+        disabled={disabled}
+        readOnly={readOnly}
+        size={size}
+        errors={errors}
+        inputState={inputState}
+        success={success}
+        error={error}
+      />
       {!autoUpload && !!selectedFiles.length && (
         <button className={styles.uploadButton} disabled={isUploadButtonDisabled} onClick={uploadHandler} type="button">
           <MotifIcon name="upload_2" size={size} />

@@ -2,6 +2,13 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import UploadDragger from "@/components/Upload/UploadDragger";
 import { MIME_TYPES } from "@/components/Upload/constants";
 import { serverValidationRequest, serverValidationMswParameters, WithFakeUploadProgress } from "../docs/serverValidationStory";
+import {
+  downloadStoryParameters,
+  fileActionStoryParameters,
+  FilePreviewStory,
+  SAMPLE_FILE,
+  SAMPLE_FILE_WITH_DOWNLOAD,
+} from "../docs/fileActionStory";
 
 const url = "https://httpbun.com/post";
 const method = "POST";
@@ -12,12 +19,12 @@ const meta: Meta<typeof UploadDragger> = {
   argTypes: {
     accept: { table: { defaultValue: { summary: MIME_TYPES.ALL } } },
     maxFile: { table: { defaultValue: { summary: "1" } } },
+    fileAction: { table: { type: { summary: "{ icon: IconGlobalType; onClick: (file: FileValue) => void }" } } },
     autoUpload: { table: { defaultValue: { summary: "true" } } },
     value: {
       table: {
         type: {
-          summary:
-            "{ id: string; name: string; size: string; type: string; onDownloadClick?: () => void; action?: { icon: IconGlobalType; onClick: () => void }; }[]",
+          summary: "{ id: string; name: string; size: number; type: string; src?: string; onDownloadClick?: () => void; }[]",
         },
       },
     },
@@ -41,4 +48,19 @@ export const ServerValidation: Story = {
     uploadRequest: serverValidationRequest,
     deleteRequest: serverValidationRequest,
   },
+};
+
+export const Downloading: Story = {
+  parameters: downloadStoryParameters("UploadDragger"),
+  args: {
+    value: [SAMPLE_FILE_WITH_DOWNLOAD],
+  },
+};
+
+export const FileAction: Story = {
+  parameters: fileActionStoryParameters("UploadDragger"),
+  args: {
+    value: [SAMPLE_FILE],
+  },
+  render: args => <FilePreviewStory>{fileAction => <UploadDragger {...args} fileAction={fileAction} />}</FilePreviewStory>,
 };

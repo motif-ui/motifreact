@@ -2,7 +2,7 @@
 import AlertModal from "@/components/AlertModal/AlertModal";
 import { fireEvent, render, screen, cleanup, act, within } from "@testing-library/react";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
-import { Size4LG, StandardPropsWithRef, Variant } from "../../types";
+import { Size4LG, StandardPropsWithRef, VariantV2 } from "../../types";
 import { AlertModalButtonPosition, AlertModalContentPosition, IconPosition } from "@/components/AlertModal/types";
 import { userEvent } from "@testing-library/user-event";
 import { runSnapshotDefaultsAndStandardPropsTest } from "src/utils/testUtils";
@@ -47,8 +47,8 @@ describe("AlertModal", () => {
         expect(getBackdrop()).toHaveClass("actions_center");
         //enableDivider : false
         expect(getBackdrop()).not.toHaveClass("withDivider");
-        // variant default: "primary" → propagated to icon and action button
-        expect(screen.getByText("home")).toHaveClass("primary");
+        // variant default: "primary" → on the root, which colors the icon, and on the action button
+        expect(getBackdrop()).toHaveClass("primary");
         expect(getModalActions().querySelector("button")).toHaveClass("primary");
       },
     },
@@ -58,6 +58,36 @@ describe("AlertModal", () => {
     expect(queryByTestId("alertModalBackdrop")).not.toBeInTheDocument();
     rerender(<AlertModal title={TITLE} open />);
     expect(getBackdrop()).toBeInTheDocument();
+  });
+
+  it("should stay mounted until the exit transition ends when open changes from true to false", () => {
+    jest.useFakeTimers();
+    const { rerender, queryByTestId, getBackdrop } = renderExt(<AlertModal title={TITLE} open />);
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(getBackdrop()).toHaveClass("show");
+
+    rerender(<AlertModal title={TITLE} open={false} />);
+    expect(getBackdrop()).not.toHaveClass("show");
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(queryByTestId("alertModalBackdrop")).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it("should call onAfterClose once the exit transition has ended", () => {
+    jest.useFakeTimers();
+    const handleAfterClose = jest.fn();
+    const { rerender } = renderExt(<AlertModal title={TITLE} open onAfterClose={handleAfterClose} />);
+
+    rerender(<AlertModal title={TITLE} open={false} onAfterClose={handleAfterClose} />);
+    expect(handleAfterClose).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(handleAfterClose).toHaveBeenCalledTimes(1);
+    jest.useRealTimers();
   });
 
   it("should render the title given in the title prop", () => {
@@ -85,7 +115,7 @@ describe("AlertModal", () => {
       await user.click(getBackdrop());
       jest.advanceTimersByTime(300);
     });
-    expect(handleClose).toHaveBeenCalled();
+    expect(handleClose).toHaveBeenCalledWith("outsideClick");
 
     jest.useRealTimers();
   });
@@ -95,6 +125,29 @@ describe("AlertModal", () => {
     const { getBackdrop } = renderExt(<AlertModal title={TITLE} open closable={false} onClose={handleClose} />);
     fireEvent.click(getBackdrop());
     expect(handleClose).not.toHaveBeenCalled();
+  });
+
+  it("should close the modal on Escape only when closable prop is true", () => {
+    const handleClose = jest.fn();
+    const { rerender } = renderExt(<AlertModal title={TITLE} open closable={false} onClose={handleClose} />);
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).not.toHaveBeenCalled();
+
+    rerender(<AlertModal title={TITLE} open closable onClose={handleClose} />);
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).toHaveBeenCalledWith("escape");
+  });
+
+  it("should get the focus once shown", () => {
+    jest.useFakeTimers();
+    const { getModalContent } = renderExt(<AlertModal title={TITLE} open />);
+    const dialog = getModalContent().parentElement;
+
+    // The enter transition starts after two animation frames
+    act(() => jest.runOnlyPendingTimers());
+    act(() => jest.runOnlyPendingTimers());
+    expect(dialog).toHaveFocus();
+    jest.useRealTimers();
   });
 
   it("should render action button and call action handler when clicked", () => {
@@ -203,9 +256,9 @@ describe("AlertModal", () => {
   });
 
   it("should render with the given variant ", () => {
-    const variants: Variant[] = ["primary", "secondary", "info", "success", "warning", "danger"];
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
     variants.forEach(variant => {
-      const { getModalActions } = renderExt(
+      const { getBackdrop, getModalActions } = renderExt(
         <AlertModal
           title={TITLE}
           open
@@ -214,9 +267,18 @@ describe("AlertModal", () => {
           actionButton={{ text: "Confirm", onClick: jest.fn() }}
         />,
       );
-      expect(screen.getByText("home")).toHaveClass(variant);
+      expect(getBackdrop()).toHaveClass(variant);
+      expect(screen.getByText("home")).toHaveClass("icon");
       expect(getModalActions().querySelector("button")).toHaveClass(variant);
       cleanup();
     });
+  });
+
+  it("should render the alternate button as a neutral outline button whatever the variant is", () => {
+    renderExt(<AlertModal title={TITLE} open variant="danger" alternateButton={{ text: "Cancel", onClick: jest.fn() }} />);
+    const alternate = screen.getByText("Cancel").closest("button");
+    expect(alternate).toHaveClass("neutral");
+    expect(alternate).toHaveClass("outline");
+    expect(alternate).not.toHaveClass("danger");
   });
 });

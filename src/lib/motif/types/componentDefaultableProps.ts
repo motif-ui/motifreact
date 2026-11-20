@@ -61,6 +61,7 @@ import { UploadListDefaultableProps } from "../../components/Upload/UploadList/t
 import { UploadDefaultableProps } from "../../components/Upload/types";
 import { UploadInputDefaultableProps } from "../../components/Upload/UploadInput/types";
 import { ImageUploadDefaultableProps } from "../../components/Upload/ImageUpload/types";
+import { ContainerDefaultableProps } from "../../components/Container/types";
 
 export type ComponentDefaultableProps = {
   Accordion?: AccordionDefaultableProps;
@@ -76,6 +77,7 @@ export type ComponentDefaultableProps = {
   Carousel?: CarouselDefaultableProps;
   Checkbox?: CheckboxDefaultableProps;
   Chip?: ChipDefaultableProps;
+  Container?: ContainerDefaultableProps;
   DatePicker?: DatePickerDefaultableProps;
   DateRangePicker?: DateRangePickerDefaultableProps;
   DateTimePicker?: DateTimePickerDefaultableProps;

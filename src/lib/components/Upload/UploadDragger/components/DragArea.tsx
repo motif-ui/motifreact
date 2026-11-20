@@ -4,6 +4,7 @@ import { useContext, useEffect, useMemo, useRef } from "react";
 import { useMotifContext } from "../../../../motif/context/MotifProvider";
 import { useUploadDragDrop } from "@/components/Upload/hooks/useUploadDragDrop";
 import { MESSAGE, STATUS } from "@/components/Upload/constants";
+import { isFileFailed } from "@/components/Upload/helper";
 import { formatBytes } from "../../../../../utils/utils";
 import { UploadContext } from "@/components/Upload/UploadProvider";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
@@ -70,8 +71,7 @@ const DragArea = (props: Props) => {
     () =>
       selectedFiles.reduce(
         (acc, file) =>
-          (file.status === STATUS.CHECK_FAIL || file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.DELETE_FAIL) &&
-          file.messages?.length
+          isFileFailed(file) && file.messages?.length
             ? [...acc, ...file.messages.reduce((messages, err) => (!acc.includes(err) ? [...messages, err] : messages), [] as string[])]
             : acc,
         [] as string[],

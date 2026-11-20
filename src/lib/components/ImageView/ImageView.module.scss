@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 .Root {
-  border-radius: var(--theme-sizing-radius-default);
+  border-radius: var(--mtf-sizing-radius-md);
   overflow: hidden;
 }
 
@@ -13,12 +13,12 @@
 }
 
 .bordered {
-  border: solid var(--base-sizing-1x) var(--theme-color-border-secondary-default);
+  border: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
   background-position: center;
 }
 
 .solid {
-  background-color: var(--theme-color-surface-base-base3);
+  background-color: var(--mtf-color-surface-subtle);
 }
 
 .original {

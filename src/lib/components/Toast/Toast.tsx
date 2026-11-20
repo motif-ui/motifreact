@@ -31,14 +31,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (duration !== undefined) {
-      timer.start();
-      return () => {
-        timer.clear();
-      };
-    } else {
-      timer.clear();
-    }
+    if (duration !== undefined) timer.start();
   }, [duration, timer]);
 
   useEffect(() => {
