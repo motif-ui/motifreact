@@ -1,40 +1,7 @@
 @use "@styles" as *;
 
-$list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x", "22x"), ("md", "sm", "2x", "16x", "12x", "32x", "22x", "24x"), ("lg", "md", "4x", "20x", "16x", "40x", "24x", "28x"));
-@each $size, $alternateTextS, $gap, $spaceH, $paddingV, $avatarSize, $iconFontSize, $iconRightFontSize in $list-item-sizes {
-  .#{$size} {
-    .baseContent {
-      gap: var(--base-sizing-#{$spaceH});
-      padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$spaceH});
-    }
-    .leftContent,
-    .image img {
-      width: var(--base-sizing-#{$avatarSize});
-      height: var(--base-sizing-#{$avatarSize});
-    }
-    .abbr {
-      @include font("base", $size, "600");
-    }
-    .centerContent {
-      gap: var(--base-sizing-#{$gap});
-    }
-    .alternateText {
-      @include font("body", $alternateTextS);
-    }
-    .title {
-      @include font("base", $size, "500");
-    }
-    .description {
-      @include font("body", $size);
-    }
-    .icon {
-      --mtf-icon-size: var(--base-sizing-#{$iconFontSize});
-    }
-    .iconRight {
-      --mtf-icon-size: var(--base-sizing-#{$iconRightFontSize});
-    }
-  }
-}
+// size (also the description's text step), alternateTextStep, gap, spaceH, paddingV, avatarSize, iconSize, iconRightSize
+$sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22), ("md", "sm", 2, 16, 12, 32, 22, 24), ("lg", "md", 4, 20, 16, 40, 24, 28));
 
 .Root {
   padding: 0;
@@ -49,62 +16,50 @@ $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x", "22x"), ("md", 
 .listItem {
   list-style: none;
   padding: 0;
+
   &.divider:not(:last-child) {
-    border-bottom: var(--base-sizing-1x) solid var(--theme-color-border-secondary-default);
+    border-bottom: var(--mtf-sizing-1) solid var(--mtf-color-border-soft);
   }
-
-  &.link,
-  &.button {
-    .baseContent {
-      cursor: pointer;
-      text-decoration: none;
-      @include focus-ring;
-      @include transition(background-color);
-    }
-    &:hover .baseContent {
-      background-color: var(--theme-color-surface-base-base2);
-    }
-  }
-}
-
-.centerContent > span {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.multiLine .centerContent > span {
-  overflow: visible;
-  white-space: normal;
-  text-overflow: clip;
 }
 
 .baseContent {
   display: flex;
   justify-content: stretch;
   align-items: center;
-  background-color: var(--theme-color-surface-base-global-light);
+  background-color: var(--mtf-color-surface-default);
   overflow: hidden;
+
+  .link &,
+  .button & {
+    cursor: pointer;
+    text-decoration: none;
+    @include transition(background-color);
+
+    &:focus-visible {
+      outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+      outline-offset: calc(-1 * var(--mtf-sizing-2));
+    }
+  }
+
+  .link:hover &,
+  .button:hover & {
+    background-color: var(--mtf-color-neutral-soft);
+  }
 }
 
 .disabled {
   pointer-events: none;
   cursor: default;
+
+  span,
+  .icon,
   .iconRight {
-    color: var(--theme-color-text-secondary-disabled);
+    color: var(--mtf-color-text-disabled);
   }
-  .icon {
-    color: var(--theme-color-surface-base-base6);
-  }
+
   .image {
     filter: grayscale(100%);
     opacity: 0.6;
-  }
-  span {
-    color: var(--theme-color-text-base-disabled-light);
-  }
-  .avatar.abbr {
-    background-color: var(--theme-color-surface-base-base6);
   }
 }
 
@@ -121,23 +76,20 @@ $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x", "22x"), ("md", 
 
 .icon,
 .iconRight {
-  color: var(--theme-color-text-secondary-default);
+  color: var(--mtf-color-text-softer);
 }
 
 .abbr {
-  color: var(--theme-color-text-secondary-default);
+  color: var(--mtf-color-neutral-text);
   text-transform: uppercase;
 }
 
 .avatar {
-  border-radius: var(--theme-sizing-radius-round);
-  &.icon,
-  &.image {
-    background-color: var(--theme-color-surface-base-base5);
-  }
-  &.abbr {
-    background-color: var(--theme-color-surface-base-base7);
-    color: var(--theme-color-text-base-text-light);
+  border-radius: var(--mtf-sizing-radius-round);
+  background-color: var(--mtf-color-neutral-soft);
+
+  &.icon {
+    color: var(--mtf-color-neutral-text);
   }
 }
 
@@ -150,16 +102,72 @@ $list-item-sizes: (("sm", "xs", "2x", "16x", "8x", "24x", "20x", "22x"), ("md", 
   flex-direction: column;
   flex: 1;
   overflow: hidden;
+
+  > span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    .multiLine & {
+      overflow: visible;
+      white-space: normal;
+      text-overflow: clip;
+    }
+  }
 }
 
 .alternateText {
-  color: var(--theme-color-text-base-caption-light);
+  color: var(--mtf-color-text-softer);
 }
 
 .title {
-  color: var(--theme-color-text-base-title-light);
+  color: var(--mtf-color-text-strong);
 }
 
 .description {
-  color: var(--theme-color-text-base-subtitle-light);
+  color: var(--mtf-color-text-soft);
+}
+
+// A size changes every part of the row: grouped by size
+@each $size, $alternateTextStep, $gap, $spaceH, $paddingV, $avatarSize, $iconSize, $iconRightSize in $sizes {
+  .#{$size} {
+    .baseContent {
+      gap: var(--mtf-sizing-space-#{$spaceH});
+      padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$spaceH});
+    }
+
+    .leftContent,
+    .image img {
+      width: var(--mtf-sizing-#{$avatarSize});
+      height: var(--mtf-sizing-#{$avatarSize});
+    }
+
+    .abbr {
+      @include typography("text-#{$size}", "stronger");
+    }
+
+    .centerContent {
+      gap: var(--mtf-sizing-space-#{$gap});
+    }
+
+    .alternateText {
+      @include typography("text-#{$alternateTextStep}", "regular");
+    }
+
+    .title {
+      @include typography("text-#{$size}", "strong");
+    }
+
+    .description {
+      @include typography("text-#{$size}", "regular");
+    }
+
+    .icon {
+      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
+    }
+
+    .iconRight {
+      --mtf-icon-size: var(--mtf-sizing-#{$iconRightSize});
+    }
+  }
 }

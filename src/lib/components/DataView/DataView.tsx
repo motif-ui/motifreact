@@ -1,6 +1,6 @@
 "use client";
 import styles from "./DataView.module.scss";
-import DataViewItem from "@/components/DataView/DataViewItem";
+import DataViewItem from "./DataViewItem";
 import { PropsWithRefAndChildren } from "../../types";
 import { useMemo } from "react";
 import { DataViewProps } from "./types";

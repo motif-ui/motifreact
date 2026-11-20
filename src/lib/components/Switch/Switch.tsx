@@ -40,7 +40,18 @@ const Switch = (p: PropsWithRef<SwitchProps, HTMLDivElement>) => {
 
   return (
     <div className={classNames} ref={ref} style={style}>
-      <input type="checkbox" id={id} name={name} checked={isChecked} disabled={disabled} onChange={handleSlider} data-testid="switchItem" />
+      <input
+        type="checkbox"
+        role="switch"
+        id={id}
+        name={name}
+        className={styles.input}
+        checked={isChecked}
+        disabled={disabled}
+        aria-readonly={readOnly || undefined}
+        onChange={handleSlider}
+        data-testid="switchItem"
+      />
       <span className={styles.slider} onClick={handleSlider} data-testid="switchSliderItem" />
       {label && (
         <label htmlFor={id} className={styles.label}>

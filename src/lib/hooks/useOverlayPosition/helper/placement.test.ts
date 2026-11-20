@@ -110,12 +110,28 @@ describe("placement", () => {
     expect(place("bottomLeft").placement).toBe("bottomRight");
   });
 
+  it("should not use the scroll size on an axis the overlay scrolls, e.g. a list with a max height", () => {
+    setAnchorRect({ top: 600, left: 400, width: 100, height: 40 });
+    // the list is 100px high and scrolls its 1000px high content, so it fits below the anchor and touches it when above
+    Object.defineProperty(overlay, "scrollHeight", { configurable: true, value: 1000 });
+    overlay.style.overflowY = "auto";
+    expect(place("bottomLeft")).toMatchObject({ placement: "bottomLeft", y: 640, size: { height: 100 } });
+    expect(needsRefit(overlay, place("bottomLeft"))).toBe(false);
+    expect(place("topLeft")).toMatchObject({ placement: "topLeft", y: 500 });
+  });
+
   describe("when it does not fit into the viewport", () => {
     it("should flip to the side where it fits on its side, shifted along the anchor", () => {
       // too wide for both alignments at the anchor, but it fits above it when shifted
       setOverlaySize(900, 100);
       setAnchorRect({ top: 700, left: 400, width: 100, height: 40 });
       expect(place("bottomLeft")).toMatchObject({ placement: "topLeft", y: 600 });
+    });
+
+    it("should shift a left or right placement vertically into the viewport, along the anchor", () => {
+      // the anchor is in the viewport near its bottom edge, the overlay centered on it overflows the viewport's bottom
+      setAnchorRect({ top: 720, left: 400, width: 100, height: 40 });
+      expect(place("right")).toMatchObject({ placement: "right", x: 500, y: 668 });
     });
 
     it("should keep the given alignment when it is wider than the viewport, since it is placed at the left edge anyway", () => {

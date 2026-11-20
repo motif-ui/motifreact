@@ -1,121 +1,73 @@
 @use "@styles" as *;
 
 // size, paddingH, paddingV, gap, iconSize
-$sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md", "16x", "8x", "8x", "22x"), ("lg", "20x", "10x", "10x", "24x"));
+$sizes: (("xs", 8, 4, 4, 18), ("sm", 12, 6, 6, 20), ("md", 16, 8, 8, 22), ("lg", 20, 10, 10, 24));
 
 .Root {
   display: inline-flex;
 
-  > .button:first-child,
-  > .buttonDropdownContainer:first-child > .button:first-child {
-    border-left-width: var(--base-sizing-1x);
-    border-top-left-radius: var(--theme-sizing-radius-default);
-    border-bottom-left-radius: var(--theme-sizing-radius-default);
+  > .button:first-child {
+    border-left-width: var(--mtf-sizing-1);
+    border-top-left-radius: var(--mtf-sizing-radius-md);
+    border-bottom-left-radius: var(--mtf-sizing-radius-md);
   }
 
-  > .button:last-child,
-  > .buttonDropdownContainer:last-child > button:last-of-type {
-    border-right-width: var(--base-sizing-1x);
-    border-top-right-radius: var(--theme-sizing-radius-default);
-    border-bottom-right-radius: var(--theme-sizing-radius-default);
-  }
-
-  .disabled,
-  .disabled .button,
-  .button:disabled {
-    pointer-events: none;
-    background-color: var(--theme-color-surface-light-disabled);
-
-    &,
-    .icon {
-      color: var(--theme-color-text-light-disabled);
-    }
+  > .button:last-child {
+    border-right-width: var(--mtf-sizing-1);
+    border-top-right-radius: var(--mtf-sizing-radius-md);
+    border-bottom-right-radius: var(--mtf-sizing-radius-md);
   }
 }
 
 .divider {
   margin: 0;
   padding: 0;
-  border-right: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-right: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
 }
 
 .button {
-  outline: none;
-  white-space: nowrap;
-  cursor: pointer;
   display: flex;
   align-items: center;
+  white-space: nowrap;
+  cursor: pointer;
   border-style: solid;
-  border-color: var(--theme-color-border-light-default);
-  color: var(--theme-color-text-light-default);
-
-  .icon {
-    color: var(--theme-color-text-light-default);
-    @include transition(color);
-  }
-
+  border-color: var(--mtf-color-border-default);
+  color: var(--mtf-color-neutral-text);
   @include transition(background-color border-color color);
-  @include focus-ring;
-}
 
-.button__single {
-  border-width: var(--base-sizing-1x) 0;
-  background-color: var(--theme-color-surface-light-default);
-
-  &:hover,
-  &:active {
-    &,
-    .icon {
-      color: var(--theme-color-text-base-text-light);
-    }
+  &:focus-visible {
+    position: relative;
+    z-index: 1;
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: var(--mtf-sizing-2);
   }
 
-  &:hover {
-    background-color: var(--theme-color-surface-primary-default);
-    border-color: var(--theme-color-border-primary-default);
-  }
-
-  &:active {
-    background-color: var(--theme-color-surface-primary-hover);
-    border-color: var(--theme-color-border-primary-hover);
+  &:disabled {
+    pointer-events: none;
+    background-color: var(--mtf-color-surface-disabled);
+    color: var(--mtf-color-text-disabled);
   }
 }
 
+// A group button turns to the primary fill on hover and while its menu is open
+.button__single,
 .button__dropdown {
-  border-width: var(--base-sizing-1x) 0;
-  background-color: var(--theme-color-surface-light-default);
+  border-width: var(--mtf-sizing-1) 0;
+
+  // The soft gray of the neutral solid button, like today's light gray buttons
+  background-color: var(--mtf-color-neutral-soft);
 
   &:hover,
-  &:active {
-    &,
-    .icon {
-      color: var(--theme-color-text-base-text-light);
-    }
-  }
-
-  &:hover {
-    background-color: var(--theme-color-surface-primary-hover);
-    border-color: var(--theme-color-border-primary-hover);
+  &.open {
+    border-color: var(--mtf-color-primary-solid);
+    background-color: var(--mtf-color-primary-solid);
+    color: var(--mtf-color-on-primary);
   }
 
   &:active {
-    background-color: var(--theme-color-surface-primary-active);
-    border-color: var(--theme-color-border-primary-active);
-  }
-}
-
-.buttonDropdownContainer {
-  display: flex;
-  position: relative;
-
-  &:hover > .button {
-    background-color: var(--theme-color-surface-primary-default);
-    border-color: var(--theme-color-border-primary-default);
-
-    &,
-    .icon {
-      color: var(--theme-color-text-base-text-light);
-    }
+    border-color: var(--mtf-color-primary-solid-active);
+    background-color: var(--mtf-color-primary-solid-active);
+    color: var(--mtf-color-on-primary);
   }
 }
 
@@ -127,77 +79,73 @@ $sizes: (("xs", "8x", "4x", "4x", "18x"), ("sm", "12x", "6x", "6x", "20x"), ("md
   }
 }
 
+// The menu of a dropdown button: the raised fill is on the list, so the items' translucent tones (hover, pressed,
+// disabled) sit on it and never show the page through
 .button__dropdownItem {
   position: absolute;
+  z-index: z-layer("anchored");
   display: flex;
   flex-direction: column;
-  right: 0;
-  top: calc(100% + var(--base-sizing-1x));
-  border-radius: var(--theme-sizing-radius-default);
-  z-index: 1;
-  @include shadow(6);
-}
+  margin: var(--mtf-sizing-1) var(--mtf-sizing-space-8);
+  border-radius: var(--mtf-sizing-radius-md);
+  background-color: var(--mtf-color-surface-raised);
+  box-shadow: var(--mtf-elevation-2);
 
-.button__dropdownItem .button__single {
-  flex: 1;
-  border-width: var(--base-sizing-1x);
-  background-color: var(--theme-color-surface-base-global-light);
+  .button__single {
+    flex: 1;
+    border-width: var(--mtf-sizing-1);
+    border-color: var(--mtf-color-border-default);
+    background-color: transparent;
+    color: var(--mtf-color-text-strong);
 
-  &:not(:first-child) {
-    border-top-width: 0;
-  }
-
-  &:first-child {
-    border-top-right-radius: var(--theme-sizing-radius-default);
-    border-top-left-radius: var(--theme-sizing-radius-default);
-  }
-
-  &:last-child {
-    border-bottom-right-radius: var(--theme-sizing-radius-default);
-    border-bottom-left-radius: var(--theme-sizing-radius-default);
-  }
-
-  &:hover {
-    background-color: var(--theme-color-surface-base-base2);
-    border-color: var(--theme-color-border-light-default);
-
-    &,
-    .icon {
-      color: var(--theme-color-text-light-hover);
+    &:not(:first-child) {
+      border-top-width: 0;
     }
-  }
 
-  &:active {
-    background-color: var(--theme-color-surface-base-base4);
-    border-color: var(--theme-color-border-light-default);
+    &:first-child {
+      border-top-left-radius: var(--mtf-sizing-radius-md);
+      border-top-right-radius: var(--mtf-sizing-radius-md);
+    }
 
-    &,
-    .icon {
-      color: var(--theme-color-text-light-hover);
+    &:last-child {
+      border-bottom-left-radius: var(--mtf-sizing-radius-md);
+      border-bottom-right-radius: var(--mtf-sizing-radius-md);
+    }
+
+    &:hover {
+      background-color: var(--mtf-color-neutral-soft);
+    }
+
+    &:active {
+      background-color: var(--mtf-color-neutral-soft-active);
+    }
+
+    &:disabled {
+      background-color: var(--mtf-color-surface-disabled);
+      color: var(--mtf-color-text-disabled);
     }
   }
 }
 
-@each $size, $pH, $pV, $gap, $iconSize in $sizes {
+@each $size, $paddingH, $paddingV, $gap, $iconSize in $sizes {
   .#{$size} {
     .button {
-      gap: var(--base-sizing-#{$gap});
-      padding: var(--base-sizing-#{$pV}) var(--base-sizing-#{$pH});
-      @include font("base", $size, "500");
+      gap: var(--mtf-sizing-space-#{$gap});
+      padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
+      @include typography("text-#{$size}", "strong");
     }
 
     .button__dropdown {
-      gap: var(--base-sizing-#{$gap});
-      padding: var(--base-sizing-#{$pV});
-      @include font("base", $size, "500");
+      padding: var(--mtf-sizing-space-#{$paddingV});
     }
 
     .icon {
-      --mtf-icon-size: var(--base-sizing-#{$iconSize});
+      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
     }
 
-    .button__dropdownItem .button {
-      @include font("body", $size);
+    // The menu items read as list text, not as buttons
+    &.button__dropdownItem .button {
+      @include typography("text-#{$size}", "regular");
     }
   }
 }

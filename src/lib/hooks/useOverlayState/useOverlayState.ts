@@ -25,11 +25,18 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
     closeOnOutsideClick,
     closeOnEscape,
     closeOnScroll,
+    inactive,
   } = props;
   const controlled = open !== undefined;
-  const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
-  const isOpen = controlled ? open : internalOpen;
-  const transition = useVisibilityTransition(isOpen, duration);
+  const [internalOpen, setInternalOpen] = useState(!!defaultOpen && !inactive);
+  const [prevInactive, setPrevInactive] = useState(inactive);
+  if (inactive !== prevInactive) {
+    setPrevInactive(inactive);
+    inactive && setInternalOpen(false);
+  }
+  const isOpen = !inactive && (controlled ? open : internalOpen);
+  // Without a duration while inactive, it is detached at once and onAfterClose is called with it
+  const transition = useVisibilityTransition(isOpen, inactive ? undefined : duration);
   const domReady = useDomReady();
   const attached = transition.attached && domReady;
   const { visible } = transition;
@@ -61,8 +68,8 @@ const useOverlayState = (props: OverlayStateProps): UseOverlayStateReturn => {
   );
 
   const show = useCallback(() => {
-    !controlled && setInternalOpen(true);
-  }, [controlled]);
+    !controlled && !inactive && setInternalOpen(true);
+  }, [controlled, inactive]);
 
   const toggle = useCallback(() => {
     isOpen ? hide() : show();

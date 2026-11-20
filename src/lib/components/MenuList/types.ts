@@ -1,8 +1,7 @@
 import type { IconGlobalType } from "../../types";
 import type { MouseEvent } from "react";
 import { Dispatch, SetStateAction, ReactNode } from "react";
-import { Size3 } from "../../types";
-import { ChipVariant } from "../Chip/types";
+import { Size3, VariantV2 } from "../../types";
 
 type MenuListVariant = "solid" | "underline" | "textOnly";
 
@@ -17,7 +16,7 @@ export type MenuListProps = {
    *   href?: string;
    *   action?: (event: MouseEvent) => void;
    *   targetBlank?: boolean;
-   *   chip?: { label: string; variant?: ChipVariant };
+   *   chip?: { label: string; variant?: VariantV2 };
    *   items?: SubMenuItemProps[];
    *   divider?: boolean;
    * }
@@ -28,7 +27,7 @@ export type MenuListProps = {
    *   href?: string;
    *   action?: (event: MouseEvent) => void;
    *   targetBlank?: boolean;
-   *   chip?: { label: string; variant?: ChipVariant };
+   *   chip?: { label: string; variant?: VariantV2 };
    *   items?: SubMenuItemProps[];
    *   divider?: boolean;
    * }
@@ -84,7 +83,7 @@ export type MenuItemCommonProps = {
   level: number;
   active?: boolean;
   subMenuRenderer?: (props: SubMenuProps) => ReactNode;
-  chip?: { label: string; variant?: ChipVariant };
+  chip?: { label: string; variant?: VariantV2 };
   divider?: boolean;
 };
 

@@ -86,12 +86,22 @@ const getMaxWidth = (placement: OverlayPlaceOn, anchor: DOMRect, viewport: Box, 
 };
 
 /**
- * Measures the overlay, after limiting its width when a max width is given.
- * Content that cannot shrink, e.g. a fixed width form, may overflow the limited box, so its scroll size is taken into account.
+ * The overlay's current size. Content that cannot shrink, e.g. a fixed width form, may overflow a width limited overlay,
+ * so its scroll size is taken into account on each axis where the overflow is not clipped.
  */
+const getSize = (overlay: HTMLElement): Size => {
+  const { overflowX, overflowY } = getComputedStyle(overlay);
+  const clips = (overflow: string) => /auto|scroll|hidden|clip/.test(overflow);
+  return {
+    width: clips(overflowX) ? overlay.offsetWidth : Math.max(overlay.offsetWidth, overlay.scrollWidth),
+    height: clips(overflowY) ? overlay.offsetHeight : Math.max(overlay.offsetHeight, overlay.scrollHeight),
+  };
+};
+
+/** Measures the overlay, after limiting its width when a max width is given */
 const measure = (overlay: HTMLElement, maxWidth?: number): Size => {
   if (maxWidth !== undefined) overlay.style.maxWidth = `${maxWidth}px`;
-  return { width: Math.max(overlay.offsetWidth, overlay.scrollWidth), height: Math.max(overlay.offsetHeight, overlay.scrollHeight) };
+  return getSize(overlay);
 };
 
 /**
@@ -131,8 +141,10 @@ const fits = (overflow: number) => overflow < 1;
  * Picks the placement for the overlay, in this order:
  * 1. the first candidate that fits into the viewport as it is, e.g. bottomLeft or bottomRight near the right edge
  * 2. the first one that fits into the viewport on its side and can be shifted into it along the anchor, e.g. a wide top popover
+ *    or a tall right tooltip near the bottom edge
  * 3. otherwise the one that overflows the viewport the least, kept in the viewport even if it covers the anchor
- * It is always shifted horizontally into the viewport, and vertically only in the last step.
+ * It is always shifted along the anchor into the viewport: horizontally for the top and bottom placements, vertically for
+ * the left and right ones. Only the last step shifts it across the anchor too, covering it.
  * With limitWidth, each candidate is measured with its width limited to the space at that placement, so long content wraps
  * and the candidate is judged by its wrapped size. The limit never goes below the content's minimum width.
  */
@@ -173,7 +185,11 @@ const choosePlacement = (placement: OverlayPlaceOn, anchor: DOMRect, overlay: HT
 
   const top = viewport.top + margins.top;
   const x = clampIntoViewportX(best.coords.x, best.size.width, viewport, margins);
-  const y = inViewport ? best.coords.y : clamp(best.coords.y, top, Math.max(top, viewport.bottom - margins.bottom - best.size.height));
+  const alongAnchorIsVertical = ["left", "right"].includes(getSide(best.placement));
+  const y =
+    inViewport && !alongAnchorIsVertical
+      ? best.coords.y
+      : clamp(best.coords.y, top, Math.max(top, viewport.bottom - margins.bottom - best.size.height));
   return { ...best, x, y, shift: { x: x - best.coords.x, y: y - best.coords.y } };
 };
 
@@ -228,9 +244,10 @@ export const needsRefit = (overlay: HTMLElement, position?: Position) => {
   if (!position) return true;
   const differs = (a: number, b: number) => Math.abs(a - b) >= 0.5;
   const margins = getMargins(overlay);
+  const size = getSize(overlay);
   return (
-    differs(Math.max(overlay.offsetWidth, overlay.scrollWidth), position.size.width) ||
-    differs(Math.max(overlay.offsetHeight, overlay.scrollHeight), position.size.height) ||
+    differs(size.width, position.size.width) ||
+    differs(size.height, position.size.height) ||
     (["top", "right", "bottom", "left"] as const).some(side => differs(margins[side], position.margins[side]))
   );
 };

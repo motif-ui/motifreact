@@ -46,6 +46,15 @@ describe("ListView.Item", () => {
     expect(getByText("te")).toBeInTheDocument();
   });
 
+  it("should display only the first character of the abbreviation in the sm size", () => {
+    const { getByText } = render(
+      <ListView size="sm">
+        <ListView.Item title="Test Item" abbr="test" />
+      </ListView>,
+    );
+    expect(getByText("t")).toBeInTheDocument();
+  });
+
   it("should display an icon on the right side, given in the iconRight prop", () => {
     const { container } = render(<ListView.Item title="Test Item" iconRight="folder" />);
     expect(container.getElementsByClassName("iconRight")).toHaveLength(1);

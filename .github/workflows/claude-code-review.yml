@@ -31,33 +31,20 @@ jobs:
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
 
-            Review this pull request for the motifreact component library with a focus on:
-            - Code quality and best practices
-            - Correctness and potential bugs
-            - React/TypeScript best practices
-            - SCSS/styling concerns
-            - Test coverage gaps for changed components
-            - Breaking changes in component APIs
-            - Security implications
-            - Performance considerations
-            
-            Pay attention to the following guidelines:
-            - Do not allow "var" or "let" in the codebase, and prefer "const" and functional programming patterns.
-            - Avoid using "any" type in TypeScript, and prefer explicit types or generics.
-            - ES6+ syntax should be used throughout the codebase: arrow functions, destructuring, template literals, 
-              nullish coalescing, dual ampersand, optional chaining...
-            - Do not allow usages like "React.MouseEvent". "React" should be imported along with other imports.
-            - When some props are likely to use already available types like IconGlobalType or Variant, 
-              they should not be allowed to use string type or redefining the same type.
-            - Do not review or comment on accessibility (a11y) concerns; this is out of scope for this review.
-            
-            In tests:
-            - Each component test suite should start with a test: "should be rendered with only required props and 
-              should have default prop values stated here" which should test the component with only required props and 
-              check for default prop values.
-            - Force to create consts instead of using the same hardcoded text multiple times.
-            - Avoid unrelated-unnecessary props in tests, and only use props that are relevant to the test case.
-            
+            Review this pull request for the motifreact component library.
+
+            Before reviewing, read the review rules in the repository and apply them:
+            - docs/review/general.md: always.
+            - docs/review/figma.md: when the PR changes generated token files or the look of a migrated component.
+            - docs/review/tests.md: when the PR touches any *.test.tsx file or changes a component's default prop values.
+            - docs/review/css.md: when the PR touches any .scss file; only for the lines it adds or modifies, except
+              section 0 (.Root), which applies to the whole file including removed lines. A missing .Root is blocking:
+              start the summary comment with it.
+            - docs/review/design-tokens.md: only for migrated components (their SCSS uses --mtf-* variables or their
+              variant uses VariantV2) and for src/scripts/tokens; see its Scope note. Skip components that still use
+              only the old --theme-* layer. Check every changed SCSS line of a migrated component against it, including
+              values hidden in SCSS maps, size tables and mixin arguments. When a comment comes from one of these rules,
+              name the rule section.
 
             Note: The PR branch is already checked out in the current working directory.
             Note: Do not try to run test, tsc, lint or similar scripts, as those are already run in the CI pipeline. Focus on code review and analysis.
@@ -68,4 +55,4 @@ jobs:
             Only post GitHub comments - don't submit review text as messages.
 
           claude_args: |
-            --allowedTools "mcp__github_comment__update_claude_comment,mcp__github_inline_comment__create_inline_comment,Bash(gh pr diff:*),Bash(gh pr view:*)"
+            --allowedTools "mcp__github_comment__update_claude_comment,mcp__github_inline_comment__create_inline_comment,Bash(gh pr diff:*),Bash(gh pr view:*),Read,Glob,Grep"

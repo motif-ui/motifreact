@@ -1,0 +1,53 @@
+@use "@styles" as *;
+
+$sizes: (("sm", "4x", "16x"), ("md", "6x", "20x"), ("lg", "8x", "24x"));
+$state: ("default", "disabled", "active", "hover");
+@each $name, $gap, $iconFontSize in $sizes {
+  .#{$name} {
+    gap: var(--base-sizing-#{$gap});
+    @include font("base", $name, "500");
+    .icon {
+      --mtf-icon-size: var(--base-sizing-#{$iconFontSize});
+    }
+  }
+}
+
+.Root {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--theme-color-text-primary-default);
+  text-decoration: none;
+
+  &.rightIcon {
+    flex-direction: row-reverse;
+  }
+  &.leftIcon {
+    flex-direction: row;
+  }
+  .icon {
+    color: var(--theme-color-text-primary-default);
+  }
+  &:hover,
+  &:hover .icon {
+    color: var(--theme-color-text-primary-hover);
+  }
+
+  &:focus,
+  &:focus .icon {
+    color: var(--theme-color-text-primary-active);
+    outline: none;
+  }
+
+  &.disabled,
+  &.disabled .icon {
+    pointer-events: none;
+    color: var(--theme-color-text-primary-disabled);
+  }
+
+  &.underline {
+    .label {
+      text-decoration: underline;
+    }
+  }
+}

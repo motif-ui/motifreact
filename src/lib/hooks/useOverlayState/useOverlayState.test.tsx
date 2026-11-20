@@ -151,9 +151,102 @@ describe("useOverlayState", () => {
       const { result } = renderHook(() => useOverlayState({ duration: 300 }));
       expect(result.current.attached).toBe(false);
     });
+
+    it("should close and detach at once when it becomes inactive, without calling onClose or opening again when it becomes active", () => {
+      const onClose = jest.fn();
+      const { result, rerender } = renderHook(({ inactive }) => useOverlayState({ inactive, onClose, duration: 300 }), {
+        initialProps: { inactive: false },
+      });
+
+      act(() => result.current.show());
+      rerender({ inactive: true });
+      expect(result.current.open).toBe(false);
+      expect(result.current.attached).toBe(false);
+      expect(result.current.visible).toBe(false);
+      expect(onClose).not.toHaveBeenCalled();
+
+      rerender({ inactive: false });
+      expect(result.current.open).toBe(false);
+    });
+
+    it("should call onAfterClose at once when it becomes inactive, since it is detached without the exit transition", () => {
+      jest.useFakeTimers();
+      const onAfterClose = jest.fn();
+      const { result, rerender } = renderHook(({ inactive }) => useOverlayState({ inactive, onAfterClose, duration: 300 }), {
+        initialProps: { inactive: false },
+      });
+
+      act(() => result.current.show());
+      rerender({ inactive: true });
+      expect(onAfterClose).toHaveBeenCalledTimes(1);
+
+      act(() => jest.advanceTimersByTime(300));
+      expect(onAfterClose).toHaveBeenCalledTimes(1);
+      jest.useRealTimers();
+    });
+
+    it("should not be attached again when it becomes active before the exit transition would have ended", () => {
+      jest.useFakeTimers();
+      const { result, rerender } = renderHook(({ inactive }) => useOverlayState({ inactive, duration: 300 }), {
+        initialProps: { inactive: false },
+      });
+
+      act(() => result.current.show());
+      rerender({ inactive: true });
+      act(() => jest.advanceTimersByTime(100));
+      rerender({ inactive: false });
+      expect(result.current.attached).toBe(false);
+      jest.useRealTimers();
+    });
+
+    it("should detach at once when it becomes inactive during the exit transition, and stay detached when it becomes active", () => {
+      jest.useFakeTimers();
+      const onAfterClose = jest.fn();
+      const { result, rerender } = renderHook(({ inactive }) => useOverlayState({ inactive, onAfterClose, duration: 300 }), {
+        initialProps: { inactive: false },
+      });
+
+      act(() => result.current.show());
+      act(() => result.current.hide());
+      expect(result.current.attached).toBe(true);
+
+      rerender({ inactive: true });
+      expect(result.current.attached).toBe(false);
+      expect(onAfterClose).toHaveBeenCalledTimes(1);
+
+      rerender({ inactive: false });
+      expect(result.current.attached).toBe(false);
+      act(() => jest.advanceTimersByTime(300));
+      expect(onAfterClose).toHaveBeenCalledTimes(1);
+      jest.useRealTimers();
+    });
+
+    it("should not open with show or defaultOpen while it is inactive", () => {
+      const { result, rerender } = renderHook(({ inactive }) => useOverlayState({ inactive, defaultOpen: true }), {
+        initialProps: { inactive: true },
+      });
+      expect(result.current.open).toBe(false);
+
+      act(() => result.current.show());
+      expect(result.current.open).toBe(false);
+
+      rerender({ inactive: false });
+      expect(result.current.open).toBe(false);
+    });
   });
 
   describe("controlled", () => {
+    it("should stay closed while it is inactive and follow the open prop again when it becomes active", () => {
+      const { result, rerender } = renderHook(({ open, inactive }) => useOverlayState({ open, inactive }), {
+        initialProps: { open: true, inactive: true },
+      });
+      expect(result.current.open).toBe(false);
+      expect(result.current.attached).toBe(false);
+
+      rerender({ open: true, inactive: false });
+      expect(result.current.open).toBe(true);
+    });
+
     it("should follow the open prop and ignore show", () => {
       const { result, rerender } = renderHook(({ open }) => useOverlayState({ open }), { initialProps: { open: false } });
 
