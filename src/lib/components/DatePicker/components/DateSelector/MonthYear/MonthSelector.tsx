@@ -7,9 +7,10 @@ import Header from "@/components/DatePicker/components/Header/Header";
 import MonthYearButton from "./MonthYearButton";
 
 const MonthSelector = () => {
-  const { pickerDate, setPickerDate, setPicker, locale, onPickerChange, size, isMonthOnly, selectedDate, setSelectedDate, onDateChange } =
+  const { pickerDate, setPickerDate, setPicker, locale, onPickerChange, size, pickerFormat, selectedDate, setSelectedDate, onDateChange } =
     useContext(DatePickerContext);
   const [activeDate] = useState(pickerDate);
+  const isMonthOnly = pickerFormat === "month";
 
   const prevClickHandler = useCallback(() => {
     setPickerDate(new Date(pickerDate.getFullYear() - 1, pickerDate.getMonth()));

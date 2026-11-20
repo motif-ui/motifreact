@@ -15,7 +15,12 @@ export const DatePickerProvider = (props: PropsWithChildren<DatePickerProviderPr
   const [pickerDate, setPickerDate] = useState<Date>(DateUtils.getDateTimeless(value) ?? DateUtils.getTodayTimeless());
   const today = useMemo(() => DateUtils.getTodayTimeless(), []);
 
-  useEffect(() => setSelectedDate(value), [value]);
+  const valueTime = value?.getTime();
+  useEffect(() => {
+    const date = valueTime !== undefined ? DateUtils.getDateTimeless(new Date(valueTime)) : undefined;
+    setSelectedDate(date);
+    if (date) setPickerDate(date);
+  }, [valueTime]);
   useEffect(() => setPicker(pickerFormat), [pickerFormat]);
 
   const onYearMonthTabSelected = useCallback(
@@ -39,7 +44,7 @@ export const DatePickerProvider = (props: PropsWithChildren<DatePickerProviderPr
   const contextValue: DatePickerContextProps = useMemo(
     () => ({
       size,
-      isMonthOnly: pickerFormat === "month",
+      pickerFormat,
       pickerDate,
       selectedDate,
       previousTab,
