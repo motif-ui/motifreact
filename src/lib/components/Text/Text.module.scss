@@ -1,147 +1,226 @@
 @use "@styles" as *;
+@use "sass:list";
 @use "sass:map";
 
-/* @deprecated */
-$sizes-old: (
-  ("title1", "56x", "64x", 400, 4),
-  ("title2", "48x", "56x", 400, 3),
-  ("title3", "40x", "48x", 400, 2),
-  ("body1", "18x", "24x", 400, 1.2),
-  ("body2", "16x", "22x", 400, 1),
-  ("body3", "14x", "20x", 400, 0.9),
-  ("body4", "12x", "18x", 400, 0.8),
-  ("body5", "11x", "15x", 400, 0.7),
-  ("h1", "40x", "48x", 600, 1.5),
-  ("h2", "32x", "40x", 600, 1.35),
-  ("h3", "28x", "36x", 600, 1.25),
-  ("h4", "24x", "32x", 600, 1.2),
-  ("h5", "20x", "28x", 600, 1.15),
-  ("h6", "16x", "22x", 600, 1.1),
-  ("p1", "18x", "24x", 400, 1.1),
-  ("p2", "16x", "22x", 400, 1),
-  ("p3", "14x", "20x", 400, 0.9)
-);
-
-@each $type, $fontSize, $lineHeight, $fontWeight, $marginEnd in $sizes-old {
-  .#{$type} {
-    all: unset;
-    font-size: var(--base-sizing-#{$fontSize});
-    line-height: var(--base-sizing-#{$lineHeight});
-    font-weight: $fontWeight;
-    margin-top: $marginEnd + em;
-    margin-bottom: $marginEnd + em;
-  }
-}
-
-/* end - @deprecated */
-
+// A type takes its size from the text steps (Text has a size prop) and its own weight. Sizes: step, margin (em).
 $types: (
-  /* size: fontSize lineHeight margin */
   body: (
-      weight: 400,
-      sizes: (
-        xs 12x 18x,
-        sm 14x 20x,
-        md 16x 22x,
-        lg 18x 24x,
-        xl 20x 28x
-      )
-    ),
-  caption: (
-    weight: 400,
+    weight: "regular",
     sizes: (
-      xs 10x 16x,
-      sm 12x 18x,
-      md 14x 20x,
-      lg 16x 22x,
-      xl 18x 24x
+      xs: (
+        "xs",
+        null
+      ),
+      sm: (
+        "sm",
+        null
+      ),
+      md: (
+        "md",
+        null
+      ),
+      lg: (
+        "lg",
+        null
+      ),
+      xl: (
+        "xl",
+        null
+      )
+    )
+  ),
+  caption: (
+    weight: "regular",
+    sizes: (
+      xs: (
+        "3xs",
+        null
+      ),
+      sm: (
+        "xs",
+        null
+      ),
+      md: (
+        "sm",
+        null
+      ),
+      lg: (
+        "md",
+        null
+      ),
+      xl: (
+        "lg",
+        null
+      )
     )
   ),
   paragraph: (
-    weight: 400,
+    weight: "regular",
     sizes: (
-      xs 12x 18x,
-      sm 14x 20x,
-      md 16x 22x,
-      lg 18x 24x,
-      xl 20x 28x
+      xs: (
+        "xs",
+        null
+      ),
+      sm: (
+        "sm",
+        null
+      ),
+      md: (
+        "md",
+        null
+      ),
+      lg: (
+        "lg",
+        null
+      ),
+      xl: (
+        "xl",
+        null
+      )
     )
   ),
   heading: (
-    weight: 600,
+    weight: "stronger",
     sizes: (
-      xs 14x 20x 1.2,
-      sm 16x 22x 1.1,
-      md 20x 28x 1,
-      lg 24x 32x 0.9,
-      xl 32x 40x 0.8
+      xs: (
+        "sm",
+        1.2
+      ),
+      sm: (
+        "md",
+        1.1
+      ),
+      md: (
+        "xl",
+        1
+      ),
+      lg: (
+        "2xl",
+        0.9
+      ),
+      xl: (
+        "4xl",
+        0.8
+      )
     )
   ),
   display: (
-    weight: 700,
+    weight: "strongest",
     sizes: (
-      xs 36x 44x 1.4,
-      sm 40x 48x 1.3,
-      md 48x 56x 1.2,
-      lg 56x 64x 1.1,
-      xl 72x 96x 1
+      xs: (
+        "4xl",
+        1.4
+      ),
+      sm: (
+        "5xl",
+        1.3
+      ),
+      md: (
+        "6xl",
+        1.2
+      ),
+      lg: (
+        "7xl",
+        1.1
+      ),
+      xl: (
+        "8xl",
+        1
+      )
     )
   )
 );
+
+// The weight prop's names and the weight tokens they take
 $weights: (
-  light: 300,
-  regular: 400,
-  medium: 500,
-  semibold: 600,
-  bold: 700
+  light: "light",
+  regular: "regular",
+  medium: "strong",
+  semibold: "stronger",
+  bold: "strongest"
 );
 
-@each $typeName, $config in $types {
-  @each $size, $fontSize, $lineHeight, $margin in map.get($config, sizes) {
-    .#{$typeName}.#{$size} {
-      font-size: var(--base-sizing-#{$fontSize});
-      line-height: var(--base-sizing-#{$lineHeight});
-      font-weight: map.get($config, weight);
-      @if $margin {
-        margin-block: $margin + em calc($margin / 2) + em;
-      }
-    }
-  }
-}
+// @deprecated variant prop: variant, step, weight, margin (em)
+$variants-old: (
+  ("title1", "7xl", "regular", 4),
+  ("title2", "6xl", "regular", 3),
+  ("title3", "5xl", "regular", 2),
+  ("body1", "lg", "regular", 1.2),
+  ("body2", "md", "regular", 1),
+  ("body3", "sm", "regular", 0.9),
+  ("body4", "xs", "regular", 0.8),
+  ("body5", "2xs", "regular", 0.7),
+  ("h1", "5xl", "stronger", 1.5),
+  ("h2", "4xl", "stronger", 1.35),
+  ("h3", "3xl", "stronger", 1.25),
+  ("h4", "2xl", "stronger", 1.2),
+  ("h5", "xl", "stronger", 1.15),
+  ("h6", "md", "stronger", 1.1),
+  ("p1", "lg", "regular", 1.1),
+  ("p2", "md", "regular", 1),
+  ("p3", "sm", "regular", 0.9)
+);
 
 .Root {
-  color: var(--theme-color-text-base-title-light);
+  color: var(--mtf-color-text-default);
 
   &.italic {
     font-style: italic;
   }
+
   &.underline {
     text-decoration: underline;
   }
+
   &.center {
     text-align: center;
   }
-  &.soft {
-    color: var(--theme-color-text-base-subtitle-light);
+
+  &.uppercase {
+    text-transform: uppercase;
   }
-  &.softer {
-    color: var(--theme-color-text-base-disabled);
-  }
-  &.strong {
-    color: var(--theme-color-text-base-title);
-  }
-  &.stronger {
-    color: var(--theme-color-text-base-text-dark);
-  }
-  @each $weight, $weightValue in $weights {
-    &.#{$weight} {
-      font-weight: $weightValue;
+
+  // tone: normal is the default color
+  @each $tone in ("softer", "soft", "strong", "stronger") {
+    &.#{$tone} {
+      color: var(--mtf-color-text-#{$tone});
     }
   }
+
+  // The weight prop and marginless replace what the type sets: the type rules use one class, so these win by structure
+  @each $weight, $token in $weights {
+    &.#{$weight} {
+      font-weight: var(--mtf-typography-weight-#{$token});
+    }
+  }
+
   &.marginless {
     margin-block: 0;
   }
-  &.uppercase {
-    text-transform: uppercase;
+}
+
+// The deprecated variants reset the element's own styles, so they set the color again
+@each $variant, $step, $weight, $margin in $variants-old {
+  .#{$variant} {
+    all: unset;
+    color: var(--mtf-color-text-default);
+    @include typography("text-#{$step}", $weight);
+    margin-block: #{$margin}em;
+  }
+}
+
+// One class per type and size (the component sets it), so the weight prop and marginless on .Root win over it
+@each $type, $config in $types {
+  @each $size, $spec in map.get($config, sizes) {
+    $step: list.nth($spec, 1);
+    $margin: list.nth($spec, 2);
+
+    .#{$type}-#{$size} {
+      @include typography("text-#{$step}", map.get($config, weight));
+
+      @if $margin {
+        margin-block: #{$margin}em #{$margin * 0.5}em;
+      }
+    }
   }
 }

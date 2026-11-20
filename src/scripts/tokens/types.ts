@@ -14,11 +14,11 @@ export type Shadow = { color: string; offsetX: Dimension; offsetY: Dimension; bl
 
 type TokenBase = { path: string[]; description?: string; dark?: string };
 
-/** A color or font weight is either a literal or a DTCG alias (`{color.palette.neutral.50}`); `dark` only when the mode differs. */
+/** A color, dimension or font weight is either a literal or a DTCG alias (`{color.palette.neutral.50}`); `dark` only when the mode differs. */
 export type Token = TokenBase &
   (
     | { type: "color"; value: string }
-    | { type: "dimension"; value: Dimension }
+    | { type: "dimension"; value: Dimension | string }
     | { type: "fontWeight"; value: number | string }
     | { type: "fontFamily"; value: string }
     | { type: "shadow"; value: Shadow }

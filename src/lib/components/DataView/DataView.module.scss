@@ -1,100 +1,109 @@
+@use "sass:list";
+@use "sass:map";
 @use "@styles" as *;
 
 $data-view-sizes: ("xs", "sm", "md", "lg", "xl");
 
 .Root {
   display: grid;
-  column-gap: var(--base-sizing-32x);
+  column-gap: var(--mtf-sizing-space-32);
 
-  &.leftAlign .item .value {
+  &.leftAlign .value {
     text-align: left;
   }
 
-  &.centerAlign .item .value {
+  &.centerAlign .value {
     text-align: center;
   }
 
-  &.rightAlign .item .value {
+  &.rightAlign .value {
     text-align: right;
-  }
-
-  &.horizontal .item {
-    flex-direction: row;
-  }
-  &.vertical {
-    .item {
-      flex-direction: column;
-      .title {
-        width: initial;
-      }
-    }
-    &:not(.solid) .item {
-      .title {
-        padding-bottom: var(--base-sizing-2x);
-      }
-      .value {
-        padding-top: var(--base-sizing-2x);
-      }
-    }
-  }
-}
-
-.solid {
-  .item .title {
-    background: var(--theme-color-surface-base-base2);
-  }
-  &:not(.bordered) .item {
-    margin-bottom: var(--base-sizing-2x);
   }
 }
 
 .item {
   display: flex;
 
-  $color-variants: "primary", "info", "success", "warning", "danger";
-  @each $variant in $color-variants {
+  // The root's stripe and the item's tint arrive as custom properties; the stripe comes first when both are set
+  --mtf-data-view-stripe: initial;
+  --mtf-data-view-tint: initial;
+  background-color: var(--mtf-data-view-stripe, var(--mtf-data-view-tint));
+
+  .horizontal & {
+    flex-direction: row;
+  }
+
+  .vertical & {
+    flex-direction: column;
+  }
+
+  .solid:not(.bordered) & {
+    margin-bottom: var(--mtf-sizing-space-2);
+  }
+
+  // An optional tint for a row; a row without a variant has none
+  @each $variant in $variants-v2 {
     &.#{$variant} {
-      background-color: var(--theme-color-surface-#{$variant}-inverse);
+      --mtf-data-view-tint: var(--mtf-color-#{$variant}-soft);
     }
-  }
-
-  .title,
-  .value {
-    @include font("body", "md");
-  }
-
-  .title {
-    width: 30%;
-    color: var(--theme-color-text-base-caption);
-    display: inline-flex;
-    gap: var(--base-sizing-10x);
-    padding: var(--base-sizing-10x) var(--base-sizing-20x);
-    overflow-wrap: break-word;
-  }
-  .value {
-    flex: 1;
-    color: var(--theme-color-text-base-title);
-    padding: var(--base-sizing-10x) var(--base-sizing-20x);
-    overflow: hidden;
-    overflow-wrap: break-word;
-  }
-  .icon {
-    color: var(--theme-color-text-base-caption);
-    --mtf-icon-size: var(--base-sizing-22x);
   }
 }
 
+.title,
+.value {
+  @include typography("body-md");
+  padding: var(--mtf-sizing-space-10) var(--mtf-sizing-space-20);
+  overflow-wrap: break-word;
+}
+
+.title {
+  width: 30%;
+  color: var(--mtf-color-text-softer);
+  display: inline-flex;
+  gap: var(--mtf-sizing-space-10);
+
+  .vertical & {
+    width: initial;
+  }
+
+  .vertical:not(.solid) & {
+    padding-bottom: var(--mtf-sizing-space-2);
+  }
+
+  .solid & {
+    background-color: var(--mtf-color-neutral-soft);
+  }
+}
+
+.value {
+  flex: 1;
+  color: var(--mtf-color-text-strong);
+  overflow: hidden;
+
+  .vertical:not(.solid) & {
+    padding-top: var(--mtf-sizing-space-2);
+  }
+}
+
+.icon {
+  color: var(--mtf-color-text-softer);
+  --mtf-icon-size: var(--mtf-sizing-22);
+}
+
+// The column classes sit on the root only; the row position goes on its direct children (the items)
 @mixin data-view-cols($breakpoint) {
   @for $i from 1 through 4 {
-    .Root.#{$breakpoint}-#{$i} {
+    .#{$breakpoint}-#{$i} {
       grid-template-columns: repeat(#{$i}, 1fr);
-      &.bordered .item:not(:nth-last-child(-n + #{$i})) {
-        border-bottom: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+
+      &.bordered > :not(:nth-last-child(-n + #{$i})) {
+        border-bottom: solid var(--mtf-sizing-1) var(--mtf-color-border-soft);
       }
+
       &.stripe {
         @for $j from 1 through $i {
-          .item:nth-child(#{2 * $i}n + #{$j}) {
-            background-color: var(--theme-color-surface-base-base2);
+          > :nth-child(#{2 * $i}n + #{$j}) {
+            --mtf-data-view-stripe: var(--mtf-color-neutral-soft);
           }
         }
       }
@@ -102,6 +111,29 @@ $data-view-sizes: ("xs", "sm", "md", "lg", "xl");
   }
 }
 
-@include screen-width-breakpoints($data-view-sizes) using ($breakpoint) {
-  @include data-view-cols($breakpoint);
+// Each breakpoint's columns apply only up to the next breakpoint (xs from zero width), so a smaller breakpoint's last
+// row and stripe rows do not stack onto a larger one's
+@each $breakpoint in $data-view-sizes {
+  $index: list.index($data-view-sizes, $breakpoint);
+  $from: map.get($breakpoints, $breakpoint);
+  $is-last: $index == list.length($data-view-sizes);
+  $to: null;
+
+  @if not $is-last {
+    $to: map.get($breakpoints, list.nth($data-view-sizes, $index + 1));
+  }
+
+  @if $index == 1 {
+    @media (width < #{$to}) {
+      @include data-view-cols($breakpoint);
+    }
+  } @else if $is-last {
+    @media (width >= #{$from}) {
+      @include data-view-cols($breakpoint);
+    }
+  } @else {
+    @media (#{$from} <= width < #{$to}) {
+      @include data-view-cols($breakpoint);
+    }
+  }
 }

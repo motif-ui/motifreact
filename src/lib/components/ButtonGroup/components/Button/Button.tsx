@@ -20,6 +20,8 @@ const Button = memo((props: PropsWithRef<Props, HTMLButtonElement>) => {
       type="button"
       disabled={disabled}
       onClick={action}
+      // A dropdown button tells assistive technology that it opens a list and whether the list is open
+      {...(type === "dropdown" && { "aria-haspopup": true, "aria-expanded": !!open })}
     >
       {icon && <Icon name={icon} className={styles.icon} />} {label}
       {type === "dropdown" && (

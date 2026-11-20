@@ -10,13 +10,18 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
   old active library is strictly read-only and is never opened. The clone "MotifUI2" (`SEMxbktRVMRSO6OtTqmYC6`) is
   read-only reference.
 - Pages, alphabetical inside each group (docs/review/figma.md, Pages): Cover `0:1`, Getting Started `7:2`; Foundations:
-  Colors `7:4`, Elevation `7:8`, Radius `7:7`, Spacing & Sizing `7:6`, Typography `7:5`; Components: Alert `242:22`, AlertModal `137:22`,
-  Avatar `236:798`, Badge `230:439`, Breadcrumb `174:22`, Button `129:22`, Chip `239:22`, DataView `269:22`, Divider `169:22`, Link `171:958`, ListView `265:22`, Pagination `261:22`,
-  ProgressBar `176:810`, ProgressCircle `7:10`, Select `7:11`, Skeleton `171:22`, Timeline `272:22`; Internal: `_Doc` `7:13`, `_Icons` `7:14` (40 `Icon/<name>` components).
+  Colors `7:4`, Elevation `7:8`, Radius `7:7`, Spacing & Sizing `7:6`, Typography `7:5`; Components: Accordion `349:22`, Alert `242:22`, AlertModal `137:22`,
+  Avatar `236:798`, Badge `230:439`, Breadcrumb `174:22`, Button `129:22`, ButtonGroup `353:22`, Checkbox `339:22`, Chip `239:22`, DataView `269:22`, Divider `169:22`, ImageView `352:22`, Link `171:958`, ListView `265:22`, Pagination `261:22`,
+  ProgressBar `176:810`, ProgressCircle `7:10`, Select `7:11`, Skeleton `171:22`, Switch `344:22`, Timeline `272:22`; Internal: `_Doc` `7:13`, `_Icons` `7:14` (40 `Icon/<name>` components).
 - Doc blocks on `_Doc`: Header `11:2`, SectionTitle `11:14`, PropRow `11:29`, Note `11:30`, Label `11:33`,
   Footer `11:35`, Logo `24:24`, Swatch `25:42`.
 - Hidden "Docs" variable collection `VariableCollectionId:23:2`: template colors only (`docs/*`), never product tokens.
 - Product tokens come only from the generator: `npm run figma:mtf-tokens`, then run the bundled scripts.
+- The Typography page (`7:5`) has a Text scale section (`336:7647`) above the text styles: the 14 `text-*` steps,
+  each sample bound to its font-size and line-height variables with the regular weight. Text styles exist for the roles
+  only; spec strings on component pages name the step and the weight (`text-sm strong`), like the size tables in code.
+- Before running the bundled token scripts, load every font the file's text nodes use (Inter, Noto Sans Symbols,
+  Noto Sans Symbols2): `setValueForMode` on a variable bound to text fails on an unloaded font.
 
 ## Page conventions
 
@@ -38,6 +43,8 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
 - New sections get a 10% stroke; clear `strokes` and `fills`.
 - `get_screenshot` of a section omits grouped labels; screenshot the page.
 - Component descriptions store `&` and quotes HTML-escaped; avoid them.
+- `use_figma` skips hidden layers inside instances (`figma.skipInvisibleInstanceChildren` is on): set it to `false`
+  before finding a hidden layer in an instance to turn it on (the focus ring overrides).
 - Motion: `setTimelineDuration` must be called on a child node, not on a component set. There is no loop setting,
   so the timeline length must equal the animation (ProgressCircle spin: 1.5s).
 - Motion: a `WIDTH` keyframe track is accepted but does not render in `export_video`; animate `SCALE_X` and compensate

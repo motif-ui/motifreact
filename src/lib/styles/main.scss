@@ -39,7 +39,11 @@
   }
 }
 
+// $role is a role (body-md, label-sm…) or a text step (text-sm…). A text step has no weight of its own, so it needs $weight.
 @mixin typography($role, $weight: null) {
+  @if string.index($role, "text-") == 1 and not $weight {
+    @error "typography(#{$role}): a text step needs a weight, e.g. typography(\"#{$role}\", \"regular\").";
+  }
   font-size: var(--mtf-typography-#{$role}-font-size);
   line-height: var(--mtf-typography-#{$role}-line-height);
   @if $weight {

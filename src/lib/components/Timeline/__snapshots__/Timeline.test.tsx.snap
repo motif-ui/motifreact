@@ -3,20 +3,20 @@
 exports[`Timeline should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
-    class="Root vertical after dot start primary"
+    class="Root vertical after dot start primary verticalAfter verticalStart"
   >
     <div
-      class="item filled"
+      class="item filled odd"
     >
       <div
-        class="marker"
+        class="marker lineAfter"
       >
         <span
           class="markerDot"
         />
       </div>
       <div
-        class="section"
+        class="section spaceAfter"
       >
         <span
           class="title"
@@ -34,14 +34,14 @@ exports[`Timeline should render with only required props, have default prop valu
       class="item filled"
     >
       <div
-        class="marker"
+        class="marker lineAfter"
       >
         <span
           class="markerDot"
         />
       </div>
       <div
-        class="section"
+        class="section spaceAfter"
       >
         <span
           class="title"
@@ -56,7 +56,7 @@ exports[`Timeline should render with only required props, have default prop valu
       </div>
     </div>
     <div
-      class="item filled"
+      class="item filled odd"
     >
       <div
         class="marker"

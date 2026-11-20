@@ -1,8 +1,8 @@
-import styles from "./DataViewV2.module.scss";
+import styles from "./DataViewBaseline.module.scss";
 import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
-import { sanitizeModuleClassesWithOptions } from "../../../utils/cssUtils";
+import { sanitizeModuleClassesWithOptions } from "../../../../../../utils/cssUtils";
 import { DataViewItemProps } from "./types";
-import { PropsWithRefAndChildren } from "../../types";
+import { PropsWithRefAndChildren } from "../../../../../types";
 
 const DataViewItem = (props: PropsWithRefAndChildren<DataViewItemProps, HTMLDivElement>) => {
   const { label, value, icon, variant, style, className, children, ref } = props;

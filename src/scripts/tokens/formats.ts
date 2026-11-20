@@ -185,7 +185,7 @@ const effectStyle = ({ path, value, description }: Token): FigmaEffectStyle => {
   };
 };
 
-// One text style per type role, every property bound to its variable
+// One text style per type role, every property bound to its variable (the role's size and line height alias a text-* step)
 const TEXT_STYLE_PROPERTIES = { fontSize: "font-size", lineHeight: "line-height", fontWeight: "font-weight" };
 
 const textStyle = (role: string): FigmaTextStyle => ({
@@ -209,8 +209,9 @@ export const toFigma = (tokens: Token[]): FigmaPayload => {
       variables: variables.filter(token => collectionOf(token) === name).map(figmaVariable),
     })),
     effectStyles: tokens.filter(({ type }) => type === "shadow").map(effectStyle),
+    // Roles only: the text-* steps have no weight, so they are variables, not styles
     textStyles: tokens
-      .filter(({ path }) => path[0] === "typography" && path[path.length - 1] === "font-size")
+      .filter(({ path }) => path[0] === "typography" && path.length === 3 && path[2] === "font-weight")
       .map(({ path }) => textStyle(path[1])),
   };
 };

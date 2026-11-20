@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ComponentType } from "react";
 import Timeline from "@/components/Timeline/Timeline";
-import TimelineV2 from "@/components/TimelineV2/Timeline";
-import { TimelineItemProps, TimelineProps } from "@/components/TimelineV2/types";
+import { TimelineItemProps, TimelineProps } from "@/components/Timeline/types";
+import TimelineBaseline from "./baseline/Timeline/Timeline";
 import { CompareSection, TokenCompare } from "./TokenCompare";
 
 const VARIANTS = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"] as const;
@@ -22,7 +22,7 @@ type LegacyProps = Omit<TimelineProps, "variant" | "items"> & {
   variant?: string;
   items: (Omit<TimelineItemProps, "variant"> & { variant?: string })[];
 };
-const Legacy = Timeline as ComponentType<LegacyProps>;
+const Legacy = TimelineBaseline as ComponentType<LegacyProps>;
 const legacyVariant = (variant?: string) => (variant === "neutral" ? "light" : variant);
 const Current = (props: TimelineProps) => (
   <Legacy
@@ -95,5 +95,5 @@ export default meta;
 
 export const Timeline_: StoryObj<typeof TokenCompare> = {
   name: "Timeline",
-  render: () => <TokenCompare sections={sections} current={Current} next={TimelineV2} />,
+  render: () => <TokenCompare sections={sections} current={Current} next={Timeline} />,
 };
