@@ -57,6 +57,9 @@ $sizes: (
 
 @each $size, $gapV, $gapH, $gapVLabel, $gapButtons in $sizes {
   .#{$size} {
+    // The gaps of the Grids in the Form without gap values
+    --form-grid-row-gap: var(--base-sizing-#{$gapV});
+    --form-grid-column-gap: var(--base-sizing-#{$gapH});
     &,
     &.vertical .fields {
       gap: var(--base-sizing-#{$gapV});
