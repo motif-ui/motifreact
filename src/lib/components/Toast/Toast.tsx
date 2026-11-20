@@ -64,7 +64,10 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
   return (
     !dismissed && (
       <div ref={ref} className={toastClasses} data-testid="toast" style={style} {...handlers}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="xxl" />}
+        {/* The gray secondary toast keeps a gray icon: the icon's secondary is now the brand color */}
+        {icon && (
+          <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant === "secondary" ? "neutral" : variant} size="xxl" />
+        )}
 
         <div className={styles.contentContainer}>
           {title && <span className={styles.title}>{title}</span>}

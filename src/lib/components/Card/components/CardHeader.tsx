@@ -25,7 +25,7 @@ const CardHeader = (props: Props) => {
   const { icon, iconVariant, avatarIcon, avatarText, action, image, imagePosition, subtitle, title, variant } = props;
 
   const isVisible = title || subtitle || avatarText || avatarIcon || icon || image || action;
-  const iconButtonVariant = variant === "neutral" || variant === "secondary" ? "secondary" : variant === "warning" ? "strong" : "negative";
+  const iconButtonVariant = variant === "neutral" || variant === "secondary" ? "neutral" : variant === "warning" ? "strong" : "negative";
   const headerClassName = sanitizeModuleClasses(styles, "header", image && imagePosition === "right" && "headerImageAlignRight");
   const headerIconClassName = sanitizeModuleClasses(styles, "headerIcon", iconVariant && `headerIcon-${iconVariant}`);
 

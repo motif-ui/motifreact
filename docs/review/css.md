@@ -152,6 +152,10 @@ CSS modules already scope class names (`mtf-{file}--{class}`), so BEM applies to
 Flag every new `!important`. If something cannot be overridden without it, the selector structure is the problem
 (see section 1).
 
+The one documented exception is Icon's root (`display`, `font-size`, `width`, `height`): an icon font's own class
+(material-symbols and the like) sets them with the same specificity, and the consumer decides which stylesheet loads last.
+Each such line carries a `stylelint-disable-line declaration-no-important` comment.
+
 ## 4. Declare a value once per file
 
 Within one file, a property of an element should be set in one place. Avoid setting a value on a class and then overriding it

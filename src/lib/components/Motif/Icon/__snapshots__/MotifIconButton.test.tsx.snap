@@ -3,7 +3,7 @@
 exports[`MotifIconButton should render with only required props 1`] = `
 <div>
   <button
-    class="Root md secondary"
+    class="Root md neutral"
     data-testid="iconButtonTestId"
     type="button"
   >

@@ -1,62 +1,72 @@
 @use "@styles" as *;
 
-$variants: "primary", "secondary", "info", "success", "warning", "danger";
-$states: "hover", "active", "disabled";
-$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
+// size, icon (px)
+$sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28), ("xxl", 32), ("xxxl", 52));
+
+// variant, rest, hover, pressed, disabled: strong sits on the page, negative on an image or a dark overlay
+$tones: (
+  ("strong", "text-strong", "text-soft", "text-strong", "text-disabled"),
+  ("negative", "text-on-media", "text-on-media-soft", "text-on-media", "text-on-media-soft")
+);
 
 .Root {
   overflow: hidden;
-  border: 0;
-  background: none;
   padding: 0;
+  border: 0;
+  border-radius: var(--mtf-sizing-radius-md);
+  background: none;
   -webkit-tap-highlight-color: transparent;
   @include transition(color);
+
   &:not(:disabled):hover {
     cursor: pointer;
   }
-}
 
-.strong {
-  color: var(--theme-color-text-base-global-dark);
-
-  &:hover {
-    color: var(--theme-color-text-base-dark-overlay75);
-  }
-  &:active {
-    color: var(--theme-color-text-base-global-dark);
-  }
-  &:disabled {
-    color: var(--theme-color-text-base-dark-overlay25);
+  &:focus-visible {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: var(--mtf-sizing-2);
   }
 }
 
-.negative {
-  color: var(--theme-color-text-base-global-light);
-
-  &:hover {
-    color: var(--theme-color-text-base-light-overlay75);
-  }
-  &:active {
-    color: var(--theme-color-text-base-global-light);
-  }
-  &:disabled {
-    color: var(--theme-color-text-base-light-overly50);
-  }
-}
-
-@each $name, $fontSize in $sizes {
-  .#{$name} {
-    --mtf-icon-size: var(--base-sizing-#{$fontSize});
-  }
-}
-
-@each $variant in $variants {
+// The disabled rules come last in each block: same specificity, so they win over hover and pressed
+@each $variant in $variants-v2 {
   .#{$variant} {
-    color: var(--theme-color-text-#{$variant}-default);
-    @each $state in $states {
-      &:#{$state} {
-        color: var(--theme-color-text-#{$variant}-#{$state});
-      }
+    color: var(--mtf-color-#{$variant}-solid);
+
+    &:hover {
+      color: var(--mtf-color-#{$variant}-solid-hover);
     }
+
+    &:active {
+      color: var(--mtf-color-#{$variant}-solid-active);
+    }
+
+    &:disabled {
+      color: var(--mtf-color-text-disabled);
+    }
+  }
+}
+
+@each $variant, $rest, $hover, $pressed, $disabled in $tones {
+  .#{$variant} {
+    color: var(--mtf-color-#{$rest});
+
+    &:hover {
+      color: var(--mtf-color-#{$hover});
+    }
+
+    &:active {
+      color: var(--mtf-color-#{$pressed});
+    }
+
+    &:disabled {
+      color: var(--mtf-color-#{$disabled});
+    }
+  }
+}
+
+@each $size, $icon in $sizes {
+  .#{$size} {
+    --mtf-icon-size: var(--mtf-sizing-#{$icon});
   }
 }

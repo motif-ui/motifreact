@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import Icon from "./Icon";
 import { motifIconNames } from "./motif-icon-names";
 import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
-import { Size8LG } from "../../types";
+import { Size8LG, VariantV2 } from "../../types";
 import MotifIcon from "@/components/Motif/Icon/MotifIcon";
 import MotifProvider from "../../motif/context/MotifProvider";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
@@ -36,14 +36,7 @@ describe("Icon", () => {
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {
-    const variants: ("primary" | "secondary" | "info" | "success" | "warning" | "danger")[] = [
-      "primary",
-      "secondary",
-      "info",
-      "success",
-      "warning",
-      "danger",
-    ];
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
 
     for (const variant of variants) {
       const { container } = render(<Icon name="account_circle" variant={variant} />);
