@@ -2,7 +2,7 @@ import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataView from "@/components/DataView/DataView";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { StandardPropsWithRef, VariantV2 } from "../../../lib/types";
 describe("DataView", () => {
   afterEach(() => cleanup());
 
@@ -72,7 +72,7 @@ describe("DataView", () => {
   });
 
   it("should render DataView.Item s with the color variant given in variant prop", () => {
-    const variants: ("primary" | "info" | "success" | "warning" | "danger")[] = ["primary", "info", "success", "warning", "danger"];
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
     variants.forEach(variant => {
       const { getByText, unmount } = render(
         <DataView>

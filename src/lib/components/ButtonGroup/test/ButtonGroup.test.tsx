@@ -59,6 +59,24 @@ describe("ButtonGroup", () => {
     expect(queryByText("Item 2.1")).toBeInTheDocument();
   });
 
+  it("should mark the dropdown button as opening a list and reflect whether the list is open", async () => {
+    const { getByRole } = render(
+      <ButtonGroup>
+        <ButtonGroup.Item label="Item 1" />
+        <ButtonGroup.Item label="Item 2">
+          <ButtonGroup.Item label="Item 2.1" />
+        </ButtonGroup.Item>
+      </ButtonGroup>,
+    );
+    const dropdownButton = getByRole("button", { name: /Item 2/ });
+
+    expect(getByRole("button", { name: "Item 1" })).not.toHaveAttribute("aria-expanded");
+    expect(dropdownButton).toHaveAttribute("aria-haspopup", "true");
+    expect(dropdownButton).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(dropdownButton);
+    expect(dropdownButton).toHaveAttribute("aria-expanded", "true");
+  });
+
   it("should close the submenu when the dropdown icon near the ButtonGroup.Item component that has children is clicked again", async () => {
     const { getByText, queryByText } = render(
       <ButtonGroup>

@@ -1,0 +1,76 @@
+@use "@styles" as *;
+
+$sizes: (
+  //sizeName, paddingH, circleSize, gap, paddingV
+  ("xs", "12x", "16x", "6x", "4x"),
+  ("sm", "16x", "18x", "8x", "6x"),
+  ("md", "20x", "20x", "10x", "8x"),
+  ("lg", "24x", "24x", "12x", "10x")
+);
+
+.Root {
+  display: flex;
+  align-items: flex-start;
+  input[type="checkbox"] {
+    display: none;
+  }
+}
+
+.slider {
+  display: flex;
+  border-radius: var(--theme-sizing-radius-round);
+  background: var(--theme-color-surface-base-base7);
+  cursor: pointer;
+  @include transition(background-color);
+
+  &::before {
+    content: "";
+    background: var(--theme-color-surface-base-bg-light);
+    border-radius: 50%;
+    @include transition(transform);
+  }
+  .checked & {
+    background: var(--theme-color-surface-primary-default);
+  }
+}
+
+.label {
+  color: var(--theme-color-text-base-title-light);
+}
+
+.disabled {
+  cursor: default;
+  pointer-events: none;
+
+  &.checked .slider {
+    background: var(--theme-color-surface-primary-disabled);
+  }
+  .slider {
+    background: var(--theme-color-surface-base-base5);
+  }
+  .label {
+    color: var(--theme-color-text-base-disabled);
+  }
+}
+@each $size, $paddingH, $circleSize, $gap, $paddingV in $sizes {
+  .#{$size} {
+    gap: var(--base-sizing-#{$gap});
+
+    .label {
+      @include font("base", $size, "500");
+    }
+    .slider {
+      padding: var(--base-sizing-2x) var(--base-sizing-#{$paddingH}) var(--base-sizing-2x) var(--base-sizing-2x);
+      &::before {
+        width: var(--base-sizing-#{$circleSize});
+        height: var(--base-sizing-#{$circleSize});
+      }
+    }
+    &.checked .slider::before {
+      transform: translateX(calc(var(--base-sizing-#{$paddingH}) - var(--base-sizing-2x)));
+    }
+    &.inFormField {
+      padding: var(--base-sizing-#{$paddingV}) 0;
+    }
+  }
+}

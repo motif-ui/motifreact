@@ -1,0 +1,33 @@
+.hero-1 {
+  .buttons {
+    display: flex;
+    row-gap: 16px;
+    column-gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .mtf-Link {
+      color: #37424b;
+
+      &:hover {
+        color: #0077b9;
+      }
+    }
+  }
+
+  .hero-1-images {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    .mtf-ImageView {
+      flex: 1 1 0;
+      min-width: 0;
+      border-radius: 16px;
+    }
+
+    .mtf-ImageView:nth-child(2) {
+      flex-grow: 1.35;
+    }
+  }
+}

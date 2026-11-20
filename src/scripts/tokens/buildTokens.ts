@@ -12,27 +12,46 @@ const WEIGHTS: [string, number][] = [
   ["stronger", 600],
   ["strongest", 700],
 ];
-// [role, font size px, line height px, weight]. Weights follow today's theme: display/body 400, heading 700, base (label) 500.
-const TYPE_SCALE: [string, number, number, string][] = [
-  ["display-lg", 56, 64, "regular"],
-  ["display-md", 48, 56, "regular"],
-  ["display-sm", 40, 48, "regular"],
-  ["heading-h1", 40, 56, "strongest"],
-  ["heading-h2", 32, 40, "strongest"],
-  ["heading-h3", 28, 36, "strongest"],
-  ["heading-h4", 24, 32, "strongest"],
-  ["heading-h5", 20, 28, "strongest"],
-  ["heading-h6", 16, 24, "strongest"],
-  ["body-lg", 18, 24, "regular"],
-  ["body-md", 16, 24, "regular"],
-  ["body-sm", 14, 20, "regular"],
-  ["body-xs", 12, 16, "regular"],
-  ["body-xxs", 11, 16, "regular"],
-  ["label-xl", 18, 24, "strong"],
-  ["label-lg", 16, 24, "strong"],
-  ["label-md", 14, 20, "strong"],
-  ["label-sm", 12, 16, "strong"],
-  ["label-xs", 11, 16, "strong"],
+// The text scale: [step, font size px, line height px]. Components with a size prop take their text from these steps plus
+// a weight; the roles below are named presets on top of them.
+const TEXT_SCALE: [string, number, number][] = [
+  ["text-3xs", 10, 14],
+  ["text-2xs", 11, 16],
+  ["text-xs", 12, 16],
+  ["text-sm", 14, 20],
+  ["text-md", 16, 24],
+  ["text-lg", 18, 24],
+  ["text-xl", 20, 28],
+  ["text-2xl", 24, 32],
+  ["text-3xl", 28, 36],
+  ["text-4xl", 32, 40],
+  ["text-5xl", 40, 48],
+  ["text-6xl", 48, 56],
+  ["text-7xl", 56, 64],
+  ["text-8xl", 72, 80],
+];
+// The roles: [role, text step, weight], for fixed-size text (content, headings, Figma text styles). Weights follow
+// today's theme: display/body 400, heading 700, label 500.
+const TYPE_ROLES: [string, string, string][] = [
+  ["display-lg", "text-7xl", "regular"],
+  ["display-md", "text-6xl", "regular"],
+  ["display-sm", "text-5xl", "regular"],
+  ["heading-h1", "text-5xl", "strongest"],
+  ["heading-h2", "text-4xl", "strongest"],
+  ["heading-h3", "text-3xl", "strongest"],
+  ["heading-h4", "text-2xl", "strongest"],
+  ["heading-h5", "text-xl", "strongest"],
+  ["heading-h6", "text-md", "strongest"],
+  ["body-lg", "text-lg", "regular"],
+  ["body-md", "text-md", "regular"],
+  ["body-sm", "text-sm", "regular"],
+  ["body-xs", "text-xs", "regular"],
+  ["body-xxs", "text-2xs", "regular"],
+  ["label-xl", "text-lg", "strong"],
+  ["label-lg", "text-md", "strong"],
+  ["label-md", "text-sm", "strong"],
+  ["label-sm", "text-xs", "strong"],
+  ["label-xs", "text-2xs", "strong"],
 ];
 const SIZES = [
   0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 36, 38, 40, 44, 48, 52, 56, 64, 72, 80, 96, 120, 128, 160, 176, 190, 216,
@@ -43,10 +62,12 @@ const SIZES = [
 const DEFAULT_SPACE = 4;
 const SPACING = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 64];
 const CONTAINERS: [string, number][] = [
+  ["xs", 360],
   ["sm", 540],
   ["md", 720],
   ["lg", 960],
   ["xl", 1140],
+  ["xxl", 1320],
 ];
 // [level, [x, y, blur, spread] px, light alpha, dark alpha, usage]
 const ELEVATION: [number, [number, number, number, number], number, number, string][] = [
@@ -76,10 +97,14 @@ const px = (value: number): Dimension => ({ value, unit: "px" });
 export const radiusScale = (seed: number) => ({ sm: seed && Math.max(1, Math.round(seed / 2)), md: seed, lg: seed * 2 });
 
 /** Type roles scale with the font size seed (16 = today's sizes); line heights stay on the 4px grid. */
-export const typeSize = (fontSize: number, size: number, lineHeight: number) => ({
-  size: Math.round((size * fontSize) / 16),
-  lineHeight: Math.max(4, Math.round((lineHeight * fontSize) / 16 / 4) * 4),
-});
+// Line heights stay on the 4px grid; a step defined off it (text-3xs, 14px) keeps a 2px grid
+export const typeSize = (fontSize: number, size: number, lineHeight: number) => {
+  const grid = lineHeight % 4 === 0 ? 4 : 2;
+  return {
+    size: Math.round((size * fontSize) / 16),
+    lineHeight: Math.max(grid, Math.round((lineHeight * fontSize) / 16 / grid) * grid),
+  };
+};
 
 /**
  * Theme seeds (src/lib/styles/tokens/themes/*.json) → flat token list. A token is `{ path, type, value, dark?, description? }`; `value` is either a literal or a DTCG alias
@@ -304,14 +329,18 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
     { path: ["typography", "font-family"], type: "fontFamily", value: '"Inter", system-ui, sans-serif' },
     { path: ["typography", "font-family-mono"], type: "fontFamily", value: "ui-monospace, SFMono-Regular, Menlo, monospace" },
     ...WEIGHTS.map(([name, weight]): Token => ({ path: ["typography", "weight", name], type: "fontWeight", value: weight })),
-    ...TYPE_SCALE.flatMap(([role, baseSize, baseLineHeight, weight]): Token[] => {
+    ...TEXT_SCALE.flatMap(([step, baseSize, baseLineHeight]): Token[] => {
       const { size, lineHeight } = typeSize(fontSize, baseSize, baseLineHeight);
       return [
-        { path: ["typography", role, "font-size"], type: "dimension", value: rem(size), description: `${size}px` },
-        { path: ["typography", role, "line-height"], type: "dimension", value: rem(lineHeight), description: `${lineHeight}px` },
-        { path: ["typography", role, "font-weight"], type: "fontWeight", value: ref(["typography", "weight", weight]) },
+        { path: ["typography", step, "font-size"], type: "dimension", value: rem(size), description: `${size}px` },
+        { path: ["typography", step, "line-height"], type: "dimension", value: rem(lineHeight), description: `${lineHeight}px` },
       ];
     }),
+    ...TYPE_ROLES.flatMap(([role, step, weight]): Token[] => [
+      { path: ["typography", role, "font-size"], type: "dimension", value: ref(["typography", step, "font-size"]) },
+      { path: ["typography", role, "line-height"], type: "dimension", value: ref(["typography", step, "line-height"]) },
+      { path: ["typography", role, "font-weight"], type: "fontWeight", value: ref(["typography", "weight", weight]) },
+    ]),
   ];
 
   const sizing: Token[] = [

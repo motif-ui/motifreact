@@ -6,8 +6,10 @@ exports[`Switch should render with only required props, have default prop values
     class="Root md"
   >
     <input
+      class="input"
       data-testid="switchItem"
       id="_r_0_"
+      role="switch"
       type="checkbox"
     />
     <span

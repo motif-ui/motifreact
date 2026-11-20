@@ -7,7 +7,7 @@ const meta: Meta<typeof Avatar> = {
   component: Avatar,
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
-    variant: { table: { defaultValue: { summary: "secondary" } } },
+    variant: { table: { defaultValue: { summary: "neutral" } } },
   },
   args: { letters: "AV" },
 };

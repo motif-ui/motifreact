@@ -29,8 +29,9 @@ on a theme: they only read token names, so a rule that holds for one theme holds
   and the theme CSS. Flag a change to the behavior of an existing mixin, function, type or variable; the migration adds
   a new one next to it (`typography` next to `font`, `number-to-px` next to `add-unit`, `VariantV2` next to `Variant`), and
   the old one is removed once every component has migrated.
-- A PR that promotes a `<Name>V2` clone must carry over every commit made to the original since the clone was taken
-  (`git log <clone commit>.. -- src/lib/components/<Name>`). Flag a promotion that would drop such a change.
+- A migration changes the component in place, in one PR: the pre-migration code moves to
+  `src/lib/styles/tokens/compare/baseline/<Name>` (styles renamed `<Name>Baseline.module.scss`) so the compare screen
+  keeps showing today's look. Flag a new `<Name>V2` clone in `src/lib/components`.
 
 ## 2. No raw values
 
@@ -57,25 +58,26 @@ There are two numeric scales and they behave differently:
 
 ## 4. Typography
 
-Text styles come from `@include typography($role)` or `@include typography($role, $weight)`. Flag the old `font` mixin
-in migrated components, and flag `font-size`/`line-height`/`font-weight` set from separate tokens instead of the mixin.
+Text styles come from `@include typography($step-or-role, $weight)`. Flag the old `font` mixin in migrated components, and
+flag `font-size`/`line-height`/`font-weight` set from separate tokens instead of the mixin.
 
-Pick the role family by what the text is, not by the pixel size you need:
+Where the text comes from depends on whether the component has a size prop:
 
-| Family                | Use for                                                   | Examples                                                                                             |
-| --------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `label-xs … label-xl` | Short UI text on controls and structure, usually one line | button text, chip, tag, badge, tab, form label, option group header, table header, menu item caption |
-| `body-xxs … body-lg`  | Content and values the user reads or types                | input value, placeholder, option text, cell content, description, helper text                        |
-| `heading-h1 … h6`     | Section and page titles                                   | card title, modal title, page heading                                                                |
-| `display-sm … lg`     | Hero and marketing text                                   | never inside a library component                                                                     |
+| Component                                                                  | Text from                                                             | Example                                             |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------- |
+| Has a size prop: the text grows with the component (button, chip, select…) | The text scale `text-3xs … text-8xl` plus a weight, in the size table | `typography("text-#{$labelStep}", "strong")`        |
+| Fixed size: the text is content (alert, modal title, data view, timeline)  | A role: `label-*`, `body-*`, `heading-*`, `display-*`                 | `typography("heading-h5")`, `typography("body-md")` |
 
-- Flag a label-like element using `body-*` or `display-*`, and a content element using `label-*`.
-- Flag size tables that switch family for the same element across sizes. Example that must be caught:
-  `groupRole: "label-sm", "label-md", "label-lg", "body-lg"`. The lg step must be `label-xl`, not `body-lg`.
-  If the needed step does not exist in the family, ask for the step to be added to the generator instead of borrowing
-  another family.
-- When a size-table column always uses one family, store only the step (`"sm"`, `"md"`) and add the family prefix where the
-  column is used (`typography("label-#{$size}")`), so the family cannot drift. See css.md section 5.
+- A text step has no weight of its own, so it always takes one (`regular`, `strong`, `stronger`…); the mixin fails the
+  build without it.
+- Flag a size table that uses a role (`typography("label-#{$size}")`); it must use the text scale. `npm run check:scss`
+  catches a role with an interpolated step.
+- Flag a fixed-size component that uses a text step; it takes the role that names what the text is: `label-*` for
+  short UI text on controls and structure, `body-*` for content and values, `heading-*` for titles, `display-*` for
+  hero and marketing text (never inside a library component).
+- Size tables store only the step (`"sm"`, `"md"`) and add the prefix where the column is used
+  (`typography("text-#{$step}", $weight)`). See css.md section 5.
+- If a size needs a step the scale does not have, ask for it in the generator instead of borrowing a neighbor.
 - Weight overrides use weight names only: `lightest, lighter, light, regular, strong, stronger, strongest`. Flag numeric
   weights.
 
@@ -91,7 +93,8 @@ Pick the role family by what the text is, not by the pixel size you need:
   - `{intent}-soft`, `-soft-hover`: tinted backgrounds, ghost/outline hover;
   - `{intent}-text`: colored text on a neutral surface;
   - `{intent}-border`: outlines and validation borders;
-  - `{intent}-border-soft`: decorative edges (alert, soft badge).
+  - `{intent}-border-soft`: decorative edges (soft badge).
+  - `{intent}-solid`: an alert's left edge, its color mark, like its icon.
 - Flag an intent token used outside its job, e.g. `primary-solid` as text color on a white surface.
 - An icon colored by a component's variant (alert icon, status icon) uses `{intent}-solid`, the same token as the
   variant's filled button, not `{intent}-text`. On a light surface warning's knocked-out glyph shows the surface and

@@ -1,11 +1,13 @@
 import { Meta, StoryObj } from "@storybook/nextjs";
 
-import Hero4 from "./hero4/Hero4";
-import hero4Source from "./hero4/Hero4.tsx?raw";
+import Hero1 from "./hero1/Hero1";
+import hero1Source from "./hero1/Hero1.tsx?raw";
 import Hero2 from "./hero2/Hero2";
 import hero2Source from "./hero2/Hero2.tsx?raw";
 import Hero3 from "./hero3/Hero3";
 import hero3Source from "./hero3/Hero3.tsx?raw";
+import Hero4 from "./hero4/Hero4";
+import hero4Source from "./hero4/Hero4.tsx?raw";
 import Hero5 from "./hero5/Hero5";
 import hero5Source from "./hero5/Hero5.tsx?raw";
 
@@ -19,6 +21,12 @@ const meta: Meta = {
 
 export default meta;
 type Story = StoryObj;
+
+export const Hero1Block: Story = {
+  name: "Hero1",
+  render: () => <Hero1 />,
+  parameters: { docs: { source: { code: hero1Source, language: "tsx" } } },
+};
 
 export const Hero2Block: Story = {
   name: "Hero2",
