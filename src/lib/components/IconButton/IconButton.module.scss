@@ -3,10 +3,11 @@
 // size, icon (px)
 $sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28), ("xxl", 32), ("xxxl", 52));
 
-// variant, rest, hover, pressed, disabled: strong sits on the page, negative on an image or a dark overlay
+// variant, then the text tone at rest, hover, pressed and disabled: strong sits on the page, negative on an image or a
+// dark overlay
 $tones: (
-  ("strong", "text-strong", "text-soft", "text-strong", "text-disabled"),
-  ("negative", "text-on-media", "text-on-media-soft", "text-on-media", "text-on-media-soft")
+  ("strong", "strong", "soft", "strong", "disabled"),
+  ("negative", "on-media", "on-media-soft", "on-media", "on-media-soft")
 );
 
 .Root {
@@ -49,18 +50,18 @@ $tones: (
 
 @each $variant, $rest, $hover, $pressed, $disabled in $tones {
   .#{$variant} {
-    color: var(--mtf-color-#{$rest});
+    color: var(--mtf-color-text-#{$rest});
 
     &:hover {
-      color: var(--mtf-color-#{$hover});
+      color: var(--mtf-color-text-#{$hover});
     }
 
     &:active {
-      color: var(--mtf-color-#{$pressed});
+      color: var(--mtf-color-text-#{$pressed});
     }
 
     &:disabled {
-      color: var(--mtf-color-#{$disabled});
+      color: var(--mtf-color-text-#{$disabled});
     }
   }
 }
