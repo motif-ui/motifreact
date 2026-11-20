@@ -35,6 +35,7 @@ import { ListViewDefaultableProps } from "../../components/ListView/types";
 import { MenuListDefaultableProps } from "../../components/MenuList/types";
 import { ModalDefaultableProps } from "../../components/Modal/types";
 import { NavBarDefaultableProps } from "../../components/NavBar/types";
+import { OffcanvasDefaultableProps } from "../../components/Offcanvas/types";
 import { PaginationDefaultableProps } from "../../components/Pagination/types";
 import { PanelDefaultableProps } from "../../components/Panel/types";
 import { PinCodeDefaultableProps } from "../../components/PinCode/types";
@@ -103,6 +104,7 @@ export type ComponentDefaultableProps = {
   MenuList?: MenuListDefaultableProps;
   Modal?: ModalDefaultableProps;
   NavBar?: NavBarDefaultableProps;
+  Offcanvas?: OffcanvasDefaultableProps;
   Pagination?: PaginationDefaultableProps;
   Panel?: PanelDefaultableProps;
   PinCode?: PinCodeDefaultableProps;
