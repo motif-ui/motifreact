@@ -27,7 +27,7 @@ const GridComponent = (props: PropsWithRef<GridProps, HTMLDivElement>) => {
     ref,
   } = usePropsWithThemeDefaults("Grid", props);
   const form = useForm();
-  // In a Form, a Grid without gap values uses the ones of the Form, see Grid.module.scss
+  // In a Form, a Grid without gap or padding values uses the ones of the Form, see Grid.module.scss
   const gutter = gutterProp ?? (form ? undefined : "sm");
   const classNames = sanitizeModuleRootClasses(styles, className, [
     fluid && "fluid",
