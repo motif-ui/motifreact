@@ -2,14 +2,23 @@ import "@testing-library/jest-dom";
 import Badge from "@/components/Badge/Badge";
 import { getByTestId, render, screen } from "@testing-library/react";
 import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../lib/types";
+import { StandardPropsWithRef, VariantV2 } from "../../../lib/types";
 describe("Badge", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
-    render(
-      <Badge {...props}>
-        <button />
-      </Badge>,
-    ),
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      render(
+        <Badge content="1000" {...props}>
+          <button />
+        </Badge>,
+      ),
+    {
+      assertDefaults: ({ container, getByText }) => {
+        // variant: primary, align: top-right
+        expect(container.firstElementChild).toHaveClass("primary", "top-right");
+        // max: 999
+        expect(getByText("999+")).toBeInTheDocument();
+      },
+    },
   );
 
   it("should not be rendered when no children is given", () => {
@@ -109,5 +118,18 @@ describe("Badge", () => {
       </Badge>,
     );
     expect(getByTestId(container, "badgeItem")).toBeEmptyDOMElement();
+  });
+
+  it("should be rendered with the colors of the variant given in the variant prop", () => {
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
+    variants.forEach(variant => {
+      const { container, unmount } = render(
+        <Badge variant={variant} content="1">
+          <button />
+        </Badge>,
+      );
+      expect(container.firstElementChild).toHaveClass(variant);
+      unmount();
+    });
   });
 });

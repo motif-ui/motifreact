@@ -34,6 +34,7 @@ const Text = (props: PropsWithRefAndChildren<TextProps, HTMLParagraphElement | H
     tone,
     type,
     size,
+    `${type}-${size}`,
     weight,
     italic && "italic",
     underline && "underline",

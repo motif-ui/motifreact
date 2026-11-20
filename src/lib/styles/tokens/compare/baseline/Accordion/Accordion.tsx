@@ -1,0 +1,63 @@
+"use client";
+import { useCallback, useContext, useEffect } from "react";
+import styles from "./AccordionBaseline.module.scss";
+import GlobalIconWrapper from "@/components/Motif/GlobalIconWrapper/GlobalIconWrapper";
+import AccordionGroup, { AccordionGroupContext } from "./AccordionGroup/AccordionGroup";
+import { AccordionProps } from "./types";
+import { PropsWithRefAndChildren } from "../../../../../types";
+import { MotifIcon } from "@/components/Motif/Icon";
+import useToggle from "../../../../../hooks/useToggle";
+import usePropsWithThemeDefaults from "../../../../../motif/hooks/usePropsWithThemeDefaults";
+import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+
+const AccordionComponent = (props: PropsWithRefAndChildren<AccordionProps, HTMLDivElement>) => {
+  const {
+    title,
+    expanded = false,
+    icon,
+    onToggle,
+    children,
+    text,
+    index,
+    ref,
+    style,
+    className,
+  } = usePropsWithThemeDefaults("Accordion", props);
+  const { expandedIndex, setExpandedIndex, multiExpand, groupEnabled } = useContext(AccordionGroupContext);
+  const isGroupSingleSelect = groupEnabled && !multiExpand;
+  const { visible: localOpen, toggle } = useToggle({ initialVisible: isGroupSingleSelect ? false : expanded });
+  const open = isGroupSingleSelect ? expandedIndex === index : localOpen;
+
+  if (groupEnabled && index === undefined) {
+    throw new Error("Accordion component must have an index prop when used inside AccordionGroup");
+  }
+
+  useEffect(() => {
+    !isGroupSingleSelect && toggle(expanded);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expanded, isGroupSingleSelect]);
+
+  const toggleAccordion = useCallback(() => {
+    isGroupSingleSelect ? setExpandedIndex?.(open ? -1 : index!) : toggle();
+    onToggle?.();
+  }, [isGroupSingleSelect, index, open, setExpandedIndex, toggle, onToggle]);
+
+  const classNames = sanitizeModuleRootClasses(styles, className, [open && "expanded"]);
+
+  return (
+    <div className={classNames} style={style} ref={ref} data-testid="accordionItem">
+      <button type="button" className={styles.header} onClick={toggleAccordion}>
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} size="lg" />}
+        <span className={styles.title}>{title}</span>
+        <MotifIcon className={styles.collapseIcon} size="lg" name="keyboard_arrow_down" />
+      </button>
+      <div className={styles.content}>
+        <div className={styles.contentOverflowContainer}>{text ? <span className={styles.textContent}>{text}</span> : children}</div>
+      </div>
+    </div>
+  );
+};
+
+AccordionComponent.displayName = "Accordion";
+const Accordion = Object.assign(AccordionComponent, { Group: AccordionGroup });
+export default Accordion;

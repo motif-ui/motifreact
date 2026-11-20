@@ -1,9 +1,11 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import Timeline from "@/components/Timeline/Timeline";
 import { TimelineItemProps, TimelineMarkerType, TimelineVariant } from "@/components/Timeline/types";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
+import { capitalizeFirstLetter } from "../../../utils/utils";
+const orientations = ["vertical", "horizontal"] as const;
 const items: TimelineItemProps[] = [
   { title: "Step 1", content: "First step content" },
   { title: "Step 2", content: "Second step content" },
@@ -44,26 +46,55 @@ describe("Timeline", () => {
     expect(root).toHaveClass("horizontal");
   });
 
-  it("should position the content for each item as given in contentPosition prop", () => {
+  it("should position the content for each item as given in contentPosition prop, for both orientations", () => {
     const { container, rerender } = render(<Timeline items={items} />);
     const positions = ["after", "before", "alternate"] as const;
-    positions.forEach(position => {
-      rerender(<Timeline items={items} contentPosition={position} />);
-      expect(container.firstChild).toHaveClass(position);
-    });
+    orientations.forEach(orientation =>
+      positions.forEach(position => {
+        rerender(<Timeline items={items} orientation={orientation} contentPosition={position} />);
+        expect(container.firstChild).toHaveClass(orientation + capitalizeFirstLetter(position));
+      }),
+    );
   });
 
-  it("should render the content aligned as given in textAlign prop", () => {
+  it("should render the content aligned as given in textAlign prop, for both orientations", () => {
     const { container, rerender } = render(<Timeline items={items} />);
     const alignments = ["start", "center", "end"] as const;
-    alignments.forEach(alignment => {
-      rerender(<Timeline items={items} textAlign={alignment} />);
-      expect(container.firstChild).toHaveClass(alignment);
-    });
+    orientations.forEach(orientation =>
+      alignments.forEach(alignment => {
+        rerender(<Timeline items={items} orientation={orientation} textAlign={alignment} />);
+        expect(container.firstChild).toHaveClass(alignment);
+        expect(container.firstChild).toHaveClass(orientation + capitalizeFirstLetter(alignment));
+      }),
+    );
+  });
+
+  it("should draw the connection lines on the side given by textAlign, leaving the outer ends empty", () => {
+    const markers = (textAlign: "start" | "center" | "end") =>
+      Array.from(render(<Timeline items={items} textAlign={textAlign} />).container.querySelectorAll(".marker"));
+
+    const [startFirst, startMiddle, startLast] = markers("start");
+    expect(startFirst).toHaveClass("lineAfter");
+    expect(startMiddle).toHaveClass("lineAfter");
+    expect(startLast).not.toHaveClass("lineAfter");
+    cleanup();
+
+    const [endFirst, endMiddle, endLast] = markers("end");
+    expect(endFirst).not.toHaveClass("lineBefore");
+    expect(endMiddle).toHaveClass("lineBefore");
+    expect(endLast).toHaveClass("lineBefore");
+    cleanup();
+
+    const [centerFirst, centerMiddle, centerLast] = markers("center");
+    [centerFirst, centerMiddle, centerLast].forEach(marker => expect(marker).toHaveClass("halfLines"));
+    expect(centerFirst).toHaveClass("fadeStart");
+    expect(centerLast).toHaveClass("fadeEnd");
+    expect(centerMiddle).not.toHaveClass("fadeStart");
+    expect(centerMiddle).not.toHaveClass("fadeEnd");
   });
 
   it("should render in the given variant", () => {
-    const variants: TimelineVariant[] = ["primary", "secondary", "success", "warning", "danger", "light"];
+    const variants: TimelineVariant[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
     variants.forEach(variant => {
       const { container, unmount } = render(<Timeline items={items} variant={variant} />);
       expect(container.firstChild).toHaveClass(variant);
@@ -140,7 +171,7 @@ describe("Timeline", () => {
   });
 
   it("should render item in the given variant when variant prop in Timeline itself is not set", () => {
-    const variants: TimelineVariant[] = ["primary", "secondary", "success", "warning", "danger", "light"];
+    const variants: TimelineVariant[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
     variants.forEach(variant => {
       const { container, unmount } = render(<Timeline items={[{ title: "Item", variant }]} />);
       expect(container.querySelector(".item")).toHaveClass(variant);

@@ -1,30 +1,33 @@
 @use "@styles" as *;
 
-$color-types: (("primary", "primary"), ("secondary", "light"), ("warning", "warning"), ("success", "success"), ("danger", "danger"), ("info", "info"));
-
 .Root {
   display: flex;
-  padding: var(--base-sizing-10x) var(--base-sizing-20x);
+  padding: var(--mtf-sizing-space-10) var(--mtf-sizing-space-20);
   align-items: flex-start;
-  gap: var(--base-sizing-10x);
-  border-left: var(--base-sizing-4x) solid;
-  border-radius: 0 var(--base-sizing-4x) var(--base-sizing-4x) 0;
+  gap: var(--mtf-sizing-space-10);
+  border-left: var(--mtf-sizing-4) solid;
+  border-radius: 0 var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md) 0;
+  color: var(--mtf-color-text-strong);
   opacity: 1;
   @include transition(opacity);
+
   &.hiding {
     opacity: 0;
   }
 
-  @each $colorType, $color in $color-types {
-    &.#{$colorType} {
-      background-color: var(--theme-color-surface-#{$color}-negative);
-      color: var(--theme-color-text-base-title);
-      border-left-color: var(--theme-color-text-#{$color}-active);
+  // A variant changes the background, the edge, the title and the icon: grouped by variant. The edge and the icon take
+  // the solid tone, the title the text tone
+  @each $variant in $variants-v2 {
+    &.#{$variant} {
+      background-color: var(--mtf-color-#{$variant}-soft);
+      border-left-color: var(--mtf-color-#{$variant}-solid);
 
       .title {
-        @include font("base", "lg", "600");
-        letter-spacing: var(--typography-base-lg-600-letter-spacing);
-        color: var(--theme-color-text-#{$color}-active);
+        color: var(--mtf-color-#{$variant}-text);
+      }
+
+      .icon {
+        color: var(--mtf-color-#{$variant}-solid);
       }
     }
   }
@@ -34,11 +37,15 @@ $color-types: (("primary", "primary"), ("secondary", "light"), ("warning", "warn
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--base-sizing-4x);
+  gap: var(--mtf-sizing-space-4);
   flex: 1 0 0;
   align-self: center;
 }
 
+.title {
+  @include typography("label-xl", "stronger");
+}
+
 .message {
-  @include font("body", "md");
+  @include typography("body-md");
 }

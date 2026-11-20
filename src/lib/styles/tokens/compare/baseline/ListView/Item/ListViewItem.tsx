@@ -1,0 +1,47 @@
+import { useContext } from "react";
+import styles from "../ListViewBaseline.module.scss";
+import { ListViewContext } from "../ListViewProvider";
+import CenterContent from "./components/CenterContent";
+import LeftContent from "./components/LeftContent";
+import GlobalIconWrapper from "../../../../../../components/Motif/GlobalIconWrapper/GlobalIconWrapper";
+import { ListViewItemProps } from "../types";
+import { PropsWithRefAndChildren } from "../../../../../../types";
+import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
+
+const ListViewItem = (props: PropsWithRefAndChildren<ListViewItemProps, HTMLLIElement>) => {
+  const { id, title, description, alternateText, icon, image, abbr, iconRight, href, onClick, disabled, ref, style } = props;
+  const { enableDividers, enableMultiLine } = useContext(ListViewContext);
+
+  const renderItemContent = () => (
+    <>
+      <LeftContent id={id} icon={icon} image={image} abbr={abbr} />
+      <CenterContent title={title} description={description} alternateText={alternateText} />
+      {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.iconRight} />}
+    </>
+  );
+
+  const baseClassNames = sanitizeModuleClasses(
+    styles,
+    "listItem",
+    enableDividers && "divider",
+    disabled && "disabled",
+    enableMultiLine && "multiLine",
+    href ? "link" : onClick && "button",
+  );
+
+  return (
+    <li ref={ref} className={baseClassNames} data-testid="listViewItem" style={style}>
+      {href && !disabled ? (
+        <a href={href} className={styles.baseContent}>
+          {renderItemContent()}
+        </a>
+      ) : (
+        <div className={styles.baseContent} {...(onClick && !disabled && { onClick, role: "button", tabIndex: 0 })}>
+          {renderItemContent()}
+        </div>
+      )}
+    </li>
+  );
+};
+
+export default ListViewItem;

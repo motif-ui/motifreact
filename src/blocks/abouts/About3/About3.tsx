@@ -1,4 +1,4 @@
-import { Container, Grid, ImageView, Link, Panel, Text } from "src/lib";
+import { Container, Grid, ImageView, Link, Panel, Text } from "@motif-ui/react";
 import "./about3.css";
 
 const aboutUsParagraphs = [

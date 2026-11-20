@@ -1,22 +1,21 @@
 @use "@styles" as *;
 
+// size, width, iconSize, textStep, textWeight
 $sizes: (
-  /* name, size, iconSize, fontType, fontSize, fontWeight */ ("xs", "20x", "14x", "base", "xxs", 500),
-  ("sm", "24x", "14x", "base", "xs", 600),
-  ("md", "32x", "20x", "base", "md", 600),
-  ("lg", "40x", "24x", "base", "lg", 600),
-  ("xl", "48x", "36x", "heading", "heading4"),
-  ("xxl", "64x", "48x", "heading", "heading3")
+  ("xs", 20, 14, "2xs", "strong"),
+  ("sm", 24, 14, "xs", "stronger"),
+  ("md", 32, 20, "md", "stronger"),
+  ("lg", 40, 24, "lg", "stronger"),
+  ("xl", 48, 36, "2xl", "strongest"),
+  ("xxl", 64, 48, "3xl", "strongest")
 );
-$variants: ("primary", "secondary", "info", "success", "warning", "danger");
 
 .Root {
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: var(--theme-sizing-radius-round);
-  color: var(--theme-color-text-base-text-light);
+  border-radius: var(--mtf-sizing-radius-round);
 }
 
 .image {
@@ -36,22 +35,36 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
   }
 }
 
-@each $name, $size, $iconSize, $fontType, $fontSize, $fontWeight in $sizes {
-  .#{$name} {
-    width: var(--base-sizing-#{$size});
-    min-width: var(--base-sizing-#{$size});
-    height: var(--base-sizing-#{$size});
-    min-height: var(--base-sizing-#{$size});
+@each $size, $width, $iconSize, $textStep, $textWeight in $sizes {
+  .#{$size} {
+    width: var(--mtf-sizing-#{$width});
+    min-width: var(--mtf-sizing-#{$width});
+    height: var(--mtf-sizing-#{$width});
+    min-height: var(--mtf-sizing-#{$width});
+
     &.letters {
-      @include font($fontType, $fontSize, $fontWeight);
+      @include typography("text-#{$textStep}", $textWeight);
     }
+
     &.icon span {
-      --mtf-icon-size: var(--base-sizing-#{$iconSize});
+      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
     }
   }
 }
-@each $variant in $variants {
-  .#{$variant} {
-    background-color: if(sass($variant == "secondary"): var(--theme-color-surface-base-base7); else: var(--theme-color-surface-#{$variant}-default));
+
+@each $variant in $variants-v2 {
+  // neutral has its own rule below
+  @if $variant != "neutral" {
+    .#{$variant} {
+      background-color: var(--mtf-color-#{$variant}-solid);
+      color: var(--mtf-color-on-#{$variant});
+    }
   }
+}
+
+// A neutral avatar stays close to the page tones, like the neutral button. The soft tone is translucent, so it is layered
+// over the surface fill to stay opaque on images and colored areas
+.neutral {
+  background: linear-gradient(var(--mtf-color-neutral-soft), var(--mtf-color-neutral-soft)), var(--mtf-color-surface-default);
+  color: var(--mtf-color-neutral-text);
 }

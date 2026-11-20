@@ -1,5 +1,4 @@
-import { Grid, ImageView, Panel, Text } from "@motif-ui/react";
-import Container from "@/components/Container";
+import { Grid, ImageView, Panel, Text, Container } from "@motif-ui/react";
 
 const features = [
   {
