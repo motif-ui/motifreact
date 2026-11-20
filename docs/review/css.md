@@ -159,8 +159,16 @@ with another class of the same file whenever possible:
 
 - For values that change by size, variant or state, set the property only inside the modifiers, with no base value that
   they all override (example: each ProgressCircle variant sets the arc `stroke`; there is no default stroke).
-- Use a component custom property (`--mtf-{component}-{name}`) only when one value feeds several properties or parts, or is
-  meant as a public override point. A custom property used in a single place is an extra indirection; flag it.
+- Use a component custom property (`--mtf-{component}-{name}`) only when:
+  - one value feeds several properties or parts (Checkbox `fill`: the border and the background);
+  - it is meant as a public override point (`--mtf-icon-size`);
+  - the value must inherit through nested elements, so the nearest one wins (Timeline: an item's variant replaces the
+    root's);
+  - it carries one axis's value (size, variant) into another axis's rule (state, appearance) whose combined selector would
+    exceed the specificity limit (Checkbox `partial`, Chip `icon-color`).
+
+  Any other custom property, typically one read in a single place, is an extra indirection: set the property directly in
+  the modifier or the loop instead, and flag it.
 - Interaction and state pseudo-classes (`:hover`, `:focus`, `:disabled`) that replace the default are acceptable.
 - Flag a property set on a class and redeclared for the same element by another class in the same file when the first value
   is never used on its own.
@@ -201,3 +209,18 @@ Everything that is the same for every entry goes in the element's own rule outsi
 
 The same applies to role names in size tables (`"label-sm", "label-md"` → `"sm", "md"`, see design-tokens.md section 4).
 Flag lists and maps whose entries repeat a fixed part.
+
+A column that repeats the entry's key in every row holds nothing: drop it and use the key. Keep the column when at least
+one row differs, since then it is real data:
+
+```scss
+// Flag: the text step equals the size in every row
+$sizes: (("sm", 4, "sm"), ("md", 6, "md"), ("lg", 8, "lg"));
+
+// Prefer
+$sizes: (("sm", 4), ("md", 6), ("lg", 8));
+@each $size, $gap in $sizes { .#{$size} { @include typography("text-#{$size}", "strong"); } }
+
+// Keep: xl takes lg's step, so the column is not the size
+$sizes: (("xs", 2, "xs"), ("sm", 4, "sm"), ("md", 6, "md"), ("lg", 8, "lg"), ("xl", 12, "lg"));
+```

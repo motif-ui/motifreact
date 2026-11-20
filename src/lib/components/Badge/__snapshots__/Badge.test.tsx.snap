@@ -1,11 +1,17 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Badge should render with only required props, and have standard props; className, style and ref props working as expected 1`] = `
+exports[`Badge should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
 <div>
   <div
     class="Root primary top-right"
   >
     <button />
+    <span
+      class="badge"
+      data-testid="badgeItem"
+    >
+      999+
+    </span>
   </div>
 </div>
 `;

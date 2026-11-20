@@ -1,9 +1,9 @@
-import type { IconGlobalType, Size4SM } from "../../types";
+import type { IconGlobalType, Size4SM, VariantV2 } from "../../types";
 
 export type ChipProps = {
   label: string;
   icon?: IconGlobalType;
-  variant?: ChipVariant;
+  variant?: VariantV2;
   closable?: boolean;
   onClose?: () => void;
 } & ChipDefaultableProps;
@@ -13,5 +13,3 @@ export type ChipDefaultableProps = {
   size?: Size4SM;
   pill?: boolean;
 };
-
-export type ChipVariant = "primary" | "secondary" | "danger" | "success" | "warning" | "info";

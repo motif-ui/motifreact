@@ -18,13 +18,13 @@ describe("Switch", () => {
 
   it("should be rendered as switch-on when selected prop is given", () => {
     const { container } = render(<Switch checked />);
-    expect(screen.getByRole("checkbox")).toBeChecked();
+    expect(screen.getByRole("switch")).toBeChecked();
     expect(container.firstChild).toHaveClass("checked");
   });
 
   it("should be rendered as disabled when disabled prop is given", async () => {
     const { container } = render(<Switch label="label" disabled />);
-    expect(screen.getByRole("checkbox")).toBeDisabled();
+    expect(screen.getByRole("switch")).toBeDisabled();
     expect(container.firstChild).toHaveClass("disabled");
     expect(container.firstChild).not.toHaveClass("checked");
     await userEvent.click(screen.getByTestId("switchSliderItem"));
@@ -40,6 +40,24 @@ describe("Switch", () => {
     expect(container.firstChild).not.toHaveClass("checked");
     screen.getByText("label").click(); // label
     expect(container.firstChild).not.toHaveClass("checked");
+  });
+
+  it("should be reachable with the keyboard and toggle with the space key", async () => {
+    const onChange = jest.fn();
+    render(<Switch label="label" onChange={onChange} />);
+    await userEvent.tab();
+    expect(screen.getByRole("switch")).toHaveFocus();
+    await userEvent.keyboard(" ");
+    expect(screen.getByRole("switch")).toBeChecked();
+    expect(onChange).toHaveBeenCalledWith(true);
+  });
+
+  it("should not toggle with the keyboard when readOnly prop is given", async () => {
+    render(<Switch label="label" readOnly />);
+    await userEvent.tab();
+    await userEvent.keyboard(" ");
+    expect(screen.getByRole("switch")).not.toBeChecked();
+    expect(screen.getByRole("switch")).toHaveAttribute("aria-readonly", "true");
   });
 
   it("should be rendered with the given size in size prop", () => {
