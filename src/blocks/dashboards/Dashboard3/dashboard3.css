@@ -1,0 +1,37 @@
+.layout {
+  display: flex;
+}
+
+.sidebar {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+
+  > * {
+    flex: 0 0 auto;
+  }
+
+  > .topbarTitle {
+    margin-right: auto;
+  }
+
+  .ceo-card .mtf-ImageView {
+    border-radius: 999px;
+    background-clip: content-box;
+    padding: 16px;
+  }
+}
+
+.topbarIconButton {
+  padding: 6px;
+}
