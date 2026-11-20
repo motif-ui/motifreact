@@ -159,8 +159,16 @@ with another class of the same file whenever possible:
 
 - For values that change by size, variant or state, set the property only inside the modifiers, with no base value that
   they all override (example: each ProgressCircle variant sets the arc `stroke`; there is no default stroke).
-- Use a component custom property (`--mtf-{component}-{name}`) only when one value feeds several properties or parts, or is
-  meant as a public override point. A custom property used in a single place is an extra indirection; flag it.
+- Use a component custom property (`--mtf-{component}-{name}`) only when:
+  - one value feeds several properties or parts (Checkbox `fill`: the border and the background);
+  - it is meant as a public override point (`--mtf-icon-size`);
+  - the value must inherit through nested elements, so the nearest one wins (Timeline: an item's variant replaces the
+    root's);
+  - it carries one axis's value (size, variant) into another axis's rule (state, appearance) whose combined selector would
+    exceed the specificity limit (Checkbox `partial`, Chip `icon-color`).
+
+  Any other custom property, typically one read in a single place, is an extra indirection: set the property directly in
+  the modifier or the loop instead, and flag it.
 - Interaction and state pseudo-classes (`:hover`, `:focus`, `:disabled`) that replace the default are acceptable.
 - Flag a property set on a class and redeclared for the same element by another class in the same file when the first value
   is never used on its own.
