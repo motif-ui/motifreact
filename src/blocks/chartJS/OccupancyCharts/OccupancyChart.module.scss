@@ -1,0 +1,37 @@
+.wrapper {
+  width: 100%;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.select {
+  appearance: none;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 4px 28px 4px 10px;
+  font-size: 13px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23555' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right
+    8px center;
+  background-color: #ffffff;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: #6b7280;
+  }
+}
+
+.chart {
+  height: 238px;
+}
