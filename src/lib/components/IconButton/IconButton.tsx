@@ -11,7 +11,7 @@ const IconButton = (props: PropsWithRef<IconButtonProps, HTMLButtonElement>) => 
     iconClass,
     name,
     size = "md",
-    variant = "secondary",
+    variant = "neutral",
     className,
     style,
     onClick,
