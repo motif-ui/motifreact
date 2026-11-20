@@ -99,28 +99,14 @@ const tableData: TableRow[] = [
   },
   { referenceNo: "34569", name: "Suzan", surname: "Smith", nationality: "Somali", birthDate: "04.12.2009", requestDate: "31.10.2025" },
   { referenceNo: "34560", name: "John", surname: "Doe", nationality: "Nigeria", birthDate: "26.04.1989", requestDate: "31.10.2025" },
-  { referenceNo: "34567", name: "Jack", surname: "Taylor", nationality: "Çad", birthDate: "01.01.2005", requestDate: "30.10.2025" },
-  {
-    referenceNo: "34568",
-    name: "Mohammed",
-    surname: "Karamanlis",
-    nationality: "Nigeria",
-    birthDate: "12.12.2003",
-    requestDate: "31.10.2025",
-  },
-  { referenceNo: "34569", name: "Suzan", surname: "Smith", nationality: "Somali", birthDate: "04.12.2009", requestDate: "31.10.2025" },
-  { referenceNo: "34560", name: "John", surname: "Doe", nationality: "Nigeria", birthDate: "26.04.1989", requestDate: "31.10.2025" },
-  { referenceNo: "34567", name: "Jack", surname: "Taylor", nationality: "Çad", birthDate: "01.01.2005", requestDate: "30.10.2025" },
-  {
-    referenceNo: "34568",
-    name: "Mohammed",
-    surname: "Karamanlis",
-    nationality: "Nigeria",
-    birthDate: "12.12.2003",
-    requestDate: "31.10.2025",
-  },
-  { referenceNo: "34569", name: "Suzan", surname: "Smith", nationality: "Somali", birthDate: "04.12.2009", requestDate: "31.10.2025" },
-  { referenceNo: "34560", name: "John", surname: "Doe", nationality: "Nigeria", birthDate: "26.04.1989", requestDate: "31.10.2025" },
+  { referenceNo: "34570", name: "Amina", surname: "Bello", nationality: "Gana", birthDate: "15.03.1995", requestDate: "01.11.2025" },
+  { referenceNo: "34571", name: "Omar", surname: "Haddad", nationality: "Suriye", birthDate: "22.07.1992", requestDate: "01.11.2025" },
+  { referenceNo: "34572", name: "Elena", surname: "Petrova", nationality: "Rusya", birthDate: "09.11.1998", requestDate: "02.11.2025" },
+  { referenceNo: "34573", name: "Ali", surname: "Rezaei", nationality: "İran", birthDate: "30.05.2001", requestDate: "03.11.2025" },
+  { referenceNo: "34574", name: "Fatima", surname: "Diallo", nationality: "Senegal", birthDate: "18.02.1997", requestDate: "03.11.2025" },
+  { referenceNo: "34575", name: "Ivan", surname: "Kovalenko", nationality: "Ukrayna", birthDate: "07.09.1985", requestDate: "04.11.2025" },
+  { referenceNo: "34576", name: "Layla", surname: "Rahimi", nationality: "Afganistan", birthDate: "11.06.2004", requestDate: "05.11.2025" },
+  { referenceNo: "34577", name: "Samuel", surname: "Mensah", nationality: "Gana", birthDate: "25.12.1993", requestDate: "06.11.2025" },
 ];
 
 const Dashboard2 = () => {
@@ -132,17 +118,6 @@ const Dashboard2 = () => {
           items={navItems}
           logo="https://cdn.jsdelivr.net/gh/motif-ui/assets/images/motifui-logo.svg"
           size="sm"
-          footer={
-            <ListView enableMultiLine size="sm">
-              <ListView.Item
-                title="Metin Tekin"
-                description="metintekin@motifui.com"
-                image="https://i.pravatar.cc/150"
-                iconRight="more_vert"
-                id="1"
-              />
-            </ListView>
-          }
         />
       </div>
 

@@ -14,12 +14,16 @@ const CHART_JS_SRC = "https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd
 let chartJsPromise: Promise<ChartConstructor> | undefined;
 
 const loadChartJs = () => {
+  if (window.Chart) return Promise.resolve(window.Chart);
   chartJsPromise ??= new Promise<ChartConstructor>((resolve, reject) => {
     const script = document.createElement("script");
     script.src = CHART_JS_SRC;
     script.onload = () => (window.Chart ? resolve(window.Chart) : reject(new Error("Chart.js failed to load")));
-    script.onerror = () => reject(new Error("Chart.js failed to load"));
+    script.onerror = reject;
     document.head.appendChild(script);
+  }).catch(error => {
+    chartJsPromise = undefined;
+    throw error;
   });
   return chartJsPromise;
 };
@@ -31,10 +35,12 @@ const useChartJs = (config: object) => {
     let chart: ChartInstance | undefined;
     let cancelled = false;
 
-    void loadChartJs().then(ChartJS => {
-      if (cancelled || !canvasRef.current) return;
-      chart = new ChartJS(canvasRef.current, config);
-    });
+    loadChartJs()
+      .then(ChartJS => {
+        if (cancelled || !canvasRef.current) return;
+        chart = new ChartJS(canvasRef.current, config);
+      })
+      .catch(console.error);
 
     return () => {
       cancelled = true;
