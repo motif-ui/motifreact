@@ -1,6 +1,6 @@
-import type { IconGlobalType } from "../../types";
+import type { IconGlobalType, VariantV2 } from "../../types";
 
-export type TimelineVariant = "primary" | "danger" | "success" | "warning" | "light" | "secondary";
+export type TimelineVariant = VariantV2;
 export type TimelineMarkerType = "dot" | "number" | "icon";
 
 export type TimelineItemProps = {
@@ -13,7 +13,7 @@ export type TimelineItemProps = {
 };
 
 export type TimelineDefaultableProps = {
-  markerType?: "dot" | "number" | "icon";
+  markerType?: TimelineMarkerType;
   textAlign?: "start" | "center" | "end";
   variant?: TimelineVariant;
 };
@@ -25,7 +25,7 @@ export type TimelineProps = {
    *   title?: string;
    *   content?: string;
    *   icon?: IconGlobalType;
-   *   variant?: string;
+   *   variant?: VariantV2;
    *   disabled?: boolean;
    *   appearance?: string;
    * }[]

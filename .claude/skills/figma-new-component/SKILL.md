@@ -16,8 +16,10 @@ Same as [figma-sync](../figma-sync/SKILL.md#hard-rules): the only writable file 
 ## Steps
 
 1. **Collect the spec:** the developer describes, in their own words, the props and values, defaults, sizes, states
-   and behavior. If code already exists, read it instead of asking. Ask only for what decides a visual property;
-   never ask Figma questions.
+   and behavior. If code already exists, read all of it instead of asking: the component, its sub-components
+   (`<Name>.Item`, private parts) and the SCSS. Ask only for what decides a visual property; never ask Figma
+   questions. List every visual case (content combinations, disabled × appearance, an image in an avatar…) and the
+   axes that change each other (size × content, not size × color); each one gets a place on the page.
 2. **Restate** it as a prop table (prop, type, default, visual effect) and get confirmation.
 3. **Propose the Figma structure** and get approval:
    - style-changing props become variants, show/hide props become booleans, icons become instance swaps;
@@ -31,7 +33,7 @@ Same as [figma-sync](../figma-sync/SKILL.md#hard-rules): the only writable file 
    - whether Examples are needed (only for unusual scenarios).
 4. **Build**, in order:
    1. parts, then the set (sparse; default variant top-left);
-   2. the doc page from the `_Doc/*` blocks: Header, Properties, Variants, Light & Dark, Anatomy, "Not shown in
+   2. the doc page from the `_Doc/*` blocks: Header, Design properties, Variants, Light & Dark, Anatomy, "Not shown in
       Figma";
    3. the Playground (and Examples under it);
    4. the Component section table ([../figma-sync/scripts/component-table.js](../figma-sync/scripts/component-table.js)),
