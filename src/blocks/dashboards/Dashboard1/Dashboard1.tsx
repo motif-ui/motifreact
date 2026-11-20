@@ -17,9 +17,7 @@ import {
   InputText,
   Text,
   Container,
-} from "src/lib";
-import TabPanel from "src/lib/components/Tab/components/TabPanel";
-import ListViewItem from "src/lib/components/ListView/Item/ListViewItem";
+} from "@motif-ui/react";
 import OccupancyChart from "../../chartJS/OccupancyCharts/OccupancyChart";
 import CustomerSegmentsChart from "../../chartJS/CustomerSegments/CustomerSegmentsChart";
 import "./dashboard1.css";
@@ -63,11 +61,13 @@ const menuList = [
     href: "#",
     icon: "lists",
     label: "Micropages",
+    divider: true,
   },
   {
     href: "#",
     icon: "crop_free",
     label: "Empty States",
+    divider: true,
   },
   {
     href: "#",
@@ -78,6 +78,7 @@ const menuList = [
     href: "#",
     icon: "receipt_long",
     label: "Billing",
+    divider: true,
   },
   {
     href: "#",
@@ -103,19 +104,31 @@ const Dashboard1 = () => (
         <Panel bordered lean>
           <Container>
             <Grid gap="sm" padding="sm">
-              <Grid.Row rowGap="sm">
-                <Grid.Col className="topbarLeft" size={12} lg={4}>
+              <Grid.Row>
+                <Grid.Col className="headerActions" size={12} lg={4}>
                   <InputDateRange size="sm" value={[new Date("2026-10-08T06:08:27.792Z"), new Date("2026-10-14T21:00:00.000Z")]} />
                 </Grid.Col>
-                <Grid.Col className="topbarRight" size={12} lg={8}>
-                  <InputText iconLeft="search" placeholder="Search.." />
-                  <IconButton size="sm" name="notifications" variant="secondary" className="topbarIconButton" />
-                  <ListView enableMultiLine size="sm">
-                    <ListViewItem description="Chief Executive Officer" id="1" title="Hello Metin" image="https://i.pravatar.cc/150" />
-                  </ListView>
+                <Grid.Col size={12} lg={8}>
+                  <Grid.Row gap="xs">
+                    <Grid.Col className="headerActions" size={12} md={7}>
+                      <InputText className="headerSearch" iconLeft="search" placeholder="Search..." />
+                      <IconButton size="sm" name="notifications" variant="secondary" />
+                    </Grid.Col>
+                    <Grid.Col size={12} md={5}>
+                      <ListView enableMultiLine size="sm">
+                        <ListView.Item
+                          description="Chief Executive Officer"
+                          id="1"
+                          title="Hello Metin"
+                          image="https://picsum.photos/seed/motifui-about-avatar/100"
+                          iconRight="more_vert"
+                        />
+                      </ListView>
+                    </Grid.Col>
+                  </Grid.Row>
                 </Grid.Col>
               </Grid.Row>
-              <Grid.Row rowGap="sm">
+              <Grid.Row>
                 <Divider orientation="horizontal" size="sm" />
               </Grid.Row>
               <Grid.Row>
@@ -147,12 +160,13 @@ const Dashboard1 = () => (
                           <Card
                             outlined
                             variant="neutral"
+                            buttonsPosition="center"
                             contentActionButton={{
-                              onClick: () => console.log(),
+                              onClick: () => {},
                               text: "View Reports",
                             }}
                             contentAlternateButton={{
-                              onClick: () => console.log(),
+                              onClick: () => {},
                               text: "Show Details",
                             }}
                             contentSubtitle="Room Capacity"
@@ -174,27 +188,32 @@ const Dashboard1 = () => (
                     <Grid.Col size={12} xl={6}>
                       <Card
                         outlined
+                        buttonsPosition="center"
                         contentActionButton={{
-                          onClick: () => console.log(),
+                          onClick: () => {},
                           text: "View Reports",
                         }}
-                        subtitle="Net Revenue $105.250"
-                        title="$105.250"
+                        contentAlternateButton={{
+                          onClick: () => {},
+                          text: "Show Details",
+                        }}
+                        contentSubtitle="Net Revenue $105.250"
+                        contentTitle="$105.250"
                         variant="neutral"
                       >
                         <ProgressBar size="xl" progress={35} />
                         <Grid.Row stretchItems>
-                          <Grid.Col size={12}>
+                          <Grid.Col size={12} lg={6}>
                             <Card contentTitle="Offline Revenue" contentSubtitle="$612.150" outlined variant="neutral" />
                           </Grid.Col>
-                          <Grid.Col size={12}>
+                          <Grid.Col size={12} lg={6}>
                             <Card contentTitle="Platform Revenue" contentSubtitle="$300.000" outlined variant="neutral" />
                           </Grid.Col>
                         </Grid.Row>
                         <Link label="Channels" url="https://motif-ui.com" iconPosition="left" />
                         <ListView enableDividers size="sm">
-                          <ListViewItem title="Booking.com" />
-                          <ListViewItem title="Airbnb.com" />
+                          <ListView.Item title="Booking.com" />
+                          <ListView.Item title="Airbnb.com" />
                         </ListView>
                       </Card>
                     </Grid.Col>
@@ -219,7 +238,7 @@ const Dashboard1 = () => (
                       },
                     ]}
                   >
-                    <TabPanel id="arrivals">
+                    <Tab.Panel id="arrivals">
                       <Grid.Row>
                         <Grid.Col size={12}>
                           <Card outlined variant="neutral" title="John Doe" subtitle="14:00 Check-In">
@@ -230,17 +249,17 @@ const Dashboard1 = () => (
                           <Card outlined variant="neutral" title="Sarah & Tom Gibson" subtitle="10:00 Check-In">
                             <Link label="via Direct" icon="language" iconPosition="left" />
                             <ListView enableDividers>
-                              <ListViewItem title="Room Type: Family" />
-                              <ListViewItem title="Nights: 3" />
+                              <ListView.Item title="Room Type: Family" />
+                              <ListView.Item title="Nights: 3" />
                             </ListView>
                           </Card>
                         </Grid.Col>
                       </Grid.Row>
-                    </TabPanel>
-                    <TabPanel id="departures">
+                    </Tab.Panel>
+                    <Tab.Panel id="departures">
                       <Card title="Platform Revenue" subtitle="$300.000" outlined variant="neutral" />
-                    </TabPanel>
-                    <TabPanel id="house">
+                    </Tab.Panel>
+                    <Tab.Panel id="house">
                       <Text
                         type="body"
                         size="sm"
@@ -250,7 +269,7 @@ const Dashboard1 = () => (
                     unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
                     recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
                       />
-                    </TabPanel>
+                    </Tab.Panel>
                   </Tab>
                 </Grid.Col>
               </Grid.Row>

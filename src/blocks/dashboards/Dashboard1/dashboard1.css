@@ -1,5 +1,6 @@
 .layout {
   display: flex;
+  padding: 32px;
 }
 
 .sidebar {
@@ -9,21 +10,14 @@
 .content {
   flex: 1;
   min-width: 0;
-  padding: 32px;
 }
 
-.topbarLeft {
+.headerActions {
   display: flex;
   align-items: center;
-}
-
-.topbarRight {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   gap: 8px;
 }
 
-.topbarIconButton {
-  padding: 6px;
+.headerSearch {
+  flex: 1;
 }
