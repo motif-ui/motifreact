@@ -61,13 +61,10 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
     [closable, handleEnter, handleLeave],
   );
 
-  // The gray secondary toast keeps a gray icon: the icon's secondary is now the brand color
-  const iconVariant = variant === "secondary" ? "neutral" : variant;
-
   return (
     !dismissed && (
       <div ref={ref} className={toastClasses} data-testid="toast" style={style} {...handlers}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={iconVariant} size="xxl" />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="xxl" />}
 
         <div className={styles.contentContainer}>
           {title && <span className={styles.title}>{title}</span>}
