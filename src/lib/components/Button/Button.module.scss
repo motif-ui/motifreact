@@ -11,7 +11,7 @@ $sizes: (("xxs", 2, 4, "xs", 12), ("xs", 4, 8, "sm", 14), ("sm", 6, 12, "sm", 18
   justify-content: center;
   cursor: pointer;
   vertical-align: bottom;
-  white-space: normal;
+  white-space: nowrap;
   @include transition(background-color);
 
   &:focus-visible {
