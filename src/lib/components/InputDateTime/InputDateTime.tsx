@@ -38,6 +38,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
     timeFormat = "24h",
     locale: propsLocale,
     ref,
+    overlayRef,
     style,
     className,
     firstDayOfWeek,
@@ -102,6 +103,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
     hide,
   } = useAnchoredOverlay({
     anchorRef: innerRef,
+    overlayRef,
     placement: "bottomLeft",
     onClose: pickerCloseHandler,
     closeOnOutsideClick: true,

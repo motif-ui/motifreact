@@ -38,6 +38,7 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     locale: propsLocale,
     placeholder = `__:__${secondsEnabled ? ":__" : ""}`,
     ref,
+    overlayRef,
     style,
     className,
     icon,
@@ -79,6 +80,7 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
     hide,
   } = useAnchoredOverlay({
     anchorRef: innerRef,
+    overlayRef,
     placement: "bottomLeft",
     onClose: pickerCloseHandler,
     closeOnOutsideClick: true,
