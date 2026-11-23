@@ -64,7 +64,7 @@ exports[`Carousel should render with only required props, have default prop valu
       <li />
     </ul>
     <button
-      class="Root xxl secondary prev"
+      class="Root xxl neutral prev"
       data-testid="iconButtonTestId"
       type="button"
     >
@@ -77,7 +77,7 @@ exports[`Carousel should render with only required props, have default prop valu
       </span>
     </button>
     <button
-      class="Root xxl secondary next"
+      class="Root xxl neutral next"
       data-testid="iconButtonTestId"
       type="button"
     >
