@@ -50,6 +50,8 @@ export default {
         "src/lib/components/Container/**/*.scss",
         "src/lib/components/DataView/**/*.scss",
         "src/lib/components/Divider/**/*.scss",
+        "src/lib/components/Icon/**/*.scss",
+        "src/lib/components/IconButton/**/*.scss",
         "src/lib/components/ImageView/**/*.scss",
         "src/lib/components/Link/**/*.scss",
         "src/lib/components/ListView/**/*.scss",

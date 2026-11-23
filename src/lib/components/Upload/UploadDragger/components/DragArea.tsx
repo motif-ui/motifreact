@@ -93,7 +93,7 @@ const DragArea = (props: Props) => {
       onDrop={handleDrop}
       {...(!isDisabled && { onClick: browse })}
     >
-      <MotifIcon name="upload_file" variant="secondary" className={styles.dragIcon} />
+      <MotifIcon name="upload_file" variant="neutral" className={styles.dragIcon} />
       <div className={styles.dragTextGroup}>
         <span className={styles.dragText}>{t(MESSAGE.PLEASE_CLICK_OR_DROP, { count: maxFile })}</span>
         <span className={styles.dragInfo}>{infoMessage}</span>

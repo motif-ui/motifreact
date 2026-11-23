@@ -94,9 +94,13 @@ const CHIP_PX = 8,
 const colTexts = await Promise.all(column.values.map(v => text(v === DEFAULT ? `${v} (default)` : v, "label-sm", "docs/text-strong")));
 const colChipText = await text(column.prop, "label-sm", "docs/brand-strong");
 const colChipW = colChipText.width + 2 * CHIP_PX;
-const colW = column.values.map(
-  (v, i) => Math.max(colTexts[i].width, ...set.children.filter(c => c.variantProperties[column.prop] === v).map(c => c.width)) + CELL_PAD,
+// every column as wide as the widest one, so the variants sit at an even pitch (user, 2026-11-20)
+const colPitch = Math.max(
+  ...column.values.map(
+    (v, i) => Math.max(colTexts[i].width, ...set.children.filter(c => c.variantProperties[column.prop] === v).map(c => c.width)) + CELL_PAD,
+  ),
 );
+const colW = column.values.map(() => colPitch);
 // the first column starts after the chip, so its label never touches it
 const firstLabelLeft = PAD + (colW[0] - colTexts[0].width) / 2;
 const leftPad = PAD + Math.max(0, CHIP_INSET + colChipW + CHIP_CLEAR - firstLabelLeft);
