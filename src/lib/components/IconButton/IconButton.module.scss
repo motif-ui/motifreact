@@ -2,7 +2,7 @@
 
 $variants: "primary", "secondary", "info", "success", "warning", "danger";
 $states: "hover", "active", "disabled";
-$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
+$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"), ("xxxl", "40x"), ("4xl", "52x"), ("5xl", "64x"));
 
 .Root {
   overflow: hidden;
@@ -45,7 +45,7 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 }
 
 @each $name, $fontSize in $sizes {
-  .#{$name} {
+  .#{class-name($name)} {
     --mtf-icon-size: var(--base-sizing-#{$fontSize});
   }
 }

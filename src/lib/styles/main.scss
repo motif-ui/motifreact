@@ -93,6 +93,15 @@
   @return $text;
 }
 
+// A class name can't start with a digit: escapes it so names like "3xl" compile to .\33 xl (class "3xl")
+@function class-name($name) {
+  $first: string.slice($name, 1, 1);
+  @if string.index("0123456789", $first) {
+    @return "\\3#{$first} " + string.slice($name, 2);
+  }
+  @return $name;
+}
+
 @function strip-unit($number) {
   @if meta.type-of($number) == "number" and not math.is-unitless($number) {
     @return $number / ($number * 0 + 1);
