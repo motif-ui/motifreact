@@ -1,0 +1,28 @@
+.dashboard-3 {
+  display: flex;
+
+  .content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .navigation-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    > * {
+      flex: 0 0 auto;
+    }
+  }
+
+  .navigation-right .mtf-IconButton {
+    padding: 6px;
+  }
+
+  .profileCard .mtf-ImageView {
+    border-radius: 999px;
+    background-clip: content-box;
+    padding: 16px;
+  }
+}
