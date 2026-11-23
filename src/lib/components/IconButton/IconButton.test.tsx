@@ -3,8 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import IconButton from "./IconButton";
 import { motifIconNames } from "../Icon/motif-icon-names";
 import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
-import { Size8LG } from "../../types";
-import { IconButtonProps } from "./types";
+import { Size8LG, VariantV2 } from "../../types";
 import Icon from "@/components/Icon";
 import MotifProvider from "../../motif/context/MotifProvider";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
@@ -43,7 +42,7 @@ describe("IconButton", () => {
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {
-    const variants: NonNullable<IconButtonProps["variant"]>[] = [
+    const variants: (VariantV2 | "strong" | "negative")[] = [
       "neutral",
       "primary",
       "secondary",

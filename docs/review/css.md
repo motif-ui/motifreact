@@ -173,6 +173,7 @@ with another class of the same file whenever possible:
 
   Any other custom property, typically one read in a single place, is an extra indirection: set the property directly in
   the modifier or the loop instead, and flag it.
+
 - Interaction and state pseudo-classes (`:hover`, `:focus`, `:disabled`) that replace the default are acceptable.
 - Flag a property set on a class and redeclared for the same element by another class in the same file when the first value
   is never used on its own.
@@ -181,6 +182,11 @@ with another class of the same file whenever possible:
 
 When every entry of an SCSS list, map or table column shares the same prefix or suffix, store only the varying part and add
 the fixed part where the value is used. A one-off exception gets its own rule next to the loop, not a map entry for every item.
+
+The same goes for loops: a declaration whose value is the same in every iteration (no loop variable in it) is set once,
+outside the loop, on a class every item has (`.Root`, as `&:disabled` inside it). When the loop's rules would win over
+it, keep them off that state instead (IconButton: the variants' `&:not(:disabled):hover`, so `.Root`'s `&:disabled` color
+stays); an exception for one item gets its own rule after the loop (`.negative:disabled`).
 
 ```scss
 // Flag: every value repeats "-solid"

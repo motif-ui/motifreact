@@ -3,12 +3,9 @@
 // size, icon (px)
 $sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28), ("xxl", 32), ("xxxl", 52));
 
-// variant, then the text tone at rest, hover, pressed and disabled: strong sits on the page, negative on an image or a
-// dark overlay
-$tones: (
-  ("strong", "strong", "soft", "strong", "disabled"),
-  ("negative", "on-media", "on-media-soft", "on-media", "on-media-soft")
-);
+// variant, then the text tone at rest and on hover (pressed returns to rest): strong sits on the page, negative on an
+// image or a dark overlay
+$tones: (("strong", "strong", "soft"), ("negative", "on-media", "on-media-soft"));
 
 .Root {
   overflow: hidden;
@@ -27,43 +24,45 @@ $tones: (
     outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
     outline-offset: var(--mtf-sizing-2);
   }
+
+  // The variants' hover and pressed colors skip a disabled button, so this one color wins over their rest colors
+  &:disabled {
+    color: var(--mtf-color-text-disabled);
+  }
 }
 
-// The disabled rules come last in each block: same specificity, so they win over hover and pressed
 @each $variant in $variants-v2 {
   .#{$variant} {
     color: var(--mtf-color-#{$variant}-solid);
 
-    &:hover {
+    &:not(:disabled):hover {
       color: var(--mtf-color-#{$variant}-solid-hover);
     }
 
-    &:active {
+    &:not(:disabled):active {
       color: var(--mtf-color-#{$variant}-solid-active);
-    }
-
-    &:disabled {
-      color: var(--mtf-color-text-disabled);
     }
   }
 }
 
-@each $variant, $rest, $hover, $pressed, $disabled in $tones {
+@each $variant, $rest, $hover in $tones {
   .#{$variant} {
     color: var(--mtf-color-text-#{$rest});
 
-    &:hover {
+    &:not(:disabled):hover {
       color: var(--mtf-color-text-#{$hover});
     }
 
-    &:active {
-      color: var(--mtf-color-text-#{$pressed});
-    }
-
-    &:disabled {
-      color: var(--mtf-color-text-#{$disabled});
+    &:not(:disabled):active {
+      color: var(--mtf-color-text-#{$rest});
     }
   }
+}
+
+// negative sits on an image, where the gray would not read, so it keeps its soft tone when disabled (after .Root: same
+// specificity)
+.negative:disabled {
+  color: var(--mtf-color-text-on-media-soft);
 }
 
 @each $size, $icon in $sizes {
