@@ -14,8 +14,8 @@ describe("Popover", () => {
     {
       assertDefaults: ({ getByTestId }) => {
         const popoverElement = getByTestId("popover");
-        //Default value control for variant prop
-        expect(popoverElement).toHaveClass("light");
+        // inverseColors: false (the page's own surface)
+        expect(popoverElement.firstElementChild).not.toHaveAttribute("data-mtf-surface");
         //default value control for position prop
         expect(popoverElement).toHaveClass("bottom");
         //default value control for spacing prop
@@ -45,13 +45,10 @@ describe("Popover", () => {
     });
   });
 
-  it("should render in the variant given in the variant prop", () => {
+  it("should sit on the opposite surface when inverseColors is given", () => {
     const anchorRef = createRef<HTMLDivElement>();
-    (["light", "primary", "dark"] as ("light" | "primary" | "dark")[]).forEach(variant => {
-      const { unmount, getByTestId } = render(<Popover anchorRef={anchorRef} variant={variant} open />);
-      expect(getByTestId("popover")).toHaveClass(variant);
-      unmount();
-    });
+    const { getByTestId } = render(<Popover anchorRef={anchorRef} inverseColors open />);
+    expect(getByTestId("popover").firstElementChild).toHaveAttribute("data-mtf-surface", "opposite");
   });
 
   it("should render in a panel given in the spacing prop", () => {

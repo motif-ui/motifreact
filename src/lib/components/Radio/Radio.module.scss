@@ -1,78 +1,87 @@
 @use "@styles" as *;
-$sizes: (("xs", "16x", "6x"), ("sm", "20x", "8x"), ("md", "24x", "10x"), ("lg", "28x", "12x"));
 
-@each $name, $size, $gap in $sizes {
-  .#{$name} {
-    &.Root {
-      gap: var(--base-sizing-#{$gap});
-    }
-    .label {
-      @include font("base", $name, "500");
-    }
-    .radio {
-      width: var(--base-sizing-#{$size});
-      min-width: var(--base-sizing-#{$size});
-      height: var(--base-sizing-#{$size});
-      min-height: var(--base-sizing-#{$size});
+// size, disc, gap
+$sizes: (("xs", 16, 6), ("sm", 20, 8), ("md", 24, 10), ("lg", 28, 12));
+
+.Root {
+  // The checked disc's border and fill; success replaces it
+  --mtf-radio-fill: var(--mtf-color-primary-solid);
+  display: inline-flex;
+  align-items: center;
+
+  &.success {
+    --mtf-radio-fill: var(--mtf-color-success-solid);
+  }
+}
+
+.radio {
+  appearance: none;
+  margin: 0; // Not removed via appearance
+  border: var(--mtf-sizing-1) solid var(--mtf-color-border-field);
+  border-radius: var(--mtf-sizing-radius-round);
+  background-color: var(--mtf-color-surface-field);
+  @include transition(background-color border-color);
+
+  &:hover {
+    border-color: var(--mtf-color-border-field-hover);
+  }
+
+  &:focus-visible {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: var(--mtf-sizing-2);
+  }
+
+  // Before the checked rule: a checked radio takes the fill as its border
+  .success & {
+    border-color: var(--mtf-color-success-border);
+  }
+
+  &:checked {
+    border-color: var(--mtf-radio-fill);
+    background-color: var(--mtf-radio-fill);
+  }
+
+  // After the checked rule: same specificity, so the error border stays on a checked radio and disabled wins over both
+  .error & {
+    border-color: var(--mtf-color-danger-border);
+  }
+
+  .disabled & {
+    border-color: var(--mtf-color-border-disabled);
+    background-color: var(--mtf-color-surface-disabled);
+
+    // A checked disabled disc stays a darker gray, so it still reads as selected
+    &:checked {
+      background-color: var(--mtf-color-text-disabled);
     }
   }
 }
 
-.Root {
-  display: inline-flex;
-  align-items: center;
+.label {
+  color: var(--mtf-color-text-strong);
 
-  .label {
-    color: var(--theme-color-text-base-title-light);
+  .disabled & {
+    color: var(--mtf-color-text-disabled);
   }
+}
 
-  .radio {
-    @include transition;
-    appearance: none;
-    margin: 0;
-    background: var(--theme-color-surface-base-bg-light);
-    border-radius: var(--theme-sizing-radius-round);
-    border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
+.disabled * {
+  pointer-events: none;
+}
 
-    &:hover {
-      border-color: var(--theme-color-border-light-hover);
-      background-color: var(--theme-color-surface-base-base2);
-    }
+@each $size, $disc, $gap in $sizes {
+  .#{$size} {
+    gap: var(--mtf-sizing-space-#{$gap});
 
-    &:focus {
-      outline: none;
-      border-color: var(--theme-color-border-primary-default);
-      background-color: var(--theme-color-surface-base-base2);
-    }
-
-    &:checked {
-      background: var(--theme-color-surface-primary-default);
-      border-color: var(--theme-color-border-primary-default);
-    }
-  }
-
-  &.error .radio:not(:checked) {
-    border-color: var(--theme-color-border-danger-default);
-  }
-
-  &.success .radio:not(:checked) {
-    border-color: var(--theme-color-border-success-default);
-  }
-
-  &.disabled {
-    * {
-      pointer-events: none;
-    }
     .label {
-      color: var(--theme-color-text-base-disabled);
+      @include typography("text-#{$size}", "strong");
     }
+
     .radio {
-      border-color: var(--theme-color-border-light-disabled);
-      background: var(--theme-color-surface-base-bg-light);
-      &:checked {
-        border-color: var(--theme-color-surface-primary-disabled);
-        background: var(--theme-color-surface-primary-disabled);
-      }
+      width: var(--mtf-sizing-#{$disc});
+      min-width: var(--mtf-sizing-#{$disc});
+      height: var(--mtf-sizing-#{$disc});
+      min-height: var(--mtf-sizing-#{$disc});
     }
   }
 }

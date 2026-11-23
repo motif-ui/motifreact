@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, horizontalPadding, verticalPadding, textSize, pointerSize
-$sizes: (("xs", "4x", "2x", "xxs", "6x"), ("sm", "8x", "4x", "xs", "8x"), ("md", "12x", "6x", "sm", "10x"), ("lg", "16x", "8x", "md", "12x"));
+// size, paddingH, paddingV, text step, pointer
+$sizes: (("xs", 4, 2, "2xs", 6), ("sm", 8, 4, "xs", 8), ("md", 12, 6, "sm", 10), ("lg", 16, 8, "md", 12));
 
 // position, flexDirection, triangleOrder, rotation
 // The triangle is put after the text with order instead of a reversed flex direction. A reversed one makes the content
@@ -17,17 +17,15 @@ $positions: (
   ("bottomLeft", column, 0, 0deg)
 );
 
-// variant, background, title color, text color
-$variants: (
-  ("light", var(--theme-color-surface-base-base3), var(--theme-color-text-base-title), var(--theme-color-text-base-subtitle)),
-  ("dark", var(--theme-color-text-secondary-active), var(--theme-color-semantic-base-white), var(--theme-color-text-base-text-light))
-);
+
 
 // Distance from the screen edges when the tooltip is shifted to stay in the screen
-$screen-edge-space: var(--base-sizing-8x);
-$radius: var(--theme-sizing-radius-default);
+$screen-edge-space: var(--mtf-sizing-space-8);
+$radius: var(--mtf-sizing-radius-md);
 
 .Root {
+  // The tooltip's surface, drawn by the text box and the pointer; inverseColors replaces it
+  --mtf-tooltip-surface: var(--mtf-color-surface-contrast);
   @include pop-default(1);
   position: absolute;
   z-index: z-layer("anchored");
@@ -36,6 +34,15 @@ $radius: var(--theme-sizing-radius-default);
   text-wrap: auto;
   pointer-events: none;
   box-sizing: border-box;
+
+  // A drop shadow follows the pointer too; it is elevation-2 without the spread, which drop-shadow() does not take
+  filter: drop-shadow(0 var(--mtf-sizing-4) var(--mtf-sizing-6) var(--mtf-elevation-2-color));
+
+  // The page's own sunken surface: light gray on a light page, near black on a dark one, flat
+  &.inverseColors {
+    --mtf-tooltip-surface: var(--mtf-color-surface-sunken);
+    filter: none;
+  }
 
   &.visible {
     @include pop-in;
@@ -48,7 +55,7 @@ $radius: var(--theme-sizing-radius-default);
     height: var(--pointer-size);
     border-left: calc(var(--pointer-size) / 2) solid transparent;
     border-right: calc(var(--pointer-size) / 2) solid transparent;
-    border-bottom: var(--pointer-size) solid;
+    border-bottom: var(--pointer-size) solid var(--mtf-tooltip-surface);
     box-sizing: border-box;
   }
 
@@ -57,6 +64,7 @@ $radius: var(--theme-sizing-radius-default);
     border-radius: $radius;
     display: flex;
     flex-direction: column;
+    background-color: var(--mtf-tooltip-surface);
 
     .title,
     .text {
@@ -65,18 +73,18 @@ $radius: var(--theme-sizing-radius-default);
     }
   }
 
-  @each $size, $paddingH, $paddingV, $textSize, $pointerSize in $sizes {
+  @each $size, $paddingH, $paddingV, $step, $pointer in $sizes {
     &.#{$size} {
-      --pointer-size: var(--base-sizing-#{$pointerSize});
+      --pointer-size: var(--mtf-sizing-#{$pointer});
 
       .textWrapper {
-        padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+        padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
 
         .title {
-          @include font("base", $textSize, "600");
+          @include typography("text-#{$step}", "stronger");
         }
         .text {
-          @include font("body", $textSize);
+          @include typography("text-#{$step}", "regular");
         }
       }
     }
@@ -114,23 +122,6 @@ $radius: var(--theme-sizing-radius-default);
       }
     }
   }
-
-  @each $variant, $background, $titleColor, $textColor in $variants {
-    &.#{$variant} {
-      .textWrapper {
-        background-color: $background;
-        .title {
-          color: $titleColor;
-        }
-        .text {
-          color: $textColor;
-        }
-      }
-      .triangle {
-        border-bottom-color: $background;
-      }
-    }
-  }
 }
 
 // The spot of the anchor that the triangle points to on the top and bottom placements, as the position asks for:
@@ -145,4 +136,20 @@ $radius: var(--theme-sizing-radius-default);
 
 .triangleCenter {
   --triangle-left: calc((var(--overlay-anchor-left) + var(--overlay-anchor-right)) / 2 - var(--pointer-size) / 2);
+}
+
+.title {
+  color: var(--mtf-color-text-on-contrast);
+
+  .inverseColors & {
+    color: var(--mtf-color-text-strong);
+  }
+}
+
+.text {
+  color: var(--mtf-color-text-on-contrast-soft);
+
+  .inverseColors & {
+    color: var(--mtf-color-text-soft);
+  }
 }

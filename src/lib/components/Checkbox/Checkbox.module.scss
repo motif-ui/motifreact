@@ -54,6 +54,11 @@ $sizes: (
     outline-offset: var(--mtf-sizing-2);
   }
 
+  // Before the checked rules: a checked box takes the fill as its border
+  .success & {
+    border-color: var(--mtf-color-success-border);
+  }
+
   &:checked,
   .partialCheck & {
     border-color: var(--mtf-checkbox-fill);
