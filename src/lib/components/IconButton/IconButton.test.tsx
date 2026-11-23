@@ -3,14 +3,22 @@ import { fireEvent, render } from "@testing-library/react";
 import IconButton from "./IconButton";
 import { motifIconNames } from "../Icon/motif-icon-names";
 import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
-import { Size10LG } from "../../types";
+import { Size10LG, VariantV2 } from "../../types";
 import Icon from "@/components/Icon";
 import MotifProvider from "../../motif/context/MotifProvider";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../lib/types";
 describe("IconButton", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLButtonElement>) =>
-    render(<IconButton name="account_circle" {...props} />),
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLButtonElement>) => render(<IconButton name="account_circle" {...props} />),
+    {
+      assertDefaults: ({ container }) => {
+        // variant: neutral
+        expect(container.firstElementChild).toHaveClass("neutral");
+        // size: md
+        expect(container.firstElementChild).toHaveClass("md");
+      },
+    },
   );
 
   it("should render the icon given in the name prop", () => {
@@ -34,13 +42,17 @@ describe("IconButton", () => {
   });
 
   it("should be rendered with different colors considering the given variant prop", () => {
-    const variants: ("primary" | "secondary" | "info" | "success" | "warning" | "danger")[] = [
+    const variants: (VariantV2 | "strong" | "negative")[] = [
+      "neutral",
       "primary",
       "secondary",
+      "accent",
       "info",
       "success",
       "warning",
       "danger",
+      "strong",
+      "negative",
     ];
 
     for (const variant of variants) {

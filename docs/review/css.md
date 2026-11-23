@@ -152,6 +152,10 @@ CSS modules already scope class names (`mtf-{file}--{class}`), so BEM applies to
 Flag every new `!important`. If something cannot be overridden without it, the selector structure is the problem
 (see section 1).
 
+The one documented exception is Icon's root (`display`, `font-size`, `width`, `height`): an icon font's own class
+(material-symbols and the like) sets them with the same specificity, and the consumer decides which stylesheet loads last.
+Each such line carries a `stylelint-disable-line declaration-no-important` comment.
+
 ## 4. Declare a value once per file
 
 Within one file, a property of an element should be set in one place. Avoid setting a value on a class and then overriding it
@@ -169,6 +173,7 @@ with another class of the same file whenever possible:
 
   Any other custom property, typically one read in a single place, is an extra indirection: set the property directly in
   the modifier or the loop instead, and flag it.
+
 - Interaction and state pseudo-classes (`:hover`, `:focus`, `:disabled`) that replace the default are acceptable.
 - Flag a property set on a class and redeclared for the same element by another class in the same file when the first value
   is never used on its own.
@@ -177,6 +182,11 @@ with another class of the same file whenever possible:
 
 When every entry of an SCSS list, map or table column shares the same prefix or suffix, store only the varying part and add
 the fixed part where the value is used. A one-off exception gets its own rule next to the loop, not a map entry for every item.
+
+The same goes for loops: a declaration whose value is the same in every iteration (no loop variable in it) is set once,
+outside the loop, on a class every item has (`.Root`, as `&:disabled` inside it). When the loop's rules would win over
+it, keep them off that state instead (IconButton: the variants' `&:not(:disabled):hover`, so `.Root`'s `&:disabled` color
+stays); an exception for one item gets its own rule after the loop (`.negative:disabled`).
 
 ```scss
 // Flag: every value repeats "-solid"

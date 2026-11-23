@@ -1,0 +1,49 @@
+@use "@styles" as *;
+
+$variants: "primary", "secondary", "info", "success", "warning", "danger";
+$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"), ("xxxl", "52x"));
+
+.Root {
+  display: inline-block !important;
+  vertical-align: top;
+  user-select: none;
+  font-size: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
+  width: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
+  height: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
+
+  span,
+  i {
+    display: block;
+    font-size: inherit !important;
+    line-height: 1;
+    &::before {
+      vertical-align: bottom;
+    }
+  }
+  svg {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+@each $variant in $variants {
+  .#{$variant} {
+    color: var(--theme-color-text-#{$variant}-default);
+  }
+}
+
+@each $size, $fontSize in $sizes {
+  .#{$size} {
+    --mtf-icon-size: var(--base-sizing-#{$fontSize});
+  }
+}
+
+.stroke svg {
+  stroke: currentColor;
+  fill: transparent;
+}
+
+.fill svg {
+  fill: currentColor;
+  stroke: transparent;
+}
