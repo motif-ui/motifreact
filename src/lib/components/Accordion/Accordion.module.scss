@@ -3,69 +3,73 @@
 .Root {
   display: flex;
   flex-direction: column;
-  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-  border-radius: var(--theme-sizing-radius-default);
+  border: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
+  border-radius: var(--mtf-sizing-radius-md);
   overflow: hidden;
-
-  .header {
-    @include transition(background-color);
-    background: var(--theme-color-surface-base-base2);
-    border-width: 0;
-    border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-    padding: var(--base-sizing-8x) var(--base-sizing-16x);
-    display: flex;
-    flex: 1;
-    gap: var(--base-sizing-6x);
-    align-items: center;
-    user-select: none;
-    cursor: pointer;
-
-    .title {
-      color: var(--theme-color-text-base-title);
-      @include font;
-      flex-grow: 1;
-      text-align: left;
-    }
-
-    &:hover {
-      background: var(--theme-color-surface-base-base4);
-    }
-
-    @include focus-ring;
-  }
-
-  .content {
-    display: grid;
-    grid-template-rows: 0fr;
-    @include transition(grid-template-rows);
-    margin-top: calc(-1 * var(--base-sizing-1x));
-
-    .contentOverflowContainer {
-      overflow: hidden;
-      display: grid;
-    }
-
-    .textContent {
-      display: block;
-      padding: var(--base-sizing-16x);
-      @include font("body", "sm");
-      color: var(--theme-color-text-light-default);
-    }
-  }
-
-  .collapseIcon {
-    @include transition(transform);
-    color: var(--theme-color-text-base-text-dark);
-  }
 
   &.expanded {
     .content {
       grid-template-rows: 1fr;
     }
+
     .collapseIcon {
       transform: rotate(180deg);
     }
   }
+}
+
+.header {
+  display: flex;
+  flex: 1;
+  gap: var(--mtf-sizing-space-6);
+  align-items: center;
+  padding: var(--mtf-sizing-space-8) var(--mtf-sizing-space-16);
+  border-width: 0;
+  border-bottom: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
+  background-color: var(--mtf-color-surface-subtle);
+  color: var(--mtf-color-text-strong);
+  user-select: none;
+  cursor: pointer;
+  @include transition(background-color);
+
+  &:hover {
+    background-color: var(--mtf-color-neutral-soft);
+  }
+
+  // Inside the rounded, clipped root, so the ring is drawn inside the header
+  &:focus-visible {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: calc(-1 * var(--mtf-sizing-2));
+  }
+}
+
+.title {
+  flex-grow: 1;
+  text-align: left;
+  @include typography("label-lg", "stronger");
+}
+
+.collapseIcon {
+  @include transition(transform);
+}
+
+.content {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: calc(-1 * var(--mtf-sizing-1));
+  @include transition(grid-template-rows);
+}
+
+.contentOverflowContainer {
+  display: grid;
+  overflow: hidden;
+}
+
+.textContent {
+  display: block;
+  padding: var(--mtf-sizing-space-16);
+  color: var(--mtf-color-text-soft);
+  @include typography("body-sm");
 }
 
 // =============================================================================
@@ -75,19 +79,22 @@
 .group {
   display: flex;
   flex-direction: column;
-  gap: var(--base-sizing-8x);
+  gap: var(--mtf-sizing-space-8);
   overflow: hidden;
+}
 
-  &.group_condensed {
-    gap: 0;
-    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-    border-radius: var(--theme-sizing-radius-default);
-    > * {
-      border: none;
-      border-radius: 0;
-      &:not(:last-child) {
-        border-bottom: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-      }
-    }
+// One frame around the group: the accordions lose their own and are separated by a line
+.group_condensed {
+  gap: 0;
+  border: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
+  border-radius: var(--mtf-sizing-radius-md);
+
+  > * {
+    border: none;
+    border-radius: 0;
+  }
+
+  > :not(:last-child) {
+    border-bottom: solid var(--mtf-sizing-1) var(--mtf-color-border-default);
   }
 }

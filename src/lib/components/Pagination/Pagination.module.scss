@@ -1,11 +1,7 @@
 @use "@styles" as *;
 
-$pagination-sizes: (
-  //sizeName, size, gap
-  ("sm", "32x", "6x"),
-  ("md", "40x", "8x"),
-  ("lg", "48x", "10x")
-);
+// size, itemSize, gap
+$sizes: (("sm", 32, 6), ("md", 40, 8), ("lg", 48, 10));
 
 .Root {
   display: inline-flex;
@@ -13,67 +9,66 @@ $pagination-sizes: (
 }
 
 .pageItem {
-  border: solid var(--base-sizing-1x) transparent;
-  border-radius: var(--theme-sizing-radius-default);
+  border: solid var(--mtf-sizing-1) transparent;
+  border-radius: var(--mtf-sizing-radius-md);
   background: none;
-  color: var(--theme-color-text-base-title-light);
+  color: var(--mtf-color-text-strong);
   cursor: pointer;
+  @include transition(background-color);
+
+  &:hover {
+    background-color: var(--mtf-color-neutral-soft);
+  }
+
+  &:focus-visible {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: var(--mtf-sizing-2);
+  }
 
   &.arrowIcon {
     display: flex;
     align-items: center;
     justify-content: center;
-    span {
-      color: var(--theme-color-text-base-title-light);
-    }
+
     &:disabled {
       pointer-events: none;
-      span {
-        color: var(--theme-color-text-secondary-disabled);
-      }
+      color: var(--mtf-color-text-disabled);
     }
   }
 
-  &:hover {
-    background: var(--theme-color-surface-light-default);
-  }
   &.active {
-    color: white;
+    color: var(--mtf-color-on-primary);
     pointer-events: none;
-    background: var(--theme-color-surface-primary-default);
+    background-color: var(--mtf-color-primary-solid);
   }
-  @include focus-ring;
 }
 
 .separator {
-  color: var(--theme-color-text-base-caption);
+  color: var(--mtf-color-text-softer);
   display: flex;
   align-items: center;
   justify-content: center;
+
   &::before {
     content: "...";
   }
 }
 
-@each $name, $size, $gap in $pagination-sizes {
-  .#{$name} {
-    padding: var(--base-sizing-#{$gap});
-    gap: var(--base-sizing-#{$gap});
+// A size changes the bar, its items and the separator: grouped by size
+@each $size, $itemSize, $gap in $sizes {
+  .#{$size} {
+    padding: var(--mtf-sizing-space-#{$gap});
+    gap: var(--mtf-sizing-space-#{$gap});
 
     .pageItem {
-      height: var(--base-sizing-#{$size});
-      @include font("base", $name, "500");
-      &.arrowIcon {
-        width: var(--base-sizing-#{$size});
-      }
-      &:not(.arrowIcon) {
-        min-width: var(--base-sizing-#{$size});
-      }
+      height: var(--mtf-sizing-#{$itemSize});
+      min-width: var(--mtf-sizing-#{$itemSize});
+      @include typography("text-#{$size}", "strong");
     }
 
     .separator {
-      width: var(--base-sizing-#{$size});
-      height: var(--base-sizing-#{$size});
+      width: var(--mtf-sizing-#{$itemSize});
+      height: var(--mtf-sizing-#{$itemSize});
     }
   }
 }

@@ -7,7 +7,12 @@ $grid-sizes: ("xxs", "xs", "sm", "md", "lg", "xl", "xxl");
   margin: 0 auto;
   box-sizing: border-box;
 
+  // The smallest screens have no container width: the container fills the screen
   @include screen-width-breakpoints($grid-sizes) using ($size) {
-    max-width: var(--theme-grid-container-#{$size});
+    max-width: if(sass($size == "xxs"): 100%; else: var(--mtf-sizing-container-#{$size}));
+  }
+
+  &.fluid {
+    max-width: none;
   }
 }

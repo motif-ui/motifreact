@@ -1,4 +1,4 @@
-import type { IconGlobalType } from "../../types";
+import type { IconGlobalType, VariantV2 } from "../../types";
 
 type Cols = 1 | 2 | 3 | 4;
 
@@ -21,5 +21,5 @@ export type DataViewItemProps = {
   label: string;
   value?: string | number;
   icon?: IconGlobalType;
-  variant?: "primary" | "info" | "success" | "warning" | "danger";
+  variant?: VariantV2;
 };

@@ -10,65 +10,55 @@ $sizes: (
 
 $states: "hover", "active", "disabled";
 $variants: ("primary", "secondary", "info", "success", "warning", "danger");
-@mixin caret-tip($position) {
+$caret-margin: var(--base-sizing-12x);
+
+// The caret points near the anchor's right edge. It is kept in the menu, e.g. when the menu is shifted into the screen.
+$caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-margin), calc(100% - $caret-margin));
+
+@mixin caret-tip($pos) {
   &::after,
   &::before {
     border: solid transparent;
     content: " ";
     position: absolute;
     pointer-events: none;
-    bottom: 100%;
+    @if $pos == bottom {
+      top: var(--base-sizing-2x);
+    } @else {
+      bottom: var(--base-sizing-2x);
+    }
   }
   &::before {
-    #{$position}: var(--base-sizing-12x);
-    border-bottom-color: var(--theme-color-surface-base-base7);
-    border-width: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
+    left: calc($caret-center - var(--base-sizing-6x));
+    border-#{$pos}-color: var(--theme-color-surface-base-base7);
+    @if $pos == bottom {
+      border-width: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
+    } @else {
+      border-width: var(--base-sizing-10x) var(--base-sizing-6x) 0 var(--base-sizing-6x);
+    }
   }
   &::after {
-    #{$position}: var(--base-sizing-14x);
-    border-bottom-color: var(--theme-color-surface-base-bg-light);
-    border-width: 0 var(--base-sizing-4x) var(--base-sizing-8x) var(--base-sizing-4x);
+    left: calc($caret-center - var(--base-sizing-4x));
+    border-#{$pos}-color: var(--theme-color-surface-base-bg-light);
+    @if $pos == bottom {
+      border-width: var(--base-sizing-2x) var(--base-sizing-4x) var(--base-sizing-10x) var(--base-sizing-4x);
+    } @else {
+      border-width: var(--base-sizing-10x) var(--base-sizing-4x) var(--base-sizing-2x) var(--base-sizing-4x);
+    }
   }
-}
-
-@mixin overflow-caret($dir) {
-  @if $dir == right {
-    right: 0;
-  } @else {
-    left: 0;
-  }
-
-  &.callout {
-    @include caret-tip($dir);
-    margin-top: var(--base-sizing-10x);
-  }
-
-  &.withGap {
-    margin-top: var(--base-sizing-10x);
-  }
-
-  &.spacing {
-    margin-top: 0;
-  }
-}
-
-.Root {
-  position: relative;
-  display: inline-flex;
 }
 
 // =============================================================================
 // Dropdown Button
 // =============================================================================
-.Button {
-  display: flex;
+.Root {
+  display: inline-flex;
   justify-content: space-between;
-  flex: 1;
   border-radius: var(--theme-sizing-radius-default);
   align-items: center;
   border: none;
   overflow-wrap: break-word;
-  width: max-content;
+  min-width: max-content;
   @include transition(background color);
 
   &:not(:disabled) {
@@ -80,18 +70,18 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
     outline: solid var(--base-sizing-4x) var(--theme-color-border-primary-focus);
   }
 
-  .Button-DropdownIcon {
+  .arrowIcon {
     @include transition(rotate);
-    .open & {
-      rotate: 180deg;
-    }
+  }
+  &.open .arrowIcon {
+    rotate: 180deg;
   }
 
-  .pill & {
+  &.pill {
     border-radius: var(--theme-sizing-radius-round);
   }
 
-  .textOnly & {
+  &.textOnly {
     background: transparent;
     color: var(--theme-color-text-base-subtitle);
 
@@ -106,7 +96,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 
   @each $variant in $variants {
     $color: if(sass($variant == "secondary"): "light"; else: $variant);
-    .solid.#{$variant} & {
+    &.solid.#{$variant} {
       background-color: var(--theme-color-surface-#{$color}-default);
       color: if(sass($variant == "secondary" or $variant == "warning"): var(--theme-color-text-base-title); else: var(--theme-color-text-base-global-light));
 
@@ -129,22 +119,38 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 // Dropdown Menu
 // =============================================================================
 .Menu {
+  z-index: z-layer("anchored");
+  position: absolute;
+  width: max-content;
+  box-sizing: border-box;
+  margin-inline: var(--base-sizing-8x);
+
+  &.bottom {
+    padding-top: var(--base-sizing-10x);
+  }
+  &.top {
+    padding-bottom: var(--base-sizing-10x);
+  }
+  &.noSpace {
+    padding-block: 0;
+  }
+}
+
+@each $pos in bottom, top {
+  .#{$pos}.callout {
+    @include caret-tip($pos);
+  }
+}
+
+.MenuList {
   list-style: none;
   padding: 0;
-  position: absolute;
-  top: 100%;
-  z-index: 1;
+  margin-block: 0;
+  position: relative;
   border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
   border-radius: var(--theme-sizing-radius-default);
   background-color: var(--theme-color-surface-base-global-light);
   @include shadow(6);
-
-  &:not(.leftOverflow) {
-    @include overflow-caret(right);
-  }
-  &.leftOverflow {
-    @include overflow-caret(left);
-  }
 }
 
 // =============================================================================
@@ -195,7 +201,7 @@ $variants: ("primary", "secondary", "info", "success", "warning", "danger");
 // =============================================================================
 @each $size, $buttonPaddingAndGap, $itemPaddingAndGap in $sizes {
   .#{$size} {
-    .Button {
+    &.Root {
       padding: var(--base-sizing-#{$buttonPaddingAndGap});
       gap: var(--base-sizing-#{$buttonPaddingAndGap});
       @include font("base", $size, "500");

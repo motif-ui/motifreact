@@ -20,16 +20,36 @@ const gapsOf = async (page: Page, selector: string) => ({
   row: await styleOf(page, selector, "row-gap"),
 });
 
-// The px value of a gap token in the current theme, so the tests do not depend on the token values
-const token = (page: Page, size: Size) =>
-  page.evaluate(size => {
+// The px value of a length variable in the current theme, so the tests do not depend on the token values
+const lengthOf = (page: Page, variable: string) =>
+  page.evaluate(variable => {
     const probe = document.createElement("div");
-    probe.style.width = `var(--theme-grid-gutter-gutter-${size})`;
+    probe.style.width = `var(${variable})`;
     document.body.append(probe);
     const { width } = getComputedStyle(probe);
     probe.remove();
     return width;
-  }, size);
+  }, variable);
+
+// The px value of a gap token
+const token = (page: Page, size: Size) => lengthOf(page, `--theme-grid-gutter-gutter-${size}`);
+
+const rectsOf = (page: Page, selector: string) =>
+  page.locator(selector).evaluateAll(els =>
+    els.map(el => {
+      const { top, bottom, left, right, width } = el.getBoundingClientRect();
+      return { top, bottom, left, right, width };
+    }),
+  );
+
+// The expected width of a col of the given size, with the same formula as calculate-grid-flex-width in Grid.module.scss
+const expectedColWidth = async (page: Page, row: string, size: number) => {
+  const { width, gap } = await page.locator(row).evaluate(el => ({
+    width: el.getBoundingClientRect().width,
+    gap: parseFloat(getComputedStyle(el).columnGap),
+  }));
+  return (width * size) / 12 - (1 - size / 12) * gap;
+};
 
 const openAt = async (page: Page, story: string, width: number) => {
   await page.setViewportSize({ width, height: 800 });
@@ -166,4 +186,180 @@ test("stretchItems makes the contents of the cols in the same row equal in heigh
   const heights = await page.locator(".stretch-row .item").evaluateAll(items => items.map(item => item.getBoundingClientRect().height));
   expect(heights[0]).toBeGreaterThan(0);
   expect(heights[0]).toBeCloseTo(heights[1], 0);
+});
+
+test.describe("Responsive col sizes", () => {
+  const expectSizes = async (page: Page, row: string, sizes: number[], lines: number) => {
+    const rects = await rectsOf(page, `${row} > *`);
+    expect(new Set(rects.map(rect => rect.top)).size, `${row} is on ${lines} line(s)`).toBe(lines);
+    for (const [i, size] of sizes.entries()) {
+      expect(rects[i].width, `col ${i + 1} of ${row}`).toBeCloseTo(await expectedColWidth(page, row, size), 0);
+    }
+  };
+
+  test("use size below their smallest breakpoint", async ({ page }) => {
+    await openAt(page, "responsive-cols", viewports.base);
+    await expectSizes(page, ".responsive-cols-row", [12, 12, 12], 3);
+  });
+
+  test("apply each breakpoint to its width and above, over size", async ({ page }) => {
+    await openAt(page, "responsive-cols", viewports.md);
+    await expectSizes(page, ".responsive-cols-row", [6, 6, 6], 2);
+
+    await openAt(page, "responsive-cols", viewports.lg);
+    await expectSizes(page, ".responsive-cols-row", [4, 4, 4], 1);
+  });
+
+  test("apply xs from its breakpoint", async ({ page }) => {
+    await openAt(page, "responsive-cols", viewports.base);
+    await expectSizes(page, ".xs-cols-row", [6, 6], 1);
+  });
+
+  for (const viewport of ["base", "lg"] as const) {
+    test(`let a col without a size fill the rest of the row on ${viewport}`, async ({ page }) => {
+      await openAt(page, "responsive-cols", viewports[viewport]);
+      const [sized, filling] = await rectsOf(page, ".filling-row > *");
+      const row = (await rectsOf(page, ".filling-row"))[0];
+      expect(sized.width).toBeCloseTo(await expectedColWidth(page, ".filling-row", 4), 0);
+      expect(sized.top).toBe(filling.top);
+      expect(filling.right).toBeCloseTo(row.right, 0);
+    });
+  }
+});
+
+test("Cols wrap onto a new line when their sizes add up to more than 12, separated by the row gap", async ({ page }) => {
+  await openAt(page, "wrapping", viewports.lg);
+  const rects = await rectsOf(page, ".wrapping-row > *");
+  expect(rects[0].top).toBe(rects[1].top);
+  expect(rects[1].left - rects[0].right).toBeCloseTo(parseFloat(await token(page, "xs")), 0);
+  expect(rects[2].top - rects[0].bottom).toBeCloseTo(parseFloat(await token(page, "lg")), 0);
+  for (const rect of rects) expect(rect.width).toBeCloseTo(await expectedColWidth(page, ".wrapping-row", 6), 0);
+});
+
+test.describe("justifyCols", () => {
+  // The space before the first col, between the cols (without the gap) and after the last col
+  const spacesOf = async (page: Page, justify: string) => {
+    const row = `.justify-${justify}`;
+    const [rowRect] = await rectsOf(page, row);
+    const [first, second] = await rectsOf(page, `${row} > *`);
+    const gap = parseFloat(await styleOf(page, row, "column-gap"));
+    expect(first.top, `${row} is on one line`).toBe(second.top);
+    return { before: first.left - rowRect.left, between: second.left - first.right - gap, after: rowRect.right - second.right };
+  };
+
+  test.beforeEach(async ({ page }) => {
+    await openAt(page, "justify-cols", viewports.lg);
+  });
+
+  test("start puts the cols at the start of the row", async ({ page }) => {
+    const spaces = await spacesOf(page, "start");
+    expect(spaces.before).toBeCloseTo(0, 0);
+    expect(spaces.between).toBeCloseTo(0, 0);
+    expect(spaces.after).toBeGreaterThan(0);
+  });
+
+  test("end puts the cols at the end of the row", async ({ page }) => {
+    const spaces = await spacesOf(page, "end");
+    expect(spaces.before).toBeGreaterThan(0);
+    expect(spaces.between).toBeCloseTo(0, 0);
+    expect(spaces.after).toBeCloseTo(0, 0);
+  });
+
+  test("center puts the cols in the middle of the row", async ({ page }) => {
+    const spaces = await spacesOf(page, "center");
+    expect(spaces.before).toBeGreaterThan(0);
+    expect(spaces.between).toBeCloseTo(0, 0);
+    expect(spaces.before).toBeCloseTo(spaces.after, 0);
+  });
+
+  test("apart puts the free space between the cols", async ({ page }) => {
+    const spaces = await spacesOf(page, "apart");
+    expect(spaces.before).toBeCloseTo(0, 0);
+    expect(spaces.between).toBeGreaterThan(0);
+    expect(spaces.after).toBeCloseTo(0, 0);
+  });
+
+  test("evenly puts equal spaces around the cols", async ({ page }) => {
+    const spaces = await spacesOf(page, "evenly");
+    expect(spaces.before).toBeGreaterThan(0);
+    expect(spaces.between).toBeCloseTo(spaces.before, 0);
+    expect(spaces.after).toBeCloseTo(spaces.before, 0);
+  });
+});
+
+test("colsAuto sizes the cols without a size by their contents instead of sharing the row equally", async ({ page }) => {
+  await openAt(page, "cols-auto", viewports.lg);
+  const equal = await rectsOf(page, ".equal-row > *");
+  expect(equal[0].width).toBeCloseTo(equal[1].width, 0);
+
+  const auto = await rectsOf(page, ".auto-row > *");
+  const [row] = await rectsOf(page, ".auto-row");
+  expect(auto[0].width).toBeLessThan(auto[1].width);
+  expect(auto[1].right).toBeLessThan(row.right);
+});
+
+test.describe("Container widths", () => {
+  const containerSizes = { base: "xs", md: "md", lg: "lg" } as const;
+
+  for (const viewport of Object.keys(viewports) as (keyof typeof viewports)[]) {
+    test(`limit the width of a Grid that is not fluid and center it on ${viewport}`, async ({ page }) => {
+      await openAt(page, "containers", viewports[viewport]);
+      const [grid] = await rectsOf(page, ".container");
+      const [parent] = await rectsOf(page, "#storybook-root");
+      expect(grid.width).toBeCloseTo(parseFloat(await lengthOf(page, `--theme-grid-container-${containerSizes[viewport]}`)), 0);
+      expect(grid.left - parent.left).toBeCloseTo(parent.right - grid.right, 0);
+
+      const [fluid] = await rectsOf(page, ".fluid");
+      expect(fluid.width).toBeCloseTo(parent.width, 0);
+    });
+  }
+});
+
+test.describe("Deprecated gutter", () => {
+  test("sets both the gaps and the padding", async ({ page }) => {
+    await openAt(page, "gutter", viewports.base);
+    const lg = await token(page, "lg");
+    expect(await gapsOf(page, ".gutter-row")).toEqual({ column: lg, row: lg });
+    expect(await styleOf(page, ".gutter", "row-gap")).toBe(lg);
+    expect(await styleOf(page, ".gutter", "padding")).toBe(lg);
+  });
+
+  test("is overridden by gap and padding, and remains as the base value of a responsive gap", async ({ page }) => {
+    await openAt(page, "gutter", viewports.base);
+    const lg = await token(page, "lg");
+    expect(await gapsOf(page, ".gutter-overridden-row")).toEqual({ column: lg, row: lg });
+    expect(await styleOf(page, ".gutter-overridden", "padding")).toBe(await token(page, "xs"));
+
+    await openAt(page, "gutter", viewports.md);
+    const xl = await token(page, "xl");
+    expect(await gapsOf(page, ".gutter-overridden-row")).toEqual({ column: xl, row: xl });
+    expect(await styleOf(page, ".gutter-overridden", "padding")).toBe(await token(page, "xs"));
+  });
+
+  for (const viewport of ["base", "lg"] as const) {
+    test(`of a Grid stays out of the Grids nested in it on ${viewport}`, async ({ page }) => {
+      await openAt(page, "nested-gutters", viewports[viewport]);
+      const [xs, sm] = [await token(page, "xs"), await token(page, "sm")];
+      const outer = await token(page, viewport === "lg" ? "xl" : "md");
+
+      expect(await gapsOf(page, ".outer-gutter-row")).toEqual({ column: outer, row: outer });
+      expect(await styleOf(page, ".outer-gutter", "padding")).toBe(outer);
+      // a nested Grid with its own gutter uses it, and one without uses the default instead of the outer gutter
+      expect(await gapsOf(page, ".inner-gutter-row")).toEqual({ column: xs, row: xs });
+      expect(await styleOf(page, ".inner-gutter", "padding")).toBe(xs);
+      expect(await gapsOf(page, ".inner-default-row")).toEqual({ column: sm, row: sm });
+      expect(await styleOf(page, ".inner-default", "padding")).toBe(sm);
+
+      // the cols of each Grid are sized with the gap of their own Row
+      for (const row of [".inner-gutter-row", ".inner-default-row"]) {
+        for (const rect of await rectsOf(page, `${row} > *`)) expect(rect.width).toBeCloseTo(await expectedColWidth(page, row, 6), 0);
+      }
+      if (viewport === "lg") {
+        const [wide, narrow] = await rectsOf(page, ".outer-gutter-row > *");
+        expect(wide.top).toBe(narrow.top);
+        expect(wide.width).toBeCloseTo(await expectedColWidth(page, ".outer-gutter-row", 8), 0);
+        expect(narrow.width).toBeCloseTo(await expectedColWidth(page, ".outer-gutter-row", 4), 0);
+      }
+    });
+  }
 });

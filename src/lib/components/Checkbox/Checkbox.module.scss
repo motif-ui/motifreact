@@ -1,132 +1,130 @@
 @use "@styles" as *;
 
-$sizes: (
-  // name, size, gap, paddingV, iconSize, viewBox
-  ("xs", "18x", "6x", "4x", "16", "0 0 23 23"),
-  ("sm", "20x", "8x", "6x", "18", "0 0 23 23"),
-  ("md", "24x", "10x", "8x", "22", "-1 -1 24 24"),
-  ("lg", "28x", "12x", "10x", "24", "-1 -1 24 24")
-);
-$svg-path: '<path d="M9.5501 18L3.8501 12.3L5.2751 10.875L9.5501 15.15L18.7251 5.97504L20.1501 7.40004L9.5501 18Z" fill="currentColor"/>';
-$partial-check-svg-path: '<line x1="3" y1="12" x2="20" y2="12" stroke-width="2" stroke="currentColor"/>';
+$check-path: '<path d="M9.5501 18L3.8501 12.3L5.2751 10.875L9.5501 15.15L18.7251 5.97504L20.1501 7.40004L9.5501 18Z" fill="currentColor"/>';
+$partial-path: '<line x1="3" y1="12" x2="20" y2="12" stroke-width="2" stroke="currentColor"/>';
 
-@each $name, $size, $gap, $paddingV, $iconSize, $viewBox in $sizes {
-  .#{$name} {
-    gap: var(--base-sizing-#{$gap});
-
-    .label {
-      @include font("base", $name, "500");
-    }
-
-    .input {
-      width: var(--base-sizing-#{$size});
-      height: var(--base-sizing-#{$size});
-      min-width: var(--base-sizing-#{$size});
-      min-height: var(--base-sizing-#{$size});
-      &::before {
-        mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$svg-path}</svg>');
-        content: "";
-        width: var(--base-sizing-#{$iconSize}x);
-        height: var(--base-sizing-#{$iconSize}x);
-        background-color: var(--theme-color-text-base-global-light);
-      }
-    }
-
-    &.partialCheck {
-      .input::before {
-        mask-image: url('data:image/svg+xml;utf8,<svg width="#{$iconSize}" height="#{$iconSize}" viewBox="#{$viewBox}" xmlns="http://www.w3.org/2000/svg">#{$partial-check-svg-path}</svg>');
-      }
-    }
-
-    &.inFormField {
-      padding: var(--base-sizing-#{$paddingV}) 0;
-    }
-  }
+@function mark($path, $size, $view-box) {
+  @return url('data:image/svg+xml;utf8,<svg width="#{$size}" height="#{$size}" viewBox="#{$view-box}" xmlns="http://www.w3.org/2000/svg">#{$path}</svg>');
 }
 
+// size, box, gap, paddingV (in a form field), mark, mark viewBox
+$sizes: (
+  ("xs", 18, 6, 4, 16, "0 0 23 23"),
+  ("sm", 20, 8, 6, 18, "0 0 23 23"),
+  ("md", 24, 10, 8, 22, "-1 -1 24 24"),
+  ("lg", 28, 12, 10, 24, "-1 -1 24 24")
+);
+
 .Root {
+  // The checked box's border and background; success replaces it
+  --mtf-checkbox-fill: var(--mtf-color-primary-solid);
   display: inline-flex;
   vertical-align: bottom;
   align-items: center;
 
-  .input {
-    appearance: none;
-    background: var(--theme-color-surface-base-bg-light);
-    margin: 0; // Not removed via appearance
-    border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
-    border-radius: var(--theme-sizing-radius-default);
-    @include transition;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-
-    &:hover {
-      border-color: var(--theme-color-border-light-hover);
-      background-color: var(--theme-color-surface-base-base2);
-    }
+  &.success {
+    --mtf-checkbox-fill: var(--mtf-color-success-solid);
   }
+}
 
-  .input::before {
+.input {
+  appearance: none;
+  display: flex;
+  justify-content: center;
+  margin: 0; // Not removed via appearance
+  overflow: hidden;
+  border: var(--mtf-sizing-1) solid var(--mtf-color-border-field);
+  border-radius: var(--mtf-sizing-radius-md);
+  background-color: var(--mtf-color-surface-field);
+  @include transition(background-color border-color);
+
+  &::before {
+    content: "";
+    background-color: var(--mtf-color-on-primary);
     opacity: 0;
     @include transition(opacity);
   }
 
-  .input:checked,
-  &.partialCheck .input {
-    border-color: var(--theme-color-surface-primary-default);
-    background: var(--theme-color-surface-primary-default);
+  &:hover {
+    border-color: var(--mtf-color-border-field-hover);
+  }
+
+  &:focus-visible {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: var(--mtf-sizing-2);
+  }
+
+  &:checked,
+  .partialCheck & {
+    border-color: var(--mtf-checkbox-fill);
+    background-color: var(--mtf-checkbox-fill);
 
     &::before {
       opacity: 1;
     }
   }
 
-  .input:focus-visible {
-    outline: none;
-    border-color: var(--theme-color-border-primary-default);
-    background-color: var(--theme-color-surface-base-base2);
+  .success &::before {
+    background-color: var(--mtf-color-on-success);
   }
 
-  .label {
-    color: var(--theme-color-text-base-title-light);
+  // After the checked rules: same specificity, so the error border stays on a checked box and disabled wins over both
+  .error & {
+    border-color: var(--mtf-color-danger-border);
   }
 
-  &.disabled {
-    * {
-      pointer-events: none;
+  .disabled & {
+    border-color: var(--mtf-color-border-disabled);
+    background-color: var(--mtf-color-surface-disabled);
+
+    &::before {
+      background-color: var(--mtf-color-text-disabled);
     }
+  }
+}
+
+.label {
+  color: var(--mtf-color-text-strong);
+
+  .disabled & {
+    color: var(--mtf-color-text-disabled);
+  }
+}
+
+.disabled * {
+  pointer-events: none;
+}
+
+@each $size, $box, $gap, $paddingV, $mark, $view-box in $sizes {
+  .#{$size} {
+    // The partial mark of this size, for the partialCheck rule below
+    --mtf-checkbox-partial: #{mark($partial-path, $mark, $view-box)};
+    gap: var(--mtf-sizing-space-#{$gap});
 
     .label {
-      color: var(--theme-color-text-base-disabled);
+      @include typography("text-#{$size}", "strong");
     }
 
     .input {
-      border-color: var(--theme-color-border-light-disabled);
+      width: var(--mtf-sizing-#{$box});
+      height: var(--mtf-sizing-#{$box});
+      min-width: var(--mtf-sizing-#{$box});
+      min-height: var(--mtf-sizing-#{$box});
+
+      &::before {
+        width: var(--mtf-sizing-#{$mark});
+        height: var(--mtf-sizing-#{$mark});
+        mask-image: #{mark($check-path, $mark, $view-box)};
+      }
     }
 
-    .input:checked,
-    &.partialCheck .input {
-      border-color: var(--theme-color-border-primary-disabled);
-      background: var(--theme-color-surface-primary-disabled);
+    &.inFormField {
+      padding: var(--mtf-sizing-space-#{$paddingV}) 0;
     }
+  }
+}
 
-    &.success .input:checked,
-    &.success.partialCheck .input {
-      border-color: var(--theme-color-surface-success-disabled);
-      background: var(--theme-color-surface-success-disabled);
-    }
-  }
-  &.success {
-    .input:checked,
-    &.partialCheck .input {
-      border-color: var(--theme-color-surface-success-default);
-      background: var(--theme-color-surface-success-default);
-    }
-  }
-
-  &.error {
-    .input {
-      border-color: var(--theme-color-border-danger-default);
-    }
-  }
+// After the size blocks: same specificity, so the partial mark replaces the check by order
+.partialCheck .input::before {
+  mask-image: var(--mtf-checkbox-partial);
 }

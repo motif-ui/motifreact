@@ -6,3 +6,4 @@
 /package.json
 /package-lock.json
 tsconfig.json
+/src/lib/styles/tokens/generated

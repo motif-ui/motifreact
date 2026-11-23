@@ -1,6 +1,6 @@
 /** @type {import('stylelint').Config} */
 export default {
-  plugins: ["stylelint-no-unsupported-browser-features"],
+  plugins: ["stylelint-no-unsupported-browser-features", "./src/scripts/stylelint/typographyScale.mjs"],
   extends: ["stylelint-config-standard-scss"],
   rules: {
     "plugin/no-unsupported-browser-features": [
@@ -19,5 +19,57 @@ export default {
     "scss/dollar-variable-empty-line-before": null,
     "color-hex-length": "long",
     "custom-property-empty-line-before": null,
+    // Fixed sizing ignores the space seed, so spacing properties must use the spacing scale. The 1px hairline (sizing-0/1) has no spacing step
+    "declaration-property-value-disallowed-list": [
+      {
+        "/^(padding|margin|gap|row-gap|column-gap|inset|top|right|bottom|left|scroll-padding|scroll-margin)/": [
+          "/--mtf-sizing-(?!(0|1)\\b)\\d/",
+        ],
+      },
+      {
+        message: "Use --mtf-sizing-space-N for spacing (N = px in the default theme): fixed --mtf-sizing-N does not follow the space seed",
+      },
+    ],
+    "selector-max-id": 0,
   },
+  // CSS rules (docs/review/css.md) for components migrated to the design tokens; add each component here as it migrates.
+  // Once every component has migrated, these rules move to the top-level rules and the list goes away.
+  overrides: [
+    {
+      files: [
+        "src/lib/components/Accordion/**/*.scss",
+        "src/lib/components/Alert/**/*.scss",
+        "src/lib/components/AlertModal/**/*.scss",
+        "src/lib/components/Avatar/**/*.scss",
+        "src/lib/components/Badge/**/*.scss",
+        "src/lib/components/Breadcrumb/**/*.scss",
+        "src/lib/components/Button/**/*.scss",
+        "src/lib/components/ButtonGroup/**/*.scss",
+        "src/lib/components/Checkbox/**/*.scss",
+        "src/lib/components/Chip/**/*.scss",
+        "src/lib/components/Container/**/*.scss",
+        "src/lib/components/DataView/**/*.scss",
+        "src/lib/components/Divider/**/*.scss",
+        "src/lib/components/ImageView/**/*.scss",
+        "src/lib/components/Link/**/*.scss",
+        "src/lib/components/ListView/**/*.scss",
+        "src/lib/components/Pagination/**/*.scss",
+        "src/lib/components/ProgressBar/**/*.scss",
+        "src/lib/components/ProgressCircle/**/*.scss",
+        "src/lib/components/Select/**/*.scss",
+        "src/lib/components/Skeleton/**/*.scss",
+        "src/lib/components/Switch/**/*.scss",
+        "src/lib/components/Text/**/*.scss",
+        "src/lib/components/Timeline/**/*.scss",
+      ],
+      rules: {
+        "declaration-no-important": true,
+        "selector-no-qualifying-type": true,
+        "selector-max-specificity": "0,3,0",
+        "selector-max-compound-selectors": 3,
+        // Size tables take their text from the text scale, not from a role with a size step (design-tokens.md §4)
+        "motif/typography-scale": true,
+      },
+    },
+  ],
 };
