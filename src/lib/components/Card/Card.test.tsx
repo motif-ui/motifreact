@@ -1,5 +1,5 @@
 import Card from "@/components/Card/Card";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Button from "@/components/Button";
 import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
@@ -139,6 +139,15 @@ describe("Card", () => {
     render(<Card action={{ icon: "download", onClick }} />);
     screen.getByText("download").click();
     expect(onClick).toHaveBeenCalled();
+  });
+
+  it("should open a dropdown menu with the given items when the action has items", () => {
+    const action = jest.fn();
+    render(<Card action={{ icon: "more_vert", items: [{ label: "Edit", action }] }} />);
+    expect(screen.queryByTestId("cardActionMenu")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText("more_vert"));
+    fireEvent.click(screen.getByText("Edit"));
+    expect(action).toHaveBeenCalledTimes(1);
   });
 
   it("should render an image in the content part when contentImage is set as a url or path", () => {
