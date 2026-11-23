@@ -11,8 +11,9 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
   read-only reference.
 - Pages, alphabetical inside each group (docs/review/figma.md, Pages): Cover `0:1`, Getting Started `7:2`; Foundations:
   Colors `7:4`, Elevation `7:8`, Radius `7:7`, Spacing & Sizing `7:6`, Typography `7:5`; Components: Accordion `349:22`, Alert `242:22`, AlertModal `137:22`,
-  Avatar `236:798`, Badge `230:439`, Breadcrumb `174:22`, Button `129:22`, ButtonGroup `353:22`, Checkbox `339:22`, Chip `239:22`, DataView `269:22`, Divider `169:22`, ImageView `352:22`, Link `171:958`, ListView `265:22`, Pagination `261:22`,
-  ProgressBar `176:810`, ProgressCircle `7:10`, Select `7:11`, Skeleton `171:22`, Switch `344:22`, Timeline `272:22`; Internal: `_Doc` `7:13`, `_Icons` `7:14` (40 `Icon/<name>` components).
+  Avatar `236:798`, Badge `230:439`, Breadcrumb `174:22`, Button `129:22`, ButtonGroup `353:22`, Checkbox `339:22`, Chip `239:22`, DataView `269:22`, Divider `169:22`, Icon `361:288`, IconButton `361:289`, ImageView `352:22`, Link `171:958`, ListView `265:22`, Pagination `261:22`,
+  ProgressBar `176:810`, ProgressCircle `7:10`, Select `7:11`, Skeleton `171:22`, Switch `344:22`, Timeline `272:22`; Internal: `_Doc` `7:13`. The 40 embedded `Icon/<name>` glyph components live on the Icon page (Icons section); the
+  former `_Icons` page was removed on 2026-11-20.
 - Doc blocks on `_Doc`: Header `11:2`, SectionTitle `11:14`, PropRow `11:29`, Note `11:30`, Label `11:33`,
   Footer `11:35`, Logo `24:24`, Swatch `25:42`.
 - Hidden "Docs" variable collection `VariableCollectionId:23:2`: template colors only (`docs/*`), never product tokens.

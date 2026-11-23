@@ -21,7 +21,7 @@ export const FileListRow = memo(({ file, disabled, readOnly }: Props) => {
 
   return (
     <div className={classes}>
-      <MotifIcon size={iconSize} name="attach_file" variant="secondary" className={styles.icon} />
+      <MotifIcon size={iconSize} name="attach_file" variant="neutral" className={styles.icon} />
       <FileLabel file={file} />
       <FileButton file={file} readOnly={readOnly} disabled={disabled} />
     </div>

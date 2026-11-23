@@ -1,12 +1,12 @@
 import { memo, type CSSProperties } from "react";
 import Icon from "../../Icon";
-import { IconGlobalType, Size8LG, Variant } from "../../../types";
+import { IconGlobalType, Size8LG, VariantV2 } from "../../../types";
 import { createElementPropsComparator } from "../../../../utils/reactUtils";
 
 type GlobalIconWrapperProps = {
   icon: IconGlobalType;
   size?: Size8LG;
-  variant?: Variant;
+  variant?: VariantV2;
   className?: string;
   style?: CSSProperties;
   iconClass?: string;

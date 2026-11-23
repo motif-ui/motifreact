@@ -28,7 +28,7 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
       {fileAction && isFileOnServer(file) && (
         <IconButton
           name={fileAction.icon}
-          variant="secondary"
+          variant="neutral"
           size={iconSize}
           className={`${styles.icon} ${styles.iconPositiveAction}`}
           onClick={() => fileAction.onClick(toFileValue(file))}
@@ -38,7 +38,7 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
       {file.download && isFileOnServer(file) && (
         <MotifIconButton
           name="download"
-          variant="secondary"
+          variant="neutral"
           size={iconSize}
           className={`${styles.icon} ${styles.iconPositiveAction}`}
           onClick={file.download}
@@ -50,18 +50,18 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
           {(file.status === STATUS.UPLOAD_FAIL || file.status === STATUS.ABORT) && (
             <IconButton
               name="autorenew"
-              variant="secondary"
+              variant="neutral"
               size={iconSize}
               className={`${styles.icon} ${styles.iconPositiveAction}`}
               onClick={() => reUpload(file)}
             />
           )}
           {file.status === STATUS.UPLOADING ? (
-            <IconButton name="cancel_outline" variant="secondary" size={iconSize} className={styles.icon} onClick={() => abort(file)} />
+            <IconButton name="cancel_outline" variant="neutral" size={iconSize} className={styles.icon} onClick={() => abort(file)} />
           ) : (
             <IconButton
               name="delete"
-              variant="secondary"
+              variant="neutral"
               size={iconSize}
               className={`${styles.icon} ${styles.iconDelete}`}
               disabled={file.deleting}
