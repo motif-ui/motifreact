@@ -13,7 +13,18 @@ describe("Offcanvas", () => {
           Test Content
         </Offcanvas>,
       ),
-    { getRoot: () => screen.queryByTestId("offcanvasBackdrop") },
+    {
+      getRoot: () => screen.queryByTestId("offcanvasBackdrop"),
+      assertDefaults: () => {
+        const root = screen.getByTestId("offcanvasBackdrop");
+        // position: left
+        expect(root).toHaveClass("left");
+        // size: md
+        expect(root).toHaveClass("md");
+        // closable: true
+        expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
+      },
+    },
   );
 
   it("should render the offcanvas when open is true", () => {
@@ -101,11 +112,6 @@ describe("Offcanvas", () => {
       </Offcanvas>,
     );
     expect(screen.getByText("Child Content")).toBeInTheDocument();
-  });
-
-  it("should have a default position of left", () => {
-    render(<Offcanvas open>Test content</Offcanvas>);
-    expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass("left");
   });
 
   it("should be rendered with the given position in position prop", () => {
