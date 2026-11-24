@@ -1,15 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import type { RefObject } from "react";
+import type { Ref, RefObject } from "react";
 import useOverlayState from "../useOverlayState";
 import useOverlayPosition from "../useOverlayPosition";
 import useOverlayFocus from "../useOverlayFocus";
 import { OverlayStateProps } from "../useOverlayState/types";
 import { OverlayPlaceOn } from "../../types";
+import { mergeRefs } from "../../../utils/reactUtils";
 
-type Props = {
+type Props<T> = {
   anchorRef: RefObject<HTMLElement | null>;
+  /** A ref from outside, e.g. a component's prop, that also gets the overlay element */
+  overlayRef?: Ref<T>;
   placement: OverlayPlaceOn;
   /** Limits the overlay's width to the space at its placement, so long content wraps instead of overflowing the screen */
   limitWidth?: boolean;
@@ -24,9 +27,10 @@ type Props = {
  * The overlay is expected to be absolutely positioned and rendered in document.body, e.g. with a portal.
  * It is fixed on the screen while its anchor is, e.g. in a modal.
  */
-const useAnchoredOverlay = <T extends HTMLElement = HTMLDivElement>(props: Props) => {
-  const { anchorRef, placement, limitWidth, tabBridge, toggleOnAnchorClick, ...overlayStateProps } = props;
+const useAnchoredOverlay = <T extends HTMLElement = HTMLDivElement>(props: Props<T>) => {
+  const { anchorRef, overlayRef: outerOverlayRef, placement, limitWidth, tabBridge, toggleOnAnchorClick, ...overlayStateProps } = props;
   const overlayRef = useRef<T>(null);
+  const mergedOverlayRef = useMemo(() => mergeRefs(overlayRef, outerOverlayRef), [outerOverlayRef]);
   const insideRefs = useMemo(() => [anchorRef, overlayRef], [anchorRef]);
 
   const state = useOverlayState({ ...overlayStateProps, insideRefs });
@@ -48,7 +52,7 @@ const useAnchoredOverlay = <T extends HTMLElement = HTMLDivElement>(props: Props
     return () => document.removeEventListener("click", handleClick, { capture: true });
   }, [anchorRef, open, hide, show, toggleOnAnchorClick]);
 
-  return { ...state, ...position, overlayRef };
+  return { ...state, ...position, overlayRef: mergedOverlayRef };
 };
 
 export default useAnchoredOverlay;
