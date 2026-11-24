@@ -11,8 +11,8 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
   read-only reference.
 - Pages, alphabetical inside each group (docs/review/figma.md, Pages): Cover `0:1`, Getting Started `7:2`; Foundations:
   Colors `7:4`, Elevation `7:8`, Radius `7:7`, Spacing & Sizing `7:6`, Typography `7:5`; Components: Accordion `349:22`, Alert `242:22`, AlertModal `137:22`,
-  Avatar `236:798`, Badge `230:439`, Breadcrumb `174:22`, Button `129:22`, ButtonGroup `353:22`, Checkbox `339:22`, Chip `239:22`, DataView `269:22`, Divider `169:22`, Icon `361:288`, IconButton `361:289`, ImageView `352:22`, InputNumber `391:22`, InputPassword `390:22`, InputText `389:22`, Link `171:958`, ListView `265:22`, Pagination `261:22`,
-  PinCode `405:22`, ProgressBar `176:810`, ProgressCircle `7:10`, Select `7:11`, Skeleton `171:22`, Switch `344:22`, Textarea `403:22`, Timeline `272:22`;
+  Avatar `236:798`, Badge `230:439`, Breadcrumb `174:22`, Button `129:22`, ButtonGroup `353:22`, Checkbox `339:22`, Chip `239:22`, DataView `269:22`, Divider `169:22`, Icon `361:288`, IconButton `361:289`, ImageView `352:22`, InputNumber `391:22`, InputPassword `390:22`, InputText `389:22`, Link `171:958`, ListView `265:22`, Pagination `261:22`, Panel `372:22`,
+  PinCode `405:22`, Popover `381:22`, ProgressBar `176:810`, ProgressCircle `7:10`, Radio `375:22`, RadioGroup `378:22`, Select `7:11`, Skeleton `171:22`, Switch `344:22`, Textarea `403:22`, Timeline `272:22`, Tooltip `384:22`;
   Common Components (divider `386:22`): `_MotifInputText` `386:23`; Internal: `_Doc` `7:13`. The 40 embedded `Icon/<name>` glyph components live on the Icon page (Icons section); the
   former `_Icons` page was removed on 2026-11-20.
 - Doc blocks on `_Doc`: Header `11:2`, SectionTitle `11:14`, PropRow `11:29`, Note `11:30`, Label `11:33`,

@@ -155,7 +155,9 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
     color(["surface", "subtle"], palAlpha("neutral", 950, 0.04), palAlpha("neutral", 50, 0.04), "zebra, readonly"),
     color(["surface", "field"], white, pal("neutral", 950), "input background; lighter than the page in light, darker in dark"),
     color(["surface", "disabled"], palAlpha("neutral", 950, 0.08), palAlpha("neutral", 50, 0.08), "disabled background, no intent"),
-    color(["surface", "opposite"], pal("neutral", 900), pal("neutral", 50), "tooltip, dark toast"),
+    color(["surface", "opposite"], pal("neutral", 900), pal("neutral", 50), "flips with the mode: Popover inverseColors"),
+    // Dark in both modes; in dark one step lighter than raised, so it stands out from the page
+    color(["surface", "contrast"], pal("neutral", 800), pal("neutral", 700), "tooltip · dark in both modes"),
     color(["surface", "brand"], pal("primary", STEPS[anchorOf("primary")]), undefined, "brand band"),
   ];
 
@@ -184,6 +186,8 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
     ),
     color(["text", "on-media"], white, undefined, "on images"),
     color(["text", "on-media-soft"], literalAlpha("white", 0.64)),
+    color(["text", "on-contrast"], white, undefined, "on surface-contrast"),
+    color(["text", "on-contrast-soft"], pal("neutral", 200), undefined, "on surface-contrast, secondary text"),
   ];
 
   const boundary = (order: number[], surface: string) => order.find(step => contrast(neutral(step), surface) >= BORDER_CONTRAST);

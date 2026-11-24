@@ -9,7 +9,6 @@ const meta: Meta<typeof Tooltip> = {
   argTypes: {
     size: { table: { defaultValue: { summary: "md" } } },
     position: { table: { defaultValue: { summary: "top" } } },
-    variant: { table: { defaultValue: { summary: "light" } } },
     children: { control: false },
   },
   args: {

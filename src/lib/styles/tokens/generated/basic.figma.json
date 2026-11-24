@@ -1497,13 +1497,31 @@
             "SHAPE_FILL"
           ],
           "hiddenFromPublishing": false,
-          "description": "tooltip, dark toast",
+          "description": "flips with the mode: Popover inverseColors",
           "values": {
             "Light": {
               "alias": "color/palette/neutral/900"
             },
             "Dark": {
               "alias": "color/palette/neutral/50"
+            }
+          }
+        },
+        {
+          "name": "color/surface/contrast",
+          "type": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "tooltip · dark in both modes",
+          "values": {
+            "Light": {
+              "alias": "color/palette/neutral/800"
+            },
+            "Dark": {
+              "alias": "color/palette/neutral/700"
             }
           }
         },
@@ -1683,6 +1701,42 @@
             },
             "Dark": {
               "alias": "color/palette/white-a64"
+            }
+          }
+        },
+        {
+          "name": "color/text/on-contrast",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "on surface-contrast",
+          "values": {
+            "Light": {
+              "alias": "color/palette/white"
+            },
+            "Dark": {
+              "alias": "color/palette/white"
+            }
+          }
+        },
+        {
+          "name": "color/text/on-contrast-soft",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "on surface-contrast, secondary text",
+          "values": {
+            "Light": {
+              "alias": "color/palette/neutral/200"
+            },
+            "Dark": {
+              "alias": "color/palette/neutral/200"
             }
           }
         },

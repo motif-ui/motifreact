@@ -725,10 +725,20 @@
       "opposite": {
         "$type": "color",
         "$value": "{color.palette.neutral.900}",
-        "$description": "tooltip, dark toast",
+        "$description": "flips with the mode: Popover inverseColors",
         "$extensions": {
           "com.motif.modes": {
             "dark": "{color.palette.neutral.50}"
+          }
+        }
+      },
+      "contrast": {
+        "$type": "color",
+        "$value": "{color.palette.neutral.800}",
+        "$description": "tooltip · dark in both modes",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.neutral.700}"
           }
         }
       },
@@ -827,6 +837,16 @@
       "on-media-soft": {
         "$type": "color",
         "$value": "{color.palette.white-a64}"
+      },
+      "on-contrast": {
+        "$type": "color",
+        "$value": "{color.palette.white}",
+        "$description": "on surface-contrast"
+      },
+      "on-contrast-soft": {
+        "$type": "color",
+        "$value": "{color.palette.neutral.200}",
+        "$description": "on surface-contrast, secondary text"
       },
       "field": {
         "$type": "color",

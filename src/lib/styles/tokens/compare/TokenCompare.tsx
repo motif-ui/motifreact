@@ -5,7 +5,8 @@ import basicTokens from "../generated/themes/basic.css?raw";
 export type CompareRow<P> = {
   label: string;
   props: P;
-  // Clicks the first collapsed trigger once the cell is on screen, so dropdowns are visible without interaction
+  // Opens the first collapsed trigger (or an anchor marked data-compare-open) once the cell is on screen, so dropdowns,
+  // popovers and tooltips are visible without interaction
   open?: boolean;
   // Paints the second list option (group labels skipped) with the component's own hover color; there is no way to force :hover
   hover?: boolean;
@@ -37,9 +38,10 @@ const nextFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
 // Opens one cell at a time, so the portal its overlay adds to document.body can be told apart from the others
 const openInCell = (cell: HTMLElement) => {
   opening.queue = opening.queue.then(async () => {
-    const trigger = cell.querySelector<HTMLElement>('[aria-expanded="false"]');
+    // A dropdown opens on click; an anchor marked data-compare-open (a tooltip) opens on hover
+    const trigger = cell.querySelector<HTMLElement>('[aria-expanded="false"], [data-compare-open]');
     const before = new Set(document.body.children);
-    trigger?.click();
+    trigger?.hasAttribute("data-compare-open") ? trigger.dispatchEvent(new MouseEvent("mouseenter")) : trigger?.click();
     await nextFrame();
     await nextFrame();
     const portals = [...document.body.children].filter(element => !before.has(element));
