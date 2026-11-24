@@ -15,6 +15,16 @@ describe("RadioGroup", () => {
     ),
   );
 
+  it("should tell assistive technology that the radios form a group", () => {
+    const { getByRole } = render(
+      <RadioGroup name="language">
+        <Radio label="HTML" value="html" />
+        <Radio label="CSS" value="css" />
+      </RadioGroup>,
+    );
+    expect(getByRole("radiogroup")).toBeInTheDocument();
+  });
+
   it("should be rendered as given in orientation prop", () => {
     const { container, rerender } = render(
       <RadioGroup name="language" orientation="horizontal">

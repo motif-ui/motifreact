@@ -68,7 +68,7 @@ export const LongText: Story = {
       return (
         <div style={{ paddingTop: 400, paddingLeft: 300 }}>
           <Button label="Anchor" ref={anchorRef} />
-          <Popover anchorRef={anchorRef} placeOn="top" open variant="dark">
+          <Popover anchorRef={anchorRef} placeOn="top" open inverseColors>
             {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ".repeat(
               4,
             )}
@@ -110,7 +110,7 @@ export const NearTheRightEdge: Story = {
         <div style={{ display: "flex", justifyContent: "space-between", padding: "100px 16px" }}>
           <Button label="Text" ref={textAnchorRef} />
           <Button label="Form" ref={formAnchorRef} />
-          <Popover anchorRef={textAnchorRef} placeOn="right" open variant="dark">
+          <Popover anchorRef={textAnchorRef} placeOn="right" open inverseColors>
             {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ".repeat(
               3,
             )}
@@ -181,7 +181,7 @@ export const SharedAnchor: Story = {
         <div style={{ padding: "200px 300px" }}>
           <Button label="Anchor" ref={anchorRef} />
           <Button label="Close top" onClick={() => setTooltipOpen(false)} />
-          <Popover anchorRef={anchorRef} placeOn="top" open={tooltipOpen} variant="dark">
+          <Popover anchorRef={anchorRef} placeOn="top" open={tooltipOpen} inverseColors>
             Top
           </Popover>
           <Popover anchorRef={anchorRef} placeOn="bottom" open>

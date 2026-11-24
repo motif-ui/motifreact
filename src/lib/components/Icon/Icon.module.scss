@@ -1,40 +1,44 @@
 @use "@styles" as *;
 
-$variants: "primary", "secondary", "info", "success", "warning", "danger";
-$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"), ("xxxl", "52x"));
+// size, icon (px)
+$sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28), ("xxl", 32), ("xxxl", 52));
 
+// The `!important`s are a documented exception (css.md §3): an icon font's own class (material-symbols and the like) sets
+// display and font-size with the same specificity, and the consumer decides which stylesheet loads last
 .Root {
-  display: inline-block !important;
+  display: inline-block !important; /* stylelint-disable-line declaration-no-important */
   vertical-align: top;
   user-select: none;
-  font-size: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
-  width: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
-  height: var(--mtf-icon-size, var(--base-sizing-22x)) !important;
+  font-size: var(--mtf-icon-size, var(--mtf-sizing-22)) !important; /* stylelint-disable-line declaration-no-important */
+  width: var(--mtf-icon-size, var(--mtf-sizing-22)) !important; /* stylelint-disable-line declaration-no-important */
+  height: var(--mtf-icon-size, var(--mtf-sizing-22)) !important; /* stylelint-disable-line declaration-no-important */
 
   span,
   i {
     display: block;
-    font-size: inherit !important;
+    font-size: inherit !important; /* stylelint-disable-line declaration-no-important */
     line-height: 1;
+
     &::before {
       vertical-align: bottom;
     }
   }
+
   svg {
     width: 1em;
     height: 1em;
   }
 }
 
-@each $variant in $variants {
+@each $variant in $variants-v2 {
   .#{$variant} {
-    color: var(--theme-color-text-#{$variant}-default);
+    color: var(--mtf-color-#{$variant}-solid);
   }
 }
 
-@each $size, $fontSize in $sizes {
+@each $size, $icon in $sizes {
   .#{$size} {
-    --mtf-icon-size: var(--base-sizing-#{$fontSize});
+    --mtf-icon-size: var(--mtf-sizing-#{$icon});
   }
 }
 

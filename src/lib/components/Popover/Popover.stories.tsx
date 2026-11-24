@@ -13,7 +13,6 @@ const meta: Meta<typeof Popover> = {
   component: Popover,
   argTypes: {
     placeOn: { table: { defaultValue: { summary: "bottom" } } },
-    variant: { table: { defaultValue: { summary: "light" } } },
     spacing: { table: { defaultValue: { summary: "callout" } } },
     closeOnEscape: { table: { defaultValue: { summary: "true (uncont`d), false (cont`d)" } } },
     closeOnOutsideClick: { table: { defaultValue: { summary: "true (uncont`d), false (cont`d)" } } },
