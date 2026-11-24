@@ -23,7 +23,7 @@ const meta: Meta<typeof IconButton> = {
   argTypes: {
     iconClass: { table: { defaultValue: { summary: MOTIF_ICONS_DEFAULT_CLASS } } },
     size: { table: { defaultValue: { summary: "md" } } },
-    variant: { table: { defaultValue: { summary: "secondary" } } },
+    variant: { table: { defaultValue: { summary: "neutral" } } },
   },
   args: {
     name: "motif_ui",

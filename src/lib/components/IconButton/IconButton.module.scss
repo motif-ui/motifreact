@@ -1,62 +1,72 @@
 @use "@styles" as *;
 
-$variants: "primary", "secondary", "info", "success", "warning", "danger";
-$states: "hover", "active", "disabled";
-$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"));
+// size, icon (px)
+$sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28), ("xxl", 32), ("xxxl", 52));
+
+// variant, then the text tone at rest and on hover (pressed returns to rest): strong sits on the page, negative on an
+// image or a dark overlay
+$tones: (("strong", "strong", "soft"), ("negative", "on-media", "on-media-soft"));
 
 .Root {
   overflow: hidden;
-  border: 0;
-  background: none;
   padding: 0;
+  border: 0;
+  border-radius: var(--mtf-sizing-radius-md);
+  background: none;
   -webkit-tap-highlight-color: transparent;
   @include transition(color);
+
   &:not(:disabled):hover {
     cursor: pointer;
   }
-}
 
-.strong {
-  color: var(--theme-color-text-base-global-dark);
+  &:focus-visible {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: var(--mtf-sizing-2);
+  }
 
-  &:hover {
-    color: var(--theme-color-text-base-dark-overlay75);
-  }
-  &:active {
-    color: var(--theme-color-text-base-global-dark);
-  }
+  // The variants' hover and pressed colors skip a disabled button, so this one color wins over their rest colors
   &:disabled {
-    color: var(--theme-color-text-base-dark-overlay25);
+    color: var(--mtf-color-text-disabled);
   }
 }
 
-.negative {
-  color: var(--theme-color-text-base-global-light);
-
-  &:hover {
-    color: var(--theme-color-text-base-light-overlay75);
-  }
-  &:active {
-    color: var(--theme-color-text-base-global-light);
-  }
-  &:disabled {
-    color: var(--theme-color-text-base-light-overly50);
-  }
-}
-
-@each $name, $fontSize in $sizes {
-  .#{$name} {
-    --mtf-icon-size: var(--base-sizing-#{$fontSize});
-  }
-}
-
-@each $variant in $variants {
+@each $variant in $variants-v2 {
   .#{$variant} {
-    color: var(--theme-color-text-#{$variant}-default);
-    @each $state in $states {
-      &:#{$state} {
-        color: var(--theme-color-text-#{$variant}-#{$state});
-      }
+    color: var(--mtf-color-#{$variant}-solid);
+
+    &:not(:disabled):hover {
+      color: var(--mtf-color-#{$variant}-solid-hover);
     }
+
+    &:not(:disabled):active {
+      color: var(--mtf-color-#{$variant}-solid-active);
+    }
+  }
+}
+
+@each $variant, $rest, $hover in $tones {
+  .#{$variant} {
+    color: var(--mtf-color-text-#{$rest});
+
+    &:not(:disabled):hover {
+      color: var(--mtf-color-text-#{$hover});
+    }
+
+    &:not(:disabled):active {
+      color: var(--mtf-color-text-#{$rest});
+    }
+  }
+}
+
+// negative sits on an image, where the gray would not read, so it keeps its soft tone when disabled (after .Root: same
+// specificity)
+.negative:disabled {
+  color: var(--mtf-color-text-on-media-soft);
+}
+
+@each $size, $icon in $sizes {
+  .#{$size} {
+    --mtf-icon-size: var(--mtf-sizing-#{$icon});
   }
 }

@@ -39,7 +39,8 @@ visual specification of migrated components. These rules keep the two from drift
   (Select: md, xs, sm, lg; ProgressCircle: sm, xs, md, lg, xl); doc page matrices keep the natural order. Figma picks
   the default row by row (a variant must sit clearly above the others to win), so there is no way to keep the natural
   order in the set. Lay the set out as a table so it scales to components with many properties:
-  - one column property (usually `size`); each variant centered in its column;
+  - one column property (usually `size`); each variant centered in its column; every column is as wide as the widest
+    (its value label or variant plus the cell padding), so the variants sit at an even pitch (user, 2026-11-20);
   - the column band has exactly the set's x and width; the column property is a chip (same as the block chips) inside
     it at its far left (8px in), at least 8px from the first column's value (widen the set's left padding if not);
     the band shows only the values, the default one as `md (default)`, in the same style as the row values
@@ -94,6 +95,8 @@ visual specification of migrated components. These rules keep the two from drift
     instance fills bound to the state tokens; focus is a ring frame with the focus-ring token.
   - Columns are as wide as their widest cell plus the cell padding, so small instances sit close together. A table
     should not run past the set's table unless its columns need the room.
+  - A panel's gap under its last row equals its side gap (24px): the last row (Dark in a transposed Color spec) never
+    touches the panel's bottom edge (user, 2026-11-19).
   - Scenarios then hold only real prop interactions (Select's `multiple` × `filterable`, Button's pill and fluid).
   - Skip a spec table whose axis does not exist (no sizes, no color variants). One group `spec tables` holds the spec
     and Scenarios tables.

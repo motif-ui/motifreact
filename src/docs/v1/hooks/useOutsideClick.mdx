@@ -10,7 +10,7 @@ Detects clicks outside of a specified element, useful for closing dropdowns, mod
 ## Usage
 
 ```tsx
-import { useOutsideClick } from "@motif-ui/react";
+import { useOutsideClick } from "@motif-ui/react/hooks";
 
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -33,7 +33,7 @@ You can exclude specific elements from triggering the outside click:
 
 ```tsx
 import { useRef } from "react";
-import { useOutsideClick } from "@motif-ui/react";
+import { useOutsideClick } from "@motif-ui/react/hooks";
 
 const Modal = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);

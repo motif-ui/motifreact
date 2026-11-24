@@ -10,7 +10,7 @@ Manages visibility states with optional animation support.
 ## Basic Usage
 
 ```jsx
-import { useToggle } from "@motif-ui/react";
+import { useToggle } from "@motif-ui/react/hooks";
 
 const Sidebar = () => {
   const { visible, show, hide, toggle } = useToggle();
@@ -31,7 +31,7 @@ Use `duration` to match the hook's timing to your CSS transition length.
 `toggleState` stays set for `duration` ms afterward so the element can remain mounted while the transition plays.
 
 ```jsx
-import { useToggle } from "@motif-ui/react";
+import { useToggle } from "@motif-ui/react/hooks";
 
 const AnimatedModal = () => {
   const { visible, toggleState, show, hide } = useToggle({ duration: 300 });
