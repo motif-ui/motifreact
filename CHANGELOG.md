@@ -3,7 +3,7 @@
 ## 🚀 Features
 
 - feat: 🧩 new component | Container ([#199](https://github.com/motif-ui/motifreact/pull/199)) [@aktasmehmet](https://github.com/aktasmehmet)
-- feat(Grid): padding changes, nested usage, deprecations  ([#200](https://github.com/motif-ui/motifreact/pull/200)) [@aktasmehmet](https://github.com/aktasmehmet)
+- feat(Grid): padding changes, nested usage, deprecations ([#200](https://github.com/motif-ui/motifreact/pull/200)) [@aktasmehmet](https://github.com/aktasmehmet)
 
 ## 🐛 Bug Fixes
 
@@ -34,7 +34,7 @@
 - refactor(NavBar): replace useOutsideClick with useOverlayState ([#202](https://github.com/motif-ui/motifreact/pull/202)) [@hatesalp](https://github.com/hatesalp)
 - refactor: useModalOverlay hook is added and applied to Modal and AlertModal ([#191](https://github.com/motif-ui/motifreact/pull/191)) [@atakanbayrak](https://github.com/atakanbayrak)
 - refactor: hooks tests are introduced ([#198](https://github.com/motif-ui/motifreact/pull/198)) [@atakanbayrak](https://github.com/atakanbayrak)
-- refactor: simplification for Form with FormProvider to FormContext replication  ([#176](https://github.com/motif-ui/motifreact/pull/176)) [@atakanbayrak](https://github.com/atakanbayrak)
+- refactor: simplification for Form with FormProvider to FormContext replication ([#176](https://github.com/motif-ui/motifreact/pull/176)) [@atakanbayrak](https://github.com/atakanbayrak)
 - refactor(usePickerPortal): update overlay positioning infrastructure ([#167](https://github.com/motif-ui/motifreact/pull/167)) [@hatesalp](https://github.com/hatesalp)
 
 [Full Changelog](https://github.com/motif-ui/motifreact/compare/v0.4.8...v0.5.0)

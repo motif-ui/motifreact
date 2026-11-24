@@ -16,10 +16,10 @@ const openTraps: { list: symbol[] } = { list: [] };
  * It closes on an outside click or Escape when enabled, but only when it is the topmost overlay, locks the page's scroll,
  * moves the focus into the dialog on open and back on close, and keeps the Tab focus in the dialog while it is open.
  */
-const useModalOverlay = (props: ModalOverlayProps): UseModalOverlayReturn => {
+const useModalOverlay = <T extends HTMLElement = HTMLDivElement>(props: ModalOverlayProps): UseModalOverlayReturn<T> => {
   const { open, onClose, onAfterClose, duration, closeOnOutsideClick, closeOnEscape } = props;
   const rootRef = useRef<HTMLDivElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<T>(null);
   const insideRefs = useMemo(() => [dialogRef], []);
   const layerRefs = useMemo(() => [rootRef], []);
   // The last focus event marked by insideProps, e.g. a focus in a select's list rendered in its own portal from the dialog

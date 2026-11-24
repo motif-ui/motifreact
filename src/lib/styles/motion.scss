@@ -11,11 +11,11 @@ $speeds: (
   "faster": 100ms,
   "fastest": 50ms
 );
-$slide-offscreen-transforms: (
-  "left": translateX(-100%),
-  "right": translateX(100%),
-  "top": translateY(-100%),
-  "bottom": translateY(100%)
+$slide-offscreen-translates: (
+  "left": -100% 0,
+  "right": 100% 0,
+  "top": 0 -100%,
+  "bottom": 0 100%
 );
 $spin-speeds: (
   "slow": 2000ms,
@@ -65,13 +65,13 @@ $spin-speeds: (
 // Slides the element in from the given edge of its position, e.g. "left" moves it in from the left
 @mixin slide-default($direction, $speed: "normal") {
   visibility: hidden;
-  transform: map.get($slide-offscreen-transforms, $direction);
-  @include transition(visibility transform, $speed);
+  translate: map.get($slide-offscreen-translates, $direction);
+  @include transition(visibility translate, $speed);
 }
 
 @mixin slide-in {
   visibility: visible;
-  transform: none;
+  translate: none;
 }
 
 @mixin spin($direction: "clockwise", $speed: "normal") {

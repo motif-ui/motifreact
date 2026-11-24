@@ -5,12 +5,14 @@ import { OffcanvasPosition } from "./types";
 import { userEvent } from "@testing-library/user-event";
 import { runSnapshotDefaultsAndStandardPropsTest } from "src/utils/testUtils.tsx";
 
+const CONTENT = "Test content";
+
 describe("Offcanvas", () => {
   runSnapshotDefaultsAndStandardPropsTest(
     (props: StandardPropsWithRef<HTMLDivElement>) =>
       render(
         <Offcanvas open {...props}>
-          Test Content
+          {CONTENT}
         </Offcanvas>,
       ),
     {
@@ -21,22 +23,22 @@ describe("Offcanvas", () => {
         expect(root).toHaveClass("left");
         // size: md
         expect(root).toHaveClass("md");
-        // closable: true
-        expect(screen.getByTestId("iconButtonTestId")).toBeInTheDocument();
+        // hideBackdrop: false
+        expect(root).not.toHaveClass("hideBackdrop");
       },
     },
   );
 
   it("should render the offcanvas when open is true", () => {
-    const { rerender } = render(<Offcanvas open={false}>Test content</Offcanvas>);
-    expect(screen.queryByText("Test content")).not.toBeInTheDocument();
-    rerender(<Offcanvas open>Test content</Offcanvas>);
-    expect(screen.getByText("Test content")).toBeInTheDocument();
+    const { rerender } = render(<Offcanvas open={false}>{CONTENT}</Offcanvas>);
+    expect(screen.queryByText(CONTENT)).not.toBeInTheDocument();
+    rerender(<Offcanvas open>{CONTENT}</Offcanvas>);
+    expect(screen.getByText(CONTENT)).toBeInTheDocument();
   });
 
   it("should slide in after opening and slide out before unmounting when open changes from true to false", () => {
     jest.useFakeTimers();
-    const { rerender } = render(<Offcanvas open>Test content</Offcanvas>);
+    const { rerender } = render(<Offcanvas open>{CONTENT}</Offcanvas>);
     const backdrop = screen.getByTestId("offcanvasBackdrop");
     expect(backdrop).not.toHaveClass("show");
 
@@ -45,64 +47,115 @@ describe("Offcanvas", () => {
     act(() => jest.runOnlyPendingTimers());
     expect(backdrop).toHaveClass("show");
 
-    rerender(<Offcanvas open={false}>Test content</Offcanvas>);
+    rerender(<Offcanvas open={false}>{CONTENT}</Offcanvas>);
     expect(backdrop).not.toHaveClass("show");
-    expect(screen.getByText("Test content")).toBeInTheDocument();
+    expect(screen.getByText(CONTENT)).toBeInTheDocument();
 
     act(() => jest.advanceTimersByTime(300));
-    expect(screen.queryByText("Test content")).not.toBeInTheDocument();
+    expect(screen.queryByText(CONTENT)).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it("should call onAfterClose once the exit transition has ended", () => {
+    jest.useFakeTimers();
+    const handleAfterClose = jest.fn();
+    const { rerender } = render(
+      <Offcanvas open onAfterClose={handleAfterClose}>
+        {CONTENT}
+      </Offcanvas>,
+    );
+
+    rerender(
+      <Offcanvas open={false} onAfterClose={handleAfterClose}>
+        {CONTENT}
+      </Offcanvas>,
+    );
+    expect(handleAfterClose).not.toHaveBeenCalled();
+
+    act(() => jest.advanceTimersByTime(300));
+    expect(handleAfterClose).toHaveBeenCalledTimes(1);
     jest.useRealTimers();
   });
 
   it("should render title given in the title prop", () => {
     render(
       <Offcanvas open title="Offcanvas Title">
-        Test content
+        {CONTENT}
       </Offcanvas>,
     );
     expect(screen.getByText("Offcanvas Title")).toBeInTheDocument();
   });
 
-  it("should render close button to close the offcanvas when closable is true", () => {
+  it("should render close button to close the offcanvas when closable is true", async () => {
+    const user = userEvent.setup({ delay: null });
+    jest.useFakeTimers();
+
     const handleClose = jest.fn();
     const { rerender } = render(
       <Offcanvas open closable onClose={handleClose}>
-        Test content
+        {CONTENT}
       </Offcanvas>,
     );
     const closeIcon = screen.getByTestId("iconButtonTestId");
-    expect(closeIcon).toBeInTheDocument();
-    fireEvent.click(closeIcon);
+    await act(async () => {
+      await user.click(closeIcon);
+      jest.advanceTimersByTime(300);
+    });
     expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(handleClose).toHaveBeenCalledWith("closeButton");
+
     rerender(
       <Offcanvas open closable={false} onClose={handleClose}>
-        Test content
+        {CONTENT}
       </Offcanvas>,
     );
     expect(screen.queryByTestId("iconButtonTestId")).not.toBeInTheDocument();
+    jest.useRealTimers();
   });
 
-  it("should close the offcanvas when clicked outside of it when closable prop is true", async () => {
-    const user = userEvent.setup();
+  it("should close the offcanvas when clicked outside of it only when closable prop is true", async () => {
+    const user = userEvent.setup({ delay: null });
+    jest.useFakeTimers();
 
     const handleClose = jest.fn();
     const { rerender } = render(
-      <Offcanvas open closable onClose={handleClose}>
-        Test content
-      </Offcanvas>,
-    );
-
-    await user.click(screen.getByTestId("offcanvasBackdrop"));
-    expect(handleClose).toHaveBeenCalled();
-
-    const handleClose2 = jest.fn();
-    rerender(
-      <Offcanvas open closable={false} onClose={handleClose2}>
-        Test content
+      <Offcanvas open closable={false} onClose={handleClose}>
+        {CONTENT}
       </Offcanvas>,
     );
     fireEvent.click(screen.getByTestId("offcanvasBackdrop"));
-    expect(handleClose2).not.toHaveBeenCalled();
+    expect(handleClose).not.toHaveBeenCalled();
+
+    rerender(
+      <Offcanvas open closable onClose={handleClose}>
+        {CONTENT}
+      </Offcanvas>,
+    );
+    await act(async () => {
+      await user.click(screen.getByTestId("offcanvasBackdrop"));
+      jest.advanceTimersByTime(300);
+    });
+    expect(handleClose).toHaveBeenCalledWith("outsideClick");
+    jest.useRealTimers();
+  });
+
+  it("should close the offcanvas on Escape only when closable prop is true", () => {
+    const handleClose = jest.fn();
+    const { rerender } = render(
+      <Offcanvas open closable={false} onClose={handleClose}>
+        {CONTENT}
+      </Offcanvas>,
+    );
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).not.toHaveBeenCalled();
+
+    rerender(
+      <Offcanvas open closable onClose={handleClose}>
+        {CONTENT}
+      </Offcanvas>,
+    );
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(handleClose).toHaveBeenCalledWith("escape");
   });
 
   it("should render children with the given content", () => {
@@ -116,43 +169,48 @@ describe("Offcanvas", () => {
 
   it("should be rendered with the given position in position prop", () => {
     const positions: OffcanvasPosition[] = ["top", "bottom", "left", "right"];
-    for (const position of positions) {
+    positions.forEach(position => {
       render(
         <Offcanvas open position={position}>
-          Test content
+          {CONTENT}
         </Offcanvas>,
       );
-
       expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass(position);
       cleanup();
-    }
+    });
   });
 
-  it("should be rendered with the given size in size prop", () => {
+  it("should render in the width given in the size prop", () => {
     const sizes: Size3[] = ["sm", "md", "lg"];
-    for (const size of sizes) {
+    sizes.forEach(size => {
       render(
         <Offcanvas open size={size}>
-          Test content
+          {CONTENT}
         </Offcanvas>,
       );
-
       expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass(size);
       cleanup();
-    }
+    });
   });
 
-  it("should not have the hideBackdrop class by default", () => {
-    render(<Offcanvas open>Test content</Offcanvas>);
-    expect(screen.getByTestId("offcanvasBackdrop")).not.toHaveClass("hideBackdrop");
-  });
-
-  it("should render without the darkened backdrop when hideBackdrop is true", () => {
+  it("should render without the backdrop when hideBackdrop is true", () => {
     render(
-      <Offcanvas open hideBackdrop>
-        Test content
+      <Offcanvas open removeBackdrop>
+        {CONTENT}
       </Offcanvas>,
     );
     expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass("hideBackdrop");
+  });
+
+  it("should add padding to the content only when includePadding is true", () => {
+    const { rerender } = render(<Offcanvas open>{CONTENT}</Offcanvas>);
+    expect(screen.getByTestId("offcanvasBackdrop")).not.toHaveClass("includePadding");
+
+    rerender(
+      <Offcanvas open includePadding>
+        {CONTENT}
+      </Offcanvas>,
+    );
+    expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass("includePadding");
   });
 });

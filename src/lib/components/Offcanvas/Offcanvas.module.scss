@@ -2,27 +2,23 @@
 
 $sizes: (
   //sizeName, width, height
-  ("sm", "320x", "216x"),
-  ("md", "360x", "256x"),
-  ("lg", "400x", "320x")
+  ("sm", "320x", "256x"),
+  ("md", "480x", "400x"),
+  ("lg", "760x", "600x")
 );
 
 .Root {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
   background-color: var(--base-colors-black-black-overlay50);
-  display: flex;
-  z-index: 999;
+  z-index: z-layer("modal");
   @include fade-default;
 
   &.show {
     @include fade-in;
   }
 
-  &.hideBackdrop {
+  &.removeBackdrop {
     background-color: transparent;
   }
 }
@@ -40,33 +36,25 @@ $sizes: (
 
   .left & {
     @include slide-default("left");
-    top: 0;
-    left: 0;
-    height: 100%;
+    inset: 0 auto 0 0;
     border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
   }
 
   .right & {
     @include slide-default("right");
-    top: 0;
-    right: 0;
-    height: 100%;
+    inset: 0 0 0 auto;
     border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
   }
 
   .top & {
     @include slide-default("top");
-    top: 0;
-    left: 0;
-    width: 100%;
+    inset: 0 0 auto;
     border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
   }
 
   .bottom & {
     @include slide-default("bottom");
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    inset: auto 0 0;
     border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
   }
 
@@ -77,12 +65,12 @@ $sizes: (
   @each $size, $width, $height in $sizes {
     .left.#{$size} &,
     .right.#{$size} & {
-      width: var(--base-sizing-#{$width});
+      width: min(var(--base-sizing-#{$width}), 85vw);
     }
 
     .top.#{$size} &,
     .bottom.#{$size} & {
-      height: var(--base-sizing-#{$height});
+      height: min(var(--base-sizing-#{$height}), 85vh);
     }
   }
 }
@@ -92,51 +80,21 @@ $sizes: (
   align-items: flex-start;
   gap: var(--base-sizing-16x);
   padding: var(--base-sizing-16x);
-  flex-shrink: 0;
 }
 
 .headerTitle {
   flex: 1;
   color: var(--theme-color-text-base-title);
   overflow-wrap: break-word;
-
-  @each $size, $width, $height in $sizes {
-    .#{$size} & {
-      @include font("base", $size, "700");
-    }
-  }
+  @include font("base", "lg", "700");
 }
 
 .closeButton {
-  flex-shrink: 0;
   margin-left: auto;
 }
 
 .content {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 0;
-  gap: var(--base-sizing-16x);
-  padding: var(--base-sizing-16x);
-  overflow-y: auto;
-
-  > * {
-    flex-shrink: 0;
-  }
-
-  &::-webkit-scrollbar {
-    width: var(--base-sizing-8x);
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    margin: var(--base-sizing-1x) 0;
-    border-radius: var(--theme-sizing-radius-default);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--base-colors-black-black-overlay25);
-    border-radius: var(--theme-sizing-radius-default);
+  .includePadding & {
+    padding: var(--base-sizing-16x);
   }
 }
