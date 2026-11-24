@@ -5,15 +5,13 @@ import { createPortal } from "react-dom";
 import styles from "../Card.module.scss";
 import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
-import DropdownMenuItem from "@/components/Dropdown/components/DropdownMenuItem";
-import { DropdownContext } from "@/components/Dropdown/context/DropdownContext";
-import dropdownStyles from "@/components/Dropdown/Dropdown.module.scss";
 import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
+import type { MouseEvent } from "react";
 import type { IconGlobalType, Variant } from "../../../types";
 import ImageView from "@/components/ImageView";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
 import useAnchoredOverlay from "../../../hooks/useAnchoredOverlay";
-import type { CardHeaderAction, CardVariant } from "../types";
+import type { CardDropdownItem, CardHeaderAction, CardVariant } from "../types";
 
 type Props = {
   icon?: IconGlobalType;
@@ -54,7 +52,13 @@ const CardHeader = (props: Props) => {
   const iconButtonVariant = variant === "neutral" || variant === "secondary" ? "secondary" : variant === "warning" ? "strong" : "negative";
   const headerClassName = sanitizeModuleClasses(styles, "header", image && imagePosition === "right" && "headerImageAlignRight");
   const headerIconClassName = sanitizeModuleClasses(styles, "headerIcon", iconVariant && `headerIcon-${iconVariant}`);
-  const menuClassNames = sanitizeModuleClasses(dropdownStyles, "Menu", "md", "callout", placement.startsWith("top") ? "top" : "bottom");
+
+  const menuClassNames = sanitizeModuleClasses(styles, "dropdown", placement.startsWith("top") ? "top" : "bottom");
+
+  const handleItemClick = (item: CardDropdownItem) => (event: MouseEvent<HTMLButtonElement>) => {
+    item.onClick?.(event);
+    hide();
+  };
 
   const maybeContent = title || subtitle || avatarText || avatarIcon || icon || action;
 
@@ -79,15 +83,22 @@ const CardHeader = (props: Props) => {
         {menuItems &&
           attached &&
           createPortal(
-            <DropdownContext value={{ size: "md", hideMenu: hide }}>
-              <div className={menuClassNames} style={menuStyle} ref={menuRef} {...insideProps} data-testid="cardActionMenu">
-                <ul className={dropdownStyles.MenuList}>
-                  {menuItems.map((item, index) => (
-                    <DropdownMenuItem key={index} {...item} />
-                  ))}
-                </ul>
-              </div>
-            </DropdownContext>,
+            <div className={menuClassNames} style={menuStyle} ref={menuRef} {...insideProps} data-testid="cardDropdown">
+              <ul className={styles.dropdownList}>
+                {menuItems.map((item, index) => (
+                  <li key={index}>
+                    {item.header ? (
+                      <span className={styles.dropdownHeader}>{item.header}</span>
+                    ) : (
+                      <button type="button" className={styles.dropdownItem} disabled={item.disabled} onClick={handleItemClick(item)}>
+                        {item.icon && <GlobalIconWrapper icon={item.icon} style={{ color: item.iconColor }} />}
+                        {item.label && <span>{item.label}</span>}
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>,
             document.body,
           )}
       </div>

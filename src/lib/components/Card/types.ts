@@ -3,11 +3,19 @@ import type { IconGlobalType, Variant } from "../../types";
 import { ButtonProps } from "../Button/types";
 import { LinkProps } from "../Link/types";
 import { IconButtonProps } from "../IconButton/types";
-import type { DropdownMenuItemProps } from "../Dropdown/types";
 
-/** The icon button at the top right: runs onClick, or opens a dropdown menu with the items of Dropdown */
+export type CardDropdownItem = {
+  label?: string;
+  icon?: IconGlobalType;
+  iconColor?: string;
+  header?: string;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+};
+
+/** The action at the top right: an icon button that runs onClick, or opens a dropdown with the given items */
 export type CardHeaderAction = { icon: IconGlobalType } & (
-  { onClick: (event: MouseEvent<HTMLButtonElement>) => void; items?: never } | { items: DropdownMenuItemProps[]; onClick?: never }
+  { onClick: (event: MouseEvent<HTMLButtonElement>) => void; items?: never } | { items: CardDropdownItem[]; onClick?: never }
 );
 
 export type CardActionButtonPosition = "left" | "center" | "right" | "spaceBetween" | "stretch";
