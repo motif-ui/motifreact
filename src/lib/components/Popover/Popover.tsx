@@ -18,10 +18,10 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     closeOnOutsideClick,
     closeOnEscape,
     closeOnScroll,
-    variant = "light",
     placeOn = "bottom",
     spacing = "callout",
     elevated,
+    inverseColors,
     ref,
     className,
     style,
@@ -54,7 +54,6 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     spacing,
     placement,
     caretSpot,
-    variant,
     visible && "visible",
     elevated && "elevated",
     typeof children === "string" && "justText",
@@ -64,7 +63,9 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     attached &&
     createPortal(
       <div className={classNames} style={{ ...style, ...positionStyle }} ref={popoverRef} data-testid="popover" {...insideProps}>
-        <div className={styles.popover}>{children}</div>
+        <div className={styles.popover} data-mtf-surface={inverseColors ? "opposite" : undefined}>
+          {children}
+        </div>
       </div>,
       document.body,
     )

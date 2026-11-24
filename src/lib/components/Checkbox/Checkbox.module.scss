@@ -16,18 +16,13 @@ $sizes: (
 );
 
 .Root {
-  // The checked box's border and background; success replaces it
-  --mtf-checkbox-fill: var(--mtf-color-primary-solid);
   display: inline-flex;
   vertical-align: bottom;
   align-items: center;
-
-  &.success {
-    --mtf-checkbox-fill: var(--mtf-color-success-solid);
-  }
 }
 
 .input {
+  --mtf-checkbox-fill: var(--mtf-color-primary-solid);
   appearance: none;
   display: flex;
   justify-content: center;
@@ -52,6 +47,11 @@ $sizes: (
   &:focus-visible {
     outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
     outline-offset: var(--mtf-sizing-2);
+  }
+
+  .success & {
+    --mtf-checkbox-fill: var(--mtf-color-success-solid);
+    border-color: var(--mtf-color-success-border);
   }
 
   &:checked,

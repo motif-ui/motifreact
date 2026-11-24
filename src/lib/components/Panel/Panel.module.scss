@@ -1,28 +1,30 @@
 @use "@styles" as *;
 
-$lean-positions: ("top", "bottom", "left", "right");
+// titleSize, text step
+$title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
 
 .Root {
   display: flex;
   flex-direction: column;
-  border-radius: var(--theme-sizing-radius-default);
-  padding: var(--base-sizing-24x);
+  padding: var(--mtf-sizing-space-24);
+  border-radius: var(--mtf-sizing-radius-md);
+  color: var(--mtf-color-text-default);
 
   &.bordered {
-    border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+    border: var(--mtf-sizing-1) solid var(--mtf-color-border-default);
   }
 
   &.default {
-    background-color: var(--theme-color-surface-base-bg-light);
+    background-color: var(--mtf-color-surface-default);
   }
 
   &.solid {
-    background-color: var(--theme-color-surface-base-base2);
+    background-color: var(--mtf-color-surface-subtle);
   }
 
   &.elevated {
-    background-color: var(--theme-color-surface-base-bg-light);
-    @include shadow(3);
+    background-color: var(--mtf-color-surface-raised);
+    box-shadow: var(--mtf-elevation-3);
   }
 
   &.lean {
@@ -30,23 +32,13 @@ $lean-positions: ("top", "bottom", "left", "right");
   }
 }
 
-.textContent {
-  @include font("body", "md");
-  color: var(--theme-color-text-base-subtitle-light);
-  padding-top: var(--base-sizing-4x);
-  padding-bottom: var(--base-sizing-4x);
-}
-
 // =============================================================================
 // Sub Component: PanelTitle
 // =============================================================================
 
-$title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
-
 .title {
-  color: var(--theme-color-text-base-subtitle);
-  margin-top: var(--base-sizing-12x);
-  margin-bottom: var(--base-sizing-12x);
+  margin-block: var(--mtf-sizing-space-12);
+  color: var(--mtf-color-text-soft);
 
   &:first-child {
     margin-top: 0;
@@ -55,17 +47,17 @@ $title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
   &:last-child {
     margin-bottom: 0;
   }
+}
 
-  .title-icon {
-    margin-right: var(--base-sizing-8x);
-    color: var(--theme-color-text-base-caption);
-    vertical-align: text-top;
-    --mtf-icon-size: var(--base-sizing-22x);
-  }
+.title-icon {
+  --mtf-icon-size: var(--mtf-sizing-22);
+  margin-right: var(--mtf-sizing-space-8);
+  color: var(--mtf-color-text-softer);
+  vertical-align: text-top;
+}
 
-  @each $size, $title-size in $title-sizes {
-    &.title-#{$size} {
-      @include font("base", $title-size, "700");
-    }
+@each $size, $step in $title-sizes {
+  .title-#{$size} {
+    @include typography("text-#{$step}", "strongest");
   }
 }

@@ -15,7 +15,7 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
     title,
     size = "md",
     position = "top",
-    variant = "light",
+    inverseColors,
     children,
     style,
     className,
@@ -46,7 +46,13 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
   }, [show, hide, text]);
 
   const triangleSpot = position.endsWith("Left") ? "triangleLeft" : position.endsWith("Right") ? "triangleRight" : "triangleCenter";
-  const classNames = sanitizeModuleRootClasses(styles, className, [size, placement, triangleSpot, visible && "visible", variant]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [
+    size,
+    placement,
+    triangleSpot,
+    visible && "visible",
+    inverseColors && "inverseColors",
+  ]);
 
   return (
     <>
