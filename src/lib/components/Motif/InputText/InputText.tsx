@@ -112,7 +112,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className, [
     size,
     disabled ? "disabled" : error ? "error" : success && "success",
-    readOnly && "readOnly",
+    !disabled && readOnly && "readOnly",
     pill && "pill",
     clearable && itemValue && "clearable",
   ]);
