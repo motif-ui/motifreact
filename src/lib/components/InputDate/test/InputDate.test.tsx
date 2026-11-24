@@ -242,37 +242,6 @@ describe("InputDate", () => {
     expect(onChange).toHaveBeenCalledTimes(5);
   });
 
-  describe("pickerFormat month", () => {
-    it("should display MM/YYYY as the placeholder", () => {
-      const { getInput } = renderExt(<InputDate pickerFormat="month" />);
-      expect(getInput()).toHaveAttribute("placeholder", "MM/YYYY");
-    });
-
-    it("should open the picker in the month view and display MM/YYYY in the input when a month is selected", async () => {
-      const onChange = jest.fn();
-      const { getInput } = renderExt(<InputDate pickerFormat="month" value={testDate} onChange={onChange} />);
-
-      await userEvent.click(getInput());
-      expect(screen.getByTestId("DatePickerMonthsContainer")).toBeInTheDocument();
-      expect(screen.queryByTestId("DatePickerDayContainer")).not.toBeInTheDocument();
-
-      await userEvent.click(screen.getByText(getDateLocale(t).monthsShort[4]));
-      expect(getInput()).toHaveValue("05/2025");
-      expect(onChange).toHaveBeenLastCalledWith(new Date(2025, 4, 1));
-    });
-
-    it("should call onChange with the first day of the month when MM/YYYY is typed, and treat DD/MM/YYYY as invalid", () => {
-      const onChange = jest.fn();
-      const { getInput } = renderExt(<InputDate pickerFormat="month" editable onChange={onChange} />);
-
-      fireEvent.change(getInput(), { target: { value: "03/2026" } });
-      expect(onChange).toHaveBeenNthCalledWith(1, new Date(2026, 2, 1));
-
-      fireEvent.change(getInput(), { target: { value: "05/03/2026" } });
-      expect(onChange).toHaveBeenNthCalledWith(2, undefined);
-    });
-  });
-
   it("should be rendered as success variant when success prop is true", () => {
     const { getByTestId } = render(<InputDate success editable />);
     expect(getByTestId("inputItem")).toHaveClass("success");

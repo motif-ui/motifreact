@@ -34,6 +34,7 @@ import { LinkDefaultableProps } from "../../components/Link/types";
 import { ListViewDefaultableProps } from "../../components/ListView/types";
 import { MenuListDefaultableProps } from "../../components/MenuList/types";
 import { ModalDefaultableProps } from "../../components/Modal/types";
+import { MonthPickerDefaultableProps } from "../../components/MonthPicker/types";
 import { NavBarDefaultableProps } from "../../components/NavBar/types";
 import { PaginationDefaultableProps } from "../../components/Pagination/types";
 import { PanelDefaultableProps } from "../../components/Panel/types";
@@ -60,6 +61,7 @@ import { UploadListDefaultableProps } from "../../components/Upload/UploadList/t
 import { UploadDefaultableProps } from "../../components/Upload/types";
 import { UploadInputDefaultableProps } from "../../components/Upload/UploadInput/types";
 import { ImageUploadDefaultableProps } from "../../components/Upload/ImageUpload/types";
+import { YearPickerDefaultableProps } from "../../components/YearPicker/types";
 import { ContainerDefaultableProps } from "../../components/Container/types";
 
 export type ComponentDefaultableProps = {
@@ -102,6 +104,7 @@ export type ComponentDefaultableProps = {
   ListView?: ListViewDefaultableProps;
   MenuList?: MenuListDefaultableProps;
   Modal?: ModalDefaultableProps;
+  MonthPicker?: MonthPickerDefaultableProps;
   NavBar?: NavBarDefaultableProps;
   Pagination?: PaginationDefaultableProps;
   Panel?: PanelDefaultableProps;
@@ -127,4 +130,5 @@ export type ComponentDefaultableProps = {
   UploadList?: UploadListDefaultableProps;
   UploadDragger?: UploadDefaultableProps;
   UploadInput?: UploadInputDefaultableProps;
+  YearPicker?: YearPickerDefaultableProps;
 };
