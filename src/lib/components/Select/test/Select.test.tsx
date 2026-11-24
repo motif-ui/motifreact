@@ -6,7 +6,7 @@ import { Select, Validations } from "../../../index.ts";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types.ts";
 import Form from "@/components/Form";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import { t } from "../../../../utils/testUtils.tsx";
 import MotifProvider from "../../../motif/context/MotifProvider.tsx";
 
@@ -514,5 +514,15 @@ describe("Select", () => {
     rerender(<Select data={data} disabled />);
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
     expect(screen.queryByRole("combobox")).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("should pass the listbox rendered in the body to the ref given in the overlayRef prop", async () => {
+    const overlayRef = createRef<HTMLUListElement>();
+    render(<Select data={data} overlayRef={overlayRef} />);
+    expect(overlayRef.current).toBeNull();
+
+    await userEvent.click(screen.getByRole("combobox"));
+    expect(overlayRef.current).toBe(screen.getByRole("listbox"));
+    expect(overlayRef.current?.parentElement).toBe(document.body);
   });
 });

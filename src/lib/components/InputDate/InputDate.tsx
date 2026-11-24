@@ -28,7 +28,7 @@ const pickerSizeMap = {
 
 const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDate", p);
-  const { editable, pill, value, onChange, ref, style, className, locale: propsLocale, firstDayOfWeek, icon } = props;
+  const { editable, pill, value, onChange, ref, overlayRef, style, className, locale: propsLocale, firstDayOfWeek, icon } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
   const locale = useDateLocale(propsLocale);
 
@@ -68,6 +68,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
     hide,
   } = useAnchoredOverlay({
     anchorRef: innerRef,
+    overlayRef,
     placement: "bottomLeft",
     onClose: pickerCloseHandler,
     closeOnOutsideClick: true,

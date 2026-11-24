@@ -32,6 +32,10 @@ export type PropsWithRef<P = unknown, R = unknown> = P & StandardProps & RefType
 export type PropsWithRefAndChildren<P = unknown, R = unknown> = PropsWithChildren<P> & StandardProps & RefType<R>;
 export type StandardPropsWithRef<R = unknown> = StandardProps & RefType<R>;
 export type StandardPropsWithChildren<P = unknown> = PropsWithChildren<P> & StandardProps;
+export type OverlayRefProps<R = HTMLDivElement> = {
+  /** Ref of the overlay, which is rendered in document.body, outside the element of `ref`. It is null while the overlay is closed. */
+  overlayRef?: Ref<R>;
+};
 
 /**
  * ```
