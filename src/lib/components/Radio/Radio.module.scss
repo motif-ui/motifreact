@@ -4,17 +4,12 @@
 $sizes: (("xs", 16, 6), ("sm", 20, 8), ("md", 24, 10), ("lg", 28, 12));
 
 .Root {
-  // The checked disc's border and fill; success replaces it
-  --mtf-radio-fill: var(--mtf-color-primary-solid);
   display: inline-flex;
   align-items: center;
-
-  &.success {
-    --mtf-radio-fill: var(--mtf-color-success-solid);
-  }
 }
 
 .radio {
+  --mtf-radio-fill: var(--mtf-color-primary-solid);
   appearance: none;
   margin: 0; // Not removed via appearance
   border: var(--mtf-sizing-1) solid var(--mtf-color-border-field);
@@ -33,6 +28,7 @@ $sizes: (("xs", 16, 6), ("sm", 20, 8), ("md", 24, 10), ("lg", 28, 12));
 
   // Before the checked rule: a checked radio takes the fill as its border
   .success & {
+    --mtf-radio-fill: var(--mtf-color-success-solid);
     border-color: var(--mtf-color-success-border);
   }
 

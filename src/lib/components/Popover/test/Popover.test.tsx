@@ -5,7 +5,7 @@ import type { PropsWithChildren, RefObject } from "react";
 import { createPortal } from "react-dom";
 import { PopoverProps } from "../types";
 import { browserClick, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
-import { StandardPropsWithRef } from "../../../../lib/types";
+import { OverlayPlaceOn, StandardPropsWithRef } from "../../../../lib/types";
 describe("Popover", () => {
   const anchorRef = createRef<HTMLDivElement>();
 
@@ -26,16 +26,7 @@ describe("Popover", () => {
   );
 
   it("should render in a position given in placeOn prop relative to the anchor element", () => {
-    const positions: ("top" | "bottom" | "right" | "left" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight")[] = [
-      "top",
-      "bottom",
-      "right",
-      "left",
-      "topLeft",
-      "topRight",
-      "bottomLeft",
-      "bottomRight",
-    ];
+    const positions: OverlayPlaceOn[] = ["top", "bottom", "right", "left", "topLeft", "topRight", "bottomLeft", "bottomRight"];
 
     const anchorRef = createRef<HTMLDivElement>();
     positions.forEach(position => {

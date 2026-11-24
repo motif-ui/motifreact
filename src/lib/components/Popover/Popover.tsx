@@ -66,7 +66,6 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     attached &&
     createPortal(
       <div className={classNames} style={{ ...style, ...positionStyle }} ref={mergedRef} data-testid="popover" {...insideProps}>
-        {/* The color scheme flips inside the popover and its caret */}
         <div className={styles.popover} data-mtf-surface={inverseColors ? "opposite" : undefined}>
           {children}
         </div>

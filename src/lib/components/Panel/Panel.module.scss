@@ -8,8 +8,6 @@ $title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
   flex-direction: column;
   padding: var(--mtf-sizing-space-24);
   border-radius: var(--mtf-sizing-radius-md);
-
-  // The panel paints its own surface, so it also gives the content the text color of that surface
   color: var(--mtf-color-text-default);
 
   &.bordered {
