@@ -154,8 +154,11 @@ $sizes: (("xs", 8, 4, 18, 28), ("sm", 12, 6, 20, 32), ("md", 16, 8, 22, 38), ("l
       color: var(--mtf-color-text-strong);
     }
 
+    // After hover: same specificity, so a disabled or readOnly field's buttons, which cannot change the value, keep
+    // their look under the pointer
     .disabled &,
     .readOnly & {
+      background-color: var(--mtf-color-neutral-soft);
       color: var(--mtf-color-text-disabled);
     }
 
