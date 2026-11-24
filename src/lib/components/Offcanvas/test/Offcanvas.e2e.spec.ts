@@ -17,19 +17,19 @@ type Options = {
   position?: "left" | "right" | "top" | "bottom";
   size?: "sm" | "md" | "lg";
   closable?: boolean;
-  hideBackdrop?: boolean;
+  removeBackdrop?: boolean;
   includePadding?: boolean;
   longTitle?: boolean;
 };
 
 // Sets the props with the controls of the scene, opens the offcanvas and waits until it has slid in
 const openOffcanvas = async (page: Page, options: Options = {}) => {
-  const { position = "left", size = "md", closable = true, hideBackdrop = false, includePadding = false, longTitle = false } = options;
+  const { position = "left", size = "md", closable = true, removeBackdrop = false, includePadding = false, longTitle = false } = options;
   await openStory(page, "e2e-offcanvas--playground");
   await page.getByLabel("Position").selectOption(position);
   await page.getByLabel("Size").selectOption(size);
   await page.getByLabel("Closable").setChecked(closable);
-  await page.getByLabel("Hide backdrop").setChecked(hideBackdrop);
+  await page.getByLabel("Remove backdrop").setChecked(removeBackdrop);
   await page.getByLabel("Include padding").setChecked(includePadding);
   await page.getByLabel("Long title").setChecked(longTitle);
   await page.getByRole("button", { name: "Open offcanvas" }).click();
@@ -229,8 +229,8 @@ test.describe("Backdrop", () => {
     await expect(page.locator(backdrop)).not.toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   });
 
-  test("is transparent with hideBackdrop, but still covers the page and closes on a click", async ({ page }) => {
-    await openOffcanvas(page, { hideBackdrop: true });
+  test("is transparent with removeBackdrop, but still covers the page and closes on a click", async ({ page }) => {
+    await openOffcanvas(page, { removeBackdrop: true });
     await expect(page.locator(backdrop)).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
 
     // The controls behind it cannot be reached while it is open

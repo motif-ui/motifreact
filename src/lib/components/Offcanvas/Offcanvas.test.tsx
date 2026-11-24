@@ -23,8 +23,8 @@ describe("Offcanvas", () => {
         expect(root).toHaveClass("left");
         // size: md
         expect(root).toHaveClass("md");
-        // hideBackdrop: false
-        expect(root).not.toHaveClass("hideBackdrop");
+        // removeBackdrop: false
+        expect(root).not.toHaveClass("removeBackdrop");
       },
     },
   );
@@ -193,13 +193,13 @@ describe("Offcanvas", () => {
     });
   });
 
-  it("should render without the backdrop when hideBackdrop is true", () => {
+  it("should render without the backdrop when removeBackdrop is true", () => {
     render(
       <Offcanvas open removeBackdrop>
         {CONTENT}
       </Offcanvas>,
     );
-    expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass("hideBackdrop");
+    expect(screen.getByTestId("offcanvasBackdrop")).toHaveClass("removeBackdrop");
   });
 
   it("should add padding to the content only when includePadding is true", () => {

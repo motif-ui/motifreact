@@ -28,7 +28,7 @@ export const Playground: Story = {
       const [position, setPosition] = useState<OffcanvasPosition>("left");
       const [size, setSize] = useState<Size3>("md");
       const [closable, setClosable] = useState(true);
-      const [hideBackdrop, setHideBackdrop] = useState(false);
+      const [removeBackdrop, setRemoveBackdrop] = useState(false);
       const [includePadding, setIncludePadding] = useState(false);
       const [longTitle, setLongTitle] = useState(false);
 
@@ -55,8 +55,8 @@ export const Playground: Story = {
             Closable
           </label>
           <label>
-            <input type="checkbox" checked={hideBackdrop} onChange={e => setHideBackdrop(e.target.checked)} />
-            Hide backdrop
+            <input type="checkbox" checked={removeBackdrop} onChange={e => setRemoveBackdrop(e.target.checked)} />
+            Remove backdrop
           </label>
           <label>
             <input type="checkbox" checked={includePadding} onChange={e => setIncludePadding(e.target.checked)} />
@@ -75,7 +75,7 @@ export const Playground: Story = {
             position={position}
             size={size}
             closable={closable}
-            removeBackdrop={hideBackdrop}
+            removeBackdrop={removeBackdrop}
             includePadding={includePadding}
           >
             <p data-testid="text">A text to select in the offcanvas</p>
