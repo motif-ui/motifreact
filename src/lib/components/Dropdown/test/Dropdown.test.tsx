@@ -166,6 +166,14 @@ describe("Dropdown", () => {
     expect(container.firstElementChild).toHaveClass("textOnly");
   });
 
+  it("should add the variant class to textOnly only when a variant is given", () => {
+    const { container, rerender } = render(<Dropdown label="Dropdown Menu" shape="textOnly" items={[{ label: "Item 1" }]} />);
+    expect(container.firstElementChild).not.toHaveClass("primary");
+    rerender(<Dropdown label="Dropdown Menu" shape="textOnly" variant="danger" items={[{ label: "Item 1" }]} />);
+    expect(container.firstElementChild).toHaveClass("textOnly");
+    expect(container.firstElementChild).toHaveClass("danger");
+  });
+
   it("items should be rendered with the color given in items' iconColor prop", () => {
     render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1", icon: "check_circle", iconColor: "red" }]} />);
     fireEvent.click(screen.getByText("Dropdown Menu"));
