@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
+import { createRef } from "react";
 import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
 import { StandardPropsWithRef, Variant } from "../../../../lib/types";
 import Dropdown from "../Dropdown";
@@ -197,5 +198,15 @@ describe("Dropdown", () => {
       expect(screen.getByTestId("dropdown-menu")).toHaveClass(spacing);
       unmount();
     });
+  });
+
+  it("should pass the menu rendered in the body to the ref given in the overlayRef prop", () => {
+    const overlayRef = createRef<HTMLDivElement>();
+    render(<Dropdown label="Dropdown Menu" items={[{ label: "Item 1" }]} overlayRef={overlayRef} />);
+    expect(overlayRef.current).toBeNull();
+
+    fireEvent.click(screen.getByText("Dropdown Menu"));
+    expect(overlayRef.current).toBe(screen.getByTestId("dropdown-menu"));
+    expect(overlayRef.current?.parentElement).toBe(document.body);
   });
 });
