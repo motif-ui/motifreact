@@ -176,6 +176,12 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
       ),
     ),
     color(["text", "disabled"], palAlpha("neutral", 950, 0.32), palAlpha("neutral", 50, 0.32), "a state, not a level"),
+    color(
+      ["text", "disabled-soft"],
+      palAlpha("neutral", 950, 0.16),
+      palAlpha("neutral", 50, 0.16),
+      "disabled placeholder, under the disabled value",
+    ),
     color(["text", "on-media"], white, undefined, "on images"),
     color(["text", "on-media-soft"], literalAlpha("white", 0.64)),
   ];

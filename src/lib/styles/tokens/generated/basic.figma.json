@@ -1634,6 +1634,24 @@
           }
         },
         {
+          "name": "color/text/disabled-soft",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "disabled placeholder, under the disabled value",
+          "values": {
+            "Light": {
+              "alias": "color/palette/neutral/950-a16"
+            },
+            "Dark": {
+              "alias": "color/palette/neutral/50-a16"
+            }
+          }
+        },
+        {
           "name": "color/text/on-media",
           "type": "COLOR",
           "scopes": [

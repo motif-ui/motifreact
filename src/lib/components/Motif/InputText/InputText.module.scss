@@ -1,113 +1,117 @@
 @use "@styles" as *;
 
-// size, horizontalPadding, verticalPadding, loaderRadius, inputNumberSize
-$sizes: (("xs", "8x", "4x", "18x", "28x"), ("sm", "12x", "6x", "20x", "32x"), ("md", "16x", "8x", "22x", "38x"), ("lg", "20x", "10x", "24x", "44x"));
+// size (also the text step), paddingH, paddingV (also the gap), loader, number button min width
+$sizes: (("xs", 8, 4, 18, 28), ("sm", 12, 6, 20, 32), ("md", 16, 8, 22, 38), ("lg", 20, 10, 24, 44));
 
 .Root {
+  // The corner radius, also of the last number button so it follows a pill field
+  --mtf-input-text-radius: var(--mtf-sizing-radius-md);
   position: relative;
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  border: var(--base-sizing-1x) solid var(--theme-color-border-light-default);
-  border-radius: var(--theme-sizing-radius-default);
-  background-color: var(--theme-color-surface-base-bg-light);
+  border: var(--mtf-sizing-1) solid var(--mtf-color-border-field);
+  border-radius: var(--mtf-input-text-radius);
+  background-color: var(--mtf-color-surface-field);
   @include transition(border-color);
 
   &:focus-within {
-    border-color: var(--theme-color-border-primary-default);
+    border-color: var(--mtf-color-border-field-focus);
   }
 
   input {
     box-sizing: border-box;
+    width: 100%;
+    padding: 0;
     border: none;
     outline: none;
-    padding: 0;
     background: transparent;
-    color: var(--theme-color-text-base-title);
-    width: 100%;
+    color: var(--mtf-color-text-field);
 
     &::placeholder {
-      color: var(--theme-color-text-base-caption);
+      color: var(--mtf-color-text-field-placeholder);
     }
-    &:focus {
-      outline: none;
-    }
+  }
 
-    &[type="number"] {
-      appearance: textfield;
-      &::-webkit-inner-spin-button,
-      &::-webkit-outer-spin-button {
-        appearance: none;
-      }
+  // The number input draws its own buttons (numberButtons)
+  [type="number"] {
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
     }
+  }
+
+  // After focus: same specificity, so the error and success borders stay while typing
+  &.error {
+    border-color: var(--mtf-color-danger-border);
+
+    .iconRight {
+      color: var(--mtf-color-danger-text);
+    }
+  }
+
+  &.success {
+    border-color: var(--mtf-color-success-border);
+
+    .iconRight {
+      color: var(--mtf-color-success-text);
+    }
+  }
+}
+
+// A modifier of its own (not nested in .Root): PinCode's space item, a disabled field, removes this box again
+.disabled {
+  border-color: var(--mtf-color-border-disabled);
+  background-color: var(--mtf-color-surface-disabled);
+  pointer-events: none;
+
+  input,
+  .iconLeft,
+  .iconRight,
+  .iconButton {
+    color: var(--mtf-color-text-disabled);
+  }
+
+  // A step under the disabled value, so an empty field reads lighter than a filled one
+  input::placeholder {
+    color: var(--mtf-color-text-disabled-soft);
+  }
+}
+
+// The value stays readable and selectable (it is real data, focus and validation borders still show); only the box
+// tells it cannot be changed. The right button (date picker, password mask) does not react.
+.readOnly {
+  border-color: var(--mtf-color-border-soft);
+  background-color: var(--mtf-color-surface-subtle);
+
+  .iconButton {
+    pointer-events: none;
   }
 }
 
 .pill {
-  border-radius: var(--theme-sizing-radius-round);
+  --mtf-input-text-radius: var(--mtf-sizing-radius-round);
 }
 
-.icon {
-  color: var(--theme-color-text-base-caption-light);
+.iconLeft {
+  color: var(--mtf-color-text-softer);
 }
 
-.error {
-  border-color: var(--theme-color-border-danger-default);
-  .icon.icon-right {
-    color: var(--theme-color-text-danger-default);
-  }
+.iconRight {
+  color: var(--mtf-color-text-soft);
 }
 
-.success {
-  border-color: var(--theme-color-border-success-default);
-  .icon.icon-right {
-    color: var(--theme-color-text-success-default);
-  }
-}
-
-.disabled,
-.readOnly {
-  pointer-events: none;
-  border-color: var(--theme-color-border-light-disabled);
-  background-color: var(--theme-color-surface-base-base1);
-
-  .icon,
-  input {
-    color: var(--theme-color-text-base-disabled);
-  }
-  .numberButtons button {
-    color: var(--theme-color-text-base-disabled);
-    background-color: var(--theme-color-surface-base-base3);
-  }
-}
-
-.numberButtons {
-  display: flex;
-  align-self: stretch;
-  button {
-    all: unset;
-    @include transition(background-color color);
-    @include flex-center;
-    color: var(--theme-color-text-base-subtitle);
-    background-color: var(--theme-color-surface-light-default);
-    flex: 1;
-    border-left: var(--base-sizing-1x) solid var(--theme-color-border-light-disabled);
-
-    &:last-child {
-      border-top-right-radius: var(--theme-sizing-radius-default);
-      border-bottom-right-radius: var(--theme-sizing-radius-default);
-    }
-    &:hover {
-      color: var(--theme-color-text-base-title);
-      background-color: var(--theme-color-surface-light-hover);
-    }
-  }
+// The right button (password visibility, date picker…) keeps IconButton's own colors; disabled grays it above
+.iconButton {
+  flex-shrink: 0;
 }
 
 .inputWrapper {
   position: relative;
-  flex: 1;
   display: flex;
+  flex: 1;
   min-width: 0;
 }
 
@@ -119,36 +123,77 @@ $sizes: (("xs", "8x", "4x", "18x", "28x"), ("sm", "12x", "6x", "20x", "32x"), ("
 }
 
 .loader {
-  color: var(--theme-color-border-primary-default);
+  color: var(--mtf-color-primary-solid);
+
   circle {
-    @include spin;
     transform-origin: 50% 50%;
+    @include spin;
   }
 }
 
-@each $size, $paddingH, $paddingV, $loaderRadius, $inputNumberSize in $sizes {
+.numberButtons {
+  display: flex;
+  align-self: stretch;
+
+  button {
+    all: unset;
+    flex: 1;
+    border-left: var(--mtf-sizing-1) solid var(--mtf-color-border-default);
+    background-color: var(--mtf-color-neutral-soft);
+    color: var(--mtf-color-neutral-text);
+    @include transition(background-color color);
+    @include flex-center;
+
+    &:last-child {
+      border-top-right-radius: var(--mtf-input-text-radius);
+      border-bottom-right-radius: var(--mtf-input-text-radius);
+    }
+
+    &:hover {
+      background-color: var(--mtf-color-neutral-soft-hover);
+      color: var(--mtf-color-text-strong);
+    }
+
+    .disabled &,
+    .readOnly & {
+      color: var(--mtf-color-text-disabled);
+    }
+
+    .disabled & {
+      border-left-color: var(--mtf-color-border-disabled);
+    }
+
+    .readOnly & {
+      border-left-color: var(--mtf-color-border-soft);
+    }
+  }
+}
+
+@each $size, $paddingH, $paddingV, $loader, $numberButton in $sizes {
   .#{$size} {
-    gap: var(--base-sizing-#{$paddingV});
-    padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+    gap: var(--mtf-sizing-space-#{$paddingV});
+    padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
 
     &.clearable input {
-      width: calc(100% - var(--base-sizing-#{$loaderRadius}));
+      width: calc(100% - var(--mtf-sizing-#{$loader}));
     }
 
     input {
-      @include font("body", $size);
+      @include typography("text-#{$size}", "regular");
     }
 
     .loader {
-      width: var(--base-sizing-#{$loaderRadius});
-      height: var(--base-sizing-#{$loaderRadius});
+      width: var(--mtf-sizing-#{$loader});
+      height: var(--mtf-sizing-#{$loader});
     }
 
     .numberButtons {
-      margin: calc(-1 * var(--base-sizing-#{$paddingV})) calc(-1 * var(--base-sizing-#{$paddingH})) calc(-1 * var(--base-sizing-#{$paddingV})) 0;
+      margin: calc(-1 * var(--mtf-sizing-space-#{$paddingV})) calc(-1 * var(--mtf-sizing-space-#{$paddingH}))
+        calc(-1 * var(--mtf-sizing-space-#{$paddingV})) 0;
+
       button {
-        @include font("base", $size, "600");
-        min-width: var(--base-sizing-#{$inputNumberSize});
+        min-width: var(--mtf-sizing-#{$numberButton});
+        @include typography("text-#{$size}", "stronger");
       }
     }
   }

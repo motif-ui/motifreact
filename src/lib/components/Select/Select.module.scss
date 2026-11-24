@@ -29,6 +29,13 @@ $sizes: (
     }
   }
 
+  // Before focus and the validation states: same specificity, so those still win. The value stays readable; only the box
+  // tells it cannot be changed.
+  &.readOnly {
+    border-color: var(--mtf-color-border-soft);
+    background-color: var(--mtf-color-surface-subtle);
+  }
+
   &:focus {
     border-color: var(--mtf-color-border-field-focus);
     outline: none;
@@ -83,6 +90,10 @@ $sizes: (
 
   &::placeholder {
     color: var(--mtf-color-text-field-placeholder);
+
+    .disabled & {
+      color: var(--mtf-color-text-disabled-soft);
+    }
   }
 }
 

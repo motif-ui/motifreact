@@ -1,0 +1,44 @@
+@use "@styles" as *;
+
+$sizes: (
+  //size, padding, inputSize, gap
+  ("xs", "4x", "20x", "4x"),
+  ("sm", "6x", "20x", "8x"),
+  ("md", "8x", "22x", "12x"),
+  ("lg", "10x", "24x", "16x")
+);
+
+@each $size, $padding, $inputSize, $gap in $sizes {
+  .#{$size} {
+    gap: var(--base-sizing-#{$gap});
+    .input {
+      padding: var(--base-sizing-#{$padding});
+      box-sizing: border-box;
+    }
+    .input input {
+      @include font("body", $size);
+      width: var(--base-sizing-#{$inputSize});
+      height: var(--base-sizing-#{$inputSize});
+      padding: 0;
+      flex: none;
+    }
+  }
+}
+
+.Root {
+  display: inline-flex;
+  .input input {
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
+
+.circle .input {
+  border-radius: var(--theme-sizing-radius-round);
+}
+
+.input.item_space {
+  background: none;
+  border: none;
+  pointer-events: none;
+}

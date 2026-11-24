@@ -809,6 +809,16 @@
           }
         }
       },
+      "disabled-soft": {
+        "$type": "color",
+        "$value": "{color.palette.neutral.950-a16}",
+        "$description": "disabled placeholder, under the disabled value",
+        "$extensions": {
+          "com.motif.modes": {
+            "dark": "{color.palette.neutral.50-a16}"
+          }
+        }
+      },
       "on-media": {
         "$type": "color",
         "$value": "{color.palette.white}",

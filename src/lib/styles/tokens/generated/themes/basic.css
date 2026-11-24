@@ -159,6 +159,7 @@
   --mtf-color-text-soft: light-dark(var(--mtf-color-palette-neutral-700), var(--mtf-color-palette-neutral-300));
   --mtf-color-text-softer: light-dark(var(--mtf-color-palette-neutral-600), var(--mtf-color-palette-neutral-400));
   --mtf-color-text-disabled: light-dark(var(--mtf-color-palette-neutral-950-a32), var(--mtf-color-palette-neutral-50-a32));
+  --mtf-color-text-disabled-soft: light-dark(var(--mtf-color-palette-neutral-950-a16), var(--mtf-color-palette-neutral-50-a16));
   --mtf-color-text-on-media: var(--mtf-color-palette-white);
   --mtf-color-text-on-media-soft: var(--mtf-color-palette-white-a64);
   --mtf-color-border-soft: light-dark(var(--mtf-color-palette-neutral-950-a16), var(--mtf-color-palette-neutral-50-a16));

@@ -22,6 +22,9 @@
 - Nested `inputText` (`_Select/InputText`): `placeholder`, `value`, `hasValue`, `disabled`, `caret` (Figma only).
 - `_Select/Chip`: `label`, `size`, `closable` (false when the Select is disabled, readOnly or loading).
 
+- readOnly has its own look (2026-11-24): `color/surface/subtle` + `color/border/soft`, text, placeholder and icons keep
+  their normal colors; focus and validation borders still show. The readOnly variants copy their default twin's colors.
+
 ## Decisions
 
 - 2026-11-05: `showChips` was replaced by the code props `multiple` / `filterable`; chips show only when both are true.

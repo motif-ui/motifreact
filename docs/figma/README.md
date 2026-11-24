@@ -11,8 +11,9 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
   read-only reference.
 - Pages, alphabetical inside each group (docs/review/figma.md, Pages): Cover `0:1`, Getting Started `7:2`; Foundations:
   Colors `7:4`, Elevation `7:8`, Radius `7:7`, Spacing & Sizing `7:6`, Typography `7:5`; Components: Accordion `349:22`, Alert `242:22`, AlertModal `137:22`,
-  Avatar `236:798`, Badge `230:439`, Breadcrumb `174:22`, Button `129:22`, ButtonGroup `353:22`, Checkbox `339:22`, Chip `239:22`, DataView `269:22`, Divider `169:22`, Icon `361:288`, IconButton `361:289`, ImageView `352:22`, Link `171:958`, ListView `265:22`, Pagination `261:22`,
-  ProgressBar `176:810`, ProgressCircle `7:10`, Select `7:11`, Skeleton `171:22`, Switch `344:22`, Timeline `272:22`; Internal: `_Doc` `7:13`. The 40 embedded `Icon/<name>` glyph components live on the Icon page (Icons section); the
+  Avatar `236:798`, Badge `230:439`, Breadcrumb `174:22`, Button `129:22`, ButtonGroup `353:22`, Checkbox `339:22`, Chip `239:22`, DataView `269:22`, Divider `169:22`, Icon `361:288`, IconButton `361:289`, ImageView `352:22`, InputNumber `391:22`, InputPassword `390:22`, InputText `389:22`, Link `171:958`, ListView `265:22`, Pagination `261:22`,
+  PinCode `405:22`, ProgressBar `176:810`, ProgressCircle `7:10`, Select `7:11`, Skeleton `171:22`, Switch `344:22`, Textarea `403:22`, Timeline `272:22`;
+  Common Components (divider `386:22`): `_MotifInputText` `386:23`; Internal: `_Doc` `7:13`. The 40 embedded `Icon/<name>` glyph components live on the Icon page (Icons section); the
   former `_Icons` page was removed on 2026-11-20.
 - Doc blocks on `_Doc`: Header `11:2`, SectionTitle `11:14`, PropRow `11:29`, Note `11:30`, Label `11:33`,
   Footer `11:35`, Logo `24:24`, Swatch `25:42`.
@@ -67,4 +68,6 @@ what the rules do not: node IDs, per-component decisions and Plugin API pitfalls
 - An empty auto-layout frame does not hug to its strokes, and a line's stroke does not count in auto-layout: a stroke
   weight and a frame size are always two bindings (why Divider's size is a variant).
 - An inside stroke still counts in auto-layout size unless `strokesIncludedInLayout = false`.
+- `component.resize()` resets both sizing modes to fixed: set `counterAxisSizingMode = "AUTO"` after it, or every size
+  keeps the placeholder height (the batch 7 fields were all 40px until fixed).
 - `_Doc/PropRow` is a component set (`kind`: header/body): instance it from its default variant.

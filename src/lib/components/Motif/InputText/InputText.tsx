@@ -119,7 +119,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
 
   return (
     <div className={classNames} ref={ref} data-testid="inputItem" data-mtf-component="mtf-input-text" style={style}>
-      {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.icon} size={size} />}
+      {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.iconLeft} size={size} />}
       <div className={styles.inputWrapper}>
         <input
           id={id}
@@ -157,8 +157,10 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         </svg>
       ) : (
         <>
-          {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.icon} size={size} />}
-          {buttonRight && <MotifIconButton name={buttonRight.name} className={styles.icon} size={size} onClick={buttonRight.onClick} />}
+          {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.iconRight} size={size} />}
+          {buttonRight && (
+            <MotifIconButton name={buttonRight.name} className={styles.iconButton} size={size} onClick={buttonRight.onClick} />
+          )}
         </>
       )}
       {numberSpinner && (
