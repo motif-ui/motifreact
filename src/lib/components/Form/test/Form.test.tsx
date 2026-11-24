@@ -961,6 +961,29 @@ describe("Form", () => {
     expect(screen.getAllByTestId("grid-row")[1]?.children[1]).toHaveClass("col-md-6");
   });
 
+  it("should render the gap and padding classes given to a Grid and a Row in it, so they override the gaps and padding of the Form", () => {
+    const spacingClassesOf = (element: Element) => [...element.classList].filter(cls => /^((row-|column-)?gap|padding)-/.test(cls)).sort();
+    render(
+      <Form size="lg" onSubmit={() => {}}>
+        <Grid gap="xl" padding="lg">
+          <Row>
+            <Col size={12} />
+          </Row>
+        </Grid>
+        <Grid rowGap="xs">
+          <Row gap="md">
+            <Col size={12} />
+          </Row>
+        </Grid>
+      </Form>,
+    );
+    const [first, second] = screen.getAllByTestId("grid-row");
+
+    expect(spacingClassesOf(first.parentElement!)).toEqual(["gap-xl", "padding-lg"]);
+    expect(spacingClassesOf(second.parentElement!)).toEqual(["row-gap-xs"]);
+    expect(spacingClassesOf(second)).toEqual(["gap-md"]);
+  });
+
   it("should clear the form when clearForm function of the Form reference is called", async () => {
     const TestComponent = () => {
       const ref = useRef<FormRefType>(null);

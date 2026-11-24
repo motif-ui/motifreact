@@ -1,14 +1,12 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { Grid } from "../../../index.ts";
+import { Form, Grid } from "../../../index.ts";
 import type { GapProps, GridSpacing } from "../types.ts";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils.tsx";
 import { StandardPropsWithRef } from "../../../types.ts";
 
 // The tests below check the classes only. How the classes resolve to the gaps and paddings is tested in a real browser,
 // see test/Grid.e2e.spec.ts
-
-const DEFAULT_GAP = "sm";
 
 const gapClassesOf = (element: Element) => [...element.classList].filter(cls => /^(row-|column-)?gap-/.test(cls)).sort();
 const paddingClassesOf = (element: Element) => [...element.classList].filter(cls => cls.startsWith("padding-")).sort();
@@ -31,22 +29,37 @@ const renderGrid = (gridProps: SpacingProps = {}, rowProps: GapProps = {}) => {
 };
 
 describe("Grid", () => {
-  runSnapshotDefaultsAndStandardPropsTest(
-    (props: StandardPropsWithRef<HTMLDivElement>) =>
-      render(
-        <Grid {...props}>
+  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
+    render(
+      <Grid {...props}>
+        <Grid.Row>
+          <Grid.Col />
+        </Grid.Row>
+      </Grid>,
+    ),
+  );
+
+  it("should render no gap or padding class without gap, padding or gutter, so a Form's gaps can apply to it", () => {
+    // The CSS gives sm, or the Form's values in a Form, which a default class would override
+    expect(renderGrid()).toMatchObject({ gap: [], padding: [] });
+  });
+
+  it("should render no gap or padding class in a Form without gap, padding or gutter, so it uses the gaps of the Form size", () => {
+    // How the gaps resolve to the ones of each Form size is covered visually by the WithGrid story of Form in Chromatic
+    render(
+      <Form>
+        <Grid>
           <Grid.Row>
             <Grid.Col />
           </Grid.Row>
-        </Grid>,
-      ),
-    {
-      assertDefaults: ({ container }) => {
-        expect(gapClassesOf(container.firstChild as Element)).toEqual([`gap-${DEFAULT_GAP}`]);
-        expect(paddingClassesOf(container.firstChild as Element)).toEqual([`padding-${DEFAULT_GAP}`]);
-      },
-    },
-  );
+        </Grid>
+      </Form>,
+    );
+    const grid = screen.getByTestId("grid-row").parentElement!;
+    expect(gapClassesOf(grid)).toEqual([]);
+    expect(paddingClassesOf(grid)).toEqual([]);
+    expect(gapClassesOf(screen.getByTestId("grid-row"))).toEqual([]);
+  });
 
   it("should render gap classes for each breakpoint based on gap, rowGap, columnGap props", () => {
     expect(renderGrid({ gap: "md" }).gap).toEqual(["gap-md"]);
@@ -55,10 +68,9 @@ describe("Grid", () => {
     expect(renderGrid({ gap: "none", rowGap: { mdUp: "none" } }).gap).toEqual(["gap-none", "row-gap-md-none"]);
   });
 
-  it("should render padding classes for each breakpoint independent of gaps", () => {
+  it("should render padding classes for each breakpoint based on the padding prop", () => {
     expect(renderGrid({ padding: "xl" }).padding).toEqual(["padding-xl"]);
     expect(renderGrid({ padding: { base: "none", lgUp: "xxl" } }).padding).toEqual(["padding-lg-xxl", "padding-none"]);
-    expect(renderGrid({ gap: "xl" }).padding).toEqual([`padding-${DEFAULT_GAP}`]);
   });
 
   it("should use the deprecated gutter as the base gap and padding when they have no base value", () => {
@@ -68,7 +80,6 @@ describe("Grid", () => {
       gap: ["gap-lg", "gap-md-xl"],
       padding: ["padding-lg", "padding-md-xs"],
     });
-    expect(renderGrid({ gap: { mdUp: "xl" } }).gap).toEqual(["gap-md-xl", `gap-${DEFAULT_GAP}`]);
     expect(renderGrid({ gutter: "lg", rowGap: "xs" }).gap).toEqual(["gap-lg", "row-gap-xs"]);
   });
 

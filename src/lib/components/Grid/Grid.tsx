@@ -9,13 +9,12 @@ import { getGapClasses, getSpacingClasses } from "./helper";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import GridContext from "@/components/Grid/GridContext";
-import { useForm } from "../Form/context/FormContext";
 
 const GridComponent = (props: PropsWithRef<GridProps, HTMLDivElement>) => {
   const {
     fluid,
     leanToEdge,
-    gutter: gutterProp,
+    gutter,
     padding,
     gap,
     rowGap,
@@ -26,9 +25,6 @@ const GridComponent = (props: PropsWithRef<GridProps, HTMLDivElement>) => {
     colProps = {},
     ref,
   } = usePropsWithThemeDefaults("Grid", props);
-  const form = useForm();
-  // In a Form, a Grid without gap or padding values uses the ones of the Form, see Grid.module.scss
-  const gutter = gutterProp ?? (form ? undefined : "sm");
   const classNames = sanitizeModuleRootClasses(styles, className, [
     fluid && "fluid",
     leanToEdge && "leanToEdge",
