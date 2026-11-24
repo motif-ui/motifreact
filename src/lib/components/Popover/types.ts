@@ -38,6 +38,9 @@ export type PopoverProps = {
 export type PopoverDefaultableProps = {
   elevated?: boolean;
   placeOn?: OverlayPlaceOn;
-  variant?: "light" | "primary" | "dark";
+  /**
+   * Puts the popover on the opposite surface: dark on a light page, light on a dark one.
+   */
+  inverseColors?: boolean;
   spacing?: "withGap" | "callout" | "noSpace";
 };
