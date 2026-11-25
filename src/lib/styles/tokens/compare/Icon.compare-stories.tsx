@@ -43,14 +43,14 @@ import Toast from "@/components/Toast/Toast";
 import iconStyles from "@/components/Icon/Icon.module.scss";
 import iconButtonStyles from "@/components/IconButton/IconButton.module.scss";
 import { IconButtonProps } from "@/components/IconButton/types";
-import { Size8LG, VariantV2 } from "../../../types";
+import { Size10LG, VariantV2 } from "../../../types";
 import IconBaseline from "./baseline/Icon/Icon";
 import IconButtonBaseline from "./baseline/IconButton/IconButton";
 import iconBaselineStyles from "./baseline/Icon/IconBaseline.module.scss";
 import iconButtonBaselineStyles from "./baseline/IconButton/IconButtonBaseline.module.scss";
 import { CompareSection, CompareRow, TokenCompare } from "./TokenCompare";
 
-const SIZES: Size8LG[] = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl", "xxxl"];
+const SIZES: Size10LG[] = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl", "3xl", "4xl", "5xl"];
 const VARIANTS: VariantV2[] = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"];
 const BUTTON_VARIANTS: NonNullable<IconButtonProps["variant"]>[] = [...VARIANTS, "strong", "negative"];
 const noop = () => {};
@@ -91,12 +91,12 @@ const WithBaselineIcons = ({ children }: { children: ReactNode }) => {
   return <div ref={ref}>{children}</div>;
 };
 
-type Row = { view: "icon" | "button" | "component"; size?: Size8LG; variant?: string; node?: () => ReactNode };
+type Row = { view: "icon" | "button" | "component"; size?: Size10LG; variant?: string; node?: () => ReactNode };
 
 const ICON_NAMES = ["home", "info", "check_circle", "warning", "close"];
 
 const render = (
-  IconView: ComponentType<{ name: string; size?: Size8LG; variant?: VariantV2 }>,
+  IconView: ComponentType<{ name: string; size?: Size10LG; variant?: VariantV2 }>,
   ButtonView: ComponentType<IconButtonProps>,
   today: boolean,
 ) => {
@@ -126,7 +126,7 @@ const render = (
 };
 
 // The baseline Icon with the embedded icon font, like MotifIcon
-const MotifIconBaseline = (props: { name: string; size?: Size8LG; variant?: VariantV2 }) => (
+const MotifIconBaseline = (props: { name: string; size?: Size10LG; variant?: VariantV2 }) => (
   <IconBaseline iconClass={motifIconStyles.motifIconsDefault} {...props} variant={props.variant as never} />
 );
 
@@ -153,6 +153,7 @@ const fromStory = (label: string, stories: Record<string, unknown>, name: string
 const sections: CompareSection<Row>[] = [
   {
     title: "Icon · sizes",
+    note: "xxxl (52px) is renamed to 3xl and is now 40px; the old 52px is 4xl. 5xl (64) is new.",
     rows: SIZES.map(size => ({ label: size, props: { view: "icon", size } })),
   },
   {
@@ -167,7 +168,7 @@ const sections: CompareSection<Row>[] = [
   },
   {
     title: "IconButton · sizes (default, disabled)",
-    note: "xxxl had no size rule, so its icon fell back to md (22px); it is now 52px like Icon.",
+    note: "xxxl is renamed to 3xl (40px); 4xl (52) and 5xl (64) are new. Today has no rule for them, so the icon falls back to md (22px).",
     rows: SIZES.map(size => ({ label: size, props: { view: "button", variant: "neutral", size } })),
   },
   {

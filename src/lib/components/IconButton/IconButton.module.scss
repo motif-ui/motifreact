@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 // size, icon (px)
-$sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28), ("xxl", 32), ("xxxl", 40), ("4xl", 52), ("5xl", 64));
+$sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28), ("xxl", 32), ("3xl", 40), ("4xl", 52), ("5xl", 64));
 
 // variant, then the text tone at rest and on hover (pressed returns to rest): strong sits on the page, negative on an
 // image or a dark overlay

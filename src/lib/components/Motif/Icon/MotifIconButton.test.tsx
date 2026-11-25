@@ -24,7 +24,7 @@ describe("MotifIconButton", () => {
   });
 
   it("should render with the size given in the size prop", () => {
-    const sizes: Size10LG[] = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl", "xxxl", "4xl", "5xl"];
+    const sizes: Size10LG[] = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl", "3xl", "4xl", "5xl"];
 
     sizes.forEach(size => {
       const { container } = render(<MotifIconButton name="home" size={size} />);
