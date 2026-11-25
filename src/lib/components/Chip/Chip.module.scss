@@ -2,7 +2,7 @@
 
 // size, labelStep, paddingV, paddingH, iconSize, iconPaddingH, iconGap (the icons fit the label's line, so every chip of a
 // size has one height)
-$sizes: (("xs", "2xs", 2, 8, 14, 6, 4), ("sm", "xs", 4, 12, 16, 8, 6), ("md", "sm", 4, 16, 18, 10, 6), ("lg", "md", 6, 20, 20, 12, 8));
+$sizes: (("xs", "xxs", 2, 8, 14, 6, 4), ("sm", "xs", 4, 12, 16, 8, 6), ("md", "sm", 4, 16, 18, 10, 6), ("lg", "md", 6, 20, 20, 12, 8));
 
 .Root {
   display: inline-flex;

@@ -1781,7 +1781,7 @@
         "$description": "14px"
       }
     },
-    "text-2xs": {
+    "text-xxs": {
       "font-size": {
         "$type": "dimension",
         "$value": {
@@ -1889,7 +1889,7 @@
         "$description": "28px"
       }
     },
-    "text-2xl": {
+    "text-xxl": {
       "font-size": {
         "$type": "dimension",
         "$value": {
@@ -2102,11 +2102,11 @@
     "heading-h4": {
       "font-size": {
         "$type": "dimension",
-        "$value": "{typography.text-2xl.font-size}"
+        "$value": "{typography.text-xxl.font-size}"
       },
       "line-height": {
         "$type": "dimension",
-        "$value": "{typography.text-2xl.line-height}"
+        "$value": "{typography.text-xxl.line-height}"
       },
       "font-weight": {
         "$type": "fontWeight",
@@ -2200,11 +2200,11 @@
     "body-xxs": {
       "font-size": {
         "$type": "dimension",
-        "$value": "{typography.text-2xs.font-size}"
+        "$value": "{typography.text-xxs.font-size}"
       },
       "line-height": {
         "$type": "dimension",
-        "$value": "{typography.text-2xs.line-height}"
+        "$value": "{typography.text-xxs.line-height}"
       },
       "font-weight": {
         "$type": "fontWeight",
@@ -2270,11 +2270,11 @@
     "label-xs": {
       "font-size": {
         "$type": "dimension",
-        "$value": "{typography.text-2xs.font-size}"
+        "$value": "{typography.text-xxs.font-size}"
       },
       "line-height": {
         "$type": "dimension",
-        "$value": "{typography.text-2xs.line-height}"
+        "$value": "{typography.text-xxs.line-height}"
       },
       "font-weight": {
         "$type": "fontWeight",

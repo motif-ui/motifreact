@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 // size (also the text step), paddingV, paddingH, counter text step
-$sizes: (("xs", 4, 8, "2xs"), ("sm", 6, 12, "xs"), ("md", 8, 16, "sm"), ("lg", 10, 20, "sm"));
+$sizes: (("xs", 4, 8, "xxs"), ("sm", 6, 12, "xs"), ("md", 8, 16, "sm"), ("lg", 10, 20, "sm"));
 
 .Root {
   display: inline-flex;

@@ -3704,7 +3704,7 @@
           }
         },
         {
-          "name": "typography/text-2xs/font-size",
+          "name": "typography/text-xxs/font-size",
           "type": "FLOAT",
           "scopes": [
             "FONT_SIZE"
@@ -3716,7 +3716,7 @@
           }
         },
         {
-          "name": "typography/text-2xs/line-height",
+          "name": "typography/text-xxs/line-height",
           "type": "FLOAT",
           "scopes": [
             "LINE_HEIGHT"
@@ -3848,7 +3848,7 @@
           }
         },
         {
-          "name": "typography/text-2xl/font-size",
+          "name": "typography/text-xxl/font-size",
           "type": "FLOAT",
           "scopes": [
             "FONT_SIZE"
@@ -3860,7 +3860,7 @@
           }
         },
         {
-          "name": "typography/text-2xl/line-height",
+          "name": "typography/text-xxl/line-height",
           "type": "FLOAT",
           "scopes": [
             "LINE_HEIGHT"
@@ -4258,7 +4258,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xl/font-size"
+              "alias": "typography/text-xxl/font-size"
             }
           }
         },
@@ -4271,7 +4271,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xl/line-height"
+              "alias": "typography/text-xxl/line-height"
             }
           }
         },
@@ -4531,7 +4531,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xs/font-size"
+              "alias": "typography/text-xxs/font-size"
             }
           }
         },
@@ -4544,7 +4544,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xs/line-height"
+              "alias": "typography/text-xxs/line-height"
             }
           }
         },
@@ -4726,7 +4726,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xs/font-size"
+              "alias": "typography/text-xxs/font-size"
             }
           }
         },
@@ -4739,7 +4739,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xs/line-height"
+              "alias": "typography/text-xxs/line-height"
             }
           }
         },

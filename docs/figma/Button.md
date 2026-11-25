@@ -34,7 +34,7 @@ user approved the Figma page). Figma and code match; the pre-migration Button is
   size): Size spec (sizes × label / icon left / icon right / icon only, metrics in the column header from `$sizes`) and
   Color spec (variants × states per shape at md). Scenarios: pill · fluid only.
 - The label binds every font property to a variable, as code does (`typography(text-*, "stronger")`): font size and
-  line height `typography/text-{step}` (xxs/xs `text-xs`, sm `text-sm`, md `text-md`, lg/xl `text-lg`), weight
+  line height `typography/text-{step}` (xxs `text-xxs`, xs `text-xs`, sm `text-sm`, md `text-md`, lg/xl `text-lg`), weight
   `typography/weight/stronger`, family `typography/font-family`. No text style: a style's weight would win over the
   weight binding (2026-11-25: an xxs variant had a raw 12px size and no variant bound the weight; fixed).
 - outline: 1px inside stroke with `strokesIncludedInLayout = false`, so it has the same height as solid (code: inset
@@ -50,3 +50,5 @@ user approved the Figma page). Figma and code match; the pre-migration Button is
 - No Examples.
 - 2026-11-25 (control heights, #249): xs label is `label-sm` (text-xs, 12/16), so heights are xxs 20 · xs 24 · sm 32 ·
   md 40 · lg 48 · xl 52 and match the fields of the same size; lg and xl follow `text-lg`'s 28px line.
+- 2026-11-25: xxs label `text-xxs` (11/16), a step under xs; the height stays 20. The text scale is named `xxs` …
+  `xxl` between, `3xs` / `3xl` … beyond (was `2xs` / `2xl`).
