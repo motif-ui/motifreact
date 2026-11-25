@@ -11,7 +11,7 @@ const meta: Meta<typeof ProgressCircle> = {
       description: {
         component: `
 * Due to font size limitations in **ProgressCircle**, \`showPercentage\` prop is only available for sizes **lg** and **xl**.
-* \`interminate\` prop always takes precedence over \`showPercentage\` prop.
+* \`indeterminate\` prop always takes precedence over \`showPercentage\` prop.
 * When \`countdown\` prop is given, \`showPercentage\` prop becomes inactive and **percentage text** is not shown.
         `.trim(),
       },
