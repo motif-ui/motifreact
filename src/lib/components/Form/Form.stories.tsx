@@ -248,10 +248,6 @@ export const ExternalErrors: Story = {
   },
 };
 
-// Visual tests of the Grids in a Form for Chromatic, kept out of the sidebar and the docs. A Grid without gap or padding
-// values uses the gaps of the Form size and no padding, so the fields line up as in a Form without a Grid
-const gridStoryTags = ["!dev", "!autodocs"];
-
 const gridField = (name: string) => (
   <Form.Field name={name} label={name}>
     <InputText />
@@ -266,7 +262,7 @@ const gridCols = (count: number) =>
   ));
 
 export const WithGrid: Story = {
-  tags: gridStoryTags,
+  tags: ["!dev", "!autodocs"],
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
       {(["xs", "sm", "md", "lg"] as const).map(size => (
@@ -297,7 +293,7 @@ export const WithGrid: Story = {
 
 // The gap and padding values given to a Grid and a Row in a Form override the ones of the Form
 export const WithGridOverrides: Story = {
-  tags: gridStoryTags,
+  tags: ["!dev", "!autodocs"],
   render: () => (
     <Form size="md" onSubmit={() => {}}>
       <Grid gap="xl" padding="lg">

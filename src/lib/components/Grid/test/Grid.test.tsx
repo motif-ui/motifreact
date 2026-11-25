@@ -29,23 +29,25 @@ const renderGrid = (gridProps: SpacingProps = {}, rowProps: GapProps = {}) => {
 };
 
 describe("Grid", () => {
-  runSnapshotDefaultsAndStandardPropsTest((props: StandardPropsWithRef<HTMLDivElement>) =>
-    render(
-      <Grid {...props}>
-        <Grid.Row>
-          <Grid.Col />
-        </Grid.Row>
-      </Grid>,
-    ),
+  runSnapshotDefaultsAndStandardPropsTest(
+    (props: StandardPropsWithRef<HTMLDivElement>) =>
+      render(
+        <Grid {...props}>
+          <Grid.Row>
+            <Grid.Col />
+          </Grid.Row>
+        </Grid>,
+      ),
+    {
+      assertDefaults: ({ container }) => {
+        // The CSS gives sm, or the Form's values in a Form, which a default class would override
+        expect(gapClassesOf(container.firstChild as Element)).toEqual([]);
+        expect(paddingClassesOf(container.firstChild as Element)).toEqual([]);
+      },
+    },
   );
 
-  it("should render no gap or padding class without gap, padding or gutter, so a Form's gaps can apply to it", () => {
-    // The CSS gives sm, or the Form's values in a Form, which a default class would override
-    expect(renderGrid()).toMatchObject({ gap: [], padding: [] });
-  });
-
   it("should render no gap or padding class in a Form without gap, padding or gutter, so it uses the gaps of the Form size", () => {
-    // How the gaps resolve to the ones of each Form size is covered visually by the WithGrid story of Form in Chromatic
     render(
       <Form>
         <Grid>
