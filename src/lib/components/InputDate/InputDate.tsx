@@ -132,7 +132,7 @@ const InputDate = (p: PropsWithRef<InputDateProps, HTMLDivElement>) => {
         ref={mergedRef}
         className={classNames}
         style={style}
-        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" size={size} />)}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_month" />)}
         clearable
         name={name}
         size={size}

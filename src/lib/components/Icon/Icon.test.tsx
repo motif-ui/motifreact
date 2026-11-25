@@ -112,4 +112,19 @@ describe("Icon", () => {
     expect(getByText("test2")).toBeInTheDocument();
     expect(getByText("test2").parentElement).not.toBeInstanceOf(HTMLSpanElement);
   });
+
+  it("should unwrap a MotifIcon child and size it by its own size even when the displayName is rewritten", () => {
+    const { displayName } = MotifIcon;
+    MotifIcon.displayName = "MotifIcon";
+    const { getByText } = render(
+      <Icon size="lg">
+        <MotifIcon name="schedule" size="md" />
+      </Icon>,
+    );
+    MotifIcon.displayName = displayName;
+    const icon = getByText("schedule");
+    expect(icon.parentElement).not.toBeInstanceOf(HTMLSpanElement);
+    expect(icon).toHaveClass("lg");
+    expect(icon).not.toHaveClass("md");
+  });
 });
