@@ -1,4 +1,4 @@
-import type { IconGlobalType } from "../../types";
+import type { IconGlobalType, OverlayRefProps } from "../../types";
 import { InputCommonProps } from "../Form/types";
 
 export type SelectItem = { label?: string; value: string };
@@ -11,6 +11,7 @@ export type SelectProps = {
   loading?: boolean;
   data: (SelectItem | SelectGroupItem)[];
 } & InputCommonProps &
+  OverlayRefProps<HTMLUListElement> &
   SelectDefaultableProps;
 
 export type SelectDefaultableProps = {

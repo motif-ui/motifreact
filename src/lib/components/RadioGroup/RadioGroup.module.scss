@@ -1,12 +1,7 @@
 @use "@styles" as *;
 
-$sizes: (
-  //size, gapItemsHorizontal, gapItemsVertical, paddingVInFormField
-  ("xs", "20x", "12x", "4x"),
-  ("sm", "24x", "16x", "6x"),
-  ("md", "28x", "20x", "8x"),
-  ("lg", "32x", "24x", "10x")
-);
+// size, horizontal gap, vertical gap, paddingV (in a form field)
+$sizes: (("xs", 20, 12, 4), ("sm", 24, 16, 6), ("md", 28, 20, 8), ("lg", 32, 24, 10));
 
 .Root {
   display: flex;
@@ -21,16 +16,18 @@ $sizes: (
   flex-direction: row;
 }
 
-@each $name, $gapItemsH, $gapItemsV, $paddingVInFormField in $sizes {
-  .#{$name} {
+@each $size, $gapH, $gapV, $paddingV in $sizes {
+  .#{$size} {
     &.vertical {
-      gap: var(--base-sizing-#{$gapItemsV});
+      gap: var(--mtf-sizing-space-#{$gapV});
     }
+
     &.horizontal {
-      gap: var(--base-sizing-#{$gapItemsH});
+      gap: var(--mtf-sizing-space-#{$gapH});
     }
+
     &.inFormField {
-      padding: var(--base-sizing-#{$paddingVInFormField}) 0;
+      padding: var(--mtf-sizing-space-#{$paddingV}) 0;
     }
   }
 }
