@@ -18,10 +18,10 @@ Built 2026-11-24 with /figma-sync from the migrated code (input family token mig
   `clearable`; text `value`, `placeholder`. `pill` is an instance override (the + button follows).
 - Field geometry: padding `sizing/space` (xs 4·8, sm 6·12, md 8·16, lg 10·20), gap the vertical padding, 1px
   inside stroke not counted in layout (code: inset box-shadow), radius `sizing/radius/md`. Heights hug: xs 24, sm 32,
-  md 40, lg 48, a button's of the same size. Icons are as tall as the line: 16 · 20 · 24 · 28.
+  md 40, lg 48, a button's of the same size. Icons are sized by `sizing/icon/xs … lg` (16 · 20 · 22 · 24: font × 4/3, never taller than the line).
 - States: `error`, `success`, `disabled`, `readOnly` booleans (one true at a time) × `filled` (value or placeholder).
   Focus is not a variant: the Color spec overrides the border with `color/border/field-focus`.
-- Number buttons: square, width `sizing/24 · 32 · 40 · 48` (the field's height), 1px inside the field's stroke, `color/neutral/soft`, a `color/border/default` divider,
+- Number buttons: square (aspect-ratio 1), as tall as the field inside its 1px stroke: 22 · 30 · 38 · 46, `color/neutral/soft`, a `color/border/default` divider,
   `text-{size}` stronger, divider `color/border/disabled` when disabled or readOnly; placed like the shared field's
   (absolute, right / stretch, spacer `2 × button − paddingH` so the gap before them matches code).
 - Table: column `size`; blocks `removeSpinner=false` / `true`; rows the five states, empty and filled. Spec cells are

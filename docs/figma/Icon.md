@@ -21,7 +21,8 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
   The others: `color/{variant}/solid`.
 - `icon` (instance swap, `icon#361:0`) on the `glyph` layer, preferred values: the 40 embedded glyphs.
 - `size` is not a variant (docs/review/figma.md: a prop that only changes the dimensions): the instance width and height
-  bind to `sizing/16 · 18 · 20 · 22 · 24 · 28 · 32 · 52` (xxs … xxxl, md 22 default). The glyph scales with the box.
+  bind to `sizing/icon/xxs … xxxl` (14 · 16 · 20 · 22 · 24 · 28 · 32 · 36, md 22 default): the icon beside text of that
+  size, font × 4/3 up to the 2px grid, never taller than the line; xxs a step under xs. The glyph scales with the box.
 - Table: column `variant` (inherit first, equal column widths); one row `md`.
 
 ## Embedded icons
@@ -36,3 +37,5 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
 
 - The icon keeps no color of its own in code (inherits); a default color was discussed and rejected.
 - Size is the instance size bound to sizing variables, not a variant axis.
+- 2026-11-25: sizes come from `sizing/icon/*` (user: an icon belongs beside text of its size; md field = md icon). xs 18 → 16,
+  xxs 16 → 14, xxxl 52 → 36. Standalone icons (AlertModal 52) set `--mtf-icon-size` themselves.

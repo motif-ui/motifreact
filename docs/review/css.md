@@ -256,4 +256,7 @@ draws its border inside, so the border takes no room and every control of a size
   the transparent outline.
 - The inset border is painted under the content: a part with a background at the edge (InputNumber's buttons) stays
   `--mtf-sizing-1` inside it.
-- Icons in a field are as tall as its text line (16 · 20 · 24 · 28), so they never make the field taller.
+- An icon beside text takes `--mtf-sizing-icon-{size}` of the component's own size or text step (font × 4/3, never
+  taller than the line), so it never makes a control taller and an md control has an md icon. Flag a fixed
+  `sizing-N`, a per-component icon column or a size map for such an icon; a standalone icon (AlertModal) keeps a fixed
+  size via `--mtf-icon-size`.
