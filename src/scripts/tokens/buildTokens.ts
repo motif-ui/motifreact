@@ -117,8 +117,8 @@ export const typeSize = (fontSize: number, size: number, lineHeight: number) => 
   };
 };
 
-/** An icon beside text: font × 4/3 up to the 2px grid, never taller than the line, so it never makes a row taller. */
-export const iconSize = (fontSize: number, lineHeight: number) => Math.min(lineHeight, Math.ceil((fontSize * 4) / 3 / 2) * 2);
+/** An icon beside text: font × 4/3 on the 2px grid, never taller than the line, so it never makes a row taller. */
+export const iconSize = (fontSize: number, lineHeight: number) => Math.min(lineHeight, Math.round((fontSize * 4) / 3 / 2) * 2);
 
 /**
  * Theme seeds (src/lib/styles/tokens/themes/*.json) → flat token list. A token is `{ path, type, value, dark?, description? }`; `value` is either a literal or a DTCG alias
@@ -387,14 +387,10 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
       value: rem((size * space) / DEFAULT_SPACE),
       description: `${(size * space) / DEFAULT_SPACE}px · padding, margin, gap`,
     })),
-    // xxs keeps a step (2px) under xs, which the rule would give it too (11px and 12px text both round to 16)
-    ...ICON_STEPS.map(([name, step], index, steps): Token => {
-      const sizeOf = (textStep: string) => {
-        const [, base, line] = TEXT_SCALE.find(([key]) => key === textStep)!;
-        const { size, lineHeight } = typeSize(fontSize, base, line);
-        return iconSize(size, lineHeight);
-      };
-      const icon = name === "xxs" ? Math.min(sizeOf(step), sizeOf(steps[index + 1][1]) - 2) : sizeOf(step);
+    ...ICON_STEPS.map(([name, step]): Token => {
+      const [, base, line] = TEXT_SCALE.find(([key]) => key === step)!;
+      const { size, lineHeight } = typeSize(fontSize, base, line);
+      const icon = iconSize(size, lineHeight);
       return { path: ["sizing", "icon", name], type: "dimension", value: rem(icon), description: `${icon}px · icon beside ${step}` };
     }),
     ...CONTAINERS.map(([name, size]): Token => ({

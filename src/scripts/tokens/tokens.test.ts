@@ -58,7 +58,7 @@ describe("token generator", () => {
     expect(typeSize(16, 10, 14)).toEqual({ size: 10, lineHeight: 14 });
   });
 
-  test("an icon is font × 4/3 up to the 2px grid, never above the line; xxs stays a step under xs", () => {
+  test("an icon is font × 4/3 on the 2px grid, never above the line", () => {
     expect(
       [
         [11, 16],
@@ -70,10 +70,10 @@ describe("token generator", () => {
         [24, 32],
         [28, 36],
       ].map(([size, line]) => iconSize(size, line)),
-    ).toEqual([16, 16, 20, 22, 24, 28, 32, 36]);
+    ).toEqual([14, 16, 18, 22, 24, 26, 32, 36]);
     const px = (css: string, name: string) => Number(css.match(new RegExp(`--mtf-sizing-icon-${name}: ([\\d.]+)rem`))![1]) * 16;
     const css = toCss(tokens);
-    expect(["xxs", "xs", "sm", "md", "lg", "xl", "xxl", "xxxl"].map(name => px(css, name))).toEqual([14, 16, 20, 22, 24, 28, 32, 36]);
+    expect(["xxs", "xs", "sm", "md", "lg", "xl", "xxl", "xxxl"].map(name => px(css, name))).toEqual([14, 16, 18, 22, 24, 26, 32, 36]);
     const larger = toCss(buildTokens({ ...theme, fontSize: 18 }).tokens);
     expect(px(larger, "xxs")).toBeLessThan(px(larger, "xs"));
   });

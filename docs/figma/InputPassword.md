@@ -19,7 +19,7 @@ Built 2026-11-24 with /figma-sync from the migrated code (input family token mig
   `visibility_off` while the value is visible), `clearable`; text `value`, `placeholder`. `pill` is an instance override.
 - Field geometry: padding `sizing/space` (xs 4·8, sm 6·12, md 8·16, lg 10·20), gap the vertical padding, 1px
   inside stroke not counted in layout (code: inset box-shadow), radius `sizing/radius/md`. Heights hug: xs 24, sm 32,
-  md 40, lg 48, a button's of the same size. Icons are sized by `sizing/icon/xs … lg` (16 · 20 · 22 · 24: font × 4/3, never taller than the line).
+  md 40, lg 48, a button's of the same size. Icons are sized by `sizing/icon/xs … lg` (16 · 18 · 22 · 24: font × 4/3, never taller than the line).
 - States: `error`, `success`, `disabled`, `readOnly` booleans (one true at a time) × `filled` (value or placeholder).
   Focus is not a variant: the Color spec overrides the border with `color/border/field-focus`.
 - Table: column `size` (md first, equal column widths); rows the five states, empty and filled.

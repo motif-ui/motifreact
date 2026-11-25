@@ -2835,10 +2835,10 @@
       "sm": {
         "$type": "dimension",
         "$value": {
-          "value": 1.25,
+          "value": 1.125,
           "unit": "rem"
         },
-        "$description": "20px · icon beside text-sm"
+        "$description": "18px · icon beside text-sm"
       },
       "md": {
         "$type": "dimension",
@@ -2859,10 +2859,10 @@
       "xl": {
         "$type": "dimension",
         "$value": {
-          "value": 1.75,
+          "value": 1.625,
           "unit": "rem"
         },
-        "$description": "28px · icon beside text-xl"
+        "$description": "26px · icon beside text-xl"
       },
       "xxl": {
         "$type": "dimension",

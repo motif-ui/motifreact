@@ -19,7 +19,7 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
   × `disabled`.
 - The `icon` layer is an exposed instance of Icon (`variant=inherit`) with its glyph fill overridden per variant: swap
   the glyph through the exposed `icon` property.
-- `size` is not a variant: the instance width and height bind to `sizing/icon/xxs … xxxl` (14 · 16 · 20 · 22 · 24 · 28 · 32 · 36, md 22 default). The
+- `size` is not a variant: the instance width and height bind to `sizing/icon/xxs … xxxl` (14 · 16 · 18 · 22 · 24 · 26 · 32 · 36, md 22 default). The
   nested icon has no size binding of its own (constraints scale), so it grows with the button.
 - Hover, pressed and keyboard focus are not variants (feedback: no state variants): the Color spec overrides the glyph
   fill with `-solid-hover` / `-solid-active` (strong: `color/text/soft`; negative: `color/text/on-media-soft`) and turns

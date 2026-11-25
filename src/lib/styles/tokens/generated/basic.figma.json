@@ -5579,9 +5579,9 @@
             "WIDTH_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "20px · icon beside text-sm",
+          "description": "18px · icon beside text-sm",
           "values": {
-            "Value": 20
+            "Value": 18
           }
         },
         {
@@ -5615,9 +5615,9 @@
             "WIDTH_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "28px · icon beside text-xl",
+          "description": "26px · icon beside text-xl",
           "values": {
-            "Value": 28
+            "Value": 26
           }
         },
         {
