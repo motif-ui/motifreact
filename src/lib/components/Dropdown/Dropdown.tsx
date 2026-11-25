@@ -25,6 +25,7 @@ const Dropdown = (props: PropsWithRef<DropdownProps, HTMLButtonElement>) => {
     spacing = "callout",
     items,
     ref,
+    overlayRef,
     style,
     className,
   } = usePropsWithThemeDefaults("Dropdown", props);
@@ -34,12 +35,13 @@ const Dropdown = (props: PropsWithRef<DropdownProps, HTMLButtonElement>) => {
     open,
     hide,
     attached,
-    overlayRef,
+    overlayRef: menuRef,
     insideProps,
     style: overlayStyle,
     placement,
   } = useAnchoredOverlay({
     anchorRef,
+    overlayRef,
     placement: "bottomRight",
     toggleOnAnchorClick: true,
     tabBridge: true,
@@ -58,7 +60,7 @@ const Dropdown = (props: PropsWithRef<DropdownProps, HTMLButtonElement>) => {
       <DropdownButton className={buttonClassNames} style={style} label={label} icon={icon} ref={mergedRef} />
       {attached &&
         createPortal(
-          <div className={overlayClassNames} ref={overlayRef} style={overlayStyle} {...insideProps} data-testid="dropdown-menu">
+          <div className={overlayClassNames} ref={menuRef} style={overlayStyle} {...insideProps} data-testid="dropdown-menu">
             <ul className={styles.MenuList}>
               {items.map((item, index) => (
                 <DropdownMenuItem key={index} {...item} />
