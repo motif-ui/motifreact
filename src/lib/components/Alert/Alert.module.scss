@@ -1,6 +1,8 @@
 @use "@styles" as *;
 
 .Root {
+  // The first text line, which the icon and the close button center on: the title's, or the message's without a title
+  --mtf-alert-first-line: var(--mtf-typography-body-md-line-height);
   display: flex;
   padding: var(--mtf-sizing-space-10) var(--mtf-sizing-space-20);
   align-items: flex-start;
@@ -10,6 +12,10 @@
   color: var(--mtf-color-text-strong);
   opacity: 1;
   @include transition(opacity);
+
+  &:has(.title) {
+    --mtf-alert-first-line: var(--mtf-typography-label-xl-line-height);
+  }
 
   &.hiding {
     opacity: 0;
@@ -48,4 +54,9 @@
 
 .message {
   @include typography("body-md");
+}
+
+.icon,
+.close {
+  margin-top: calc((var(--mtf-alert-first-line) - var(--mtf-sizing-icon-lg)) / 2);
 }

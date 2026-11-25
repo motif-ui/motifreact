@@ -144,10 +144,8 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
   display: flex;
   align-self: stretch;
 
-  // Square at any height: the field's height follows the font and space seeds
   button {
     all: unset;
-    aspect-ratio: 1;
     border-left: var(--mtf-sizing-1) solid var(--mtf-color-border-default);
     background-color: var(--mtf-color-neutral-soft);
     color: var(--mtf-color-neutral-text);
@@ -205,9 +203,13 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
     .numberButtons {
       margin: calc(var(--mtf-sizing-1) - var(--mtf-sizing-space-#{$paddingV}))
         calc(var(--mtf-sizing-1) - var(--mtf-sizing-space-#{$paddingH}))
-        calc(var(--mtf-sizing-1) - var(--mtf-sizing-space-#{$paddingV})) 0;
+        calc(var(--mtf-sizing-1) - var(--mtf-sizing-space-#{$paddingV}))
+        0;
 
+      // Square: as wide as the field is tall inside its border. The width is set, not an aspect-ratio, so the field's own
+      // width counts the buttons (an aspect-ratio applies only after the height stretches, and the buttons overflowed)
       button {
+        width: calc(var(--mtf-typography-text-#{$size}-line-height) + 2 * var(--mtf-sizing-space-#{$paddingV}) - 2 * var(--mtf-sizing-1));
         @include typography("text-#{$size}", "stronger");
       }
     }
