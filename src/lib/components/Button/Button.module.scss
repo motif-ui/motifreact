@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, paddingV, paddingH, labelStep (the text and icon step)
-$sizes: (("xxs", 2, 4, "xxs"), ("xs", 4, 8, "xs"), ("sm", 6, 12, "sm"), ("md", 8, 16, "md"), ("lg", 10, 20, "lg"), ("xl", 12, 24, "lg"));
+// size (also the label and icon step), paddingV, paddingH
+$sizes: (("xxs", 2, 4), ("xs", 4, 8), ("sm", 6, 12), ("md", 8, 16), ("lg", 10, 20), ("xl", 12, 24));
 
 .Root {
   border: none;
@@ -48,14 +48,14 @@ $sizes: (("xxs", 2, 4, "xxs"), ("xs", 4, 8, "xs"), ("sm", 6, 12, "sm"), ("md", 8
   flex-direction: row-reverse;
 }
 
-@each $size, $paddingV, $paddingH, $labelStep in $sizes {
+@each $size, $paddingV, $paddingH in $sizes {
   .#{$size} {
     padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
     gap: var(--mtf-sizing-space-#{$paddingV});
-    @include typography("text-#{$labelStep}", "stronger");
+    @include typography("text-#{$size}", "stronger");
 
     .icon {
-      --mtf-icon-size: var(--mtf-sizing-icon-#{$labelStep});
+      --mtf-icon-size: var(--mtf-sizing-icon-#{$size});
     }
   }
 }

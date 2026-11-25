@@ -53,3 +53,5 @@ user approved the Figma page). Figma and code match; the pre-migration Button is
   md 40 · lg 48 · xl 52 and match the fields of the same size; lg and xl follow `text-lg`'s 28px line.
 - 2026-11-25: xxs label `text-xxs` (11/16), a step under xs; the height stays 20. The text scale is named `xxs` …
   `xxl` between, `3xs` / `3xl` … beyond (was `2xs` / `2xl`).
+- 2026-11-25: every size takes its own text and icon step; xl is `text-xl` (20/28) with a 26px icon (was `text-lg`,
+  24px). Height stays 52.

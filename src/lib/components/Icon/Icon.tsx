@@ -10,10 +10,7 @@ import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 const Icon = (props: PropsWithRefAndChildren<IconProps, HTMLSpanElement>) => {
   const { iconClass, name, svgColorType, children, ref, color, size, variant, className, style } = usePropsWithThemeDefaults("Icon", props);
   const { baseIconClass } = useMotifContext();
-  // An Icon or MotifIcon child is unwrapped, so this element sizes it. Matched by reference and by MotifIcon's flag, not
-  // by displayName: Storybook's docgen rewrites displayNames
-  const isChildMotifIcon =
-    isValidElement(children) && (children.type === Icon || (children.type as { isMotifIcon?: boolean }).isMotifIcon === true);
+  const isChildMotifIcon = isValidElement(children) && (children.type === Icon || (children.type as { isMotifIcon?: boolean }).isMotifIcon);
 
   const iconClassToUse = isChildMotifIcon ? stylesMotifIcon.motifIconsDefault : (iconClass ?? baseIconClass);
   const iconName = name ?? (isChildMotifIcon ? (children.props as IconProps).name : typeof children === "string" && children.trim());

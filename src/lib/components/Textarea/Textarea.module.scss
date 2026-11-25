@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-// size (also the text step), paddingV, paddingH, counter text step
+// size, paddingV, paddingH, counterSize
 $sizes: (("xs", 4, 8, "xxs"), ("sm", 6, 12, "xs"), ("md", 8, 16, "sm"), ("lg", 10, 20, "sm"));
 
 .Root {
@@ -8,8 +8,8 @@ $sizes: (("xs", 4, 8, "xxs"), ("sm", 6, 12, "xs"), ("md", 8, 16, "sm"), ("lg", 1
   flex-direction: column;
 }
 
-// Before .textArea: same specificity as its focus rule and the validation states below, so those still win. The value
-// stays readable; only the box tells it cannot be changed.
+// Before .textArea: same specificity as its focus rule and the validation states below, so those still win.
+// The value stays readable; only the box tells it cannot be changed.
 .readOnly {
   .textArea,
   .counterArea {

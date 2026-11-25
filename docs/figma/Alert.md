@@ -34,3 +34,7 @@ Built 2026-11-16 with /figma-new-component from the `AlertV2` clone (batch 3), w
   table would be about 3,600px wide). Scenarios: Content (title + message · message only · title only · hideIcon ·
   closable). No Size spec: Alert has no sizes.
 - No Examples.
+- 2026-11-25: the title's line is 28px (text-lg), the icon and the close button 24px. Both sit in a slot (`iconSlot`,
+  `closeSlot`) whose 2px `titleOffset` spacer shows with `showTitle`, so they center on the title line, and on the
+  message line without a title (code: a 2px margin on `.Root:has(.title)`). The slots carry the `showIcon` / `closable`
+  visibility.

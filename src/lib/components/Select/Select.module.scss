@@ -1,9 +1,8 @@
 @use "@styles" as *;
 
 $sizes: (
-  // sizeName (also the field's text and icon step), paddingV, paddingH, gap, maxDropdownHeight, chipStep (also the chip's
-  // close icon step)
-  ("xs", 4, 8, 4, 160, "xs"),
+  // sizeName, paddingV, paddingH, gap, maxDropdownHeight, chipStep
+  ("xs", 4, 8, 4, 160, "xxs"),
   ("sm", 6, 12, 6, 190, "xs"),
   ("md", 8, 16, 8, 190, "sm"),
   ("lg", 10, 20, 10, 256, "md")

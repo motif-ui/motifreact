@@ -50,3 +50,5 @@
 ## Known code issues (not Figma)
 
 - Double tab stop (combobox `div` and inner input); no keyboard navigation. See the project notes.
+- 2026-11-25: the xs chip is one step under the field like the others: `typography/label-xs` (text-xxs, 11/16) and a
+  `sizing/icon/xxs` close icon.

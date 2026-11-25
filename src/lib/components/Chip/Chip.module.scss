@@ -1,7 +1,6 @@
 @use "@styles" as *;
 
-// size, labelStep (also the icon step: the icons never pass the label's line, so every chip of a size has one height),
-// paddingV, paddingH, iconPaddingH, iconGap
+// size, label/icon, paddingV, paddingH, iconPaddingH, iconGap
 $sizes: (("xs", "xxs", 2, 8, 6, 4), ("sm", "xs", 4, 12, 8, 6), ("md", "sm", 4, 16, 10, 6), ("lg", "md", 6, 20, 12, 8));
 
 .Root {

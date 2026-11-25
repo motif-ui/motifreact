@@ -1,11 +1,9 @@
 @use "@styles" as *;
 
-// size (also the text and icon step), paddingH, paddingV (also the gap). Height = padding × 2 + line height, a button's
-// of the same size
+// size, paddingH, paddingV. Height = padding × 2 + line height, a button's of the same size
 $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
 
 .Root {
-  // The corner radius, also of the last number button so it follows a pill field
   --mtf-input-text-radius: var(--mtf-sizing-radius-md);
   position: relative;
   display: inline-flex;
@@ -27,12 +25,12 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
 
   input {
     box-sizing: border-box;
-    width: 100%;
-    padding: 0;
     border: none;
     outline: none;
+    padding: 0;
     background: transparent;
     color: var(--mtf-color-text-field);
+    width: 100%;
 
     &::placeholder {
       color: var(--mtf-color-text-field-placeholder);
@@ -67,15 +65,29 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
   }
 }
 
+.pill {
+  --mtf-input-text-radius: var(--mtf-sizing-radius-round);
+}
+
+// The left and right icons share one tone; the right one alone (iconRight) takes the error and success colors above
+.icon {
+  color: var(--mtf-color-text-softer);
+}
+
+// The right button (password visibility, date picker…) keeps IconButton's own colors; a disabled field grays it
+.iconButton {
+  flex-shrink: 0;
+}
+
 // A modifier of its own (not nested in .Root): PinCode's space item, a disabled field, removes this box again
 .disabled {
   box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-border-disabled);
   background-color: var(--mtf-color-surface-disabled);
   pointer-events: none;
 
-  input,
   .icon,
-  .iconButton {
+  .iconButton,
+  input {
     color: var(--mtf-color-text-disabled);
   }
 
@@ -96,24 +108,51 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
   }
 }
 
-.pill {
-  --mtf-input-text-radius: var(--mtf-sizing-radius-round);
-}
+.numberButtons {
+  display: flex;
+  align-self: stretch;
 
-// The left and right icons share one tone; the right one alone (iconRight) takes the error and success colors above
-.icon {
-  color: var(--mtf-color-text-softer);
-}
+  button {
+    all: unset;
+    @include transition(background-color color);
+    @include flex-center;
+    color: var(--mtf-color-neutral-text);
+    background-color: var(--mtf-color-neutral-soft);
+    border-left: var(--mtf-sizing-1) solid var(--mtf-color-border-default);
 
-// The right button (password visibility, date picker…) keeps IconButton's own colors; disabled grays it above
-.iconButton {
-  flex-shrink: 0;
+    // Inside the field's border, so the radius is the field's less that border
+    &:last-child {
+      border-top-right-radius: calc(var(--mtf-input-text-radius) - var(--mtf-sizing-1));
+      border-bottom-right-radius: calc(var(--mtf-input-text-radius) - var(--mtf-sizing-1));
+    }
+
+    &:hover {
+      color: var(--mtf-color-text-strong);
+      background-color: var(--mtf-color-neutral-soft-hover);
+    }
+
+    // After hover: same specificity, so a disabled or readOnly field's buttons, which cannot change the value, keep
+    // their look under the pointer
+    .disabled &,
+    .readOnly & {
+      color: var(--mtf-color-text-disabled);
+      background-color: var(--mtf-color-neutral-soft);
+    }
+
+    .disabled & {
+      border-left-color: var(--mtf-color-border-disabled);
+    }
+
+    .readOnly & {
+      border-left-color: var(--mtf-color-border-soft);
+    }
+  }
 }
 
 .inputWrapper {
   position: relative;
-  display: flex;
   flex: 1;
+  display: flex;
   min-width: 0;
 }
 
@@ -131,49 +170,8 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
   color: var(--mtf-color-primary-solid);
 
   circle {
-    transform-origin: 50% 50%;
     @include spin;
-  }
-}
-
-.numberButtons {
-  display: flex;
-  align-self: stretch;
-
-  button {
-    all: unset;
-    border-left: var(--mtf-sizing-1) solid var(--mtf-color-border-default);
-    background-color: var(--mtf-color-neutral-soft);
-    color: var(--mtf-color-neutral-text);
-    @include transition(background-color color);
-    @include flex-center;
-
-    // Inside the field's border, so the radius is the field's less that border
-    &:last-child {
-      border-top-right-radius: calc(var(--mtf-input-text-radius) - var(--mtf-sizing-1));
-      border-bottom-right-radius: calc(var(--mtf-input-text-radius) - var(--mtf-sizing-1));
-    }
-
-    &:hover {
-      background-color: var(--mtf-color-neutral-soft-hover);
-      color: var(--mtf-color-text-strong);
-    }
-
-    // After hover: same specificity, so a disabled or readOnly field's buttons, which cannot change the value, keep
-    // their look under the pointer
-    .disabled &,
-    .readOnly & {
-      background-color: var(--mtf-color-neutral-soft);
-      color: var(--mtf-color-text-disabled);
-    }
-
-    .disabled & {
-      border-left-color: var(--mtf-color-border-disabled);
-    }
-
-    .readOnly & {
-      border-left-color: var(--mtf-color-border-soft);
-    }
+    transform-origin: 50% 50%;
   }
 }
 

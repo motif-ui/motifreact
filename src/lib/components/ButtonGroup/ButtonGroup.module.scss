@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-// size (also the text and icon step), paddingH, paddingV, gap
+// size, paddingH, paddingV, gap
 $sizes: (("xs", 8, 4, 4), ("sm", 12, 6, 6), ("md", 16, 8, 8), ("lg", 20, 10, 10));
 
 .Root {

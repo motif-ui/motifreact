@@ -1,6 +1,6 @@
 @use "@styles" as *;
 
-// size, padding, box (the character's square: the line height, so a box is as tall as a field of its size), gap
+// size, padding, box, gap
 $sizes: (("xs", 4, 16, 4), ("sm", 6, 20, 8), ("md", 8, 24, 12), ("lg", 10, 28, 16));
 
 .Root {
