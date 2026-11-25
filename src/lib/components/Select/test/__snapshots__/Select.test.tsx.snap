@@ -25,7 +25,7 @@ exports[`Select should render with only required props, and have standard props;
       class="rightContainer"
     >
       <span
-        class="Root lg motifIconsDefault iconRight arrowDown"
+        class="Root md motifIconsDefault iconRight arrowDown"
         lang="en"
         translate="no"
       >

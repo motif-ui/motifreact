@@ -5549,6 +5549,102 @@
           }
         },
         {
+          "name": "sizing/icon/xxs",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "14px · icon beside text-xxs",
+          "values": {
+            "Value": 14
+          }
+        },
+        {
+          "name": "sizing/icon/xs",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "16px · icon beside text-xs",
+          "values": {
+            "Value": 16
+          }
+        },
+        {
+          "name": "sizing/icon/sm",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "20px · icon beside text-sm",
+          "values": {
+            "Value": 20
+          }
+        },
+        {
+          "name": "sizing/icon/md",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "22px · icon beside text-md",
+          "values": {
+            "Value": 22
+          }
+        },
+        {
+          "name": "sizing/icon/lg",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "24px · icon beside text-lg",
+          "values": {
+            "Value": 24
+          }
+        },
+        {
+          "name": "sizing/icon/xl",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "28px · icon beside text-xl",
+          "values": {
+            "Value": 28
+          }
+        },
+        {
+          "name": "sizing/icon/xxl",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "32px · icon beside text-xxl",
+          "values": {
+            "Value": 32
+          }
+        },
+        {
+          "name": "sizing/icon/xxxl",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "36px · icon beside text-3xl",
+          "values": {
+            "Value": 36
+          }
+        },
+        {
           "name": "sizing/container/xs",
           "type": "FLOAT",
           "scopes": [

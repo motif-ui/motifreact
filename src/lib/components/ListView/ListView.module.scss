@@ -1,7 +1,8 @@
 @use "@styles" as *;
 
-// size (also the description's text step), alternateTextStep, gap, spaceH, paddingV, avatarSize, iconSize, iconRightSize
-$sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22), ("md", "sm", 2, 16, 12, 32, 22, 24), ("lg", "md", 4, 20, 16, 40, 24, 28));
+// size (also the description's text step and the left icon's), alternateTextStep, gap, spaceH, paddingV, avatarSize,
+// iconRightSize
+$sizes: (("sm", "xs", 2, 16, 8, 24, 22), ("md", "sm", 2, 16, 12, 32, 24), ("lg", "md", 4, 20, 16, 40, 28));
 
 .Root {
   padding: 0;
@@ -129,7 +130,7 @@ $sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22), ("md", "sm", 2, 16, 12, 32, 22, 24)
 }
 
 // A size changes every part of the row: grouped by size
-@each $size, $alternateTextStep, $gap, $spaceH, $paddingV, $avatarSize, $iconSize, $iconRightSize in $sizes {
+@each $size, $alternateTextStep, $gap, $spaceH, $paddingV, $avatarSize, $iconRightSize in $sizes {
   .#{$size} {
     .baseContent {
       gap: var(--mtf-sizing-space-#{$spaceH});
@@ -163,7 +164,7 @@ $sizes: (("sm", "xs", 2, 16, 8, 24, 20, 22), ("md", "sm", 2, 16, 12, 32, 22, 24)
     }
 
     .icon {
-      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
+      --mtf-icon-size: var(--mtf-sizing-icon-#{$size});
     }
 
     .iconRight {

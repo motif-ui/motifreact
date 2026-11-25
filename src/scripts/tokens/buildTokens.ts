@@ -61,6 +61,17 @@ const SIZES = [
 // the value still follows the seed (space-8 = 10px at space 5). Half-unit steps keep today's 2px, 6px and 10px paddings
 const DEFAULT_SPACE = 4;
 const SPACING = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 64];
+// Icons next to text of the same size (Icon, IconButton, fields, Button): [size, text step]. See iconSize
+const ICON_STEPS: [string, string][] = [
+  ["xxs", "text-xxs"],
+  ["xs", "text-xs"],
+  ["sm", "text-sm"],
+  ["md", "text-md"],
+  ["lg", "text-lg"],
+  ["xl", "text-xl"],
+  ["xxl", "text-xxl"],
+  ["xxxl", "text-3xl"],
+];
 const CONTAINERS: [string, number][] = [
   ["xs", 360],
   ["sm", 540],
@@ -105,6 +116,9 @@ export const typeSize = (fontSize: number, size: number, lineHeight: number) => 
     lineHeight: Math.max(grid, Math.round((lineHeight * fontSize) / 16 / grid) * grid),
   };
 };
+
+/** An icon beside text: font × 4/3 up to the 2px grid, never taller than the line, so it never makes a row taller. */
+export const iconSize = (fontSize: number, lineHeight: number) => Math.min(lineHeight, Math.ceil((fontSize * 4) / 3 / 2) * 2);
 
 /**
  * Theme seeds (src/lib/styles/tokens/themes/*.json) → flat token list. A token is `{ path, type, value, dark?, description? }`; `value` is either a literal or a DTCG alias
@@ -373,6 +387,16 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
       value: rem((size * space) / DEFAULT_SPACE),
       description: `${(size * space) / DEFAULT_SPACE}px · padding, margin, gap`,
     })),
+    // xxs keeps a step (2px) under xs, which the rule would give it too (11px and 12px text both round to 16)
+    ...ICON_STEPS.map(([name, step], index, steps): Token => {
+      const sizeOf = (textStep: string) => {
+        const [, base, line] = TEXT_SCALE.find(([key]) => key === textStep)!;
+        const { size, lineHeight } = typeSize(fontSize, base, line);
+        return iconSize(size, lineHeight);
+      };
+      const icon = name === "xxs" ? Math.min(sizeOf(step), sizeOf(steps[index + 1][1]) - 2) : sizeOf(step);
+      return { path: ["sizing", "icon", name], type: "dimension", value: rem(icon), description: `${icon}px · icon beside ${step}` };
+    }),
     ...CONTAINERS.map(([name, size]): Token => ({
       path: ["sizing", "container", name],
       type: "dimension",

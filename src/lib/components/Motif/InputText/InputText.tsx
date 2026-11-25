@@ -8,7 +8,6 @@ import { sanitizeModuleRootClasses } from "../../../../utils/cssUtils";
 import { MotifIconButton } from "@/components/Motif/Icon";
 import { InternalInputProps } from "@/components/Motif/InputText/types";
 import NumberSpinner from "@/components/Motif/InputText/components/NumberSpinner.tsx";
-import { fieldIconSizeMap } from "@/components/Motif/InputText/helper.ts";
 
 const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const {
@@ -118,11 +117,9 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
     clearable && itemValue && "clearable",
   ]);
 
-  const iconSize = size && fieldIconSizeMap[size];
-
   return (
     <div className={classNames} ref={ref} data-testid="inputItem" data-mtf-component="mtf-input-text" style={style}>
-      {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.iconLeft} size={iconSize} />}
+      {iconLeft && <GlobalIconWrapper icon={iconLeft} className={styles.iconLeft} size={size} />}
       <div className={styles.inputWrapper}>
         <input
           id={id}
@@ -142,7 +139,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
           {...controlledProps}
         />
         {!disabled && !readOnly && clearable && itemValue && (
-          <MotifIconButton name="cancel_outline" size={iconSize} onClick={clearHandler} className={styles.clearButton} />
+          <MotifIconButton name="cancel_outline" size={size} onClick={clearHandler} className={styles.clearButton} />
         )}
       </div>
       {loader ? (
@@ -160,9 +157,9 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         </svg>
       ) : (
         <>
-          {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.iconRight} size={iconSize} />}
+          {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.iconRight} size={size} />}
           {buttonRight && (
-            <MotifIconButton name={buttonRight.name} className={styles.iconButton} size={iconSize} onClick={buttonRight.onClick} />
+            <MotifIconButton name={buttonRight.name} className={styles.iconButton} size={size} onClick={buttonRight.onClick} />
           )}
         </>
       )}

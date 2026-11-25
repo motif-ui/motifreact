@@ -34,7 +34,7 @@ exports[`DateRangePicker should render with only required props, have default pr
           data-testid="inputItem"
         >
           <span
-            class="Root lg motifIconsDefault iconLeft"
+            class="Root md motifIconsDefault iconLeft"
             lang="en"
             translate="no"
           >
@@ -57,7 +57,7 @@ exports[`DateRangePicker should render with only required props, have default pr
           data-testid="inputItem"
         >
           <span
-            class="Root lg motifIconsDefault iconLeft"
+            class="Root md motifIconsDefault iconLeft"
             lang="en"
             translate="no"
           >

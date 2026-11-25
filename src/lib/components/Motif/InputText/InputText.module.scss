@@ -1,8 +1,8 @@
 @use "@styles" as *;
 
-// size (also the text step), paddingH, paddingV (also the gap), icon (the line height: an icon never makes the field
-// taller; also the loader), height (padding × 2 + line height, a button's of the same size; also a number button's width)
-$sizes: (("xs", 8, 4, 16, 24), ("sm", 12, 6, 20, 32), ("md", 16, 8, 24, 40), ("lg", 20, 10, 28, 48));
+// size (also the text and icon step), paddingH, paddingV (also the gap). Height = padding × 2 + line height, a button's
+// of the same size
+$sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
 
 .Root {
   // The corner radius, also of the last number button so it follows a pill field
@@ -144,9 +144,10 @@ $sizes: (("xs", 8, 4, 16, 24), ("sm", 12, 6, 20, 32), ("md", 16, 8, 24, 40), ("l
   display: flex;
   align-self: stretch;
 
+  // Square at any height: the field's height follows the font and space seeds
   button {
     all: unset;
-    flex: 1;
+    aspect-ratio: 1;
     border-left: var(--mtf-sizing-1) solid var(--mtf-color-border-default);
     background-color: var(--mtf-color-neutral-soft);
     color: var(--mtf-color-neutral-text);
@@ -182,13 +183,13 @@ $sizes: (("xs", 8, 4, 16, 24), ("sm", 12, 6, 20, 32), ("md", 16, 8, 24, 40), ("l
   }
 }
 
-@each $size, $paddingH, $paddingV, $icon, $height in $sizes {
+@each $size, $paddingH, $paddingV in $sizes {
   .#{$size} {
     gap: var(--mtf-sizing-space-#{$paddingV});
     padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
 
     &.clearable input {
-      width: calc(100% - var(--mtf-sizing-#{$icon}));
+      width: calc(100% - var(--mtf-sizing-icon-#{$size}));
     }
 
     input {
@@ -196,8 +197,8 @@ $sizes: (("xs", 8, 4, 16, 24), ("sm", 12, 6, 20, 32), ("md", 16, 8, 24, 40), ("l
     }
 
     .loader {
-      width: var(--mtf-sizing-#{$icon});
-      height: var(--mtf-sizing-#{$icon});
+      width: var(--mtf-sizing-icon-#{$size});
+      height: var(--mtf-sizing-icon-#{$size});
     }
 
     // Out to the field's border, not over it: the inset border is painted under the content
@@ -207,7 +208,6 @@ $sizes: (("xs", 8, 4, 16, 24), ("sm", 12, 6, 20, 32), ("md", 16, 8, 24, 40), ("l
         calc(var(--mtf-sizing-1) - var(--mtf-sizing-space-#{$paddingV})) 0;
 
       button {
-        min-width: var(--mtf-sizing-#{$height});
         @include typography("text-#{$size}", "stronger");
       }
     }

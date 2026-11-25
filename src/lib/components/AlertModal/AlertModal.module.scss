@@ -56,7 +56,10 @@ $content-positions: (
   @include typography("body-md");
 }
 
+// A standalone icon, not beside text: a fixed size instead of the text-bound icon scale
 .icon {
+  --mtf-icon-size: var(--mtf-sizing-52);
+
   @each $variant in $variants-v2 {
     .#{$variant} & {
       color: var(--mtf-color-#{$variant}-solid);

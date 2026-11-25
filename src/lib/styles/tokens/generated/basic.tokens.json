@@ -2815,6 +2815,72 @@
         "$description": "64px · padding, margin, gap"
       }
     },
+    "icon": {
+      "xxs": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.875,
+          "unit": "rem"
+        },
+        "$description": "14px · icon beside text-xxs"
+      },
+      "xs": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1,
+          "unit": "rem"
+        },
+        "$description": "16px · icon beside text-xs"
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.25,
+          "unit": "rem"
+        },
+        "$description": "20px · icon beside text-sm"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.375,
+          "unit": "rem"
+        },
+        "$description": "22px · icon beside text-md"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.5,
+          "unit": "rem"
+        },
+        "$description": "24px · icon beside text-lg"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.75,
+          "unit": "rem"
+        },
+        "$description": "28px · icon beside text-xl"
+      },
+      "xxl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
+          "unit": "rem"
+        },
+        "$description": "32px · icon beside text-xxl"
+      },
+      "xxxl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2.25,
+          "unit": "rem"
+        },
+        "$description": "36px · icon beside text-3xl"
+      }
+    },
     "container": {
       "xs": {
         "$type": "dimension",

@@ -8,7 +8,7 @@ exports[`InputDateRange should render with only required props, have default pro
     data-testid="inputItem"
   >
     <span
-      class="Root lg motifIconsDefault iconLeft"
+      class="Root md motifIconsDefault iconLeft"
       lang="en"
       translate="no"
     >
