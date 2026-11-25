@@ -1,6 +1,8 @@
-import { FileObject, FileType, FileValue } from "@/components/Upload/types.ts";
-import { STATUS } from "@/components/Upload/constants.ts";
+import { FileObject, FileType, FileValue, UploadProps } from "@/components/Upload/types.ts";
+import { MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants.ts";
 import { InputValue } from "@/components/Form/types.ts";
+import { LibraryTranslateFn } from "../../../i18n/types";
+import { formatBytes, shortenText } from "../../../utils/utils";
 
 export const mapExternalValue = (value?: InputValue) =>
   value
@@ -42,3 +44,43 @@ export const isFileReady = (f: FileType) => !f.deleting && isFileOnServer(f);
  */
 export const isFileFailed = (f: Pick<FileType, "status">) =>
   f.status === STATUS.CHECK_FAIL || f.status === STATUS.UPLOAD_FAIL || f.status === STATUS.DELETE_FAIL;
+
+/**
+ * Returns the validation errors of a file: size, mime type, max file count and custom validation.
+ * `validFileCount` is the number of files before it that passed, for the max file check.
+ */
+export const getFileErrors = (
+  file: FileType["file"],
+  validFileCount: number,
+  rules: Pick<UploadProps, "accept" | "maxFile" | "maxSize" | "messages" | "customValidation">,
+  t: LibraryTranslateFn,
+) => {
+  const { maxSize, accept, maxFile, messages, customValidation } = rules;
+
+  const maxSizeError =
+    maxSize &&
+    file.size > maxSize &&
+    (messages?.maxSizeMessage ??
+      t(MESSAGE.MAX_SIZE_ERROR, {
+        maxSize: formatBytes(maxSize),
+        fileName: shortenText(file.name, 30),
+        fileSize: formatBytes(file.size),
+      }));
+
+  // Mime Type Check
+  const mimeTypeMessage =
+    accept &&
+    !accept.includes(MIME_TYPES.ALL) &&
+    !accept.includes(file.type) &&
+    (messages?.mimeTypeMessage ?? t(MESSAGE.MIME_TYPE, { acceptType: accept.toString(), fileType: file.type }));
+
+  // Max File Check
+  const maxFileError =
+    maxFile && validFileCount >= maxFile && (messages?.maxFileMessage ?? t(MESSAGE.MAX_FILE, { maxFile, count: maxFile }));
+
+  // Custom Validation
+  const { errorMessage: customValidationError, isValid: customValidationValid } = customValidation?.(file as File) || {};
+  const customValidationMessage = customValidationValid === false ? customValidationError || t(MESSAGE.CUSTOM_VALIDATION_ERROR) : undefined;
+
+  return [maxSizeError, maxFileError, mimeTypeMessage, customValidationMessage].filter(Boolean) as string[];
+};
