@@ -23,3 +23,5 @@ Built 2026-11-24 with /figma-sync from the migrated code (input family token mig
 - Table: column `size`; blocks `maxLength=false` / `true`.
 - readOnly has its own look (2026-11-24): `color/surface/subtle` + `color/border/soft`, text, placeholder and icons keep
   their normal colors; focus and validation borders still show. The readOnly variants copy their default twin's colors.
+- 2026-11-25: the Size spec and Color spec panels match the component table's width (rail 148, panel 1216); spec
+  instances are 260 wide like the variants.
