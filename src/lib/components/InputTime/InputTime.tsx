@@ -158,7 +158,7 @@ const InputTime = (p: PropsWithRef<InputTimeProps, HTMLDivElement>) => {
         className={classNames}
         style={style}
         name={name}
-        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="schedule" />)}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="schedule" size={size} />)}
         clearable
         onClearClick={() => clearClickHandler(true)}
         size={size}

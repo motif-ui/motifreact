@@ -157,7 +157,7 @@ const InputDateTime = (p: PropsWithRef<InputDateTimeProps, HTMLDivElement>) => {
         ref={mergedRef}
         className={classNames}
         style={style}
-        iconLeft={<MotifIcon name="event" />}
+        iconLeft={<MotifIcon name="event" size={size} />}
         name={name}
         onClearClick={clearClickHandler}
         clearable

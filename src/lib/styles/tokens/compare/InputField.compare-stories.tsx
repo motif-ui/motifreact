@@ -11,10 +11,10 @@ import * as TableStories from "@/components/Table/Table.stories";
 import { CompareRow, CompareSection, TokenCompare } from "./TokenCompare";
 
 // The shared field's class names mapped to the baseline's, so Today renders these components with the current field.
-// The icons moved from one icon class to iconLeft / iconRight / iconButton, all of which were icon before.
+// The right icon also carries iconRight and the right button iconButton, both icon before.
 const CLASS_MAP = new Map(
   Object.entries(fieldStyles).flatMap(([key, name]) => {
-    const baseline = fieldBaselineStyles[["iconLeft", "iconRight", "iconButton"].includes(key) ? "icon" : key];
+    const baseline = fieldBaselineStyles[["iconRight", "iconButton"].includes(key) ? "icon" : key];
     return baseline ? [[name, baseline] as const] : [];
   }),
 );

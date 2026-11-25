@@ -8,7 +8,7 @@ exports[`InputTime should render with only required props, have default prop val
     data-testid="inputItem"
   >
     <span
-      class="Root md motifIconsDefault iconLeft"
+      class="Root md motifIconsDefault icon"
       lang="en"
       translate="no"
     >

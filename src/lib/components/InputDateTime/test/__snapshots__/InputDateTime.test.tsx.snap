@@ -8,7 +8,7 @@ exports[`InputDateTime should render with only required props, have default prop
     data-testid="inputItem"
   >
     <span
-      class="Root md motifIconsDefault iconLeft"
+      class="Root md motifIconsDefault icon"
       lang="en"
       translate="no"
     >

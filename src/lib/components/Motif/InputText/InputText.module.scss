@@ -74,8 +74,7 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
   pointer-events: none;
 
   input,
-  .iconLeft,
-  .iconRight,
+  .icon,
   .iconButton {
     color: var(--mtf-color-text-disabled);
   }
@@ -101,12 +100,9 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
   --mtf-input-text-radius: var(--mtf-sizing-radius-round);
 }
 
-.iconLeft {
+// The left and right icons share one tone; the right one alone (iconRight) takes the error and success colors above
+.icon {
   color: var(--mtf-color-text-softer);
-}
-
-.iconRight {
-  color: var(--mtf-color-text-soft);
 }
 
 // The right button (password visibility, date picker…) keeps IconButton's own colors; disabled grays it above

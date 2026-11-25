@@ -151,7 +151,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
         value={typedValue}
         onClick={pickerShowHandler}
         onFocus={pickerShowHandler}
-        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_expand_horizontal" />)}
+        iconLeft={isNullOrEmptyString(icon) ? undefined : (icon ?? <MotifIcon name="calendar_expand_horizontal" size={size} />)}
         clearable
         onClearClick={onClearClickInInput}
       />
