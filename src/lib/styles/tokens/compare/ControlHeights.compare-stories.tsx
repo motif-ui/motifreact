@@ -62,15 +62,15 @@ export const ControlHeights: StoryObj<typeof TokenCompare> = {
     <TokenCompare
       sections={sections}
       current={render({
-        Btn: ButtonBaseline as unknown as AnyControl,
-        Text: InputTextBaseline as unknown as AnyControl,
-        Num: InputNumberBaseline as unknown as AnyControl,
+        Btn: ButtonBaseline,
+        Text: InputTextBaseline,
+        Num: InputNumberBaseline,
         Sel: SelectBaseline as unknown as AnyControl,
       })}
       next={render({
-        Btn: Button as unknown as AnyControl,
-        Text: InputText as unknown as AnyControl,
-        Num: InputNumber as unknown as AnyControl,
+        Btn: Button,
+        Text: InputText,
+        Num: InputNumber,
         Sel: Select as unknown as AnyControl,
       })}
       columnWidth={900}
