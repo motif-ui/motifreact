@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 // size, paddingV, paddingH, labelStep (text scale), iconSize
-$sizes: (("xxs", 2, 4, "xs", 12), ("xs", 4, 8, "sm", 14), ("sm", 6, 12, "sm", 18), ("md", 8, 16, "md", 18), ("lg", 10, 20, "lg", 22), ("xl", 12, 24, "lg", 22));
+$sizes: (("xxs", 2, 4, "xs", 12), ("xs", 4, 8, "xs", 14), ("sm", 6, 12, "sm", 18), ("md", 8, 16, "md", 18), ("lg", 10, 20, "lg", 22), ("xl", 12, 24, "lg", 22));
 
 .Root {
   border: none;
@@ -12,6 +12,10 @@ $sizes: (("xxs", 2, 4, "xs", 12), ("xs", 4, 8, "sm", 14), ("sm", 6, 12, "sm", 18
   cursor: pointer;
   vertical-align: bottom;
   white-space: nowrap;
+
+  // Invisible, but forced colors (Windows high contrast) paint it where they drop the outline shape's inset box-shadow
+  outline: var(--mtf-sizing-1) solid transparent;
+  outline-offset: calc(-1 * var(--mtf-sizing-1));
   @include transition(background-color);
 
   &:focus-visible {

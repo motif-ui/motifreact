@@ -1865,10 +1865,10 @@
       "line-height": {
         "$type": "dimension",
         "$value": {
-          "value": 1.5,
+          "value": 1.75,
           "unit": "rem"
         },
-        "$description": "24px"
+        "$description": "28px"
       }
     },
     "text-xl": {

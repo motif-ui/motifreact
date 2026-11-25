@@ -20,8 +20,8 @@ Built 2026-11-24 with /figma-sync from the migrated code (input family token mig
 - Booleans: `iconLeft`, `iconRight` (exposed Icon instances, swap the glyph), `buttonRight` (exposed IconButton),
   `clearable`, `loader`, `numberSpinner`. Text: `value`, `placeholder`.
 - Field geometry: padding `sizing/space` (xs 4·8, sm 6·12, md 8·16, lg 10·20), gap the vertical padding, 1px
-  inside stroke counted in layout, radius `sizing/radius/md`. Heights hug: xs 26, sm 34, md 42, lg 46 (more with an
-  icon taller than the line).
+  inside stroke not counted in layout (code: inset box-shadow), radius `sizing/radius/md`. Heights hug: xs 24, sm 32,
+  md 40, lg 48, a button's of the same size. Icons are as tall as the line: 16 · 20 · 24 · 28.
 - States: `error`, `success`, `disabled`, `readOnly` booleans (one true at a time) × `filled` (value or placeholder).
   Focus is not a variant: the Color spec overrides the border with `color/border/field-focus`.
 - Table: column `size` (md first, equal column widths); rows the five states, empty and filled.
@@ -30,8 +30,8 @@ Built 2026-11-24 with /figma-sync from the migrated code (input family token mig
   buttonRight).
 - Number buttons: divider `color/border/disabled` when disabled or readOnly. The spacer is `2 × button − paddingH`
   wide, so the field's gap sits before the buttons as in code.
-- The number buttons are an absolutely placed frame at the right edge (`x = width − w − 1`, `y = 1`, height − 2,
-  constraints right / stretch) with a spacer frame bound to the same boolean; the wrapper has no fill.
+- The number buttons are an absolutely placed frame at the right edge, inside the stroke (`x = width − w − 1`, `y = 1`,
+  height − 2, constraints right / stretch) with a spacer frame bound to the same boolean; the wrapper has no fill.
 
 - disabled and readOnly: placeholder `color/text/disabled-soft` (a step under the value's `color/text/disabled`);
   the clear button is unbound from `clearable` and hidden in disabled, readOnly and empty variants, as code never

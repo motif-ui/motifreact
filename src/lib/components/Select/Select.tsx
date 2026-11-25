@@ -13,6 +13,7 @@ import { useRegisterFormField } from "@/components/Form/context/useRegisterFormF
 import useDeepCompareEffect from "use-deep-compare-effect";
 import { PropsWithRef } from "../../types";
 import { MotifIcon } from "@/components/Motif/Icon";
+import { fieldIconSizeMap } from "@/components/Motif/InputText/helper.ts";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleClasses, sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import ProgressCircle from "@/components/ProgressCircle";
@@ -159,7 +160,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
         onClick={inputOnClickHandler}
         {...(!disabled && { tabIndex: 0 })}
       >
-        {icon && <GlobalIconWrapper icon={icon} className={styles.iconLeft} size={size} />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.iconLeft} size={fieldIconSizeMap[size]} />}
         <div className={styles.inputTextAndItemsContainer}>
           {multiple &&
             filterable &&
@@ -185,7 +186,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
           {loading ? (
             <ProgressCircle size={loaderSizeMap[size]} indeterminate variant="primary" className={styles.loader} />
           ) : (
-            <MotifIcon name="arrow_drop_down" className={`${styles.iconRight} ${styles.arrowDown}`} size={size} />
+            <MotifIcon name="arrow_drop_down" className={`${styles.iconRight} ${styles.arrowDown}`} size={fieldIconSizeMap[size]} />
           )}
         </div>
       </div>

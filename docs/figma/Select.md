@@ -44,6 +44,9 @@
   open).
 - Examples: icon + value only.
 - No data text comes from `src/i18n/locales/en.json` `g.noData` ("No data found...").
+- 2026-11-25 (control heights, #249): the field's stroke is not counted in layout (code: inset box-shadow), so heights
+  are 24 · 32 · 40 · 48, a button's of the same size; the left icon and the arrow are as tall as the line (16 · 20 · 24 ·
+  28). The loader stays centered in the right container.
 
 ## Known code issues (not Figma)
 

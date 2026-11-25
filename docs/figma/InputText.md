@@ -17,8 +17,8 @@ Built 2026-11-24 with /figma-sync from the migrated code (input family token mig
 - Variants: `size` × states × `filled`. Booleans `iconLeft`, `iconRight` (exposed Icon), `clearable`; text `value`,
   `placeholder`. `pill` is an instance override (radius round).
 - Field geometry: padding `sizing/space` (xs 4·8, sm 6·12, md 8·16, lg 10·20), gap the vertical padding, 1px
-  inside stroke counted in layout, radius `sizing/radius/md`. Heights hug: xs 26, sm 34, md 42, lg 46 (more with an
-  icon taller than the line).
+  inside stroke not counted in layout (code: inset box-shadow), radius `sizing/radius/md`. Heights hug: xs 24, sm 32,
+  md 40, lg 48, a button's of the same size. Icons are as tall as the line: 16 · 20 · 24 · 28.
 - States: `error`, `success`, `disabled`, `readOnly` booleans (one true at a time) × `filled` (value or placeholder).
   Focus is not a variant: the Color spec overrides the border with `color/border/field-focus`.
 - Table: column `size` (md first, equal column widths); rows the five states, empty and filled.

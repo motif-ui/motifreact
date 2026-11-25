@@ -46,3 +46,5 @@ user approved the Figma page). Figma and code match; the pre-migration Button is
 - disabled: one look for every variant (`surface/disabled`, `border/disabled`, `text/disabled`).
 - Radius `sizing/radius/md` (4px): the old Button's `radius-sm` was 4px in the default theme.
 - No Examples.
+- 2026-11-25 (control heights, #249): xs label is `label-sm` (text-xs, 12/16), so heights are xxs 20 · xs 24 · sm 32 ·
+  md 40 · lg 48 · xl 52 and match the fields of the same size; lg and xl follow `text-lg`'s 28px line.

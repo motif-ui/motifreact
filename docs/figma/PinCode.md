@@ -15,8 +15,9 @@ Built 2026-11-24 with /figma-sync from the migrated code (input family token mig
 
 - Variants: `size` × states × `circle` × `filled`. Each variant holds six boxes (`item 1` … `item 6`) and an
   `item space` after the third, shown by the `space` boolean.
-- Boxes are plain frames (not field instances): padding `sizing/space/4 · 6 · 8 · 10`, a `sizing/20 · 20 · 22 · 24`
-  square text centered, 1px stroke in layout (30 · 34 · 40 · 46), gap `4 · 8 · 12 · 16`.
+- Boxes are plain frames (not field instances): padding `sizing/space/4 · 6 · 8 · 10`, a `sizing/16 · 20 · 24 · 28`
+  square text centered (the line height), 1px stroke not in layout (24 · 32 · 40 · 48, a field's height), gap
+  `4 · 8 · 12 · 16`.
 - Item length, masked characters (• while typed, `*` or the number when masked and disabled) and a single disabled
   box are layer overrides; the Parts spec shows each.
 - Table: column `size`; blocks `circle=false` / `true`.

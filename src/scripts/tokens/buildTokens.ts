@@ -20,7 +20,7 @@ const TEXT_SCALE: [string, number, number][] = [
   ["text-xs", 12, 16],
   ["text-sm", 14, 20],
   ["text-md", 16, 24],
-  ["text-lg", 18, 24],
+  ["text-lg", 18, 28],
   ["text-xl", 20, 28],
   ["text-2xl", 24, 32],
   ["text-3xl", 28, 36],

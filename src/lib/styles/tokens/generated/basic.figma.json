@@ -3818,9 +3818,9 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "24px",
+          "description": "28px",
           "values": {
-            "Value": 24
+            "Value": 28
           }
         },
         {
