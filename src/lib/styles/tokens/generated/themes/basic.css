@@ -152,6 +152,7 @@
   --mtf-color-surface-field: light-dark(var(--mtf-color-palette-white), var(--mtf-color-palette-neutral-950));
   --mtf-color-surface-disabled: light-dark(var(--mtf-color-palette-neutral-950-a08), var(--mtf-color-palette-neutral-50-a08));
   --mtf-color-surface-opposite: light-dark(var(--mtf-color-palette-neutral-900), var(--mtf-color-palette-neutral-50));
+  --mtf-color-surface-contrast: light-dark(var(--mtf-color-palette-neutral-800), var(--mtf-color-palette-neutral-700));
   --mtf-color-surface-brand: var(--mtf-color-palette-primary-500);
   --mtf-color-text-stronger: light-dark(var(--mtf-color-palette-neutral-950), var(--mtf-color-palette-neutral-50));
   --mtf-color-text-strong: light-dark(var(--mtf-color-palette-neutral-900), var(--mtf-color-palette-neutral-100));
@@ -161,6 +162,8 @@
   --mtf-color-text-disabled: light-dark(var(--mtf-color-palette-neutral-950-a32), var(--mtf-color-palette-neutral-50-a32));
   --mtf-color-text-on-media: var(--mtf-color-palette-white);
   --mtf-color-text-on-media-soft: var(--mtf-color-palette-white-a64);
+  --mtf-color-text-on-contrast: var(--mtf-color-palette-white);
+  --mtf-color-text-on-contrast-soft: var(--mtf-color-palette-neutral-200);
   --mtf-color-border-soft: light-dark(var(--mtf-color-palette-neutral-950-a16), var(--mtf-color-palette-neutral-50-a16));
   --mtf-color-border-default: light-dark(var(--mtf-color-palette-neutral-400), var(--mtf-color-palette-neutral-600));
   --mtf-color-border-strong: var(--mtf-color-palette-neutral-500);

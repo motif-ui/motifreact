@@ -33,7 +33,7 @@ export const pickerSizeMap = {
 
 const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) => {
   const props = usePropsWithThemeDefaults("InputDateRange", p);
-  const { pill, value, onChange, locale: propsLocale, ref, style, className, icon, firstDayOfWeek } = props;
+  const { pill, value, onChange, locale: propsLocale, ref, overlayRef, style, className, icon, firstDayOfWeek } = props;
   const format = useMemo(() => ({ ...defaultDateFormat, ...props.format }), [props.format]);
   const datePlaceholder = format.order.map(part => format[`${part}Format`]?.replace(/[DMY]/g, "_")).join(` ${format.delimiter} `);
   const placeholder = useMemo(
@@ -99,6 +99,7 @@ const InputDateRange = (p: PropsWithRef<InputDateRangeProps, HTMLDivElement>) =>
     hide,
   } = useAnchoredOverlay({
     anchorRef: innerRef,
+    overlayRef,
     placement: "bottomLeft",
     onClose: pickerCloseHandler,
     closeOnOutsideClick: true,
