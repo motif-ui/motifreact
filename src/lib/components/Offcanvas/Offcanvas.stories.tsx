@@ -14,14 +14,12 @@ const meta: Meta<typeof Offcanvas> = {
     open: { control: false },
     position: { table: { defaultValue: { summary: "left" } } },
     size: { table: { defaultValue: { summary: "md" } } },
-    removeBackdrop: { table: { defaultValue: { summary: "false" } } },
   },
   args: {
     title: "Offcanvas Title",
     position: "left",
     size: "md",
     closable: true,
-    removeBackdrop: false,
     includePadding: true,
     children: (
       <p>

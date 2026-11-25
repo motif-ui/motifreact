@@ -1,17 +1,15 @@
 "use client";
 
 import styles from "./Offcanvas.module.scss";
-import { useMemo } from "react";
 import { createPortal } from "react-dom";
 import useModalOverlay from "../../hooks/useModalOverlay";
-import { PropsWithRef } from "../../types";
+import { PropsWithRefAndChildren } from "../../types";
 import { OffcanvasProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import { mergeRefs } from "../../../utils/reactUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { MotifIconButton } from "@/components/Motif/Icon";
 
-const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
+const Offcanvas = (props: PropsWithRefAndChildren<OffcanvasProps, HTMLDivElement>) => {
   const {
     title,
     open,
@@ -30,13 +28,13 @@ const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
 
   const { attached, visible, hide, rootRef, dialogRef, insideProps } = useModalOverlay<HTMLElement>({
     open: !!open,
+    rootRef: ref,
     onClose,
     onAfterClose,
     duration: 300,
     closeOnOutsideClick: closable,
     closeOnEscape: closable,
   });
-  const mergedRef = useMemo(() => mergeRefs(rootRef, ref), [rootRef, ref]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
@@ -49,7 +47,7 @@ const Offcanvas = (props: PropsWithRef<OffcanvasProps, HTMLDivElement>) => {
   return (
     attached &&
     createPortal(
-      <div data-testid="offcanvasBackdrop" className={classNames} style={style} ref={mergedRef}>
+      <div data-testid="offcanvasBackdrop" className={classNames} style={style} ref={rootRef}>
         <aside className={styles.offcanvas} ref={dialogRef} tabIndex={-1} {...insideProps}>
           {(title || closable) && (
             <div className={styles.header}>

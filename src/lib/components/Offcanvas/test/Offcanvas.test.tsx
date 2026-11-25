@@ -1,7 +1,7 @@
-import Offcanvas from "@/components/Offcanvas/Offcanvas";
+import Offcanvas from "@/components/Offcanvas/Offcanvas.tsx";
 import { fireEvent, render, screen, cleanup, act } from "@testing-library/react";
-import { Size3, StandardPropsWithRef } from "../../types";
-import { OffcanvasPosition } from "./types";
+import { Size3, StandardPropsWithRef } from "../../../types.ts";
+import { OffcanvasPosition } from "../types.ts";
 import { userEvent } from "@testing-library/user-event";
 import { runSnapshotDefaultsAndStandardPropsTest } from "src/utils/testUtils.tsx";
 

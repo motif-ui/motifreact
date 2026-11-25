@@ -93,8 +93,6 @@ $sizes: (
   margin-left: auto;
 }
 
-.content {
-  .includePadding & {
-    padding: var(--base-sizing-16x);
-  }
+.includePadding .content {
+  padding: var(--base-sizing-16x);
 }
