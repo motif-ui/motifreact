@@ -1,13 +1,11 @@
 "use client";
 
 import styles from "./Popover.module.scss";
-import { useMemo } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRefAndChildren } from "../../types";
 import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import { mergeRefs } from "../../../utils/reactUtils";
 import { PopoverProps } from "./types";
 
 const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) => {
@@ -20,10 +18,10 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     closeOnOutsideClick,
     closeOnEscape,
     closeOnScroll,
-    variant = "light",
     placeOn = "bottom",
     spacing = "callout",
     elevated,
+    inverseColors,
     ref,
     className,
     style,
@@ -38,6 +36,7 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     insideProps,
   } = useAnchoredOverlay({
     anchorRef,
+    overlayRef: ref,
     placement: placeOn,
     limitWidth: true,
     toggleOnAnchorClick: uncontrolled,
@@ -50,14 +49,11 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
     closeOnScroll,
   });
 
-  const mergedRef = useMemo(() => mergeRefs(popoverRef, ref), [popoverRef, ref]);
-
   const caretSpot = placeOn.endsWith("Left") ? "caretLeft" : placeOn.endsWith("Right") ? "caretRight" : "caretCenter";
   const classNames = sanitizeModuleRootClasses(styles, className, [
     spacing,
     placement,
     caretSpot,
-    variant,
     visible && "visible",
     elevated && "elevated",
     typeof children === "string" && "justText",
@@ -66,8 +62,10 @@ const Popover = (props: PropsWithRefAndChildren<PopoverProps, HTMLDivElement>) =
   return (
     attached &&
     createPortal(
-      <div className={classNames} style={{ ...style, ...positionStyle }} ref={mergedRef} data-testid="popover" {...insideProps}>
-        <div className={styles.popover}>{children}</div>
+      <div className={classNames} style={{ ...style, ...positionStyle }} ref={popoverRef} data-testid="popover" {...insideProps}>
+        <div className={styles.popover} data-mtf-surface={inverseColors ? "opposite" : undefined}>
+          {children}
+        </div>
       </div>,
       document.body,
     )

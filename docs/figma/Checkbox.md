@@ -33,3 +33,8 @@ Built 2026-11-19 with /figma-new-component from the migrated code (batch 5).
 - The error border stays on a checked box, as today.
 - The partial mark is a rectangle (the code's SVG line); the check mark is `Icon/check` with its fill overridden.
 - ListView's selectable rows use this Checkbox (the private `_ListView/Checkbox` part was removed).
+
+## Updates
+
+- 2026-11-23 (batch 6): success also colors the empty box's border `color/success/border` (the four unchecked success
+  variants), like Radio.
