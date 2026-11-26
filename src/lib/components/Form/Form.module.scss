@@ -10,6 +10,9 @@ $sizes: (
 
 .Root {
   flex-direction: column;
+
+  // The padding of the Grids in the Form without a padding value, so the fields line up as without a Grid
+  --form-grid-padding: 0;
 }
 
 .submitArea {
@@ -57,6 +60,9 @@ $sizes: (
 
 @each $size, $gapV, $gapH, $gapVLabel, $gapButtons in $sizes {
   .#{$size} {
+    // The gaps of the Grids in the Form without gap values
+    --form-grid-row-gap: var(--base-sizing-#{$gapV});
+    --form-grid-column-gap: var(--base-sizing-#{$gapH});
     &,
     &.vertical .fields {
       gap: var(--base-sizing-#{$gapV});
@@ -68,7 +74,7 @@ $sizes: (
       .fields {
         gap: var(--base-sizing-#{$gapH});
       }
-      &.verticalLabels .fields > [data-has-label] ~ .submitArea {
+      &.verticalLabels .fields:has([data-has-label]) > .submitArea {
         $gap-var: --base-sizing-#{$gapVLabel};
         $line-height-var: --typography-base-#{$size}-500-line-height;
         padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
