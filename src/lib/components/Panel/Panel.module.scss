@@ -10,6 +10,10 @@ $title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
   border-radius: var(--mtf-sizing-radius-md);
   color: var(--mtf-color-text-default);
 
+  @include screen-width("below", "sm") {
+    padding: var(--mtf-sizing-space-8);
+  }
+
   &.bordered {
     border: var(--mtf-sizing-1) solid var(--mtf-color-border-default);
   }

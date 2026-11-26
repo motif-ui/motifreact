@@ -54,6 +54,10 @@ $data-view-sizes: ("xs", "sm", "md", "lg", "xl");
   @include typography("body-md");
   padding: var(--mtf-sizing-space-10) var(--mtf-sizing-space-20);
   overflow-wrap: break-word;
+
+  @include screen-width("below", "sm") {
+    padding: var(--mtf-sizing-space-8) var(--mtf-sizing-space-12);
+  }
 }
 
 .title {
