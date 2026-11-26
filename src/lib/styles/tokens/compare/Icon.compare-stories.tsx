@@ -153,7 +153,7 @@ const fromStory = (label: string, stories: Record<string, unknown>, name: string
 const sections: CompareSection<Row>[] = [
   {
     title: "Icon · sizes",
-    note: "xxxl (52px) is removed: the sizes end at xxl. A larger icon gets its size in the component's SCSS (--mtf-icon-size).",
+    note: "xxxl (52px) is removed.",
     rows: SIZES.map(size => ({ label: size, props: { view: "icon", size } })),
   },
   {
@@ -168,7 +168,7 @@ const sections: CompareSection<Row>[] = [
   },
   {
     title: "IconButton · sizes (default, disabled)",
-    note: "xxxl is removed (Today had no rule for it, so its icon fell back to md, 22px).",
+    note: "xxxl is removed.",
     rows: SIZES.map(size => ({ label: size, props: { view: "button", variant: "neutral", size } })),
   },
   {
