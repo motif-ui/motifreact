@@ -57,6 +57,8 @@ $content-positions: (
 }
 
 .icon {
+  --mtf-icon-size: var(--mtf-sizing-52);
+
   @each $variant in $variants-v2 {
     .#{$variant} & {
       color: var(--mtf-color-#{$variant}-solid);

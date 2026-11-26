@@ -84,14 +84,20 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
   row-gap: var(--grid-resolved-row-gap);
   padding: var(--grid-resolved-padding);
 
-  @include resolve-gaps("--grid-resolved-column-gap", "--grid-resolved-row-gap", var(--theme-grid-gutter-gutter-sm), var(--theme-grid-gutter-gutter-sm));
+  // A Grid without gap or padding values uses the ones of its Form, if any
+  @include resolve-gaps(
+    "--grid-resolved-column-gap",
+    "--grid-resolved-row-gap",
+    var(--form-grid-column-gap, var(--theme-grid-gutter-gutter-sm)),
+    var(--form-grid-row-gap, var(--theme-grid-gutter-gutter-sm))
+  );
 
   // Padding works like the gaps, with the public --mtf-grid-{breakpoint}-padding variables
   @each $size in $grid-sizes {
     --mtf-grid-#{breakpoint-name($size)}-padding: initial;
   }
   @include screen-width-breakpoints($grid-sizes) using ($size) {
-    --grid-resolved-padding: #{spacing-chain("padding", $size, var(--theme-grid-gutter-gutter-sm))};
+    --grid-resolved-padding: #{spacing-chain("padding", $size, var(--form-grid-padding, var(--theme-grid-gutter-gutter-sm)))};
   }
 
   @each $size in $grid-sizes {

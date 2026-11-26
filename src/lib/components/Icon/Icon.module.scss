@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, icon (px)
-$sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28), ("xxl", 32), ("3xl", 40), ("4xl", 52), ("5xl", 64));
+// Each size is the icon beside text of that size (--mtf-sizing-icon-*: font × 4/3, never taller than the line)
+$sizes: "xxs", "xs", "sm", "md", "lg", "xl", "xxl", "xxxl";
 
 // The `!important`s are a documented exception (css.md §3): an icon font's own class (material-symbols and the like) sets
 // display and font-size with the same specificity, and the consumer decides which stylesheet loads last
@@ -9,9 +9,9 @@ $sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28)
   display: inline-block !important; /* stylelint-disable-line declaration-no-important */
   vertical-align: top;
   user-select: none;
-  font-size: var(--mtf-icon-size, var(--mtf-sizing-22)) !important; /* stylelint-disable-line declaration-no-important */
-  width: var(--mtf-icon-size, var(--mtf-sizing-22)) !important; /* stylelint-disable-line declaration-no-important */
-  height: var(--mtf-icon-size, var(--mtf-sizing-22)) !important; /* stylelint-disable-line declaration-no-important */
+  font-size: var(--mtf-icon-size, var(--mtf-sizing-icon-md)) !important; /* stylelint-disable-line declaration-no-important */
+  width: var(--mtf-icon-size, var(--mtf-sizing-icon-md)) !important; /* stylelint-disable-line declaration-no-important */
+  height: var(--mtf-icon-size, var(--mtf-sizing-icon-md)) !important; /* stylelint-disable-line declaration-no-important */
 
   span,
   i {
@@ -36,9 +36,9 @@ $sizes: (("xxs", 16), ("xs", 18), ("sm", 20), ("md", 22), ("lg", 24), ("xl", 28)
   }
 }
 
-@each $size, $icon in $sizes {
-  .#{class-name($size)} {
-    --mtf-icon-size: var(--mtf-sizing-#{$icon});
+@each $size in $sizes {
+  .#{$size} {
+    --mtf-icon-size: var(--mtf-sizing-icon-#{$size});
   }
 }
 

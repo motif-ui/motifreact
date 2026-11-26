@@ -234,3 +234,29 @@ $sizes: (("sm", 4), ("md", 6), ("lg", 8));
 // Keep: xl takes lg's step, so the column is not the size
 $sizes: (("xs", 2, "xs"), ("sm", 4, "sm"), ("md", 6, "md"), ("lg", 8, "lg"), ("xl", 12, "lg"));
 ```
+
+## 6. Borders of single-line controls
+
+A single-line control whose height must match the others of its size (Button, the input field, Select, PinCode boxes)
+draws its border inside, so the border takes no room and every control of a size is as tall: `padding × 2 + line height`
+(24 · 32 · 40 · 48). Everything else (Card, Panel, Alert, Textarea, dropdown panels, Checkbox…) uses a real `border`.
+
+```scss
+.Root {
+  box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-border-field);
+  // Invisible; forced colors (Windows high contrast) drop the box-shadow and paint this instead
+  outline: var(--mtf-sizing-1) solid transparent;
+  outline-offset: calc(-1 * var(--mtf-sizing-1));
+}
+```
+
+- States change the whole `box-shadow` (`inset 0 0 0 var(--mtf-sizing-1) <state color>`); a focus ring replaces the
+  transparent outline.
+- Flag such a control with a real `border`, with a vertical padding computed from the border (`calc(… - 1px)`), or without
+  the transparent outline.
+- The inset border is painted under the content: a part with a background at the edge (InputNumber's buttons) stays
+  `--mtf-sizing-1` inside it.
+- An icon beside text takes `--mtf-sizing-icon-{size}` of the component's own size or text step (font × 4/3, never
+  taller than the line), so it never makes a control taller and an md control has an md icon. Flag a fixed
+  `sizing-N`, a per-component icon column or a size map for such an icon; a standalone icon (AlertModal) keeps a fixed
+  size via `--mtf-icon-size`.

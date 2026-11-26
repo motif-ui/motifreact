@@ -1652,6 +1652,24 @@
           }
         },
         {
+          "name": "color/text/disabled-soft",
+          "type": "COLOR",
+          "scopes": [
+            "TEXT_FILL",
+            "SHAPE_FILL"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "disabled placeholder, under the disabled value",
+          "values": {
+            "Light": {
+              "alias": "color/palette/neutral/950-a16"
+            },
+            "Dark": {
+              "alias": "color/palette/neutral/50-a16"
+            }
+          }
+        },
+        {
           "name": "color/text/on-media",
           "type": "COLOR",
           "scopes": [
@@ -3686,7 +3704,7 @@
           }
         },
         {
-          "name": "typography/text-2xs/font-size",
+          "name": "typography/text-xxs/font-size",
           "type": "FLOAT",
           "scopes": [
             "FONT_SIZE"
@@ -3698,7 +3716,7 @@
           }
         },
         {
-          "name": "typography/text-2xs/line-height",
+          "name": "typography/text-xxs/line-height",
           "type": "FLOAT",
           "scopes": [
             "LINE_HEIGHT"
@@ -3800,9 +3818,9 @@
             "LINE_HEIGHT"
           ],
           "hiddenFromPublishing": false,
-          "description": "24px",
+          "description": "28px",
           "values": {
-            "Value": 24
+            "Value": 28
           }
         },
         {
@@ -3830,7 +3848,7 @@
           }
         },
         {
-          "name": "typography/text-2xl/font-size",
+          "name": "typography/text-xxl/font-size",
           "type": "FLOAT",
           "scopes": [
             "FONT_SIZE"
@@ -3842,7 +3860,7 @@
           }
         },
         {
-          "name": "typography/text-2xl/line-height",
+          "name": "typography/text-xxl/line-height",
           "type": "FLOAT",
           "scopes": [
             "LINE_HEIGHT"
@@ -4240,7 +4258,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xl/font-size"
+              "alias": "typography/text-xxl/font-size"
             }
           }
         },
@@ -4253,7 +4271,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xl/line-height"
+              "alias": "typography/text-xxl/line-height"
             }
           }
         },
@@ -4513,7 +4531,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xs/font-size"
+              "alias": "typography/text-xxs/font-size"
             }
           }
         },
@@ -4526,7 +4544,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xs/line-height"
+              "alias": "typography/text-xxs/line-height"
             }
           }
         },
@@ -4708,7 +4726,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xs/font-size"
+              "alias": "typography/text-xxs/font-size"
             }
           }
         },
@@ -4721,7 +4739,7 @@
           "hiddenFromPublishing": false,
           "values": {
             "Value": {
-              "alias": "typography/text-2xs/line-height"
+              "alias": "typography/text-xxs/line-height"
             }
           }
         },
@@ -5528,6 +5546,102 @@
           "description": "64px · padding, margin, gap",
           "values": {
             "Value": 64
+          }
+        },
+        {
+          "name": "sizing/icon/xxs",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "14px · icon beside text-xxs",
+          "values": {
+            "Value": 14
+          }
+        },
+        {
+          "name": "sizing/icon/xs",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "16px · icon beside text-xs",
+          "values": {
+            "Value": 16
+          }
+        },
+        {
+          "name": "sizing/icon/sm",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "18px · icon beside text-sm",
+          "values": {
+            "Value": 18
+          }
+        },
+        {
+          "name": "sizing/icon/md",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "22px · icon beside text-md",
+          "values": {
+            "Value": 22
+          }
+        },
+        {
+          "name": "sizing/icon/lg",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "24px · icon beside text-lg",
+          "values": {
+            "Value": 24
+          }
+        },
+        {
+          "name": "sizing/icon/xl",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "26px · icon beside text-xl",
+          "values": {
+            "Value": 26
+          }
+        },
+        {
+          "name": "sizing/icon/xxl",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "32px · icon beside text-xxl",
+          "values": {
+            "Value": 32
+          }
+        },
+        {
+          "name": "sizing/icon/xxxl",
+          "type": "FLOAT",
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "36px · icon beside text-3xl",
+          "values": {
+            "Value": 36
           }
         },
         {
