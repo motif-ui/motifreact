@@ -3,7 +3,7 @@ import InputTime from "@/components/InputTime";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { Time } from "@/components/TimePicker/types";
-import { ReactNode } from "react";
+import { createRef, ReactNode } from "react";
 import { getDateLocale } from "src/i18n/helper.ts";
 import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
 import { StandardPropsWithRef } from "../../../types";
@@ -425,5 +425,15 @@ describe("InputTime", () => {
 
     rerender(<InputTime icon={null} />);
     expect(container.querySelector(".icon")).not.toBeInTheDocument();
+  });
+
+  it("should pass the picker rendered in the body to the ref given in the overlayRef prop", async () => {
+    const overlayRef = createRef<HTMLDivElement>();
+    const { getInput, getPickerContainer } = renderExt(<InputTime overlayRef={overlayRef} />);
+    expect(overlayRef.current).toBeNull();
+
+    await userEvent.click(getInput());
+    expect(overlayRef.current).toContainElement(getPickerContainer());
+    expect(overlayRef.current?.parentElement).toBe(document.body);
   });
 });

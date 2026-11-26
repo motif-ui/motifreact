@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import InputDateTime from "../InputDateTime";
-import { ReactNode } from "react";
+import { createRef, ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
 import { defaultDateFormat } from "../../Motif/Pickers/types";
@@ -464,5 +464,15 @@ describe(InputDateTime, () => {
     await userEvent.tab();
     expect(getPickerContainer().contains(document.activeElement)).toBe(true);
     expect(document.activeElement?.closest("[inert]")).toBeNull();
+  });
+
+  it("should pass the picker rendered in the body to the ref given in the overlayRef prop", async () => {
+    const overlayRef = createRef<HTMLDivElement>();
+    const { getInputText, getPickerContainer } = renderExt(<InputDateTime overlayRef={overlayRef} />);
+    expect(overlayRef.current).toBeNull();
+
+    await userEvent.click(getInputText());
+    expect(overlayRef.current).toContainElement(getPickerContainer());
+    expect(overlayRef.current?.parentElement).toBe(document.body);
   });
 });
