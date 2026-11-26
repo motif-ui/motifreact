@@ -159,7 +159,13 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         <>
           {iconRight && <GlobalIconWrapper icon={iconRight} className={`${styles.icon} ${styles.iconRight}`} size={size} />}
           {buttonRight && (
-            <MotifIconButton name={buttonRight.name} className={styles.iconButton} size={size} onClick={buttonRight.onClick} />
+            <MotifIconButton
+              name={buttonRight.name}
+              className={styles.iconButton}
+              size={size}
+              disabled={disabled || readOnly}
+              onClick={buttonRight.onClick}
+            />
           )}
         </>
       )}
