@@ -2813,6 +2813,14 @@
           "unit": "rem"
         },
         "$description": "64px · padding, margin, gap"
+      },
+      "128": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "rem"
+        },
+        "$description": "128px · padding, margin, gap"
       }
     },
     "icon": {

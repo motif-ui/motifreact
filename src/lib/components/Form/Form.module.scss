@@ -1,48 +1,49 @@
 @use "@styles" as *;
 
-$sizes: (
-  //sizeName, gapV, gapH, gapVLabel, gapButtons
-  ("xs", "12x", "20x", "2x", "6x"),
-  ("sm", "16x", "24x", "4x", "8x"),
-  ("md", "20x", "28x", "6x", "12x"),
-  ("lg", "24x", "32x", "8x", "16x")
-);
+// size (also the label's text step), gapV, gapH, gapVLabel (between a vertical label and its input), gapButtons
+$sizes: (("xs", 12, 20, 2, 6), ("sm", 16, 24, 4, 8), ("md", 20, 28, 6, 12), ("lg", 24, 32, 8, 16));
 
 .Root {
   flex-direction: column;
 
   // The padding of the Grids in the Form without a padding value, so the fields line up as without a Grid
-  --form-grid-padding: 0;
+  --mtf-form-grid-padding: 0;
 }
 
 .submitArea {
   display: flex;
+
   &.submitArea_align_left {
     justify-content: flex-start;
   }
+
   &.submitArea_align_center {
     justify-content: center;
   }
+
   &.submitArea_align_right {
     justify-content: flex-end;
   }
+
   &.submitArea_align_fluid > button {
     flex: 1 1 0;
+  }
+
+  // In a horizontal Form with vertical labels the buttons line up with the inputs, below the labels (also when the
+  // fields sit in a Grid)
+  .fields:has([data-has-label]) > & {
+    padding-top: var(--mtf-form-submit-offset, 0);
   }
 }
 
 .horizontal {
   display: inline-flex;
   width: 100%;
-}
 
-.horizontal .fields {
-  display: inline-flex;
-  align-items: flex-start;
-}
-
-.horizontalLabels .submitArea {
-  padding-top: 0;
+  .fields {
+    display: inline-flex;
+    align-items: flex-start;
+  }
 }
 
 .vertical {
@@ -61,24 +62,24 @@ $sizes: (
 @each $size, $gapV, $gapH, $gapVLabel, $gapButtons in $sizes {
   .#{$size} {
     // The gaps of the Grids in the Form without gap values
-    --form-grid-row-gap: var(--base-sizing-#{$gapV});
-    --form-grid-column-gap: var(--base-sizing-#{$gapH});
+    --mtf-form-grid-row-gap: var(--mtf-sizing-space-#{$gapV});
+    --mtf-form-grid-column-gap: var(--mtf-sizing-space-#{$gapH});
     &,
     &.vertical .fields {
-      gap: var(--base-sizing-#{$gapV});
+      gap: var(--mtf-sizing-space-#{$gapV});
     }
+
     .submitArea {
-      gap: var(--base-sizing-#{$gapButtons});
+      gap: var(--mtf-sizing-space-#{$gapButtons});
     }
-    &.horizontal {
-      .fields {
-        gap: var(--base-sizing-#{$gapH});
-      }
-      &.verticalLabels .fields:has([data-has-label]) > .submitArea {
-        $gap-var: --base-sizing-#{$gapVLabel};
-        $line-height-var: --typography-base-#{$size}-500-line-height;
-        padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
-      }
+
+    &.horizontal .fields {
+      gap: var(--mtf-sizing-space-#{$gapH});
+    }
+
+    // The label's line and its gap, carried into the submit area rule above (css.md section 4)
+    &.horizontal.verticalLabels {
+      --mtf-form-submit-offset: calc(var(--mtf-sizing-space-#{$gapVLabel}) + var(--mtf-typography-text-#{$size}-line-height));
     }
   }
 }

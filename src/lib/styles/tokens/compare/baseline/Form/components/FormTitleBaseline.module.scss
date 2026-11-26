@@ -1,0 +1,15 @@
+@use "@styles" as *;
+
+$headings: (("h2", "heading6"), ("h3", "heading5"), ("h4", "heading4"), ("h5", "heading5"));
+
+.title {
+  margin: 0;
+  padding: 0;
+  color: var(--theme-color-text-base-title);
+
+  @each $tag, $heading in $headings {
+    #{$tag} & {
+      @include font("heading", $heading);
+    }
+  }
+}
