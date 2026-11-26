@@ -24,6 +24,7 @@ import SliderRange from "@/components/SliderRange";
 import Button from "@/components/Button";
 import { LocaleKey } from "src/i18n/types.ts";
 import InputNumber from "@/components/InputNumber";
+import Grid from "@/components/Grid";
 
 const meta: Meta<typeof Form> = {
   title: "Components/Form",
@@ -245,6 +246,65 @@ export const ExternalErrors: Story = {
 
     return <ExternalErrorsComponent />;
   },
+};
+
+const gridField = (name: string) => (
+  <Form.Field name={name} label={name}>
+    <InputText />
+  </Form.Field>
+);
+
+const gridCols = (count: number) =>
+  Array.from({ length: count }, (_, i) => (
+    <Grid.Col key={i} size={12 / count}>
+      {gridField(`field ${count}.${i + 1}`)}
+    </Grid.Col>
+  ));
+
+export const WithGrid: Story = {
+  tags: ["!dev", "!autodocs"],
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+      {(["xs", "sm", "md", "lg"] as const).map(size => (
+        <div key={size} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <h4>Form › Grid · {size}</h4>
+          <Form size={size} onSubmit={() => {}}>
+            <Grid>
+              <Grid.Row>{gridCols(2)}</Grid.Row>
+              <Grid.Row>{gridCols(3)}</Grid.Row>
+            </Grid>
+          </Form>
+          <h4>Form · {size}</h4>
+          <Form size={size} onSubmit={() => {}}>
+            {gridField("field 1")}
+            {gridField("field 2")}
+          </Form>
+          <h4>Horizontal Form › Grid · {size}</h4>
+          <Form size={size} formOrientation="horizontal" onSubmit={() => {}}>
+            <Grid>
+              <Grid.Row>{gridCols(2)}</Grid.Row>
+            </Grid>
+          </Form>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+// The gap and padding values given to a Grid and a Row in a Form override the ones of the Form
+export const WithGridOverrides: Story = {
+  tags: ["!dev", "!autodocs"],
+  render: () => (
+    <Form size="md" onSubmit={() => {}}>
+      <Grid gap="xl" padding="lg">
+        <Grid.Row>{gridCols(2)}</Grid.Row>
+        <Grid.Row>{gridCols(3)}</Grid.Row>
+      </Grid>
+      <Grid>
+        <Grid.Row gap="xs">{gridCols(3)}</Grid.Row>
+      </Grid>
+    </Form>
+  ),
 };
 
 const onSubmitMock = (data: FormSubmitData, event: unknown) => {
