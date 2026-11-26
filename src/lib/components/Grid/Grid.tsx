@@ -14,7 +14,7 @@ const GridComponent = (props: PropsWithRef<GridProps, HTMLDivElement>) => {
   const {
     fluid,
     leanToEdge,
-    gutter = "sm",
+    gutter,
     padding,
     gap,
     rowGap,

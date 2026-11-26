@@ -16,7 +16,7 @@ const meta: Meta<typeof ProgressBar> = {
     docs: {
       description: {
         component: `
-* \`interminate\` prop always takes precedence over \`showPercentage\` prop.
+* \`indeterminate\` prop always takes precedence over \`showPercentage\` prop.
 * When \`countdown\` prop is given, \`showPercentage\` prop becomes inactive and **percentage text** is not shown.
         `,
       },
