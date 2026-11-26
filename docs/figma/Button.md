@@ -1,7 +1,6 @@
 # Button: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-10 from the token migration clone `ButtonV2`, promoted to `src/lib/components/Button` on 2026-11-11 (the
-user approved the Figma page). Figma and code match; the pre-migration Button is in `compare/baseline/Button`.
+Figma and code match; the pre-migration Button is in `compare/baseline/Button`.
 
 ## Nodes
 
@@ -34,10 +33,10 @@ user approved the Figma page). Figma and code match; the pre-migration Button is
   size): Size spec (sizes × label / icon left / icon right / icon only, metrics in the column header from `$sizes`) and
   Color spec (variants × states per shape at md). Scenarios: pill · fluid only.
 - The label binds every font property to a variable, as code does (`typography(text-*, "stronger")`): font size and
-  line height `typography/text-{step}` (xxs `text-xxs`, xs `text-xs`, sm `text-sm`, md `text-md`, lg/xl `text-lg`); the icon
-  `sizing/icon/{same step}` (14 · 16 · 18 · 22 · 24 · 24), weight
+  line height `typography/text-{step}` (xxs `text-xxs`, xs `text-xs`, sm `text-sm`, md `text-md`, lg `text-lg`, xl `text-xl`); the icon
+  `sizing/icon/{same step}` (14 · 16 · 18 · 22 · 24 · 26), weight
   `typography/weight/stronger`, family `typography/font-family`. No text style: a style's weight would win over the
-  weight binding (2026-11-25: an xxs variant had a raw 12px size and no variant bound the weight; fixed).
+  weight binding.
 - outline: 1px inside stroke with `strokesIncludedInLayout = false`, so it has the same height as solid (code: inset
   box-shadow).
 - outline has a `color/surface/default` fill (2026-11-12, user, after the Chromatic review: a transparent outline button
@@ -47,11 +46,8 @@ user approved the Figma page). Figma and code match; the pre-migration Button is
 - A neutral solid button uses `neutral/soft` → `soft-hover` → `soft-active` with `neutral/text`, not `neutral/solid`
   (user: neutral must stay close to the page tones).
 - disabled: one look for every variant (`surface/disabled`, `border/disabled`, `text/disabled`).
-- Radius `sizing/radius/md` (4px): the old Button's `radius-sm` was 4px in the default theme.
+- Radius `sizing/radius/md` (4px).
 - No Examples.
-- 2026-11-25 (control heights, #249): xs label is `label-sm` (text-xs, 12/16), so heights are xxs 20 · xs 24 · sm 32 ·
-  md 40 · lg 48 · xl 52 and match the fields of the same size; lg and xl follow `text-lg`'s 28px line.
-- 2026-11-25: xxs label `text-xxs` (11/16), a step under xs; the height stays 20. The text scale is named `xxs` …
-  `xxl` between, `3xs` / `3xl` … beyond (was `2xs` / `2xl`).
-- 2026-11-25: every size takes its own text and icon step; xl is `text-xl` (20/28) with a 26px icon (was `text-lg`,
-  24px). Height stays 52.
+- Heights xxs 20 · xs 24 · sm 32 · md 40 · lg 48 · xl 52, the same as the fields of the same size; lg and xl follow
+  their text's 28px line.
+- The text scale is named `xxs` … `xxl` between, `3xs` / `3xl` … beyond.
