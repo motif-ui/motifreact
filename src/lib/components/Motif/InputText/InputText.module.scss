@@ -84,6 +84,7 @@ $sizes: (("xs", "8x", "4x", "18x", "28x"), ("sm", "12x", "6x", "20x", "32x"), ("
 .numberButtons {
   display: flex;
   align-self: stretch;
+  border-radius: inherit;
   button {
     all: unset;
     @include transition(background-color color);
@@ -94,8 +95,8 @@ $sizes: (("xs", "8x", "4x", "18x", "28x"), ("sm", "12x", "6x", "20x", "32x"), ("
     border-left: var(--base-sizing-1x) solid var(--theme-color-border-light-disabled);
 
     &:last-child {
-      border-top-right-radius: var(--theme-sizing-radius-default);
-      border-bottom-right-radius: var(--theme-sizing-radius-default);
+      border-top-right-radius: inherit;
+      border-bottom-right-radius: inherit;
     }
     &:hover {
       color: var(--theme-color-text-base-title);
