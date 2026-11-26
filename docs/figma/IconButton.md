@@ -19,7 +19,7 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
   × `disabled`.
 - The `icon` layer is an exposed instance of Icon (`variant=inherit`) with its glyph fill overridden per variant: swap
   the glyph through the exposed `icon` property.
-- `size` is not a variant: the instance width and height bind to `sizing/16 … 52` (xxs … xxxl, md 22 default). The
+- `size` is not a variant: the instance width and height bind to `sizing/icon/xxs … xxxl` (14 · 16 · 18 · 22 · 24 · 26 · 32 · 36, md 22 default). The
   nested icon has no size binding of its own (constraints scale), so it grows with the button.
 - Hover, pressed and keyboard focus are not variants (feedback: no state variants): the Color spec overrides the glyph
   fill with `-solid-hover` / `-solid-active` (strong: `color/text/soft`; negative: `color/text/on-media-soft`) and turns
@@ -37,3 +37,5 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
   two tones only).
 - Focus ring added (code and Figma).
 - `xxxl` (52) added in code and Figma: the type allowed it, but the SCSS had no rule, so the icon fell back to 22px.
+- 2026-11-25: the size scale is the text-bound icon scale (`sizing/icon/*`); xxxl is 36 (was 52). A standalone icon
+  such as AlertModal's keeps its own fixed size (`--mtf-icon-size: sizing/52`).

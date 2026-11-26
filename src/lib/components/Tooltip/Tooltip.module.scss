@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 // size, paddingH, paddingV, text step, pointer
-$sizes: (("xs", 4, 2, "2xs", 6), ("sm", 8, 4, "xs", 8), ("md", 12, 6, "sm", 10), ("lg", 16, 8, "md", 12));
+$sizes: (("xs", 4, 2, "xxs", 6), ("sm", 8, 4, "xs", 8), ("md", 12, 6, "sm", 10), ("lg", 16, 8, "md", 12));
 
 // position, flexDirection, triangleOrder, rotation
 // The triangle is put after the text with order instead of a reversed flex direction. A reversed one makes the content

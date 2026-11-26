@@ -43,3 +43,4 @@ Built 2026-11-17 with /figma-new-component from the migrated ListView (batch 4).
   combinations), State spec (default, hover, focus, disabled=true × left contents, Light and Dark). Scenarios:
   ListView options (enableDividers, disableAvatars, selectable, enableMultiLine false and true).
 - No Examples.
+- 2026-11-25: the right icon takes `sizing/icon/{size}` like the left one (18 · 22 · 24; was 22 · 24 · 28).

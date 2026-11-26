@@ -32,7 +32,7 @@ const LeftContent = memo((props: Props) => {
     <Checkbox className={baseClasses} size={size} onChange={val => selectHandler?.(id!, Boolean(val))} />
   ) : icon ? (
     <div className={baseClasses}>
-      <GlobalIconWrapper icon={icon} className={styles.icon} />
+      <GlobalIconWrapper icon={icon} className={styles.icon} size={size} />
     </div>
   ) : image ? (
     <div className={baseClasses}>

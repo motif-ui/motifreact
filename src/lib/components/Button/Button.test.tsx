@@ -52,7 +52,7 @@ describe("Button", () => {
   });
 
   it("should render the icon when icon prop is set", () => {
-    runIconPropTest(icon => render(<Button icon={icon} />), "icon");
+    runIconPropTest(icon => render(<Button icon={icon} />), "md");
   });
 
   it("should contain both the icon and the label when both props are set", () => {
