@@ -40,7 +40,7 @@ const Checkbox = (p: PropsWithRefAndChildren<CheckboxProps, HTMLDivElement>) => 
   ]);
 
   return (
-    <div className={classNames} style={style} ref={ref} data-testid="checkbox">
+    <div className={classNames} style={style} ref={ref} data-testid="checkbox" data-mtf-component="checkbox">
       <input
         name={name}
         id={id}

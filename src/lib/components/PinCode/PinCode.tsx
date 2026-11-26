@@ -107,7 +107,7 @@ const PinCodeComponent = (p: PropsWithRef<PinCodeProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className, [size, circle && "circle"]);
 
   return (
-    <div className={classNames} style={style} ref={ref} data-testid="pinCode">
+    <div className={classNames} style={style} ref={ref} data-testid="pinCode" data-mtf-component="pin-code">
       <PinCodeContext value={contextValues}>{renderPinCodeItems()}</PinCodeContext>
     </div>
   );

@@ -7,6 +7,15 @@ $sizes: (
   ("md", "xs", "6x", "16x", "8x", "28x"),
   ("lg", "sm", "8x", "20x", "10x", "32x")
 );
+$required-mark: "*";
+
+@mixin required-mark-anchor {
+  .inputContainer > :first-child:not(.groupItems),
+  &.horizontalGroup .groupItems > :last-child,
+  &.verticalGroup .groupItems > :first-child {
+    @content;
+  }
+}
 
 .Root {
   display: flex;
@@ -52,6 +61,42 @@ $sizes: (
   }
 }
 
+.required:not([data-has-label]) {
+  @include required-mark-anchor {
+    position: relative;
+    &[data-mtf-component="checkbox"],
+    &[data-mtf-component="switch"],
+    &[data-mtf-component="radio-group"],
+    &[data-mtf-component="pin-code"] {
+      align-self: flex-start;
+    }
+    &::after {
+      content: $required-mark;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      padding-left: var(--base-sizing-2x);
+      color: var(--theme-color-text-base-caption);
+    }
+  }
+
+  &.error {
+    @include required-mark-anchor {
+      &::after {
+        color: var(--theme-color-text-danger-default);
+      }
+    }
+  }
+
+  &.disabled {
+    @include required-mark-anchor {
+      &::after {
+        color: var(--theme-color-text-base-disabled);
+      }
+    }
+  }
+}
+
 .helper {
   color: var(--theme-color-text-base-caption);
   white-space: pre-line;
@@ -92,7 +137,7 @@ $sizes: (
 .horizontalLabel {
   align-items: flex-start;
   &.required .label::before {
-    content: "*";
+    content: $required-mark;
   }
   &.horizontalForm .inputContainer {
     flex: 1;
@@ -102,7 +147,7 @@ $sizes: (
 .verticalLabel {
   flex-direction: column;
   &.required .label::after {
-    content: "*";
+    content: $required-mark;
   }
 }
 
@@ -163,6 +208,14 @@ $sizes: (
 
     .label {
       @include font("base", $size, "500");
+    }
+
+    &.required:not([data-has-label]) {
+      @include required-mark-anchor {
+        &::after {
+          @include font("base", $size, "700");
+        }
+      }
     }
 
     .helper {

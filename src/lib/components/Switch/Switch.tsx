@@ -39,7 +39,7 @@ const Switch = (p: PropsWithRef<SwitchProps, HTMLDivElement>) => {
   ]);
 
   return (
-    <div className={classNames} ref={ref} style={style}>
+    <div className={classNames} ref={ref} style={style} data-mtf-component="switch">
       <input
         type="checkbox"
         role="switch"
