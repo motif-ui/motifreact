@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 // Each size is the icon beside text of that size (--mtf-sizing-icon-*: font × 4/3, never taller than the line)
-$sizes: "xxs", "xs", "sm", "md", "lg", "xl", "xxl", "xxxl";
+$sizes: "xxs", "xs", "sm", "md", "lg", "xl", "xxl";
 
 // The `!important`s are a documented exception (css.md §3): an icon font's own class (material-symbols and the like) sets
 // display and font-size with the same specificity, and the consumer decides which stylesheet loads last

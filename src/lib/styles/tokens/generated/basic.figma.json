@@ -5633,18 +5633,6 @@
           }
         },
         {
-          "name": "sizing/icon/xxxl",
-          "type": "FLOAT",
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "hiddenFromPublishing": false,
-          "description": "36px · icon beside text-3xl",
-          "values": {
-            "Value": 36
-          }
-        },
-        {
           "name": "sizing/container/xs",
           "type": "FLOAT",
           "scopes": [
