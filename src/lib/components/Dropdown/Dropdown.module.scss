@@ -113,10 +113,8 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
       }
     }
 
-    // textOnly takes the variant's surface color as its text color. secondary has no rule: the neutral textOnly colors
-    // already cover it. Kept off :disabled so the textOnly disabled color stays.
     @if $variant != "secondary" {
-      &.textOnly.#{$variant}:not(:disabled) {
+      &.textOnly.#{$variant} {
         color: var(--theme-color-surface-#{$variant}-default);
 
         &:hover {
@@ -124,6 +122,9 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
         }
         &:active {
           color: var(--theme-color-surface-#{$variant}-active);
+        }
+        &:disabled {
+          color: var(--theme-color-text-base-disabled);
         }
       }
     }

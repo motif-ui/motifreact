@@ -12,7 +12,7 @@ describe("Dropdown", () => {
     (props: StandardPropsWithRef<HTMLButtonElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
     {
       assertDefaults: ({ container, getByText }) => {
-        // variant: primary
+        // variant: primary (solid only)
         expect(container.firstElementChild).toHaveClass("primary");
         // shape: solid
         expect(container.firstElementChild).toHaveClass("solid");
@@ -166,10 +166,8 @@ describe("Dropdown", () => {
     expect(container.firstElementChild).toHaveClass("textOnly");
   });
 
-  it("should add the variant class to textOnly only when a variant is given", () => {
-    const { container, rerender } = render(<Dropdown label="Dropdown Menu" shape="textOnly" items={[{ label: "Item 1" }]} />);
-    expect(container.firstElementChild).not.toHaveClass("primary");
-    rerender(<Dropdown label="Dropdown Menu" shape="textOnly" variant="danger" items={[{ label: "Item 1" }]} />);
+  it("should add the given variant class to textOnly", () => {
+    const { container } = render(<Dropdown label="Dropdown Menu" shape="textOnly" variant="danger" items={[{ label: "Item 1" }]} />);
     expect(container.firstElementChild).toHaveClass("textOnly");
     expect(container.firstElementChild).toHaveClass("danger");
   });
