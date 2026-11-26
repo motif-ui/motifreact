@@ -1,7 +1,5 @@
 # Switch: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-19 with /figma-new-component from the migrated code (batch 5).
-
 ## Nodes
 
 | What                                           | ID                                         |

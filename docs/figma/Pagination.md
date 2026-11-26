@@ -1,7 +1,5 @@
 # Pagination: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-17 with /figma-new-component from the migrated Pagination (batch 4).
-
 ## Nodes
 
 | What                                                     | ID                                         |

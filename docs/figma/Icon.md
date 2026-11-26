@@ -1,7 +1,5 @@
 # Icon: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton token migration).
-
 ## Nodes
 
 | What                                                           | ID                                                      |
@@ -27,19 +25,14 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
 
 ## Embedded icons
 
-- The 40 `Icon/<name>` glyph components (the `motif-icons-default` font in `src/lib/components/Motif/Icon`) moved from
-  the deleted Internal page `_Icons` to this page's Internal Icons section (IDs unchanged, so every instance in the file kept
-  its link). Their descriptions no longer say temporary.
+- The 40 `Icon/<name>` glyph components (the `motif-icons-default` font in `src/lib/components/Motif/Icon`) live in this
+  page's Internal Icons section.
 - `src/lib/components/Icon/motif-icon-names.ts` (274 names) is the app icon set loaded from the CDN (`motif-icons.css`),
   used only by stories and tests. It is the consumer's set and is not in Figma (note on the doc page).
 
 ## Decisions (user, 2026-11-20)
 
-- The icon keeps no color of its own in code (inherits); a default color was discussed and rejected.
+- The icon keeps no color of its own in code (inherits).
 - Size is the instance size bound to sizing variables, not a variant axis.
-- 2026-11-25: sizes come from `sizing/icon/*` (user: an icon belongs beside text of its size; md field = md icon). xs 18 → 16,
-  xxs 16 → 14, xxxl 52 → 36. Standalone icons (AlertModal 52) set `--mtf-icon-size` themselves.
-- 2026-11-26 (#246, user): a component's `size` has at most seven sizes, xxs … xxl; xxxl is removed (code, token
-  `sizing/icon/xxxl`, Figma). A larger icon gets its size in the component's SCSS (`--mtf-icon-size`, e.g. AlertModal
-  `sizing/52`). Figma: the doc instances (Variants, Light & Dark, Anatomy) moved from the raw `sizing/16 … 52` to
-  `sizing/icon/*`.
+- A component's `size` has at most seven sizes, xxs … xxl. A larger icon gets its size in the component's SCSS
+  (`--mtf-icon-size`, e.g. AlertModal `sizing/52`).

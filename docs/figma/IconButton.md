@@ -1,7 +1,5 @@
 # IconButton: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton token migration).
-
 ## Nodes
 
 | What                                           | ID                                                       |
@@ -32,12 +30,5 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
 
 ## Decisions (user, 2026-11-20)
 
-- Default variant secondary → neutral (keeps the gray look; breaking-page note).
 - Disabled `color/text/disabled`; negative disabled `color/text/on-media-soft` (same as its hover: the media tokens have
   two tones only).
-- Focus ring added (code and Figma).
-- `xxxl` (52) added in code and Figma: the type allowed it, but the SCSS had no rule, so the icon fell back to 22px.
-- 2026-11-25: the size scale is the text-bound icon scale (`sizing/icon/*`); xxxl is 36 (was 52). A standalone icon
-  such as AlertModal's keeps its own fixed size (`--mtf-icon-size: sizing/52`).
-- 2026-11-26 (#246, user): xxxl is removed, like Icon: sizes end at xxl. Figma: the doc instances moved from the raw
-  `sizing/*` to `sizing/icon/*`.
