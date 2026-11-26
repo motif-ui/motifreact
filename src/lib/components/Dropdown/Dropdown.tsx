@@ -52,8 +52,7 @@ const Dropdown = (props: PropsWithRef<DropdownProps, HTMLButtonElement>) => {
   const mergedRef = useMemo(() => mergeRefs(anchorRef, ref), [ref]);
 
   const side = placement.startsWith("top") ? "top" : "bottom";
-  // solid defaults to primary; textOnly stays neutral unless a variant is given.
-  const variantClass = variant ?? (shape === "solid" && "primary");
+  const variantClass = variant ?? (shape === "solid" ? "primary" : "neutral");
   const buttonClassNames = sanitizeModuleRootClasses(styles, className, [size, shape, variantClass, open && "open", pill && "pill"]);
   const overlayClassNames = sanitizeModuleClasses(styles, "Menu", size, spacing, side);
 

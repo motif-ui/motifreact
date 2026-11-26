@@ -1,0 +1,236 @@
+@use "@styles" as *;
+
+$sizes: (
+  // size, buttonPaddingAndGap, itemPaddingAndGap
+  ("xs", "4x", "6x"),
+  ("sm", "6x", "8x"),
+  ("md", "8x", "10x"),
+  ("lg", "10x", "12x")
+);
+
+$states: "hover", "active", "disabled";
+$variants: ("primary", "secondary", "info", "success", "warning", "danger");
+$caret-margin: var(--base-sizing-12x);
+
+// The caret points near the anchor's right edge. It is kept in the menu, e.g. when the menu is shifted into the screen.
+$caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-margin), calc(100% - $caret-margin));
+
+@mixin caret-tip($pos) {
+  &::after,
+  &::before {
+    border: solid transparent;
+    content: " ";
+    position: absolute;
+    pointer-events: none;
+    @if $pos == bottom {
+      top: var(--base-sizing-2x);
+    } @else {
+      bottom: var(--base-sizing-2x);
+    }
+  }
+  &::before {
+    left: calc($caret-center - var(--base-sizing-6x));
+    border-#{$pos}-color: var(--theme-color-surface-base-base7);
+    @if $pos == bottom {
+      border-width: 0 var(--base-sizing-6x) var(--base-sizing-10x) var(--base-sizing-6x);
+    } @else {
+      border-width: var(--base-sizing-10x) var(--base-sizing-6x) 0 var(--base-sizing-6x);
+    }
+  }
+  &::after {
+    left: calc($caret-center - var(--base-sizing-4x));
+    border-#{$pos}-color: var(--theme-color-surface-base-bg-light);
+    @if $pos == bottom {
+      border-width: var(--base-sizing-2x) var(--base-sizing-4x) var(--base-sizing-10x) var(--base-sizing-4x);
+    } @else {
+      border-width: var(--base-sizing-10x) var(--base-sizing-4x) var(--base-sizing-2x) var(--base-sizing-4x);
+    }
+  }
+}
+
+// =============================================================================
+// Dropdown Button
+// =============================================================================
+.Root {
+  display: inline-flex;
+  justify-content: space-between;
+  border-radius: var(--theme-sizing-radius-default);
+  align-items: center;
+  border: none;
+  overflow-wrap: break-word;
+  min-width: max-content;
+  @include transition(background color);
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:focus-visible {
+    border: solid var(--base-sizing-1x) var(--theme-color-surface-base-bg-light);
+    outline: solid var(--base-sizing-4x) var(--theme-color-border-primary-focus);
+  }
+
+  .arrowIcon {
+    @include transition(rotate);
+  }
+  &.open .arrowIcon {
+    rotate: 180deg;
+  }
+
+  &.pill {
+    border-radius: var(--theme-sizing-radius-round);
+  }
+
+  &.textOnly {
+    background: transparent;
+    color: var(--theme-color-text-base-subtitle);
+
+    &:hover,
+    &:active {
+      color: var(--theme-color-text-base-text-dark);
+    }
+    &:disabled {
+      color: var(--theme-color-text-base-disabled);
+    }
+  }
+
+  @each $variant in $variants {
+    $color: if(sass($variant == "secondary"): "light"; else: $variant);
+    &.solid.#{$variant} {
+      background-color: var(--theme-color-surface-#{$color}-default);
+      color: if(sass($variant == "secondary" or $variant == "warning"): var(--theme-color-text-base-title); else: var(--theme-color-text-base-global-light));
+
+      @each $state in $states {
+        &:#{$state} {
+          background-color: var(--theme-color-surface-#{$color}-#{$state});
+          @if $variant == "secondary" {
+            color: var(--theme-color-text-light-#{$state});
+          }
+          @if $variant == "warning" and $state == "disabled" {
+            color: var(--theme-color-text-base-default-overlay50);
+          }
+        }
+      }
+    }
+
+    @if $variant != "secondary" {
+      &.textOnly.#{$variant} {
+        color: var(--theme-color-surface-#{$variant}-default);
+
+        &:hover {
+          color: var(--theme-color-surface-#{$variant}-hover);
+        }
+        &:active {
+          color: var(--theme-color-surface-#{$variant}-active);
+        }
+        &:disabled {
+          color: var(--theme-color-text-base-disabled);
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// Dropdown Menu
+// =============================================================================
+.Menu {
+  z-index: z-layer("anchored");
+  position: absolute;
+  width: max-content;
+  box-sizing: border-box;
+  margin-inline: var(--base-sizing-8x);
+
+  &.bottom {
+    padding-top: var(--base-sizing-10x);
+  }
+  &.top {
+    padding-bottom: var(--base-sizing-10x);
+  }
+  &.noSpace {
+    padding-block: 0;
+  }
+}
+
+@each $pos in bottom, top {
+  .#{$pos}.callout {
+    @include caret-tip($pos);
+  }
+}
+
+.MenuList {
+  list-style: none;
+  padding: 0;
+  margin-block: 0;
+  position: relative;
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  border-radius: var(--theme-sizing-radius-default);
+  background-color: var(--theme-color-surface-base-global-light);
+  @include shadow(6);
+}
+
+// =============================================================================
+// Dropdown Menu Item
+// =============================================================================
+.MenuItem {
+  @include transition(color background-color);
+  color: var(--theme-color-text-base-subtitle);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+
+  li:first-child & {
+    border-top-left-radius: var(--theme-sizing-radius-default);
+    border-top-right-radius: var(--theme-sizing-radius-default);
+  }
+  li:last-child & {
+    border-bottom-left-radius: var(--theme-sizing-radius-default);
+    border-bottom-right-radius: var(--theme-sizing-radius-default);
+  }
+  li:not(:last-child) & {
+    border-bottom: solid var(--base-sizing-1x) var(--theme-color-surface-base-base6);
+  }
+
+  &.MenuItem_disabled,
+  &.MenuItem_header {
+    pointer-events: none;
+    color: var(--theme-color-text-base-caption-light);
+  }
+
+  &.MenuItem_clickable {
+    cursor: pointer;
+    &:hover {
+      background: var(--theme-color-surface-base-base4);
+      color: var(--theme-color-text-base-text-dark);
+    }
+  }
+
+  .icon:first-child:last-child {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+// =============================================================================
+// COMMON
+// =============================================================================
+@each $size, $buttonPaddingAndGap, $itemPaddingAndGap in $sizes {
+  .#{$size} {
+    &.Root {
+      padding: var(--base-sizing-#{$buttonPaddingAndGap});
+      gap: var(--base-sizing-#{$buttonPaddingAndGap});
+      @include font("base", $size, "500");
+    }
+    .MenuItem {
+      padding: var(--base-sizing-#{$itemPaddingAndGap});
+      gap: var(--base-sizing-#{$itemPaddingAndGap});
+      &.MenuItem_clickable {
+        @include font("body", $size);
+      }
+      &.MenuItem_header {
+        @include font("base", $size, "500");
+      }
+    }
+  }
+}

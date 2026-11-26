@@ -1,10 +1,10 @@
 import type { IconGlobalType } from "../../types";
 import { ReactElement } from "react";
-import { PropsWithRef } from "../../types";
+import { PropsWithRef, VariantV2 } from "../../types";
 
 export type ToastPosition = "topLeft" | "topRight" | "top" | "bottomLeft" | "bottomRight" | "bottom";
 
-export type ToastVariant = "secondary" | "danger" | "warning" | "info" | "success";
+export type ToastVariant = VariantV2;
 
 export type ToastProps = {
   id: string;

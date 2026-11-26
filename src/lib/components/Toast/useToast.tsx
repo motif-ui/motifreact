@@ -53,11 +53,14 @@ export const useToast: () => UseToastProps = () => {
   const { top, bottom, topRight, topLeft, bottomRight, bottomLeft } = state.toasts;
 
   return {
+    neutral: createToast("neutral"),
+    primary: createToast("primary"),
+    secondary: createToast("secondary"),
+    accent: createToast("accent"),
+    info: createToast("info"),
     success: createToast("success"),
     warning: createToast("warning"),
-    info: createToast("info"),
     danger: createToast("danger"),
-    secondary: createToast("secondary"),
     toasts: (
       <>
         <ToastsInPosition toasts={topRight} position="topRight" />

@@ -50,6 +50,7 @@ export default {
         "src/lib/components/Container/**/*.scss",
         "src/lib/components/DataView/**/*.scss",
         "src/lib/components/Divider/**/*.scss",
+        "src/lib/components/Dropdown/**/*.scss",
         "src/lib/components/Icon/**/*.scss",
         "src/lib/components/IconButton/**/*.scss",
         "src/lib/components/ImageView/**/*.scss",
@@ -58,6 +59,7 @@ export default {
         "src/lib/components/InputText/**/*.scss",
         "src/lib/components/Link/**/*.scss",
         "src/lib/components/ListView/**/*.scss",
+        "src/lib/components/Modal/**/*.scss",
         "src/lib/components/Motif/InputText/**/*.scss",
         "src/lib/components/Pagination/**/*.scss",
         "src/lib/components/Panel/**/*.scss",
@@ -73,6 +75,7 @@ export default {
         "src/lib/components/Text/**/*.scss",
         "src/lib/components/Textarea/**/*.scss",
         "src/lib/components/Timeline/**/*.scss",
+        "src/lib/components/Toast/**/*.scss",
         "src/lib/components/Tooltip/**/*.scss",
       ],
       rules: {

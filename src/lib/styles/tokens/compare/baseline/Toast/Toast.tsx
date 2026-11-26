@@ -1,0 +1,87 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import styles from "./ToastBaseline.module.scss";
+import GlobalIconWrapper from "../../../../../components/Motif/GlobalIconWrapper/GlobalIconWrapper";
+import { MotifIconButton } from "@/components/Motif/Icon";
+import useTimeout from "../../../../../hooks/useTimeout";
+import { PropsWithRef } from "../../../../../types";
+import { ToastProps } from "./types";
+import { sanitizeModuleRootClasses } from "src/utils/cssUtils.ts";
+import ProgressBar from "@/components/ProgressBar";
+
+const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
+  const { variant, title, content, duration, closable, icon, onDismiss, position, maxContentLength, ref, id, style, className } = props;
+
+  const [dismissed, setDismissed] = useState(false);
+  const [closing, setClosing] = useState(false);
+  const closingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const toastClasses = sanitizeModuleRootClasses(styles, className, [variant, closing && "closing"]);
+
+  const handleDismiss = useCallback(() => {
+    setClosing(true);
+    closingTimeoutRef.current = setTimeout(() => {
+      setDismissed(true);
+      onDismiss?.(id, position);
+    }, 300);
+  }, [id, position, onDismiss]);
+
+  const timer = useTimeout(handleDismiss, duration);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (duration !== undefined) timer.start();
+  }, [duration, timer]);
+
+  useEffect(() => {
+    return () => {
+      closingTimeoutRef.current && clearTimeout(closingTimeoutRef.current);
+    };
+  }, []);
+
+  const handleEnter = useCallback(() => {
+    timer.pause();
+    setPaused(true);
+  }, [timer]);
+
+  const handleLeave = useCallback(() => {
+    timer.start();
+    setPaused(false);
+  }, [timer]);
+
+  const handlers = useMemo(
+    () =>
+      closable && {
+        onMouseEnter: handleEnter,
+        onMouseLeave: handleLeave,
+        onTouchStart: handleEnter,
+        onTouchEnd: handleLeave,
+      },
+    [closable, handleEnter, handleLeave],
+  );
+
+  return (
+    !dismissed && (
+      <div ref={ref} className={toastClasses} data-testid="toast" style={style} {...handlers}>
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="xxl" />}
+
+        <div className={styles.contentContainer}>
+          {title && <span className={styles.title}>{title}</span>}
+          <span className={styles.content}>
+            {maxContentLength !== undefined && maxContentLength > 0 && maxContentLength < content.length
+              ? content.substring(0, maxContentLength).concat("...")
+              : content}
+          </span>
+        </div>
+
+        {closable && <MotifIconButton name="close" onClick={handleDismiss} size="lg" />}
+
+        {duration !== undefined && <ProgressBar size="sm" variant={variant} className={styles.progress} countdown={{ duration, paused }} />}
+      </div>
+    )
+  );
+};
+
+Toast.displayName = "Toast";
+export default Toast;
