@@ -258,5 +258,7 @@ draws its border inside, so the border takes no room and every control of a size
   `--mtf-sizing-1` inside it.
 - An icon beside text takes `--mtf-sizing-icon-{size}` of the component's own size or text step (font × 4/3, never
   taller than the line), so it never makes a control taller and an md control has an md icon. Flag a fixed
-  `sizing-N`, a per-component icon column or a size map for such an icon; a standalone icon (AlertModal) keeps a fixed
-  size via `--mtf-icon-size`.
+  `sizing-N`, a per-component icon column or a size map for such an icon.
+- A component's `size` prop has at most seven sizes, `xxs` … `xxl`. An icon outside that scale (a standalone icon:
+  AlertModal 52, Avatar, Card) gets its size in the component's SCSS via `--mtf-icon-size: var(--mtf-sizing-N)`; flag a
+  new size beyond `xxl` instead.

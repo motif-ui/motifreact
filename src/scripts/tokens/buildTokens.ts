@@ -70,7 +70,6 @@ const ICON_STEPS: [string, string][] = [
   ["lg", "text-lg"],
   ["xl", "text-xl"],
   ["xxl", "text-xxl"],
-  ["xxxl", "text-3xl"],
 ];
 const CONTAINERS: [string, number][] = [
   ["xs", 360],

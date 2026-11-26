@@ -3,7 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import IconButton from "./IconButton";
 import { motifIconNames } from "../Icon/motif-icon-names";
 import { MOTIF_ICONS_DEFAULT_CLASS } from "../../constants";
-import { Size10LG, VariantV2 } from "../../types";
+import { Size7, VariantV2 } from "../../types";
 import Icon from "@/components/Icon";
 import MotifProvider from "../../motif/context/MotifProvider";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
@@ -33,7 +33,7 @@ describe("IconButton", () => {
   });
 
   it("should be rendered with the size prop", () => {
-    const sizes: Size10LG[] = ["xxs", "sm", "md", "lg", "xs", "xl", "xxl", "3xl", "4xl", "5xl"];
+    const sizes: Size7[] = ["xxs", "sm", "md", "lg", "xs", "xl", "xxl"];
 
     for (const size of sizes) {
       const { container } = render(<IconButton name="account_circle" size={size} />);

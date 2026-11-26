@@ -98,6 +98,11 @@ $content-positions: (
   padding: var(--base-sizing-16x);
 }
 
+// The old xxxl icon (52px); the shared Icon has no xxxl now
+.icon {
+  --mtf-icon-size: var(--base-sizing-52x);
+}
+
 .alertModalActions {
   display: flex;
   flex-wrap: wrap;

@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 $variants: "primary", "secondary", "info", "success", "warning", "danger";
-$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"), ("3xl", "52x"));
+$sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24x"), ("xl", "28x"), ("xxl", "32x"), ("xxxl", "52x"));
 
 .Root {
   display: inline-block !important;
@@ -33,7 +33,7 @@ $sizes: (("xxs", "16x"), ("xs", "18x"), ("sm", "20x"), ("md", "22x"), ("lg", "24
 }
 
 @each $size, $fontSize in $sizes {
-  .#{class-name($size)} {
+  .#{$size} {
     --mtf-icon-size: var(--base-sizing-#{$fontSize});
   }
 }

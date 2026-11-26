@@ -21,8 +21,8 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
   The others: `color/{variant}/solid`.
 - `icon` (instance swap, `icon#361:0`) on the `glyph` layer, preferred values: the 40 embedded glyphs.
 - `size` is not a variant (docs/review/figma.md: a prop that only changes the dimensions): the instance width and height
-  bind to `sizing/icon/xxs … xxxl` (14 · 16 · 18 · 22 · 24 · 26 · 32 · 36, md 22 default): the icon beside text of that
-  size, font × 4/3 on the 2px grid, never taller than the line. The glyph scales with the box.
+  bind to `sizing/icon/xxs … xxl` (14 · 16 · 18 · 22 · 24 · 26 · 32, md 22 default): the icon
+  beside text of that size, font × 4/3 on the 2px grid, never taller than the line. The glyph scales with the box.
 - Table: column `variant` (inherit first, equal column widths); one row `md`.
 
 ## Embedded icons
@@ -39,3 +39,7 @@ Built 2026-11-20 with /figma-sync from the migrated code (Icon + IconButton toke
 - Size is the instance size bound to sizing variables, not a variant axis.
 - 2026-11-25: sizes come from `sizing/icon/*` (user: an icon belongs beside text of its size; md field = md icon). xs 18 → 16,
   xxs 16 → 14, xxxl 52 → 36. Standalone icons (AlertModal 52) set `--mtf-icon-size` themselves.
+- 2026-11-26 (#246, user): a component's `size` has at most seven sizes, xxs … xxl; xxxl is removed (code, token
+  `sizing/icon/xxxl`, Figma). A larger icon gets its size in the component's SCSS (`--mtf-icon-size`, e.g. AlertModal
+  `sizing/52`). Figma: the doc instances (Variants, Light & Dark, Anatomy) moved from the raw `sizing/16 … 52` to
+  `sizing/icon/*`.
