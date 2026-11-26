@@ -28,6 +28,23 @@ export type CardProps = {
   iconVariant?: Variant;
   avatarIcon?: IconGlobalType;
   image?: string;
+  /**
+   * Runs `onClick`, or opens a dropdown with the given `items`.
+   * ```
+   * {
+   *   icon: IconGlobalType;
+   *   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+   *   items?: {
+   *     label?: string;
+   *     icon?: IconGlobalType;
+   *     iconColor?: string;
+   *     header?: string;
+   *     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+   *     disabled?: boolean;
+   *   }[];
+   * }
+   * ```
+   */
   action?: CardHeaderAction;
   contentTitle?: string;
   contentSubtitle?: string;

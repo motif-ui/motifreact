@@ -57,7 +57,7 @@ $dropdown-gap: var(--base-sizing-10x);
 $caret-margin: var(--base-sizing-12x);
 
 // The caret points near the action's right edge. It is kept in the dropdown, e.g. when the dropdown is shifted into the screen.
-$caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-margin), calc(100% - $caret-margin));
+$caret-center: clamp($caret-margin, calc((var(--overlay-anchor-left) + var(--overlay-anchor-right)) / 2), calc(100% - $caret-margin));
 
 .Root {
   border-radius: var(--theme-sizing-radius-default);
