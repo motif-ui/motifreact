@@ -53,10 +53,6 @@ $sizes: (("xxs", 2, 4), ("xs", 4, 8), ("sm", 6, 12), ("md", 8, 16), ("lg", 10, 2
     padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
     gap: var(--mtf-sizing-space-#{$paddingV});
     @include typography("text-#{$size}", "stronger");
-
-    .icon {
-      --mtf-icon-size: var(--mtf-sizing-icon-#{$size});
-    }
   }
 }
 

@@ -36,7 +36,7 @@ const Breadcrumb = (props: PropsWithRef<BreadcrumbProps, HTMLUListElement>) => {
         {index < itemsToRender.length - 1 ? (
           <>
             {crumb.path ? <a href={crumb.path}>{crumb.label}</a> : <span className={styles.collapsed}>{crumb.label}</span>}
-            <MotifIcon name="arrow_forward_ios" className={styles["right-icon"]} />
+            <MotifIcon name="arrow_forward_ios" className={styles["right-icon"]} size="xxs" />
           </>
         ) : (
           <span className={styles.label}>{crumb.label}</span>
@@ -51,9 +51,9 @@ const Breadcrumb = (props: PropsWithRef<BreadcrumbProps, HTMLUListElement>) => {
       <ul className={classNames} ref={ref} style={style}>
         {itemsToRender.length > 0 &&
           (homeIcon ? (
-            <GlobalIconWrapper icon={homeIcon} className={styles["homepage-icon"]} />
+            <GlobalIconWrapper icon={homeIcon} className={styles["homepage-icon"]} size="md" />
           ) : (
-            <MotifIcon name="home" className={styles["homepage-icon"]} />
+            <MotifIcon name="home" className={styles["homepage-icon"]} size="md" />
           ))}
         {renderCrumbs()}
       </ul>

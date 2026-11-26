@@ -139,10 +139,6 @@ $sizes: (("xs", 8, 4, 4), ("sm", 12, 6, 6), ("md", 16, 8, 8), ("lg", 20, 10, 10)
       padding: var(--mtf-sizing-space-#{$paddingV});
     }
 
-    .icon {
-      --mtf-icon-size: var(--mtf-sizing-icon-#{$size});
-    }
-
     // The menu items read as list text, not as buttons
     &.button__dropdownItem .button {
       @include typography("text-#{$size}", "regular");

@@ -42,9 +42,5 @@ $sizes: (("sm", 4), ("md", 6), ("lg", 8));
   .#{$size} {
     gap: var(--mtf-sizing-space-#{$gap});
     @include typography("text-#{$size}", "strong");
-
-    .icon {
-      --mtf-icon-size: var(--mtf-sizing-icon-#{$size});
-    }
   }
 }

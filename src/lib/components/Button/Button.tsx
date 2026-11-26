@@ -37,7 +37,7 @@ const Button = (props: PropsWithRef<ButtonProps, HTMLButtonElement>) => {
   return (
     (icon || label) && (
       <button className={classNames} onClick={onClick} {...(disabled && { disabled })} type={htmlType} ref={ref} style={style}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} />}
+        {icon && <GlobalIconWrapper icon={icon} size={size} />}
         {label && <span>{label}</span>}
       </button>
     )

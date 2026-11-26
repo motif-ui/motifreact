@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, padding, box, gap
-$sizes: (("xs", 4, 16, 4), ("sm", 6, 20, 8), ("md", 8, 24, 12), ("lg", 10, 28, 16));
+// size, padding, gap
+$sizes: (("xs", 4, 4), ("sm", 6, 8), ("md", 8, 12), ("lg", 10, 16));
 
 .Root {
   display: inline-flex;
@@ -24,7 +24,7 @@ $sizes: (("xs", 4, 16, 4), ("sm", 6, 20, 8), ("md", 8, 24, 12), ("lg", 10, 28, 1
   pointer-events: none;
 }
 
-@each $size, $padding, $box, $gap in $sizes {
+@each $size, $padding, $gap in $sizes {
   .#{$size} {
     gap: var(--mtf-sizing-space-#{$gap});
 
@@ -35,8 +35,8 @@ $sizes: (("xs", 4, 16, 4), ("sm", 6, 20, 8), ("md", 8, 24, 12), ("lg", 10, 28, 1
 
     .input input {
       flex: none;
-      width: var(--mtf-sizing-#{$box});
-      height: var(--mtf-sizing-#{$box});
+      width: var(--mtf-typography-text-#{$size}-line-height);
+      height: var(--mtf-typography-text-#{$size}-line-height);
       padding: 0;
       @include typography("text-#{$size}", "regular");
     }

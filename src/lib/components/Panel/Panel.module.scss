@@ -50,7 +50,6 @@ $title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
 }
 
 .title-icon {
-  --mtf-icon-size: var(--mtf-sizing-22);
   margin-right: var(--mtf-sizing-space-8);
   color: var(--mtf-color-text-softer);
   vertical-align: text-top;
