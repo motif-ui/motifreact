@@ -3,14 +3,33 @@
 // size (also the label's text step), helper step, gapVLabel, gapHLabel, marginTopHLabel, gapHGroupItems
 $sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6, 16, 8, 28), ("lg", "sm", 8, 20, 10, 32));
 
+@mixin required-mark-anchor {
+  .inputContainer > :first-child:not(.groupItems),
+  &.horizontalGroup .groupItems > :last-child,
+  &.verticalGroup .groupItems > :first-child {
+    @content;
+  }
+}
+
 .Root {
   display: flex;
 }
 
-// The required mark: before a horizontal label, after a vertical one. The mark comes from the required modifier and its
-// place from the label orientation, two axes whose combined selector would exceed the specificity limit (css.md section 4)
+// The required mark: before a horizontal label, after a vertical one, or at the top right of the input when there is no
+// label. The mark comes from the required modifier and its place from the label orientation, two axes whose combined
+// selector would exceed the specificity limit (css.md section 4)
 .required {
   --mtf-form-field-mark: "*";
+}
+
+// The mark's color comes from the state and is read by both marks (on the label and on a field without a label), whose
+// combined selectors would exceed the specificity limit (css.md section 4)
+.error {
+  --mtf-form-field-mark-color: var(--mtf-color-danger-text);
+}
+
+.disabled {
+  --mtf-form-field-mark-color: var(--mtf-color-text-disabled);
 }
 
 .label {
@@ -19,7 +38,7 @@ $sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6
   &::before,
   &::after {
     padding: 0 var(--mtf-sizing-space-2);
-    color: var(--mtf-color-text-softer);
+    color: var(--mtf-form-field-mark-color, var(--mtf-color-text-softer));
     font-weight: var(--mtf-typography-weight-strongest);
   }
 
@@ -28,16 +47,28 @@ $sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6
     content: var(--mtf-form-field-mark, none);
   }
 
-  // After the base colors: same specificity, so error and disabled win by order
-  .error &::before,
-  .error &::after {
-    color: var(--mtf-color-danger-text);
-  }
-
-  .disabled &,
-  .disabled &::before,
-  .disabled &::after {
+  .disabled & {
     color: var(--mtf-color-text-disabled);
+  }
+}
+
+.required:not([data-has-label]) {
+  @include required-mark-anchor {
+    position: relative;
+    &[data-mtf-component="checkbox"],
+    &[data-mtf-component="switch"],
+    &[data-mtf-component="radio-group"],
+    &[data-mtf-component="pin-code"] {
+      align-self: flex-start;
+    }
+    &::after {
+      content: var(--mtf-form-field-mark, none);
+      position: absolute;
+      top: 0;
+      left: 100%;
+      padding-left: var(--mtf-sizing-space-2);
+      color: var(--mtf-form-field-mark-color, var(--mtf-color-text-softer));
+    }
   }
 }
 
@@ -161,6 +192,14 @@ $sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6
 
     .label {
       @include typography("text-#{$size}", "strong");
+    }
+
+    &.required:not([data-has-label]) {
+      @include required-mark-anchor {
+        &::after {
+          @include typography("text-#{$size}", "strongest");
+        }
+      }
     }
 
     .helper {

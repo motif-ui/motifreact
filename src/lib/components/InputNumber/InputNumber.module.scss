@@ -1,3 +1,5 @@
+@use "@styles" as *;
+
 .Root {
-  overflow: hidden;
+  @include retain-scoped-class;
 }

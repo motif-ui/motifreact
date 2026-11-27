@@ -48,12 +48,16 @@ $sizes: (("xs", 8, 4), ("sm", 12, 6), ("md", 16, 8), ("lg", 20, 10));
 
   &.error {
     box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-danger-border);
-    .iconRight { color: var(--mtf-color-danger-text); }
+    .iconRight {
+      color: var(--mtf-color-danger-text);
+    }
   }
 
   &.success {
     box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-success-border);
-    .iconRight { color: var(--mtf-color-success-text); }
+    .iconRight {
+      color: var(--mtf-color-success-text);
+    }
   }
 }
 

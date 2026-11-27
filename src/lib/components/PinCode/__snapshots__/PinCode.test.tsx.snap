@@ -4,6 +4,7 @@ exports[`PinCode should render with only required props, have default prop value
 <div>
   <div
     class="Root md"
+    data-mtf-component="pin-code"
     data-testid="pinCode"
   >
     <div

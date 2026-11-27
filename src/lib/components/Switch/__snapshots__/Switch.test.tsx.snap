@@ -4,6 +4,7 @@ exports[`Switch should render with only required props, have default prop values
 <div>
   <div
     class="Root md"
+    data-mtf-component="switch"
   >
     <input
       class="input"

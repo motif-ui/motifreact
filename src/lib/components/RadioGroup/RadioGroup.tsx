@@ -48,7 +48,7 @@ const RadioGroup = (p: PropsWithRef<RadioGroupProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className, [orientation, size, inFormField && "inFormField"]);
 
   return (
-    <div className={classNames} ref={ref} style={style} role="radiogroup">
+    <div className={classNames} ref={ref} style={style} role="radiogroup" data-mtf-component="radio-group">
       <RadioGroupContext value={contextValue}>{children}</RadioGroupContext>
     </div>
   );

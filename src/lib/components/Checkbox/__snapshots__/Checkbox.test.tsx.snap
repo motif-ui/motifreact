@@ -4,6 +4,7 @@ exports[`Checkbox should render with only required props, and have standard prop
 <div>
   <div
     class="Root md"
+    data-mtf-component="checkbox"
     data-testid="checkbox"
   >
     <input
