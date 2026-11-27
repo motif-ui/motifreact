@@ -4,7 +4,7 @@ import styles from "../../../DatePicker.module.scss";
 import { useCallback, useContext, useState } from "react";
 import { DatePickerContext } from "@/components/DatePicker/context/DatePickerProvider";
 import Header from "@/components/DatePicker/components/Header/Header";
-import MonthYearButton from "./MonthYearButton";
+import MonthGrid from "./MonthGrid";
 
 const MonthSelector = () => {
   const { pickerDate, setPickerDate, setPicker, locale, onPickerChange, size } = useContext(DatePickerContext);
@@ -30,16 +30,11 @@ const MonthSelector = () => {
     <>
       <Header size={size} year={pickerDate.getFullYear().toString()} onPrevClick={prevClickHandler} onNextClick={nextClickHandler} />
       <hr className={styles.divider} />
-      <div className={styles.monthSelector} data-testid="DatePickerMonthsContainer">
-        {locale.months.map((_, mIndex) => (
-          <MonthYearButton
-            key={mIndex}
-            label={locale.monthsShort[mIndex]}
-            onClick={() => handleMonthClick(mIndex)}
-            selected={pickerDate.getMonth() === mIndex && pickerDate.getFullYear() === activeDate.getFullYear()}
-          />
-        ))}
-      </div>
+      <MonthGrid
+        monthsShort={locale.monthsShort}
+        selectedMonth={pickerDate.getFullYear() === activeDate.getFullYear() ? pickerDate.getMonth() : undefined}
+        onMonthClick={handleMonthClick}
+      />
     </>
   );
 };

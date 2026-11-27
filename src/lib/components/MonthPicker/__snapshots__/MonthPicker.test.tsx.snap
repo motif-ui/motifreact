@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MonthPicker should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
+<div>
+  <div
+    class="Root md borderless mtf-MonthPicker"
+    data-testid="Picker"
+  >
+    <div
+      class="dateSelector md"
+    >
+      <div
+        class="monthSelector"
+        data-testid="DatePickerMonthsContainer"
+      >
+        <button
+          type="button"
+        >
+          Jan
+        </button>
+        <button
+          type="button"
+        >
+          Feb
+        </button>
+        <button
+          type="button"
+        >
+          Mar
+        </button>
+        <button
+          type="button"
+        >
+          Apr
+        </button>
+        <button
+          type="button"
+        >
+          May
+        </button>
+        <button
+          type="button"
+        >
+          Jun
+        </button>
+        <button
+          type="button"
+        >
+          Jul
+        </button>
+        <button
+          type="button"
+        >
+          Aug
+        </button>
+        <button
+          type="button"
+        >
+          Sep
+        </button>
+        <button
+          type="button"
+        >
+          Oct
+        </button>
+        <button
+          type="button"
+        >
+          Nov
+        </button>
+        <button
+          type="button"
+        >
+          Dec
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
