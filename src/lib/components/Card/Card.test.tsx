@@ -1,5 +1,5 @@
 import Card from "@/components/Card/Card";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Button from "@/components/Button";
 import Link from "@/components/Link";
 import IconButton from "@/components/IconButton";
@@ -139,6 +139,25 @@ describe("Card", () => {
     render(<Card action={{ icon: "download", onClick }} />);
     screen.getByText("download").click();
     expect(onClick).toHaveBeenCalled();
+  });
+
+  it("should open a dropdown with the given items when the action has items and close it after an item is clicked", () => {
+    const onClick = jest.fn();
+    render(<Card action={{ icon: "more_vert", items: [{ header: "Account" }, { label: "Edit", onClick }] }} />);
+    expect(screen.queryByTestId("cardDropdown")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText("more_vert"));
+    expect(screen.getByText("Account")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Edit"));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(screen.queryByTestId("cardDropdown")).not.toBeInTheDocument();
+  });
+
+  it("should not run the click of a disabled dropdown item", () => {
+    const onClick = jest.fn();
+    render(<Card action={{ icon: "more_vert", items: [{ label: "Edit", onClick, disabled: true }] }} />);
+    fireEvent.click(screen.getByText("more_vert"));
+    fireEvent.click(screen.getByText("Edit"));
+    expect(onClick).not.toHaveBeenCalled();
   });
 
   it("should render an image in the content part when contentImage is set as a url or path", () => {

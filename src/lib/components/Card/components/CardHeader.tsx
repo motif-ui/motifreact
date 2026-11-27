@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+import { createPortal } from "react-dom";
 import styles from "../Card.module.scss";
 import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
@@ -6,7 +10,8 @@ import type { MouseEvent } from "react";
 import type { IconGlobalType, Variant } from "../../../types";
 import ImageView from "@/components/ImageView";
 import GlobalIconWrapper from "../../Motif/GlobalIconWrapper/GlobalIconWrapper";
-import type { CardVariant } from "../types";
+import useAnchoredOverlay from "../../../hooks/useAnchoredOverlay";
+import type { CardDropdownItem, CardHeaderAction, CardVariant } from "../types";
 
 type Props = {
   icon?: IconGlobalType;
@@ -17,17 +22,43 @@ type Props = {
   subtitle?: string;
   image?: string;
   imagePosition?: "left" | "right";
-  action?: { icon: IconGlobalType; onClick: (event: MouseEvent<HTMLButtonElement>) => void };
+  action?: CardHeaderAction;
   variant: CardVariant;
 };
 
 const CardHeader = (props: Props) => {
   const { icon, iconVariant, avatarIcon, avatarText, action, image, imagePosition, subtitle, title, variant } = props;
+  const menuItems = action?.items;
+
+  const actionRef = useRef<HTMLButtonElement>(null);
+  const {
+    attached,
+    hide,
+    style: menuStyle,
+    placement,
+    overlayRef: menuRef,
+    insideProps,
+  } = useAnchoredOverlay({
+    anchorRef: actionRef,
+    placement: "bottomRight",
+    toggleOnAnchorClick: !!menuItems,
+    tabBridge: true,
+    closeOnOutsideClick: true,
+    closeOnEscape: true,
+    inactive: !menuItems,
+  });
 
   const isVisible = title || subtitle || avatarText || avatarIcon || icon || image || action;
   const iconButtonVariant = variant === "neutral" || variant === "secondary" ? variant : variant === "warning" ? "strong" : "negative";
   const headerClassName = sanitizeModuleClasses(styles, "header", image && imagePosition === "right" && "headerImageAlignRight");
   const headerIconClassName = sanitizeModuleClasses(styles, "headerIcon", iconVariant && `headerIcon-${iconVariant}`);
+
+  const menuClassNames = sanitizeModuleClasses(styles, "dropdown", placement.startsWith("top") ? "top" : "bottom");
+
+  const handleItemClick = (item: CardDropdownItem) => (event: MouseEvent<HTMLButtonElement>) => {
+    item.onClick?.(event);
+    hide();
+  };
 
   const maybeContent = title || subtitle || avatarText || avatarIcon || icon || action;
 
@@ -46,9 +77,30 @@ const CardHeader = (props: Props) => {
                 {subtitle && <span className={styles.headerSubtitle}>{subtitle}</span>}
               </div>
             )}
-            {action && <IconButton name={action.icon} onClick={action.onClick} size="xxl" variant={iconButtonVariant} />}
+            {action && <IconButton ref={actionRef} name={action.icon} onClick={action.onClick} size="xxl" variant={iconButtonVariant} />}
           </div>
         )}
+        {menuItems &&
+          attached &&
+          createPortal(
+            <div className={menuClassNames} style={menuStyle} ref={menuRef} {...insideProps} data-testid="cardDropdown">
+              <ul className={styles.dropdownList}>
+                {menuItems.map((item, index) => (
+                  <li key={index}>
+                    {item.header ? (
+                      <span className={styles.dropdownHeader}>{item.header}</span>
+                    ) : (
+                      <button type="button" className={styles.dropdownItem} disabled={item.disabled} onClick={handleItemClick(item)}>
+                        {item.icon && <GlobalIconWrapper icon={item.icon} style={{ color: item.iconColor }} />}
+                        {item.label && <span>{item.label}</span>}
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>,
+            document.body,
+          )}
       </div>
     )
   );

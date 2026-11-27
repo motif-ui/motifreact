@@ -36,6 +36,19 @@ export const Header: Story = {
   render: args => <Card {...args} imagePosition="right" image="https://picsum.photos/seed/motifui/100" />,
 };
 
+export const ActionDropdown: Story = {
+  args: {
+    action: {
+      icon: "more_vert",
+      items: [
+        { label: "Edit", icon: "settings", onClick: () => console.log("Edit clicked!") },
+        { label: "Share", icon: "share", onClick: () => console.log("Share clicked!") },
+        { label: "Delete", icon: "delete", disabled: true },
+      ],
+    },
+  },
+};
+
 export const Content: Story = {
   render: () => (
     <Card
