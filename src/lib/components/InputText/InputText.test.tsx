@@ -123,6 +123,13 @@ describe("InputText", () => {
 
     expect(handleChange).not.toHaveBeenCalled();
     expect(input).toHaveValue(value);
+    expect(screen.getByTestId("inputItem")).toHaveClass("readOnly");
+  });
+
+  it("should look disabled, not readOnly, when both props are given", () => {
+    render(<InputText value="Entered Text" disabled readOnly />);
+    expect(screen.getByTestId("inputItem")).toHaveClass("disabled");
+    expect(screen.getByTestId("inputItem")).not.toHaveClass("readOnly");
   });
 
   it("should be rendered as success variant when success prop is given", () => {

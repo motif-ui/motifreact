@@ -1,0 +1,27 @@
+import { FocusEventHandler, MouseEventHandler } from "react";
+import { InputCommonProps, InputSize } from "../../../../../components/Form/types";
+import { IconGlobalType } from "../../../../../types";
+
+export type InputTextDefaultableProps = {
+  pill?: boolean;
+  size?: InputSize;
+  clearable?: boolean;
+  textTransform?: "uppercase" | "lowercase" | "capitalize";
+};
+
+export type InputTextProps = InputTextCommonProps &
+  InputCommonProps &
+  InputTextDefaultableProps & {
+    type?: "text" | "tel";
+  };
+
+export type InputTextCommonProps = {
+  placeholder?: string;
+  pill?: boolean;
+  clearable?: boolean;
+  iconLeft?: IconGlobalType;
+  iconRight?: IconGlobalType;
+  maxLength?: number;
+  onClick?: MouseEventHandler<HTMLInputElement>;
+  onFocus?: FocusEventHandler<HTMLInputElement>;
+};

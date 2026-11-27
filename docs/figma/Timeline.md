@@ -1,7 +1,5 @@
 # Timeline: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-17 with /figma-new-component from the `TimelineV2` clone (batch 4), which replaced Timeline on 2026-11-18.
-
 ## Nodes
 
 | What                                                     | ID                                                    |
@@ -31,7 +29,7 @@ Built 2026-11-17 with /figma-new-component from the `TimelineV2` clone (batch 4)
 
 ## Decisions
 
-- `light` is now `neutral`; info and accent are new (user decision 1 of batch 4). A filled neutral marker is
+- A filled neutral marker is
   `color/neutral/soft` over `color/surface/default` with `color/neutral/text` (user, 2026-11-17: the solid neutral
   was too dark).
 - Disabled is one look for every variant (filled `color/surface/disabled`, outlined `color/border/disabled`, both
@@ -47,7 +45,7 @@ Built 2026-11-17 with /figma-new-component from the `TimelineV2` clone (batch 4)
   or the section (icon) instead, which lines the title up the same way.
 - `Icon/motif_ui` (`7:18`) had a hard-coded fill on its vector region, so instances could not recolor it; the region
   fill was removed (the code icon is a one-color font glyph). It was only used by the Timeline markers.
-- Spec tables (user, 2026-11-18, after the old Motif Timeline sheet): Marker spec per appearance (filled, outlined),
+- Spec tables: Marker spec per appearance (filled, outlined),
   rows the variants in Light and Dark, columns icon · number · dot and the same with disabled=true; Item content
   (orientation vertical · horizontal × title and content, title only, content only, neither). No Size spec: Timeline
   has no sizes. Scenarios: Item overrides (markerType number · icon × Timeline variant, item variant, outlined items,

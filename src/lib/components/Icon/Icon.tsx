@@ -1,4 +1,4 @@
-import { FunctionComponent, isValidElement } from "react";
+import { isValidElement } from "react";
 import { PropsWithRefAndChildren } from "../../types";
 import styles from "./Icon.module.scss";
 import stylesMotifIcon from "@/components/Motif/Icon/MotifIcon.module.scss";
@@ -10,7 +10,7 @@ import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 const Icon = (props: PropsWithRefAndChildren<IconProps, HTMLSpanElement>) => {
   const { iconClass, name, svgColorType, children, ref, color, size, variant, className, style } = usePropsWithThemeDefaults("Icon", props);
   const { baseIconClass } = useMotifContext();
-  const isChildMotifIcon = isValidElement(children) && (children.type as FunctionComponent<IconProps>).displayName === "Icon";
+  const isChildMotifIcon = isValidElement(children) && (children.type === Icon || (children.type as { isMotifIcon?: boolean }).isMotifIcon);
 
   const iconClassToUse = isChildMotifIcon ? stylesMotifIcon.motifIconsDefault : (iconClass ?? baseIconClass);
   const iconName = name ?? (isChildMotifIcon ? (children.props as IconProps).name : typeof children === "string" && children.trim());

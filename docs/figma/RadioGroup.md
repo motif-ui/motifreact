@@ -1,7 +1,5 @@
 # RadioGroup: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-23 with /figma-sync from the migrated code (batch 6).
-
 ## Nodes
 
 | What                                           | ID                           |

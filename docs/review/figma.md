@@ -35,6 +35,10 @@ visual specification of migrated components. These rules keep the two from drift
     - interaction states: Scenarios or Color spec cells with fills bound to the state tokens.
   - Write each mapping in the set description and the Design properties table (Button, AlertModal).
 - Every fill, stroke, radius, spacing and text style is bound to a variable or style; no hard-coded values.
+- Every text uses a text style, or binds all four font properties to variables: font size and line height (the
+  `typography/text-*` step the SCSS uses for a size prop, the role for fixed text), weight (`typography/weight/*`) and
+  family. A raw size or a weight picked from the font menu is a hard-coded value. Check every component set before
+  closing a Figma change.
 - Figma takes the left-most variant of a set as its default. Put the column of the code's default value first in the set
   (Select: md, xs, sm, lg; ProgressCircle: sm, xs, md, lg, xl); doc page matrices keep the natural order. Figma picks
   the default row by row (a variant must sit clearly above the others to win), so there is no way to keep the natural

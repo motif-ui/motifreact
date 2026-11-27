@@ -37,4 +37,24 @@ describe("Textarea", () => {
       expect(container.firstElementChild).toHaveClass(size);
     });
   });
+
+  it("should be rendered as disabled when disabled prop is given", () => {
+    const { container } = render(<Textarea disabled />);
+    expect(screen.getByTestId("textareaItem")).toBeDisabled();
+    expect(container.firstElementChild).toHaveClass("disabled");
+    expect(container.firstElementChild).not.toHaveClass("readOnly");
+  });
+
+  it("should be rendered as readOnly, not disabled, when readOnly prop is given", () => {
+    const { container } = render(<Textarea readOnly />);
+    expect(screen.getByTestId("textareaItem")).toHaveAttribute("readonly");
+    expect(container.firstElementChild).toHaveClass("readOnly");
+    expect(container.firstElementChild).not.toHaveClass("disabled");
+  });
+
+  it("should look disabled, not readOnly, when both props are given", () => {
+    const { container } = render(<Textarea disabled readOnly />);
+    expect(container.firstElementChild).toHaveClass("disabled");
+    expect(container.firstElementChild).not.toHaveClass("readOnly");
+  });
 });

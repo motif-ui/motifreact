@@ -1,9 +1,10 @@
 import styles from "../../ButtonGroup.module.scss";
 import Icon from "@/components/Icon";
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { ButtonGroupItemProps } from "@/components/ButtonGroup/components/ButtonGroupItem/ButtonGroupItem";
 import { sanitizeModuleClasses } from "../../../../../utils/cssUtils";
 import { PropsWithRef } from "../../../../types";
+import { ButtonGroupContext } from "../../ButtonGroupContext";
 
 type Props = ButtonGroupItemProps & {
   type: "single" | "dropdown";
@@ -12,6 +13,7 @@ type Props = ButtonGroupItemProps & {
 
 const Button = memo((props: PropsWithRef<Props, HTMLButtonElement>) => {
   const { label, disabled, action, icon, type, open, ref } = props;
+  const { size } = useContext(ButtonGroupContext);
 
   return (
     <button
@@ -23,9 +25,9 @@ const Button = memo((props: PropsWithRef<Props, HTMLButtonElement>) => {
       // A dropdown button tells assistive technology that it opens a list and whether the list is open
       {...(type === "dropdown" && { "aria-haspopup": true, "aria-expanded": !!open })}
     >
-      {icon && <Icon name={icon} className={styles.icon} />} {label}
+      {icon && <Icon name={icon} size={size} />} {label}
       {type === "dropdown" && (
-        <Icon name="keyboard_arrow_down" className={sanitizeModuleClasses(styles, "icon", "dropdownIcon", open && "open")} />
+        <Icon name="keyboard_arrow_down" size={size} className={sanitizeModuleClasses(styles, "dropdownIcon", open && "open")} />
       )}
     </button>
   );

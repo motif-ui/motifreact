@@ -1,7 +1,5 @@
 # Skeleton: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-11 with /figma-new-component from the migrated code (batch 2).
-
 ## Nodes
 
 | What                                           | ID                             |
