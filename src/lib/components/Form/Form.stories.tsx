@@ -135,7 +135,6 @@ export const Primary: Story = {
         label="Which sports"
         helperText="Please select at least 2 sports"
         groupValidations={[Validations.Required, Validations.AtLeastN(2)]}
-        wrap
         name="sports"
       >
         <Checkbox label="Football" name="football" checked />

@@ -112,8 +112,7 @@ $sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6
 
 .groupItems {
   display: flex;
-  flex-wrap: nowrap;
-
+  flex-wrap: wrap;
   .horizontalGroup & {
     align-items: flex-start;
 
@@ -127,10 +126,6 @@ $sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6
 
   .verticalGroup & {
     flex-direction: column;
-  }
-
-  .wrap & {
-    flex-wrap: wrap;
   }
 }
 
@@ -147,7 +142,7 @@ $sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6
     }
 
     &.horizontalLabel {
-      gap: var(--mtf-sizing-space-#{$gapHLabel});
+      gap: var(--mtf-sizing-space-#{$gapVLabel}) var(--mtf-sizing-space-#{$gapHLabel});
 
       // The input's vertical padding (its border is drawn inside), so the label lines up with the input's text
       .label {
@@ -169,6 +164,33 @@ $sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6
 
     .inputContainer {
       gap: var(--mtf-sizing-space-#{$gapVLabel});
+    }
+  }
+}
+
+@include screen-width("below", "xs") {
+  .verticalForm.horizontalLabel .label {
+    width: auto;
+    min-width: auto;
+  }
+
+  // The label goes above the input and the required mark after the label, as in vertical labels
+  .horizontalLabel {
+    flex-direction: column;
+    align-items: stretch;
+
+    .label::before {
+      content: none;
+    }
+
+    .label::after {
+      content: var(--mtf-form-field-mark, none);
+    }
+  }
+
+  @each $size, $helperStep, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems in $sizes {
+    .#{$size}.horizontalLabel .label {
+      margin-top: 0;
     }
   }
 }

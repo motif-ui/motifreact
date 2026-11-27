@@ -60,3 +60,9 @@ $title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
     @include typography("text-#{$step}", "strongest");
   }
 }
+
+@include screen-width("below", "sm") {
+  .Root {
+    padding: var(--mtf-sizing-space-8);
+  }
+}

@@ -13,7 +13,7 @@ $sizes: (("xs", 20, 12, 4), ("sm", 24, 16, 6), ("md", 28, 20, 8), ("lg", 32, 24,
 }
 
 .horizontal {
-  flex-direction: row;
+  flex-flow: row wrap;
 }
 
 @each $size, $gapH, $gapV, $paddingV in $sizes {
@@ -23,7 +23,7 @@ $sizes: (("xs", 20, 12, 4), ("sm", 24, 16, 6), ("md", 28, 20, 8), ("lg", 32, 24,
     }
 
     &.horizontal {
-      gap: var(--mtf-sizing-space-#{$gapH});
+      gap: var(--mtf-sizing-space-#{$gapV}) var(--mtf-sizing-space-#{$gapH});
     }
 
     &.inFormField {

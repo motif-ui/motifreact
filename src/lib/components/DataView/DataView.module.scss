@@ -136,3 +136,10 @@ $data-view-sizes: ("xs", "sm", "md", "lg", "xl");
     }
   }
 }
+
+@include screen-width("below", "sm") {
+  .title,
+  .value {
+    padding: var(--mtf-sizing-space-8) var(--mtf-sizing-space-12);
+  }
+}
