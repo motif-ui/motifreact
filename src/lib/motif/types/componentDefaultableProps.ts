@@ -16,6 +16,7 @@ import { DateRangePickerDefaultableProps } from "../../components/DateRangePicke
 import { DateTimePickerDefaultableProps } from "../../components/DateTimePicker/types";
 import { DataViewDefaultableProps } from "../../components/DataView/types";
 import { DividerProps } from "../../components/Divider/types";
+import { DrawerDefaultableProps } from "../../components/Drawer/types";
 import { DropdownDefaultableProps } from "../../components/Dropdown/types";
 import { FormDefaultableProps } from "../../components/Form/types";
 import { FormFieldGroupDefaultableProps } from "../../components/Form/FormFields/types";
@@ -84,6 +85,7 @@ export type ComponentDefaultableProps = {
   DateTimePicker?: DateTimePickerDefaultableProps;
   DataView?: DataViewDefaultableProps;
   Divider?: DividerProps;
+  Drawer?: DrawerDefaultableProps;
   Dropdown?: DropdownDefaultableProps;
   Form?: FormDefaultableProps;
   FormField?: never;

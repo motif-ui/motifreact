@@ -18,6 +18,7 @@ export { default as DateRangePicker } from "./components/DateRangePicker";
 export { default as DateTimePicker } from "./components/DateTimePicker";
 export { default as DataView } from "./components/DataView";
 export { default as Divider } from "./components/Divider";
+export { default as Drawer } from "./components/Drawer";
 export { default as Dropdown } from "./components/Dropdown";
 export { default as Form, Validations } from "./components/Form";
 export { default as Grid } from "./components/Grid";
