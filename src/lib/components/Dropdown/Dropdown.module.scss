@@ -112,6 +112,22 @@ $caret-center: clamp($caret-margin, calc(var(--overlay-anchor-right) - $caret-ma
         }
       }
     }
+
+    @if $variant != "secondary" {
+      &.textOnly.#{$variant} {
+        color: var(--theme-color-surface-#{$variant}-default);
+
+        &:hover {
+          color: var(--theme-color-surface-#{$variant}-hover);
+        }
+        &:active {
+          color: var(--theme-color-surface-#{$variant}-active);
+        }
+        &:disabled {
+          color: var(--theme-color-text-base-disabled);
+        }
+      }
+    }
   }
 }
 
