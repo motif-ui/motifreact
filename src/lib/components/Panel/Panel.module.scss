@@ -10,10 +10,6 @@ $title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
   border-radius: var(--mtf-sizing-radius-md);
   color: var(--mtf-color-text-default);
 
-  @include screen-width("below", "sm") {
-    padding: var(--mtf-sizing-space-8);
-  }
-
   &.bordered {
     border: var(--mtf-sizing-1) solid var(--mtf-color-border-default);
   }
@@ -62,5 +58,11 @@ $title-sizes: (("sm", "md"), ("md", "lg"), ("lg", "xl"));
 @each $size, $step in $title-sizes {
   .title-#{$size} {
     @include typography("text-#{$step}", "strongest");
+  }
+}
+
+@include screen-width("below", "sm") {
+  .Root {
+    padding: var(--mtf-sizing-space-8);
   }
 }
