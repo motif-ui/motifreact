@@ -1,21 +1,24 @@
 @use "@styles" as *;
 
 $sizes: (
-  // sizeName (also the field's text step), paddingV, paddingH, gap, maxDropdownHeight, rightContainerSize, chipStep, selectedIconSize
-  ("xs", 4, 8, 4, 160, 18, "xs", 12),
-  ("sm", 6, 12, 6, 190, 20, "xs", 16),
-  ("md", 8, 16, 8, 190, 22, "sm", 18),
-  ("lg", 10, 20, 10, 256, 24, "md", 20)
+  // sizeName, paddingV, paddingH, gap, maxDropdownHeight, chipStep
+  ("xs", 4, 8, 4, 160, "xxs"),
+  ("sm", 6, 12, 6, 190, "xs"),
+  ("md", 8, 16, 8, 190, "sm"),
+  ("lg", 10, 20, 10, 256, "md")
 );
 
 .Root {
-  border: solid var(--mtf-sizing-1) var(--mtf-color-border-field);
+  // Drawn inside, as the input field's, so it takes no room; the transparent outline is for forced colors
+  box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-border-field);
+  outline: var(--mtf-sizing-1) solid transparent;
+  outline-offset: calc(-1 * var(--mtf-sizing-1));
   border-radius: var(--mtf-sizing-radius-md);
   background-color: var(--mtf-color-surface-field);
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  @include transition(border-color);
+  @include transition(box-shadow);
 
   &.expanded {
     border-radius: var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md) 0 0;
@@ -29,21 +32,27 @@ $sizes: (
     }
   }
 
+  // Before focus and the validation states: same specificity, so those still win. The value stays readable; only the box
+  // tells it cannot be changed.
+  &.readOnly {
+    box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-border-soft);
+    background-color: var(--mtf-color-surface-subtle);
+  }
+
   &:focus {
-    border-color: var(--mtf-color-border-field-focus);
-    outline: none;
+    box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-border-field-focus);
   }
 
   &.error {
-    border-color: var(--mtf-color-danger-border);
+    box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-danger-border);
   }
 
   &.success {
-    border-color: var(--mtf-color-success-border);
+    box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-success-border);
   }
 
   &.disabled {
-    border-color: var(--mtf-color-border-disabled);
+    box-shadow: inset 0 0 0 var(--mtf-sizing-1) var(--mtf-color-border-disabled);
     background-color: var(--mtf-color-surface-disabled);
     pointer-events: none;
 
@@ -83,6 +92,10 @@ $sizes: (
 
   &::placeholder {
     color: var(--mtf-color-text-field-placeholder);
+
+    .disabled & {
+      color: var(--mtf-color-text-disabled-soft);
+    }
   }
 }
 
@@ -192,7 +205,7 @@ $sizes: (
   color: var(--mtf-color-text-disabled);
 }
 
-@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $rightContainerSize, $chipStep, $selectedIconSize in $sizes {
+@each $size, $paddingV, $paddingH, $gap, $maxDropdownHeight, $chipStep in $sizes {
   // Both the field (Root) and the dropdown carry the size class
   .#{$size} {
     &.Root {
@@ -213,7 +226,7 @@ $sizes: (
     }
 
     .closeIcon > * {
-      --mtf-icon-size: var(--mtf-sizing-#{$selectedIconSize});
+      --mtf-icon-size: var(--mtf-sizing-icon-#{$chipStep});
     }
 
     &.dropdown {
@@ -233,8 +246,8 @@ $sizes: (
     }
 
     .rightContainer {
-      width: var(--mtf-sizing-#{$rightContainerSize});
-      height: var(--mtf-sizing-#{$rightContainerSize});
+      width: var(--mtf-sizing-icon-#{$size});
+      height: var(--mtf-sizing-icon-#{$size});
     }
   }
 }

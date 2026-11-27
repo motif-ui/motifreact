@@ -214,7 +214,8 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     expanded && "expanded",
     expanded && dropUp && "dropUp",
     loading && "loading",
-    disabled || readOnly || loading ? "disabled" : error ? "error" : success && "success",
+    disabled || loading ? "disabled" : error ? "error" : success && "success",
+    !disabled && !loading && readOnly && "readOnly",
   ]);
   return (
     <>

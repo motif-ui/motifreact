@@ -112,7 +112,7 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className, [
     size,
     disabled ? "disabled" : error ? "error" : success && "success",
-    readOnly && "readOnly",
+    !disabled && readOnly && "readOnly",
     pill && "pill",
     clearable && itemValue && "clearable",
   ]);
@@ -157,8 +157,16 @@ const InputText = (props: PropsWithRef<InternalInputProps, HTMLDivElement>) => {
         </svg>
       ) : (
         <>
-          {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.icon} size={size} />}
-          {buttonRight && <MotifIconButton name={buttonRight.name} className={styles.icon} size={size} onClick={buttonRight.onClick} />}
+          {iconRight && <GlobalIconWrapper icon={iconRight} className={`${styles.icon} ${styles.iconRight}`} size={size} />}
+          {buttonRight && (
+            <MotifIconButton
+              name={buttonRight.name}
+              className={styles.iconButton}
+              size={size}
+              disabled={disabled || readOnly}
+              onClick={buttonRight.onClick}
+            />
+          )}
         </>
       )}
       {numberSpinner && (

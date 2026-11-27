@@ -33,7 +33,7 @@ describe("Link Component Tests", () => {
   });
 
   it("should render the main icon given in the icon prop", () => {
-    runIconPropTest(icon => render(<Link label="Motif" icon={icon} />), "icon");
+    runIconPropTest(icon => render(<Link label="Motif" icon={icon} />), "md");
   });
 
   it("should fire onClick event even if url and onClick are set together", () => {
