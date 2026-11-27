@@ -1,7 +1,5 @@
 # ImageView: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-19 with /figma-new-component from the migrated code (batch 5).
-
 ## Nodes
 
 | What                                                     | ID                                         |
@@ -33,5 +31,5 @@ Built 2026-11-19 with /figma-new-component from the migrated code (batch 5).
 
 ## Decisions (user, 2026-11-19)
 
-- bordered `color/border/default` (today's line was a dark gray, now lighter); solid `color/surface/subtle`.
+- bordered `color/border/default`; solid `color/surface/subtle`.
 - The placeholder and broken icons keep the code's fixed gray (a mask would hide bordered and solid while loading).

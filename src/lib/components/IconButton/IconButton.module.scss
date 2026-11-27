@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
 // Each size is the icon beside text of that size (--mtf-sizing-icon-*: font × 4/3, never taller than the line)
-$sizes: "xxs", "xs", "sm", "md", "lg", "xl", "xxl", "xxxl";
+$sizes: "xxs", "xs", "sm", "md", "lg", "xl", "xxl";
 
 // variant, then the text tone at rest and on hover (pressed returns to rest): strong sits on the page, negative on an
 // image or a dark overlay

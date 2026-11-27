@@ -2879,14 +2879,6 @@
           "unit": "rem"
         },
         "$description": "32px · icon beside text-xxl"
-      },
-      "xxxl": {
-        "$type": "dimension",
-        "$value": {
-          "value": 2.25,
-          "unit": "rem"
-        },
-        "$description": "36px · icon beside text-3xl"
       }
     },
     "container": {

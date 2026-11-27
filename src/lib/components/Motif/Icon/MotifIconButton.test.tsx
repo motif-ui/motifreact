@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render } from "@testing-library/react";
 import MotifIconButton from "./MotifIconButton";
 import selectionJson from "./assets/motif-default-icons.json";
-import { Size8LG } from "../../../types";
+import { Size7 } from "../../../types";
 
 const motifIconDefaultNames = selectionJson.glyphs.map(glyph => glyph.extras.name);
 
@@ -24,7 +24,7 @@ describe("MotifIconButton", () => {
   });
 
   it("should render with the size given in the size prop", () => {
-    const sizes: Size8LG[] = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl", "xxxl"];
+    const sizes: Size7[] = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl"];
 
     sizes.forEach(size => {
       const { container } = render(<MotifIconButton name="home" size={size} />);

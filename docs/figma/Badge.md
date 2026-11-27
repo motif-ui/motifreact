@@ -1,7 +1,5 @@
 # Badge: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-16 with /figma-new-component from the `BadgeV2` clone (batch 3), which replaced Badge on 2026-11-18.
-
 ## Nodes
 
 | What                                           | ID                                                    |

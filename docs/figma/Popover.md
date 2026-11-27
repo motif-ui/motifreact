@@ -1,7 +1,5 @@
 # Popover: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-23 with /figma-sync from the migrated code (batch 6).
-
 ## Nodes
 
 | What                                           | ID                           |
@@ -17,6 +15,6 @@ Built 2026-11-23 with /figma-sync from the migrated code (batch 6).
 - `elevated` is a variant, not a boolean: it hides the border and adds elevation/2 (a boolean cannot hide one layer and
   show another).
 - `inverseColors` is not a variant: set the instance's Semantic mode to the other mode (Figma cannot express "the
-  opposite of the page"). The code's `variant` (light / primary / dark) was removed in batch 6 (breaking).
+  opposite of the page").
 - The caret is a 12 × 10 vector per side; the non-elevated one has the border and a `caret base` strip that hides the
   box border under it.
