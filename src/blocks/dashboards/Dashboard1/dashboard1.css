@@ -1,0 +1,23 @@
+.layout {
+  display: flex;
+  padding: 32px;
+}
+
+.sidebar {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerSearch {
+  flex: 1;
+}
