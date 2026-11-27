@@ -1,13 +1,11 @@
 "use client";
 
 import styles from "./AlertModal.module.scss";
-import { useMemo } from "react";
 import { createPortal } from "react-dom";
 import { PropsWithRef } from "../../types";
 import { AlertModalProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
-import { mergeRefs } from "../../../utils/reactUtils";
 import useModalOverlay from "../../hooks/useModalOverlay";
 import AlertModalActions from "./components/AlertModalActions";
 import AlertModalContent from "./components/AlertModalContent";
@@ -38,13 +36,13 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
 
   const { attached, visible, rootRef, dialogRef, insideProps } = useModalOverlay({
     open: !!open,
+    rootRef: ref,
     onClose,
     onAfterClose,
     duration: 300,
     closeOnOutsideClick: closable,
     closeOnEscape: closable,
   });
-  const mergedRef = useMemo(() => mergeRefs(rootRef, ref), [rootRef, ref]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
@@ -61,7 +59,7 @@ const AlertModal = (props: PropsWithRef<AlertModalProps, HTMLDivElement>) => {
   return (
     attached &&
     createPortal(
-      <div data-testid="alertModalBackdrop" className={classNames} style={style} ref={mergedRef}>
+      <div data-testid="alertModalBackdrop" className={classNames} style={style} ref={rootRef}>
         <div className={styles.alertModalContainer} ref={dialogRef} tabIndex={-1} {...insideProps}>
           <AlertModalContent title={title} text={text} icon={icon} />
           {(actionButton || alternateButton) && (
