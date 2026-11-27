@@ -4,12 +4,10 @@ import styles from "./Modal.module.scss";
 import ModalHeader from "./components/ModalHeader";
 import { PropsWithRef } from "../../types";
 import ModalActions from "./components/ModalActions";
-import { useMemo } from "react";
 import { createPortal } from "react-dom";
 import useModalOverlay from "../../hooks/useModalOverlay";
 import { ModalProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import { mergeRefs } from "../../../utils/reactUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { MotifIconButton } from "@/components/Motif/Icon";
 
@@ -35,13 +33,13 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
 
   const { attached, visible, hide, rootRef, dialogRef, insideProps } = useModalOverlay({
     open: !!open,
+    rootRef: ref,
     onClose,
     onAfterClose,
     duration: 300,
     closeOnOutsideClick: closable,
     closeOnEscape: closable,
   });
-  const mergedRef = useMemo(() => mergeRefs(rootRef, ref), [rootRef, ref]);
 
   const classNames = sanitizeModuleRootClasses(styles, className, [
     visible && "show",
@@ -52,7 +50,7 @@ const Modal = (props: PropsWithRef<ModalProps, HTMLDivElement>) => {
   return (
     attached &&
     createPortal(
-      <div data-testid="modalBackdrop" className={classNames} style={style} ref={mergedRef}>
+      <div data-testid="modalBackdrop" className={classNames} style={style} ref={rootRef}>
         <div className={styles.modal} ref={dialogRef} tabIndex={-1} {...insideProps}>
           {closable && <MotifIconButton name="close" onClick={() => hide("closeButton")} size="xxl" className={styles.closeButton} />}
           <ModalHeader title={title} subtitle={subtitle} />
