@@ -87,7 +87,6 @@ $data-view-sizes: ("xs", "sm", "md", "lg", "xl");
 
 .icon {
   color: var(--mtf-color-text-softer);
-  --mtf-icon-size: var(--mtf-sizing-22);
 }
 
 // The column classes sit on the root only; the row position goes on its direct children (the items)

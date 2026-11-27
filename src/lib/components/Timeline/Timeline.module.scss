@@ -132,10 +132,6 @@
   @include flex-center;
 }
 
-.markerIcon {
-  --mtf-icon-size: var(--mtf-sizing-24);
-}
-
 // =============================================================================
 // Connection lines: each item says where its line goes (TimelineItem); the orientation sets its shape
 // =============================================================================

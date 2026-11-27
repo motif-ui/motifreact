@@ -1,7 +1,5 @@
 # Tooltip: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-23 with /figma-sync from the migrated code (batch 6).
-
 ## Nodes
 
 | What                                           | ID                           |
@@ -17,5 +15,4 @@ Built 2026-11-23 with /figma-sync from the migrated code (batch 6).
   `showTitle`.
 - Each variant is auto-layout (the `pointer` row or column next to `textWrapper`), so the pointer follows the box when
   the title is hidden.
-- Default: `color/surface/contrast` (new token, 2026-11-23) with elevation/2; inverseColors `color/surface/sunken`, flat.
-  The code's `variant` (light / dark) was removed in batch 6 (breaking).
+- Default: `color/surface/contrast` with elevation/2; inverseColors `color/surface/sunken`, flat.
