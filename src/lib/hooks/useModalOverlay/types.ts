@@ -4,7 +4,7 @@ import { UseOverlayStateReturn } from "../useOverlayState/types";
 
 export type ModalOverlayProps = {
   open: boolean;
-  /** A ref from outside, e.g. a component's prop, that also gets the root element */
+  /** A ref from outside, mostly is the backdrop of the component */
   rootRef?: Ref<HTMLDivElement>;
   onClose?: (reason: OverlayCloseReason) => void;
   onAfterClose?: () => void;

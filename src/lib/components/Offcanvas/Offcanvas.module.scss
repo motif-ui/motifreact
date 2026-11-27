@@ -93,6 +93,12 @@ $sizes: (
   margin-left: auto;
 }
 
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
 .includePadding .content {
   padding: var(--base-sizing-16x);
 }
