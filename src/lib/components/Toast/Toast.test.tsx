@@ -100,7 +100,7 @@ describe("Toast", () => {
   });
 
   it("should be rendered in the variant given in the variant prop", () => {
-    const variants = ["secondary", "danger", "warning", "info", "success"] as const;
+    const variants = ["neutral", "primary", "secondary", "accent", "info", "success", "warning", "danger"] as const;
 
     variants.forEach((variant, i) => {
       render(<Toaster content={content} variant={variant} />);

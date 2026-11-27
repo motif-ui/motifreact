@@ -1,6 +1,6 @@
 import type { IconGlobalType } from "../../types";
 import type { MouseEvent } from "react";
-import { OverlayRefProps, Size4SM, Variant } from "../../types";
+import { OverlayRefProps, Size4SM, VariantV2 } from "../../types";
 
 export type Spacing = "withGap" | "callout" | "noSpace";
 
@@ -26,7 +26,7 @@ export type DropdownProps = {
 
 export type DropdownDefaultableProps = {
   shape?: "solid" | "textOnly";
-  variant?: Variant;
+  variant?: VariantV2;
   size?: Size4SM;
   pill?: boolean;
   spacing?: Spacing;

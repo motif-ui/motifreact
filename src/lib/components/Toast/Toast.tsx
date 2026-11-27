@@ -64,7 +64,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
   return (
     !dismissed && (
       <div ref={ref} className={toastClasses} data-testid="toast" style={style} {...handlers}>
-        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="xxl" />}
+        {icon && <GlobalIconWrapper icon={icon} className={styles.icon} variant={variant} size="lg" />}
 
         <div className={styles.contentContainer}>
           {title && <span className={styles.title}>{title}</span>}
@@ -75,7 +75,7 @@ const Toast = (props: PropsWithRef<ToastProps, HTMLDivElement>) => {
           </span>
         </div>
 
-        {closable && <MotifIconButton name="close" onClick={handleDismiss} size="lg" />}
+        {closable && <MotifIconButton name="close" onClick={handleDismiss} size="lg" className={styles.close} />}
 
         {duration !== undefined && <ProgressBar size="sm" variant={variant} className={styles.progress} countdown={{ duration, paused }} />}
       </div>

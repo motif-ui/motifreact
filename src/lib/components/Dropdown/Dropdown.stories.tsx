@@ -6,7 +6,7 @@ const meta: Meta<typeof Dropdown> = {
   component: Dropdown,
   argTypes: {
     shape: { table: { defaultValue: { summary: "solid" } } },
-    variant: { table: { defaultValue: { summary: "primary" } } },
+    variant: { table: { defaultValue: { summary: "primary (solid), neutral (textOnly)" } } },
     size: { table: { defaultValue: { summary: "md" } } },
     spacing: { table: { defaultValue: { summary: "callout" } } },
   },

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import { createRef } from "react";
 import { runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
-import { StandardPropsWithRef, Variant } from "../../../../lib/types";
+import { StandardPropsWithRef, VariantV2 } from "../../../../lib/types";
 import Dropdown from "../Dropdown";
 import { userEvent } from "@testing-library/user-event";
 import { Size4SM } from "../../../types";
@@ -12,7 +12,7 @@ describe("Dropdown", () => {
     (props: StandardPropsWithRef<HTMLButtonElement>) => render(<Dropdown label="Dropdown" items={[{ label: "Home" }]} {...props} />),
     {
       assertDefaults: ({ container, getByText }) => {
-        // variant: primary
+        // variant: primary (solid only)
         expect(container.firstElementChild).toHaveClass("primary");
         // shape: solid
         expect(container.firstElementChild).toHaveClass("solid");
@@ -27,7 +27,7 @@ describe("Dropdown", () => {
   );
 
   it("should be rendered in different color schemas given in the variant prop", () => {
-    const variants: Variant[] = ["primary", "secondary", "success", "danger", "warning", "info"];
+    const variants: VariantV2[] = ["neutral", "primary", "secondary", "accent", "success", "danger", "warning", "info"];
     variants.forEach(variant => {
       expect(render(<Dropdown items={[{ label: "Home" }]} variant={variant} />).container.firstElementChild).toHaveClass(variant);
     });
@@ -164,6 +164,14 @@ describe("Dropdown", () => {
     expect(container.firstElementChild).toHaveClass("solid");
     rerender(<Dropdown label="Dropdown Menu" shape="textOnly" items={[{ label: "Item 1" }]} />);
     expect(container.firstElementChild).toHaveClass("textOnly");
+    // textOnly without a variant is neutral
+    expect(container.firstElementChild).toHaveClass("neutral");
+  });
+
+  it("should add the given variant class to textOnly", () => {
+    const { container } = render(<Dropdown label="Dropdown Menu" shape="textOnly" variant="danger" items={[{ label: "Item 1" }]} />);
+    expect(container.firstElementChild).toHaveClass("textOnly");
+    expect(container.firstElementChild).toHaveClass("danger");
   });
 
   it("items should be rendered with the color given in items' iconColor prop", () => {

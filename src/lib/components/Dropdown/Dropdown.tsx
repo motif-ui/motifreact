@@ -20,7 +20,7 @@ const Dropdown = (props: PropsWithRef<DropdownProps, HTMLButtonElement>) => {
     label,
     icon,
     pill,
-    variant = "primary",
+    variant,
     shape = "solid",
     spacing = "callout",
     items,
@@ -52,7 +52,8 @@ const Dropdown = (props: PropsWithRef<DropdownProps, HTMLButtonElement>) => {
   const mergedRef = useMemo(() => mergeRefs(anchorRef, ref), [ref]);
 
   const side = placement.startsWith("top") ? "top" : "bottom";
-  const buttonClassNames = sanitizeModuleRootClasses(styles, className, [size, shape, variant, open && "open", pill && "pill"]);
+  const variantClass = variant ?? (shape === "solid" ? "primary" : "neutral");
+  const buttonClassNames = sanitizeModuleRootClasses(styles, className, [size, shape, variantClass, open && "open", pill && "pill"]);
   const overlayClassNames = sanitizeModuleClasses(styles, "Menu", size, spacing, side);
 
   return (
