@@ -156,7 +156,8 @@ describe("Select", () => {
     const user = userEvent.setup();
     render(<Select data={data} readOnly onChange={handleChange} />);
     const combobox = screen.queryByRole("combobox");
-    expect(combobox).toHaveClass("disabled");
+    expect(combobox).toHaveClass("readOnly");
+    expect(combobox).not.toHaveClass("disabled");
     await user.click(combobox!);
     await user.click(screen.queryByText("Item 1")!);
     expect(handleChange).not.toHaveBeenCalled();

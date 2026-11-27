@@ -44,6 +44,6 @@ it; this skill does the Figma side.
       Scenarios cells;
    5. Playground, if the default changed.
 5. **Verify** with a page screenshot (a section screenshot omits grouped labels). Fix and re-check only what changed.
-6. **Record** decisions and new node IDs in `docs/figma/<Component>.md`. If a Figma property was renamed or removed,
-   add a "Figma migration" note: consumers' instances lose that override on library update.
+6. **Record** decisions and new node IDs in `docs/figma/<Component>.md`. The file describes only the current state:
+   rewrite a changed rule in place, with no dated change entries or old values.
 7. **Close** with a summary for the PR: what changed in Figma, and anything that needs design sign-off.

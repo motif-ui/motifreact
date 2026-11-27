@@ -1,7 +1,5 @@
 # Avatar: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-16 with /figma-new-component from the `AvatarV2` clone (batch 3), which replaced Avatar on 2026-11-18.
-
 ## Nodes
 
 | What                                           | ID                                                    |
@@ -25,11 +23,11 @@ Built 2026-11-16 with /figma-new-component from the `AvatarV2` clone (batch 3), 
 
 ## Decisions
 
-- Default variant is neutral (code default changed from secondary on 2026-11-16).
+- Default variant is neutral.
 - neutral is `color/neutral/soft` layered over `color/surface/default` with `color/neutral/text` (user, 2026-11-16: the
   solid neutral was too dark; neutral stays close to the page tones like the neutral button).
-- Text: label-xs (weight strong, the style's own Medium) at xs; label-sm, label-lg, label-xl with a Semi Bold override
-  (code: `typography(label-*, "stronger")`) at sm, md, lg; heading-h4 and heading-h3 at xl and xxl.
+- Text: the `text-*` step of each size with its weight, as code (`typography(text-*, weight)`): text-xxs strong,
+  text-xs stronger, text-md stronger, text-lg stronger, text-xxl strongest, text-3xl strongest.
 - The code shows one letter at xs and sm (user, 2026-11-17: never two there): those variants use their own `initial`
   text property (default M), md and up use `letters` (default MO).
 - Spec tables: Size spec (sizes × letters · icon · image, metrics in the header from `$sizes`) and Color spec (variants

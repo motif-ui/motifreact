@@ -1,55 +1,46 @@
 @use "@styles" as *;
 
-$sizes: (
-  //size, paddingV, paddingH, counterSize
-  ("xs", "4x", "8x", "xxs"),
-  ("sm", "6x", "12x", "xs"),
-  ("md", "8x", "16x", "sm"),
-  ("lg", "10x", "20x", "sm")
-);
+// size, paddingV, paddingH, counterSize
+$sizes: (("xs", 4, 8, "xxs"), ("sm", 6, 12, "xs"), ("md", 8, 16, "sm"), ("lg", 10, 20, "sm"));
 
 .Root {
   display: inline-flex;
   flex-direction: column;
 }
 
-.disabled {
+// Before .textArea: same specificity as its focus rule and the validation states below, so those still win.
+// The value stays readable; only the box tells it cannot be changed.
+.readOnly {
   .textArea,
   .counterArea {
-    color: var(--theme-color-text-base-disabled);
-    border-color: var(--theme-color-border-light-disabled);
-    background-color: var(--theme-color-surface-base-base1);
+    border-color: var(--mtf-color-border-soft);
+    background-color: var(--mtf-color-surface-subtle);
   }
 }
 
 .textArea {
-  @include transition(border-color);
-
   width: 100%;
   min-width: 0;
-  color: var(--theme-color-text-base-title);
-  background-color: var(--theme-color-surface-base-bg-light);
-  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
-  border-radius: var(--theme-sizing-radius-default);
-  outline: none;
-  resize: none;
   margin: 0;
+  border: var(--mtf-sizing-1) solid var(--mtf-color-border-field);
+  border-radius: var(--mtf-sizing-radius-md);
+  outline: none;
+  background-color: var(--mtf-color-surface-field);
+  color: var(--mtf-color-text-field);
+  resize: none;
+  @include transition(border-color);
 
   &::placeholder {
-    color: var(--theme-color-text-base-caption);
+    color: var(--mtf-color-text-field-placeholder);
   }
+
   &:focus {
-    border-color: var(--theme-color-border-primary-default);
+    border-color: var(--mtf-color-border-field-focus);
   }
+
   .hasCounter & {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-  }
-  .success & {
-    border-color: var(--theme-color-border-success-default);
-  }
-  .error & {
-    border-color: var(--theme-color-border-danger-default);
   }
 }
 
@@ -57,32 +48,60 @@ $sizes: (
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  border-style: solid;
-  border-color: var(--theme-color-border-light-default);
-  border-width: 0 var(--base-sizing-1x) var(--base-sizing-1x) var(--base-sizing-1x);
-  border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
-  color: var(--theme-color-text-base-caption);
-  background-color: var(--theme-color-surface-base-bg-light);
+  border: var(--mtf-sizing-1) solid var(--mtf-color-border-field);
+  border-top: 0;
+  border-radius: 0 0 var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md);
+  background-color: var(--mtf-color-surface-field);
+  color: var(--mtf-color-text-field-placeholder);
+}
 
-  .success & {
-    color: var(--theme-color-text-success-default);
-    border-color: var(--theme-color-border-success-default);
+// After focus: same specificity, so the error and success borders stay while typing; disabled last
+.success {
+  .textArea,
+  .counterArea {
+    border-color: var(--mtf-color-success-border);
   }
-  .error & {
-    color: var(--theme-color-text-danger-default);
-    border-color: var(--theme-color-border-danger-default);
+
+  .counterArea {
+    color: var(--mtf-color-success-text);
   }
 }
 
-@each $size, $paddingV, $paddingH, $counterSize in $sizes {
+.error {
+  .textArea,
+  .counterArea {
+    border-color: var(--mtf-color-danger-border);
+  }
+
+  .counterArea {
+    color: var(--mtf-color-danger-text);
+  }
+}
+
+.disabled {
+  .textArea,
+  .counterArea {
+    border-color: var(--mtf-color-border-disabled);
+    background-color: var(--mtf-color-surface-disabled);
+    color: var(--mtf-color-text-disabled);
+  }
+
+  // A step under the disabled value, so an empty field reads lighter than a filled one
+  .textArea::placeholder {
+    color: var(--mtf-color-text-disabled-soft);
+  }
+}
+
+@each $size, $paddingV, $paddingH, $counterStep in $sizes {
   .#{$size} {
     .textArea {
-      @include font("body", $size);
-      padding: var(--base-sizing-#{$paddingV}) var(--base-sizing-#{$paddingH});
+      padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
+      @include typography("text-#{$size}", "regular");
     }
+
     .counterArea {
-      @include font("body", $counterSize);
-      padding-right: var(--base-sizing-#{$paddingV});
+      padding-right: var(--mtf-sizing-space-#{$paddingV});
+      @include typography("text-#{$counterStep}", "regular");
     }
   }
 }

@@ -1,7 +1,7 @@
 @use "@styles" as *;
 
-// size, paddingH, paddingV, gap, iconSize
-$sizes: (("xs", 8, 4, 4, 18), ("sm", 12, 6, 6, 20), ("md", 16, 8, 8, 22), ("lg", 20, 10, 10, 24));
+// size, paddingH, paddingV, gap
+$sizes: (("xs", 8, 4, 4), ("sm", 12, 6, 6), ("md", 16, 8, 8), ("lg", 20, 10, 10));
 
 .Root {
   display: inline-flex;
@@ -127,7 +127,7 @@ $sizes: (("xs", 8, 4, 4, 18), ("sm", 12, 6, 6, 20), ("md", 16, 8, 8, 22), ("lg",
   }
 }
 
-@each $size, $paddingH, $paddingV, $gap, $iconSize in $sizes {
+@each $size, $paddingH, $paddingV, $gap in $sizes {
   .#{$size} {
     .button {
       gap: var(--mtf-sizing-space-#{$gap});
@@ -137,10 +137,6 @@ $sizes: (("xs", 8, 4, 4, 18), ("sm", 12, 6, 6, 20), ("md", 16, 8, 8, 22), ("lg",
 
     .button__dropdown {
       padding: var(--mtf-sizing-space-#{$paddingV});
-    }
-
-    .icon {
-      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
     }
 
     // The menu items read as list text, not as buttons
