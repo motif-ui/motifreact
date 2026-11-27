@@ -53,6 +53,7 @@ const cssDeclaration = (token: Token) =>
   `  ${cssName(token.path)}: ${token.type === "shadow" ? cssShadow(token.value) : token.dark ? `light-dark(${cssValue(token.value)}, ${cssValue(token.dark)})` : cssValue(token.value)};`;
 
 const MODE_RULES = [
+  '[data-mtf-mode="light"] { color-scheme: light; }',
   '[data-mtf-mode="dark"] { color-scheme: dark; }',
   '[data-mtf-mode="system"] { color-scheme: light dark; }',
   '[data-mtf-surface="opposite"] { color-scheme: dark; }',

@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import Carousel from "./Carousel";
-import { CarouselProps, IndicatorShape, Theme } from "./types";
+import { CarouselProps, ColorScheme, IndicatorShape } from "./types";
 import { ReactNode } from "react";
 import { runSnapshotDefaultsAndStandardPropsTest } from "../../../utils/testUtils";
 import { PropsWithRef, StandardPropsWithRef } from "../../types";
@@ -43,7 +43,7 @@ describe("Carousel", () => {
     assertDefaults: ({ container, rerender, getTrack, getIndicators }) => {
       expect(getIndicators()).toBeInTheDocument();
       expect(screen.getAllByText("arrow_forward_ios")).toHaveLength(2);
-      expect(container.firstChild).toHaveClass("light");
+      expect(container.firstChild).toHaveClass("dark");
 
       jest.useFakeTimers();
       rerender(
@@ -70,13 +70,20 @@ describe("Carousel", () => {
     expect(renderExt({ height: "50%" }).container.firstChild).toHaveStyle({ height: "50%" });
   });
 
-  it("should be rendered with the given theme in theme prop", () => {
-    const themes: Theme[] = ["light", "dark"];
-    themes.forEach(theme => {
-      const { container, unmount } = renderExt({ theme });
-      expect(container.firstChild).toHaveClass(theme);
+  it("should be rendered with the given color scheme in colorScheme prop", () => {
+    const schemes: ColorScheme[] = ["dark", "light"];
+    schemes.forEach(colorScheme => {
+      const { container, unmount } = renderExt({ colorScheme });
+      expect(container.firstChild).toHaveClass(colorScheme);
+      // dark content takes the light mode tokens
+      expect(container.firstChild).toHaveAttribute("data-mtf-mode", colorScheme === "dark" ? "light" : "dark");
       unmount();
     });
+  });
+
+  it("should put the backdrop class on the root when contentBackdrop prop is true", () => {
+    const { container } = renderExt({ contentBackdrop: true });
+    expect(container.firstChild).toHaveClass("contentBackdrop");
   });
 
   it("should not render indicators when removeIndicators prop is true", () => {

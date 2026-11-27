@@ -1,19 +1,12 @@
 @use "@styles" as *;
 
-@mixin color-span-and-icon($colorVar) {
-  .tabItem-title,
-  .tabItem-icon {
-    color: var($colorVar);
-  }
-}
-
 .Root {
   display: flex;
   flex-direction: column;
 }
 
 .tabHeader {
-  padding-bottom: var(--base-sizing-8x);
+  padding-bottom: var(--mtf-sizing-space-8);
   display: flex;
   flex-wrap: wrap;
 }
@@ -35,7 +28,7 @@
 }
 
 .solid .tabHeader {
-  gap: var(--base-sizing-4x);
+  gap: var(--mtf-sizing-space-4);
 }
 
 // =============================================================================
@@ -47,12 +40,14 @@
   align-items: center;
   justify-content: center;
   border: none;
-  gap: var(--base-sizing-10x);
+  gap: var(--mtf-sizing-space-10);
   user-select: none;
   white-space: nowrap;
-  padding: var(--base-sizing-10x) var(--base-sizing-20x);
-  border-bottom: solid var(--base-sizing-2x) var(--theme-color-surface-base-base6);
+  padding: var(--mtf-sizing-space-10) var(--mtf-sizing-space-20);
+  border-bottom: solid var(--mtf-sizing-2) var(--mtf-color-border-soft);
+  color: var(--mtf-color-text-soft);
   cursor: pointer;
+  @include transition(border-color background-color color);
 
   &:disabled,
   &.active {
@@ -60,50 +55,47 @@
     cursor: default;
   }
 
-  .tabItem-title {
-    @include font;
+  &:disabled {
+    color: var(--mtf-color-text-disabled);
   }
 
-  @include focus-ring;
-  @include transition(border-color background-color);
-  * {
-    @include transition(color);
+  &:focus-visible {
+    outline: var(--mtf-sizing-2) solid var(--mtf-color-focus-ring);
+    outline-offset: calc(-1 * var(--mtf-sizing-2));
+  }
+
+  .tabItem-title {
+    @include typography("text-md", "stronger");
   }
 
   .solid & {
-    @include color-span-and-icon(--theme-color-text-light-default);
-    background: var(--theme-color-surface-light-default);
-    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+    background-color: var(--mtf-color-neutral-soft);
+    border-radius: var(--mtf-sizing-radius-md) var(--mtf-sizing-radius-md) 0 0;
     box-sizing: border-box;
 
     &:hover {
-      @include color-span-and-icon(--theme-color-text-primary-default);
-      border-color: var(--theme-color-border-primary-default);
+      background-color: var(--mtf-color-neutral-soft-hover);
+      color: var(--mtf-color-text-strong);
     }
+
     &.active {
-      @include color-span-and-icon(--theme-color-text-base-global-light);
-      background-color: var(--theme-color-surface-primary-default);
-      border: none;
-    }
-    &:disabled {
-      @include color-span-and-icon(--theme-color-text-light-disabled);
+      background-color: var(--mtf-color-primary-solid);
+      color: var(--mtf-color-on-primary);
+      border-bottom-color: var(--mtf-color-primary-solid);
     }
   }
 
   .underline & {
-    background: var(--theme-color-surface-base-bg-light);
-    @include color-span-and-icon(--theme-color-text-base-subtitle-light);
+    background-color: transparent;
 
     &:hover {
-      @include color-span-and-icon(--theme-color-text-base-title-light);
-      border-bottom-color: var(--theme-color-border-light-hover);
+      color: var(--mtf-color-text-strong);
+      border-bottom-color: var(--mtf-color-border-strong);
     }
+
     &.active {
-      @include color-span-and-icon(--theme-color-text-primary-default);
-      border-bottom-color: var(--theme-color-border-primary-default);
-    }
-    &:disabled {
-      @include color-span-and-icon(--theme-color-text-light-disabled);
+      color: var(--mtf-color-primary-text);
+      border-bottom-color: var(--mtf-color-primary-solid);
     }
   }
 }
