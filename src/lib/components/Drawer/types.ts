@@ -1,17 +1,17 @@
 import { OverlayCloseReason, Size3 } from "../../types";
 
-export type OffcanvasPosition = "top" | "bottom" | "left" | "right";
+export type DrawerPosition = "top" | "bottom" | "left" | "right";
 
-export type OffcanvasProps = {
+export type DrawerProps = {
   title?: string;
   open?: boolean;
   onClose?: (reason: OverlayCloseReason) => void;
   onAfterClose?: () => void;
   includePadding?: boolean;
-} & OffcanvasDefaultableProps;
+} & DrawerDefaultableProps;
 
-export type OffcanvasDefaultableProps = {
-  position?: OffcanvasPosition;
+export type DrawerDefaultableProps = {
+  position?: DrawerPosition;
   size?: Size3;
   closable?: boolean;
   removeBackdrop?: boolean;

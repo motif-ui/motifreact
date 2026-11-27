@@ -16,6 +16,7 @@ import { DateRangePickerDefaultableProps } from "../../components/DateRangePicke
 import { DateTimePickerDefaultableProps } from "../../components/DateTimePicker/types";
 import { DataViewDefaultableProps } from "../../components/DataView/types";
 import { DividerProps } from "../../components/Divider/types";
+import { DrawerDefaultableProps } from "../../components/Drawer/types";
 import { DropdownDefaultableProps } from "../../components/Dropdown/types";
 import { FormDefaultableProps } from "../../components/Form/types";
 import { FormFieldGroupDefaultableProps } from "../../components/Form/FormFields/types";
@@ -35,7 +36,6 @@ import { ListViewDefaultableProps } from "../../components/ListView/types";
 import { MenuListDefaultableProps } from "../../components/MenuList/types";
 import { ModalDefaultableProps } from "../../components/Modal/types";
 import { NavBarDefaultableProps } from "../../components/NavBar/types";
-import { OffcanvasDefaultableProps } from "../../components/Offcanvas/types";
 import { PaginationDefaultableProps } from "../../components/Pagination/types";
 import { PanelDefaultableProps } from "../../components/Panel/types";
 import { PinCodeDefaultableProps } from "../../components/PinCode/types";
@@ -83,6 +83,7 @@ export type ComponentDefaultableProps = {
   DateTimePicker?: DateTimePickerDefaultableProps;
   DataView?: DataViewDefaultableProps;
   Divider?: DividerProps;
+  Drawer?: DrawerDefaultableProps;
   Dropdown?: DropdownDefaultableProps;
   Form?: FormDefaultableProps;
   FormField?: never;
@@ -104,7 +105,6 @@ export type ComponentDefaultableProps = {
   MenuList?: MenuListDefaultableProps;
   Modal?: ModalDefaultableProps;
   NavBar?: NavBarDefaultableProps;
-  Offcanvas?: OffcanvasDefaultableProps;
   Pagination?: PaginationDefaultableProps;
   Panel?: PanelDefaultableProps;
   PinCode?: PinCodeDefaultableProps;

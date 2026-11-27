@@ -1,15 +1,15 @@
 "use client";
 
-import styles from "./Offcanvas.module.scss";
+import styles from "./Drawer.module.scss";
 import { createPortal } from "react-dom";
 import useModalOverlay from "../../hooks/useModalOverlay";
 import { PropsWithRefAndChildren } from "../../types";
-import { OffcanvasProps } from "./types";
+import { DrawerProps } from "./types";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { MotifIconButton } from "@/components/Motif/Icon";
 
-const Offcanvas = (props: PropsWithRefAndChildren<OffcanvasProps, HTMLDivElement>) => {
+const Drawer = (props: PropsWithRefAndChildren<DrawerProps, HTMLDivElement>) => {
   const {
     title,
     open,
@@ -24,7 +24,7 @@ const Offcanvas = (props: PropsWithRefAndChildren<OffcanvasProps, HTMLDivElement
     ref,
     style,
     className,
-  } = usePropsWithThemeDefaults("Offcanvas", props);
+  } = usePropsWithThemeDefaults("Drawer", props);
 
   const { attached, visible, hide, rootRef, dialogRef, insideProps } = useModalOverlay<HTMLElement>({
     open: !!open,
@@ -47,8 +47,8 @@ const Offcanvas = (props: PropsWithRefAndChildren<OffcanvasProps, HTMLDivElement
   return (
     attached &&
     createPortal(
-      <div data-testid="offcanvasBackdrop" className={classNames} style={style} ref={rootRef}>
-        <aside className={styles.offcanvas} ref={dialogRef} tabIndex={-1} {...insideProps}>
+      <div data-testid="drawerBackdrop" className={classNames} style={style} ref={rootRef}>
+        <aside className={styles.drawer} ref={dialogRef} tabIndex={-1} {...insideProps}>
           {(title || closable) && (
             <div className={styles.header}>
               {title && <span className={styles.headerTitle}>{title}</span>}
@@ -63,5 +63,5 @@ const Offcanvas = (props: PropsWithRefAndChildren<OffcanvasProps, HTMLDivElement
   );
 };
 
-Offcanvas.displayName = "Offcanvas";
-export default Offcanvas;
+Drawer.displayName = "Drawer";
+export default Drawer;
