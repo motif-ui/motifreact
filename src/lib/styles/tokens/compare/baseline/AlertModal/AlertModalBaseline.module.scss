@@ -98,6 +98,10 @@ $content-positions: (
   padding: var(--base-sizing-16x);
 }
 
+.icon {
+  --mtf-icon-size: var(--base-sizing-52x);
+}
+
 .alertModalActions {
   display: flex;
   flex-wrap: wrap;

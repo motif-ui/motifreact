@@ -22,10 +22,12 @@
 - Nested `inputText` (`_Select/InputText`): `placeholder`, `value`, `hasValue`, `disabled`, `caret` (Figma only).
 - `_Select/Chip`: `label`, `size`, `closable` (false when the Select is disabled, readOnly or loading).
 
+- readOnly has its own look (2026-11-24): `color/surface/subtle` + `color/border/soft`, text, placeholder and icons keep
+  their normal colors; focus and validation borders still show. The readOnly variants copy their default twin's colors.
+
 ## Decisions
 
-- 2026-11-05: `showChips` was replaced by the code props `multiple` / `filterable`; chips show only when both are true.
-  Consumers' instances that used `showChips` lose their chips on update.
+- Chips show only when `multiple` and `filterable` are both true.
 - Chips are direct children of `inputTextAndItemsContainer` (named `selectionChip`), so they wrap like the code
   (the input keeps at least `sizing/64`).
 - The input text hugs and clips, like a native input (no ellipsis); the caret sits after the value, or before the
@@ -41,7 +43,11 @@
   open).
 - Examples: icon + value only.
 - No data text comes from `src/i18n/locales/en.json` `g.noData` ("No data found...").
+- 2026-11-25 (control heights, #249): the field's stroke is not counted in layout (code: inset box-shadow), so heights
+  are 24 · 32 · 40 · 48, a button's of the same size; the left icon and the arrow use `sizing/icon/xs … lg` (16 · 18 · 22 · 24); the chips' close icon `sizing/icon/{chip step}` and the option check `sizing/icon/{size}`. The loader stays centered in the right container.
 
 ## Known code issues (not Figma)
 
 - Double tab stop (combobox `div` and inner input); no keyboard navigation. See the project notes.
+- 2026-11-25: the xs chip is one step under the field like the others: `typography/label-xs` (text-xxs, 11/16) and a
+  `sizing/icon/xxs` close icon.

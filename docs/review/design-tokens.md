@@ -41,12 +41,13 @@ Allowed: `0`, percentages, `auto`, `inherit`, unitless multipliers, transforms a
 
 ## 3. Spacing vs. fixed sizing
 
-There are two numeric scales and they behave differently:
+There are three numeric scales and they behave differently:
 
 | Token                  | Use for                                                                     | Follows the theme's space seed |
 | ---------------------- | --------------------------------------------------------------------------- | ------------------------------ |
 | `--mtf-sizing-space-N` | padding, margin, gap, inset, top/right/bottom/left offsets between elements | yes                            |
-| `--mtf-sizing-N`       | an element's own size: width, height, icon size, border width, max-height   | no                             |
+| `--mtf-sizing-N`       | an element's own size: width, height, border width, max-height              | no                             |
+| `--mtf-sizing-icon-*`  | an icon beside text: `icon-{size}` of the component's size or text step     | no (follows the font seed)     |
 
 - N is the px value in the default theme for both scales (`space-8` = 8px, `sizing-8` = 8px). The value is what Figma shows.
 - Stylelint already rejects `--mtf-sizing-N` in spacing properties. Review still catches what lint cannot see:
