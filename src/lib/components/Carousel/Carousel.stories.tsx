@@ -6,7 +6,7 @@ const meta: Meta<typeof Carousel> = {
   component: Carousel,
   argTypes: {
     indicatorShape: { table: { defaultValue: { summary: "dot" } } },
-    theme: { table: { defaultValue: { summary: "light" } } },
+    colorScheme: { table: { defaultValue: { summary: "dark" } } },
     autoplayInterval: { table: { defaultValue: { summary: "3000" } } },
     children: { control: false },
   },

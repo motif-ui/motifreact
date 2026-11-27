@@ -450,6 +450,7 @@
   --mtf-elevation-4: 0 0.5rem 1.25rem 0.375rem var(--mtf-elevation-4-color);
 }
 
+[data-mtf-mode="light"] { color-scheme: light; }
 [data-mtf-mode="dark"] { color-scheme: dark; }
 [data-mtf-mode="system"] { color-scheme: light dark; }
 [data-mtf-surface="opposite"] { color-scheme: dark; }

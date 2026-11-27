@@ -14,7 +14,8 @@ const CarouselComponent = (props: PropsWithRefAndChildren<CarouselProps, HTMLDiv
     removeControls,
     removeIndicators,
     indicatorShape = "dot",
-    theme = "light",
+    colorScheme = "dark",
+    contentBackdrop,
     activeIndex,
     autoplay,
     autoplayInterval = 3000,
@@ -34,10 +35,16 @@ const CarouselComponent = (props: PropsWithRefAndChildren<CarouselProps, HTMLDiv
     pauseOnHover,
   });
 
-  const classNames = sanitizeModuleRootClasses(styles, className, [theme]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [colorScheme, contentBackdrop && "contentBackdrop"]);
 
   return (
-    <div className={classNames} ref={ref} style={{ height, ...style }} {...(autoplay && pauseOnHover && { onMouseEnter, onMouseLeave })}>
+    <div
+      className={classNames}
+      data-mtf-mode={colorScheme === "dark" ? "light" : "dark"}
+      ref={ref}
+      style={{ height, ...style }}
+      {...(autoplay && pauseOnHover && { onMouseEnter, onMouseLeave })}
+    >
       <div className={styles.track} style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
         {children}
       </div>
