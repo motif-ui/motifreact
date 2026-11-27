@@ -48,6 +48,7 @@ type Story = StoryObj<typeof Drawer>;
 export const Primary: Story = {
   render: args => <DrawerComponent {...args} />,
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       source: {
         transform: formatStoryTransform("Drawer", ["children", "open", "onClose"], argsString => {
@@ -73,4 +74,9 @@ return (
       },
     },
   },
+};
+
+export const PrimaryStaticForChromatic: Story = {
+  tags: ["!autodocs", "!dev"],
+  args: { open: true },
 };
