@@ -8,9 +8,9 @@ import {
 } from "@/components/Upload/types";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { DEFAULT_UPLOAD_STALL_TIMEOUT_MS, MESSAGE, MIME_TYPES, STATUS } from "@/components/Upload/constants";
-import { formatBytes, generateUUIDV4, shortenText, tryParseJsonString } from "../../../utils/utils";
+import { generateUUIDV4, tryParseJsonString } from "../../../utils/utils";
 import { useMotifContext } from "../../motif/context/MotifProvider";
-import { toFormValue } from "@/components/Upload/helper";
+import { getFileErrors, toFormValue } from "@/components/Upload/helper";
 
 export const UploadContext = createContext<UploadContextType>(ContextDefaultValues);
 
@@ -360,35 +360,7 @@ export const UploadProvider = ({ children, props, isUploadInput, size = "md", na
           return { filesIteratedWithoutError: acc.filesIteratedWithoutError + 1, files: [...acc.files, f] };
         }
 
-        const maxSizeError =
-          maxSize &&
-          f.file.size > maxSize &&
-          (messages?.maxSizeMessage ??
-            t(MESSAGE.MAX_SIZE_ERROR, {
-              maxSize: formatBytes(maxSize),
-              fileName: shortenText(f.file.name, 30),
-              fileSize: formatBytes(f.file.size),
-            }));
-
-        // Mime Type Check
-        const mimeTypeMessage =
-          accept &&
-          !accept.includes(MIME_TYPES.ALL) &&
-          !accept.includes(f.file.type) &&
-          (messages?.mimeTypeMessage ?? t(MESSAGE.MIME_TYPE, { acceptType: accept.toString(), fileType: f.file.type }));
-
-        // Max File Check
-        const maxFileError =
-          maxFile &&
-          acc.filesIteratedWithoutError >= maxFile &&
-          (messages?.maxFileMessage ?? t(MESSAGE.MAX_FILE, { maxFile, count: maxFile }));
-
-        // Custom Validation
-        const { errorMessage: customValidationError, isValid: customValidationValid } = customValidation?.(f.file as File) || {};
-        const customValidationMessage =
-          customValidationValid === false ? customValidationError || t(MESSAGE.CUSTOM_VALIDATION_ERROR) : undefined;
-
-        const errors = [maxSizeError, maxFileError, mimeTypeMessage, customValidationMessage].filter(Boolean) as string[];
+        const errors = getFileErrors(f.file, acc.filesIteratedWithoutError, { maxSize, accept, maxFile, messages, customValidation }, t);
 
         return {
           filesIteratedWithoutError: errors.length ? acc.filesIteratedWithoutError : acc.filesIteratedWithoutError + 1,

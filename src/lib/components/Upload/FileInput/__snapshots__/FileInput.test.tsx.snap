@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`FileInput should render with only required props, have default prop values stated here, and have standard props; className, style and ref props working as expected 1`] = `
+<div>
+  <div
+    class="Root md"
+    data-mtf-component="file-input"
+    data-testid="fileInput"
+  >
+    <input
+      hidden=""
+      type="file"
+    />
+    <button
+      class="browseButton"
+      type="button"
+    >
+      <span
+        class="Root md motifIconsDefault"
+        lang="en"
+        translate="no"
+      >
+        search
+      </span>
+      Browse..
+    </button>
+    <div
+      class="labelArea"
+    >
+      <button
+        class="label placeholder"
+        type="button"
+      >
+        Select file
+      </button>
+    </div>
+  </div>
+</div>
+`;

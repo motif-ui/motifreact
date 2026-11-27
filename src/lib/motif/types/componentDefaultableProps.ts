@@ -60,6 +60,7 @@ import { UploadListDefaultableProps } from "../../components/Upload/UploadList/t
 import { UploadDefaultableProps } from "../../components/Upload/types";
 import { UploadInputDefaultableProps } from "../../components/Upload/UploadInput/types";
 import { ImageUploadDefaultableProps } from "../../components/Upload/ImageUpload/types";
+import { FileInputDefaultableProps } from "../../components/Upload/FileInput/types";
 import { ContainerDefaultableProps } from "../../components/Container/types";
 
 export type ComponentDefaultableProps = {
@@ -83,6 +84,7 @@ export type ComponentDefaultableProps = {
   DataView?: DataViewDefaultableProps;
   Divider?: DividerProps;
   Dropdown?: DropdownDefaultableProps;
+  FileInput?: FileInputDefaultableProps;
   Form?: FormDefaultableProps;
   FormField?: never;
   FormFieldGroup?: FormFieldGroupDefaultableProps;

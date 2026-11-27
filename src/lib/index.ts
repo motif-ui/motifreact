@@ -19,6 +19,7 @@ export { default as DateTimePicker } from "./components/DateTimePicker";
 export { default as DataView } from "./components/DataView";
 export { default as Divider } from "./components/Divider";
 export { default as Dropdown } from "./components/Dropdown";
+export { default as FileInput } from "./components/Upload/FileInput";
 export { default as Form, Validations } from "./components/Form";
 export { default as Grid } from "./components/Grid";
 export { default as Icon } from "./components/Icon";
