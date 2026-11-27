@@ -11,6 +11,12 @@
   opacity: 1;
   @include transition(opacity);
 
+  // The title's line (28px) is 4px taller than the icon and the close button (24px), which sit on it
+  &:has(.title) .icon,
+  &:has(.title) .close {
+    margin-top: var(--mtf-sizing-space-2);
+  }
+
   &.hiding {
     opacity: 0;
   }

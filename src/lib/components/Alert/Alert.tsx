@@ -39,7 +39,7 @@ const Alert = (props: PropsWithRefAndChildren<AlertProps, HTMLDivElement>) => {
           {message && <span className={styles.message}>{message}</span>}
           {children}
         </div>
-        {closable && <MotifIconButton name="close" size="lg" onClick={closeHandler} />}
+        {closable && <MotifIconButton name="close" size="lg" onClick={closeHandler} className={styles.close} />}
       </div>
     )
   );

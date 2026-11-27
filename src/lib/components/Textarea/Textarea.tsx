@@ -38,7 +38,8 @@ const Textarea = (p: PropsWithRef<TextareaProps, HTMLDivElement>) => {
   const classNames = sanitizeModuleRootClasses(styles, className, [
     size,
     hasMaxLength && "hasCounter",
-    disabled || readOnly ? "disabled" : error ? "error" : success && "success",
+    disabled ? "disabled" : error ? "error" : success && "success",
+    !disabled && readOnly && "readOnly",
   ]);
 
   return (

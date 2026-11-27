@@ -1,8 +1,7 @@
 @use "@styles" as *;
 
-// size, labelStep, paddingV, paddingH, iconSize, iconPaddingH, iconGap (the icons fit the label's line, so every chip of a
-// size has one height)
-$sizes: (("xs", "2xs", 2, 8, 14, 6, 4), ("sm", "xs", 4, 12, 16, 8, 6), ("md", "sm", 4, 16, 18, 10, 6), ("lg", "md", 6, 20, 20, 12, 8));
+// size, label/icon, paddingV, paddingH, iconPaddingH, iconGap
+$sizes: (("xs", "xxs", 2, 8, 6, 4), ("sm", "xs", 4, 12, 8, 6), ("md", "sm", 4, 16, 10, 6), ("lg", "md", 6, 20, 12, 8));
 
 .Root {
   display: inline-flex;
@@ -32,7 +31,7 @@ $sizes: (("xs", "2xs", 2, 8, 14, 6, 4), ("sm", "xs", 4, 12, 16, 8, 6), ("md", "s
 }
 
 // A size changes the chip, its label and its icons: grouped by size
-@each $size, $labelStep, $paddingV, $paddingH, $iconSize, $iconPaddingH, $iconGap in $sizes {
+@each $size, $labelStep, $paddingV, $paddingH, $iconPaddingH, $iconGap in $sizes {
   .#{$size} {
     min-width: var(--mtf-typography-text-#{$labelStep}-line-height);
     padding: var(--mtf-sizing-space-#{$paddingV}) var(--mtf-sizing-space-#{$paddingH});
@@ -52,7 +51,7 @@ $sizes: (("xs", "2xs", 2, 8, 14, 6, 4), ("sm", "xs", 4, 12, 16, 8, 6), ("md", "s
     // The close button gives its own size class to the icon inside it, so the size is set on that icon
     .icon-left,
     .icon-close > span {
-      --mtf-icon-size: var(--mtf-sizing-#{$iconSize});
+      --mtf-icon-size: var(--mtf-sizing-icon-#{$labelStep});
     }
   }
 }

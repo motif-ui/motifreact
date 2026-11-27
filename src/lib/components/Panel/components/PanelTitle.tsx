@@ -14,7 +14,7 @@ const PanelTitle = memo((props: Props) => {
 
   const child = (
     <>
-      {icon && <GlobalIconWrapper icon={icon} className={styles["title-icon"]} />} {title}
+      {icon && <GlobalIconWrapper icon={icon} className={styles["title-icon"]} size="md" />} {title}
     </>
   );
 

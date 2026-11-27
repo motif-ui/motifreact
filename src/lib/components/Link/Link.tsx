@@ -42,11 +42,7 @@ const Link = (props: PropsWithRef<LinkProps, HTMLAnchorElement>) => {
         ref={ref}
         style={style}
       >
-        {external ? (
-          <MotifIcon name="external" className={styles.icon} />
-        ) : icon ? (
-          <GlobalIconWrapper icon={icon} className={styles.icon} />
-        ) : null}
+        {external ? <MotifIcon name="external" size={size} /> : icon ? <GlobalIconWrapper icon={icon} size={size} /> : null}
         <span className={styles.label}>{label || url}</span>
       </a>
     )
