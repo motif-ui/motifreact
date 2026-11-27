@@ -5549,6 +5549,18 @@
           }
         },
         {
+          "name": "sizing/space/128",
+          "type": "FLOAT",
+          "scopes": [
+            "GAP"
+          ],
+          "hiddenFromPublishing": false,
+          "description": "128px · padding, margin, gap",
+          "values": {
+            "Value": 128
+          }
+        },
+        {
           "name": "sizing/icon/xxs",
           "type": "FLOAT",
           "scopes": [
@@ -5630,18 +5642,6 @@
           "description": "32px · icon beside text-xxl",
           "values": {
             "Value": 32
-          }
-        },
-        {
-          "name": "sizing/icon/xxxl",
-          "type": "FLOAT",
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ],
-          "hiddenFromPublishing": false,
-          "description": "36px · icon beside text-3xl",
-          "values": {
-            "Value": 36
           }
         },
         {

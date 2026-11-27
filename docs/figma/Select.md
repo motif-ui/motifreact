@@ -27,8 +27,7 @@
 
 ## Decisions
 
-- 2026-11-05: `showChips` was replaced by the code props `multiple` / `filterable`; chips show only when both are true.
-  Consumers' instances that used `showChips` lose their chips on update.
+- Chips show only when `multiple` and `filterable` are both true.
 - Chips are direct children of `inputTextAndItemsContainer` (named `selectionChip`), so they wrap like the code
   (the input keeps at least `sizing/64`).
 - The input text hugs and clips, like a native input (no ellipsis); the caret sits after the value, or before the

@@ -1,61 +1,62 @@
 @use "@styles" as *;
 
-$sizes: (
-  //sizeName, helperSize, gapVLabel, gapHLabel, marginTopHLabel, gapHGroupItems
-  ("xs", "xxs", "2x", "8x", "4x", "20x"),
-  ("sm", "xxs", "4x", "12x", "6x", "24x"),
-  ("md", "xs", "6x", "16x", "8x", "28x"),
-  ("lg", "sm", "8x", "20x", "10x", "32x")
-);
+// size (also the label's text step), helper step, gapVLabel, gapHLabel, marginTopHLabel, gapHGroupItems
+$sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6, 16, 8, 28), ("lg", "sm", 8, 20, 10, 32));
 
 .Root {
   display: flex;
+}
 
-  &.error {
-    &.required .label::before,
-    &.required .label::after,
-    .helper {
-      color: var(--theme-color-text-danger-default);
-    }
-  }
-
-  &.success .helper {
-    color: var(--theme-color-text-success-default);
-  }
-
-  &.disabled {
-    .label {
-      &,
-      &::before,
-      &::after {
-        color: var(--theme-color-text-base-disabled);
-      }
-    }
-    &.required .label::before,
-    &.required .label::after {
-      color: var(--theme-color-text-base-disabled);
-    }
-    .helper {
-      color: var(--theme-color-text-base-disabled);
-    }
-  }
+// The required mark: before a horizontal label, after a vertical one. The mark comes from the required modifier and its
+// place from the label orientation, two axes whose combined selector would exceed the specificity limit (css.md section 4)
+.required {
+  --mtf-form-field-mark: "*";
 }
 
 .label {
-  color: var(--theme-color-text-base-title-light);
-  .required & {
-    &::before,
-    &::after {
-      color: var(--theme-color-text-base-caption);
-      padding: 0 var(--base-sizing-2x);
-    }
+  color: var(--mtf-color-text-strong);
+
+  &::before,
+  &::after {
+    padding: 0 var(--mtf-sizing-space-2);
+    color: var(--mtf-color-text-softer);
+    font-weight: var(--mtf-typography-weight-strongest);
+  }
+
+  .horizontalLabel &::before,
+  .verticalLabel &::after {
+    content: var(--mtf-form-field-mark, none);
+  }
+
+  // After the base colors: same specificity, so error and disabled win by order
+  .error &::before,
+  .error &::after {
+    color: var(--mtf-color-danger-text);
+  }
+
+  .disabled &,
+  .disabled &::before,
+  .disabled &::after {
+    color: var(--mtf-color-text-disabled);
   }
 }
 
 .helper {
-  color: var(--theme-color-text-base-caption);
+  color: var(--mtf-color-text-softer);
   white-space: pre-line;
   @include transition(color);
+
+  .error & {
+    color: var(--mtf-color-danger-text);
+  }
+
+  .success & {
+    color: var(--mtf-color-success-text);
+  }
+
+  .disabled & {
+    color: var(--mtf-color-text-disabled);
+  }
 }
 
 .inputContainer {
@@ -69,21 +70,29 @@ $sizes: (
   .label {
     white-space: nowrap;
   }
+
   .inputContainer {
-    min-width: var(--base-sizing-128x);
+    min-width: var(--mtf-sizing-128);
   }
+
   .inputContainer:has([data-mtf-component="upload-dragger"]),
   .inputContainer:has([data-mtf-component="upload-list"]),
   .inputContainer:has([data-mtf-component="upload-input"]) {
-    min-width: var(--base-sizing-256x);
+    min-width: var(--mtf-sizing-256);
+  }
+
+  // A field without a label next to fields with vertical labels lines up with their inputs
+  :has(.label) > &:not(:has(> .label)) {
+    padding-top: var(--mtf-form-field-label-offset, 0);
   }
 }
 
 .verticalForm.horizontalLabel {
   .label {
-    width: var(--base-sizing-128x);
-    min-width: var(--base-sizing-128x);
+    width: var(--mtf-sizing-128);
+    min-width: var(--mtf-sizing-128);
   }
+
   .inputContainer {
     flex: 1;
   }
@@ -98,9 +107,7 @@ $sizes: (
 
 .horizontalLabel {
   align-items: flex-start;
-  &.required .label::before {
-    content: "*";
-  }
+
   &.horizontalForm .inputContainer {
     flex: 1;
   }
@@ -120,14 +127,12 @@ $sizes: (
 
 .verticalLabel {
   flex-direction: column;
-  &.required .label::after {
-    content: "*";
-  }
 }
 
 .groupItems {
   display: flex;
   flex-wrap: nowrap;
+
   .horizontalGroup & {
     align-items: flex-start;
 
@@ -135,12 +140,14 @@ $sizes: (
     > [data-mtf-component="select"],
     > [data-mtf-component="textarea"] {
       flex: 1;
-      min-width: var(--base-sizing-128x);
+      min-width: var(--mtf-sizing-128);
     }
   }
+
   .verticalGroup & {
     flex-direction: column;
   }
+
   .wrap & {
     flex-wrap: wrap;
   }
@@ -153,33 +160,24 @@ $sizes: (
   }
 }
 
-@each $size, $helperSize, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems in $sizes {
+@each $size, $helperStep, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems in $sizes {
   .#{$size} {
     &.verticalLabel {
-      gap: var(--base-sizing-#{$gapVLabel});
-      &.required .label::after {
-        font-weight: var(--typography-base-#{$size}-700-font-weight);
-      }
-      &.horizontalForm:not(:has(> .label)) {
-        @at-root :has(.label) > & {
-          $gap-var: --base-sizing-#{$gapVLabel};
-          $line-height-var: --typography-base-#{$size}-500-line-height;
-          padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
-        }
-      }
+      // The label's line and its gap, for the padding of a field without a label (above)
+      --mtf-form-field-label-offset: calc(var(--mtf-sizing-space-#{$gapVLabel}) + var(--mtf-typography-text-#{$size}-line-height));
+      gap: var(--mtf-sizing-space-#{$gapVLabel});
     }
 
     &.verticalGroup .groupItems {
-      gap: var(--base-sizing-#{$gapVLabel});
+      gap: var(--mtf-sizing-space-#{$gapVLabel});
     }
 
     &.horizontalLabel {
-      gap: var(--base-sizing-#{$gapHLabel});
+      gap: var(--mtf-sizing-space-#{$gapHLabel});
+
+      // The input's vertical padding (its border is drawn inside), so the label lines up with the input's text
       .label {
-        margin-top: var(--base-sizing-#{$marginTopHLabel});
-      }
-      &.required .label::before {
-        font-weight: var(--typography-base-#{$size}-700-font-weight);
+        margin-top: var(--mtf-sizing-space-#{$marginTopHLabel});
       }
 
       @include screen-width("below", "sm") {
@@ -194,19 +192,19 @@ $sizes: (
     }
 
     &.horizontalGroup .groupItems {
-      gap: var(--base-sizing-#{$gapVLabel}) var(--base-sizing-#{$gapHGroupItems});
+      gap: var(--mtf-sizing-space-#{$gapVLabel}) var(--mtf-sizing-space-#{$gapHGroupItems});
     }
 
     .label {
-      @include font("base", $size, "500");
+      @include typography("text-#{$size}", "strong");
     }
 
     .helper {
-      @include font("body", $helperSize);
+      @include typography("text-#{$helperStep}", "regular");
     }
 
     .inputContainer {
-      gap: var(--base-sizing-#{$gapVLabel});
+      gap: var(--mtf-sizing-space-#{$gapVLabel});
     }
   }
 }

@@ -60,7 +60,7 @@ const SIZES = [
 // Spacing is named by its px at the default space seed, so Figma values read 1:1 (space-8 = 8px);
 // the value still follows the seed (space-8 = 10px at space 5). Half-unit steps keep today's 2px, 6px and 10px paddings
 const DEFAULT_SPACE = 4;
-const SPACING = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 64];
+const SPACING = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 64, 128];
 // Icons next to text of the same size (Icon, IconButton, fields, Button): [size, text step]. See iconSize
 const ICON_STEPS: [string, string][] = [
   ["xxs", "text-xxs"],
@@ -70,7 +70,6 @@ const ICON_STEPS: [string, string][] = [
   ["lg", "text-lg"],
   ["xl", "text-xl"],
   ["xxl", "text-xxl"],
-  ["xxxl", "text-3xl"],
 ];
 const CONTAINERS: [string, number][] = [
   ["xs", 360],

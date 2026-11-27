@@ -1,7 +1,5 @@
 # Chip: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-16 with /figma-new-component from the `ChipV2` clone (batch 3), which replaced Chip on 2026-11-18.
-
 ## Nodes
 
 | What                                           | ID                                                   |
@@ -41,7 +39,7 @@ Built 2026-11-16 with /figma-new-component from the `ChipV2` clone (batch 3), wh
   dark).
 - neutral solid is `color/neutral/soft` with `color/neutral/text` (code: like the neutral solid button); the close icon
   is colored like the label (code: `color: inherit`).
-- Default variant is neutral (code default changed from secondary on 2026-11-16).
+- Default variant is neutral.
 - Only a closable chip has a hover state; it is not a variant: the Color spec's hover column overrides the instance
   fill (solid: `{variant}/solid-hover`, neutral `neutral/soft-hover`; outline: `{variant}/soft`).
 - Spec tables: Size spec (sizes × label · icon + label · label + close · all three), Color spec (per shape: variants ×

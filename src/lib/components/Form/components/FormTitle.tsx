@@ -1,4 +1,5 @@
 import styles from "./FormTitle.module.scss";
+import { sanitizeModuleClasses } from "../../../../utils/cssUtils";
 import { InputSize } from "../../Form/types";
 import { memo } from "react";
 
@@ -18,7 +19,7 @@ const FormTitle = memo((props: Props) => {
   const { size, title } = props;
 
   const HTag = headingMap[size];
-  return <HTag className={styles.title}>{title}</HTag>;
+  return <HTag className={sanitizeModuleClasses(styles, "title", size)}>{title}</HTag>;
 });
 
 export default FormTitle;

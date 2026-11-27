@@ -38,7 +38,7 @@ visual specification of migrated components. These rules keep the two from drift
 - Every text uses a text style, or binds all four font properties to variables: font size and line height (the
   `typography/text-*` step the SCSS uses for a size prop, the role for fixed text), weight (`typography/weight/*`) and
   family. A raw size or a weight picked from the font menu is a hard-coded value. Check every component set before
-  closing a Figma change (Button had a raw 12px xxs label and no bound weight, 2026-11-25).
+  closing a Figma change.
 - Figma takes the left-most variant of a set as its default. Put the column of the code's default value first in the set
   (Select: md, xs, sm, lg; ProgressCircle: sm, xs, md, lg, xl); doc page matrices keep the natural order. Figma picks
   the default row by row (a variant must sit clearly above the others to win), so there is no way to keep the natural

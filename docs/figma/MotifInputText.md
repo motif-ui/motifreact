@@ -1,7 +1,5 @@
 # _MotifInputText: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-24 with /figma-sync from the migrated code (input family token migration, batch 7).
-
 ## Nodes
 
 | What                                           | ID                                      |

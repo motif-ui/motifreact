@@ -426,6 +426,7 @@
   --mtf-sizing-space-40: 2.5rem;
   --mtf-sizing-space-48: 3rem;
   --mtf-sizing-space-64: 4rem;
+  --mtf-sizing-space-128: 8rem;
   --mtf-sizing-icon-xxs: 0.875rem;
   --mtf-sizing-icon-xs: 1rem;
   --mtf-sizing-icon-sm: 1.125rem;
@@ -433,7 +434,6 @@
   --mtf-sizing-icon-lg: 1.5rem;
   --mtf-sizing-icon-xl: 1.625rem;
   --mtf-sizing-icon-xxl: 2rem;
-  --mtf-sizing-icon-xxxl: 2.25rem;
   --mtf-sizing-container-xs: 22.5rem;
   --mtf-sizing-container-sm: 33.75rem;
   --mtf-sizing-container-md: 45rem;
