@@ -6,6 +6,7 @@ import useOverlayState from "../useOverlayState";
 import useScrollLock from "../useScrollLock";
 import { getFocusables } from "../useOverlayFocus/focusable";
 import { ModalOverlayProps, UseModalOverlayReturn } from "./types";
+import { mergeRefs } from "../../../utils/reactUtils";
 
 // The open modals that trap the focus, in the order they were opened. Only the topmost one traps it, e.g. a confirmation
 // opened over a modal. It is shared by all the instances, and the list is replaced on each change.
@@ -16,10 +17,11 @@ const openTraps: { list: symbol[] } = { list: [] };
  * It closes on an outside click or Escape when enabled, but only when it is the topmost overlay, locks the page's scroll,
  * moves the focus into the dialog on open and back on close, and keeps the Tab focus in the dialog while it is open.
  */
-const useModalOverlay = (props: ModalOverlayProps): UseModalOverlayReturn => {
-  const { open, onClose, onAfterClose, duration, closeOnOutsideClick, closeOnEscape } = props;
+const useModalOverlay = <T extends HTMLElement = HTMLDivElement>(props: ModalOverlayProps): UseModalOverlayReturn<T> => {
+  const { open, rootRef: outerRootRef, onClose, onAfterClose, duration, closeOnOutsideClick, closeOnEscape } = props;
   const rootRef = useRef<HTMLDivElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const mergedRootRef = useMemo(() => mergeRefs(rootRef, outerRootRef), [outerRootRef]);
+  const dialogRef = useRef<T>(null);
   const insideRefs = useMemo(() => [dialogRef], []);
   const layerRefs = useMemo(() => [rootRef], []);
   // The last focus event marked by insideProps, e.g. a focus in a select's list rendered in its own portal from the dialog
@@ -107,7 +109,7 @@ const useModalOverlay = (props: ModalOverlayProps): UseModalOverlayReturn => {
   const markFocusInside = useCallback((e: SyntheticEvent) => void (insideFocusRef.current = e.nativeEvent), []);
   const insideProps = useMemo(() => ({ ...stateInsideProps, onFocus: markFocusInside }), [stateInsideProps, markFocusInside]);
 
-  return { attached, visible, hide, rootRef, dialogRef, insideProps };
+  return { attached, visible, hide, rootRef: mergedRootRef, dialogRef, insideProps };
 };
 
 export default useModalOverlay;

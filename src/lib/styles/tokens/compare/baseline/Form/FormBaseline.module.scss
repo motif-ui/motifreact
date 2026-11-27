@@ -1,0 +1,84 @@
+@use "@styles" as *;
+
+$sizes: (
+  //sizeName, gapV, gapH, gapVLabel, gapButtons
+  ("xs", "12x", "20x", "2x", "6x"),
+  ("sm", "16x", "24x", "4x", "8x"),
+  ("md", "20x", "28x", "6x", "12x"),
+  ("lg", "24x", "32x", "8x", "16x")
+);
+
+.Root {
+  flex-direction: column;
+
+  // The padding of the Grids in the Form without a padding value, so the fields line up as without a Grid
+  --form-grid-padding: 0;
+}
+
+.submitArea {
+  display: flex;
+  &.submitArea_align_left {
+    justify-content: flex-start;
+  }
+  &.submitArea_align_center {
+    justify-content: center;
+  }
+  &.submitArea_align_right {
+    justify-content: flex-end;
+  }
+  &.submitArea_align_fluid > button {
+    flex: 1 1 0;
+  }
+}
+
+.horizontal {
+  display: inline-flex;
+  width: 100%;
+}
+
+.horizontal .fields {
+  display: inline-flex;
+  align-items: flex-start;
+}
+
+.horizontalLabels .submitArea {
+  padding-top: 0;
+}
+
+.vertical {
+  display: flex;
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .submitArea {
+    flex-wrap: wrap;
+  }
+}
+
+@each $size, $gapV, $gapH, $gapVLabel, $gapButtons in $sizes {
+  .#{$size} {
+    // The gaps of the Grids in the Form without gap values
+    --form-grid-row-gap: var(--base-sizing-#{$gapV});
+    --form-grid-column-gap: var(--base-sizing-#{$gapH});
+    &,
+    &.vertical .fields {
+      gap: var(--base-sizing-#{$gapV});
+    }
+    .submitArea {
+      gap: var(--base-sizing-#{$gapButtons});
+    }
+    &.horizontal {
+      .fields {
+        gap: var(--base-sizing-#{$gapH});
+      }
+      &.verticalLabels .fields:has([data-has-label]) > .submitArea {
+        $gap-var: --base-sizing-#{$gapVLabel};
+        $line-height-var: --typography-base-#{$size}-500-line-height;
+        padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
+      }
+    }
+  }
+}

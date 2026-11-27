@@ -1,4 +1,5 @@
 ﻿@use "sass:list";
+@use "sass:map";
 @use "sass:string";
 @use "@styles" as *;
 
@@ -6,6 +7,17 @@ $grid-sizes: ("xxs", "xs", "sm", "md", "lg", "xl", "xxl");
 $grids: 12;
 $spacing-sizes: list.append($grid-sizes, "none");
 $gap-kinds: ("gap", "row-gap", "column-gap");
+
+// The spacing step of each gutter size
+$gutters: (
+  "xxs": 4,
+  "xs": 8,
+  "sm": 16,
+  "md": 24,
+  "lg": 32,
+  "xl": 64,
+  "xxl": 128
+);
 
 @function calculate-grid-flex-width($colIdx, $gutter) {
   @return calc(($colIdx / $grids * 100%) - ((1 - $colIdx / $grids) * #{$gutter}));
@@ -16,7 +28,7 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
     // stylelint-disable-next-line length-zero-no-unit -- a unitless 0 is invalid in calculate-grid-flex-width's calc()
     @return 0px;
   }
-  @return var(--theme-grid-gutter-gutter-#{$size});
+  @return var(--mtf-sizing-space-#{map.get($gutters, $size)});
 }
 
 // The smallest screen size (xxs) is "base" in the public CSS variables, e.g. --mtf-grid-base-gap
@@ -85,19 +97,14 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
   padding: var(--grid-resolved-padding);
 
   // A Grid without gap or padding values uses the ones of its Form, if any
-  @include resolve-gaps(
-    "--grid-resolved-column-gap",
-    "--grid-resolved-row-gap",
-    var(--form-grid-column-gap, var(--theme-grid-gutter-gutter-sm)),
-    var(--form-grid-row-gap, var(--theme-grid-gutter-gutter-sm))
-  );
+  @include resolve-gaps("--grid-resolved-column-gap", "--grid-resolved-row-gap", var(--mtf-form-grid-column-gap, #{spacing-value("sm")}), var(--mtf-form-grid-row-gap, #{spacing-value("sm")}));
 
   // Padding works like the gaps, with the public --mtf-grid-{breakpoint}-padding variables
   @each $size in $grid-sizes {
     --mtf-grid-#{breakpoint-name($size)}-padding: initial;
   }
   @include screen-width-breakpoints($grid-sizes) using ($size) {
-    --grid-resolved-padding: #{spacing-chain("padding", $size, var(--form-grid-padding, var(--theme-grid-gutter-gutter-sm)))};
+    --grid-resolved-padding: #{spacing-chain("padding", $size, var(--mtf-form-grid-padding, #{spacing-value("sm")}))};
   }
 
   @each $size in $grid-sizes {
@@ -116,7 +123,7 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
   // TODO: Move to a Container component in the next major version, when Grid becomes fluid by default
   &:not(.fluid) {
     @include screen-width-breakpoints($grid-sizes) using ($size) {
-      max-width: var(--theme-grid-container-#{$size});
+      max-width: if($size == "xxs", 100%, var(--mtf-sizing-container-#{$size}));
     }
   }
 }
@@ -187,13 +194,14 @@ $gap-kinds: ("gap", "row-gap", "column-gap");
   &.colsAuto > * {
     flex: initial;
   }
+}
 
-  &.stretchItems > .colBase > .col {
-    display: flex;
-    flex-direction: column;
+// Only a Row takes stretchItems, so the modifier alone names it
+.stretchItems > .colBase > .col {
+  display: flex;
+  flex-direction: column;
 
-    > * {
-      flex-grow: 1;
-    }
+  > * {
+    flex-grow: 1;
   }
 }
