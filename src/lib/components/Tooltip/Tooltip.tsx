@@ -1,6 +1,6 @@
 "use client";
 
-import { cloneElement, Children, ReactElement, RefObject, useEffect, useMemo, useRef } from "react";
+import { cloneElement, Children, ReactElement, RefObject, useEffect, useRef } from "react";
 import styles from "./Tooltip.module.scss";
 import { createPortal } from "react-dom";
 import { TooltipProps } from "./types";
@@ -8,7 +8,6 @@ import { PropsWithRefAndChildren } from "../../types";
 import useAnchoredOverlay from "../../hooks/useAnchoredOverlay";
 import usePropsWithThemeDefaults from "../../motif/hooks/usePropsWithThemeDefaults";
 import { sanitizeModuleRootClasses } from "../../../utils/cssUtils";
-import { mergeRefs } from "../../../utils/reactUtils";
 
 const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) => {
   const {
@@ -16,7 +15,7 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
     title,
     size = "md",
     position = "top",
-    variant = "light",
+    inverseColors,
     children,
     style,
     className,
@@ -32,9 +31,7 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
     overlayRef: tooltipRef,
     show,
     hide,
-  } = useAnchoredOverlay({ anchorRef, placement: position, limitWidth: true, duration: 300, inactive: !text });
-
-  const mergedRef = useMemo(() => mergeRefs(tooltipRef, ref), [tooltipRef, ref]);
+  } = useAnchoredOverlay({ anchorRef, overlayRef: ref, placement: position, limitWidth: true, duration: 300, inactive: !text });
 
   useEffect(() => {
     const anchor = anchorRef.current;
@@ -49,7 +46,13 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
   }, [show, hide, text]);
 
   const triangleSpot = position.endsWith("Left") ? "triangleLeft" : position.endsWith("Right") ? "triangleRight" : "triangleCenter";
-  const classNames = sanitizeModuleRootClasses(styles, className, [size, placement, triangleSpot, visible && "visible", variant]);
+  const classNames = sanitizeModuleRootClasses(styles, className, [
+    size,
+    placement,
+    triangleSpot,
+    visible && "visible",
+    inverseColors && "inverseColors",
+  ]);
 
   return (
     <>
@@ -57,7 +60,7 @@ const Tooltip = (props: PropsWithRefAndChildren<TooltipProps, HTMLDivElement>) =
       {!!text.length &&
         attached &&
         createPortal(
-          <div className={classNames} data-testid="tooltipItem" style={{ ...style, ...positionStyle }} ref={mergedRef} role="tooltip">
+          <div className={classNames} data-testid="tooltipItem" style={{ ...style, ...positionStyle }} ref={tooltipRef} role="tooltip">
             <div className={styles.triangle} />
             <div className={styles.textWrapper}>
               {title && <span className={styles.title}>{title}</span>}

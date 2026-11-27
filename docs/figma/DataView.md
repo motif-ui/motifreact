@@ -1,7 +1,5 @@
 # DataView: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-17 with /figma-new-component from the `DataViewV2` clone (batch 4), which replaced DataView on 2026-11-18.
-
 ## Nodes
 
 | What                                                     | ID                                                    |
@@ -34,7 +32,7 @@ Built 2026-11-17 with /figma-new-component from the `DataViewV2` clone (batch 4)
 - The horizontal label takes 30% of the row, so the rows are 480px wide in Figma (360px wraps "Version" at 30%; the
   code wraps the same way in narrow columns).
 - stripe rows and the solid label cell use `color/neutral/soft`, the same tone as variant=neutral (user,
-  2026-11-18; the code was changed to match).
+  2026-11-18).
 - Spec tables: Item content (orientation horizontal · vertical × label/value, icon, long value, long label,
   valueAlignment, bordered, solid, stripe) and Color spec (variants, solid, stripe × Light · Dark; orientation does
   not change colors). Scenarios: DataView options (both orientations × plain, removeBorder, solid, solid without

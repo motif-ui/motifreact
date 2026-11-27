@@ -1,0 +1,104 @@
+@use "@styles" as *;
+
+$sizes: (
+  //sizeName, width, height
+  ("sm", "320x", "256x"),
+  ("md", "480x", "400x"),
+  ("lg", "760x", "600x")
+);
+
+.Root {
+  position: fixed;
+  inset: 0;
+  background-color: var(--base-colors-black-black-overlay50);
+  z-index: z-layer("modal");
+  @include fade-default;
+
+  &.show {
+    @include fade-in;
+  }
+
+  &.removeBackdrop {
+    background-color: transparent;
+  }
+}
+
+.drawer {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  background: var(--theme-color-surface-base-global-light);
+  border: solid var(--base-sizing-1x) var(--theme-color-border-light-default);
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  @include shadow(4);
+
+  .left & {
+    @include slide-default("left");
+    inset: 0 auto 0 0;
+    border-radius: 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0;
+  }
+
+  .right & {
+    @include slide-default("right");
+    inset: 0 0 0 auto;
+    border-radius: var(--theme-sizing-radius-default) 0 0 var(--theme-sizing-radius-default);
+  }
+
+  .top & {
+    @include slide-default("top");
+    inset: 0 0 auto;
+    border-radius: 0 0 var(--theme-sizing-radius-default) var(--theme-sizing-radius-default);
+  }
+
+  .bottom & {
+    @include slide-default("bottom");
+    inset: auto 0 0;
+    border-radius: var(--theme-sizing-radius-default) var(--theme-sizing-radius-default) 0 0;
+  }
+
+  .show & {
+    @include slide-in;
+  }
+
+  @each $size, $width, $height in $sizes {
+    .left.#{$size} &,
+    .right.#{$size} & {
+      width: min(var(--base-sizing-#{$width}), 85vw);
+    }
+
+    .top.#{$size} &,
+    .bottom.#{$size} & {
+      height: min(var(--base-sizing-#{$height}), 85vh);
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--base-sizing-16x);
+  padding: var(--base-sizing-16x);
+}
+
+.headerTitle {
+  flex: 1;
+  color: var(--theme-color-text-base-title);
+  overflow-wrap: break-word;
+  @include font("base", "lg", "700");
+}
+
+.closeButton {
+  margin-left: auto;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.includePadding .content {
+  padding: var(--base-sizing-16x);
+}

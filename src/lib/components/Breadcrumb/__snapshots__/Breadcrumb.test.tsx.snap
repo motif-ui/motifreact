@@ -6,7 +6,7 @@ exports[`Breadcrumb should render with only required props, and have standard pr
     class="Root"
   >
     <span
-      class="Root motifIconsDefault homepage-icon"
+      class="Root md motifIconsDefault homepage-icon"
       lang="en"
       translate="no"
     >
@@ -21,7 +21,7 @@ exports[`Breadcrumb should render with only required props, and have standard pr
         Ana Sayfa
       </a>
       <span
-        class="Root motifIconsDefault right-icon"
+        class="Root xxs motifIconsDefault right-icon"
         lang="en"
         translate="no"
       >
@@ -37,7 +37,7 @@ exports[`Breadcrumb should render with only required props, and have standard pr
         ...
       </span>
       <span
-        class="Root motifIconsDefault right-icon"
+        class="Root xxs motifIconsDefault right-icon"
         lang="en"
         translate="no"
       >
@@ -53,7 +53,7 @@ exports[`Breadcrumb should render with only required props, and have standard pr
         Microsoft
       </a>
       <span
-        class="Root motifIconsDefault right-icon"
+        class="Root xxs motifIconsDefault right-icon"
         lang="en"
         translate="no"
       >

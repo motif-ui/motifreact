@@ -3,7 +3,7 @@ import InputDateRange, { RANGE_ARROW } from "@/components/InputDateRange/InputDa
 import { formatDate } from "@/components/InputDate/helper";
 import { userEvent } from "@testing-library/user-event";
 import { InputSize } from "../../Form/types";
-import { ReactNode } from "react";
+import { createRef, ReactNode } from "react";
 import { DateUtils } from "../../../../utils/dateUtils";
 import { defaultDateFormat } from "../../Motif/Pickers/types";
 import { t, runIconPropTest, runSnapshotDefaultsAndStandardPropsTest } from "../../../../utils/testUtils";
@@ -327,5 +327,15 @@ describe("InputDateRange", () => {
 
     rerender(<InputDateRange icon={null} />);
     expect(container.querySelector(".icon")).not.toBeInTheDocument();
+  });
+
+  it("should pass the picker rendered in the body to the ref given in the overlayRef prop", async () => {
+    const overlayRef = createRef<HTMLDivElement>();
+    const { getDateRangeInput, getPickerContainer } = renderExt(<InputDateRange overlayRef={overlayRef} />);
+    expect(overlayRef.current).toBeNull();
+
+    await user.click(getDateRangeInput());
+    expect(overlayRef.current).toContainElement(getPickerContainer());
+    expect(overlayRef.current?.parentElement).toBe(document.body);
   });
 });

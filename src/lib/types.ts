@@ -14,7 +14,6 @@ export type Size4SM = "xs" | Size3;
 export type Size4LG = Size3 | "xl";
 export type Size5 = "xs" | Size3 | "xl";
 export type Size7 = "xxs" | Size5 | "xxl";
-export type Size8LG = Size7 | "xxxl";
 
 export type Variant = "primary" | "secondary" | "info" | "success" | "warning" | "danger";
 export type VariantV2 = "neutral" | "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "danger";
@@ -31,6 +30,10 @@ export type PropsWithRef<P = unknown, R = unknown> = P & StandardProps & RefType
 export type PropsWithRefAndChildren<P = unknown, R = unknown> = PropsWithChildren<P> & StandardProps & RefType<R>;
 export type StandardPropsWithRef<R = unknown> = StandardProps & RefType<R>;
 export type StandardPropsWithChildren<P = unknown> = PropsWithChildren<P> & StandardProps;
+export type OverlayRefProps<R = HTMLDivElement> = {
+  /** Ref of the overlay, which is rendered in document.body, outside the element of `ref`. It is null while the overlay is closed. */
+  overlayRef?: Ref<R>;
+};
 
 /**
  * ```

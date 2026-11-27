@@ -1,7 +1,5 @@
 # Chip: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-16 with /figma-new-component from the `ChipV2` clone (batch 3), which replaced Chip on 2026-11-18.
-
 ## Nodes
 
 | What                                           | ID                                                   |
@@ -32,7 +30,7 @@ Built 2026-11-16 with /figma-new-component from the `ChipV2` clone (batch 3), wh
   sizing/space/2 · 8 (xs), 4 · 12 (sm), 4 · 16 (md), 6 · 20 (lg). With an icon on either side, both sides take
   sizing/space/6 · 8 · 10 · 12 (the label's visible space above and below) and the gap between icons and label is
   sizing/space/4 · 6 · 6 · 8, so the chip stays balanced whichever side the icon is on and is not chubby at lg. Icons
-  14 · 16 · 18 · 20 px fit the label's line, so every chip of a size has one height (20 · 24 · 28 · 36). The code sets
+  `sizing/icon/xxs · xs · sm · md` (14 · 16 · 18 · 22) fit the label's line, so every chip of a size has one height (20 · 24 · 28 · 36). The code sets
   the icon size on the close button's inner icon, since IconButton gives that icon its own size class, and makes the
   close button as tall as its icon.
 - outline: 1px inside stroke that counts in the layout (`strokesIncludedInLayout`), so an outline chip is 2px larger,
@@ -41,7 +39,7 @@ Built 2026-11-16 with /figma-new-component from the `ChipV2` clone (batch 3), wh
   dark).
 - neutral solid is `color/neutral/soft` with `color/neutral/text` (code: like the neutral solid button); the close icon
   is colored like the label (code: `color: inherit`).
-- Default variant is neutral (code default changed from secondary on 2026-11-16).
+- Default variant is neutral.
 - Only a closable chip has a hover state; it is not a variant: the Color spec's hover column overrides the instance
   fill (solid: `{variant}/solid-hover`, neutral `neutral/soft-hover`; outline: `{variant}/soft`).
 - Spec tables: Size spec (sizes × label · icon + label · label + close · all three), Color spec (per shape: variants ×

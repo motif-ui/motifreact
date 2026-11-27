@@ -10,13 +10,13 @@ import { sanitizeModuleClasses } from "src/utils/cssUtils.ts";
 
 const ListViewItem = (props: PropsWithRefAndChildren<ListViewItemProps, HTMLLIElement>) => {
   const { id, title, description, alternateText, icon, image, abbr, iconRight, href, onClick, disabled, ref, style } = props;
-  const { enableDividers, enableMultiLine } = useContext(ListViewContext);
+  const { enableDividers, enableMultiLine, size } = useContext(ListViewContext);
 
   const renderItemContent = () => (
     <>
       <LeftContent id={id} icon={icon} image={image} abbr={abbr} />
       <CenterContent title={title} description={description} alternateText={alternateText} />
-      {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.iconRight} />}
+      {iconRight && <GlobalIconWrapper icon={iconRight} className={styles.iconRight} size={size} />}
     </>
   );
 

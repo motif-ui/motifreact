@@ -32,8 +32,8 @@ describe("Tooltip", () => {
       const tooltip = screen.getByTestId("tooltipItem");
       // position: top
       expect(tooltip).toHaveClass("top");
-      // variant: light
-      expect(tooltip).toHaveClass("light");
+      // inverseColors: false (the dark contrast surface)
+      expect(tooltip).not.toHaveClass("inverseColors");
       // size: md
       expect(tooltip).toHaveClass("md");
     },
@@ -145,6 +145,18 @@ describe("Tooltip", () => {
     expect(screen.queryByText("Title")).toBeInTheDocument();
   });
 
+  it("should switch to the page's sunken surface when inverseColors is given", async () => {
+    render(
+      <Tooltip text="Description" inverseColors>
+        <Button label="Test Button" />
+      </Tooltip>,
+    );
+    await act(async () => {
+      await user.hover(screen.getByText("Test Button"));
+    });
+    expect(screen.getByRole("tooltip")).toHaveClass("inverseColors");
+  });
+
   it("should render correctly in all positions", async () => {
     const positions: OverlayPlaceOn[] = ["top", "right", "bottom", "left", "topLeft", "topRight", "bottomLeft", "bottomRight"];
 
@@ -160,28 +172,6 @@ describe("Tooltip", () => {
       });
       expect(screen.getByText(`${position}Tooltip`).parentElement?.parentElement).toHaveClass(position);
     }
-  });
-
-  it("should render with the theme of the given variant prop", async () => {
-    const { rerender } = render(
-      <Tooltip text="Test Tooltip">
-        <Button label="Test Button" />
-      </Tooltip>,
-    );
-    await act(async () => {
-      await user.hover(screen.getByText("Test Button"));
-    });
-    expect(screen.queryByTestId("tooltipItem")).toHaveClass("light");
-
-    rerender(
-      <Tooltip text="Test Tooltip" variant="dark">
-        <Button label="Test Button" />
-      </Tooltip>,
-    );
-    await act(async () => {
-      await user.hover(screen.getByText("Test Button"));
-    });
-    expect(screen.queryByTestId("tooltipItem")).toHaveClass("dark");
   });
 
   it("should render in size stated in the size prop", async () => {

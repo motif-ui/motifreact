@@ -1,13 +1,7 @@
 @use "@styles" as *;
 
-$sizes: (
-  //sizeName, helperSize, gapVLabel, gapHLabel, marginTopHLabel, gapHGroupItems
-  ("xs", "xxs", "2x", "8x", "4x", "20x"),
-  ("sm", "xxs", "4x", "12x", "6x", "24x"),
-  ("md", "xs", "6x", "16x", "8x", "28x"),
-  ("lg", "sm", "8x", "20x", "10x", "32x")
-);
-$required-mark: "*";
+// size (also the label's text step), helper step, gapVLabel, gapHLabel, marginTopHLabel, gapHGroupItems
+$sizes: (("xs", "xxs", 2, 8, 4, 20), ("sm", "xxs", 4, 12, 6, 24), ("md", "xs", 6, 16, 8, 28), ("lg", "sm", 8, 20, 10, 32));
 
 @mixin required-mark-anchor {
   .inputContainer > :first-child:not(.groupItems),
@@ -19,45 +13,42 @@ $required-mark: "*";
 
 .Root {
   display: flex;
+}
 
-  &.error {
-    &.required .label::before,
-    &.required .label::after,
-    .helper {
-      color: var(--theme-color-text-danger-default);
-    }
-  }
+// The required mark: before a horizontal label, after a vertical one, or at the top right of the input when there is no
+// label. The mark comes from the required modifier and its place from the label orientation, two axes whose combined
+// selector would exceed the specificity limit (css.md section 4)
+.required {
+  --mtf-form-field-mark: "*";
+}
 
-  &.success .helper {
-    color: var(--theme-color-text-success-default);
-  }
+// The mark's color comes from the state and is read by both marks (on the label and on a field without a label), whose
+// combined selectors would exceed the specificity limit (css.md section 4)
+.error {
+  --mtf-form-field-mark-color: var(--mtf-color-danger-text);
+}
 
-  &.disabled {
-    .label {
-      &,
-      &::before,
-      &::after {
-        color: var(--theme-color-text-base-disabled);
-      }
-    }
-    &.required .label::before,
-    &.required .label::after {
-      color: var(--theme-color-text-base-disabled);
-    }
-    .helper {
-      color: var(--theme-color-text-base-disabled);
-    }
-  }
+.disabled {
+  --mtf-form-field-mark-color: var(--mtf-color-text-disabled);
 }
 
 .label {
-  color: var(--theme-color-text-base-title-light);
-  .required & {
-    &::before,
-    &::after {
-      color: var(--theme-color-text-base-caption);
-      padding: 0 var(--base-sizing-2x);
-    }
+  color: var(--mtf-color-text-strong);
+
+  &::before,
+  &::after {
+    padding: 0 var(--mtf-sizing-space-2);
+    color: var(--mtf-form-field-mark-color, var(--mtf-color-text-softer));
+    font-weight: var(--mtf-typography-weight-strongest);
+  }
+
+  .horizontalLabel &::before,
+  .verticalLabel &::after {
+    content: var(--mtf-form-field-mark, none);
+  }
+
+  .disabled & {
+    color: var(--mtf-color-text-disabled);
   }
 }
 
@@ -71,36 +62,32 @@ $required-mark: "*";
       align-self: flex-start;
     }
     &::after {
-      content: $required-mark;
+      content: var(--mtf-form-field-mark, none);
       position: absolute;
       top: 0;
       left: 100%;
-      padding-left: var(--base-sizing-2x);
-      color: var(--theme-color-text-base-caption);
-    }
-  }
-
-  &.error {
-    @include required-mark-anchor {
-      &::after {
-        color: var(--theme-color-text-danger-default);
-      }
-    }
-  }
-
-  &.disabled {
-    @include required-mark-anchor {
-      &::after {
-        color: var(--theme-color-text-base-disabled);
-      }
+      padding-left: var(--mtf-sizing-space-2);
+      color: var(--mtf-form-field-mark-color, var(--mtf-color-text-softer));
     }
   }
 }
 
 .helper {
-  color: var(--theme-color-text-base-caption);
+  color: var(--mtf-color-text-softer);
   white-space: pre-line;
   @include transition(color);
+
+  .error & {
+    color: var(--mtf-color-danger-text);
+  }
+
+  .success & {
+    color: var(--mtf-color-success-text);
+  }
+
+  .disabled & {
+    color: var(--mtf-color-text-disabled);
+  }
 }
 
 .inputContainer {
@@ -114,21 +101,29 @@ $required-mark: "*";
   .label {
     white-space: nowrap;
   }
+
   .inputContainer {
-    min-width: var(--base-sizing-128x);
+    min-width: var(--mtf-sizing-128);
   }
+
   .inputContainer:has([data-mtf-component="upload-dragger"]),
   .inputContainer:has([data-mtf-component="upload-list"]),
   .inputContainer:has([data-mtf-component="upload-input"]) {
-    min-width: var(--base-sizing-256x);
+    min-width: var(--mtf-sizing-256);
+  }
+
+  // A field without a label next to fields with vertical labels lines up with their inputs
+  :has(.label) > &:not(:has(> .label)) {
+    padding-top: var(--mtf-form-field-label-offset, 0);
   }
 }
 
 .verticalForm.horizontalLabel {
   .label {
-    width: var(--base-sizing-128x);
-    min-width: var(--base-sizing-128x);
+    width: var(--mtf-sizing-128);
+    min-width: var(--mtf-sizing-128);
   }
+
   .inputContainer {
     flex: 1;
   }
@@ -136,9 +131,7 @@ $required-mark: "*";
 
 .horizontalLabel {
   align-items: flex-start;
-  &.required .label::before {
-    content: $required-mark;
-  }
+
   &.horizontalForm .inputContainer {
     flex: 1;
   }
@@ -146,14 +139,12 @@ $required-mark: "*";
 
 .verticalLabel {
   flex-direction: column;
-  &.required .label::after {
-    content: $required-mark;
-  }
 }
 
 .groupItems {
   display: flex;
   flex-wrap: nowrap;
+
   .horizontalGroup & {
     align-items: flex-start;
 
@@ -161,69 +152,62 @@ $required-mark: "*";
     > [data-mtf-component="select"],
     > [data-mtf-component="textarea"] {
       flex: 1;
-      min-width: var(--base-sizing-128x);
+      min-width: var(--mtf-sizing-128);
     }
   }
+
   .verticalGroup & {
     flex-direction: column;
   }
+
   .wrap & {
     flex-wrap: wrap;
   }
 }
 
-@each $size, $helperSize, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems in $sizes {
+@each $size, $helperStep, $gapVLabel, $gapHLabel, $marginTopHLabel, $gapHGroupItems in $sizes {
   .#{$size} {
     &.verticalLabel {
-      gap: var(--base-sizing-#{$gapVLabel});
-      &.required .label::after {
-        font-weight: var(--typography-base-#{$size}-700-font-weight);
-      }
-      &.horizontalForm:not(:has(> .label)) {
-        @at-root :has(.label) > & {
-          $gap-var: --base-sizing-#{$gapVLabel};
-          $line-height-var: --typography-base-#{$size}-500-line-height;
-          padding-top: calc(var(#{$gap-var}) + var(#{$line-height-var}));
-        }
-      }
+      // The label's line and its gap, for the padding of a field without a label (above)
+      --mtf-form-field-label-offset: calc(var(--mtf-sizing-space-#{$gapVLabel}) + var(--mtf-typography-text-#{$size}-line-height));
+      gap: var(--mtf-sizing-space-#{$gapVLabel});
     }
 
     &.verticalGroup .groupItems {
-      gap: var(--base-sizing-#{$gapVLabel});
+      gap: var(--mtf-sizing-space-#{$gapVLabel});
     }
 
     &.horizontalLabel {
-      gap: var(--base-sizing-#{$gapHLabel});
+      gap: var(--mtf-sizing-space-#{$gapHLabel});
+
+      // The input's vertical padding (its border is drawn inside), so the label lines up with the input's text
       .label {
-        margin-top: var(--base-sizing-#{$marginTopHLabel});
-      }
-      &.required .label::before {
-        font-weight: var(--typography-base-#{$size}-700-font-weight);
+        margin-top: var(--mtf-sizing-space-#{$marginTopHLabel});
       }
     }
 
     &.horizontalGroup .groupItems {
-      gap: var(--base-sizing-#{$gapVLabel}) var(--base-sizing-#{$gapHGroupItems});
+      gap: var(--mtf-sizing-space-#{$gapVLabel}) var(--mtf-sizing-space-#{$gapHGroupItems});
     }
 
     .label {
-      @include font("base", $size, "500");
+      @include typography("text-#{$size}", "strong");
     }
 
     &.required:not([data-has-label]) {
       @include required-mark-anchor {
         &::after {
-          @include font("base", $size, "700");
+          @include typography("text-#{$size}", "strongest");
         }
       }
     }
 
     .helper {
-      @include font("body", $helperSize);
+      @include typography("text-#{$helperStep}", "regular");
     }
 
     .inputContainer {
-      gap: var(--base-sizing-#{$gapVLabel});
+      gap: var(--mtf-sizing-space-#{$gapVLabel});
     }
   }
 }

@@ -282,7 +282,7 @@ const ThemeShowcase = () => {
               <Tooltip text="I am here" position="top">
                 <Button label="Tooltip here ↑" size="sm" />
               </Tooltip>
-              <Tooltip text="Now, I am here" position="bottom" variant="dark">
+              <Tooltip text="Now, I am here" position="bottom">
                 <Button label="↓ Tooltip there" size="sm" />
               </Tooltip>
             </div>

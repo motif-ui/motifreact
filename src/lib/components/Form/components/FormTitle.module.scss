@@ -1,15 +1,16 @@
 @use "@styles" as *;
 
-$headings: (("h2", "heading6"), ("h3", "heading5"), ("h4", "heading4"), ("h5", "heading5"));
+// Form size, text step: a larger Form gets a larger title (the tag goes from h2 for lg to h5 for xs)
+$sizes: (("xs", "md"), ("sm", "lg"), ("md", "xl"), ("lg", "xxl"));
 
 .title {
   margin: 0;
   padding: 0;
-  color: var(--theme-color-text-base-title);
+  color: var(--mtf-color-text-strong);
 
-  @each $tag, $heading in $headings {
-    #{$tag} & {
-      @include font("heading", $heading);
+  @each $size, $step in $sizes {
+    &.#{$size} {
+      @include typography("text-#{$step}", "strongest");
     }
   }
 }

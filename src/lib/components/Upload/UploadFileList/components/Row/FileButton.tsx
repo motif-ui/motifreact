@@ -21,7 +21,6 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
     size,
     uploadProps: { fileAction },
   } = useContext(UploadContext);
-  const iconSize = size === "xs" ? "xxs" : size === "sm" ? "xs" : size === "lg" ? "md" : "sm";
 
   return (
     <>
@@ -29,7 +28,7 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
         <IconButton
           name={fileAction.icon}
           variant="neutral"
-          size={iconSize}
+          size={size}
           className={`${styles.icon} ${styles.iconPositiveAction}`}
           onClick={() => fileAction.onClick(toFileValue(file))}
           disabled={!isFileReady(file)}
@@ -39,7 +38,7 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
         <MotifIconButton
           name="download"
           variant="neutral"
-          size={iconSize}
+          size={size}
           className={`${styles.icon} ${styles.iconPositiveAction}`}
           onClick={file.download}
           disabled={!isFileReady(file)}
@@ -51,18 +50,18 @@ export const FileButton = memo(({ file, readOnly, disabled }: Props) => {
             <IconButton
               name="autorenew"
               variant="neutral"
-              size={iconSize}
+              size={size}
               className={`${styles.icon} ${styles.iconPositiveAction}`}
               onClick={() => reUpload(file)}
             />
           )}
           {file.status === STATUS.UPLOADING ? (
-            <IconButton name="cancel_outline" variant="neutral" size={iconSize} className={styles.icon} onClick={() => abort(file)} />
+            <IconButton name="cancel_outline" variant="neutral" size={size} className={styles.icon} onClick={() => abort(file)} />
           ) : (
             <IconButton
               name="delete"
               variant="neutral"
-              size={iconSize}
+              size={size}
               className={`${styles.icon} ${styles.iconDelete}`}
               disabled={file.deleting}
               onClick={() => removeFiles([file])}

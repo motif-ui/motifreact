@@ -20,7 +20,7 @@ const Badge = (props: PropsWithRefAndChildren<BadgeProps, HTMLDivElement>) => {
   } = usePropsWithThemeDefaults("Badge", props);
 
   const contentToRender = icon ? (
-    <GlobalIconWrapper icon={icon} size="xxs" />
+    <GlobalIconWrapper icon={icon} size="xs" />
   ) : content ? (
     max > 0 && Number(content) > max ? (
       max + "+"

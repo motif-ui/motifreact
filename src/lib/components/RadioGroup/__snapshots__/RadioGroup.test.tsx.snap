@@ -5,6 +5,7 @@ exports[`RadioGroup should render with only required props, and have standard pr
   <div
     class="Root vertical md"
     data-mtf-component="radio-group"
+    role="radiogroup"
   >
     <div
       class="Root md"

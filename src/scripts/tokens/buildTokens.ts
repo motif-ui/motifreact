@@ -16,13 +16,13 @@ const WEIGHTS: [string, number][] = [
 // a weight; the roles below are named presets on top of them.
 const TEXT_SCALE: [string, number, number][] = [
   ["text-3xs", 10, 14],
-  ["text-2xs", 11, 16],
+  ["text-xxs", 11, 16],
   ["text-xs", 12, 16],
   ["text-sm", 14, 20],
   ["text-md", 16, 24],
-  ["text-lg", 18, 24],
+  ["text-lg", 18, 28],
   ["text-xl", 20, 28],
-  ["text-2xl", 24, 32],
+  ["text-xxl", 24, 32],
   ["text-3xl", 28, 36],
   ["text-4xl", 32, 40],
   ["text-5xl", 40, 48],
@@ -39,19 +39,19 @@ const TYPE_ROLES: [string, string, string][] = [
   ["heading-h1", "text-5xl", "strongest"],
   ["heading-h2", "text-4xl", "strongest"],
   ["heading-h3", "text-3xl", "strongest"],
-  ["heading-h4", "text-2xl", "strongest"],
+  ["heading-h4", "text-xxl", "strongest"],
   ["heading-h5", "text-xl", "strongest"],
   ["heading-h6", "text-md", "strongest"],
   ["body-lg", "text-lg", "regular"],
   ["body-md", "text-md", "regular"],
   ["body-sm", "text-sm", "regular"],
   ["body-xs", "text-xs", "regular"],
-  ["body-xxs", "text-2xs", "regular"],
+  ["body-xxs", "text-xxs", "regular"],
   ["label-xl", "text-lg", "strong"],
   ["label-lg", "text-md", "strong"],
   ["label-md", "text-sm", "strong"],
   ["label-sm", "text-xs", "strong"],
-  ["label-xs", "text-2xs", "strong"],
+  ["label-xs", "text-xxs", "strong"],
 ];
 const SIZES = [
   0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 36, 38, 40, 44, 48, 52, 56, 64, 72, 80, 96, 120, 128, 160, 176, 190, 216,
@@ -60,7 +60,17 @@ const SIZES = [
 // Spacing is named by its px at the default space seed, so Figma values read 1:1 (space-8 = 8px);
 // the value still follows the seed (space-8 = 10px at space 5). Half-unit steps keep today's 2px, 6px and 10px paddings
 const DEFAULT_SPACE = 4;
-const SPACING = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 64];
+const SPACING = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 64, 128];
+// Icons next to text of the same size (Icon, IconButton, fields, Button): [size, text step]. See iconSize
+const ICON_STEPS: [string, string][] = [
+  ["xxs", "text-xxs"],
+  ["xs", "text-xs"],
+  ["sm", "text-sm"],
+  ["md", "text-md"],
+  ["lg", "text-lg"],
+  ["xl", "text-xl"],
+  ["xxl", "text-xxl"],
+];
 const CONTAINERS: [string, number][] = [
   ["xs", 360],
   ["sm", 540],
@@ -105,6 +115,9 @@ export const typeSize = (fontSize: number, size: number, lineHeight: number) => 
     lineHeight: Math.max(grid, Math.round((lineHeight * fontSize) / 16 / grid) * grid),
   };
 };
+
+/** An icon beside text: font × 4/3 on the 2px grid, never taller than the line, so it never makes a row taller. */
+export const iconSize = (fontSize: number, lineHeight: number) => Math.min(lineHeight, Math.round((fontSize * 4) / 3 / 2) * 2);
 
 /**
  * Theme seeds (src/lib/styles/tokens/themes/*.json) → flat token list. A token is `{ path, type, value, dark?, description? }`; `value` is either a literal or a DTCG alias
@@ -155,7 +168,9 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
     color(["surface", "subtle"], palAlpha("neutral", 950, 0.04), palAlpha("neutral", 50, 0.04), "zebra, readonly"),
     color(["surface", "field"], white, pal("neutral", 950), "input background; lighter than the page in light, darker in dark"),
     color(["surface", "disabled"], palAlpha("neutral", 950, 0.08), palAlpha("neutral", 50, 0.08), "disabled background, no intent"),
-    color(["surface", "opposite"], pal("neutral", 900), pal("neutral", 50), "tooltip, dark toast"),
+    color(["surface", "opposite"], pal("neutral", 900), pal("neutral", 50), "flips with the mode: Popover inverseColors"),
+    // Dark in both modes; in dark one step lighter than raised, so it stands out from the page
+    color(["surface", "contrast"], pal("neutral", 800), pal("neutral", 700), "tooltip · dark in both modes"),
     color(["surface", "brand"], pal("primary", STEPS[anchorOf("primary")]), undefined, "brand band"),
   ];
 
@@ -176,8 +191,16 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
       ),
     ),
     color(["text", "disabled"], palAlpha("neutral", 950, 0.32), palAlpha("neutral", 50, 0.32), "a state, not a level"),
+    color(
+      ["text", "disabled-soft"],
+      palAlpha("neutral", 950, 0.16),
+      palAlpha("neutral", 50, 0.16),
+      "disabled placeholder, under the disabled value",
+    ),
     color(["text", "on-media"], white, undefined, "on images"),
     color(["text", "on-media-soft"], literalAlpha("white", 0.64)),
+    color(["text", "on-contrast"], white, undefined, "on surface-contrast"),
+    color(["text", "on-contrast-soft"], pal("neutral", 200), undefined, "on surface-contrast, secondary text"),
   ];
 
   const boundary = (order: number[], surface: string) => order.find(step => contrast(neutral(step), surface) >= BORDER_CONTRAST);
@@ -363,6 +386,12 @@ export const buildTokens = ({ colors, background, text: textSeed, radius: radius
       value: rem((size * space) / DEFAULT_SPACE),
       description: `${(size * space) / DEFAULT_SPACE}px · padding, margin, gap`,
     })),
+    ...ICON_STEPS.map(([name, step]): Token => {
+      const [, base, line] = TEXT_SCALE.find(([key]) => key === step)!;
+      const { size, lineHeight } = typeSize(fontSize, base, line);
+      const icon = iconSize(size, lineHeight);
+      return { path: ["sizing", "icon", name], type: "dimension", value: rem(icon), description: `${icon}px · icon beside ${step}` };
+    }),
     ...CONTAINERS.map(([name, size]): Token => ({
       path: ["sizing", "container", name],
       type: "dimension",

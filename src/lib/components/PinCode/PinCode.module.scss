@@ -1,32 +1,11 @@
 @use "@styles" as *;
 
-$sizes: (
-  //size, padding, inputSize, gap
-  ("xs", "4x", "20x", "4x"),
-  ("sm", "6x", "20x", "8x"),
-  ("md", "8x", "22x", "12x"),
-  ("lg", "10x", "24x", "16x")
-);
-
-@each $size, $padding, $inputSize, $gap in $sizes {
-  .#{$size} {
-    gap: var(--base-sizing-#{$gap});
-    .input {
-      padding: var(--base-sizing-#{$padding});
-      box-sizing: border-box;
-    }
-    .input input {
-      @include font("body", $size);
-      width: var(--base-sizing-#{$inputSize});
-      height: var(--base-sizing-#{$inputSize});
-      padding: 0;
-      flex: none;
-    }
-  }
-}
+// size, padding, gap
+$sizes: (("xs", 4, 4), ("sm", 6, 8), ("md", 8, 12), ("lg", 10, 16));
 
 .Root {
   display: inline-flex;
+
   .input input {
     box-sizing: border-box;
     text-align: center;
@@ -34,11 +13,32 @@ $sizes: (
 }
 
 .circle .input {
-  border-radius: var(--theme-sizing-radius-round);
+  border-radius: var(--mtf-sizing-radius-round);
 }
 
+// A space between groups of characters: a disabled field without its box
 .input.item_space {
+  box-shadow: none;
+  outline: none;
   background: none;
-  border: none;
   pointer-events: none;
+}
+
+@each $size, $padding, $gap in $sizes {
+  .#{$size} {
+    gap: var(--mtf-sizing-space-#{$gap});
+
+    .input {
+      box-sizing: border-box;
+      padding: var(--mtf-sizing-space-#{$padding});
+    }
+
+    .input input {
+      flex: none;
+      width: var(--mtf-typography-text-#{$size}-line-height);
+      height: var(--mtf-typography-text-#{$size}-line-height);
+      padding: 0;
+      @include typography("text-#{$size}", "regular");
+    }
+  }
 }

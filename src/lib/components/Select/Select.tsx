@@ -42,6 +42,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     value = multiple ? [] : undefined,
     onChange,
     ref: outerRef,
+    overlayRef,
   } = props;
   const [selectedItems, setSelectedItems] = useState<SelectItem[]>();
   const { size, error, readOnly, success, disabled, onFormFieldValueUpdate, name } = useRegisterFormField({
@@ -65,6 +66,7 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     hide,
   } = useAnchoredOverlay<HTMLUListElement>({
     anchorRef,
+    overlayRef,
     placement: "bottomLeft",
     tabBridge: true,
     closeOnOutsideClick: true,
@@ -212,7 +214,8 @@ const Select = (p: PropsWithRef<SelectProps, HTMLDivElement>) => {
     expanded && "expanded",
     expanded && dropUp && "dropUp",
     loading && "loading",
-    disabled || readOnly || loading ? "disabled" : error ? "error" : success && "success",
+    disabled || loading ? "disabled" : error ? "error" : success && "success",
+    !disabled && !loading && readOnly && "readOnly",
   ]);
   return (
     <>

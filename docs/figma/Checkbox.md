@@ -1,7 +1,5 @@
 # Checkbox: Figma notes (maintained by AI, do not edit by hand)
 
-Built 2026-11-19 with /figma-new-component from the migrated code (batch 5).
-
 ## Nodes
 
 | What                                           | ID                                         |
@@ -29,7 +27,10 @@ Built 2026-11-19 with /figma-new-component from the migrated code (batch 5).
 - Keyboard focus draws a 2px `color/focus-ring` ring 2px outside the box (like Button); in Figma it is a `focus ring`
   rectangle inside `input`, absolutely positioned.
 - Disabled and readOnly use one neutral look: `color/surface/disabled`, `color/border/disabled`, mark and label
-  `color/text/disabled` (today's light-primary disabled look is gone).
-- The error border stays on a checked box, as today.
+  `color/text/disabled`.
+- The error border stays on a checked box.
 - The partial mark is a rectangle (the code's SVG line); the check mark is `Icon/check` with its fill overridden.
-- ListView's selectable rows use this Checkbox (the private `_ListView/Checkbox` part was removed).
+- ListView's selectable rows use this Checkbox.
+
+- success also colors the empty box's border `color/success/border` (the four unchecked success
+  variants), like Radio.
